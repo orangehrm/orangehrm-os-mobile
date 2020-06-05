@@ -36,5 +36,8 @@ yarn run lint
 ### [Prettier](https://prettier.io/)
 ```
 yarn prettier src --write
+# or
+yarn run format
 ```
 
+Note: `react-native-vector-icons` added and only tested on Android.
