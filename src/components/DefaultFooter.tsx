@@ -2,21 +2,25 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import Text from 'components/DefaultText';
 import {version} from '../../package.json';
+import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 function DefaultFooter(props: DefaultFooterProps) {
+  const {theme} = props;
   let {fontSize} = props;
   if (!fontSize) {
     fontSize = 8;
   }
-  const textStyles = StyleSheet.create({
-    text: {
-      fontSize,
-    },
-  });
+
   return (
-    <View style={styles.footerContainer}>
-      <Text style={textStyles.text}>OrangeHRM {version}</Text>
-      <Text style={textStyles.text}>
+    <View
+      style={[
+        styles.footerContainer,
+        {paddingTop: theme.spacing * 2, paddingBottom: theme.spacing * 2},
+      ]}>
+      <Text style={{fontSize, color: theme.typography.primaryColor}}>
+        OrangeHRM {version}
+      </Text>
+      <Text style={{fontSize, color: theme.typography.primaryColor}}>
         © 2005 - {new Date().getFullYear()} {'OrangeHRM, Inc. '}
         {'All Rights Reserved'}.
       </Text>
@@ -24,7 +28,7 @@ function DefaultFooter(props: DefaultFooterProps) {
   );
 }
 
-interface DefaultFooterProps {
+interface DefaultFooterProps extends WithTheme {
   fontSize?: number;
 }
 
@@ -32,9 +36,7 @@ const styles = StyleSheet.create({
   footerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 8,
-    paddingBottom: 8,
   },
 });
 
-export default DefaultFooter;
+export default withTheme<DefaultFooterProps>()(DefaultFooter);

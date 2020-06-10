@@ -1,26 +1,27 @@
 import React from 'react';
 import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native';
+import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 function DefaultCardContent(
   props: React.PropsWithChildren<DefaultCardContentProps>,
 ) {
-  const {children, style} = props;
-  const contentStyle: StyleProp<ViewStyle> = [styles.cardContent];
-  if (style) {
-    contentStyle.push(style);
-  }
-  return <View style={contentStyle}>{children}</View>;
+  const {children, style, theme} = props;
+  return (
+    <View
+      style={[styles.cardContent, style, {borderRadius: theme.borderRadius}]}>
+      {children}
+    </View>
+  );
 }
 
-interface DefaultCardContentProps {
+interface DefaultCardContentProps extends WithTheme {
   style?: StyleProp<ViewStyle>;
 }
 
 const styles = StyleSheet.create({
   cardContent: {
-    borderRadius: 8,
     width: '100%',
   },
 });
 
-export default DefaultCardContent;
+export default withTheme<DefaultCardContentProps>()(DefaultCardContent);

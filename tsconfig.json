@@ -60,11 +60,14 @@
       "components": ["./components"],
       "images": ["./images"],
       "store": ["./store"],
-      "layouts": ["./layouts"]
+      "layouts": ["./layouts"],
+      "theme": ["./theme"],
+      "lib": ["./lib"],
+      "services": ["./services"]
     },
     "resolveJsonModule": true,
   },
   "exclude": [
-    "node_modules", "babel.config.js", "metro.config.js", "jest.config.js"
+    "node_modules", "babel.config.js", "metro.config.js", "jest.config.js", "__mocks__"
   ]
 }

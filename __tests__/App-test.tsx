@@ -7,10 +7,12 @@ import React from 'react';
 import App from '../src/App';
 
 // Note: test renderer must be required after react-native.
-import renderer from 'react-test-renderer';
+import renderer, {act} from 'react-test-renderer';
 
-it('renders correctly', () => {
+it('renders correctly', async () => {
   // https://github.com/facebook/jest/issues/6434
   jest.useFakeTimers();
-  renderer.create(<App />);
+  await act(async () => {
+    renderer.create(<App />);
+  });
 });

@@ -1,28 +1,39 @@
 import React from 'react';
 import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native';
+import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 function DefaultCardActions(
   props: React.PropsWithChildren<DefaultCardActionsProps>,
 ) {
-  const {children, style} = props;
+  const {children, style, theme} = props;
   const actionsStyle: StyleProp<ViewStyle> = [styles.cardActions];
   if (style) {
     actionsStyle.push(style);
   }
-  return <View style={actionsStyle}>{children}</View>;
+  return (
+    <View
+      style={[
+        styles.cardActions,
+        style,
+        {
+          borderBottomLeftRadius: theme.borderRadius,
+          borderBottomRightRadius: theme.borderRadius,
+          paddingBottom: theme.spacing * 2,
+        },
+      ]}>
+      {children}
+    </View>
+  );
 }
 
-interface DefaultCardActionsProps {
+interface DefaultCardActionsProps extends WithTheme {
   style?: StyleProp<ViewStyle>;
 }
 
 const styles = StyleSheet.create({
   cardActions: {
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-    paddingBottom: 8,
     width: '100%',
   },
 });
 
-export default DefaultCardActions;
+export default withTheme<DefaultCardActionsProps>()(DefaultCardActions);

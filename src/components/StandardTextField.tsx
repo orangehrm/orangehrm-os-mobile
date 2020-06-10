@@ -1,18 +1,18 @@
 import React from 'react';
-import {StyleSheet, StyleProp, ViewStyle} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {Item, Input, Icon, Label, NativeBase} from 'native-base';
+import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 function StandardTextField(
   props: React.PropsWithChildren<StandardTextFieldProps>,
 ) {
-  const {label, iconName, style, ...restProps} = props;
-  const itemStyle: StyleProp<ViewStyle> = [styles.item];
-  if (style) {
-    itemStyle.push(style);
-  }
+  const {label, iconName, style, theme, ...restProps} = props;
   return (
-    <Item floatingLabel style={itemStyle}>
-      <Label style={iconName === undefined ? undefined : styles.label}>
+    <Item floatingLabel style={[styles.item, style]}>
+      <Label
+        style={
+          iconName === undefined ? undefined : {paddingLeft: theme.spacing * 8}
+        }>
         {label}
       </Label>
       <Input {...restProps} />
@@ -23,19 +23,15 @@ function StandardTextField(
   );
 }
 
-interface StandardTextFieldProps extends NativeBase.Input {
+interface StandardTextFieldProps extends NativeBase.Input, WithTheme {
   label: string;
   iconName?: string;
-  style?: StyleProp<ViewStyle>;
 }
 
 const styles = StyleSheet.create({
-  label: {
-    paddingLeft: 32,
-  },
   item: {
     flexDirection: 'row-reverse',
   },
 });
 
-export default StandardTextField;
+export default withTheme<StandardTextFieldProps>()(StandardTextField);

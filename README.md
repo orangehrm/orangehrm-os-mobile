@@ -17,6 +17,9 @@ yarn start
 ```
 
 ### Run on Android device or emulator
+
+Start emulator or connect device before run below command
+
 ```
 npx react-native run-android
 # or

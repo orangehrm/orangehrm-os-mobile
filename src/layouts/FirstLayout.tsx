@@ -2,6 +2,7 @@ import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
+  StatusBar,
   View,
   Image,
   KeyboardAvoidingView,
@@ -13,45 +14,77 @@ import CardContent from 'components/DefaultCardContent';
 import CardActions from 'components/DefaultCardActions';
 import Footer from 'components/DefaultFooter';
 import Text from 'components/DefaultText';
+import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
-function FirstLayout(props: FirstLayoutProps) {
-  const {header, inputs, actions, more} = props;
+const FirstLayout = (props: FirstLayoutProps) => {
+  const {header, content, actions, more, theme} = props;
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        contentContainerStyle={styles.scrollView}>
-        <KeyboardAvoidingView style={styles.root}>
-          <View style={styles.rootView}>
-            <View style={styles.main}>
-              <Image
-                source={require('images/orangehrm-logo-full.png')}
-                style={styles.logo}
-              />
-              <Card fullWidth>
-                <CardHeader style={styles.header}>
-                  <Text style={styles.headerText}>{header}</Text>
-                </CardHeader>
-                <CardContent style={styles.cardContent}>{inputs}</CardContent>
-                <CardActions>
-                  <View style={styles.cardActions}>{actions}</View>
-                </CardActions>
-              </Card>
+    <>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor={theme.palette.statusBar}
+      />
+      <SafeAreaView
+        style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          contentContainerStyle={styles.scrollView}
+          keyboardShouldPersistTaps="always">
+          <KeyboardAvoidingView style={styles.root}>
+            <View
+              style={[styles.rootView, {marginHorizontal: theme.spacing * 2}]}>
+              <View style={styles.main}>
+                <Image
+                  source={require('images/orangehrm-logo-full.png')}
+                  style={styles.logo}
+                />
+                <Card fullWidth>
+                  <CardHeader
+                    style={{
+                      padding: theme.spacing * 4,
+                      paddingVertical: theme.spacing * 4,
+                      backgroundColor: theme.palette.secondary,
+                    }}>
+                    <Text
+                      style={{
+                        color: theme.typography.secondaryColor,
+                        fontSize: theme.typography.headerFontSize,
+                      }}>
+                      {header}
+                    </Text>
+                  </CardHeader>
+                  <CardContent style={{padding: theme.spacing * 4}}>
+                    {content}
+                  </CardContent>
+                  <CardActions>
+                    <View
+                      style={[
+                        styles.cardActions,
+                        {
+                          paddingHorizontal: theme.spacing * 4,
+                          paddingBottom: theme.spacing * 2,
+                        },
+                      ]}>
+                      {actions}
+                    </View>
+                  </CardActions>
+                </Card>
+              </View>
+              {more === undefined ? null : <View>{more}</View>}
+              <View>
+                <Footer />
+              </View>
             </View>
-            {more === undefined ? null : <View>{more}</View>}
-            <View>
-              <Footer />
-            </View>
-          </View>
-        </KeyboardAvoidingView>
-      </ScrollView>
-    </SafeAreaView>
+          </KeyboardAvoidingView>
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
-}
+};
 
-interface FirstLayoutProps {
+interface FirstLayoutProps extends WithTheme {
   header: string;
-  inputs: React.ReactNode;
+  content: React.ReactNode;
   actions: React.ReactNode;
   more?: React.ReactNode;
 }
@@ -69,7 +102,6 @@ const styles = StyleSheet.create({
   rootView: {
     alignItems: 'stretch',
     marginVertical: '2%',
-    marginHorizontal: 8,
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -83,24 +115,10 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     aspectRatio: 2,
   },
-  header: {
-    padding: 16,
-    paddingVertical: 16,
-    backgroundColor: 'orange',
-  },
-  headerText: {
-    color: 'white',
-    fontSize: 20,
-  },
-  cardContent: {
-    padding: 16,
-  },
   cardActions: {
     flex: 1,
     flexDirection: 'row-reverse',
-    paddingHorizontal: 16,
-    paddingBottom: 8,
   },
 });
 
-export default FirstLayout;
+export default withTheme<FirstLayoutProps>()(FirstLayout);
