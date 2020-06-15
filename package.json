@@ -12,7 +12,6 @@
     "format-test": "prettier __tests__ --write"
   },
   "dependencies": {
-    "@openid/appauth": "^1.2.7",
     "@react-native-community/async-storage": "^1.11.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/drawer": "^5.8.2",
@@ -62,8 +61,12 @@
       "json",
       "node"
     ],
+    "testRegex": [
+      "./__tests__/[^setup].*.tsx$"
+    ],
     "setupFiles": [
-      "./node_modules/react-native-gesture-handler/jestSetup.js"
+      "./node_modules/react-native-gesture-handler/jestSetup.js",
+      "./__tests__/setup.js"
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!(jest-)?react-native|native-base|@react-navigation/.*)"

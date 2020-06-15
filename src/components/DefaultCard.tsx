@@ -19,11 +19,11 @@
  */
 
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ViewProps} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 function DeafultCard(props: React.PropsWithChildren<DeafultCardProps>) {
-  const {children, fullWidth, theme} = props;
+  const {children, fullWidth, theme, style, ...restProps} = props;
   return (
     <View
       style={[
@@ -33,13 +33,15 @@ function DeafultCard(props: React.PropsWithChildren<DeafultCardProps>) {
           borderRadius: theme.borderRadius,
           backgroundColor: theme.palette.background,
         },
-      ]}>
+        style,
+      ]}
+      {...restProps}>
       {children}
     </View>
   );
 }
 
-interface DeafultCardProps extends WithTheme {
+interface DeafultCardProps extends ViewProps, WithTheme {
   fullWidth?: boolean;
 }
 

@@ -27,6 +27,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import {Root} from 'native-base';
 
 const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
   const {theme, children} = props;
@@ -34,18 +35,20 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
     <>
       <StatusBar
         barStyle="dark-content"
-        backgroundColor={theme.palette.statusBar}
+        backgroundColor={theme.palette.statusBarSecondary}
       />
       <SafeAreaView
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          contentContainerStyle={styles.scrollView}
-          keyboardShouldPersistTaps="always">
-          <KeyboardAvoidingView style={styles.root}>
-            {children}
-          </KeyboardAvoidingView>
-        </ScrollView>
+        <Root>
+          <ScrollView
+            contentInsetAdjustmentBehavior="automatic"
+            contentContainerStyle={styles.scrollView}
+            keyboardShouldPersistTaps="always">
+            <KeyboardAvoidingView style={styles.root}>
+              {children}
+            </KeyboardAvoidingView>
+          </ScrollView>
+        </Root>
       </SafeAreaView>
     </>
   );

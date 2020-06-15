@@ -19,33 +19,66 @@
  */
 
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native';
 import {Item, Input, Icon, Label, NativeBase} from 'native-base';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import Text from 'components/DefaultText';
 
 function StandardTextField(
   props: React.PropsWithChildren<StandardTextFieldProps>,
 ) {
-  const {label, iconName, style, theme, ...restProps} = props;
+  const {
+    label,
+    iconName,
+    style,
+    theme,
+    helperText,
+    itemProps,
+    ...restProps
+  } = props;
   return (
-    <Item floatingLabel style={[styles.item, style]}>
-      <Label
-        style={
-          iconName === undefined ? undefined : {paddingLeft: theme.spacing * 8}
-        }>
-        {label}
-      </Label>
-      <Input {...restProps} />
-      {iconName === undefined ? null : (
-        <Icon active name={iconName} type="MaterialCommunityIcons" />
+    <View style={style}>
+      <Item floatingLabel style={styles.item} {...itemProps}>
+        <Label
+          style={[
+            iconName === undefined
+              ? undefined
+              : {paddingLeft: theme.spacing * 8},
+          ]}>
+          {label}
+        </Label>
+        <Input {...restProps} />
+        {iconName === undefined ? null : (
+          <Icon
+            active
+            name={iconName}
+            type="MaterialCommunityIcons"
+            style={{
+              color: theme.typography.primaryColor,
+              fontSize: theme.typography.iconSize,
+            }}
+          />
+        )}
+      </Item>
+      {helperText === undefined ? null : (
+        <Text
+          style={[
+            {fontSize: theme.typography.smallFontSize},
+            itemProps?.error ? {color: theme.palette.error} : undefined,
+          ]}>
+          {helperText}
+        </Text>
       )}
-    </Item>
+    </View>
   );
 }
 
 interface StandardTextFieldProps extends NativeBase.Input, WithTheme {
   label: string;
   iconName?: string;
+  style?: StyleProp<ViewStyle>;
+  helperText?: string;
+  itemProps?: NativeBase.Item;
 }
 
 const styles = StyleSheet.create({

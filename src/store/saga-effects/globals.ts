@@ -18,36 +18,30 @@
  *
  */
 
+import {put} from 'redux-saga/effects';
 import {
-  FETCH_TOKEN,
-  FETCH_TOKEN_SUCCESS,
-  LOGOUT,
-  FetchTokenAction,
-  FetchTokenSuccessAction,
-  LogoutAction,
-} from './types';
+  openLoader as openLoaderAction,
+  closeLoader as closeLoaderAction,
+  showSnackMessage as showSnackMessageAction,
+  closeSnackMessage as closeSnackMessageAction,
+} from 'store/globals/actions';
 
-export const fetchAuthToken = (
-  instanceUrl: string,
-  username: string,
-  password: string,
-): FetchTokenAction => {
-  return {
-    type: FETCH_TOKEN,
-    instanceUrl,
-    username,
-    password,
-  };
+export const openLoader = (...args: Parameters<typeof openLoaderAction>) => {
+  return put(openLoaderAction(...args));
 };
 
-export const fetchAuthTokenSuccess = (): FetchTokenSuccessAction => {
-  return {
-    type: FETCH_TOKEN_SUCCESS,
-  };
+export const closeLoader = (...args: Parameters<typeof closeLoaderAction>) => {
+  return put(closeLoaderAction(...args));
 };
 
-export const logout = (): LogoutAction => {
-  return {
-    type: LOGOUT,
-  };
+export const showSnackMessage = (
+  ...args: Parameters<typeof showSnackMessageAction>
+) => {
+  return put(showSnackMessageAction(...args));
+};
+
+export const closeSnackMessage = (
+  ...args: Parameters<typeof closeSnackMessageAction>
+) => {
+  return put(closeSnackMessageAction(...args));
 };

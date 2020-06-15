@@ -18,23 +18,47 @@
  *
  */
 
-import 'react-native-gesture-handler';
-import React from 'react';
-import Navigator from './Navigator';
-import Globals from 'components/Globals';
+import {
+  SHOW_SNACK_MESSAGE,
+  CLOSE_SNACK_MESSAGE,
+  OPEN_LOADER,
+  CLOSE_LOADER,
+  Loader,
+  SnackTypes,
+  ShowSnackAction,
+  CloseSnackAction,
+  OpenLoaderAction,
+  CloseLoaderAction,
+} from './types';
 
-import {Provider} from 'react-redux';
-import configureStore from 'store/configureStore';
-
-const store = configureStore();
-
-const App = () => {
-  return (
-    <Provider store={store}>
-      <Navigator />
-      <Globals />
-    </Provider>
-  );
+export const showSnackMessage = (
+  message: string,
+  snackType?: SnackTypes,
+): ShowSnackAction => {
+  return {
+    type: SHOW_SNACK_MESSAGE,
+    message,
+    snackType,
+  };
 };
 
-export default App;
+export const closeSnackMessage = (): CloseSnackAction => {
+  return {
+    type: CLOSE_SNACK_MESSAGE,
+  };
+};
+
+export const openLoader = (
+  content?: Pick<Loader, 'content'>,
+): OpenLoaderAction => {
+  return {
+    type: OPEN_LOADER,
+    content,
+  };
+};
+
+export const closeLoader = (): CloseLoaderAction => {
+  return {
+    type: CLOSE_LOADER,
+  };
+};

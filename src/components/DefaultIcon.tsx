@@ -23,7 +23,7 @@ import {Icon, NativeBase} from 'native-base';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 function DefaultIcon(props: DefaultIconProps) {
-  const {theme, ...restProps} = props;
+  const {theme, style, ...restProps} = props;
   return (
     <Icon
       type="MaterialCommunityIcons"
@@ -33,6 +33,7 @@ function DefaultIcon(props: DefaultIconProps) {
           color: theme.typography.primaryColor,
           fontSize: theme.typography.iconSize,
         },
+        style,
       ]}
     />
   );

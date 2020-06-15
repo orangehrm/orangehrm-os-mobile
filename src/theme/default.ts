@@ -29,13 +29,17 @@ const defaultTheme: Theme = {
     success: '#4caf50',
     background: '#ffffff',
     statusBar: '#ffffff',
+    statusBarSecondary: '#f88400',
+    header: '#f88400',
   },
   typography: {
-    fontSize: 12,
+    fontSize: 14,
     headerFontSize: 20,
+    smallFontSize: 12,
     primaryColor: '#818181',
     secondaryColor: '#ffffff',
     iconSize: 20,
+    headerIconSize: 24,
   },
   borderRadius: 4,
   spacing: 4,
@@ -51,14 +55,18 @@ export interface Palette {
   success: string;
   background: string;
   statusBar: string;
+  statusBarSecondary: string;
+  header: string;
 }
 
 export interface Typography {
   fontSize: number;
   headerFontSize: number;
+  smallFontSize: number;
   primaryColor: string;
   secondaryColor: string;
   iconSize: number;
+  headerIconSize: number;
 }
 
 export interface Theme {

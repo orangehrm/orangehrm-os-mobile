@@ -18,23 +18,23 @@
  *
  */
 
-import 'react-native-gesture-handler';
 import React from 'react';
-import Navigator from './Navigator';
-import Globals from 'components/Globals';
+import {Button, NativeBase} from 'native-base';
+import Icon from 'components/DefaultIcon';
 
-import {Provider} from 'react-redux';
-import configureStore from 'store/configureStore';
+const DefaultIconButton = (props: DefaultIconButtonProps) => {
+  const {iconProps, buttonProps} = props;
 
-const store = configureStore();
-
-const App = () => {
   return (
-    <Provider store={store}>
-      <Navigator />
-      <Globals />
-    </Provider>
+    <Button transparent {...buttonProps}>
+      <Icon {...iconProps} />
+    </Button>
   );
 };
 
-export default App;
+interface DefaultIconButtonProps {
+  iconProps: NativeBase.Icon;
+  buttonProps?: NativeBase.Button;
+}
+
+export default DefaultIconButton;

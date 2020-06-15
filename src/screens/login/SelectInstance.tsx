@@ -20,6 +20,11 @@
 
 import React from 'react';
 import {Platform} from 'react-native';
+import {
+  NavigationProp,
+  ParamListBase,
+  StackActions,
+} from '@react-navigation/native';
 import FirstLayout from 'layouts/FirstLayout';
 import TextField from 'components/StandardTextField';
 import Button from 'components/DefaultButton';
@@ -29,6 +34,7 @@ import {setStatusBarColor} from 'store/theme/actions';
 import {setItem} from 'store/storage/actions';
 import {selectInstanceUrl} from 'store/storage/selectors';
 import {INSTANCE_URL} from 'services/storage';
+import {LOGIN} from 'screens';
 
 class SelectInstance extends React.Component<
   SelectInstanceProps,
@@ -60,6 +66,9 @@ class SelectInstance extends React.Component<
   handleOnClick = () => {
     const {storageSetItem} = this.props;
     storageSetItem(INSTANCE_URL, this.state.instanceUrl);
+    const {navigation} = this.props;
+
+    navigation.dispatch(StackActions.replace(LOGIN));
   };
 
   handleOnChange = (text: string) => {
@@ -78,6 +87,7 @@ class SelectInstance extends React.Component<
             value={instanceUrl}
             onChangeText={this.handleOnChange}
             keyboardType={Platform.OS === 'ios' ? 'url' : 'email-address'}
+            multiline
           />
         }
         actions={
@@ -88,7 +98,9 @@ class SelectInstance extends React.Component<
   }
 }
 
-interface SelectInstanceProps extends ConnectedProps<typeof connector> {}
+interface SelectInstanceProps extends ConnectedProps<typeof connector> {
+  navigation: NavigationProp<ParamListBase>;
+}
 
 interface SelectInstanceState {
   instanceUrl: string;

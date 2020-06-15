@@ -18,23 +18,17 @@
  *
  */
 
-import 'react-native-gesture-handler';
-import React from 'react';
-import Navigator from './Navigator';
-import Globals from 'components/Globals';
+import {RootState} from 'store';
+import {createSelector} from 'reselect';
 
-import {Provider} from 'react-redux';
-import configureStore from 'store/configureStore';
+export const selectGlobals = (state: RootState) => state.globals;
 
-const store = configureStore();
+export const selectSnackMessage = createSelector(
+  selectGlobals,
+  (globals) => globals.snackMessage,
+);
 
-const App = () => {
-  return (
-    <Provider store={store}>
-      <Navigator />
-      <Globals />
-    </Provider>
-  );
-};
-
-export default App;
+export const selectLoader = createSelector(
+  selectGlobals,
+  (globals) => globals.loader,
+);

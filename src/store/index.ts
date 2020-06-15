@@ -22,11 +22,13 @@ import {combineReducers} from 'redux';
 import authReducer from './auth/reducer';
 import themeReducer from './theme/reducer';
 import storageReducer from './storage/reducer';
+import globalsReducer from './globals/reducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   theme: themeReducer,
   storage: storageReducer,
+  globals: globalsReducer,
 });
 
 export default rootReducer;

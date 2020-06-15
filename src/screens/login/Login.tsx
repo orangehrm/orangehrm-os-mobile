@@ -19,16 +19,23 @@
  */
 
 import React from 'react';
+import {View, StyleSheet} from 'react-native';
+import {
+  NavigationProp,
+  ParamListBase,
+  StackActions,
+} from '@react-navigation/native';
 import FirstLayout from 'layouts/FirstLayout';
 import TextField from 'components/StandardTextField';
 import Button from 'components/DefaultButton';
+import Text from 'components/DefaultText';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import {selectInstanceUrl} from 'store/storage/selectors';
 import {fetchAuthToken} from 'store/auth/actions';
-import {setItem} from 'store/storage/actions';
-import {USERNAME} from 'services/storage';
+import {SELECT_INSTANCE} from 'screens';
 
 class Login extends React.Component<LoginProps, LoginState> {
   constructor(props: LoginProps) {
@@ -38,8 +45,9 @@ class Login extends React.Component<LoginProps, LoginState> {
       password: '',
     };
   }
-  handleOnClick = () => {
-    const {instanceUrl, stoarageSetItem} = this.props;
+
+  handleLoginOnClick = () => {
+    const {instanceUrl} = this.props;
     if (instanceUrl !== null) {
       this.props.fetchAuthToken(
         instanceUrl,
@@ -47,7 +55,11 @@ class Login extends React.Component<LoginProps, LoginState> {
         this.state.password,
       );
     }
-    stoarageSetItem(USERNAME, this.state.username);
+  };
+
+  handleSelectInstanceOnClick = () => {
+    const {navigation} = this.props;
+    navigation.dispatch(StackActions.replace(SELECT_INSTANCE));
   };
 
   handleOnChange = (field: string) => (text: string) => {
@@ -56,7 +68,12 @@ class Login extends React.Component<LoginProps, LoginState> {
 
   render() {
     const {theme} = this.props;
+    let {instanceUrl} = this.props;
     const {username, password} = this.state;
+
+    if (instanceUrl === null) {
+      instanceUrl = 'Enter your OrangeHRM URL';
+    }
     return (
       <FirstLayout
         header={'Login to OrangeHRM'}
@@ -79,19 +96,52 @@ class Login extends React.Component<LoginProps, LoginState> {
           </>
         }
         actions={
-          <Button title={'Login'} onPress={this.handleOnClick} primary />
+          <Button title={'Login'} onPress={this.handleLoginOnClick} primary />
+        }
+        more={
+          <>
+            <View
+              style={[
+                styles.selectInstance,
+                {marginTop: theme.spacing * 2, marginBottom: theme.spacing},
+              ]}>
+              <View>
+                <Text>{'Your instance is'}</Text>
+              </View>
+              <Button
+                title={instanceUrl}
+                onPress={this.handleSelectInstanceOnClick}
+                transparent
+                textProps={{
+                  style: {color: theme.palette.secondary},
+                  uppercase: false,
+                }}
+              />
+            </View>
+          </>
         }
       />
     );
   }
 }
 
-interface LoginProps extends WithTheme, ConnectedProps<typeof connector> {}
+interface LoginProps
+  extends WithTheme,
+    WithGlobals,
+    ConnectedProps<typeof connector> {
+  navigation: NavigationProp<ParamListBase>;
+}
 
 interface LoginState {
   username: string;
   password: string;
 }
+
+const styles = StyleSheet.create({
+  selectInstance: {
+    alignItems: 'center',
+  },
+});
 
 const mapStateToProps = (state: RootState) => ({
   instanceUrl: selectInstanceUrl(state),
@@ -99,9 +149,12 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = {
   fetchAuthToken: fetchAuthToken,
-  stoarageSetItem: setItem,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-export default connector(withTheme<LoginProps>()(Login));
+const LoginWithTheme = withTheme<LoginProps>()(Login);
+
+const LoginWithGlobals = withGlobals<LoginProps>()(LoginWithTheme);
+
+export default connector(LoginWithGlobals);

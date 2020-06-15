@@ -18,7 +18,7 @@
  *
  */
 
-import {call, put, takeEvery} from 'redux-saga/effects';
+import {call, all, takeEvery} from 'redux-saga/effects';
 import storage, {
   INSTANCE_URL,
   USERNAME,
@@ -28,8 +28,14 @@ import storage, {
   SCOPE,
   TOKEN_TYPE,
 } from 'services/storage';
-import {setMulti, changeLoaded} from './actions';
-import {SET_ITEM, SetItemAction} from './types';
+import {storageSetMulti, storageChangeLoaded} from 'store/saga-effects/storage';
+import {
+  SET_ITEM,
+  SET_MULTI,
+  SetItemAction,
+  SetMultiAction,
+  StorageState,
+} from './types';
 
 export function* loadAsyncStorage() {
   try {
@@ -44,10 +50,10 @@ export function* loadAsyncStorage() {
     ];
     const keyValuePairs = yield call(storage.multiGet, keys);
     // update redux store
-    yield put(setMulti(keyValuePairs));
-    yield put(changeLoaded(true));
+    yield storageSetMulti(keyValuePairs);
+    yield storageChangeLoaded(true);
   } catch (error) {
-    yield put(changeLoaded(true, error));
+    yield storageChangeLoaded(true, error);
   }
 }
 
@@ -57,6 +63,19 @@ function* setItemAsyncStorage(action: SetItemAction) {
   } catch (error) {}
 }
 
+function* setMultiAsyncStorage(action: SetMultiAction) {
+  try {
+    const keys = Object.keys(action.keyValuePairs);
+    yield all(
+      keys.map((keyName) => {
+        const key = <keyof Partial<StorageState>>keyName;
+        storage.set(key, action.keyValuePairs[key]);
+      }),
+    );
+  } catch (error) {}
+}
+
 export function* watchSetStorageItem() {
   yield takeEvery(SET_ITEM, setItemAsyncStorage);
+  yield takeEvery(SET_MULTI, setMultiAsyncStorage);
 }

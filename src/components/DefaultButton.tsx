@@ -23,9 +23,20 @@ import {Button, Text, NativeBase} from 'native-base';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 function DefaultButton(props: DefaultButtonProps) {
-  const {title, primary, secondary, theme, style, ...restProps} = props;
-  let color = theme.palette.default;
-  if (primary) {
+  const {
+    title,
+    transparent,
+    primary,
+    secondary,
+    theme,
+    style,
+    textProps,
+    ...restProps
+  } = props;
+  let color: string | undefined = theme.palette.default;
+  if (transparent) {
+    color = undefined;
+  } else if (primary) {
     color = theme.palette.primary;
   } else if (secondary) {
     color = theme.palette.secondary;
@@ -40,8 +51,13 @@ function DefaultButton(props: DefaultButtonProps) {
           borderRadius: theme.borderRadius,
         },
       ]}
+      transparent
       {...restProps}>
-      <Text>{title}</Text>
+      <Text
+        {...textProps}
+        style={[{color: theme.typography.secondaryColor}, textProps?.style]}>
+        {title}
+      </Text>
     </Button>
   );
 }
@@ -50,6 +66,8 @@ interface DefaultButtonProps extends NativeBase.Button, WithTheme {
   title: string;
   primary?: boolean;
   secondary?: boolean;
+  textProps?: NativeBase.Text;
+  transparent?: boolean;
 }
 
 export default withTheme<DefaultButtonProps>()(DefaultButton);

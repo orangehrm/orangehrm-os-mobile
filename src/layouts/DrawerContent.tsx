@@ -37,6 +37,7 @@ import ProfilePicture from 'components/ProfilePicture';
 import Footer from 'components/DefaultFooter';
 import Divider from 'components/DefaultDivider';
 import Icon from 'components/DefaultIcon';
+import Text from 'components/DefaultText';
 
 const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   const {theme, logoutOnPress, ...restProps} = props;
@@ -46,12 +47,20 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
       <DrawerContentScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.view}>
           <View>
-            <DrawerItemList
-              {...restProps}
-              activeTintColor={theme.palette.secondary}
-              activeBackgroundColor={theme.palette.background}
-              labelStyle={styles.label}
-            />
+            <View style={styles.subheader}>
+              <Icon name={'briefcase'} style={{margin: theme.spacing * 2}} />
+              <Text style={[styles.label, {margin: theme.spacing * 2.5}]}>
+                {'Leave'}
+              </Text>
+            </View>
+            <View style={{marginLeft: theme.spacing * 4}}>
+              <DrawerItemList
+                {...restProps}
+                activeTintColor={theme.palette.secondary}
+                activeBackgroundColor={theme.palette.background}
+                labelStyle={styles.label}
+              />
+            </View>
           </View>
           <View>
             <Divider />
@@ -88,6 +97,9 @@ interface DrawerContentProps extends WithTheme {
 const styles = StyleSheet.create({
   label: {
     fontWeight: 'bold',
+  },
+  subheader: {
+    flexDirection: 'row',
   },
   contentContainer: {
     flexGrow: 1,
