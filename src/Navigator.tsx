@@ -34,12 +34,15 @@ import {logout} from 'store/auth/actions';
 
 import Login from 'screens/login/Login';
 import SelectInstance from 'screens/login/SelectInstance';
+import About from 'screens/settings/About';
 import {
   SELECT_INSTANCE,
   LOGIN,
   MY_LEAVE_ENTITLEMENT_AND_USAGE,
   LEAVE_LIST,
   SUBHEADER_LEAVE,
+  SUBHEADER_SETTINGS,
+  ABOUT,
 } from 'screens';
 
 import MyLeaveEntitilementsAndUsage from 'screens/leave/MyLeaveEntitilementsAndUsageNavigator';
@@ -83,6 +86,12 @@ const Navigator = (props: NavigatorProps) => {
             name={LEAVE_LIST}
             component={LeaveList}
             options={{drawerLabel: 'Leave List'}}
+            initialParams={{subheader: SUBHEADER_LEAVE}}
+          />
+          <Drawer.Screen
+            name={ABOUT}
+            component={About}
+            options={{drawerLabel: 'About'}}
             initialParams={{subheader: SUBHEADER_LEAVE}}
           />
         </Drawer.Navigator>

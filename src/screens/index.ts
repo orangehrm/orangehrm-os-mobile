@@ -22,8 +22,10 @@ const SELECT_INSTANCE = 'SelectInstance';
 const LOGIN = 'Login';
 const MY_LEAVE_ENTITLEMENT_AND_USAGE = 'MyLeaveEntitilementsAndUsage';
 const LEAVE_LIST = 'LeaveList';
+const ABOUT = 'ABOUT';
 
 const SUBHEADER_LEAVE = 'Leave';
+const SUBHEADER_SETTINGS = 'Settings'
 
 export {
   SELECT_INSTANCE,
@@ -31,4 +33,6 @@ export {
   MY_LEAVE_ENTITLEMENT_AND_USAGE,
   LEAVE_LIST,
   SUBHEADER_LEAVE,
+  ABOUT,
+  SUBHEADER_SETTINGS,
 };
