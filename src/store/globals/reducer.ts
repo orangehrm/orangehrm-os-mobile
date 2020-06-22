@@ -25,7 +25,7 @@ import {
   CLOSE_SNACK_MESSAGE,
   OPEN_LOADER,
   CLOSE_LOADER,
-} from './types';
+} from 'store/globals/types';
 
 const initialState: GlobalsState = {
   snackMessage: {

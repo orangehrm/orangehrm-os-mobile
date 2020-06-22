@@ -18,31 +18,26 @@
  *
  */
 
-import {put, select} from 'redux-saga/effects';
-import {setItem, setMulti, changeLoaded} from 'store/storage/actions';
-import {
-  selectInstanceUrl as instanceUrlSelector,
-  selectAuthParams as authParamSelector,
-} from 'store/storage/selectors';
+import {RootState} from 'store';
+import {createSelector} from 'reselect';
+import {AuthState, MyInfo} from 'store/auth/types';
 
-export const storageSetItem = (...args: Parameters<typeof setItem>) => {
-  return put(setItem(...args));
-};
+export const selectAuth = (state: RootState): AuthState => state.auth;
 
-export const storageSetMulti = (...args: Parameters<typeof setMulti>) => {
-  return put(setMulti(...args));
-};
+export const selectMyInfoSuccess = createSelector<
+  RootState,
+  AuthState,
+  boolean
+>([selectAuth], (auth) => auth.myInfoSuccess);
 
-export const storageChangeLoaded = (
-  ...args: Parameters<typeof changeLoaded>
-) => {
-  return put(changeLoaded(...args));
-};
+export const selectMyInfo = createSelector<
+  RootState,
+  AuthState,
+  MyInfo | undefined
+>([selectAuth], (auth) => auth.myInfo);
 
-export const selectInstanceUrl = () => {
-  return select(instanceUrlSelector);
-};
-
-export const selectAuthParams = () => {
-  return select(authParamSelector);
-};
+export const selectIsCalledMyInfo = createSelector<
+  RootState,
+  AuthState,
+  boolean
+>([selectAuth], (auth) => auth.isCalledMyInfo);

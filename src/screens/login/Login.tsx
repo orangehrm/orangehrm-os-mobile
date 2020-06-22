@@ -47,14 +47,7 @@ class Login extends React.Component<LoginProps, LoginState> {
   }
 
   handleLoginOnClick = () => {
-    const {instanceUrl} = this.props;
-    if (instanceUrl !== null) {
-      this.props.fetchAuthToken(
-        instanceUrl,
-        this.state.username,
-        this.state.password,
-      );
-    }
+    this.props.fetchAuthToken(this.state.username, this.state.password);
   };
 
   handleSelectInstanceOnClick = () => {
@@ -71,7 +64,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     let {instanceUrl} = this.props;
     const {username, password} = this.state;
 
-    if (instanceUrl === null) {
+    if (instanceUrl === null || instanceUrl === '') {
       instanceUrl = 'Enter your OrangeHRM URL';
     }
     return (

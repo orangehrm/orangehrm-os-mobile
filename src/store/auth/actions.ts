@@ -22,19 +22,22 @@ import {
   FETCH_TOKEN,
   FETCH_TOKEN_SUCCESS,
   LOGOUT,
+  FETCH_MY_INFO,
+  FETCH_MY_INFO_FINISHED,
   FetchTokenAction,
   FetchTokenSuccessAction,
   LogoutAction,
-} from './types';
+  FetchMyInfoAction,
+  FetchMyInfoFinishedAction,
+  MyInfo,
+} from 'store/auth/types';
 
 export const fetchAuthToken = (
-  instanceUrl: string,
   username: string,
   password: string,
 ): FetchTokenAction => {
   return {
     type: FETCH_TOKEN,
-    instanceUrl,
     username,
     password,
   };
@@ -49,5 +52,22 @@ export const fetchAuthTokenSuccess = (): FetchTokenSuccessAction => {
 export const logout = (): LogoutAction => {
   return {
     type: LOGOUT,
+  };
+};
+
+export const fetchMyInfo = (): FetchMyInfoAction => {
+  return {
+    type: FETCH_MY_INFO,
+  };
+};
+
+export const fetchMyInfoFinished = (
+  payload?: MyInfo,
+  error: boolean = false,
+): FetchMyInfoFinishedAction => {
+  return {
+    type: FETCH_MY_INFO_FINISHED,
+    payload,
+    error,
   };
 };

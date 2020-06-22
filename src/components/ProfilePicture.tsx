@@ -53,9 +53,16 @@ const ProfilePicture = (props: ProfilePictureProps) => {
               marginBottom: theme.spacing * 4,
             }}>
             {name === undefined ? null : (
-              <Text style={styles.nameText}>{name}</Text>
+              <Text
+                style={[styles.nameText, {color: theme.typography.darkColor}]}>
+                {name}
+              </Text>
             )}
-            {jobTitle === undefined ? null : <Text>{jobTitle}</Text>}
+            {jobTitle === undefined || jobTitle === null ? null : (
+              <Text style={{color: theme.typography.darkColor}}>
+                {jobTitle}
+              </Text>
+            )}
           </View>
         </View>
       </ImageBackground>
@@ -66,7 +73,7 @@ const ProfilePicture = (props: ProfilePictureProps) => {
 interface ProfilePictureProps extends WithTheme {
   imageSource?: ImageSourcePropType;
   name?: string;
-  jobTitle?: string;
+  jobTitle?: string | null;
 }
 
 const styles = StyleSheet.create({

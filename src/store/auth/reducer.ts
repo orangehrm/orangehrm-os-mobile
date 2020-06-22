@@ -18,12 +18,39 @@
  *
  */
 
-import {AuthState} from './types';
+import {
+  AuthState,
+  FETCH_MY_INFO,
+  FETCH_MY_INFO_FINISHED,
+  AuthActionTypes,
+} from 'store/auth/types';
+import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
-const initialState: AuthState = {};
+const initialState: AuthState = {
+  myInfoSuccess: false,
+  isCalledMyInfo: false,
+};
 
-const authReducer = (state = initialState, action: any): AuthState => {
+const authReducer = (
+  state = initialState,
+  action: WithLogoutAction<AuthActionTypes>,
+): AuthState => {
   switch (action.type) {
+    case FETCH_MY_INFO_FINISHED:
+      return {
+        ...state,
+        myInfo: action.payload,
+        myInfoSuccess: !action.error,
+      };
+    case FETCH_MY_INFO:
+      return {
+        ...state,
+        isCalledMyInfo: true,
+      };
+    case LOGOUT:
+      return {
+        ...initialState,
+      };
     default:
       return state;
   }

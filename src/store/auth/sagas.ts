@@ -18,8 +18,8 @@
  *
  */
 
-import {call, takeEvery} from 'redux-saga/effects';
-import {FETCH_TOKEN, LOGOUT, FetchTokenAction} from './types';
+import {call, takeEvery, put} from 'redux-saga/effects';
+import {FETCH_TOKEN, LOGOUT, FETCH_MY_INFO, FetchTokenAction} from './types';
 import {authenticate} from 'services/authentication';
 import {
   USERNAME,
@@ -34,32 +34,48 @@ import {
   closeLoader,
   showSnackMessage,
 } from 'store/saga-effects/globals';
-import {storageSetMulti} from 'store/saga-effects/storage';
+import {apiCall, apiGetCall} from 'store/saga-effects/api';
+import {storageSetMulti, selectAuthParams} from 'store/saga-effects/storage';
+import {fetchMyInfoFinished} from 'store/auth/actions';
+import {getExpiredAt} from 'store/auth/helper';
+import {AuthParams} from 'store/storage/types';
 
 function* fetchAuthToken(action: FetchTokenAction) {
   try {
     yield openLoader();
-    const response = yield call(
-      authenticate,
-      action.instanceUrl,
-      action.username,
-      action.password,
-    );
+    const authParams: AuthParams = yield selectAuthParams();
 
-    const data = yield call([response, response.json]);
-    if (data.error) {
-      yield showSnackMessage('Invalid Credentials');
+    if (authParams.instanceUrl !== null) {
+      const response = yield call(
+        authenticate,
+        authParams.instanceUrl,
+        action.username,
+        action.password,
+      );
+
+      const data = yield call([response, response.json]);
+      if (data.error) {
+        switch (data.error) {
+          case 'invalid_client':
+            yield showSnackMessage(
+              'Please add mobile client to your instance.',
+            );
+            break;
+          default:
+            yield showSnackMessage('Invalid Credentials.');
+        }
+      } else {
+        yield storageSetMulti({
+          [USERNAME]: action.username,
+          [ACCESS_TOKEN]: data.access_token,
+          [REFRESH_TOKEN]: data.refresh_token,
+          [TOKEN_TYPE]: data.token_type,
+          [SCOPE]: data.scope,
+          [EXPIRES_AT]: getExpiredAt(data.expires_in),
+        });
+      }
     } else {
-      var expiredAt = new Date();
-      expiredAt.setSeconds(expiredAt.getSeconds() + data.expires_in);
-      yield storageSetMulti({
-        [USERNAME]: action.username,
-        [ACCESS_TOKEN]: data.access_token,
-        [REFRESH_TOKEN]: data.refresh_token,
-        [TOKEN_TYPE]: data.token_type,
-        [SCOPE]: data.scope,
-        [EXPIRES_AT]: expiredAt.toISOString(),
-      });
+      yield showSnackMessage('Instance URL is empty');
     }
   } catch (error) {
     yield showSnackMessage(
@@ -88,7 +104,21 @@ function* logout() {
   }
 }
 
+function* fetchMyInfo() {
+  try {
+    const response = yield apiCall(apiGetCall, '/api/v1/myinfo');
+    if (response.data) {
+      yield put(fetchMyInfoFinished(response.data));
+    } else {
+      yield put(fetchMyInfoFinished(undefined, true));
+    }
+  } catch (error) {
+    yield put(fetchMyInfoFinished(undefined, true));
+  }
+}
+
 export function* watchAuth() {
   yield takeEvery(FETCH_TOKEN, fetchAuthToken);
   yield takeEvery(LOGOUT, logout);
+  yield takeEvery(FETCH_MY_INFO, fetchMyInfo);
 }

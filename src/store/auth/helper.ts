@@ -18,31 +18,10 @@
  *
  */
 
-import {put, select} from 'redux-saga/effects';
-import {setItem, setMulti, changeLoaded} from 'store/storage/actions';
-import {
-  selectInstanceUrl as instanceUrlSelector,
-  selectAuthParams as authParamSelector,
-} from 'store/storage/selectors';
-
-export const storageSetItem = (...args: Parameters<typeof setItem>) => {
-  return put(setItem(...args));
-};
-
-export const storageSetMulti = (...args: Parameters<typeof setMulti>) => {
-  return put(setMulti(...args));
-};
-
-export const storageChangeLoaded = (
-  ...args: Parameters<typeof changeLoaded>
-) => {
-  return put(changeLoaded(...args));
-};
-
-export const selectInstanceUrl = () => {
-  return select(instanceUrlSelector);
-};
-
-export const selectAuthParams = () => {
-  return select(authParamSelector);
+export const getExpiredAt = (expiresIn: number = 3600): string => {
+  const expiredAt = new Date();
+  expiredAt.setSeconds(expiredAt.getSeconds() + expiresIn);
+  // release a minute
+  expiredAt.setMinutes(expiredAt.getMinutes() - 1);
+  return expiredAt.toISOString();
 };

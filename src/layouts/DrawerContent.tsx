@@ -38,12 +38,23 @@ import Footer from 'components/DefaultFooter';
 import Divider from 'components/DefaultDivider';
 import Icon from 'components/DefaultIcon';
 import Text from 'components/DefaultText';
+import {connect, ConnectedProps} from 'react-redux';
+import {RootState} from 'store';
+import {selectMyInfoSuccess, selectMyInfo} from 'store/auth/selectors';
 
 const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
-  const {theme, logoutOnPress, ...restProps} = props;
+  const {theme, logoutOnPress, myInfo, myInfoSuccess, ...restProps} = props;
+  let imageSource;
+  if (myInfo?.employeePhoto !== undefined && myInfo?.employeePhoto !== null) {
+    imageSource = {uri: `data:image/png;base64,${myInfo?.employeePhoto}`};
+  }
   return (
     <>
-      <ProfilePicture name={'Profile Name'} jobTitle={'Job Title'} />
+      <ProfilePicture
+        name={myInfo?.employee.fullName}
+        jobTitle={myInfo?.employee.jobTitle}
+        imageSource={imageSource}
+      />
       <DrawerContentScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.view}>
           <View>
@@ -90,7 +101,9 @@ type DrawerItemListProps = Omit<
   descriptors: DrawerDescriptorMap;
 };
 
-interface DrawerContentProps extends WithTheme {
+interface DrawerContentProps
+  extends WithTheme,
+    ConnectedProps<typeof connector> {
   logoutOnPress: () => void;
 }
 
@@ -111,6 +124,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withTheme<DrawerContentProps & DrawerItemListProps>()(
-  DrawerContent,
-);
+const mapStateToProps = (state: RootState) => ({
+  myInfoSuccess: selectMyInfoSuccess(state),
+  myInfo: selectMyInfo(state),
+});
+
+const connector = connect(mapStateToProps);
+
+const DrawerContentWithTheme = withTheme<
+  DrawerContentProps & DrawerItemListProps
+>()(DrawerContent);
+
+export default connector(DrawerContentWithTheme);

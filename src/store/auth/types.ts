@@ -18,16 +18,21 @@
  *
  */
 
-export interface AuthState {}
+export interface AuthState {
+  myInfo?: MyInfo;
+  myInfoSuccess: boolean;
+  isCalledMyInfo: boolean;
+}
 
 export const FETCH_TOKEN = 'AUTH_FETCH_TOKEN';
 export const FETCH_TOKEN_SUCCESS = 'AUTH_FETCH_TOKEN_SUCCESS';
 export const FETCH_TOKEN_FAILED = 'AUTH_FETCH_TOKEN_FAILED';
 export const LOGOUT = 'AUTH_LOGOUT';
+export const FETCH_MY_INFO = 'AUTH_FETCH_MY_INFO';
+export const FETCH_MY_INFO_FINISHED = 'AUTH_FETCH_MY_INFO_FINISHED';
 
 export interface FetchTokenAction {
   type: typeof FETCH_TOKEN;
-  instanceUrl: string;
   username: string;
   password: string;
 }
@@ -44,11 +49,25 @@ export interface LogoutAction {
   type: typeof LOGOUT;
 }
 
+export type WithLogoutAction<T> = LogoutAction | T;
+
+export interface FetchMyInfoAction {
+  type: typeof FETCH_MY_INFO;
+}
+
+export interface FetchMyInfoFinishedAction {
+  type: typeof FETCH_MY_INFO_FINISHED;
+  payload?: MyInfo;
+  error: boolean;
+}
+
 export type AuthActionTypes =
   | FetchTokenAction
   | FetchTokenSuccessAction
   | FetchTokenFailedAction
-  | LogoutAction;
+  | LogoutAction
+  | FetchMyInfoAction
+  | FetchMyInfoFinishedAction;
 
 export interface AuthSuccessResponse {
   access_token: string;
@@ -61,6 +80,35 @@ export interface AuthSuccessResponse {
 export interface AuthErrorResponse {
   error: string;
   error_description: string;
+}
+
+export type NullableString = string | null;
+
+export interface Employee {
+  firstName: string;
+  lastName: string;
+  middleName: string;
+  fullName: string;
+  employeeId: string;
+  code: string;
+  jobTitle: NullableString;
+  unit: NullableString;
+  supervisor: NullableString;
+}
+
+export interface EmployeePhoto {
+  employeePhoto: NullableString;
+}
+
+export interface User {
+  userName: string;
+  userRole: string;
+}
+
+export interface MyInfo {
+  employee: Employee;
+  employeePhoto: NullableString;
+  user: User;
 }
 
 export type AuthResponse = AuthSuccessResponse | AuthErrorResponse;

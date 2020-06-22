@@ -38,6 +38,7 @@ const defaultTheme: Theme = {
     smallFontSize: 12,
     primaryColor: '#818181',
     secondaryColor: '#ffffff',
+    darkColor: 'black',
     iconSize: 20,
     headerIconSize: 24,
   },
@@ -65,6 +66,7 @@ export interface Typography {
   smallFontSize: number;
   primaryColor: string;
   secondaryColor: string;
+  darkColor: string;
   iconSize: number;
   headerIconSize: number;
 }

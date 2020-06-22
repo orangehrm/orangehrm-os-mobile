@@ -18,7 +18,7 @@
  *
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useWindowDimensions} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -31,6 +31,8 @@ import {
   selectUsername,
 } from 'store/storage/selectors';
 import {logout} from 'store/auth/actions';
+import {fetchMyInfo} from 'store/auth/actions';
+import {selectMyInfoSuccess, selectIsCalledMyInfo} from 'store/auth/selectors';
 
 import Login from 'screens/login/Login';
 import SelectInstance from 'screens/login/SelectInstance';
@@ -51,8 +53,25 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const Navigator = (props: NavigatorProps) => {
-  const {storageLoaded, instanceUrl, loggedInUsername} = props;
+  const {
+    storageLoaded,
+    instanceUrl,
+    loggedInUsername,
+    myInfoSuccess,
+    isCalledMyInfo,
+  } = props;
   const dimensions = useWindowDimensions();
+
+  useEffect(() => {
+    if (
+      instanceUrl !== null &&
+      loggedInUsername !== null &&
+      !myInfoSuccess &&
+      !isCalledMyInfo
+    ) {
+      props.fetchMyInfo();
+    }
+  });
 
   let view = null;
   if (storageLoaded.loaded) {
@@ -115,10 +134,13 @@ const mapStateToProps = (state: RootState) => ({
   storageLoaded: selectStorageLoaded(state),
   instanceUrl: selectInstanceUrl(state),
   loggedInUsername: selectUsername(state),
+  myInfoSuccess: selectMyInfoSuccess(state),
+  isCalledMyInfo: selectIsCalledMyInfo(state),
 });
 
 const mapDispatchToProps = {
   logout: logout,
+  fetchMyInfo: fetchMyInfo,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

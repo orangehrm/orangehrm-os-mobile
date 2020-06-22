@@ -63,6 +63,13 @@ export interface ChangeLoadedAction {
   error?: any;
 }
 
+export interface AuthParams {
+  [INSTANCE_URL]: NullableString;
+  [ACCESS_TOKEN]: NullableString;
+  [REFRESH_TOKEN]: NullableString;
+  [EXPIRES_AT]: NullableString;
+}
+
 export type StorageActionTypes =
   | SetItemAction
   | SetMultiAction
