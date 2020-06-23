@@ -26,10 +26,6 @@ function DefaultCardActions(
   props: React.PropsWithChildren<DefaultCardActionsProps>,
 ) {
   const {children, style, theme} = props;
-  const actionsStyle: StyleProp<ViewStyle> = [styles.cardActions];
-  if (style) {
-    actionsStyle.push(style);
-  }
   return (
     <View
       style={[

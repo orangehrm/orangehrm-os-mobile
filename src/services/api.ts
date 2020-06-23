@@ -18,31 +18,13 @@
  *
  */
 
-import {put, select} from 'redux-saga/effects';
-import {setItem, setMulti, changeLoaded} from 'store/storage/actions';
-import {
-  selectInstanceUrl as instanceUrlSelector,
-  selectAuthParams as authParamSelector,
-} from 'store/storage/selectors';
+import {NullableString} from 'store/storage/types';
 
-export const storageSetItem = (...args: Parameters<typeof setItem>) => {
-  return put(setItem(...args));
-};
-
-export const storageSetMulti = (...args: Parameters<typeof setMulti>) => {
-  return put(setMulti(...args));
-};
-
-export const storageChangeLoaded = (
-  ...args: Parameters<typeof changeLoaded>
-) => {
-  return put(changeLoaded(...args));
-};
-
-export const selectInstanceUrl = () => {
-  return select(instanceUrlSelector);
-};
-
-export const selectAuthParams = () => {
-  return select(authParamSelector);
+export const isAccessTokenExpired = (expiredAtISO: NullableString) => {
+  if (typeof expiredAtISO === 'string') {
+    const now = new Date();
+    const expired = new Date(expiredAtISO);
+    return now.getTime() >= expired.getTime();
+  }
+  return true;
 };

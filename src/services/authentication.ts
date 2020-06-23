@@ -18,24 +18,48 @@
  *
  */
 
+export const PUBLIC_MOBILE_CLIENT_ID = 'mobile';
+export const PUBLIC_MOBILE_CLIENT_SECRET = 'mobile';
+export const GRANT_TYPE_PASSWORD = 'password';
+export const GRANT_TYPE_REFRESH_TOKEN = 'refresh_token';
+
 export const authenticate = (
   instanceUrl: string,
   username: string,
   password: string,
 ) => {
-  const authEndpoint = instanceUrl + '/oauth/issueToken';
-  return fetch(authEndpoint, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      grant_type: 'password',
-      client_id: 'mobile',
-      client_secret: 'mobile',
-      username,
-      password,
-    }),
+  return authRequest(instanceUrl, {
+    grant_type: GRANT_TYPE_PASSWORD,
+    client_id: PUBLIC_MOBILE_CLIENT_ID,
+    client_secret: PUBLIC_MOBILE_CLIENT_SECRET,
+    username,
+    password,
   });
+};
+
+export const getNewAccessToken = (
+  instanceUrl: string,
+  refreshToken: string,
+) => {
+  return authRequest(instanceUrl, {
+    grant_type: GRANT_TYPE_REFRESH_TOKEN,
+    client_id: PUBLIC_MOBILE_CLIENT_ID,
+    client_secret: PUBLIC_MOBILE_CLIENT_SECRET,
+    refresh_token: refreshToken,
+  });
+};
+
+export const authRequest = (instanceUrl: string, body: object) => {
+  const authEndpoint = instanceUrl + '/oauth/issueToken';
+
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  headers.append('Accept', 'application/json');
+
+  const requestOptions = {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(body),
+  };
+  return fetch(authEndpoint, requestOptions);
 };

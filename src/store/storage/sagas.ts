@@ -18,7 +18,7 @@
  *
  */
 
-import {call, all, takeEvery} from 'redux-saga/effects';
+import {call, all, takeEvery, select} from 'redux-saga/effects';
 import storage, {
   INSTANCE_URL,
   USERNAME,
@@ -36,6 +36,7 @@ import {
   SetMultiAction,
   StorageState,
 } from './types';
+import {selectStorageLoaded} from 'store/storage/selectors';
 
 export function* loadAsyncStorage() {
   try {
@@ -65,13 +66,17 @@ function* setItemAsyncStorage(action: SetItemAction) {
 
 function* setMultiAsyncStorage(action: SetMultiAction) {
   try {
-    const keys = Object.keys(action.keyValuePairs);
-    yield all(
-      keys.map((keyName) => {
-        const key = <keyof Partial<StorageState>>keyName;
-        storage.set(key, action.keyValuePairs[key]);
-      }),
-    );
+    const initialStorageLoaded = yield select(selectStorageLoaded);
+    // Avoid update async storage when executing `loadAsyncStorage` when application starts
+    if (initialStorageLoaded.loaded) {
+      const keys = Object.keys(action.keyValuePairs);
+      yield all(
+        keys.map((keyName) => {
+          const key = <keyof Partial<StorageState>>keyName;
+          storage.set(key, action.keyValuePairs[key]);
+        }),
+      );
+    }
   } catch (error) {}
 }
 

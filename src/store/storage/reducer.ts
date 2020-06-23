@@ -24,7 +24,7 @@ import {
   SET_ITEM,
   SET_MULTI,
   CHANGE_LOADED,
-} from './types';
+} from 'store/storage/types';
 import {
   INSTANCE_URL,
   USERNAME,

@@ -20,21 +20,48 @@
 
 import {RootState} from 'store';
 import {createSelector} from 'reselect';
-import {INSTANCE_URL, USERNAME} from 'services/storage';
+import {
+  INSTANCE_URL,
+  USERNAME,
+  ACCESS_TOKEN,
+  REFRESH_TOKEN,
+  EXPIRES_AT,
+} from 'services/storage';
+import {NullableString, StorageState, AuthParams} from 'store/storage/types';
 
-export const selectStorage = (state: RootState) => state.storage;
+export const selectStorage = (state: RootState): StorageState => state.storage;
 
-export const selectInstanceUrl = createSelector(
-  selectStorage,
-  (storage) => storage[INSTANCE_URL],
-);
+export const selectInstanceUrl = createSelector<
+  RootState,
+  StorageState,
+  NullableString
+>(selectStorage, (storage) => storage[INSTANCE_URL]);
 
-export const selectUsername = createSelector(
-  selectStorage,
-  (storage) => storage[USERNAME],
-);
+export const selectUsername = createSelector<
+  RootState,
+  StorageState,
+  NullableString
+>(selectStorage, (storage) => storage[USERNAME]);
 
-export const selectStorageLoaded = createSelector(
-  selectStorage,
-  ({loaded, error}) => ({loaded, error}),
-);
+export const selectStorageLoaded = createSelector<
+  RootState,
+  StorageState,
+  {loaded?: boolean; error: any}
+>([selectStorage], ({loaded, error}) => ({loaded, error}));
+
+export const selectAccessToken = createSelector<
+  RootState,
+  StorageState,
+  NullableString
+>([selectStorage], (storage) => storage[ACCESS_TOKEN]);
+
+export const selectAuthParams = createSelector<
+  RootState,
+  StorageState,
+  AuthParams
+>([selectStorage], (storage) => ({
+  [INSTANCE_URL]: storage[INSTANCE_URL],
+  [ACCESS_TOKEN]: storage[ACCESS_TOKEN],
+  [REFRESH_TOKEN]: storage[REFRESH_TOKEN],
+  [EXPIRES_AT]: storage[EXPIRES_AT],
+}));
