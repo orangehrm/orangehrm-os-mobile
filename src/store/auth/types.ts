@@ -25,8 +25,6 @@ export interface AuthState {
 }
 
 export const FETCH_TOKEN = 'AUTH_FETCH_TOKEN';
-export const FETCH_TOKEN_SUCCESS = 'AUTH_FETCH_TOKEN_SUCCESS';
-export const FETCH_TOKEN_FAILED = 'AUTH_FETCH_TOKEN_FAILED';
 export const LOGOUT = 'AUTH_LOGOUT';
 export const FETCH_MY_INFO = 'AUTH_FETCH_MY_INFO';
 export const FETCH_MY_INFO_FINISHED = 'AUTH_FETCH_MY_INFO_FINISHED';
@@ -35,14 +33,6 @@ export interface FetchTokenAction {
   type: typeof FETCH_TOKEN;
   username: string;
   password: string;
-}
-
-export interface FetchTokenSuccessAction {
-  type: typeof FETCH_TOKEN_SUCCESS;
-}
-
-export interface FetchTokenFailedAction {
-  type: typeof FETCH_TOKEN_FAILED;
 }
 
 export interface LogoutAction {
@@ -63,8 +53,6 @@ export interface FetchMyInfoFinishedAction {
 
 export type AuthActionTypes =
   | FetchTokenAction
-  | FetchTokenSuccessAction
-  | FetchTokenFailedAction
   | LogoutAction
   | FetchMyInfoAction
   | FetchMyInfoFinishedAction;

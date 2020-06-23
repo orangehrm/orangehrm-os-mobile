@@ -20,12 +20,10 @@
 
 import {
   FETCH_TOKEN,
-  FETCH_TOKEN_SUCCESS,
   LOGOUT,
   FETCH_MY_INFO,
   FETCH_MY_INFO_FINISHED,
   FetchTokenAction,
-  FetchTokenSuccessAction,
   LogoutAction,
   FetchMyInfoAction,
   FetchMyInfoFinishedAction,
@@ -40,12 +38,6 @@ export const fetchAuthToken = (
     type: FETCH_TOKEN,
     username,
     password,
-  };
-};
-
-export const fetchAuthTokenSuccess = (): FetchTokenSuccessAction => {
-  return {
-    type: FETCH_TOKEN_SUCCESS,
   };
 };
 
