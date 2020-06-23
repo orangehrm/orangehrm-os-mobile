@@ -44,7 +44,7 @@ import {
   SUBHEADER_LEAVE,
 } from 'screens';
 
-import MyLeaveEntitilementsAndUsage from 'screens/leave/MyLeaveEntitilementsAndUsageNavigator';
+import MyLeaveUsage from 'screens/leave/MyLeaveUsageNavigator';
 import LeaveList from 'screens/leave/LeaveListNavigator';
 import DrawerContent from 'layouts/DrawerContent';
 import Overlay from 'components/DefaultOverlay';
@@ -94,8 +94,8 @@ const Navigator = (props: NavigatorProps) => {
           )}>
           <Drawer.Screen
             name={MY_LEAVE_ENTITLEMENT_AND_USAGE}
-            component={MyLeaveEntitilementsAndUsage}
-            options={{drawerLabel: 'My Leave Entitlements and Usage'}}
+            component={MyLeaveUsage}
+            options={{drawerLabel: 'My Leave Usage'}}
             initialParams={{subheader: SUBHEADER_LEAVE}}
           />
           <Drawer.Screen

@@ -26,10 +26,8 @@ import {connect, ConnectedProps} from 'react-redux';
 import {fetchMyLeave} from 'store/leave/leave-usage/actions';
 import LeaveBalanceRow from 'screens/leave/components/LeaveBalanceRow';
 
-class MyLeaveEntitilementsAndUsage extends React.Component<
-  MyLeaveEntitilementsAndUsageProps
-> {
-  constructor(props: MyLeaveEntitilementsAndUsageProps) {
+class MyLeaveUsage extends React.Component<MyLeaveUsageProps> {
+  constructor(props: MyLeaveUsageProps) {
     super(props);
     this.props.fetchMyLeave();
   }
@@ -43,7 +41,7 @@ class MyLeaveEntitilementsAndUsage extends React.Component<
   }
 }
 
-interface MyLeaveEntitilementsAndUsageProps
+interface MyLeaveUsageProps
   extends WithTheme,
     ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
@@ -57,6 +55,4 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-export default withTheme<MyLeaveEntitilementsAndUsageProps>()(
-  connector(MyLeaveEntitilementsAndUsage),
-);
+export default withTheme<MyLeaveUsageProps>()(connector(MyLeaveUsage));
