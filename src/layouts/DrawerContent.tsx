@@ -18,15 +18,14 @@
  *
  */
 
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {useCallback} from 'react';
+import {StyleSheet, View, RefreshControl} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {
   DrawerContentScrollView,
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
-
 import {
   DrawerNavigationHelpers,
   DrawerDescriptorMap,
@@ -41,9 +40,22 @@ import Text from 'components/DefaultText';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import {selectMyInfoSuccess, selectMyInfo} from 'store/auth/selectors';
+import {fetchMyInfo as fetchMyInfoAction} from 'store/auth/actions';
 
 const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
-  const {theme, logoutOnPress, myInfo, myInfoSuccess, ...restProps} = props;
+  const {
+    theme,
+    logoutOnPress,
+    myInfo,
+    myInfoSuccess,
+    fetchMyInfo,
+    ...restProps
+  } = props;
+
+  const onRefresh = useCallback(() => {
+    fetchMyInfo();
+  }, [fetchMyInfo]);
+
   let imageSource;
   if (myInfo?.employeePhoto !== undefined && myInfo?.employeePhoto !== null) {
     imageSource = {uri: `data:image/png;base64,${myInfo?.employeePhoto}`};
@@ -55,7 +67,11 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
         jobTitle={myInfo?.employee.jobTitle}
         imageSource={imageSource}
       />
-      <DrawerContentScrollView contentContainerStyle={styles.contentContainer}>
+      <DrawerContentScrollView
+        contentContainerStyle={styles.contentContainer}
+        refreshControl={
+          <RefreshControl refreshing={!myInfoSuccess} onRefresh={onRefresh} />
+        }>
         <View style={styles.view}>
           <View>
             <View style={styles.subheader}>
@@ -129,7 +145,11 @@ const mapStateToProps = (state: RootState) => ({
   myInfo: selectMyInfo(state),
 });
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = {
+  fetchMyInfo: fetchMyInfoAction,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 const DrawerContentWithTheme = withTheme<
   DrawerContentProps & DrawerItemListProps
