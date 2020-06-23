@@ -21,17 +21,23 @@
 import React from 'react';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
-import Text from 'components/DefaultText';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
+import {fetchMyLeave} from 'store/leave/leave-usage/actions';
+import LeaveBalanceRow from 'screens/leave/components/LeaveBalanceRow';
 
 class MyLeaveEntitilementsAndUsage extends React.Component<
   MyLeaveEntitilementsAndUsageProps
 > {
+  constructor(props: MyLeaveEntitilementsAndUsageProps) {
+    super(props);
+    this.props.fetchMyLeave();
+  }
+
   render() {
     return (
       <MainLayout>
-        <Text>{'TODO: My Leave Entitlements and Usage'}</Text>
+        <LeaveBalanceRow />
       </MainLayout>
     );
   }
@@ -45,7 +51,9 @@ interface MyLeaveEntitilementsAndUsageProps
 
 const mapStateToProps = () => ({});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  fetchMyLeave: fetchMyLeave,
+};
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 

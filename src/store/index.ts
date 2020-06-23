@@ -23,12 +23,14 @@ import authReducer from './auth/reducer';
 import themeReducer from './theme/reducer';
 import storageReducer from './storage/reducer';
 import globalsReducer from './globals/reducer';
+import leaveUsageReducer from './leave/leave-usage/reducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   theme: themeReducer,
   storage: storageReducer,
   globals: globalsReducer,
+  leaveUsage: leaveUsageReducer,
 });
 
 export default rootReducer;

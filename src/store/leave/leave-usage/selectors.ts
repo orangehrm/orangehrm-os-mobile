@@ -18,12 +18,20 @@
  *
  */
 
-module.exports = {
-  root: true,
-  extends: '@react-native-community',
-  parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
-  rules: {
-    'no-console': 1, // warn for console logs
-  },
-};
+import {RootState} from 'store';
+import {createSelector} from 'reselect';
+import {LeaveUsageState, Entitlement} from 'store/leave/leave-usage/types';
+
+export const selectLeaveUsage = (state: RootState) => state.leaveUsage;
+
+export const selectEntitlement = createSelector<
+  RootState,
+  LeaveUsageState,
+  Entitlement[] | undefined
+>([selectLeaveUsage], (leaveUsage) => leaveUsage.entitlement);
+
+export const selectSelectedLeaveTypeId = createSelector<
+  RootState,
+  LeaveUsageState,
+  string | undefined
+>([selectLeaveUsage], (leaveUsage) => leaveUsage.selectedLeaveTypeId);
