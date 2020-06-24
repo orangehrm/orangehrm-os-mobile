@@ -18,12 +18,24 @@
  *
  */
 
-module.exports = {
-  root: true,
-  extends: '@react-native-community',
-  parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
-  rules: {
-    'no-console': 1, // warn for console logs
-  },
+import {MyLeave} from 'store/leave/leave-usage/types';
+
+const LEAVE_TYPE_COLORS = [
+  '#445abf',
+  '#4ece68',
+  '#c15cb8',
+  '#982727',
+  '#db1580',
+];
+
+const assignColorsToLeaveTypes = (data: MyLeave) => {
+  const {entitlement} = data;
+  const newEntitlementArray = entitlement.map((item, index) => {
+    item.leaveType.color = LEAVE_TYPE_COLORS[index % LEAVE_TYPE_COLORS.length];
+    return item;
+  });
+  data.entitlement = newEntitlementArray;
+  return data;
 };
+
+export {assignColorsToLeaveTypes};

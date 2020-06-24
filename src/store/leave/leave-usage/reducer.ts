@@ -19,47 +19,37 @@
  */
 
 import {
-  FETCH_TOKEN,
-  LOGOUT,
-  FETCH_MY_INFO,
-  FETCH_MY_INFO_FINISHED,
-  FetchTokenAction,
-  LogoutAction,
-  FetchMyInfoAction,
-  FetchMyInfoFinishedAction,
-  MyInfo,
-} from 'store/auth/types';
+  LeaveUsageState,
+  LeaveUsageActionTypes,
+  FETCH_MY_LEAVE_FINISHED,
+  SELECT_LEAVE_TYPE,
+} from 'store/leave/leave-usage/types';
+import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
-export const fetchAuthToken = (
-  username: string,
-  password: string,
-): FetchTokenAction => {
-  return {
-    type: FETCH_TOKEN,
-    username,
-    password,
-  };
+const initialState: LeaveUsageState = {};
+
+const leaveUsageReducer = (
+  state = initialState,
+  action: WithLogoutAction<LeaveUsageActionTypes>,
+): LeaveUsageState => {
+  switch (action.type) {
+    case FETCH_MY_LEAVE_FINISHED:
+      return {
+        ...state,
+        entitlement: action.payload?.entitlement,
+      };
+    case SELECT_LEAVE_TYPE:
+      return {
+        ...state,
+        selectedLeaveTypeId: action.id,
+      };
+    case LOGOUT:
+      return {
+        ...initialState,
+      };
+    default:
+      return state;
+  }
 };
 
-export const logout = (): LogoutAction => {
-  return {
-    type: LOGOUT,
-  };
-};
-
-export const fetchMyInfo = (): FetchMyInfoAction => {
-  return {
-    type: FETCH_MY_INFO,
-  };
-};
-
-export const fetchMyInfoFinished = (
-  payload?: MyInfo,
-  error: boolean = false,
-): FetchMyInfoFinishedAction => {
-  return {
-    type: FETCH_MY_INFO_FINISHED,
-    payload,
-    error,
-  };
-};
+export default leaveUsageReducer;

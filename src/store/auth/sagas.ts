@@ -117,7 +117,7 @@ function* fetchMyInfo() {
   }
 }
 
-export function* watchAuth() {
+export function* watchAuthActions() {
   yield takeEvery(FETCH_TOKEN, fetchAuthToken);
   yield takeEvery(LOGOUT, logout);
   yield takeEvery(FETCH_MY_INFO, fetchMyInfo);

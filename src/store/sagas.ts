@@ -20,12 +20,14 @@
 
 import {all, call} from 'redux-saga/effects';
 import {loadAsyncStorage, watchSetStorageItem} from 'store/storage/sagas';
-import {watchAuth} from 'store/auth/sagas';
+import {watchAuthActions} from 'store/auth/sagas';
+import {watchLeaveUsageActions} from 'store/leave/leave-usage/sagas';
 
 export default function* rootSaga() {
   yield all([
     call(loadAsyncStorage),
     call(watchSetStorageItem),
-    call(watchAuth),
+    call(watchAuthActions),
+    call(watchLeaveUsageActions),
   ]);
 }

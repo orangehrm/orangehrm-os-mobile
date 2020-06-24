@@ -19,36 +19,36 @@
  */
 
 import React from 'react';
-import {NavigationProp, ParamListBase} from '@react-navigation/native';
-import MainLayout from 'layouts/MainLayout';
-import Text from 'components/DefaultText';
+import {View, StyleSheet, ViewProps} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {connect, ConnectedProps} from 'react-redux';
 
-class MyLeaveEntitilementsAndUsage extends React.Component<
-  MyLeaveEntitilementsAndUsageProps
-> {
-  render() {
-    return (
-      <MainLayout>
-        <Text>{'TODO: My Leave Entitlements and Usage'}</Text>
-      </MainLayout>
-    );
-  }
+const DefaultChip = (props: React.PropsWithChildren<DefaultChipProps>) => {
+  const {children, fullWidth, theme, style, ...restProps} = props;
+  return (
+    <View
+      style={[
+        styles.chip,
+        fullWidth ? styles.fullWidth : undefined,
+        {borderRadius: theme.borderRadius * 4},
+        style,
+      ]}
+      {...restProps}>
+      {children}
+    </View>
+  );
+};
+
+interface DefaultChipProps extends ViewProps, WithTheme {
+  fullWidth?: boolean;
 }
 
-interface MyLeaveEntitilementsAndUsageProps
-  extends WithTheme,
-    ConnectedProps<typeof connector> {
-  navigation: NavigationProp<ParamListBase>;
-}
+const styles = StyleSheet.create({
+  chip: {
+    backgroundColor: '#e0e0e0',
+  },
+  fullWidth: {
+    width: '100%',
+  },
+});
 
-const mapStateToProps = () => ({});
-
-const mapDispatchToProps = {};
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-export default withTheme<MyLeaveEntitilementsAndUsageProps>()(
-  connector(MyLeaveEntitilementsAndUsage),
-);
+export default withTheme<DefaultChipProps>()(DefaultChip);

@@ -28,7 +28,7 @@ function DefaultCardContent(
   const {children, style, theme} = props;
   return (
     <View
-      style={[styles.cardContent, style, {borderRadius: theme.borderRadius}]}>
+      style={[styles.cardContent, {borderRadius: theme.borderRadius}, style]}>
       {children}
     </View>
   );

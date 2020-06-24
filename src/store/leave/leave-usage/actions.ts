@@ -18,12 +18,30 @@
  *
  */
 
-module.exports = {
-  root: true,
-  extends: '@react-native-community',
-  parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
-  rules: {
-    'no-console': 1, // warn for console logs
-  },
-};
+import {
+  FETCH_MY_LEAVE,
+  FETCH_MY_LEAVE_FINISHED,
+  SELECT_LEAVE_TYPE,
+  FetchMyLeaveAction,
+  FetchMyLeaveFinishedAction,
+  SelectLeaveTypeAction,
+  MyLeave,
+} from 'store/leave/leave-usage/types';
+
+export const fetchMyLeave = (): FetchMyLeaveAction => ({
+  type: FETCH_MY_LEAVE,
+});
+
+export const fetchMyLeaveFinished = (
+  payload?: MyLeave,
+  error: boolean = false,
+): FetchMyLeaveFinishedAction => ({
+  type: FETCH_MY_LEAVE_FINISHED,
+  payload,
+  error,
+});
+
+export const selectLeaveType = (id: string): SelectLeaveTypeAction => ({
+  type: SELECT_LEAVE_TYPE,
+  id,
+});

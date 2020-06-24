@@ -45,6 +45,7 @@ const authReducer = (
     case FETCH_MY_INFO:
       return {
         ...state,
+        myInfoSuccess: false,
         isCalledMyInfo: true,
       };
     case LOGOUT:

@@ -27,14 +27,14 @@ import {
 import {createStackNavigator} from '@react-navigation/stack';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
-import MyLeaveEntitilementsAndUsage from 'screens/leave/MyLeaveEntitilementsAndUsage';
+import MyLeaveEntitilementsAndUsage from 'screens/leave/MyLeaveUsage';
 import {MY_LEAVE_ENTITLEMENT_AND_USAGE} from 'screens';
 import IconButton from 'components/DefaultIconButton';
 
 const Stack = createStackNavigator();
 
-class MyLeaveEntitilementsAndUsageNavigator extends React.Component<
-  MyLeaveEntitilementsAndUsageNavigatorProps
+class MyLeaveUsageNavigator extends React.Component<
+  MyLeaveUsageNavigatorProps
 > {
   render() {
     const {theme, navigation} = this.props;
@@ -71,7 +71,7 @@ class MyLeaveEntitilementsAndUsageNavigator extends React.Component<
           name={MY_LEAVE_ENTITLEMENT_AND_USAGE}
           component={MyLeaveEntitilementsAndUsage}
           options={{
-            title: 'My Leave Entitilements and Usage',
+            title: 'My Leave Usage',
             ...header,
           }}
         />
@@ -80,7 +80,7 @@ class MyLeaveEntitilementsAndUsageNavigator extends React.Component<
   }
 }
 
-interface MyLeaveEntitilementsAndUsageNavigatorProps
+interface MyLeaveUsageNavigatorProps
   extends WithTheme,
     ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
@@ -92,6 +92,6 @@ const mapDispatchToProps = {};
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-export default withTheme<MyLeaveEntitilementsAndUsageNavigatorProps>()(
-  connector(MyLeaveEntitilementsAndUsageNavigator),
+export default withTheme<MyLeaveUsageNavigatorProps>()(
+  connector(MyLeaveUsageNavigator),
 );
