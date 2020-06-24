@@ -30,12 +30,12 @@ function DefaultCardActions(
     <View
       style={[
         styles.cardActions,
-        style,
         {
           borderBottomLeftRadius: theme.borderRadius,
           borderBottomRightRadius: theme.borderRadius,
           paddingBottom: theme.spacing * 2,
         },
+        style,
       ]}>
       {children}
     </View>

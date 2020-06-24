@@ -25,6 +25,7 @@ import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {fetchMyLeave} from 'store/leave/leave-usage/actions';
 import LeaveBalanceRow from 'screens/leave/components/LeaveBalanceRow';
+import LeaveUsageCard from 'screens/leave/components/LeaveUsageCard';
 
 class MyLeaveUsage extends React.Component<MyLeaveUsageProps> {
   constructor(props: MyLeaveUsageProps) {
@@ -36,6 +37,7 @@ class MyLeaveUsage extends React.Component<MyLeaveUsageProps> {
     return (
       <MainLayout>
         <LeaveBalanceRow />
+        <LeaveUsageCard />
       </MainLayout>
     );
   }

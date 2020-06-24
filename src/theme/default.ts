@@ -38,7 +38,7 @@ const defaultTheme: Theme = {
     smallFontSize: 12,
     primaryColor: '#818181',
     secondaryColor: '#ffffff',
-    darkColor: 'black',
+    darkColor: '#000000',
     lightColor: '#ffffff',
     iconSize: 20,
     headerIconSize: 24,
