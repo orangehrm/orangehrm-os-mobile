@@ -26,6 +26,7 @@ import {
   OPEN_LOADER,
   CLOSE_LOADER,
 } from 'store/globals/types';
+import {MY_LEAVE_ENTITLEMENT_AND_USAGE} from 'screens';
 
 const initialState: GlobalsState = {
   snackMessage: {
@@ -35,6 +36,7 @@ const initialState: GlobalsState = {
   loader: {
     open: false,
   },
+  initialRoute: MY_LEAVE_ENTITLEMENT_AND_USAGE,
 };
 
 const globalsReducer = (

@@ -24,13 +24,16 @@ import {
   ScrollView,
   StatusBar,
   KeyboardAvoidingView,
+  RefreshControl,
   StyleSheet,
+  RefreshControlProps,
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {Root} from 'native-base';
 
 const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
-  const {theme, children} = props;
+  const {theme, children, refreshing, onRefresh} = props;
+
   return (
     <>
       <StatusBar
@@ -43,7 +46,15 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
             contentContainerStyle={styles.scrollView}
-            keyboardShouldPersistTaps="always">
+            keyboardShouldPersistTaps="always"
+            refreshControl={
+              onRefresh === undefined ? undefined : (
+                <RefreshControl
+                  refreshing={refreshing === undefined ? false : refreshing}
+                  onRefresh={onRefresh}
+                />
+              )
+            }>
             <KeyboardAvoidingView style={styles.root}>
               {children}
             </KeyboardAvoidingView>
@@ -54,7 +65,11 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
   );
 };
 
-interface MainLayoutProps extends WithTheme {}
+interface MainLayoutProps
+  extends WithTheme,
+    Pick<RefreshControlProps, 'onRefresh'> {
+  refreshing?: boolean;
+}
 
 const styles = StyleSheet.create({
   safeArea: {

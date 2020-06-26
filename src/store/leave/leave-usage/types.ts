@@ -18,8 +18,12 @@
  *
  */
 
+import {MutableKeys} from 'utility-types';
+import {LEAVE_STATUS_MAP} from 'lib/helpers/leave';
+
 export interface LeaveUsageState {
   entitlement?: Entitlement[];
+  leaveRequest?: LeaveRequest[];
   selectedLeaveTypeId?: string;
 }
 
@@ -51,10 +55,9 @@ export type LeaveUsageActionTypes =
 
 export interface Entitlement {
   id: string;
-  type: string;
   validFrom: string;
   validTo: string;
-  days: number;
+  creditedDate: string;
   leaveBalance: LeaveBalance;
   leaveType: LeaveType;
 }
@@ -76,6 +79,35 @@ export interface LeaveBalance {
   balance: number;
 }
 
+export interface LeaveRequest {
+  id: string;
+  fromDate: string;
+  toDate: string;
+  appliedDate: string;
+  leaveType: string;
+  numberOfDays: string;
+  comments: LeaveComment[];
+  days: Leave[];
+}
+
+export interface Leave {
+  date: string;
+  status: LeaveStatus;
+  duration: string;
+  durationString: string;
+  comments: LeaveComment[];
+}
+
+export interface LeaveComment {
+  user: string;
+  date: string;
+  time: string;
+  comment: string;
+}
+
+export type LeaveStatus = MutableKeys<typeof LEAVE_STATUS_MAP>;
+
 export interface MyLeave {
   entitlement: Entitlement[];
+  leaveRequest: LeaveRequest[];
 }

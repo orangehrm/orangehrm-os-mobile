@@ -23,6 +23,7 @@ import {ReactNode} from 'react';
 export interface GlobalsState {
   snackMessage: SnackMessage;
   loader: Loader;
+  initialRoute: string;
 }
 
 export type SnackTypes = 'success' | 'error' | 'info' | 'warning';

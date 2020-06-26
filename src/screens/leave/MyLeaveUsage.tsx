@@ -26,6 +26,7 @@ import {connect, ConnectedProps} from 'react-redux';
 import {fetchMyLeave} from 'store/leave/leave-usage/actions';
 import LeaveBalanceRow from 'screens/leave/components/LeaveBalanceRow';
 import LeaveUsageCard from 'screens/leave/components/LeaveUsageCard';
+import LeaveUsageActions from 'screens/leave/components/LeaveUsageActions';
 
 class MyLeaveUsage extends React.Component<MyLeaveUsageProps> {
   constructor(props: MyLeaveUsageProps) {
@@ -33,11 +34,16 @@ class MyLeaveUsage extends React.Component<MyLeaveUsageProps> {
     this.props.fetchMyLeave();
   }
 
+  onRefresh = () => {
+    this.props.fetchMyLeave();
+  };
+
   render() {
     return (
-      <MainLayout>
+      <MainLayout onRefresh={this.onRefresh}>
         <LeaveBalanceRow />
         <LeaveUsageCard />
+        <LeaveUsageActions />
       </MainLayout>
     );
   }
@@ -57,4 +63,6 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-export default withTheme<MyLeaveUsageProps>()(connector(MyLeaveUsage));
+const MyLeaveUsageWithTheme = withTheme<MyLeaveUsageProps>()(MyLeaveUsage);
+
+export default connector(MyLeaveUsageWithTheme);

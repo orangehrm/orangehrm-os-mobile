@@ -18,22 +18,11 @@
  *
  */
 
-import {RootState} from 'store';
-import {createSelector} from 'reselect';
+import React from 'react';
+import {NavigationContainerRef} from '@react-navigation/native';
 
-export const selectGlobals = (state: RootState) => state.globals;
+export const navigationRef = React.createRef<NavigationContainerRef>();
 
-export const selectSnackMessage = createSelector(
-  selectGlobals,
-  (globals) => globals.snackMessage,
-);
-
-export const selectLoader = createSelector(
-  selectGlobals,
-  (globals) => globals.loader,
-);
-
-export const selectInitialRoute = createSelector(
-  selectGlobals,
-  (globals) => globals.initialRoute,
-);
+export const navigate = (name: string, params: any = {}) => {
+  navigationRef.current?.navigate(name, params);
+};

@@ -19,16 +19,19 @@
  */
 
 import React from 'react';
+import {Platform} from 'react-native';
 import {
   NavigationProp,
   ParamListBase,
   DrawerActions,
+  StackActions,
 } from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import MyLeaveEntitilementsAndUsage from 'screens/leave/MyLeaveUsage';
-import {MY_LEAVE_ENTITLEMENT_AND_USAGE} from 'screens';
+import MyLeave from 'screens/leave/MyLeave';
+import {MY_LEAVE_ENTITLEMENT_AND_USAGE, MY_LEAVE} from 'screens';
 import IconButton from 'components/DefaultIconButton';
 
 const Stack = createStackNavigator();
@@ -47,6 +50,8 @@ class MyLeaveUsageNavigator extends React.Component<
         color: theme.typography.secondaryColor,
         marginLeft: -theme.spacing * 2,
       },
+    };
+    const headerMenuIcon = {
       headerLeft: () => (
         <IconButton
           buttonProps={{
@@ -64,6 +69,25 @@ class MyLeaveUsageNavigator extends React.Component<
         />
       ),
     };
+    const headerBackIcon = {
+      headerLeft: () => (
+        <IconButton
+          buttonProps={{
+            onPress: () => {
+              navigation.dispatch(StackActions.pop());
+            },
+          }}
+          iconProps={{
+            name: Platform.OS === 'ios' ? 'ios-arrow-back' : 'arrow-back',
+            type: Platform.OS === 'ios' ? 'Ionicons' : 'MaterialIcons',
+            style: {
+              fontSize: theme.typography.headerIconSize,
+              color: theme.typography.secondaryColor,
+            },
+          }}
+        />
+      ),
+    };
 
     return (
       <Stack.Navigator initialRouteName={MY_LEAVE_ENTITLEMENT_AND_USAGE}>
@@ -73,6 +97,16 @@ class MyLeaveUsageNavigator extends React.Component<
           options={{
             title: 'My Leave Usage',
             ...header,
+            ...headerMenuIcon,
+          }}
+        />
+        <Stack.Screen
+          name={MY_LEAVE}
+          component={MyLeave}
+          options={{
+            title: 'My Leave',
+            ...header,
+            ...headerBackIcon,
           }}
         />
       </Stack.Navigator>

@@ -36,7 +36,8 @@ const leaveUsageReducer = (
     case FETCH_MY_LEAVE_FINISHED:
       return {
         ...state,
-        entitlement: action.payload?.entitlement,
+        entitlement: action.payload?.entitlement.slice(),
+        leaveRequest: action.payload?.leaveRequest.slice(),
       };
     case SELECT_LEAVE_TYPE:
       return {
