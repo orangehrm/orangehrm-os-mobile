@@ -26,7 +26,11 @@ import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import {selectLeaveRequests} from 'store/leave/leave-usage/selectors';
-import {fetchMyLeaveRequests} from 'store/leave/leave-usage/actions';
+import {selectEntitlement} from 'store/leave/leave-usage/selectors';
+import {
+  fetchMyLeaveRequests,
+  fetchMyLeaveEntitlements,
+} from 'store/leave/leave-usage/actions';
 import Divider from 'components/DefaultDivider';
 import MyLeaveListItem from 'screens/leave/components/MyLeaveListItem';
 
@@ -36,10 +40,18 @@ class MyLeave extends React.Component<MyLeaveProps> {
     if (this.props.leaveRequests === undefined) {
       this.props.fetchMyLeaveRequests();
     }
+    this.updateEntitlements();
   }
 
   onRefresh = () => {
     this.props.fetchMyLeaveRequests();
+    this.updateEntitlements();
+  };
+
+  updateEntitlements = () => {
+    if (this.props.entitlements === undefined) {
+      this.props.fetchMyLeaveEntitlements();
+    }
   };
 
   render() {
@@ -82,10 +94,12 @@ interface MyLeaveProps extends WithTheme, ConnectedProps<typeof connector> {
 
 const mapStateToProps = (state: RootState) => ({
   leaveRequests: selectLeaveRequests(state),
+  entitlements: selectEntitlement(state),
 });
 
 const mapDispatchToProps = {
   fetchMyLeaveRequests: fetchMyLeaveRequests,
+  fetchMyLeaveEntitlements: fetchMyLeaveEntitlements,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

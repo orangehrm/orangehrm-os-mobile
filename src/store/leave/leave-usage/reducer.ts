@@ -35,11 +35,17 @@ const leaveUsageReducer = (
 ): LeaveUsageState => {
   switch (action.type) {
     case FETCH_MY_LEAVE_ENTITLEMENT_FINISHED:
+      if (action.error) {
+        return state;
+      }
       return {
         ...state,
         entitlement: action.payload?.slice(),
       };
     case FETCH_MY_LEAVE_REQUEST_FINISHED:
+      if (action.error) {
+        return state;
+      }
       return {
         ...state,
         leaveRequest: action.payload?.slice(),
