@@ -19,24 +19,29 @@
  */
 
 import {
-  FETCH_MY_LEAVE,
-  FETCH_MY_LEAVE_FINISHED,
+  FETCH_MY_LEAVE_ENTITLEMENT,
+  FETCH_MY_LEAVE_ENTITLEMENT_FINISHED,
   SELECT_LEAVE_TYPE,
-  FetchMyLeaveAction,
-  FetchMyLeaveFinishedAction,
+  FETCH_MY_LEAVE_REQUEST,
+  FETCH_MY_LEAVE_REQUEST_FINISHED,
+  FetchMyLeaveEntitlementAction,
+  FetchMyLeaveEntitlementFinishedAction,
   SelectLeaveTypeAction,
-  MyLeave,
+  FetchMyLeaveRequestAction,
+  FetchMyLeaveRequestFinishedAction,
+  Entitlement,
+  LeaveRequest,
 } from 'store/leave/leave-usage/types';
 
-export const fetchMyLeave = (): FetchMyLeaveAction => ({
-  type: FETCH_MY_LEAVE,
+export const fetchMyLeaveEntitlements = (): FetchMyLeaveEntitlementAction => ({
+  type: FETCH_MY_LEAVE_ENTITLEMENT,
 });
 
-export const fetchMyLeaveFinished = (
-  payload?: MyLeave,
+export const fetchMyLeaveEntitlementsFinished = (
+  payload?: Entitlement[],
   error: boolean = false,
-): FetchMyLeaveFinishedAction => ({
-  type: FETCH_MY_LEAVE_FINISHED,
+): FetchMyLeaveEntitlementFinishedAction => ({
+  type: FETCH_MY_LEAVE_ENTITLEMENT_FINISHED,
   payload,
   error,
 });
@@ -44,4 +49,17 @@ export const fetchMyLeaveFinished = (
 export const selectLeaveType = (id: string): SelectLeaveTypeAction => ({
   type: SELECT_LEAVE_TYPE,
   id,
+});
+
+export const fetchMyLeaveRequests = (): FetchMyLeaveRequestAction => ({
+  type: FETCH_MY_LEAVE_REQUEST,
+});
+
+export const fetchMyLeaveRequestsFinished = (
+  payload?: LeaveRequest[],
+  error: boolean = false,
+): FetchMyLeaveRequestFinishedAction => ({
+  type: FETCH_MY_LEAVE_REQUEST_FINISHED,
+  payload,
+  error,
 });

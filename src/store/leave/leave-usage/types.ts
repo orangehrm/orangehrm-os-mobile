@@ -29,17 +29,32 @@ export interface LeaveUsageState {
 
 export type NullableString = string | null;
 
-export const FETCH_MY_LEAVE = 'LEAVE_USAGE_FETCH_MY_LEAVE';
-export const FETCH_MY_LEAVE_FINISHED = 'LEAVE_USAGE_FETCH_MY_LEAVE_FINISHED';
+export const FETCH_MY_LEAVE_ENTITLEMENT =
+  'LEAVE_USAGE_FETCH_MY_LEAVE_ENTITLEMENT';
+export const FETCH_MY_LEAVE_ENTITLEMENT_FINISHED =
+  'LEAVE_USAGE_FETCH_MY_LEAVE_ENTITLEMENT_FINISHED';
 export const SELECT_LEAVE_TYPE = 'LEAVE_USAGE_SELECT_LEAVE_TYPE';
+export const FETCH_MY_LEAVE_REQUEST = 'LEAVE_USAGE_FETCH_MY_LEAVE_REQUEST';
+export const FETCH_MY_LEAVE_REQUEST_FINISHED =
+  'LEAVE_USAGE_FETCH_MY_LEAVE_REQUEST_FINISHED';
 
-export interface FetchMyLeaveAction {
-  type: typeof FETCH_MY_LEAVE;
+export interface FetchMyLeaveEntitlementAction {
+  type: typeof FETCH_MY_LEAVE_ENTITLEMENT;
 }
 
-export interface FetchMyLeaveFinishedAction {
-  type: typeof FETCH_MY_LEAVE_FINISHED;
-  payload?: MyLeave;
+export interface FetchMyLeaveEntitlementFinishedAction {
+  type: typeof FETCH_MY_LEAVE_ENTITLEMENT_FINISHED;
+  payload?: Entitlement[];
+  error: boolean;
+}
+
+export interface FetchMyLeaveRequestAction {
+  type: typeof FETCH_MY_LEAVE_REQUEST;
+}
+
+export interface FetchMyLeaveRequestFinishedAction {
+  type: typeof FETCH_MY_LEAVE_REQUEST_FINISHED;
+  payload?: LeaveRequest[];
   error: boolean;
 }
 
@@ -49,9 +64,11 @@ export interface SelectLeaveTypeAction {
 }
 
 export type LeaveUsageActionTypes =
-  | FetchMyLeaveAction
-  | FetchMyLeaveFinishedAction
-  | SelectLeaveTypeAction;
+  | FetchMyLeaveEntitlementAction
+  | FetchMyLeaveEntitlementFinishedAction
+  | SelectLeaveTypeAction
+  | FetchMyLeaveRequestAction
+  | FetchMyLeaveRequestFinishedAction;
 
 export interface Entitlement {
   id: string;
@@ -106,8 +123,3 @@ export interface LeaveComment {
 }
 
 export type LeaveStatus = MutableKeys<typeof LEAVE_STATUS_MAP>;
-
-export interface MyLeave {
-  entitlement: Entitlement[];
-  leaveRequest: LeaveRequest[];
-}

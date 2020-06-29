@@ -37,6 +37,9 @@ import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
 
 class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
+  /**
+   * Calculate complete ratio for progress circle
+   */
   calculateProgress = (total?: number, used?: number) => {
     if (total === undefined || used === undefined) {
       return 0;

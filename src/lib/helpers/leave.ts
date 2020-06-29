@@ -18,7 +18,7 @@
  *
  */
 
-import {MyLeave, Leave, LeaveStatus} from 'store/leave/leave-usage/types';
+import {Entitlement, Leave, LeaveStatus} from 'store/leave/leave-usage/types';
 
 const LEAVE_TYPE_COLORS = [
   '#445abf',
@@ -43,9 +43,8 @@ const LEAVE_STATUS_MAP = {
   HOLIDAY: 'Holiday',
 };
 
-const assignColorsToLeaveTypes = (data: MyLeave) => {
-  const {entitlement} = data;
-  const newEntitlementArray = entitlement.map((item, index) => {
+const assignColorsToLeaveTypes = (data: Entitlement[]) => {
+  const newEntitlementArray = data.map((item, index) => {
     return {
       ...item,
       leaveType: {
@@ -54,10 +53,7 @@ const assignColorsToLeaveTypes = (data: MyLeave) => {
       },
     };
   });
-  return {
-    ...data,
-    entitlement: newEntitlementArray,
-  };
+  return newEntitlementArray;
 };
 
 const sortLeaveArrayByDate = (days: Leave[]) => {

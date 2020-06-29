@@ -28,17 +28,6 @@ import {MY_LEAVE} from 'screens';
 import {navigate} from 'lib/helpers/navigation';
 
 class LeaveUsageActions extends React.Component<LeaveUsageActionsProps> {
-  calculateProgress = (total?: number, used?: number) => {
-    if (total === undefined || used === undefined) {
-      return 0;
-    }
-    if (used > total) {
-      return 1;
-    } else {
-      return Math.round((used / total) * 10) / 10;
-    }
-  };
-
   onPressMyLeave = () => {
     navigate(MY_LEAVE);
   };

@@ -26,7 +26,7 @@ import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import {selectLeaveRequests} from 'store/leave/leave-usage/selectors';
-import {fetchMyLeave} from 'store/leave/leave-usage/actions';
+import {fetchMyLeaveRequests} from 'store/leave/leave-usage/actions';
 import Divider from 'components/DefaultDivider';
 import MyLeaveListItem from 'screens/leave/components/MyLeaveListItem';
 
@@ -34,12 +34,12 @@ class MyLeave extends React.Component<MyLeaveProps> {
   constructor(props: MyLeaveProps) {
     super(props);
     if (this.props.leaveRequests === undefined) {
-      this.props.fetchMyLeave();
+      this.props.fetchMyLeaveRequests();
     }
   }
 
   onRefresh = () => {
-    this.props.fetchMyLeave();
+    this.props.fetchMyLeaveRequests();
   };
 
   render() {
@@ -85,7 +85,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = {
-  fetchMyLeave: fetchMyLeave,
+  fetchMyLeaveRequests: fetchMyLeaveRequests,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

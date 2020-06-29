@@ -21,7 +21,8 @@
 import {
   LeaveUsageState,
   LeaveUsageActionTypes,
-  FETCH_MY_LEAVE_FINISHED,
+  FETCH_MY_LEAVE_ENTITLEMENT_FINISHED,
+  FETCH_MY_LEAVE_REQUEST_FINISHED,
   SELECT_LEAVE_TYPE,
 } from 'store/leave/leave-usage/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
@@ -33,11 +34,15 @@ const leaveUsageReducer = (
   action: WithLogoutAction<LeaveUsageActionTypes>,
 ): LeaveUsageState => {
   switch (action.type) {
-    case FETCH_MY_LEAVE_FINISHED:
+    case FETCH_MY_LEAVE_ENTITLEMENT_FINISHED:
       return {
         ...state,
-        entitlement: action.payload?.entitlement.slice(),
-        leaveRequest: action.payload?.leaveRequest.slice(),
+        entitlement: action.payload?.slice(),
+      };
+    case FETCH_MY_LEAVE_REQUEST_FINISHED:
+      return {
+        ...state,
+        leaveRequest: action.payload?.slice(),
       };
     case SELECT_LEAVE_TYPE:
       return {
