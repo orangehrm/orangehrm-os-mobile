@@ -49,7 +49,7 @@ class LeaveUsageActions extends React.Component<LeaveUsageActionsProps> {
                 {'My Leave Usage'}
               </Text>
             </View>
-            <Icon name={'navigate-next'} type={'MaterialIcons'} />
+            <Icon name={'chevron-right'} />
           </CardButton>
         </View>
       </>

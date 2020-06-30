@@ -31,7 +31,8 @@ import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import MyLeaveEntitilementsAndUsage from 'screens/leave/MyLeaveUsage';
 import MyLeave from 'screens/leave/MyLeave';
-import {MY_LEAVE_ENTITLEMENT_AND_USAGE, MY_LEAVE} from 'screens';
+import ApplyLeave from 'screens/leave/ApplyLeave';
+import {MY_LEAVE_ENTITLEMENT_AND_USAGE, MY_LEAVE, APPLY_LEAVE} from 'screens';
 import IconButton from 'components/DefaultIconButton';
 
 const Stack = createStackNavigator();
@@ -105,6 +106,15 @@ class MyLeaveUsageNavigator extends React.Component<
           component={MyLeave}
           options={{
             title: 'My Leave',
+            ...header,
+            ...headerBackIcon,
+          }}
+        />
+        <Stack.Screen
+          name={APPLY_LEAVE}
+          component={ApplyLeave}
+          options={{
+            title: 'Apply Leave',
             ...header,
             ...headerBackIcon,
           }}

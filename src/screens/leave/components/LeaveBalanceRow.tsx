@@ -21,14 +21,9 @@
 import React from 'react';
 import {FlatList, View, StyleSheet, ViewProps} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {connect, ConnectedProps} from 'react-redux';
 import LeaveBalanceCard from 'screens/leave/components/LeaveBalanceCard';
-import {RootState} from 'store';
 import {selectLeaveType} from 'store/leave/leave-usage/actions';
-import {
-  selectEntitlement,
-  selectSelectedLeaveTypeId,
-} from 'store/leave/leave-usage/selectors';
+import {Entitlement} from 'store/leave/leave-usage/types';
 
 class LeaveBalanceRow extends React.Component<LeaveBalanceRowProps> {
   render() {
@@ -38,11 +33,12 @@ class LeaveBalanceRow extends React.Component<LeaveBalanceRowProps> {
       style,
       marginHorizontal,
       selectedLeaveTypeId,
+      selectLeaveTypeAction,
     } = this.props;
 
     if (selectedLeaveTypeId === undefined) {
       if (entitlement !== undefined && entitlement.length !== 0) {
-        this.props.selectLeaveType(entitlement[0].id);
+        selectLeaveTypeAction(entitlement[0].id);
       }
     }
 
@@ -68,7 +64,7 @@ class LeaveBalanceRow extends React.Component<LeaveBalanceRowProps> {
                   selectedColor={item.leaveType.color}
                   selected={selectedLeaveTypeId === item.id}
                   onPress={() => {
-                    this.props.selectLeaveType(item.id);
+                    selectLeaveTypeAction(item.id);
                   }}
                 />
               </>
@@ -102,11 +98,11 @@ class LeaveBalanceRow extends React.Component<LeaveBalanceRowProps> {
   }
 }
 
-interface LeaveBalanceRowProps
-  extends WithTheme,
-    ConnectedProps<typeof connector>,
-    Pick<ViewProps, 'style'> {
+interface LeaveBalanceRowProps extends WithTheme, Pick<ViewProps, 'style'> {
   marginHorizontal?: number;
+  entitlement?: Entitlement[];
+  selectedLeaveTypeId?: string;
+  selectLeaveTypeAction: typeof selectLeaveType;
 }
 
 const styles = StyleSheet.create({
@@ -115,19 +111,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state: RootState) => ({
-  entitlement: selectEntitlement(state),
-  selectedLeaveTypeId: selectSelectedLeaveTypeId(state),
-});
-
-const mapDispatchToProps = {
-  selectLeaveType: selectLeaveType,
-};
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-const LeaveBalanceRowWithTheme = withTheme<LeaveBalanceRowProps>()(
-  LeaveBalanceRow,
-);
-
-export default connector(LeaveBalanceRowWithTheme);
+export default withTheme<LeaveBalanceRowProps>()(LeaveBalanceRow);

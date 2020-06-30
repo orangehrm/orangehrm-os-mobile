@@ -19,14 +19,27 @@
  */
 
 import React from 'react';
-import {NavigationProp, ParamListBase} from '@react-navigation/native';
+import {View} from 'react-native';
+import {
+  NavigationProp,
+  ParamListBase,
+  StackActions,
+} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {fetchMyLeaveEntitlements} from 'store/leave/leave-usage/actions';
+import {selectLeaveType} from 'store/leave/leave-usage/actions';
+import {
+  selectEntitlement,
+  selectSelectedLeaveTypeId,
+} from 'store/leave/leave-usage/selectors';
+import {RootState} from 'store';
 import LeaveBalanceRow from 'screens/leave/components/LeaveBalanceRow';
 import LeaveUsageCard from 'screens/leave/components/LeaveUsageCard';
 import LeaveUsageActions from 'screens/leave/components/LeaveUsageActions';
+import Fab, {FabSpace} from 'components/DefaultFab';
+import {APPLY_LEAVE} from 'screens';
 
 class MyLeaveUsage extends React.Component<MyLeaveUsageProps> {
   constructor(props: MyLeaveUsageProps) {
@@ -38,13 +51,37 @@ class MyLeaveUsage extends React.Component<MyLeaveUsageProps> {
     this.props.fetchMyLeaveEntitlements();
   };
 
+  onPressApplyLeave = () => {
+    this.props.navigation.dispatch(StackActions.push(APPLY_LEAVE));
+  };
+
   render() {
+    const {
+      theme,
+      entitlements,
+      selectedLeaveTypeId,
+      selectLeaveTypeAction,
+    } = this.props;
     return (
-      <MainLayout onRefresh={this.onRefresh}>
-        <LeaveBalanceRow />
-        <LeaveUsageCard />
-        <LeaveUsageActions />
-      </MainLayout>
+      <>
+        <MainLayout onRefresh={this.onRefresh}>
+          <View
+            style={{
+              backgroundColor: theme.palette.backgroundSecondary,
+              marginBottom: theme.spacing * 2,
+            }}>
+            <LeaveBalanceRow
+              entitlement={entitlements}
+              selectedLeaveTypeId={selectedLeaveTypeId}
+              selectLeaveTypeAction={selectLeaveTypeAction}
+            />
+          </View>
+          <LeaveUsageCard />
+          <LeaveUsageActions />
+          <FabSpace />
+        </MainLayout>
+        <Fab iconName={'plus'} primary onPress={this.onPressApplyLeave} />
+      </>
     );
   }
 }
@@ -55,10 +92,14 @@ interface MyLeaveUsageProps
   navigation: NavigationProp<ParamListBase>;
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state: RootState) => ({
+  entitlements: selectEntitlement(state),
+  selectedLeaveTypeId: selectSelectedLeaveTypeId(state),
+});
 
 const mapDispatchToProps = {
   fetchMyLeaveEntitlements: fetchMyLeaveEntitlements,
+  selectLeaveTypeAction: selectLeaveType,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

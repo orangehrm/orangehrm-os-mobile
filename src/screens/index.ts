@@ -22,6 +22,7 @@ const SELECT_INSTANCE = 'SelectInstance';
 const LOGIN = 'Login';
 const MY_LEAVE_ENTITLEMENT_AND_USAGE = 'MyLeaveEntitilementsAndUsage';
 const MY_LEAVE = 'MyLeave';
+const APPLY_LEAVE = 'ApplyLeave';
 const LEAVE_LIST = 'LeaveList';
 
 const SUBHEADER_LEAVE = 'Leave';
@@ -31,6 +32,7 @@ export {
   LOGIN,
   MY_LEAVE_ENTITLEMENT_AND_USAGE,
   MY_LEAVE,
+  APPLY_LEAVE,
   LEAVE_LIST,
   SUBHEADER_LEAVE,
 };
