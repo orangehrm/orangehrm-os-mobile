@@ -19,8 +19,18 @@
  */
 
 import {call, takeEvery, put} from 'redux-saga/effects';
-import {FETCH_TOKEN, LOGOUT, FETCH_MY_INFO, FetchTokenAction} from './types';
-import {authenticate} from 'services/authentication';
+import {
+  FETCH_TOKEN,
+  LOGOUT,
+  FETCH_MY_INFO,
+  CHECK_INSTANCE,
+  FetchTokenAction,
+  CheckInstanceAction,
+} from './types';
+import {
+  authenticate,
+  checkInstance as checkInstanceRequest,
+} from 'services/authentication';
 import {
   USERNAME,
   ACCESS_TOKEN,
@@ -35,10 +45,41 @@ import {
   showSnackMessage,
 } from 'store/saga-effects/globals';
 import {apiCall, apiGetCall} from 'store/saga-effects/api';
-import {storageSetMulti, selectAuthParams} from 'store/saga-effects/storage';
-import {fetchMyInfoFinished} from 'store/auth/actions';
+import {
+  storageSetMulti,
+  selectAuthParams,
+  selectInstanceUrl,
+} from 'store/saga-effects/storage';
+import {fetchMyInfoFinished, checkInstanceFinished} from 'store/auth/actions';
 import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams} from 'store/storage/types';
+
+function* checkInstance(_action: CheckInstanceAction) {
+  try {
+    yield openLoader();
+    const instanceUrl: string = yield selectInstanceUrl();
+    const response = yield call(checkInstanceRequest, instanceUrl);
+    const data = yield call([response, response.json]);
+
+    // TODO: Replace check success response from new endpoint instead error result from `issueToken`
+    if (data.error === 'invalid_request') {
+      yield put(checkInstanceFinished());
+    } else {
+      yield put(checkInstanceFinished(true));
+    }
+  } catch (error) {
+    yield put(checkInstanceFinished(true));
+    if (error.message === 'Network request failed') {
+      yield showSnackMessage(
+        'Connection Error! Operation Couldn’t Be Completed.',
+      );
+    } else {
+      yield showSnackMessage('Could Not Be Reached.');
+    }
+  } finally {
+    yield closeLoader();
+  }
+}
 
 function* fetchAuthToken(action: FetchTokenAction) {
   try {
@@ -121,4 +162,5 @@ export function* watchAuthActions() {
   yield takeEvery(FETCH_TOKEN, fetchAuthToken);
   yield takeEvery(LOGOUT, logout);
   yield takeEvery(FETCH_MY_INFO, fetchMyInfo);
+  yield takeEvery(CHECK_INSTANCE, checkInstance);
 }

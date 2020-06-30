@@ -34,7 +34,7 @@ import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import {selectInstanceUrl} from 'store/storage/selectors';
-import {fetchAuthToken} from 'store/auth/actions';
+import {fetchAuthToken, checkInstanceFinished} from 'store/auth/actions';
 import {SELECT_INSTANCE} from 'screens';
 
 class Login extends React.Component<LoginProps, LoginState> {
@@ -43,26 +43,51 @@ class Login extends React.Component<LoginProps, LoginState> {
     this.state = {
       username: '',
       password: '',
+      usernameError: '',
+      passwordError: '',
     };
   }
 
   handleLoginOnClick = () => {
-    this.props.fetchAuthToken(this.state.username, this.state.password);
+    if (this.state.username === '' || this.state.password === '') {
+      this.setUsernameError(this.state.username);
+      this.setPasswordError(this.state.password);
+    } else {
+      this.props.fetchAuthToken(this.state.username, this.state.password);
+    }
   };
 
   handleSelectInstanceOnClick = () => {
-    const {navigation} = this.props;
+    const {navigation, resetInstanceCheckState} = this.props;
+    resetInstanceCheckState(true);
     navigation.dispatch(StackActions.replace(SELECT_INSTANCE));
   };
 
   handleOnChange = (field: string) => (text: string) => {
     this.setState({[field]: text} as Pick<LoginState, any>);
+    if (field === 'username') {
+      this.setUsernameError(text);
+    } else if (field === 'password') {
+      this.setPasswordError(text);
+    }
+  };
+
+  setUsernameError = (username: string) => {
+    this.setState({
+      usernameError: username === '' ? 'Username cannot be empty' : '',
+    });
+  };
+
+  setPasswordError = (password: string) => {
+    this.setState({
+      passwordError: password === '' ? 'Password cannot be empty' : '',
+    });
   };
 
   render() {
     const {theme} = this.props;
     let {instanceUrl} = this.props;
-    const {username, password} = this.state;
+    const {username, password, usernameError, passwordError} = this.state;
 
     if (instanceUrl === null || instanceUrl === '') {
       instanceUrl = 'Enter your OrangeHRM URL';
@@ -78,6 +103,8 @@ class Login extends React.Component<LoginProps, LoginState> {
               style={{marginBottom: theme.spacing * 4}}
               value={username}
               onChangeText={this.handleOnChange('username')}
+              helperText={usernameError === '' ? undefined : usernameError}
+              itemProps={{error: usernameError === '' ? false : true}}
             />
             <TextField
               label={'Password'}
@@ -85,6 +112,8 @@ class Login extends React.Component<LoginProps, LoginState> {
               secureTextEntry
               value={password}
               onChangeText={this.handleOnChange('password')}
+              helperText={passwordError === '' ? undefined : passwordError}
+              itemProps={{error: passwordError === '' ? false : true}}
             />
           </>
         }
@@ -128,6 +157,8 @@ interface LoginProps
 interface LoginState {
   username: string;
   password: string;
+  usernameError: string;
+  passwordError: string;
 }
 
 const styles = StyleSheet.create({
@@ -142,6 +173,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = {
   fetchAuthToken: fetchAuthToken,
+  resetInstanceCheckState: checkInstanceFinished,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

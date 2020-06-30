@@ -22,6 +22,8 @@ import {
   AuthState,
   FETCH_MY_INFO,
   FETCH_MY_INFO_FINISHED,
+  CHECK_INSTANCE,
+  CHECK_INSTANCE_FINISHED,
   AuthActionTypes,
 } from 'store/auth/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
@@ -29,6 +31,8 @@ import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 const initialState: AuthState = {
   myInfoSuccess: false,
   isCalledMyInfo: false,
+  checkingInstance: false,
+  instanceExists: false,
 };
 
 const authReducer = (
@@ -47,6 +51,18 @@ const authReducer = (
         ...state,
         myInfoSuccess: false,
         isCalledMyInfo: true,
+      };
+    case CHECK_INSTANCE:
+      return {
+        ...state,
+        checkingInstance: true,
+        instanceExists: false,
+      };
+    case CHECK_INSTANCE_FINISHED:
+      return {
+        ...state,
+        checkingInstance: false,
+        instanceExists: !action.error,
       };
     case LOGOUT:
       return {
