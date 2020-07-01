@@ -18,23 +18,26 @@
  *
  */
 
-import {combineReducers} from 'redux';
-import authReducer from './auth/reducer';
-import themeReducer from './theme/reducer';
-import storageReducer from './storage/reducer';
-import globalsReducer from './globals/reducer';
-import leaveUsageReducer from './leave/leave-usage/reducer';
-import applyLeaveReducer from './leave/apply-leave/reducer';
+import {RootState} from 'store';
+import {createSelector} from 'reselect';
+import {ApplyLeaveState} from 'store/leave/apply-leave/types';
 
-const rootReducer = combineReducers({
-  auth: authReducer,
-  theme: themeReducer,
-  storage: storageReducer,
-  globals: globalsReducer,
-  leaveUsage: leaveUsageReducer,
-  applyLeave: applyLeaveReducer,
-});
+export const selectApplyLeave = (state: RootState) => state.applyLeave;
 
-export default rootReducer;
+export const selectFromDate = createSelector<
+  RootState,
+  ApplyLeaveState,
+  string | undefined
+>([selectApplyLeave], (applyLeave) => applyLeave.fromDate);
 
-export type RootState = ReturnType<typeof rootReducer>;
+export const selectToDate = createSelector<
+  RootState,
+  ApplyLeaveState,
+  string | undefined
+>([selectApplyLeave], (applyLeave) => applyLeave.toDate);
+
+export const selectPickedLeaveDates = createSelector<
+  RootState,
+  ApplyLeaveState,
+  boolean
+>([selectApplyLeave], (applyLeave) => applyLeave.pickedLeaveDates);

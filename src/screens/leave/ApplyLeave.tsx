@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {View} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -30,7 +30,10 @@ import {
   selectSelectedLeaveTypeId,
 } from 'store/leave/leave-usage/selectors';
 import {selectLeaveType} from 'store/leave/leave-usage/actions';
-import LeaveBalanceRow from 'screens/leave/components/LeaveBalanceRow';
+import Button from 'components/DefaultButton';
+import PickLeaveRequestType from 'screens/leave/components/PickLeaveRequestType';
+import PickLeaveRequestDays from 'screens/leave/components/PickLeaveRequestDays';
+import {APPLY_LEAVE} from 'screens';
 
 class ApplyLeave extends React.Component<ApplyLeaveProps> {
   render() {
@@ -41,13 +44,31 @@ class ApplyLeave extends React.Component<ApplyLeaveProps> {
       selectLeaveTypeAction,
     } = this.props;
     return (
-      <MainLayout>
-        <View style={{backgroundColor: theme.palette.backgroundSecondary}}>
-          <LeaveBalanceRow
+      <MainLayout
+        footer={
+          <View
+            style={{
+              paddingHorizontal: theme.spacing * 12,
+              paddingVertical: theme.spacing * 2,
+              backgroundColor: theme.palette.background,
+            }}>
+            <Button title={'Apply'} primary fullWidth />
+          </View>
+        }>
+        <View
+          style={[
+            styles.mainView,
+            {
+              backgroundColor: theme.palette.backgroundSecondary,
+              paddingBottom: theme.spacing * 4,
+            },
+          ]}>
+          <PickLeaveRequestType
             entitlement={entitlements}
             selectedLeaveTypeId={selectedLeaveTypeId}
             selectLeaveTypeAction={selectLeaveTypeAction}
           />
+          <PickLeaveRequestDays currentRoute={APPLY_LEAVE} />
         </View>
       </MainLayout>
     );
@@ -57,6 +78,12 @@ class ApplyLeave extends React.Component<ApplyLeaveProps> {
 interface ApplyLeaveProps extends WithTheme, ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
 }
+
+const styles = StyleSheet.create({
+  mainView: {
+    flex: 1,
+  },
+});
 
 const mapStateToProps = (state: RootState) => ({
   entitlements: selectEntitlement(state),

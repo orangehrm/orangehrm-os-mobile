@@ -19,6 +19,7 @@
  */
 
 import React from 'react';
+import {StyleSheet} from 'react-native';
 import {Button, Text, NativeBase} from 'native-base';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
@@ -31,6 +32,7 @@ function DefaultButton(props: DefaultButtonProps) {
     theme,
     style,
     textProps,
+    fullWidth,
     ...restProps
   } = props;
   let color: string | undefined = theme.palette.default;
@@ -55,7 +57,11 @@ function DefaultButton(props: DefaultButtonProps) {
       {...restProps}>
       <Text
         {...textProps}
-        style={[{color: theme.typography.secondaryColor}, textProps?.style]}>
+        style={[
+          {color: theme.typography.secondaryColor},
+          textProps?.style,
+          fullWidth ? styles.fullWidth : undefined,
+        ]}>
         {title}
       </Text>
     </Button>
@@ -68,6 +74,14 @@ interface DefaultButtonProps extends NativeBase.Button, WithTheme {
   secondary?: boolean;
   textProps?: NativeBase.Text;
   transparent?: boolean;
+  fullWidth?: boolean;
 }
+
+const styles = StyleSheet.create({
+  fullWidth: {
+    width: '100%',
+    textAlign: 'center',
+  },
+});
 
 export default withTheme<DefaultButtonProps>()(DefaultButton);

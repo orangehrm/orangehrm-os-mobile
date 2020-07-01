@@ -21,18 +21,16 @@
 import React from 'react';
 import {
   SafeAreaView,
-  ScrollView,
   StatusBar,
   KeyboardAvoidingView,
-  RefreshControl,
   StyleSheet,
-  RefreshControlProps,
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {Root} from 'native-base';
 
-const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
-  const {theme, children, refreshing, onRefresh, footer} = props;
+const SafeAreaLayout = (
+  props: React.PropsWithChildren<SafeAreaLayoutProps>,
+) => {
+  const {theme, children} = props;
 
   return (
     <>
@@ -42,47 +40,23 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
       />
       <SafeAreaView
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
-        <Root>
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            contentContainerStyle={styles.scrollView}
-            keyboardShouldPersistTaps="always"
-            refreshControl={
-              onRefresh === undefined ? undefined : (
-                <RefreshControl
-                  refreshing={refreshing === undefined ? false : refreshing}
-                  onRefresh={onRefresh}
-                />
-              )
-            }>
-            <KeyboardAvoidingView style={styles.root}>
-              {children}
-            </KeyboardAvoidingView>
-          </ScrollView>
-          {footer === undefined ? null : footer}
-        </Root>
+        <KeyboardAvoidingView style={styles.root}>
+          {children}
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </>
   );
 };
 
-interface MainLayoutProps
-  extends WithTheme,
-    Pick<RefreshControlProps, 'onRefresh'> {
-  refreshing?: boolean;
-  footer?: React.ReactNode;
-}
+interface SafeAreaLayoutProps extends WithTheme {}
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-  },
-  scrollView: {
-    flexGrow: 1,
   },
   root: {
     flex: 1,
   },
 });
 
-export default withTheme<MainLayoutProps>()(MainLayout);
+export default withTheme<SafeAreaLayoutProps>()(SafeAreaLayout);

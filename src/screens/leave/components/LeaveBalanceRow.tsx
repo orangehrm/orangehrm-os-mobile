@@ -98,7 +98,9 @@ class LeaveBalanceRow extends React.Component<LeaveBalanceRowProps> {
   }
 }
 
-interface LeaveBalanceRowProps extends WithTheme, Pick<ViewProps, 'style'> {
+export interface LeaveBalanceRowProps
+  extends WithTheme,
+    Pick<ViewProps, 'style'> {
   marginHorizontal?: number;
   entitlement?: Entitlement[];
   selectedLeaveTypeId?: string;

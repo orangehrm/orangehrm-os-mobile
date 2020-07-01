@@ -18,23 +18,33 @@
  *
  */
 
-import {combineReducers} from 'redux';
-import authReducer from './auth/reducer';
-import themeReducer from './theme/reducer';
-import storageReducer from './storage/reducer';
-import globalsReducer from './globals/reducer';
-import leaveUsageReducer from './leave/leave-usage/reducer';
-import applyLeaveReducer from './leave/apply-leave/reducer';
+/**
+ * Return array of dates for given period
+ * @param {Date} startDate
+ * @param {Date} endDate
+ * @returns {Date[]}
+ */
+const getDatesWithinPeriod = (startDate: Date, endDate: Date): Date[] => {
+  if (startDate > endDate) {
+    [startDate, endDate] = [endDate, startDate];
+  }
 
-const rootReducer = combineReducers({
-  auth: authReducer,
-  theme: themeReducer,
-  storage: storageReducer,
-  globals: globalsReducer,
-  leaveUsage: leaveUsageReducer,
-  applyLeave: applyLeaveReducer,
-});
+  const dates = [];
+  let currentDate = new Date(startDate);
+  while (currentDate <= endDate) {
+    dates.push(new Date(currentDate));
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+  return dates;
+};
 
-export default rootReducer;
+/**
+ * Return date in ISO-8601 format (YYYY-MM-DD)
+ * @param {Date} date
+ * @returns {string}
+ */
+const getDateString = (date: Date): string => {
+  return date.toISOString().substring(0, 10);
+};
 
-export type RootState = ReturnType<typeof rootReducer>;
+export {getDatesWithinPeriod, getDateString};

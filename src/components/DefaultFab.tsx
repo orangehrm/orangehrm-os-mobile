@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {SafeAreaView, View, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {Fab, NativeBase} from 'native-base';
 import Icon from 'components/DefaultIcon';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -34,15 +34,13 @@ const DefaultFab = (props: DefaultFabProps) => {
   }
 
   return (
-    <SafeAreaView>
-      <Fab
-        containerStyle={{bottom: theme.spacing * 4, right: theme.spacing * 5}}
-        style={[{backgroundColor: color}, style]}
-        position="bottomRight"
-        {...restProps}>
-        <Icon name={iconName} />
-      </Fab>
-    </SafeAreaView>
+    <Fab
+      containerStyle={{bottom: theme.spacing * 4, right: theme.spacing * 5}}
+      style={[{backgroundColor: color}, style]}
+      position="bottomRight"
+      {...restProps}>
+      <Icon name={iconName} />
+    </Fab>
   );
 };
 

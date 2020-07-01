@@ -19,7 +19,6 @@
  */
 
 import React from 'react';
-import {View} from 'react-native';
 import {
   NavigationProp,
   ParamListBase,
@@ -63,25 +62,24 @@ class MyLeaveUsage extends React.Component<MyLeaveUsageProps> {
       selectLeaveTypeAction,
     } = this.props;
     return (
-      <>
-        <MainLayout onRefresh={this.onRefresh}>
-          <View
-            style={{
-              backgroundColor: theme.palette.backgroundSecondary,
-              marginBottom: theme.spacing * 2,
-            }}>
-            <LeaveBalanceRow
-              entitlement={entitlements}
-              selectedLeaveTypeId={selectedLeaveTypeId}
-              selectLeaveTypeAction={selectLeaveTypeAction}
-            />
-          </View>
-          <LeaveUsageCard />
-          <LeaveUsageActions />
-          <FabSpace />
-        </MainLayout>
-        <Fab iconName={'plus'} primary onPress={this.onPressApplyLeave} />
-      </>
+      <MainLayout
+        onRefresh={this.onRefresh}
+        footer={
+          <Fab iconName={'plus'} primary onPress={this.onPressApplyLeave} />
+        }>
+        <LeaveBalanceRow
+          entitlement={entitlements}
+          selectedLeaveTypeId={selectedLeaveTypeId}
+          selectLeaveTypeAction={selectLeaveTypeAction}
+          style={{
+            backgroundColor: theme.palette.backgroundSecondary,
+            marginBottom: theme.spacing * 2,
+          }}
+        />
+        <LeaveUsageCard />
+        <LeaveUsageActions />
+        <FabSpace />
+      </MainLayout>
     );
   }
 }

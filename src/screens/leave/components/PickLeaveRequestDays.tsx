@@ -19,38 +19,35 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, ViewProps} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Text from 'components/DefaultText';
 import CardButton from 'screens/leave/components/CardButton';
 import Icon from 'components/DefaultIcon';
-import {MY_LEAVE} from 'screens';
+import {PICK_LEAVE_REQUEST_DAYS_CALENDAR} from 'screens';
 import {navigate} from 'lib/helpers/navigation';
 
-class LeaveUsageActions extends React.Component<LeaveUsageActionsProps> {
-  onPressMyLeave = () => {
-    navigate(MY_LEAVE);
+class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
+  onPressRequestDays = () => {
+    navigate(PICK_LEAVE_REQUEST_DAYS_CALENDAR, {
+      parent: this.props.currentRoute,
+    });
   };
 
   render() {
-    const {theme, style} = this.props;
+    const {theme} = this.props;
 
     return (
       <>
-        <View
-          style={[
-            {
-              paddingHorizontal: theme.spacing * 5,
-              paddingBottom: theme.spacing * 6,
-            },
-            style,
-          ]}>
-          <CardButton onPress={this.onPressMyLeave}>
-            <View style={styles.cardButtonContent}>
+        <View>
+          <CardButton
+            style={[styles.cardButton, {height: theme.spacing * 12}]}
+            onPress={this.onPressRequestDays}>
+            <View style={[styles.cardButtonContent]}>
               <View style={styles.buttonLeftView}>
-                <Icon name={'history'} />
+                <Icon name={'calendar'} />
                 <Text style={{paddingTop: theme.spacing * 0.5}}>
-                  {'My Leave Usage'}
+                  {'Request Day(s)'}
                 </Text>
               </View>
               <Icon name={'chevron-right'} />
@@ -62,7 +59,9 @@ class LeaveUsageActions extends React.Component<LeaveUsageActionsProps> {
   }
 }
 
-interface LeaveUsageActionsProps extends WithTheme, Pick<ViewProps, 'style'> {}
+interface PickLeaveRequestDaysProps extends WithTheme {
+  currentRoute: string;
+}
 
 const styles = StyleSheet.create({
   buttonLeftView: {
@@ -74,6 +73,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'stretch',
   },
+  cardButton: {
+    borderRadius: 0,
+  },
 });
 
-export default withTheme<LeaveUsageActionsProps>()(LeaveUsageActions);
+export default withTheme<PickLeaveRequestDaysProps>()(PickLeaveRequestDays);

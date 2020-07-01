@@ -28,14 +28,19 @@ import {
 } from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {connect, ConnectedProps} from 'react-redux';
 import MyLeaveEntitilementsAndUsage from 'screens/leave/MyLeaveUsage';
 import MyLeave from 'screens/leave/MyLeave';
 import ApplyLeave from 'screens/leave/ApplyLeave';
-import {MY_LEAVE_ENTITLEMENT_AND_USAGE, MY_LEAVE, APPLY_LEAVE} from 'screens';
+import PickLeaveRequestDaysCalendar from 'screens/leave/PickLeaveRequestDaysCalendar';
+import {
+  MY_LEAVE_ENTITLEMENT_AND_USAGE,
+  MY_LEAVE,
+  APPLY_LEAVE,
+  PICK_LEAVE_REQUEST_DAYS_CALENDAR,
+} from 'screens';
 import IconButton from 'components/DefaultIconButton';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<MyLeaveUsageNavigatorParamList>();
 
 class MyLeaveUsageNavigator extends React.Component<
   MyLeaveUsageNavigatorProps
@@ -119,23 +124,32 @@ class MyLeaveUsageNavigator extends React.Component<
             ...headerBackIcon,
           }}
         />
+        <Stack.Screen
+          name={PICK_LEAVE_REQUEST_DAYS_CALENDAR}
+          component={PickLeaveRequestDaysCalendar}
+          options={{
+            title: 'Request Day(s)',
+            ...header,
+            ...headerBackIcon,
+          }}
+          initialParams={{parent: APPLY_LEAVE}}
+        />
       </Stack.Navigator>
     );
   }
 }
 
-interface MyLeaveUsageNavigatorProps
-  extends WithTheme,
-    ConnectedProps<typeof connector> {
+interface MyLeaveUsageNavigatorProps extends WithTheme {
   navigation: NavigationProp<ParamListBase>;
 }
 
-const mapStateToProps = () => ({});
+export type MyLeaveUsageNavigatorParamList = {
+  [MY_LEAVE_ENTITLEMENT_AND_USAGE]: {};
+  [MY_LEAVE]: {};
+  [APPLY_LEAVE]: {};
+  [PICK_LEAVE_REQUEST_DAYS_CALENDAR]: {
+    parent: string;
+  };
+};
 
-const mapDispatchToProps = {};
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-export default withTheme<MyLeaveUsageNavigatorProps>()(
-  connector(MyLeaveUsageNavigator),
-);
+export default withTheme<MyLeaveUsageNavigatorProps>()(MyLeaveUsageNavigator);

@@ -18,23 +18,33 @@
  *
  */
 
-import {combineReducers} from 'redux';
-import authReducer from './auth/reducer';
-import themeReducer from './theme/reducer';
-import storageReducer from './storage/reducer';
-import globalsReducer from './globals/reducer';
-import leaveUsageReducer from './leave/leave-usage/reducer';
-import applyLeaveReducer from './leave/apply-leave/reducer';
+export interface ApplyLeaveState {
+  fromDate?: string;
+  toDate?: string;
+  pickedLeaveDates: boolean;
+  comment?: string;
+}
 
-const rootReducer = combineReducers({
-  auth: authReducer,
-  theme: themeReducer,
-  storage: storageReducer,
-  globals: globalsReducer,
-  leaveUsage: leaveUsageReducer,
-  applyLeave: applyLeaveReducer,
-});
+export const PICK_FROM_DATE = 'APPLY_LEAVE_PICK_FROM_DATE';
+export const PICK_TO_DATE = 'APPLY_LEAVE_PICK_TO_DATE';
+export const PICK_LEAVE_DATES = 'APPLY_LEAVE_PICK_LEAVE_DATES';
 
-export default rootReducer;
+export interface PickFromDateAction {
+  type: typeof PICK_FROM_DATE;
+  date?: string;
+}
 
-export type RootState = ReturnType<typeof rootReducer>;
+export interface PickToDateAction {
+  type: typeof PICK_TO_DATE;
+  date?: string;
+}
+
+export interface PickDatesAction {
+  type: typeof PICK_LEAVE_DATES;
+  state: boolean;
+}
+
+export type ApplyLeaveActionTypes =
+  | PickFromDateAction
+  | PickToDateAction
+  | PickDatesAction;
