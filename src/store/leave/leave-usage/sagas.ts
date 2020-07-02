@@ -25,27 +25,61 @@ import {
   closeLoader,
   showSnackMessage,
 } from 'store/saga-effects/globals';
-import {FETCH_MY_LEAVE} from 'store/leave/leave-usage/types';
-import {fetchMyLeaveFinished} from 'store/leave/leave-usage/actions';
+import {
+  FETCH_MY_LEAVE_ENTITLEMENT,
+  FETCH_MY_LEAVE_REQUEST,
+} from 'store/leave/leave-usage/types';
+import {
+  fetchMyLeaveEntitlementsFinished,
+  fetchMyLeaveRequestsFinished,
+} from 'store/leave/leave-usage/actions';
 import {assignColorsToLeaveTypes} from 'lib/helpers/leave';
 
-function* fetchMyLeave() {
+function* fetchMyLeaveEntitlements() {
   try {
     yield openLoader();
-    const response = yield apiCall(apiGetCall, '/api/v1/leave/my-leave');
+    const response = yield apiCall(
+      apiGetCall,
+      '/api/v1/leave/my-leave-entitlement',
+    );
     if (response.data) {
-      yield put(fetchMyLeaveFinished(assignColorsToLeaveTypes(response.data)));
+      yield put(
+        fetchMyLeaveEntitlementsFinished(
+          assignColorsToLeaveTypes(response.data),
+        ),
+      );
     } else {
-      yield put(fetchMyLeaveFinished(undefined, true));
+      yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
     }
   } catch (error) {
     yield showSnackMessage('Failed to Fetch Leave Details');
-    yield put(fetchMyLeaveFinished(undefined, true));
+    yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
+  } finally {
+    yield closeLoader();
+  }
+}
+
+function* fetchMyLeaveRequests() {
+  try {
+    yield openLoader();
+    const response = yield apiCall(
+      apiGetCall,
+      '/api/v1/leave/my-leave-request',
+    );
+    if (response.data) {
+      yield put(fetchMyLeaveRequestsFinished(response.data));
+    } else {
+      yield put(fetchMyLeaveRequestsFinished(undefined, true));
+    }
+  } catch (error) {
+    yield showSnackMessage('Failed to Fetch Leave Details');
+    yield put(fetchMyLeaveRequestsFinished(undefined, true));
   } finally {
     yield closeLoader();
   }
 }
 
 export function* watchLeaveUsageActions() {
-  yield takeEvery(FETCH_MY_LEAVE, fetchMyLeave);
+  yield takeEvery(FETCH_MY_LEAVE_ENTITLEMENT, fetchMyLeaveEntitlements);
+  yield takeEvery(FETCH_MY_LEAVE_REQUEST, fetchMyLeaveRequests);
 }

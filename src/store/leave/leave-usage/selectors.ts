@@ -20,7 +20,11 @@
 
 import {RootState} from 'store';
 import {createSelector} from 'reselect';
-import {LeaveUsageState, Entitlement} from 'store/leave/leave-usage/types';
+import {
+  LeaveUsageState,
+  Entitlement,
+  LeaveRequest,
+} from 'store/leave/leave-usage/types';
 
 export const selectLeaveUsage = (state: RootState) => state.leaveUsage;
 
@@ -35,3 +39,21 @@ export const selectSelectedLeaveTypeId = createSelector<
   LeaveUsageState,
   string | undefined
 >([selectLeaveUsage], (leaveUsage) => leaveUsage.selectedLeaveTypeId);
+
+export const selectLeaveRequests = createSelector<
+  RootState,
+  LeaveUsageState,
+  LeaveRequest[] | undefined
+>([selectLeaveUsage], (leaveUsage) => leaveUsage.leaveRequest);
+
+export const selectLeaveTypeColors = createSelector<
+  RootState,
+  Entitlement[] | undefined,
+  {[type: string]: string}
+>([selectEntitlement], (entitlement) => {
+  let leaveTypeColor: {[type: string]: string} = {};
+  entitlement?.forEach((item) => {
+    leaveTypeColor[item.leaveType.type] = item.leaveType.color;
+  });
+  return leaveTypeColor;
+});

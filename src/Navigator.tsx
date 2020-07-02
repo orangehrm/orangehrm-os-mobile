@@ -33,6 +33,8 @@ import {
 import {logout} from 'store/auth/actions';
 import {fetchMyInfo} from 'store/auth/actions';
 import {selectMyInfoSuccess, selectIsCalledMyInfo} from 'store/auth/selectors';
+import {selectInitialRoute} from 'store/globals/selectors';
+import {navigationRef} from 'lib/helpers/navigation';
 
 import Login from 'screens/login/Login';
 import SelectInstance from 'screens/login/SelectInstance';
@@ -59,6 +61,7 @@ const Navigator = (props: NavigatorProps) => {
     loggedInUsername,
     myInfoSuccess,
     isCalledMyInfo,
+    initialRoute,
   } = props;
   const dimensions = useWindowDimensions();
 
@@ -80,7 +83,7 @@ const Navigator = (props: NavigatorProps) => {
       const isLargeScreen = dimensions.width >= 768;
       view = (
         <Drawer.Navigator
-          initialRouteName={MY_LEAVE_ENTITLEMENT_AND_USAGE}
+          initialRouteName={initialRoute}
           openByDefault={false}
           drawerType={isLargeScreen ? 'permanent' : 'front'}
           drawerContent={(drawerContentProps: any) => (
@@ -125,7 +128,7 @@ const Navigator = (props: NavigatorProps) => {
     view = <Overlay modalProps={{visible: true}} />;
   }
 
-  return <NavigationContainer>{view}</NavigationContainer>;
+  return <NavigationContainer ref={navigationRef}>{view}</NavigationContainer>;
 };
 
 interface NavigatorProps extends ConnectedProps<typeof connector> {}
@@ -136,6 +139,7 @@ const mapStateToProps = (state: RootState) => ({
   loggedInUsername: selectUsername(state),
   myInfoSuccess: selectMyInfoSuccess(state),
   isCalledMyInfo: selectIsCalledMyInfo(state),
+  initialRoute: selectInitialRoute(state),
 });
 
 const mapDispatchToProps = {

@@ -90,7 +90,7 @@ class LeaveBalanceCard extends React.Component<LeaveBalanceCardProps> {
                   ? {color: theme.typography.lightColor}
                   : {color: theme.typography.darkColor},
               ]}>
-              {'Days Available'}
+              {'Day(s) Available'}
             </Text>
           </View>
         </TouchableWithoutFeedback>

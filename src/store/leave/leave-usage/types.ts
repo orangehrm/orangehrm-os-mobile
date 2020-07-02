@@ -18,24 +18,43 @@
  *
  */
 
+import {MutableKeys} from 'utility-types';
+import {LEAVE_STATUS_MAP} from 'lib/helpers/leave';
+
 export interface LeaveUsageState {
   entitlement?: Entitlement[];
+  leaveRequest?: LeaveRequest[];
   selectedLeaveTypeId?: string;
 }
 
 export type NullableString = string | null;
 
-export const FETCH_MY_LEAVE = 'LEAVE_USAGE_FETCH_MY_LEAVE';
-export const FETCH_MY_LEAVE_FINISHED = 'LEAVE_USAGE_FETCH_MY_LEAVE_FINISHED';
+export const FETCH_MY_LEAVE_ENTITLEMENT =
+  'LEAVE_USAGE_FETCH_MY_LEAVE_ENTITLEMENT';
+export const FETCH_MY_LEAVE_ENTITLEMENT_FINISHED =
+  'LEAVE_USAGE_FETCH_MY_LEAVE_ENTITLEMENT_FINISHED';
 export const SELECT_LEAVE_TYPE = 'LEAVE_USAGE_SELECT_LEAVE_TYPE';
+export const FETCH_MY_LEAVE_REQUEST = 'LEAVE_USAGE_FETCH_MY_LEAVE_REQUEST';
+export const FETCH_MY_LEAVE_REQUEST_FINISHED =
+  'LEAVE_USAGE_FETCH_MY_LEAVE_REQUEST_FINISHED';
 
-export interface FetchMyLeaveAction {
-  type: typeof FETCH_MY_LEAVE;
+export interface FetchMyLeaveEntitlementAction {
+  type: typeof FETCH_MY_LEAVE_ENTITLEMENT;
 }
 
-export interface FetchMyLeaveFinishedAction {
-  type: typeof FETCH_MY_LEAVE_FINISHED;
-  payload?: MyLeave;
+export interface FetchMyLeaveEntitlementFinishedAction {
+  type: typeof FETCH_MY_LEAVE_ENTITLEMENT_FINISHED;
+  payload?: Entitlement[];
+  error: boolean;
+}
+
+export interface FetchMyLeaveRequestAction {
+  type: typeof FETCH_MY_LEAVE_REQUEST;
+}
+
+export interface FetchMyLeaveRequestFinishedAction {
+  type: typeof FETCH_MY_LEAVE_REQUEST_FINISHED;
+  payload?: LeaveRequest[];
   error: boolean;
 }
 
@@ -45,16 +64,17 @@ export interface SelectLeaveTypeAction {
 }
 
 export type LeaveUsageActionTypes =
-  | FetchMyLeaveAction
-  | FetchMyLeaveFinishedAction
-  | SelectLeaveTypeAction;
+  | FetchMyLeaveEntitlementAction
+  | FetchMyLeaveEntitlementFinishedAction
+  | SelectLeaveTypeAction
+  | FetchMyLeaveRequestAction
+  | FetchMyLeaveRequestFinishedAction;
 
 export interface Entitlement {
   id: string;
-  type: string;
   validFrom: string;
   validTo: string;
-  days: number;
+  creditedDate: string;
   leaveBalance: LeaveBalance;
   leaveType: LeaveType;
 }
@@ -76,6 +96,30 @@ export interface LeaveBalance {
   balance: number;
 }
 
-export interface MyLeave {
-  entitlement: Entitlement[];
+export interface LeaveRequest {
+  id: string;
+  fromDate: string;
+  toDate: string;
+  appliedDate: string;
+  leaveType: string;
+  numberOfDays: string;
+  comments: LeaveComment[];
+  days: Leave[];
 }
+
+export interface Leave {
+  date: string;
+  status: LeaveStatus;
+  duration: string;
+  durationString: string;
+  comments: LeaveComment[];
+}
+
+export interface LeaveComment {
+  user: string;
+  date: string;
+  time: string;
+  comment: string;
+}
+
+export type LeaveStatus = MutableKeys<typeof LEAVE_STATUS_MAP>;

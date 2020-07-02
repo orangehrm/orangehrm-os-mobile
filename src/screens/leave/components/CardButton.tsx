@@ -18,22 +18,29 @@
  *
  */
 
-import {RootState} from 'store';
-import {createSelector} from 'reselect';
+import React from 'react';
+import {Button, NativeBase} from 'native-base';
+import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
-export const selectGlobals = (state: RootState) => state.globals;
+const CardButton = (props: React.PropsWithChildren<CardButtonProps>) => {
+  const {children, theme, style, ...restProps} = props;
 
-export const selectSnackMessage = createSelector(
-  selectGlobals,
-  (globals) => globals.snackMessage,
-);
+  return (
+    <Button
+      style={[
+        {
+          backgroundColor: theme.palette.background,
+          borderRadius: theme.borderRadius * 2,
+        },
+        style,
+      ]}
+      androidRippleColor={theme.palette.default}
+      {...restProps}>
+      {children}
+    </Button>
+  );
+};
 
-export const selectLoader = createSelector(
-  selectGlobals,
-  (globals) => globals.loader,
-);
+interface CardButtonProps extends NativeBase.Button, WithTheme {}
 
-export const selectInitialRoute = createSelector(
-  selectGlobals,
-  (globals) => globals.initialRoute,
-);
+export default withTheme<CardButtonProps>()(CardButton);

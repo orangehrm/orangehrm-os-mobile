@@ -23,21 +23,27 @@ import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
-import {fetchMyLeave} from 'store/leave/leave-usage/actions';
+import {fetchMyLeaveEntitlements} from 'store/leave/leave-usage/actions';
 import LeaveBalanceRow from 'screens/leave/components/LeaveBalanceRow';
 import LeaveUsageCard from 'screens/leave/components/LeaveUsageCard';
+import LeaveUsageActions from 'screens/leave/components/LeaveUsageActions';
 
 class MyLeaveUsage extends React.Component<MyLeaveUsageProps> {
   constructor(props: MyLeaveUsageProps) {
     super(props);
-    this.props.fetchMyLeave();
+    this.props.fetchMyLeaveEntitlements();
   }
+
+  onRefresh = () => {
+    this.props.fetchMyLeaveEntitlements();
+  };
 
   render() {
     return (
-      <MainLayout>
+      <MainLayout onRefresh={this.onRefresh}>
         <LeaveBalanceRow />
         <LeaveUsageCard />
+        <LeaveUsageActions />
       </MainLayout>
     );
   }
@@ -52,9 +58,11 @@ interface MyLeaveUsageProps
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = {
-  fetchMyLeave: fetchMyLeave,
+  fetchMyLeaveEntitlements: fetchMyLeaveEntitlements,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-export default withTheme<MyLeaveUsageProps>()(connector(MyLeaveUsage));
+const MyLeaveUsageWithTheme = withTheme<MyLeaveUsageProps>()(MyLeaveUsage);
+
+export default connector(MyLeaveUsageWithTheme);

@@ -45,13 +45,13 @@ function DefaultButton(props: DefaultButtonProps) {
   return (
     <Button
       style={[
-        style,
         {
           backgroundColor: color,
           borderRadius: theme.borderRadius,
         },
+        style,
       ]}
-      transparent
+      transparent={transparent}
       {...restProps}>
       <Text
         {...textProps}

@@ -37,6 +37,9 @@ import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
 
 class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
+  /**
+   * Calculate complete ratio for progress circle
+   */
   calculateProgress = (total?: number, used?: number) => {
     if (total === undefined || used === undefined) {
       return 0;
@@ -94,7 +97,9 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
                   <Text
                     numberOfLines={1}
                     style={{color: theme.typography.lightColor}}>
-                    {selectedLeaveType?.type}
+                    {selectedLeaveType?.leaveType.type
+                      ? selectedLeaveType?.leaveType.type
+                      : '- -'}
                   </Text>
                 </Chip>
               </View>
@@ -105,15 +110,19 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
                   {paddingVertical: theme.spacing * 2},
                 ]}>
                 <Text>
-                  {selectedLeaveType?.validFrom}
+                  {selectedLeaveType?.validFrom
+                    ? selectedLeaveType?.validFrom
+                    : '- -'}
                   {' to '}
-                  {selectedLeaveType?.validTo}
+                  {selectedLeaveType?.validTo
+                    ? selectedLeaveType?.validTo
+                    : '- -'}
                 </Text>
               </View>
               <Divider />
               <ProgressCircle
                 progress={this.calculateProgress(
-                  selectedLeaveType?.days,
+                  selectedLeaveType?.leaveBalance.entitled,
                   selectedLeaveType?.leaveBalance.used,
                 )}
                 usedDays={selectedLeaveType?.leaveBalance.used.toFixed(2)}
@@ -137,7 +146,9 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
                 ]}>
                 <Text>{'Total Entitlement'}</Text>
                 <Text>
-                  {selectedLeaveType?.days.toFixed(2)}
+                  {selectedLeaveType?.leaveBalance.entitled
+                    ? selectedLeaveType?.leaveBalance.entitled.toFixed(2)
+                    : '0.00'}
                   {' Day(s)'}
                 </Text>
               </View>
