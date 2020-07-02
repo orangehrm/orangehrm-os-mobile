@@ -23,10 +23,14 @@ import {
   LOGOUT,
   FETCH_MY_INFO,
   FETCH_MY_INFO_FINISHED,
+  CHECK_INSTANCE,
+  CHECK_INSTANCE_FINISHED,
   FetchTokenAction,
   LogoutAction,
   FetchMyInfoAction,
   FetchMyInfoFinishedAction,
+  CheckInstanceAction,
+  CheckInstanceFinishedAction,
   MyInfo,
 } from 'store/auth/types';
 
@@ -63,3 +67,14 @@ export const fetchMyInfoFinished = (
     error,
   };
 };
+
+export const checkInstance = (): CheckInstanceAction => ({
+  type: CHECK_INSTANCE,
+});
+
+export const checkInstanceFinished = (
+  error: boolean = false,
+): CheckInstanceFinishedAction => ({
+  type: CHECK_INSTANCE_FINISHED,
+  error,
+});

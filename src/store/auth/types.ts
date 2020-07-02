@@ -22,12 +22,16 @@ export interface AuthState {
   myInfo?: MyInfo;
   myInfoSuccess: boolean;
   isCalledMyInfo: boolean;
+  checkingInstance: boolean;
+  instanceExists: boolean;
 }
 
 export const FETCH_TOKEN = 'AUTH_FETCH_TOKEN';
 export const LOGOUT = 'AUTH_LOGOUT';
 export const FETCH_MY_INFO = 'AUTH_FETCH_MY_INFO';
 export const FETCH_MY_INFO_FINISHED = 'AUTH_FETCH_MY_INFO_FINISHED';
+export const CHECK_INSTANCE = 'AUTH_CHECK_INSTANCE';
+export const CHECK_INSTANCE_FINISHED = 'AUTH_CHECK_INSTANCE_FINISHED';
 
 export interface FetchTokenAction {
   type: typeof FETCH_TOKEN;
@@ -51,11 +55,22 @@ export interface FetchMyInfoFinishedAction {
   error: boolean;
 }
 
+export interface CheckInstanceAction {
+  type: typeof CHECK_INSTANCE;
+}
+
+export interface CheckInstanceFinishedAction {
+  type: typeof CHECK_INSTANCE_FINISHED;
+  error: boolean;
+}
+
 export type AuthActionTypes =
   | FetchTokenAction
   | LogoutAction
   | FetchMyInfoAction
-  | FetchMyInfoFinishedAction;
+  | FetchMyInfoFinishedAction
+  | CheckInstanceAction
+  | CheckInstanceFinishedAction;
 
 export interface AuthSuccessResponse {
   access_token: string;

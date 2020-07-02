@@ -6,13 +6,13 @@ export const checkUrl = (
   if (withPath && withProtocol) {
     return isValid(
       url.match(
-        /^((https|http):\/\/)([\p{L}\p{N}\p{S}\-\.])+(\.?([\p{L}\p{N}]|xn--[\p{L}\p{N}-]+)+\.?)(:[0-9]+)?((\/[\p{L}]+)+)?$/gu,
+        /^((https):\/\/)([\p{L}\p{N}\p{S}\-\.])+(\.?([\p{L}\p{N}]|xn--[\p{L}\p{N}-]+)+\.?)(:[0-9]+)?((\/[\p{L}]+)+)?$/gu,
       ),
     );
   } else if (withProtocol) {
     return isValid(
       url.match(
-        /^((https|http):\/\/)([\p{L}\p{N}\p{S}\-\.])+(\.?([\p{L}\p{N}]|xn--[\p{L}\p{N}-]+)+\.?)(:[0-9]+)?$/gu,
+        /^((https):\/\/)([\p{L}\p{N}\p{S}\-\.])+(\.?([\p{L}\p{N}]|xn--[\p{L}\p{N}-]+)+\.?)(:[0-9]+)?$/gu,
       ),
     );
   } else if (withPath) {

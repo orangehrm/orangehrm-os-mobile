@@ -35,6 +35,12 @@ import {setItem} from 'store/storage/actions';
 import {selectInstanceUrl} from 'store/storage/selectors';
 import {INSTANCE_URL} from 'services/storage';
 import {LOGIN} from 'screens';
+import {checkUrl, checkDomain} from 'lib/helpers/url';
+import {checkInstance} from 'store/auth/actions';
+import {
+  selectInstanceExists,
+  selectCheckingInstance,
+} from 'store/auth/selectors';
 
 class SelectInstance extends React.Component<
   SelectInstanceProps,
@@ -44,6 +50,7 @@ class SelectInstance extends React.Component<
     super(props);
     this.state = {
       instanceUrl: '',
+      errorMessage: '',
     };
   }
 
@@ -55,6 +62,12 @@ class SelectInstance extends React.Component<
     if (this.props.instanceUrl !== prevProps.instanceUrl) {
       this.setCurrentInstanceUrl();
     }
+    if (
+      this.props.checkingInstance === false &&
+      this.props.instanceExists === true
+    ) {
+      this.props.navigation.dispatch(StackActions.replace(LOGIN));
+    }
   }
 
   setCurrentInstanceUrl = () => {
@@ -64,19 +77,32 @@ class SelectInstance extends React.Component<
   };
 
   handleOnClick = () => {
-    const {storageSetItem} = this.props;
-    storageSetItem(INSTANCE_URL, this.state.instanceUrl);
-    const {navigation} = this.props;
+    if (this.state.errorMessage === '') {
+      const {storageSetItem} = this.props;
+      let instanceUrl = this.state.instanceUrl;
+      const isDomain = checkDomain(instanceUrl);
+      if (isDomain) {
+        instanceUrl = `https://${instanceUrl}`;
+      }
+      storageSetItem(INSTANCE_URL, instanceUrl);
 
-    navigation.dispatch(StackActions.replace(LOGIN));
+      this.props.checkInstance();
+    }
   };
 
   handleOnChange = (text: string) => {
     this.setState({instanceUrl: text});
+    const isUrl = checkUrl(text);
+    const isDomain = checkDomain(text);
+    if (!isUrl && !isDomain) {
+      this.setState({errorMessage: 'Invalid URL Format'});
+    } else {
+      this.setState({errorMessage: ''});
+    }
   };
 
   render() {
-    const {instanceUrl} = this.state;
+    const {instanceUrl, errorMessage} = this.state;
     return (
       <FirstLayout
         header={'Enter OrangeHRM URL'}
@@ -88,6 +114,8 @@ class SelectInstance extends React.Component<
             onChangeText={this.handleOnChange}
             keyboardType={Platform.OS === 'ios' ? 'url' : 'email-address'}
             multiline
+            helperText={errorMessage}
+            itemProps={{error: errorMessage === '' ? false : true}}
           />
         }
         actions={
@@ -104,15 +132,19 @@ interface SelectInstanceProps extends ConnectedProps<typeof connector> {
 
 interface SelectInstanceState {
   instanceUrl: string;
+  errorMessage: string;
 }
 
 const mapStateToProps = (state: RootState) => ({
   instanceUrl: selectInstanceUrl(state),
+  checkingInstance: selectCheckingInstance(state),
+  instanceExists: selectInstanceExists(state),
 });
 
 const mapDispatchToProps = {
   setStatusBarColor: setStatusBarColor,
   storageSetItem: setItem,
+  checkInstance: checkInstance,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
