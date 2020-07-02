@@ -32,11 +32,15 @@ import MyLeaveEntitilementsAndUsage from 'screens/leave/MyLeaveUsage';
 import MyLeave from 'screens/leave/MyLeave';
 import ApplyLeave from 'screens/leave/ApplyLeave';
 import PickLeaveRequestDaysCalendar from 'screens/leave/PickLeaveRequestDaysCalendar';
+import PickLeaveRequestDuration from 'screens/leave/PickLeaveRequestDuration';
+import PickLeaveRequestPartialDays from 'screens/leave/PickLeaveRequestPartialDays';
 import {
   MY_LEAVE_ENTITLEMENT_AND_USAGE,
   MY_LEAVE,
   APPLY_LEAVE,
   PICK_LEAVE_REQUEST_DAYS_CALENDAR,
+  PICK_LEAVE_REQUEST_DURATION,
+  PICK_LEAVE_REQUEST_PARTIAL_DAYS,
 } from 'screens';
 import IconButton from 'components/DefaultIconButton';
 
@@ -134,6 +138,26 @@ class MyLeaveUsageNavigator extends React.Component<
           }}
           initialParams={{parent: APPLY_LEAVE}}
         />
+        <Stack.Screen
+          name={PICK_LEAVE_REQUEST_DURATION}
+          component={PickLeaveRequestDuration}
+          options={{
+            title: 'Duration',
+            ...header,
+            ...headerBackIcon,
+          }}
+          initialParams={{parent: APPLY_LEAVE}}
+        />
+        <Stack.Screen
+          name={PICK_LEAVE_REQUEST_PARTIAL_DAYS}
+          component={PickLeaveRequestPartialDays}
+          options={{
+            title: 'Partial Days',
+            ...header,
+            ...headerBackIcon,
+          }}
+          initialParams={{parent: APPLY_LEAVE}}
+        />
       </Stack.Navigator>
     );
   }
@@ -148,6 +172,12 @@ export type MyLeaveUsageNavigatorParamList = {
   [MY_LEAVE]: {};
   [APPLY_LEAVE]: {};
   [PICK_LEAVE_REQUEST_DAYS_CALENDAR]: {
+    parent: string;
+  };
+  [PICK_LEAVE_REQUEST_DURATION]: {
+    parent: string;
+  };
+  [PICK_LEAVE_REQUEST_PARTIAL_DAYS]: {
     parent: string;
   };
 };

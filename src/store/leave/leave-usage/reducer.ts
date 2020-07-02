@@ -24,6 +24,7 @@ import {
   FETCH_MY_LEAVE_ENTITLEMENT_FINISHED,
   FETCH_MY_LEAVE_REQUEST_FINISHED,
   SELECT_LEAVE_TYPE,
+  RESET_MY_LEAVE_REQUEST,
 } from 'store/leave/leave-usage/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
@@ -55,6 +56,7 @@ const leaveUsageReducer = (
         ...state,
         selectedLeaveTypeId: action.id,
       };
+    case RESET_MY_LEAVE_REQUEST:
     case LOGOUT:
       return {
         ...initialState,

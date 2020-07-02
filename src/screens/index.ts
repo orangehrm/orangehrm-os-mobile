@@ -24,6 +24,8 @@ const MY_LEAVE_ENTITLEMENT_AND_USAGE = 'MyLeaveEntitilementsAndUsage';
 const MY_LEAVE = 'MyLeave';
 const APPLY_LEAVE = 'ApplyLeave';
 const PICK_LEAVE_REQUEST_DAYS_CALENDAR = 'PickLeaveRequestDaysCalendar';
+const PICK_LEAVE_REQUEST_DURATION = 'PickLeaveRequestDuration';
+const PICK_LEAVE_REQUEST_PARTIAL_DAYS = 'PickLeaveRequestPartialDays';
 const LEAVE_LIST = 'LeaveList';
 
 const SUBHEADER_LEAVE = 'Leave';
@@ -35,6 +37,8 @@ export {
   MY_LEAVE,
   APPLY_LEAVE,
   PICK_LEAVE_REQUEST_DAYS_CALENDAR,
+  PICK_LEAVE_REQUEST_DURATION,
+  PICK_LEAVE_REQUEST_PARTIAL_DAYS,
   LEAVE_LIST,
   SUBHEADER_LEAVE,
 };

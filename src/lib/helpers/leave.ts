@@ -103,6 +103,39 @@ const getBreakDown = (days: Leave[]) => {
   return array;
 };
 
+/**
+ * Check whether leave request is single date
+ * @param {string|undefined} fromDate Date in ISO-8601 format (YYYY-MM-DD)
+ * @param {string|undefined} toDate Date in ISO-8601 format (YYYY-MM-DD)
+ * @return {boolean}
+ */
+const isSingleDayRequest = (fromDate?: string, toDate?: string): boolean => {
+  if (
+    (fromDate !== undefined && toDate === undefined) ||
+    (fromDate !== undefined && toDate !== undefined && fromDate === toDate)
+  ) {
+    return true;
+  }
+  return false;
+};
+
+/**
+ * Check whether leave request is multiple days
+ * @param {string|undefined} fromDate Date in ISO-8601 format (YYYY-MM-DD)
+ * @param {string|undefined} toDate Date in ISO-8601 format (YYYY-MM-DD)
+ * @return {boolean}
+ */
+const isMultipleDayRequest = (fromDate?: string, toDate?: string): boolean => {
+  if (
+    fromDate !== undefined &&
+    toDate !== undefined &&
+    new Date(fromDate) < new Date(toDate)
+  ) {
+    return true;
+  }
+  return false;
+};
+
 type LeaveNameCount = {name: string; count: number; key: LeaveStatus};
 
 export {
@@ -110,4 +143,6 @@ export {
   LEAVE_STATUS_MAP,
   getBreakDown,
   sortLeaveArrayByDate,
+  isSingleDayRequest,
+  isMultipleDayRequest,
 };

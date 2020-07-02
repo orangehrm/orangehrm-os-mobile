@@ -22,10 +22,17 @@ import {
   PICK_FROM_DATE,
   PICK_TO_DATE,
   PICK_LEAVE_DATES,
+  SAVE_SINGLE_DAY_LEAVE_REQUEST,
+  PICK_SINGLE_DAY_DURATION,
+  RESET_APPLY_LEAVE,
   PickFromDateAction,
   PickToDateAction,
   PickDatesAction,
+  SaveSingleDayLeaveRequestAction,
+  PickSingleDayDurationAction,
+  ResetApplyLeaveAction,
 } from 'store/leave/apply-leave/types';
+import {$PropertyType} from 'utility-types';
 
 export const pickLeaveFromDate = (date?: string): PickFromDateAction => ({
   type: PICK_FROM_DATE,
@@ -40,4 +47,25 @@ export const pickLeaveToDate = (date?: string): PickToDateAction => ({
 export const pickLeaveDates = (state: boolean = true): PickDatesAction => ({
   type: PICK_LEAVE_DATES,
   state,
+});
+
+export const saveSingleDayLeaveRequest = (
+  payload: $PropertyType<SaveSingleDayLeaveRequestAction, 'payload'>,
+): SaveSingleDayLeaveRequestAction => ({
+  type: SAVE_SINGLE_DAY_LEAVE_REQUEST,
+  payload,
+});
+
+export const pickSingleDayDuration = (
+  duration: $PropertyType<PickSingleDayDurationAction, 'duration'>,
+): PickSingleDayDurationAction => ({
+  type: PICK_SINGLE_DAY_DURATION,
+  duration,
+});
+
+/**
+ * Reset redux store apply leave data
+ */
+export const resetApplyLeave = (): ResetApplyLeaveAction => ({
+  type: RESET_APPLY_LEAVE,
 });

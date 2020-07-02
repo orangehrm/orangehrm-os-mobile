@@ -36,11 +36,15 @@ import {
   pickLeaveDates,
 } from 'store/leave/apply-leave/actions';
 import Button from 'components/DefaultButton';
-import Calendar, {CalendarProps} from 'screens/leave/components/Calendar';
+import Calendar from 'screens/leave/components/Calendar';
 import {MyLeaveUsageNavigatorParamList} from 'screens/leave/MyLeaveUsageNavigator';
 import {PICK_LEAVE_REQUEST_DAYS_CALENDAR, APPLY_LEAVE} from 'screens';
 
 class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
+  onPressContinue = () => {
+    this.props.navigation.goBack();
+  };
+
   render() {
     const {
       theme,
@@ -56,7 +60,7 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
     let toDate;
     let setFromDate;
     let setToDate;
-    let pickLeaveDatesAction;
+    let pickLeaveDatesAction: (state: boolean) => any;
 
     if (route.params.parent === APPLY_LEAVE) {
       fromDate = applyLeaveFromDate;
@@ -90,7 +94,10 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
             title={'Continue'}
             primary
             fullWidth
-            onPress={pickLeaveDatesAction}
+            onPress={() => {
+              pickLeaveDatesAction(true);
+              this.onPressContinue();
+            }}
           />
         </View>
       </SafeAreaLayout>
@@ -100,8 +107,7 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
 
 interface PickLeaveRequestDaysProps
   extends WithTheme,
-    ConnectedProps<typeof connector>,
-    CalendarProps {
+    ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
   route: RouteProp<
     MyLeaveUsageNavigatorParamList,

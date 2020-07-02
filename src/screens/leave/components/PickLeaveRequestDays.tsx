@@ -19,13 +19,18 @@
  */
 
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Text from 'components/DefaultText';
 import CardButton from 'screens/leave/components/CardButton';
 import Icon from 'components/DefaultIcon';
-import {PICK_LEAVE_REQUEST_DAYS_CALENDAR} from 'screens';
+import {
+  PICK_LEAVE_REQUEST_DAYS_CALENDAR,
+  PICK_LEAVE_REQUEST_DURATION,
+  PICK_LEAVE_REQUEST_PARTIAL_DAYS,
+} from 'screens';
 import {navigate} from 'lib/helpers/navigation';
+import {isSingleDayRequest, isMultipleDayRequest} from 'lib/helpers/leave';
 
 class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
   onPressRequestDays = () => {
@@ -34,8 +39,20 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
     });
   };
 
+  onPressDuration = () => {
+    navigate(PICK_LEAVE_REQUEST_DURATION, {
+      parent: this.props.currentRoute,
+    });
+  };
+
+  onPressPartialDays = () => {
+    navigate(PICK_LEAVE_REQUEST_PARTIAL_DAYS, {
+      parent: this.props.currentRoute,
+    });
+  };
+
   render() {
-    const {theme} = this.props;
+    const {theme, fromDate, toDate} = this.props;
 
     return (
       <>
@@ -53,6 +70,74 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
               <Icon name={'chevron-right'} />
             </View>
           </CardButton>
+          {fromDate === undefined ? null : (
+            <TouchableWithoutFeedback onPress={this.onPressRequestDays}>
+              <View
+                style={{
+                  backgroundColor: theme.palette.background,
+                  paddingVertical: theme.spacing * 3,
+                  paddingLeft: theme.spacing * 13,
+                  paddingRight: theme.spacing * 20,
+                }}>
+                <View
+                  style={[
+                    styles.requestDaysTextView,
+                    {
+                      paddingVertical: theme.spacing,
+                    },
+                  ]}>
+                  <Text>{'From:'}</Text>
+                  <Text style={{color: theme.palette.secondary}}>
+                    {fromDate}
+                  </Text>
+                </View>
+                <View
+                  style={[
+                    styles.requestDaysTextView,
+                    {
+                      paddingVertical: theme.spacing,
+                    },
+                  ]}>
+                  <Text>{'To:'}</Text>
+                  <Text style={{color: theme.palette.secondary}}>
+                    {isSingleDayRequest(fromDate, toDate) ? fromDate : toDate}
+                  </Text>
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          )}
+
+          {isSingleDayRequest(fromDate, toDate) ? (
+            <CardButton
+              style={[styles.cardButton, {height: theme.spacing * 12}]}
+              onPress={this.onPressDuration}>
+              <View style={[styles.cardButtonContent]}>
+                <View style={styles.buttonLeftView}>
+                  <Icon name={'clock'} />
+                  <Text style={{paddingTop: theme.spacing * 0.5}}>
+                    {'Duration'}
+                  </Text>
+                </View>
+                <Icon name={'chevron-right'} />
+              </View>
+            </CardButton>
+          ) : null}
+
+          {isMultipleDayRequest(fromDate, toDate) ? (
+            <CardButton
+              style={[styles.cardButton, {height: theme.spacing * 12}]}
+              onPress={this.onPressPartialDays}>
+              <View style={[styles.cardButtonContent]}>
+                <View style={styles.buttonLeftView}>
+                  <Icon name={'clock'} />
+                  <Text style={{paddingTop: theme.spacing * 0.5}}>
+                    {'Partial Days'}
+                  </Text>
+                </View>
+                <Icon name={'chevron-right'} />
+              </View>
+            </CardButton>
+          ) : null}
         </View>
       </>
     );
@@ -61,6 +146,8 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
 
 interface PickLeaveRequestDaysProps extends WithTheme {
   currentRoute: string;
+  fromDate?: string;
+  toDate?: string;
 }
 
 const styles = StyleSheet.create({
@@ -75,6 +162,11 @@ const styles = StyleSheet.create({
   },
   cardButton: {
     borderRadius: 0,
+  },
+  requestDaysTextView: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 

@@ -29,22 +29,73 @@ import {
   selectEntitlement,
   selectSelectedLeaveTypeId,
 } from 'store/leave/leave-usage/selectors';
+import {
+  selectFromDate,
+  selectToDate,
+  selectDuration,
+} from 'store/leave/apply-leave/selectors';
 import {selectLeaveType} from 'store/leave/leave-usage/actions';
+import {saveSingleDayLeaveRequest} from 'store/leave/apply-leave/actions';
+import {fetchMyLeaveEntitlements} from 'store/leave/leave-usage/actions';
 import Button from 'components/DefaultButton';
 import PickLeaveRequestType from 'screens/leave/components/PickLeaveRequestType';
 import PickLeaveRequestDays from 'screens/leave/components/PickLeaveRequestDays';
 import {APPLY_LEAVE} from 'screens';
+import {isSingleDayRequest} from 'lib/helpers/leave';
 
 class ApplyLeave extends React.Component<ApplyLeaveProps> {
+  constructor(props: ApplyLeaveProps) {
+    super(props);
+    this.updateEntitlements();
+  }
+
+  onPressApplyLeave = () => {
+    const {
+      fromDate,
+      toDate,
+      selectedLeaveTypeId,
+      duration,
+      entitlements,
+    } = this.props;
+    const selectedLeaveType = entitlements?.find(
+      (item) => item.id === selectedLeaveTypeId,
+    );
+    if (isSingleDayRequest(fromDate, toDate)) {
+      if (fromDate && selectedLeaveType) {
+        this.props.saveSingleDayLeaveRequest({
+          fromDate: fromDate,
+          toDate: toDate ? toDate : fromDate,
+          type: selectedLeaveType?.leaveType.id,
+          ...duration,
+        });
+      } else {
+        //TODO: handle validation
+      }
+    }
+  };
+
+  onRefresh = () => {
+    this.updateEntitlements();
+  };
+
+  updateEntitlements = () => {
+    if (this.props.entitlements === undefined) {
+      this.props.fetchMyLeaveEntitlements();
+    }
+  };
+
   render() {
     const {
       theme,
       entitlements,
       selectedLeaveTypeId,
       selectLeaveTypeAction,
+      fromDate,
+      toDate,
     } = this.props;
     return (
       <MainLayout
+        onRefresh={entitlements ? undefined : this.onRefresh}
         footer={
           <View
             style={{
@@ -52,7 +103,12 @@ class ApplyLeave extends React.Component<ApplyLeaveProps> {
               paddingVertical: theme.spacing * 2,
               backgroundColor: theme.palette.background,
             }}>
-            <Button title={'Apply'} primary fullWidth />
+            <Button
+              title={'Apply'}
+              primary
+              fullWidth
+              onPress={this.onPressApplyLeave}
+            />
           </View>
         }>
         <View
@@ -68,7 +124,11 @@ class ApplyLeave extends React.Component<ApplyLeaveProps> {
             selectedLeaveTypeId={selectedLeaveTypeId}
             selectLeaveTypeAction={selectLeaveTypeAction}
           />
-          <PickLeaveRequestDays currentRoute={APPLY_LEAVE} />
+          <PickLeaveRequestDays
+            currentRoute={APPLY_LEAVE}
+            fromDate={fromDate}
+            toDate={toDate}
+          />
         </View>
       </MainLayout>
     );
@@ -88,10 +148,15 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: RootState) => ({
   entitlements: selectEntitlement(state),
   selectedLeaveTypeId: selectSelectedLeaveTypeId(state),
+  fromDate: selectFromDate(state),
+  toDate: selectToDate(state),
+  duration: selectDuration(state),
 });
 
 const mapDispatchToProps = {
   selectLeaveTypeAction: selectLeaveType,
+  saveSingleDayLeaveRequest: saveSingleDayLeaveRequest,
+  fetchMyLeaveEntitlements: fetchMyLeaveEntitlements,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
