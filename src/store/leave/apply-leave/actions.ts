@@ -23,13 +23,17 @@ import {
   PICK_TO_DATE,
   PICK_LEAVE_DATES,
   SAVE_SINGLE_DAY_LEAVE_REQUEST,
+  SAVE_MULTIPLE_DAY_LEAVE_REQUEST,
   PICK_SINGLE_DAY_DURATION,
+  PICK_MULTIPLE_DAY_PARTIAL_OPTION,
   RESET_APPLY_LEAVE,
   PickFromDateAction,
   PickToDateAction,
   PickDatesAction,
   SaveSingleDayLeaveRequestAction,
+  SaveMultipleDayLeaveRequestAction,
   PickSingleDayDurationAction,
+  PickMultipleDayPartialOptionAction,
   ResetApplyLeaveAction,
 } from 'store/leave/apply-leave/types';
 import {$PropertyType} from 'utility-types';
@@ -56,11 +60,28 @@ export const saveSingleDayLeaveRequest = (
   payload,
 });
 
+export const saveMultipleDayLeaveRequest = (
+  payload: $PropertyType<SaveMultipleDayLeaveRequestAction, 'payload'>,
+): SaveMultipleDayLeaveRequestAction => ({
+  type: SAVE_MULTIPLE_DAY_LEAVE_REQUEST,
+  payload,
+});
+
 export const pickSingleDayDuration = (
   duration: $PropertyType<PickSingleDayDurationAction, 'duration'>,
 ): PickSingleDayDurationAction => ({
   type: PICK_SINGLE_DAY_DURATION,
   duration,
+});
+
+export const pickMultipleDayPartialOption = (
+  partialOption: $PropertyType<
+    PickMultipleDayPartialOptionAction,
+    'partialOption'
+  >,
+): PickMultipleDayPartialOptionAction => ({
+  type: PICK_MULTIPLE_DAY_PARTIAL_OPTION,
+  partialOption,
 });
 
 /**

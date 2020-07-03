@@ -25,7 +25,9 @@ import {
   PICK_TO_DATE,
   PICK_LEAVE_DATES,
   FULL_DAY,
+  PARTIAL_OPTION_NONE,
   PICK_SINGLE_DAY_DURATION,
+  PICK_MULTIPLE_DAY_PARTIAL_OPTION,
   RESET_APPLY_LEAVE,
 } from 'store/leave/apply-leave/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
@@ -34,6 +36,9 @@ const initialState: ApplyLeaveState = {
   pickedLeaveDates: false,
   duration: {
     singleType: FULL_DAY,
+  },
+  partialOption: {
+    partialOption: PARTIAL_OPTION_NONE,
   },
 };
 
@@ -61,6 +66,11 @@ const applyLeaveReducer = (
       return {
         ...state,
         duration: action.duration,
+      };
+    case PICK_MULTIPLE_DAY_PARTIAL_OPTION:
+      return {
+        ...state,
+        partialOption: action.partialOption,
       };
     case RESET_APPLY_LEAVE:
     case LOGOUT:

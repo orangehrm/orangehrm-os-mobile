@@ -27,7 +27,9 @@ import {
 } from 'store/saga-effects/globals';
 import {
   SAVE_SINGLE_DAY_LEAVE_REQUEST,
+  SAVE_MULTIPLE_DAY_LEAVE_REQUEST,
   SaveSingleDayLeaveRequestAction,
+  SaveMultipleDayLeaveRequestAction,
 } from 'store/leave/apply-leave/types';
 import {
   fetchMyLeaveEntitlements,
@@ -35,7 +37,9 @@ import {
 } from 'store/leave/leave-usage/actions';
 import {resetApplyLeave} from 'store/leave/apply-leave/actions';
 
-function* saveSingleDayLeaveRequest(action: SaveSingleDayLeaveRequestAction) {
+function* saveSingleDayLeaveRequest(
+  action: SaveSingleDayLeaveRequestAction | SaveMultipleDayLeaveRequestAction,
+) {
   try {
     yield openLoader();
     const response = yield apiCall(
@@ -60,4 +64,5 @@ function* saveSingleDayLeaveRequest(action: SaveSingleDayLeaveRequestAction) {
 
 export function* watchApplyLeaveActions() {
   yield takeEvery(SAVE_SINGLE_DAY_LEAVE_REQUEST, saveSingleDayLeaveRequest);
+  yield takeEvery(SAVE_MULTIPLE_DAY_LEAVE_REQUEST, saveSingleDayLeaveRequest);
 }

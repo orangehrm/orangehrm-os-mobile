@@ -33,15 +33,20 @@ import {
   selectFromDate,
   selectToDate,
   selectDuration,
+  selectPartialOption,
 } from 'store/leave/apply-leave/selectors';
 import {selectLeaveType} from 'store/leave/leave-usage/actions';
-import {saveSingleDayLeaveRequest} from 'store/leave/apply-leave/actions';
+import {
+  saveSingleDayLeaveRequest,
+  saveMultipleDayLeaveRequest,
+} from 'store/leave/apply-leave/actions';
 import {fetchMyLeaveEntitlements} from 'store/leave/leave-usage/actions';
 import Button from 'components/DefaultButton';
 import PickLeaveRequestType from 'screens/leave/components/PickLeaveRequestType';
 import PickLeaveRequestDays from 'screens/leave/components/PickLeaveRequestDays';
 import {APPLY_LEAVE} from 'screens';
-import {isSingleDayRequest} from 'lib/helpers/leave';
+import {isSingleDayRequest, isMultipleDayRequest} from 'lib/helpers/leave';
+import {LeaveRequest} from 'store/leave/apply-leave/types';
 
 class ApplyLeave extends React.Component<ApplyLeaveProps> {
   constructor(props: ApplyLeaveProps) {
@@ -55,22 +60,33 @@ class ApplyLeave extends React.Component<ApplyLeaveProps> {
       toDate,
       selectedLeaveTypeId,
       duration,
+      partialOption,
       entitlements,
     } = this.props;
     const selectedLeaveType = entitlements?.find(
       (item) => item.id === selectedLeaveTypeId,
     );
-    if (isSingleDayRequest(fromDate, toDate)) {
-      if (fromDate && selectedLeaveType) {
+    if (fromDate && selectedLeaveType) {
+      let leaveRequest: LeaveRequest = {
+        fromDate: fromDate,
+        toDate: toDate ? toDate : fromDate,
+        type: selectedLeaveType?.leaveType.id,
+      };
+      if (isSingleDayRequest(fromDate, toDate)) {
         this.props.saveSingleDayLeaveRequest({
-          fromDate: fromDate,
-          toDate: toDate ? toDate : fromDate,
-          type: selectedLeaveType?.leaveType.id,
+          ...leaveRequest,
           ...duration,
         });
-      } else {
-        //TODO: handle validation
       }
+
+      if (isMultipleDayRequest(fromDate, toDate)) {
+        this.props.saveMultipleDayLeaveRequest({
+          ...leaveRequest,
+          ...partialOption,
+        });
+      }
+    } else {
+      //TODO: handle validation
     }
   };
 
@@ -151,11 +167,13 @@ const mapStateToProps = (state: RootState) => ({
   fromDate: selectFromDate(state),
   toDate: selectToDate(state),
   duration: selectDuration(state),
+  partialOption: selectPartialOption(state),
 });
 
 const mapDispatchToProps = {
   selectLeaveTypeAction: selectLeaveType,
   saveSingleDayLeaveRequest: saveSingleDayLeaveRequest,
+  saveMultipleDayLeaveRequest: saveMultipleDayLeaveRequest,
   fetchMyLeaveEntitlements: fetchMyLeaveEntitlements,
 };
 

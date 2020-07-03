@@ -55,5 +55,5 @@ export const selectDuration = createSelector<
 export const selectPartialOption = createSelector<
   RootState,
   ApplyLeaveState,
-  MultipleDayPartialOption | undefined
+  MultipleDayPartialOption
 >([selectApplyLeave], (applyLeave) => applyLeave.partialOption);

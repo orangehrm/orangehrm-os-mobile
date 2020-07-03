@@ -44,8 +44,8 @@ class MyLeave extends React.Component<MyLeaveProps> {
   }
 
   onRefresh = () => {
+    this.props.fetchMyLeaveEntitlements();
     this.props.fetchMyLeaveRequests();
-    this.updateEntitlements();
   };
 
   updateEntitlements = () => {

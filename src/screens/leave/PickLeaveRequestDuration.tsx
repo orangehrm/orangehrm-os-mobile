@@ -43,7 +43,9 @@ import {
   SingleDayDuration,
 } from 'store/leave/apply-leave/types';
 
-class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
+class PickLeaveRequestDuration extends React.Component<
+  PickLeaveRequestDurationProps
+> {
   onPressContinue = () => {
     this.props.navigation.goBack();
   };
@@ -152,7 +154,7 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
   }
 }
 
-interface PickLeaveRequestDaysProps
+interface PickLeaveRequestDurationProps
   extends WithTheme,
     ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
@@ -178,8 +180,8 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const PickLeaveRequestDaysWithTheme = withTheme<PickLeaveRequestDaysProps>()(
-  PickLeaveRequestDays,
-);
+const PickLeaveRequestDurationWithTheme = withTheme<
+  PickLeaveRequestDurationProps
+>()(PickLeaveRequestDuration);
 
-export default connector(PickLeaveRequestDaysWithTheme);
+export default connector(PickLeaveRequestDurationWithTheme);

@@ -24,7 +24,7 @@ export interface ApplyLeaveState {
   pickedLeaveDates: boolean;
   comment?: string;
   duration: SingleDayDuration;
-  partialOption?: MultipleDayPartialOption;
+  partialOption: MultipleDayPartialOption;
 }
 
 export const PICK_FROM_DATE = 'APPLY_LEAVE_PICK_FROM_DATE';
@@ -32,7 +32,11 @@ export const PICK_TO_DATE = 'APPLY_LEAVE_PICK_TO_DATE';
 export const PICK_LEAVE_DATES = 'APPLY_LEAVE_PICK_LEAVE_DATES';
 export const SAVE_SINGLE_DAY_LEAVE_REQUEST =
   'APPLY_LEAVE_SAVE_SINGLE_DAY_LEAVE_REQUEST';
+export const SAVE_MULTIPLE_DAY_LEAVE_REQUEST =
+  'APPLY_LEAVE_SAVE_MULTIPLE_DAY_LEAVE_REQUEST';
 export const PICK_SINGLE_DAY_DURATION = 'APPLY_LEAVE_PICK_SINGLE_DAY_DURATION';
+export const PICK_MULTIPLE_DAY_PARTIAL_OPTION =
+  'APPLY_LEAVE_PICK_MULTIPLE_DAY_PARTIAL_OPTION';
 export const RESET_APPLY_LEAVE = 'APPLY_LEAVE_RESET_APPLY_LEAVE';
 
 export interface PickFromDateAction {
@@ -55,9 +59,19 @@ export interface SaveSingleDayLeaveRequestAction {
   payload: SingleDayLeaveRequest;
 }
 
+export interface SaveMultipleDayLeaveRequestAction {
+  type: typeof SAVE_MULTIPLE_DAY_LEAVE_REQUEST;
+  payload: MultipleDayLeaveRequest;
+}
+
 export interface PickSingleDayDurationAction {
   type: typeof PICK_SINGLE_DAY_DURATION;
   duration: SingleDayDuration;
+}
+
+export interface PickMultipleDayPartialOptionAction {
+  type: typeof PICK_MULTIPLE_DAY_PARTIAL_OPTION;
+  partialOption: MultipleDayPartialOption;
 }
 
 export interface ResetApplyLeaveAction {
@@ -69,7 +83,9 @@ export type ApplyLeaveActionTypes =
   | PickToDateAction
   | PickDatesAction
   | SaveSingleDayLeaveRequestAction
+  | SaveMultipleDayLeaveRequestAction
   | PickSingleDayDurationAction
+  | PickMultipleDayPartialOptionAction
   | ResetApplyLeaveAction;
 
 export interface LeaveRequest {
@@ -146,7 +162,6 @@ export type PartialDayNone = {
 
 export type PartialOptionsStartDay =
   | PartialOptionsStartDayHalfDay
-  | PartialOptionsStartDayFullDay
   | PartialOptionsStartDaySpecifyTime;
 
 export type PartialOptionsEndDay =
@@ -157,10 +172,6 @@ export type PartialOptionsEndDay =
 export interface PartialOptionsStartDayHalfDay {
   startDayType: typeof HALF_DAY;
   startDayAMPM: HalfDayType;
-}
-
-export interface PartialOptionsStartDayFullDay {
-  startDayType: typeof FULL_DAY;
 }
 
 export interface PartialOptionsStartDaySpecifyTime {

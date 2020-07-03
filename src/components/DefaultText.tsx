@@ -19,20 +19,32 @@
  */
 
 import React from 'react';
-import {Text, TextProps} from 'react-native';
+import {Text, TextProps, StyleSheet} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 function DefaultText(props: React.PropsWithChildren<DefaultTextProps>) {
-  const {children, style, theme, ...restProps} = props;
+  const {children, style, theme, bold, ...restProps} = props;
   return (
     <Text
-      style={[{color: theme.typography.primaryColor}, style]}
+      style={[
+        {color: theme.typography.primaryColor},
+        bold ? styles.textBold : undefined,
+        style,
+      ]}
       {...restProps}>
       {children}
     </Text>
   );
 }
 
-interface DefaultTextProps extends TextProps, WithTheme {}
+interface DefaultTextProps extends TextProps, WithTheme {
+  bold?: boolean;
+}
+
+const styles = StyleSheet.create({
+  textBold: {
+    fontWeight: 'bold',
+  },
+});
 
 export default withTheme<DefaultTextProps>()(DefaultText);
