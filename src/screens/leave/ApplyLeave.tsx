@@ -77,13 +77,13 @@ class ApplyLeave extends React.Component<ApplyLeaveProps> {
           ...leaveRequest,
           ...duration,
         });
-      }
-
-      if (isMultipleDayRequest(fromDate, toDate)) {
+      } else if (isMultipleDayRequest(fromDate, toDate)) {
         this.props.saveMultipleDayLeaveRequest({
           ...leaveRequest,
           ...partialOption,
         });
+      } else {
+        //TODO: Unexpected behaviour
       }
     } else {
       //TODO: handle validation

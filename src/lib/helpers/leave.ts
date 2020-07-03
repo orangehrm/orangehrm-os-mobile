@@ -136,6 +136,25 @@ const isMultipleDayRequest = (fromDate?: string, toDate?: string): boolean => {
   return false;
 };
 
+/**
+ * Return object key as index, values as time(periods of 15min)
+ * @returns {string[]}
+ */
+const getTimeValuesForSlider = (): string[] => {
+  const times: string[] = [];
+  for (let i = 0; i < 24; i++) {
+    let hour = i.toString();
+    if (i < 10) {
+      hour = '0' + hour;
+    }
+    times.push(hour + ':00');
+    times.push(hour + ':15');
+    times.push(hour + ':30');
+    times.push(hour + ':45');
+  }
+  return times;
+};
+
 type LeaveNameCount = {name: string; count: number; key: LeaveStatus};
 
 export {
@@ -145,4 +164,5 @@ export {
   sortLeaveArrayByDate,
   isSingleDayRequest,
   isMultipleDayRequest,
+  getTimeValuesForSlider,
 };

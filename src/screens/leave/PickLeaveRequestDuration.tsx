@@ -33,15 +33,20 @@ import {selectDuration} from 'store/leave/apply-leave/selectors';
 import {pickSingleDayDuration as pickSingleDayDurationAction} from 'store/leave/apply-leave/actions';
 import Button from 'components/DefaultButton';
 import RadioItem from 'components/DefaultRadioItem';
+import PickLeaveSpecificTime from 'screens/leave/components/PickLeaveSpecificTime';
 import {MyLeaveUsageNavigatorParamList} from 'screens/leave/MyLeaveUsageNavigator';
-import {APPLY_LEAVE, PICK_LEAVE_REQUEST_DURATION} from 'screens';
+import {PICK_LEAVE_REQUEST_DURATION} from 'screens';
 import {
   FULL_DAY,
   HALF_DAY,
+  SPECIFY_TIME,
   HALF_DAY_MORNING,
   HALF_DAY_AFTERNOON,
   SingleDayDuration,
 } from 'store/leave/apply-leave/types';
+
+const DEFAULT_FROM_TIME = '09:00';
+const DEFAULT_TO_TIME = '17:00';
 
 class PickLeaveRequestDuration extends React.Component<
   PickLeaveRequestDurationProps
@@ -68,21 +73,55 @@ class PickLeaveRequestDuration extends React.Component<
     );
   };
 
+  isSpecifyTime = (duration?: SingleDayDuration) => {
+    return duration?.singleType === SPECIFY_TIME;
+  };
+
+  getFromTime = (duration?: SingleDayDuration) => {
+    return duration?.singleType === SPECIFY_TIME
+      ? duration.singleFromTime
+      : DEFAULT_FROM_TIME;
+  };
+
+  getToTime = (duration?: SingleDayDuration) => {
+    return duration?.singleType === SPECIFY_TIME
+      ? duration.singleToTime
+      : DEFAULT_TO_TIME;
+  };
+
+  setFromTime = (
+    pickSingleDayDuration: typeof pickSingleDayDurationAction,
+    duration?: SingleDayDuration,
+  ) => (time: string) => {
+    if (duration?.singleType === SPECIFY_TIME) {
+      pickSingleDayDuration({
+        ...duration,
+        singleFromTime: time,
+      });
+    }
+  };
+
+  setToTime = (
+    pickSingleDayDuration: typeof pickSingleDayDurationAction,
+    duration?: SingleDayDuration,
+  ) => (time: string) => {
+    if (duration?.singleType === SPECIFY_TIME) {
+      pickSingleDayDuration({
+        ...duration,
+        singleToTime: time,
+      });
+    }
+  };
+
   render() {
     const {
       theme,
-      route,
       applyLeaveDuration,
       pickApplyLeaveSingleDayDuration,
     } = this.props;
 
-    let duration;
-    let pickSingleDayDuration: typeof pickApplyLeaveSingleDayDuration;
-
-    if (route.params.parent === APPLY_LEAVE) {
-      duration = applyLeaveDuration;
-      pickSingleDayDuration = pickApplyLeaveSingleDayDuration;
-    }
+    let duration = applyLeaveDuration;
+    let pickSingleDayDuration = pickApplyLeaveSingleDayDuration;
 
     const radioStyle = {paddingVertical: theme.spacing * 2};
 
@@ -147,7 +186,28 @@ class PickLeaveRequestDuration extends React.Component<
                 });
               }}
             />
+            <RadioItem
+              title={'Specify Time'}
+              radioProps={{selected: this.isSpecifyTime(duration)}}
+              style={{...radioStyle}}
+              onPress={() => {
+                pickSingleDayDuration({
+                  singleType: SPECIFY_TIME,
+                  singleFromTime: DEFAULT_FROM_TIME,
+                  singleToTime: DEFAULT_TO_TIME,
+                });
+              }}
+            />
           </View>
+
+          {this.isSpecifyTime(duration) ? (
+            <PickLeaveSpecificTime
+              fromTime={this.getFromTime(duration)}
+              toTime={this.getToTime(duration)}
+              setFromTime={this.setFromTime(pickSingleDayDuration, duration)}
+              setToTime={this.setToTime(pickSingleDayDuration, duration)}
+            />
+          ) : null}
         </View>
       </MainLayout>
     );
