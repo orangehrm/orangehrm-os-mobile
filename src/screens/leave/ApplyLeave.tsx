@@ -108,6 +108,8 @@ class ApplyLeave extends React.Component<ApplyLeaveProps> {
       selectLeaveTypeAction,
       fromDate,
       toDate,
+      duration,
+      partialOption,
     } = this.props;
     return (
       <MainLayout
@@ -144,6 +146,8 @@ class ApplyLeave extends React.Component<ApplyLeaveProps> {
             currentRoute={APPLY_LEAVE}
             fromDate={fromDate}
             toDate={toDate}
+            duration={duration}
+            partialOption={partialOption}
           />
         </View>
       </MainLayout>

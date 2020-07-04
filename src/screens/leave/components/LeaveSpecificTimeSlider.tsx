@@ -30,6 +30,7 @@ const LeaveSpecificTimeSlider = (props: LeaveSpecificTimeSliderProps) => {
     setSliderInitialValue(
       values.findIndex((sliderValue) => sliderValue === value),
     );
+    // setValue(value);
     /* eslint-disable react-hooks/exhaustive-deps */
   }, []);
   /* eslint-enable react-hooks/exhaustive-deps */

@@ -52,8 +52,9 @@ function* saveSingleDayLeaveRequest(
       yield put(fetchMyLeaveEntitlements());
       yield put(resethMyLeaveRequests());
       yield put(resetApplyLeave());
+      yield showSnackMessage('Successfully Submited');
     } else {
-      //TODO: handle error
+      yield showSnackMessage('Faile to Save Leave');
     }
   } catch (error) {
     yield showSnackMessage('Failed to Fetch Leave Details');

@@ -31,6 +31,20 @@ import {
 } from 'screens';
 import {navigate} from 'lib/helpers/navigation';
 import {isSingleDayRequest, isMultipleDayRequest} from 'lib/helpers/leave';
+import {
+  FULL_DAY,
+  HALF_DAY,
+  HALF_DAY_MORNING,
+  HALF_DAY_AFTERNOON,
+  SPECIFY_TIME,
+  PARTIAL_OPTION_NONE,
+  PARTIAL_OPTION_ALL,
+  PARTIAL_OPTION_START,
+  PARTIAL_OPTION_END,
+  PARTIAL_OPTION_START_END,
+  SingleDayDuration,
+  MultipleDayPartialOption,
+} from 'store/leave/apply-leave/types';
 
 class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
   onPressRequestDays = () => {
@@ -49,6 +63,42 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
     navigate(PICK_LEAVE_REQUEST_PARTIAL_DAYS, {
       parent: this.props.currentRoute,
     });
+  };
+
+  getSelectedTextForDuration = () => {
+    const {duration} = this.props;
+    if (duration.singleType === FULL_DAY) {
+      return 'Full Day';
+    } else if (
+      duration.singleType === HALF_DAY &&
+      duration.singleAMPM === HALF_DAY_MORNING
+    ) {
+      return 'Half Day - Morning';
+    } else if (
+      duration.singleType === HALF_DAY &&
+      duration.singleAMPM === HALF_DAY_AFTERNOON
+    ) {
+      return 'Half Day - Afternoon';
+    } else if (duration.singleType === SPECIFY_TIME) {
+      return duration.singleFromTime + ' - ' + duration.singleToTime;
+    }
+    return undefined;
+  };
+
+  getSelectedTextForPrtialOption = () => {
+    const {partialOption} = this.props;
+    if (partialOption.partialOption === PARTIAL_OPTION_NONE) {
+      return 'None';
+    } else if (partialOption.partialOption === PARTIAL_OPTION_ALL) {
+      return 'All Days';
+    } else if (partialOption.partialOption === PARTIAL_OPTION_START) {
+      return 'Start Day Only';
+    } else if (partialOption.partialOption === PARTIAL_OPTION_END) {
+      return 'End Day Only';
+    } else if (partialOption.partialOption === PARTIAL_OPTION_START_END) {
+      return 'Start and End Day';
+    }
+    return undefined;
   };
 
   render() {
@@ -118,6 +168,9 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
                     {'Duration'}
                   </Text>
                 </View>
+                <Text style={{paddingTop: theme.spacing * 0.5}}>
+                  {this.getSelectedTextForDuration()}
+                </Text>
                 <Icon name={'chevron-right'} />
               </View>
             </CardButton>
@@ -134,6 +187,9 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
                     {'Partial Days'}
                   </Text>
                 </View>
+                <Text style={{paddingTop: theme.spacing * 0.5}}>
+                  {this.getSelectedTextForPrtialOption()}
+                </Text>
                 <Icon name={'chevron-right'} />
               </View>
             </CardButton>
@@ -148,6 +204,8 @@ interface PickLeaveRequestDaysProps extends WithTheme {
   currentRoute: string;
   fromDate?: string;
   toDate?: string;
+  duration: SingleDayDuration;
+  partialOption: MultipleDayPartialOption;
 }
 
 const styles = StyleSheet.create({

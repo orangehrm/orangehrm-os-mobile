@@ -42,16 +42,25 @@ import {
   SPECIFY_TIME,
   HALF_DAY_MORNING,
   HALF_DAY_AFTERNOON,
+  DEFAULT_FROM_TIME,
+  DEFAULT_TO_TIME,
   SingleDayDuration,
 } from 'store/leave/apply-leave/types';
-
-const DEFAULT_FROM_TIME = '09:00';
-const DEFAULT_TO_TIME = '17:00';
+import {getDateFromString} from 'lib/helpers/time';
 
 class PickLeaveRequestDuration extends React.Component<
   PickLeaveRequestDurationProps
 > {
-  onPressContinue = () => {
+  isValidTimes = (fromTime: string, toTime: string) => {
+    return getDateFromString(fromTime) < getDateFromString(toTime);
+  };
+
+  onPressContinue = (duration?: SingleDayDuration) => () => {
+    if (duration?.singleType === SPECIFY_TIME) {
+      if (!this.isValidTimes(duration.singleFromTime, duration.singleToTime)) {
+        return;
+      }
+    }
     this.props.navigation.goBack();
   };
 
@@ -138,7 +147,7 @@ class PickLeaveRequestDuration extends React.Component<
               title={'Continue'}
               primary
               fullWidth
-              onPress={this.onPressContinue}
+              onPress={this.onPressContinue(duration)}
             />
           </View>
         }>

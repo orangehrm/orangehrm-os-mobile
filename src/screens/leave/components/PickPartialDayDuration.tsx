@@ -19,12 +19,8 @@
  */
 
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {pickMultipleDayPartialOption as pickMultipleDayPartialOptionAction} from 'store/leave/apply-leave/actions';
-import RadioItem from 'components/DefaultRadioItem';
-import Text from 'components/DefaultText';
-import Divider from 'components/DefaultDivider';
+import PickMultipleDayPartialOption from 'screens/leave/components/PickMultipleDayPartialOption';
 import {
   HALF_DAY,
   HALF_DAY_MORNING,
@@ -34,35 +30,38 @@ import {
   PARTIAL_OPTION_END,
   PARTIAL_OPTION_START_END,
   MultipleDayPartialOption,
+  SPECIFY_TIME,
+  DEFAULT_FROM_TIME,
+  DEFAULT_TO_TIME,
 } from 'store/leave/apply-leave/types';
 
 class PickPartialDayDuration extends React.Component<
   PickPartialDayDurationProps
 > {
   isStartDayHalfDayAfternoon = (partialOption?: MultipleDayPartialOption) => {
-    if (
-      partialOption?.partialOption === PARTIAL_OPTION_ALL ||
-      partialOption?.partialOption === PARTIAL_OPTION_START
-    ) {
-      return (
-        partialOption?.startDayType === HALF_DAY &&
-        partialOption?.startDayAMPM === HALF_DAY_AFTERNOON
-      );
-    }
-    return false;
+    return (
+      (partialOption?.partialOption === PARTIAL_OPTION_ALL ||
+        partialOption?.partialOption === PARTIAL_OPTION_START) &&
+      partialOption?.startDayType === HALF_DAY &&
+      partialOption?.startDayAMPM === HALF_DAY_AFTERNOON
+    );
   };
 
   isStartDayHalfDayMorning = (partialOption?: MultipleDayPartialOption) => {
-    if (
-      partialOption?.partialOption === PARTIAL_OPTION_ALL ||
-      partialOption?.partialOption === PARTIAL_OPTION_START
-    ) {
-      return (
-        partialOption?.startDayType === HALF_DAY &&
-        partialOption?.startDayAMPM === HALF_DAY_MORNING
-      );
-    }
-    return false;
+    return (
+      (partialOption?.partialOption === PARTIAL_OPTION_ALL ||
+        partialOption?.partialOption === PARTIAL_OPTION_START) &&
+      partialOption?.startDayType === HALF_DAY &&
+      partialOption?.startDayAMPM === HALF_DAY_MORNING
+    );
+  };
+
+  isStartDayHalfDaySpecifyTime = (partialOption?: MultipleDayPartialOption) => {
+    return (
+      (partialOption?.partialOption === PARTIAL_OPTION_ALL ||
+        partialOption?.partialOption === PARTIAL_OPTION_START) &&
+      partialOption?.startDayType === SPECIFY_TIME
+    );
   };
 
   isEndDayHalfDayAfternoon = (partialOption?: MultipleDayPartialOption) => {
@@ -78,6 +77,13 @@ class PickPartialDayDuration extends React.Component<
       partialOption?.partialOption === PARTIAL_OPTION_END &&
       partialOption?.endDayType === HALF_DAY &&
       partialOption?.endDayAMPM === HALF_DAY_MORNING
+    );
+  };
+
+  isEndDayHalfDaySpecifyTime = (partialOption?: MultipleDayPartialOption) => {
+    return (
+      partialOption?.partialOption === PARTIAL_OPTION_END &&
+      partialOption?.endDayType === SPECIFY_TIME
     );
   };
 
@@ -101,6 +107,15 @@ class PickPartialDayDuration extends React.Component<
     );
   };
 
+  isStartEndOptionEndDayHalfDaySpecifyTime = (
+    partialOption?: MultipleDayPartialOption,
+  ) => {
+    return (
+      partialOption?.partialOption === PARTIAL_OPTION_START_END &&
+      partialOption?.endDayType === SPECIFY_TIME
+    );
+  };
+
   isStartEndOptionStartDayHalfDayAfternoon = (
     partialOption?: MultipleDayPartialOption,
   ) => {
@@ -121,260 +136,380 @@ class PickPartialDayDuration extends React.Component<
     );
   };
 
-  render() {
-    const {theme, partialOption, pickMultipleDayPartialOption} = this.props;
+  isStartEndOptionStartDayHalfSpecifyTime = (
+    partialOption?: MultipleDayPartialOption,
+  ) => {
+    return (
+      partialOption?.partialOption === PARTIAL_OPTION_START_END &&
+      partialOption?.startDayType === SPECIFY_TIME
+    );
+  };
 
-    const radioStyle = {paddingVertical: theme.spacing * 2};
+  getFromTime = (
+    partialOption?: MultipleDayPartialOption,
+    partialStartEndType?: 'start' | 'end',
+  ) => {
+    if (
+      (partialOption?.partialOption === PARTIAL_OPTION_ALL ||
+        partialOption?.partialOption === PARTIAL_OPTION_START) &&
+      partialOption?.startDayType === SPECIFY_TIME
+    ) {
+      return partialOption.startDayFromTime;
+    } else if (
+      partialOption?.partialOption === PARTIAL_OPTION_END &&
+      partialOption?.endDayType === SPECIFY_TIME
+    ) {
+      return partialOption.endDayFromTime;
+    } else if (
+      partialOption?.partialOption === PARTIAL_OPTION_START_END &&
+      partialOption?.endDayType === SPECIFY_TIME &&
+      partialStartEndType === 'end'
+    ) {
+      return partialOption.endDayFromTime;
+    } else if (
+      partialOption?.partialOption === PARTIAL_OPTION_START_END &&
+      partialOption?.startDayType === SPECIFY_TIME &&
+      partialStartEndType === 'start'
+    ) {
+      return partialOption.startDayFromTime;
+    }
+    return undefined;
+  };
+
+  getToTime = (
+    partialOption?: MultipleDayPartialOption,
+    partialStartEndType?: 'start' | 'end',
+  ) => {
+    if (
+      (partialOption?.partialOption === PARTIAL_OPTION_ALL ||
+        partialOption?.partialOption === PARTIAL_OPTION_START) &&
+      partialOption?.startDayType === SPECIFY_TIME
+    ) {
+      return partialOption.startDayToTime;
+    } else if (
+      partialOption?.partialOption === PARTIAL_OPTION_END &&
+      partialOption?.endDayType === SPECIFY_TIME
+    ) {
+      return partialOption.endDayToTime;
+    } else if (
+      partialOption?.partialOption === PARTIAL_OPTION_START_END &&
+      partialOption?.endDayType === SPECIFY_TIME &&
+      partialStartEndType === 'end'
+    ) {
+      return partialOption.endDayToTime;
+    } else if (
+      partialOption?.partialOption === PARTIAL_OPTION_START_END &&
+      partialOption?.startDayType === SPECIFY_TIME &&
+      partialStartEndType === 'start'
+    ) {
+      return partialOption.startDayToTime;
+    }
+    return undefined;
+  };
+
+  render() {
+    const {partialOption, pickMultipleDayPartialOption} = this.props;
 
     return (
       <>
         {partialOption?.partialOption === PARTIAL_OPTION_ALL ||
         partialOption?.partialOption === PARTIAL_OPTION_START ? (
-          <View
-            style={[
-              styles.rootView,
-              {
-                paddingBottom: theme.spacing * 2,
-                backgroundColor: theme.palette.backgroundSecondary,
-              },
-            ]}>
-            <View
-              style={{
-                backgroundColor: theme.palette.background,
-              }}>
-              <Text bold style={{padding: theme.spacing * 4}}>
-                {partialOption?.partialOption === PARTIAL_OPTION_ALL
+          <>
+            <PickMultipleDayPartialOption
+              title={
+                partialOption?.partialOption === PARTIAL_OPTION_ALL
                   ? 'All Days'
-                  : 'Start Day'}
-              </Text>
-              <Divider />
-              <View
-                style={{
-                  paddingHorizontal: theme.spacing * 8,
-                  paddingVertical: theme.spacing * 2,
-                }}>
-                <RadioItem
-                  title={'Half Day - Morning'}
-                  radioProps={{
-                    selected: this.isStartDayHalfDayMorning(partialOption),
-                  }}
-                  style={{...radioStyle}}
-                  onPress={() => {
-                    if (partialOption?.partialOption === PARTIAL_OPTION_ALL) {
-                      pickMultipleDayPartialOption({
-                        partialOption: PARTIAL_OPTION_ALL,
-                        startDayType: HALF_DAY,
-                        startDayAMPM: HALF_DAY_MORNING,
-                      });
-                    } else {
-                      pickMultipleDayPartialOption({
-                        partialOption: PARTIAL_OPTION_START,
-                        startDayType: HALF_DAY,
-                        startDayAMPM: HALF_DAY_MORNING,
-                      });
-                    }
-                  }}
-                />
-                <RadioItem
-                  title={'Half Day - Afternoon'}
-                  radioProps={{
-                    selected: this.isStartDayHalfDayAfternoon(partialOption),
-                  }}
-                  style={{...radioStyle}}
-                  onPress={() => {
-                    if (partialOption?.partialOption === PARTIAL_OPTION_ALL) {
-                      pickMultipleDayPartialOption({
-                        partialOption: PARTIAL_OPTION_ALL,
-                        startDayType: HALF_DAY,
-                        startDayAMPM: HALF_DAY_AFTERNOON,
-                      });
-                    } else {
-                      pickMultipleDayPartialOption({
-                        partialOption: PARTIAL_OPTION_START,
-                        startDayType: HALF_DAY,
-                        startDayAMPM: HALF_DAY_AFTERNOON,
-                      });
-                    }
-                  }}
-                />
-              </View>
-            </View>
-          </View>
+                  : 'Start Day'
+              }
+              isHalfDayMorning={this.isStartDayHalfDayMorning(partialOption)}
+              isHalfDayAfternoon={this.isStartDayHalfDayAfternoon(
+                partialOption,
+              )}
+              isSpecifyTime={this.isStartDayHalfDaySpecifyTime(partialOption)}
+              onPressHalfDayMorning={() => {
+                if (partialOption?.partialOption === PARTIAL_OPTION_ALL) {
+                  pickMultipleDayPartialOption({
+                    partialOption: PARTIAL_OPTION_ALL,
+                    startDayType: HALF_DAY,
+                    startDayAMPM: HALF_DAY_MORNING,
+                  });
+                } else {
+                  pickMultipleDayPartialOption({
+                    partialOption: PARTIAL_OPTION_START,
+                    startDayType: HALF_DAY,
+                    startDayAMPM: HALF_DAY_MORNING,
+                  });
+                }
+              }}
+              onPressHalfDayAfternoon={() => {
+                if (partialOption?.partialOption === PARTIAL_OPTION_ALL) {
+                  pickMultipleDayPartialOption({
+                    partialOption: PARTIAL_OPTION_ALL,
+                    startDayType: HALF_DAY,
+                    startDayAMPM: HALF_DAY_AFTERNOON,
+                  });
+                } else {
+                  pickMultipleDayPartialOption({
+                    partialOption: PARTIAL_OPTION_START,
+                    startDayType: HALF_DAY,
+                    startDayAMPM: HALF_DAY_AFTERNOON,
+                  });
+                }
+              }}
+              onPressSpecifyTime={() => {
+                if (partialOption?.partialOption === PARTIAL_OPTION_ALL) {
+                  pickMultipleDayPartialOption({
+                    partialOption: PARTIAL_OPTION_ALL,
+                    startDayType: SPECIFY_TIME,
+                    startDayFromTime: DEFAULT_FROM_TIME,
+                    startDayToTime: DEFAULT_TO_TIME,
+                  });
+                } else {
+                  pickMultipleDayPartialOption({
+                    partialOption: PARTIAL_OPTION_START,
+                    startDayType: SPECIFY_TIME,
+                    startDayFromTime: DEFAULT_FROM_TIME,
+                    startDayToTime: DEFAULT_TO_TIME,
+                  });
+                }
+              }}
+              specificTimeFrom={this.getFromTime(partialOption)}
+              specificTimeTo={this.getToTime(partialOption)}
+              setSpecificTimeFrom={(time) => {
+                if (partialOption?.partialOption === PARTIAL_OPTION_ALL) {
+                  pickMultipleDayPartialOption({
+                    partialOption: PARTIAL_OPTION_ALL,
+                    startDayType: SPECIFY_TIME,
+                    startDayFromTime: time,
+                    startDayToTime:
+                      partialOption.startDayType === SPECIFY_TIME
+                        ? partialOption.startDayToTime
+                        : DEFAULT_TO_TIME,
+                  });
+                } else {
+                  pickMultipleDayPartialOption({
+                    partialOption: PARTIAL_OPTION_START,
+                    startDayType: SPECIFY_TIME,
+                    startDayFromTime: time,
+                    startDayToTime:
+                      partialOption.startDayType === SPECIFY_TIME
+                        ? partialOption.startDayToTime
+                        : DEFAULT_TO_TIME,
+                  });
+                }
+              }}
+              setSpecificTimeTo={(time) => {
+                if (partialOption?.partialOption === PARTIAL_OPTION_ALL) {
+                  pickMultipleDayPartialOption({
+                    partialOption: PARTIAL_OPTION_ALL,
+                    startDayType: SPECIFY_TIME,
+                    startDayFromTime:
+                      partialOption.startDayType === SPECIFY_TIME
+                        ? partialOption.startDayFromTime
+                        : DEFAULT_FROM_TIME,
+                    startDayToTime: time,
+                  });
+                } else {
+                  pickMultipleDayPartialOption({
+                    partialOption: PARTIAL_OPTION_START,
+                    startDayType: SPECIFY_TIME,
+                    startDayFromTime:
+                      partialOption.startDayType === SPECIFY_TIME
+                        ? partialOption.startDayFromTime
+                        : DEFAULT_FROM_TIME,
+                    startDayToTime: time,
+                  });
+                }
+              }}
+            />
+          </>
         ) : null}
 
         {partialOption?.partialOption === PARTIAL_OPTION_END ? (
-          <View
-            style={[
-              styles.rootView,
-              {
-                paddingBottom: theme.spacing * 2,
-                backgroundColor: theme.palette.backgroundSecondary,
-              },
-            ]}>
-            <View
-              style={{
-                backgroundColor: theme.palette.background,
-              }}>
-              <Text bold style={{padding: theme.spacing * 4}}>
-                {'End Day'}
-              </Text>
-              <Divider />
-              <View
-                style={{
-                  paddingHorizontal: theme.spacing * 8,
-                  paddingVertical: theme.spacing * 2,
-                }}>
-                <RadioItem
-                  title={'Half Day - Morning'}
-                  radioProps={{
-                    selected: this.isEndDayHalfDayMorning(partialOption),
-                  }}
-                  style={{...radioStyle}}
-                  onPress={() => {
-                    pickMultipleDayPartialOption({
-                      partialOption: PARTIAL_OPTION_END,
-                      endDayType: HALF_DAY,
-                      endDayAMPM: HALF_DAY_MORNING,
-                    });
-                  }}
-                />
-                <RadioItem
-                  title={'Half Day - Afternoon'}
-                  radioProps={{
-                    selected: this.isEndDayHalfDayAfternoon(partialOption),
-                  }}
-                  style={{...radioStyle}}
-                  onPress={() => {
-                    pickMultipleDayPartialOption({
-                      partialOption: PARTIAL_OPTION_END,
-                      endDayType: HALF_DAY,
-                      endDayAMPM: HALF_DAY_AFTERNOON,
-                    });
-                  }}
-                />
-              </View>
-            </View>
-          </View>
+          <>
+            <PickMultipleDayPartialOption
+              title={'End Day'}
+              isHalfDayMorning={this.isEndDayHalfDayMorning(partialOption)}
+              isHalfDayAfternoon={this.isEndDayHalfDayAfternoon(partialOption)}
+              isSpecifyTime={this.isEndDayHalfDaySpecifyTime(partialOption)}
+              onPressHalfDayMorning={() => {
+                pickMultipleDayPartialOption({
+                  partialOption: PARTIAL_OPTION_END,
+                  endDayType: HALF_DAY,
+                  endDayAMPM: HALF_DAY_MORNING,
+                });
+              }}
+              onPressHalfDayAfternoon={() => {
+                pickMultipleDayPartialOption({
+                  partialOption: PARTIAL_OPTION_END,
+                  endDayType: HALF_DAY,
+                  endDayAMPM: HALF_DAY_AFTERNOON,
+                });
+              }}
+              onPressSpecifyTime={() => {
+                pickMultipleDayPartialOption({
+                  partialOption: PARTIAL_OPTION_END,
+                  endDayType: SPECIFY_TIME,
+                  endDayFromTime: DEFAULT_FROM_TIME,
+                  endDayToTime: DEFAULT_TO_TIME,
+                });
+              }}
+              specificTimeFrom={this.getFromTime(partialOption)}
+              specificTimeTo={this.getToTime(partialOption)}
+              setSpecificTimeFrom={(time) => {
+                pickMultipleDayPartialOption({
+                  partialOption: PARTIAL_OPTION_END,
+                  endDayType: SPECIFY_TIME,
+                  endDayFromTime: time,
+                  endDayToTime:
+                    partialOption.endDayType === SPECIFY_TIME
+                      ? partialOption.endDayToTime
+                      : DEFAULT_TO_TIME,
+                });
+              }}
+              setSpecificTimeTo={(time) => {
+                pickMultipleDayPartialOption({
+                  partialOption: PARTIAL_OPTION_END,
+                  endDayType: SPECIFY_TIME,
+                  endDayFromTime:
+                    partialOption.endDayType === SPECIFY_TIME
+                      ? partialOption.endDayFromTime
+                      : DEFAULT_FROM_TIME,
+                  endDayToTime: time,
+                });
+              }}
+            />
+          </>
         ) : null}
 
         {partialOption?.partialOption === PARTIAL_OPTION_START_END ? (
           <>
-            <View
-              style={[
-                styles.rootView,
-                {
-                  paddingBottom: theme.spacing * 2,
-                  backgroundColor: theme.palette.backgroundSecondary,
-                },
-              ]}>
-              <View
-                style={{
-                  backgroundColor: theme.palette.background,
-                }}>
-                <Text bold style={{padding: theme.spacing * 4}}>
-                  {'Start Day'}
-                </Text>
-                <Divider />
-                <View
-                  style={{
-                    paddingHorizontal: theme.spacing * 8,
-                    paddingVertical: theme.spacing * 2,
-                  }}>
-                  <RadioItem
-                    title={'Half Day - Morning'}
-                    radioProps={{
-                      selected: this.isStartEndOptionStartDayHalfDayMorning(
-                        partialOption,
-                      ),
-                    }}
-                    style={{...radioStyle}}
-                    onPress={() => {
-                      pickMultipleDayPartialOption({
-                        ...partialOption,
-                        partialOption: PARTIAL_OPTION_START_END,
-                        startDayType: HALF_DAY,
-                        startDayAMPM: HALF_DAY_MORNING,
-                      });
-                    }}
-                  />
-                  <RadioItem
-                    title={'Half Day - Afternoon'}
-                    radioProps={{
-                      selected: this.isStartEndOptionStartDayHalfDayAfternoon(
-                        partialOption,
-                      ),
-                    }}
-                    style={{...radioStyle}}
-                    onPress={() => {
-                      pickMultipleDayPartialOption({
-                        ...partialOption,
-                        partialOption: PARTIAL_OPTION_START_END,
-                        startDayType: HALF_DAY,
-                        startDayAMPM: HALF_DAY_AFTERNOON,
-                      });
-                    }}
-                  />
-                </View>
-              </View>
-            </View>
-            <View
-              style={[
-                styles.rootView,
-                {
-                  paddingBottom: theme.spacing * 2,
-                  backgroundColor: theme.palette.backgroundSecondary,
-                },
-              ]}>
-              <View
-                style={{
-                  backgroundColor: theme.palette.background,
-                }}>
-                <Text bold style={{padding: theme.spacing * 4}}>
-                  {'End Day'}
-                </Text>
-                <Divider />
-                <View
-                  style={{
-                    paddingHorizontal: theme.spacing * 8,
-                    paddingVertical: theme.spacing * 2,
-                  }}>
-                  <RadioItem
-                    title={'Half Day - Morning'}
-                    radioProps={{
-                      selected: this.isStartEndOptionEndDayHalfDayMorning(
-                        partialOption,
-                      ),
-                    }}
-                    style={{...radioStyle}}
-                    onPress={() => {
-                      pickMultipleDayPartialOption({
-                        ...partialOption,
-                        partialOption: PARTIAL_OPTION_START_END,
-                        endDayType: HALF_DAY,
-                        endDayAMPM: HALF_DAY_MORNING,
-                      });
-                    }}
-                  />
-                  <RadioItem
-                    title={'Half Day - Afternoon'}
-                    radioProps={{
-                      selected: this.isStartEndOptionEndDayHalfDayAfternoon(
-                        partialOption,
-                      ),
-                    }}
-                    style={{...radioStyle}}
-                    onPress={() => {
-                      pickMultipleDayPartialOption({
-                        ...partialOption,
-                        partialOption: PARTIAL_OPTION_START_END,
-                        endDayType: HALF_DAY,
-                        endDayAMPM: HALF_DAY_AFTERNOON,
-                      });
-                    }}
-                  />
-                </View>
-              </View>
-            </View>
+            <PickMultipleDayPartialOption
+              title={'Start Day'}
+              isHalfDayMorning={this.isStartEndOptionStartDayHalfDayMorning(
+                partialOption,
+              )}
+              isHalfDayAfternoon={this.isStartEndOptionStartDayHalfDayAfternoon(
+                partialOption,
+              )}
+              isSpecifyTime={this.isStartEndOptionStartDayHalfSpecifyTime(
+                partialOption,
+              )}
+              onPressHalfDayMorning={() => {
+                pickMultipleDayPartialOption({
+                  ...partialOption,
+                  partialOption: PARTIAL_OPTION_START_END,
+                  startDayType: HALF_DAY,
+                  startDayAMPM: HALF_DAY_MORNING,
+                });
+              }}
+              onPressHalfDayAfternoon={() => {
+                pickMultipleDayPartialOption({
+                  ...partialOption,
+                  partialOption: PARTIAL_OPTION_START_END,
+                  startDayType: HALF_DAY,
+                  startDayAMPM: HALF_DAY_AFTERNOON,
+                });
+              }}
+              onPressSpecifyTime={() => {
+                pickMultipleDayPartialOption({
+                  ...partialOption,
+                  partialOption: PARTIAL_OPTION_START_END,
+                  startDayType: SPECIFY_TIME,
+                  startDayFromTime: DEFAULT_FROM_TIME,
+                  startDayToTime: DEFAULT_TO_TIME,
+                });
+              }}
+              specificTimeFrom={this.getFromTime(partialOption, 'start')}
+              specificTimeTo={this.getToTime(partialOption, 'start')}
+              setSpecificTimeFrom={(time) => {
+                pickMultipleDayPartialOption({
+                  ...partialOption,
+                  partialOption: PARTIAL_OPTION_START_END,
+                  startDayType: SPECIFY_TIME,
+                  startDayFromTime: time,
+                  startDayToTime:
+                    partialOption.startDayType === SPECIFY_TIME
+                      ? partialOption.startDayToTime
+                      : DEFAULT_TO_TIME,
+                });
+              }}
+              setSpecificTimeTo={(time) => {
+                pickMultipleDayPartialOption({
+                  ...partialOption,
+                  partialOption: PARTIAL_OPTION_START_END,
+                  startDayType: SPECIFY_TIME,
+                  startDayFromTime:
+                    partialOption.startDayType === SPECIFY_TIME
+                      ? partialOption.startDayFromTime
+                      : DEFAULT_FROM_TIME,
+                  startDayToTime: time,
+                });
+              }}
+            />
+            <PickMultipleDayPartialOption
+              title={'End Day'}
+              isHalfDayMorning={this.isStartEndOptionEndDayHalfDayMorning(
+                partialOption,
+              )}
+              isHalfDayAfternoon={this.isStartEndOptionEndDayHalfDayAfternoon(
+                partialOption,
+              )}
+              isSpecifyTime={this.isStartEndOptionEndDayHalfDaySpecifyTime(
+                partialOption,
+              )}
+              onPressHalfDayMorning={() => {
+                pickMultipleDayPartialOption({
+                  ...partialOption,
+                  partialOption: PARTIAL_OPTION_START_END,
+                  endDayType: HALF_DAY,
+                  endDayAMPM: HALF_DAY_MORNING,
+                });
+              }}
+              onPressHalfDayAfternoon={() => {
+                pickMultipleDayPartialOption({
+                  ...partialOption,
+                  partialOption: PARTIAL_OPTION_START_END,
+                  endDayType: HALF_DAY,
+                  endDayAMPM: HALF_DAY_AFTERNOON,
+                });
+              }}
+              onPressSpecifyTime={() => {
+                pickMultipleDayPartialOption({
+                  ...partialOption,
+                  partialOption: PARTIAL_OPTION_START_END,
+                  endDayType: SPECIFY_TIME,
+                  endDayFromTime: DEFAULT_FROM_TIME,
+                  endDayToTime: DEFAULT_TO_TIME,
+                });
+              }}
+              specificTimeFrom={this.getFromTime(partialOption, 'end')}
+              specificTimeTo={this.getToTime(partialOption, 'end')}
+              setSpecificTimeFrom={(time) => {
+                pickMultipleDayPartialOption({
+                  ...partialOption,
+                  partialOption: PARTIAL_OPTION_START_END,
+                  endDayType: SPECIFY_TIME,
+                  endDayFromTime: time,
+                  endDayToTime:
+                    partialOption.endDayType === SPECIFY_TIME
+                      ? partialOption.endDayToTime
+                      : DEFAULT_TO_TIME,
+                });
+              }}
+              setSpecificTimeTo={(time) => {
+                pickMultipleDayPartialOption({
+                  ...partialOption,
+                  partialOption: PARTIAL_OPTION_START_END,
+                  endDayType: SPECIFY_TIME,
+                  endDayFromTime:
+                    partialOption.endDayType === SPECIFY_TIME
+                      ? partialOption.endDayFromTime
+                      : DEFAULT_FROM_TIME,
+                  endDayToTime: time,
+                });
+              }}
+            />
           </>
         ) : null}
       </>
@@ -382,15 +517,9 @@ class PickPartialDayDuration extends React.Component<
   }
 }
 
-interface PickPartialDayDurationProps extends WithTheme {
+interface PickPartialDayDurationProps {
   partialOption?: MultipleDayPartialOption;
   pickMultipleDayPartialOption: typeof pickMultipleDayPartialOptionAction;
 }
 
-const styles = StyleSheet.create({
-  rootView: {
-    flex: 1,
-  },
-});
-
-export default withTheme<PickPartialDayDurationProps>()(PickPartialDayDuration);
+export default PickPartialDayDuration;

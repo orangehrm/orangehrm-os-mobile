@@ -112,6 +112,8 @@ export const PARTIAL_OPTION_START_END = 'start_end';
 export const PARTIAL_OPTION_NONE = 'none';
 export const HALF_DAY_MORNING = 'AM';
 export const HALF_DAY_AFTERNOON = 'PM';
+export const DEFAULT_FROM_TIME = '09:00';
+export const DEFAULT_TO_TIME = '17:00';
 
 export interface SingleDayLeaveRequestHalfDay {
   singleType: typeof HALF_DAY;
@@ -129,6 +131,13 @@ export interface SingleDayLeaveRequestSpecifyTime {
 }
 
 export type HalfDayType = typeof HALF_DAY_MORNING | typeof HALF_DAY_AFTERNOON;
+
+export type PartialOptions =
+  | typeof PARTIAL_OPTION_NONE
+  | typeof PARTIAL_OPTION_ALL
+  | typeof PARTIAL_OPTION_START
+  | typeof PARTIAL_OPTION_END
+  | typeof PARTIAL_OPTION_START_END;
 
 export type MultipleDayLeaveRequest = MultipleDayPartialOption & LeaveRequest;
 
