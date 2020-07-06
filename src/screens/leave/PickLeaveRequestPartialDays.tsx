@@ -35,7 +35,7 @@ import Button from 'components/DefaultButton';
 import RadioItem from 'components/DefaultRadioItem';
 import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
-import {MyLeaveUsageNavigatorParamList} from 'screens/leave/MyLeaveUsageNavigator';
+import {ApplyLeaveNavigatorParamList} from 'screens/leave/ApplyLeaveNavigator';
 import PickPartialDayDuration from 'screens/leave/components/PickPartialDayDuration';
 import {PICK_LEAVE_REQUEST_DURATION} from 'screens';
 import {
@@ -48,12 +48,15 @@ import {
   PARTIAL_OPTION_START_END,
   MultipleDayPartialOption,
 } from 'store/leave/apply-leave/types';
+import {isValidPartialOptionSpecifyTime} from 'lib/helpers/leave';
 
 class PickLeaveRequestPartialDays extends React.Component<
   PickLeaveRequestPartialDaysProps
 > {
-  onPressContinue = () => {
-    this.props.navigation.goBack();
+  onPressContinue = (partialOption?: MultipleDayPartialOption) => () => {
+    if (isValidPartialOptionSpecifyTime(partialOption)) {
+      this.props.navigation.goBack();
+    }
   };
 
   isPartialOptionNone = (partialOption?: MultipleDayPartialOption) => {
@@ -101,7 +104,7 @@ class PickLeaveRequestPartialDays extends React.Component<
               title={'Continue'}
               primary
               fullWidth
-              onPress={this.onPressContinue}
+              onPress={this.onPressContinue(partialOption)}
             />
           </View>
         }>
@@ -207,7 +210,7 @@ interface PickLeaveRequestPartialDaysProps
     ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
   route: RouteProp<
-    MyLeaveUsageNavigatorParamList,
+    ApplyLeaveNavigatorParamList,
     typeof PICK_LEAVE_REQUEST_DURATION
   >;
 }

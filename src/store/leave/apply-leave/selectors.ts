@@ -57,3 +57,9 @@ export const selectPartialOption = createSelector<
   ApplyLeaveState,
   MultipleDayPartialOption
 >([selectApplyLeave], (applyLeave) => applyLeave.partialOption);
+
+export const selectLeaveComment = createSelector<
+  RootState,
+  ApplyLeaveState,
+  string | undefined
+>([selectApplyLeave], (applyLeave) => applyLeave.comment);

@@ -37,7 +37,7 @@ import {
 } from 'store/leave/leave-usage/actions';
 import {resetApplyLeave} from 'store/leave/apply-leave/actions';
 
-function* saveSingleDayLeaveRequest(
+function* saveLeaveRequest(
   action: SaveSingleDayLeaveRequestAction | SaveMultipleDayLeaveRequestAction,
 ) {
   try {
@@ -54,16 +54,16 @@ function* saveSingleDayLeaveRequest(
       yield put(resetApplyLeave());
       yield showSnackMessage('Successfully Submited');
     } else {
-      yield showSnackMessage('Faile to Save Leave');
+      yield showSnackMessage('Failed to Save Leave');
     }
   } catch (error) {
-    yield showSnackMessage('Failed to Fetch Leave Details');
+    yield showSnackMessage('Failed to Save Leave');
   } finally {
     yield closeLoader();
   }
 }
 
 export function* watchApplyLeaveActions() {
-  yield takeEvery(SAVE_SINGLE_DAY_LEAVE_REQUEST, saveSingleDayLeaveRequest);
-  yield takeEvery(SAVE_MULTIPLE_DAY_LEAVE_REQUEST, saveSingleDayLeaveRequest);
+  yield takeEvery(SAVE_SINGLE_DAY_LEAVE_REQUEST, saveLeaveRequest);
+  yield takeEvery(SAVE_MULTIPLE_DAY_LEAVE_REQUEST, saveLeaveRequest);
 }

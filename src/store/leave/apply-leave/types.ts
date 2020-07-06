@@ -37,7 +37,12 @@ export const SAVE_MULTIPLE_DAY_LEAVE_REQUEST =
 export const PICK_SINGLE_DAY_DURATION = 'APPLY_LEAVE_PICK_SINGLE_DAY_DURATION';
 export const PICK_MULTIPLE_DAY_PARTIAL_OPTION =
   'APPLY_LEAVE_PICK_MULTIPLE_DAY_PARTIAL_OPTION';
+export const PICK_LEAVE_COMMENT = 'APPLY_LEAVE_PICK_LEAVE_COMMENT';
 export const RESET_APPLY_LEAVE = 'APPLY_LEAVE_RESET_APPLY_LEAVE';
+export const RESET_SINGLE_DAY_DURATION =
+  'APPLY_LEAVE_RESET_SINGLE_DAY_DURATION';
+export const RESET_MULTIPLE_DAY_PARTIAL_OPTION =
+  'APPLY_LEAVE_RESET_MULTIPLE_DAY_PARTIAL_OPTION';
 
 export interface PickFromDateAction {
   type: typeof PICK_FROM_DATE;
@@ -74,8 +79,21 @@ export interface PickMultipleDayPartialOptionAction {
   partialOption: MultipleDayPartialOption;
 }
 
+export interface PickLeaveCommentAction {
+  type: typeof PICK_LEAVE_COMMENT;
+  comment?: string;
+}
+
 export interface ResetApplyLeaveAction {
   type: typeof RESET_APPLY_LEAVE;
+}
+
+export interface ResetSingleDayDurationAction {
+  type: typeof RESET_SINGLE_DAY_DURATION;
+}
+
+export interface ResetMultipleDayPartialOptionAction {
+  type: typeof RESET_MULTIPLE_DAY_PARTIAL_OPTION;
 }
 
 export type ApplyLeaveActionTypes =
@@ -86,7 +104,10 @@ export type ApplyLeaveActionTypes =
   | SaveMultipleDayLeaveRequestAction
   | PickSingleDayDurationAction
   | PickMultipleDayPartialOptionAction
-  | ResetApplyLeaveAction;
+  | PickLeaveCommentAction
+  | ResetApplyLeaveAction
+  | ResetSingleDayDurationAction
+  | ResetMultipleDayPartialOptionAction;
 
 export interface LeaveRequest {
   type: string;

@@ -29,7 +29,7 @@ import {
   PICK_LEAVE_REQUEST_DURATION,
   PICK_LEAVE_REQUEST_PARTIAL_DAYS,
 } from 'screens';
-import {navigate} from 'lib/helpers/navigation';
+import {navigate, getNavigation} from 'lib/helpers/navigation';
 import {isSingleDayRequest, isMultipleDayRequest} from 'lib/helpers/leave';
 import {
   FULL_DAY,
@@ -45,8 +45,27 @@ import {
   SingleDayDuration,
   MultipleDayPartialOption,
 } from 'store/leave/apply-leave/types';
+import {
+  resetSingleDayDuration,
+  resetMultipleDayPartialOption,
+} from 'store/leave/apply-leave/actions';
+import {
+  isFromTimeLessThanToTime,
+  isValidPartialOptionSpecifyTime,
+} from 'lib/helpers/leave';
 
-class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
+class PickLeaveRequestDays extends React.Component<
+  PickLeaveRequestDaysProps,
+  PickLeaveRequestDaysState
+> {
+  constructor(props: PickLeaveRequestDaysProps) {
+    super(props);
+    this.state = {
+      error: '',
+      oncePressed: false,
+    };
+  }
+
   onPressRequestDays = () => {
     navigate(PICK_LEAVE_REQUEST_DAYS_CALENDAR, {
       parent: this.props.currentRoute,
@@ -101,15 +120,136 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
     return undefined;
   };
 
+  getPartialOptionDetails = () => {
+    const {partialOption} = this.props;
+    const details: NameValue[] = [];
+    if (
+      partialOption.partialOption === PARTIAL_OPTION_ALL ||
+      partialOption.partialOption === PARTIAL_OPTION_START ||
+      partialOption.partialOption === PARTIAL_OPTION_START_END
+    ) {
+      const name =
+        partialOption.partialOption === PARTIAL_OPTION_ALL
+          ? 'All Days:'
+          : 'Start Day:';
+      if (
+        partialOption.startDayType === HALF_DAY &&
+        partialOption.startDayAMPM === HALF_DAY_MORNING
+      ) {
+        details.push({name, value: 'Half Day - Morning'});
+      } else if (
+        partialOption.startDayType === HALF_DAY &&
+        partialOption.startDayAMPM === HALF_DAY_AFTERNOON
+      ) {
+        details.push({name, value: 'Half Day - Afternoon'});
+      } else if (partialOption.startDayType === SPECIFY_TIME) {
+        details.push({
+          name,
+          value:
+            partialOption.startDayFromTime +
+            ' - ' +
+            partialOption.startDayToTime,
+        });
+      }
+    }
+    if (
+      partialOption.partialOption === PARTIAL_OPTION_END ||
+      partialOption.partialOption === PARTIAL_OPTION_START_END
+    ) {
+      const name = 'End Day:';
+      if (
+        partialOption.endDayType === HALF_DAY &&
+        partialOption.endDayAMPM === HALF_DAY_MORNING
+      ) {
+        details.push({name, value: 'Half Day - Morning'});
+      } else if (
+        partialOption.endDayType === HALF_DAY &&
+        partialOption.endDayAMPM === HALF_DAY_AFTERNOON
+      ) {
+        details.push({name, value: 'Half Day - Afternoon'});
+      } else if (partialOption.endDayType === SPECIFY_TIME) {
+        details.push({
+          name,
+          value:
+            partialOption.endDayFromTime + ' - ' + partialOption.endDayToTime,
+        });
+      }
+    }
+    return details;
+  };
+
+  componentWillMount() {
+    getNavigation()?.addListener('state', this.routeChangeListner);
+  }
+
+  componentWillUnmount() {
+    getNavigation()?.removeListener('state', this.routeChangeListner);
+  }
+
+  componentDidUpdate(prevProps: PickLeaveRequestDaysProps) {
+    const {showError} = this.props;
+    if (showError !== prevProps.showError) {
+      if (showError) {
+        this.showError();
+      } else {
+        this.clearError();
+      }
+    }
+  }
+
+  showError = () => {
+    this.setState({error: 'Required'});
+  };
+
+  clearError = () => {
+    this.setState({error: ''});
+  };
+
+  routeChangeListner = () => {
+    const {
+      fromDate,
+      duration,
+      partialOption,
+      resetDuration,
+      resetPartialOption,
+    } = this.props;
+    const {oncePressed} = this.state;
+    if (fromDate === undefined && oncePressed) {
+      this.showError();
+    } else {
+      this.clearError();
+    }
+
+    if (duration.singleType === SPECIFY_TIME) {
+      if (
+        !isFromTimeLessThanToTime(
+          duration.singleFromTime,
+          duration.singleToTime,
+        )
+      ) {
+        resetDuration();
+      }
+    }
+
+    if (!isValidPartialOptionSpecifyTime(partialOption)) {
+      resetPartialOption();
+    }
+  };
+
   render() {
     const {theme, fromDate, toDate} = this.props;
+    const {error} = this.state;
+    const partialOptionDetails = this.getPartialOptionDetails();
 
     return (
       <>
         <View>
           <CardButton
             style={[styles.cardButton, {height: theme.spacing * 12}]}
-            onPress={this.onPressRequestDays}>
+            onPress={() => {
+              this.onPressRequestDays();
+              this.setState({oncePressed: true});
+            }}>
             <View style={[styles.cardButtonContent]}>
               <View style={styles.buttonLeftView}>
                 <Icon name={'calendar'} />
@@ -117,6 +257,16 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
                   {'Request Day(s)'}
                 </Text>
               </View>
+              {error !== '' ? (
+                <Text
+                  style={{
+                    color: theme.palette.error,
+                    fontSize: theme.typography.smallFontSize,
+                    paddingTop: theme.spacing,
+                  }}>
+                  {error}
+                </Text>
+              ) : null}
               <Icon name={'chevron-right'} />
             </View>
           </CardButton>
@@ -177,22 +327,48 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
           ) : null}
 
           {isMultipleDayRequest(fromDate, toDate) ? (
-            <CardButton
-              style={[styles.cardButton, {height: theme.spacing * 12}]}
-              onPress={this.onPressPartialDays}>
-              <View style={[styles.cardButtonContent]}>
-                <View style={styles.buttonLeftView}>
-                  <Icon name={'clock'} />
+            <>
+              <CardButton
+                style={[styles.cardButton, {height: theme.spacing * 12}]}
+                onPress={this.onPressPartialDays}>
+                <View style={[styles.cardButtonContent]}>
+                  <View style={styles.buttonLeftView}>
+                    <Icon name={'clock'} />
+                    <Text style={{paddingTop: theme.spacing * 0.5}}>
+                      {'Partial Days'}
+                    </Text>
+                  </View>
                   <Text style={{paddingTop: theme.spacing * 0.5}}>
-                    {'Partial Days'}
+                    {this.getSelectedTextForPrtialOption()}
                   </Text>
+                  <Icon name={'chevron-right'} />
                 </View>
-                <Text style={{paddingTop: theme.spacing * 0.5}}>
-                  {this.getSelectedTextForPrtialOption()}
-                </Text>
-                <Icon name={'chevron-right'} />
-              </View>
-            </CardButton>
+              </CardButton>
+              {partialOptionDetails.length !== 0 ? (
+                <TouchableWithoutFeedback onPress={this.onPressPartialDays}>
+                  <View
+                    style={{
+                      backgroundColor: theme.palette.background,
+                      paddingVertical: theme.spacing * 3,
+                      paddingLeft: theme.spacing * 13,
+                      paddingRight: theme.spacing * 20,
+                    }}>
+                    {partialOptionDetails.map((item) => (
+                      <View
+                        style={[
+                          styles.partialDaysTextView,
+                          {
+                            paddingVertical: theme.spacing,
+                          },
+                        ]}>
+                        <Text>{item.name}</Text>
+                        <Text>{item.value}</Text>
+                      </View>
+                    ))}
+                  </View>
+                </TouchableWithoutFeedback>
+              ) : null}
+            </>
           ) : null}
         </View>
       </>
@@ -206,7 +382,17 @@ interface PickLeaveRequestDaysProps extends WithTheme {
   toDate?: string;
   duration: SingleDayDuration;
   partialOption: MultipleDayPartialOption;
+  resetDuration: typeof resetSingleDayDuration;
+  resetPartialOption: typeof resetMultipleDayPartialOption;
+  showError?: boolean;
 }
+
+interface PickLeaveRequestDaysState {
+  error: string;
+  oncePressed: boolean;
+}
+
+type NameValue = {name: string; value: string};
 
 const styles = StyleSheet.create({
   buttonLeftView: {
@@ -222,6 +408,11 @@ const styles = StyleSheet.create({
     borderRadius: 0,
   },
   requestDaysTextView: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  partialDaysTextView: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',

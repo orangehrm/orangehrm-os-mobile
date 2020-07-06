@@ -26,3 +26,7 @@ export const navigationRef = React.createRef<NavigationContainerRef>();
 export const navigate = (name: string, params: any = {}) => {
   navigationRef.current?.navigate(name, params);
 };
+
+export const getNavigation = () => {
+  return navigationRef.current;
+};

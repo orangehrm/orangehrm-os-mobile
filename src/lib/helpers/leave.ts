@@ -19,6 +19,15 @@
  */
 
 import {Entitlement, Leave, LeaveStatus} from 'store/leave/leave-usage/types';
+import {
+  SPECIFY_TIME,
+  PARTIAL_OPTION_ALL,
+  PARTIAL_OPTION_START,
+  PARTIAL_OPTION_END,
+  PARTIAL_OPTION_START_END,
+  MultipleDayPartialOption,
+} from 'store/leave/apply-leave/types';
+import {getDateFromString} from 'lib/helpers/time';
 
 const LEAVE_TYPE_COLORS = [
   '#445abf',
@@ -71,20 +80,24 @@ const sortLeaveArrayByDate = (days: Leave[]) => {
   return sortedDays;
 };
 
-const getBreakDown = (days: Leave[]) => {
+const getBreakDown = (days: Leave[], workshift: number = 8) => {
   let order = 0;
   const breakDownObj: {
     [key: string]: {count: number; order: number; name: string};
   } = {};
   days.forEach((leave) => {
+    const statusDays = parseFloat(leave.duration) / workshift;
     if (leave.status === 'WEEKEND' || leave.status === 'HOLIDAY') {
       return;
     } else if (breakDownObj.hasOwnProperty(leave.status)) {
       const obj = breakDownObj[leave.status];
-      breakDownObj[leave.status] = {...obj, count: obj.count + 1};
+      breakDownObj[leave.status] = {
+        ...obj,
+        count: obj.count + statusDays,
+      };
     } else {
       breakDownObj[leave.status] = {
-        count: 1,
+        count: statusDays,
         order: order,
         name: LEAVE_STATUS_MAP[leave.status],
       };
@@ -155,6 +168,58 @@ const getTimeValuesForSlider = (): string[] => {
   return times;
 };
 
+/**
+ * Check multiple day partial option specific time valid
+ * @param partialOption
+ */
+const isValidPartialOptionSpecifyTime = (
+  partialOption?: MultipleDayPartialOption,
+) => {
+  if (
+    (partialOption?.partialOption === PARTIAL_OPTION_ALL ||
+      partialOption?.partialOption === PARTIAL_OPTION_START ||
+      partialOption?.partialOption === PARTIAL_OPTION_START_END) &&
+    partialOption.startDayType === SPECIFY_TIME
+  ) {
+    if (
+      !isFromTimeLessThanToTime(
+        partialOption.startDayFromTime,
+        partialOption.startDayToTime,
+      )
+    ) {
+      return false;
+    }
+  }
+  if (
+    (partialOption?.partialOption === PARTIAL_OPTION_END ||
+      partialOption?.partialOption === PARTIAL_OPTION_START_END) &&
+    partialOption.endDayType === SPECIFY_TIME
+  ) {
+    if (
+      !isFromTimeLessThanToTime(
+        partialOption.endDayFromTime,
+        partialOption.endDayToTime,
+      )
+    ) {
+      return false;
+    }
+  }
+  return true;
+};
+
+/**
+ * Compare from time less than to time
+ * @param {string} fromTime HH:MM format string
+ * @param {string} fromTime HH:MM format string
+ * @returns {boolean}
+ */
+const isFromTimeLessThanToTime = (
+  fromTime: string,
+  toTime: string,
+): boolean => {
+  return getDateFromString(fromTime) < getDateFromString(toTime);
+};
+
 type LeaveNameCount = {name: string; count: number; key: LeaveStatus};
 
 export {
@@ -165,4 +230,6 @@ export {
   isSingleDayRequest,
   isMultipleDayRequest,
   getTimeValuesForSlider,
+  isValidPartialOptionSpecifyTime,
+  isFromTimeLessThanToTime,
 };

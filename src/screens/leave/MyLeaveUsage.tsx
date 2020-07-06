@@ -19,11 +19,7 @@
  */
 
 import React from 'react';
-import {
-  NavigationProp,
-  ParamListBase,
-  StackActions,
-} from '@react-navigation/native';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
@@ -39,6 +35,7 @@ import LeaveUsageCard from 'screens/leave/components/LeaveUsageCard';
 import LeaveUsageActions from 'screens/leave/components/LeaveUsageActions';
 import Fab, {FabSpace} from 'components/DefaultFab';
 import {APPLY_LEAVE} from 'screens';
+import {navigate} from 'lib/helpers/navigation';
 
 class MyLeaveUsage extends React.Component<MyLeaveUsageProps> {
   constructor(props: MyLeaveUsageProps) {
@@ -51,7 +48,7 @@ class MyLeaveUsage extends React.Component<MyLeaveUsageProps> {
   };
 
   onPressApplyLeave = () => {
-    this.props.navigation.dispatch(StackActions.push(APPLY_LEAVE));
+    navigate(APPLY_LEAVE);
   };
 
   render() {

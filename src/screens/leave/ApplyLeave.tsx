@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Keyboard} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -34,30 +34,69 @@ import {
   selectToDate,
   selectDuration,
   selectPartialOption,
+  selectLeaveComment,
 } from 'store/leave/apply-leave/selectors';
 import {selectLeaveType} from 'store/leave/leave-usage/actions';
 import {
   saveSingleDayLeaveRequest,
   saveMultipleDayLeaveRequest,
+  pickLeaveComment,
 } from 'store/leave/apply-leave/actions';
 import {fetchMyLeaveEntitlements} from 'store/leave/leave-usage/actions';
 import Button from 'components/DefaultButton';
 import PickLeaveRequestType from 'screens/leave/components/PickLeaveRequestType';
 import PickLeaveRequestDays from 'screens/leave/components/PickLeaveRequestDays';
+import PickLeaveRequestComment, {
+  PickLeaveRequestCommentInput,
+} from 'screens/leave/components/PickLeaveRequestComment';
+import Divider from 'components/DefaultDivider';
 import {APPLY_LEAVE} from 'screens';
 import {isSingleDayRequest, isMultipleDayRequest} from 'lib/helpers/leave';
 import {LeaveRequest} from 'store/leave/apply-leave/types';
+import {
+  resetSingleDayDuration as resetSingleDayDurationAction,
+  resetMultipleDayPartialOption as resetMultipleDayPartialOptionAction,
+} from 'store/leave/apply-leave/actions';
 
-class ApplyLeave extends React.Component<ApplyLeaveProps> {
+class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
   constructor(props: ApplyLeaveProps) {
     super(props);
+    this.state = {
+      typingComment: false,
+      showRequestDaysError: false,
+    };
     this.updateEntitlements();
   }
+
+  componentDidMount() {
+    Keyboard.addListener('keyboardDidHide', this.hideCommentInput);
+  }
+
+  componentWillUnmount() {
+    Keyboard.removeListener('keyboardDidHide', this.hideCommentInput);
+  }
+
+  toggleCommentInput = () => {
+    if (this.state.typingComment === true) {
+      this.hideCommentInput();
+    } else {
+      this.showCommentInput();
+    }
+  };
+
+  showCommentInput = () => {
+    this.setState({typingComment: true});
+  };
+
+  hideCommentInput = () => {
+    this.setState({typingComment: false});
+  };
 
   onPressApplyLeave = () => {
     const {
       fromDate,
       toDate,
+      comment,
       selectedLeaveTypeId,
       duration,
       partialOption,
@@ -71,6 +110,7 @@ class ApplyLeave extends React.Component<ApplyLeaveProps> {
         fromDate: fromDate,
         toDate: toDate ? toDate : fromDate,
         type: selectedLeaveType?.leaveType.id,
+        comment: comment,
       };
       if (isSingleDayRequest(fromDate, toDate)) {
         this.props.saveSingleDayLeaveRequest({
@@ -82,11 +122,10 @@ class ApplyLeave extends React.Component<ApplyLeaveProps> {
           ...leaveRequest,
           ...partialOption,
         });
-      } else {
-        //TODO: Unexpected behaviour
       }
+      this.setState({showRequestDaysError: false});
     } else {
-      //TODO: handle validation
+      this.setState({showRequestDaysError: true});
     }
   };
 
@@ -110,24 +149,46 @@ class ApplyLeave extends React.Component<ApplyLeaveProps> {
       toDate,
       duration,
       partialOption,
+      comment,
+      setLeaveComment,
+      resetSingleDayDuration,
+      resetMultipleDayPartialOption,
     } = this.props;
+    const {typingComment, showRequestDaysError} = this.state;
     return (
       <MainLayout
         onRefresh={entitlements ? undefined : this.onRefresh}
         footer={
-          <View
-            style={{
-              paddingHorizontal: theme.spacing * 12,
-              paddingVertical: theme.spacing * 2,
-              backgroundColor: theme.palette.background,
-            }}>
-            <Button
-              title={'Apply'}
-              primary
-              fullWidth
-              onPress={this.onPressApplyLeave}
-            />
-          </View>
+          <>
+            {typingComment ? (
+              <>
+                <Divider />
+                <View style={{paddingHorizontal: theme.spacing * 4}}>
+                  <PickLeaveRequestCommentInput
+                    value={comment}
+                    onChangeText={(text) => {
+                      setLeaveComment(text);
+                    }}
+                    onBlur={this.hideCommentInput}
+                  />
+                </View>
+              </>
+            ) : (
+              <View
+                style={{
+                  paddingHorizontal: theme.spacing * 12,
+                  paddingVertical: theme.spacing * 2,
+                  backgroundColor: theme.palette.background,
+                }}>
+                <Button
+                  title={'Apply'}
+                  primary
+                  fullWidth
+                  onPress={this.onPressApplyLeave}
+                />
+              </View>
+            )}
+          </>
         }>
         <View
           style={[
@@ -148,7 +209,16 @@ class ApplyLeave extends React.Component<ApplyLeaveProps> {
             toDate={toDate}
             duration={duration}
             partialOption={partialOption}
+            resetDuration={resetSingleDayDuration}
+            resetPartialOption={resetMultipleDayPartialOption}
+            showError={showRequestDaysError}
           />
+          <View style={{paddingTop: theme.spacing * 2}}>
+            <PickLeaveRequestComment
+              onPress={this.toggleCommentInput}
+              comment={comment}
+            />
+          </View>
         </View>
       </MainLayout>
     );
@@ -157,6 +227,11 @@ class ApplyLeave extends React.Component<ApplyLeaveProps> {
 
 interface ApplyLeaveProps extends WithTheme, ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
+}
+
+interface ApplyLeaveState {
+  typingComment: boolean;
+  showRequestDaysError: boolean;
 }
 
 const styles = StyleSheet.create({
@@ -172,6 +247,7 @@ const mapStateToProps = (state: RootState) => ({
   toDate: selectToDate(state),
   duration: selectDuration(state),
   partialOption: selectPartialOption(state),
+  comment: selectLeaveComment(state),
 });
 
 const mapDispatchToProps = {
@@ -179,6 +255,9 @@ const mapDispatchToProps = {
   saveSingleDayLeaveRequest: saveSingleDayLeaveRequest,
   saveMultipleDayLeaveRequest: saveMultipleDayLeaveRequest,
   fetchMyLeaveEntitlements: fetchMyLeaveEntitlements,
+  setLeaveComment: pickLeaveComment,
+  resetSingleDayDuration: resetSingleDayDurationAction,
+  resetMultipleDayPartialOption: resetMultipleDayPartialOptionAction,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

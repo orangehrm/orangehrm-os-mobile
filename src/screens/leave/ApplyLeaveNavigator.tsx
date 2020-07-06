@@ -28,16 +28,21 @@ import {
 } from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import MyLeaveEntitilementsAndUsage from 'screens/leave/MyLeaveUsage';
-import MyLeave from 'screens/leave/MyLeave';
-import {MY_LEAVE_ENTITLEMENT_AND_USAGE, MY_LEAVE} from 'screens';
+import ApplyLeave from 'screens/leave/ApplyLeave';
+import PickLeaveRequestDaysCalendar from 'screens/leave/PickLeaveRequestDaysCalendar';
+import PickLeaveRequestDuration from 'screens/leave/PickLeaveRequestDuration';
+import PickLeaveRequestPartialDays from 'screens/leave/PickLeaveRequestPartialDays';
+import {
+  APPLY_LEAVE,
+  PICK_LEAVE_REQUEST_DAYS_CALENDAR,
+  PICK_LEAVE_REQUEST_DURATION,
+  PICK_LEAVE_REQUEST_PARTIAL_DAYS,
+} from 'screens';
 import IconButton from 'components/DefaultIconButton';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<ApplyLeaveNavigatorParamList>();
 
-class MyLeaveUsageNavigator extends React.Component<
-  MyLeaveUsageNavigatorProps
-> {
+class ApplyLeaveNavigator extends React.Component<ApplyLeaveNavigatorProps> {
   render() {
     const {theme, navigation} = this.props;
     const header = {
@@ -68,6 +73,7 @@ class MyLeaveUsageNavigator extends React.Component<
         />
       ),
     };
+
     const headerBackIcon = {
       headerLeft: () => (
         <IconButton
@@ -89,32 +95,66 @@ class MyLeaveUsageNavigator extends React.Component<
     };
 
     return (
-      <Stack.Navigator initialRouteName={MY_LEAVE_ENTITLEMENT_AND_USAGE}>
+      <Stack.Navigator initialRouteName={APPLY_LEAVE}>
         <Stack.Screen
-          name={MY_LEAVE_ENTITLEMENT_AND_USAGE}
-          component={MyLeaveEntitilementsAndUsage}
+          name={APPLY_LEAVE}
+          component={ApplyLeave}
           options={{
-            title: 'My Leave Usage',
+            title: 'Apply Leave',
             ...header,
             ...headerMenuIcon,
           }}
         />
         <Stack.Screen
-          name={MY_LEAVE}
-          component={MyLeave}
+          name={PICK_LEAVE_REQUEST_DAYS_CALENDAR}
+          component={PickLeaveRequestDaysCalendar}
           options={{
-            title: 'My Leave',
+            title: 'Request Day(s)',
             ...header,
             ...headerBackIcon,
           }}
+          initialParams={{parent: APPLY_LEAVE}}
+        />
+        <Stack.Screen
+          name={PICK_LEAVE_REQUEST_DURATION}
+          component={PickLeaveRequestDuration}
+          options={{
+            title: 'Duration',
+            ...header,
+            ...headerBackIcon,
+          }}
+          initialParams={{parent: APPLY_LEAVE}}
+        />
+        <Stack.Screen
+          name={PICK_LEAVE_REQUEST_PARTIAL_DAYS}
+          component={PickLeaveRequestPartialDays}
+          options={{
+            title: 'Partial Days',
+            ...header,
+            ...headerBackIcon,
+          }}
+          initialParams={{parent: APPLY_LEAVE}}
         />
       </Stack.Navigator>
     );
   }
 }
 
-interface MyLeaveUsageNavigatorProps extends WithTheme {
+interface ApplyLeaveNavigatorProps extends WithTheme {
   navigation: NavigationProp<ParamListBase>;
 }
 
-export default withTheme<MyLeaveUsageNavigatorProps>()(MyLeaveUsageNavigator);
+export type ApplyLeaveNavigatorParamList = {
+  [APPLY_LEAVE]: {};
+  [PICK_LEAVE_REQUEST_DAYS_CALENDAR]: {
+    parent: string;
+  };
+  [PICK_LEAVE_REQUEST_DURATION]: {
+    parent: string;
+  };
+  [PICK_LEAVE_REQUEST_PARTIAL_DAYS]: {
+    parent: string;
+  };
+};
+
+export default withTheme<ApplyLeaveNavigatorProps>()(ApplyLeaveNavigator);

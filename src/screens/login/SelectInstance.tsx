@@ -76,7 +76,7 @@ class SelectInstance extends React.Component<
     }
   };
 
-  handleOnClick = () => {
+  handleOnPress = () => {
     if (this.state.errorMessage === '') {
       const {storageSetItem} = this.props;
       let instanceUrl = this.state.instanceUrl;
@@ -114,12 +114,14 @@ class SelectInstance extends React.Component<
             onChangeText={this.handleOnChange}
             keyboardType={Platform.OS === 'ios' ? 'url' : 'email-address'}
             multiline
-            helperText={errorMessage}
+            helperText={errorMessage === '' ? undefined : errorMessage}
             itemProps={{error: errorMessage === '' ? false : true}}
+            onSubmitEditing={this.handleOnPress}
+            blurOnSubmit
           />
         }
         actions={
-          <Button title={'Continue'} onPress={this.handleOnClick} primary />
+          <Button title={'Continue'} onPress={this.handleOnPress} primary />
         }
       />
     );

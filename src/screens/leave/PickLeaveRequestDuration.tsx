@@ -34,7 +34,7 @@ import {pickSingleDayDuration as pickSingleDayDurationAction} from 'store/leave/
 import Button from 'components/DefaultButton';
 import RadioItem from 'components/DefaultRadioItem';
 import PickLeaveSpecificTime from 'screens/leave/components/PickLeaveSpecificTime';
-import {MyLeaveUsageNavigatorParamList} from 'screens/leave/MyLeaveUsageNavigator';
+import {ApplyLeaveNavigatorParamList} from 'screens/leave/ApplyLeaveNavigator';
 import {PICK_LEAVE_REQUEST_DURATION} from 'screens';
 import {
   FULL_DAY,
@@ -46,18 +46,19 @@ import {
   DEFAULT_TO_TIME,
   SingleDayDuration,
 } from 'store/leave/apply-leave/types';
-import {getDateFromString} from 'lib/helpers/time';
+import {isFromTimeLessThanToTime} from 'lib/helpers/leave';
 
 class PickLeaveRequestDuration extends React.Component<
   PickLeaveRequestDurationProps
 > {
-  isValidTimes = (fromTime: string, toTime: string) => {
-    return getDateFromString(fromTime) < getDateFromString(toTime);
-  };
-
   onPressContinue = (duration?: SingleDayDuration) => () => {
     if (duration?.singleType === SPECIFY_TIME) {
-      if (!this.isValidTimes(duration.singleFromTime, duration.singleToTime)) {
+      if (
+        !isFromTimeLessThanToTime(
+          duration.singleFromTime,
+          duration.singleToTime,
+        )
+      ) {
         return;
       }
     }
@@ -228,7 +229,7 @@ interface PickLeaveRequestDurationProps
     ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
   route: RouteProp<
-    MyLeaveUsageNavigatorParamList,
+    ApplyLeaveNavigatorParamList,
     typeof PICK_LEAVE_REQUEST_DURATION
   >;
 }

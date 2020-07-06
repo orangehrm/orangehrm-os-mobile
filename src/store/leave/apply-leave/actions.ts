@@ -26,7 +26,10 @@ import {
   SAVE_MULTIPLE_DAY_LEAVE_REQUEST,
   PICK_SINGLE_DAY_DURATION,
   PICK_MULTIPLE_DAY_PARTIAL_OPTION,
+  PICK_LEAVE_COMMENT,
   RESET_APPLY_LEAVE,
+  RESET_SINGLE_DAY_DURATION,
+  RESET_MULTIPLE_DAY_PARTIAL_OPTION,
   PickFromDateAction,
   PickToDateAction,
   PickDatesAction,
@@ -34,7 +37,10 @@ import {
   SaveMultipleDayLeaveRequestAction,
   PickSingleDayDurationAction,
   PickMultipleDayPartialOptionAction,
+  PickLeaveCommentAction,
   ResetApplyLeaveAction,
+  ResetSingleDayDurationAction,
+  ResetMultipleDayPartialOptionAction,
 } from 'store/leave/apply-leave/types';
 import {$PropertyType} from 'utility-types';
 
@@ -53,6 +59,10 @@ export const pickLeaveDates = (state: boolean = true): PickDatesAction => ({
   state,
 });
 
+/**
+ * API call with single day leave request action for saga
+ * @param payload
+ */
 export const saveSingleDayLeaveRequest = (
   payload: $PropertyType<SaveSingleDayLeaveRequestAction, 'payload'>,
 ): SaveSingleDayLeaveRequestAction => ({
@@ -60,6 +70,10 @@ export const saveSingleDayLeaveRequest = (
   payload,
 });
 
+/**
+ * API call with multiple day leave request action for saga
+ * @param payload
+ */
 export const saveMultipleDayLeaveRequest = (
   payload: $PropertyType<SaveMultipleDayLeaveRequestAction, 'payload'>,
 ): SaveMultipleDayLeaveRequestAction => ({
@@ -84,9 +98,22 @@ export const pickMultipleDayPartialOption = (
   partialOption,
 });
 
+export const pickLeaveComment = (comment?: string): PickLeaveCommentAction => ({
+  type: PICK_LEAVE_COMMENT,
+  comment,
+});
+
 /**
  * Reset redux store apply leave data
  */
 export const resetApplyLeave = (): ResetApplyLeaveAction => ({
   type: RESET_APPLY_LEAVE,
+});
+
+export const resetSingleDayDuration = (): ResetSingleDayDurationAction => ({
+  type: RESET_SINGLE_DAY_DURATION,
+});
+
+export const resetMultipleDayPartialOption = (): ResetMultipleDayPartialOptionAction => ({
+  type: RESET_MULTIPLE_DAY_PARTIAL_OPTION,
 });

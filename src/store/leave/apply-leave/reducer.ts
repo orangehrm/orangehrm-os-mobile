@@ -28,7 +28,10 @@ import {
   PARTIAL_OPTION_NONE,
   PICK_SINGLE_DAY_DURATION,
   PICK_MULTIPLE_DAY_PARTIAL_OPTION,
+  PICK_LEAVE_COMMENT,
   RESET_APPLY_LEAVE,
+  RESET_SINGLE_DAY_DURATION,
+  RESET_MULTIPLE_DAY_PARTIAL_OPTION,
 } from 'store/leave/apply-leave/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
@@ -71,6 +74,21 @@ const applyLeaveReducer = (
       return {
         ...state,
         partialOption: action.partialOption,
+      };
+    case PICK_LEAVE_COMMENT:
+      return {
+        ...state,
+        comment: action.comment,
+      };
+    case RESET_SINGLE_DAY_DURATION:
+      return {
+        ...state,
+        duration: initialState.duration,
+      };
+    case RESET_MULTIPLE_DAY_PARTIAL_OPTION:
+      return {
+        ...state,
+        partialOption: initialState.partialOption,
       };
     case RESET_APPLY_LEAVE:
     case LOGOUT:
