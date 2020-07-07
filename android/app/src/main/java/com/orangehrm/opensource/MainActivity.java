@@ -1,4 +1,4 @@
-package com.orangehrm;
+package com.orangehrm.opensource;
 
 import com.facebook.react.ReactActivity;
 
