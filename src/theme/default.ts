@@ -28,6 +28,7 @@ const defaultTheme: Theme = {
     info: '#2196f3',
     success: '#4caf50',
     background: '#ffffff',
+    backgroundSecondary: '#f6f6f6',
     statusBar: '#ffffff',
     statusBarSecondary: '#f88400',
     header: '#f88400',
@@ -56,6 +57,7 @@ export interface Palette {
   info: string;
   success: string;
   background: string;
+  backgroundSecondary: string;
   statusBar: string;
   statusBarSecondary: string;
   header: string;

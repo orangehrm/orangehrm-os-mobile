@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, TextInput} from 'react-native';
 import {
   NavigationProp,
   ParamListBase,
@@ -38,6 +38,8 @@ import {fetchAuthToken, checkInstanceFinished} from 'store/auth/actions';
 import {SELECT_INSTANCE} from 'screens';
 
 class Login extends React.Component<LoginProps, LoginState> {
+  passwordInput: TextInput | null | any;
+
   constructor(props: LoginProps) {
     super(props);
     this.state = {
@@ -46,9 +48,10 @@ class Login extends React.Component<LoginProps, LoginState> {
       usernameError: '',
       passwordError: '',
     };
+    this.passwordInput = null;
   }
 
-  handleLoginOnClick = () => {
+  handleLoginOnPress = () => {
     if (this.state.username === '' || this.state.password === '') {
       this.setUsernameError(this.state.username);
       this.setPasswordError(this.state.password);
@@ -70,6 +73,10 @@ class Login extends React.Component<LoginProps, LoginState> {
     } else if (field === 'password') {
       this.setPasswordError(text);
     }
+  };
+
+  handleFocusPassword = () => {
+    this.passwordInput?._root?.focus();
   };
 
   setUsernameError = (username: string) => {
@@ -105,6 +112,7 @@ class Login extends React.Component<LoginProps, LoginState> {
               onChangeText={this.handleOnChange('username')}
               helperText={usernameError === '' ? undefined : usernameError}
               itemProps={{error: usernameError === '' ? false : true}}
+              onSubmitEditing={this.handleFocusPassword}
             />
             <TextField
               label={'Password'}
@@ -114,11 +122,15 @@ class Login extends React.Component<LoginProps, LoginState> {
               onChangeText={this.handleOnChange('password')}
               helperText={passwordError === '' ? undefined : passwordError}
               itemProps={{error: passwordError === '' ? false : true}}
+              onSubmitEditing={this.handleLoginOnPress}
+              getRef={(input) => {
+                this.passwordInput = input;
+              }}
             />
           </>
         }
         actions={
-          <Button title={'Login'} onPress={this.handleLoginOnClick} primary />
+          <Button title={'Login'} onPress={this.handleLoginOnPress} primary />
         }
         more={
           <>

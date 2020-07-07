@@ -24,11 +24,13 @@ import {
   SELECT_LEAVE_TYPE,
   FETCH_MY_LEAVE_REQUEST,
   FETCH_MY_LEAVE_REQUEST_FINISHED,
+  RESET_MY_LEAVE_REQUEST,
   FetchMyLeaveEntitlementAction,
   FetchMyLeaveEntitlementFinishedAction,
   SelectLeaveTypeAction,
   FetchMyLeaveRequestAction,
   FetchMyLeaveRequestFinishedAction,
+  ResetMyLeaveRequestAction,
   Entitlement,
   LeaveRequest,
 } from 'store/leave/leave-usage/types';
@@ -62,4 +64,11 @@ export const fetchMyLeaveRequestsFinished = (
   type: FETCH_MY_LEAVE_REQUEST_FINISHED,
   payload,
   error,
+});
+
+/**
+ * Reset redux store my leave requests
+ */
+export const resethMyLeaveRequests = (): ResetMyLeaveRequestAction => ({
+  type: RESET_MY_LEAVE_REQUEST,
 });

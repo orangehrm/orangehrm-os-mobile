@@ -163,9 +163,7 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
 interface LeaveUsageCardProps
   extends WithTheme,
     ConnectedProps<typeof connector>,
-    Pick<ViewProps, 'style'> {
-  marginHorizontal?: number;
-}
+    Pick<ViewProps, 'style'> {}
 
 const styles = StyleSheet.create({
   validPeriodText: {

@@ -41,11 +41,13 @@ import SelectInstance from 'screens/login/SelectInstance';
 import {
   SELECT_INSTANCE,
   LOGIN,
+  APPLY_LEAVE,
   MY_LEAVE_ENTITLEMENT_AND_USAGE,
   LEAVE_LIST,
   SUBHEADER_LEAVE,
 } from 'screens';
 
+import ApplyLeave from 'screens/leave/ApplyLeaveNavigator';
 import MyLeaveUsage from 'screens/leave/MyLeaveUsageNavigator';
 import LeaveList from 'screens/leave/LeaveListNavigator';
 import DrawerContent from 'layouts/DrawerContent';
@@ -95,6 +97,12 @@ const Navigator = (props: NavigatorProps) => {
               }}
             />
           )}>
+          <Drawer.Screen
+            name={APPLY_LEAVE}
+            component={ApplyLeave}
+            options={{drawerLabel: 'Apply Leave'}}
+            initialParams={{subheader: SUBHEADER_LEAVE}}
+          />
           <Drawer.Screen
             name={MY_LEAVE_ENTITLEMENT_AND_USAGE}
             component={MyLeaveUsage}

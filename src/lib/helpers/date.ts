@@ -18,33 +18,33 @@
  *
  */
 
-import React from 'react';
-import {Text, TextProps, StyleSheet} from 'react-native';
-import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+/**
+ * Return array of dates for given period
+ * @param {Date} startDate
+ * @param {Date} endDate
+ * @returns {Date[]}
+ */
+const getDatesWithinPeriod = (startDate: Date, endDate: Date): Date[] => {
+  if (startDate > endDate) {
+    [startDate, endDate] = [endDate, startDate];
+  }
 
-function DefaultText(props: React.PropsWithChildren<DefaultTextProps>) {
-  const {children, style, theme, bold, ...restProps} = props;
-  return (
-    <Text
-      style={[
-        {color: theme.typography.primaryColor},
-        bold ? styles.textBold : undefined,
-        style,
-      ]}
-      {...restProps}>
-      {children}
-    </Text>
-  );
-}
+  const dates = [];
+  let currentDate = new Date(startDate);
+  while (currentDate <= endDate) {
+    dates.push(new Date(currentDate));
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+  return dates;
+};
 
-interface DefaultTextProps extends TextProps, WithTheme {
-  bold?: boolean;
-}
+/**
+ * Return date in ISO-8601 format (YYYY-MM-DD)
+ * @param {Date} date
+ * @returns {string}
+ */
+const getDateString = (date: Date): string => {
+  return date.toISOString().substring(0, 10);
+};
 
-const styles = StyleSheet.create({
-  textBold: {
-    fontWeight: 'bold',
-  },
-});
-
-export default withTheme<DefaultTextProps>()(DefaultText);
+export {getDatesWithinPeriod, getDateString};

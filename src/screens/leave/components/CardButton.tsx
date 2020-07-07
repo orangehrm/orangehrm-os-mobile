@@ -19,6 +19,7 @@
  */
 
 import React from 'react';
+import {StyleSheet} from 'react-native';
 import {Button, NativeBase} from 'native-base';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
@@ -28,12 +29,14 @@ const CardButton = (props: React.PropsWithChildren<CardButtonProps>) => {
   return (
     <Button
       style={[
+        styles.button,
         {
           backgroundColor: theme.palette.background,
           borderRadius: theme.borderRadius * 2,
         },
         style,
       ]}
+      rounded
       androidRippleColor={theme.palette.default}
       {...restProps}>
       {children}
@@ -42,5 +45,12 @@ const CardButton = (props: React.PropsWithChildren<CardButtonProps>) => {
 };
 
 interface CardButtonProps extends NativeBase.Button, WithTheme {}
+
+const styles = StyleSheet.create({
+  button: {
+    flex: 1,
+    alignItems: 'stretch',
+  },
+});
 
 export default withTheme<CardButtonProps>()(CardButton);

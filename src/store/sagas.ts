@@ -22,6 +22,7 @@ import {all, call} from 'redux-saga/effects';
 import {loadAsyncStorage, watchSetStorageItem} from 'store/storage/sagas';
 import {watchAuthActions} from 'store/auth/sagas';
 import {watchLeaveUsageActions} from 'store/leave/leave-usage/sagas';
+import {watchApplyLeaveActions} from 'store/leave/apply-leave/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -29,5 +30,6 @@ export default function* rootSaga() {
     call(watchSetStorageItem),
     call(watchAuthActions),
     call(watchLeaveUsageActions),
+    call(watchApplyLeaveActions),
   ]);
 }

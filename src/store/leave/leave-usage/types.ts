@@ -37,6 +37,7 @@ export const SELECT_LEAVE_TYPE = 'LEAVE_USAGE_SELECT_LEAVE_TYPE';
 export const FETCH_MY_LEAVE_REQUEST = 'LEAVE_USAGE_FETCH_MY_LEAVE_REQUEST';
 export const FETCH_MY_LEAVE_REQUEST_FINISHED =
   'LEAVE_USAGE_FETCH_MY_LEAVE_REQUEST_FINISHED';
+export const RESET_MY_LEAVE_REQUEST = 'LEAVE_USAGE_RESET_MY_LEAVE_REQUEST';
 
 export interface FetchMyLeaveEntitlementAction {
   type: typeof FETCH_MY_LEAVE_ENTITLEMENT;
@@ -63,12 +64,17 @@ export interface SelectLeaveTypeAction {
   id: string;
 }
 
+export interface ResetMyLeaveRequestAction {
+  type: typeof RESET_MY_LEAVE_REQUEST;
+}
+
 export type LeaveUsageActionTypes =
   | FetchMyLeaveEntitlementAction
   | FetchMyLeaveEntitlementFinishedAction
   | SelectLeaveTypeAction
   | FetchMyLeaveRequestAction
-  | FetchMyLeaveRequestFinishedAction;
+  | FetchMyLeaveRequestFinishedAction
+  | ResetMyLeaveRequestAction;
 
 export interface Entitlement {
   id: string;

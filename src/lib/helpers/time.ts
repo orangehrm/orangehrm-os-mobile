@@ -18,33 +18,17 @@
  *
  */
 
-import React from 'react';
-import {Text, TextProps, StyleSheet} from 'react-native';
-import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+/**
+ * Return date object for given HH:MM format string
+ * @param {string} hhMmString
+ * @returns {Date}
+ */
+const getDateFromString = (hhMmString: string): Date => {
+  const [hour, min] = hhMmString.split(':');
+  const date = new Date();
+  date.setHours(parseInt(hour, 10));
+  date.setMinutes(parseInt(min, 10));
+  return date;
+};
 
-function DefaultText(props: React.PropsWithChildren<DefaultTextProps>) {
-  const {children, style, theme, bold, ...restProps} = props;
-  return (
-    <Text
-      style={[
-        {color: theme.typography.primaryColor},
-        bold ? styles.textBold : undefined,
-        style,
-      ]}
-      {...restProps}>
-      {children}
-    </Text>
-  );
-}
-
-interface DefaultTextProps extends TextProps, WithTheme {
-  bold?: boolean;
-}
-
-const styles = StyleSheet.create({
-  textBold: {
-    fontWeight: 'bold',
-  },
-});
-
-export default withTheme<DefaultTextProps>()(DefaultText);
+export {getDateFromString};

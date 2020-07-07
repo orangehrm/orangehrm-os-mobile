@@ -19,32 +19,38 @@
  */
 
 import React from 'react';
-import {Text, TextProps, StyleSheet} from 'react-native';
+import {
+  View,
+  ViewProps,
+  TextInput,
+  TextInputProps as RNTextInputProps,
+} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
-function DefaultText(props: React.PropsWithChildren<DefaultTextProps>) {
-  const {children, style, theme, bold, ...restProps} = props;
+const DefaultTextInput = (
+  props: React.PropsWithChildren<DefaultTextInputProps>,
+) => {
+  const {viewProps, theme, ...inputProps} = props;
   return (
-    <Text
-      style={[
-        {color: theme.typography.primaryColor},
-        bold ? styles.textBold : undefined,
-        style,
-      ]}
-      {...restProps}>
-      {children}
-    </Text>
+    <View {...viewProps}>
+      <TextInput
+        {...inputProps}
+        style={[
+          {
+            fontSize: theme.typography.fontSize,
+            color: theme.typography.primaryColor,
+          },
+          inputProps.style,
+        ]}
+      />
+    </View>
   );
+};
+
+interface DefaultTextInputProps extends TextInputProps, WithTheme {}
+
+export interface TextInputProps extends RNTextInputProps {
+  viewProps?: ViewProps;
 }
 
-interface DefaultTextProps extends TextProps, WithTheme {
-  bold?: boolean;
-}
-
-const styles = StyleSheet.create({
-  textBold: {
-    fontWeight: 'bold',
-  },
-});
-
-export default withTheme<DefaultTextProps>()(DefaultText);
+export default withTheme<DefaultTextInputProps>()(DefaultTextInput);

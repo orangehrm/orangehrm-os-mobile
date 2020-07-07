@@ -33,23 +33,28 @@ class LeaveUsageActions extends React.Component<LeaveUsageActionsProps> {
   };
 
   render() {
-    const {theme} = this.props;
+    const {theme, style} = this.props;
 
     return (
       <>
         <View
-          style={{
-            paddingHorizontal: theme.spacing * 5,
-            paddingBottom: theme.spacing * 6,
-          }}>
+          style={[
+            {
+              paddingHorizontal: theme.spacing * 5,
+              paddingBottom: theme.spacing * 6,
+            },
+            style,
+          ]}>
           <CardButton onPress={this.onPressMyLeave}>
-            <View style={styles.buttonLeftView}>
-              <Icon name={'history'} />
-              <Text style={{paddingTop: theme.spacing * 0.5}}>
-                {'My Leave Usage'}
-              </Text>
+            <View style={styles.cardButtonContent}>
+              <View style={styles.buttonLeftView}>
+                <Icon name={'history'} />
+                <Text style={{paddingTop: theme.spacing * 0.5}}>
+                  {'My Leave Usage'}
+                </Text>
+              </View>
+              <Icon name={'chevron-right'} />
             </View>
-            <Icon name={'navigate-next'} type={'MaterialIcons'} />
           </CardButton>
         </View>
       </>
@@ -57,13 +62,17 @@ class LeaveUsageActions extends React.Component<LeaveUsageActionsProps> {
   }
 }
 
-interface LeaveUsageActionsProps extends WithTheme, Pick<ViewProps, 'style'> {
-  marginHorizontal?: number;
-}
+interface LeaveUsageActionsProps extends WithTheme, Pick<ViewProps, 'style'> {}
 
 const styles = StyleSheet.create({
   buttonLeftView: {
     flexDirection: 'row',
+  },
+  cardButtonContent: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
   },
 });
 

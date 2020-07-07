@@ -19,69 +19,46 @@
  */
 
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {Button, Text, NativeBase} from 'native-base';
+import {View, StyleSheet} from 'react-native';
+import {Fab, NativeBase} from 'native-base';
+import Icon from 'components/DefaultIcon';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
-function DefaultButton(props: DefaultButtonProps) {
-  const {
-    title,
-    transparent,
-    primary,
-    secondary,
-    theme,
-    style,
-    textProps,
-    fullWidth,
-    ...restProps
-  } = props;
+const DefaultFab = (props: DefaultFabProps) => {
+  const {iconName, primary, secondary, theme, style, ...restProps} = props;
   let color: string | undefined = theme.palette.default;
-  if (transparent) {
-    color = undefined;
-  } else if (primary) {
+  if (primary) {
     color = theme.palette.primary;
   } else if (secondary) {
     color = theme.palette.secondary;
   }
 
   return (
-    <Button
-      style={[
-        {
-          backgroundColor: color,
-          borderRadius: theme.borderRadius,
-        },
-        style,
-      ]}
-      transparent={transparent}
+    <Fab
+      containerStyle={{bottom: theme.spacing * 4, right: theme.spacing * 5}}
+      style={[{backgroundColor: color}, style]}
+      position="bottomRight"
       {...restProps}>
-      <Text
-        {...textProps}
-        style={[
-          {color: theme.typography.secondaryColor},
-          textProps?.style,
-          fullWidth ? styles.fullWidth : undefined,
-        ]}>
-        {title}
-      </Text>
-    </Button>
+      <Icon name={iconName} />
+    </Fab>
   );
-}
+};
 
-interface DefaultButtonProps extends NativeBase.Button, WithTheme {
-  title: string;
+interface DefaultFabProps extends NativeBase.Fab, WithTheme {
+  iconName: string;
   primary?: boolean;
   secondary?: boolean;
-  textProps?: NativeBase.Text;
-  transparent?: boolean;
-  fullWidth?: boolean;
 }
 
+export default withTheme<DefaultFabProps>()(DefaultFab);
+
+export const FabSpace = () => {
+  return <View style={styles.fabSpace} />;
+};
+
 const styles = StyleSheet.create({
-  fullWidth: {
-    width: '100%',
-    textAlign: 'center',
+  fabSpace: {
+    // Fab width = height = 56
+    padding: 28,
   },
 });
-
-export default withTheme<DefaultButtonProps>()(DefaultButton);
