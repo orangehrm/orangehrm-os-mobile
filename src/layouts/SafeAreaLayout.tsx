@@ -26,6 +26,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import {Root} from 'native-base';
 
 const SafeAreaLayout = (
   props: React.PropsWithChildren<SafeAreaLayoutProps>,
@@ -40,9 +41,11 @@ const SafeAreaLayout = (
       />
       <SafeAreaView
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
-        <KeyboardAvoidingView style={styles.root}>
-          {children}
-        </KeyboardAvoidingView>
+        <Root>
+          <KeyboardAvoidingView style={styles.root}>
+            {children}
+          </KeyboardAvoidingView>
+        </Root>
       </SafeAreaView>
     </>
   );

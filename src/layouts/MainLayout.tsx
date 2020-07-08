@@ -43,23 +43,23 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
       <SafeAreaView
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
         <Root>
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            contentContainerStyle={styles.scrollView}
-            keyboardShouldPersistTaps="always"
-            refreshControl={
-              onRefresh === undefined ? undefined : (
-                <RefreshControl
-                  refreshing={refreshing === undefined ? false : refreshing}
-                  onRefresh={onRefresh}
-                />
-              )
-            }>
-            <KeyboardAvoidingView style={styles.root}>
+          <KeyboardAvoidingView style={styles.root}>
+            <ScrollView
+              contentInsetAdjustmentBehavior="automatic"
+              contentContainerStyle={styles.scrollView}
+              keyboardShouldPersistTaps="handled"
+              refreshControl={
+                onRefresh === undefined ? undefined : (
+                  <RefreshControl
+                    refreshing={refreshing === undefined ? false : refreshing}
+                    onRefresh={onRefresh}
+                  />
+                )
+              }>
               {children}
-            </KeyboardAvoidingView>
-          </ScrollView>
-          {footer === undefined ? null : footer}
+            </ScrollView>
+            {footer === undefined ? null : footer}
+          </KeyboardAvoidingView>
         </Root>
       </SafeAreaView>
     </>

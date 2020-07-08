@@ -48,11 +48,11 @@ const FirstLayout = (props: FirstLayoutProps) => {
       <SafeAreaView
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
         <Root>
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            contentContainerStyle={styles.scrollView}
-            keyboardShouldPersistTaps="always">
-            <KeyboardAvoidingView style={styles.root}>
+          <KeyboardAvoidingView style={styles.root}>
+            <ScrollView
+              contentInsetAdjustmentBehavior="automatic"
+              contentContainerStyle={styles.scrollView}
+              keyboardShouldPersistTaps="handled">
               <View
                 style={[
                   styles.rootView,
@@ -100,8 +100,8 @@ const FirstLayout = (props: FirstLayoutProps) => {
                   <Footer />
                 </View>
               </View>
-            </KeyboardAvoidingView>
-          </ScrollView>
+            </ScrollView>
+          </KeyboardAvoidingView>
         </Root>
       </SafeAreaView>
     </>
