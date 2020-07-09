@@ -20,25 +20,20 @@
 
 import 'react-native';
 import React from 'react';
-import App from '../src/App';
+import Card from '../../src/components/DefaultCard';
+import {Provider} from 'react-redux';
+import configureStore from 'store/configureStore';
 
-// Note: test renderer must be required after react-native.
-import renderer, {act} from 'react-test-renderer';
+import renderer from 'react-test-renderer';
+const mockStore = configureStore();
 
-// https://github.com/facebook/jest/issues/7287
-jest.mock('../src/screens/leave/components/ProgressCircle', () => {
-  return {
-    __esModule: true,
-    default: () => {
-      return <></>;
-    },
-  };
-});
-
-it('renders correctly', async () => {
-  // https://github.com/facebook/jest/issues/6434
-  jest.useFakeTimers();
-  await act(async () => {
-    renderer.create(<App />);
-  });
+test('test card component', () => {
+  const cardComponent = renderer
+    .create(
+      <Provider store={mockStore}>
+        <Card />
+      </Provider>,
+    )
+    .toJSON();
+  expect(cardComponent).toMatchSnapshot();
 });
