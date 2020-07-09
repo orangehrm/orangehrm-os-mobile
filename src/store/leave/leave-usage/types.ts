@@ -111,6 +111,7 @@ export interface LeaveRequest {
   numberOfDays: string;
   comments: LeaveComment[];
   days: Leave[];
+  leaveBreakdown: string;
 }
 
 export interface Leave {

@@ -18,20 +18,32 @@
  *
  */
 
-import {all, call} from 'redux-saga/effects';
-import {loadAsyncStorage, watchSetStorageItem} from 'store/storage/sagas';
-import {watchAuthActions} from 'store/auth/sagas';
-import {watchLeaveUsageActions} from 'store/leave/leave-usage/sagas';
-import {watchApplyLeaveActions} from 'store/leave/apply-leave/sagas';
-import {watchLeaveListActions} from 'store/leave/leave-list/sagas';
+import {
+  FETCH_LEAVE_LIST,
+  FETCH_LEAVE_LIST_FINISHED,
+  RESET_LEAVE_LIST,
+  FetchLeaveListAction,
+  FetchLeaveListFinishedAction,
+  ResetLeaveListAction,
+} from 'store/leave/leave-list/types';
+import {$PropertyType} from 'utility-types';
 
-export default function* rootSaga() {
-  yield all([
-    call(loadAsyncStorage),
-    call(watchSetStorageItem),
-    call(watchAuthActions),
-    call(watchLeaveUsageActions),
-    call(watchApplyLeaveActions),
-    call(watchLeaveListActions),
-  ]);
-}
+export const fetchLeaveList = (): FetchLeaveListAction => ({
+  type: FETCH_LEAVE_LIST,
+});
+
+export const fetchLeaveListFinished = (
+  payload?: $PropertyType<FetchLeaveListFinishedAction, 'payload'>,
+  error: boolean = false,
+): FetchLeaveListFinishedAction => ({
+  type: FETCH_LEAVE_LIST_FINISHED,
+  payload,
+  error,
+});
+
+/**
+ * Reset redux store leave list
+ */
+export const resethMyLeaveRequests = (): ResetLeaveListAction => ({
+  type: RESET_LEAVE_LIST,
+});

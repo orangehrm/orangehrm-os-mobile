@@ -37,6 +37,7 @@ export interface SnackMessage {
 export interface Loader {
   open: boolean;
   content?: ReactNode;
+  count: number;
 }
 
 export const SHOW_SNACK_MESSAGE = 'GLOBALS_SHOW_SNACK_MESSAGE';

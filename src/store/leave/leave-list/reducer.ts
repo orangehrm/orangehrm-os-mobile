@@ -18,20 +18,37 @@
  *
  */
 
-import {all, call} from 'redux-saga/effects';
-import {loadAsyncStorage, watchSetStorageItem} from 'store/storage/sagas';
-import {watchAuthActions} from 'store/auth/sagas';
-import {watchLeaveUsageActions} from 'store/leave/leave-usage/sagas';
-import {watchApplyLeaveActions} from 'store/leave/apply-leave/sagas';
-import {watchLeaveListActions} from 'store/leave/leave-list/sagas';
+import {
+  LeaveListState,
+  LeaveUsageActionTypes,
+  FETCH_LEAVE_LIST_FINISHED,
+  RESET_LEAVE_LIST,
+} from 'store/leave/leave-list/types';
+import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
-export default function* rootSaga() {
-  yield all([
-    call(loadAsyncStorage),
-    call(watchSetStorageItem),
-    call(watchAuthActions),
-    call(watchLeaveUsageActions),
-    call(watchApplyLeaveActions),
-    call(watchLeaveListActions),
-  ]);
-}
+const initialState: LeaveListState = {};
+
+const leaveUsageReducer = (
+  state = initialState,
+  action: WithLogoutAction<LeaveUsageActionTypes>,
+): LeaveListState => {
+  switch (action.type) {
+    case FETCH_LEAVE_LIST_FINISHED:
+      if (action.error) {
+        return state;
+      }
+      return {
+        ...state,
+        leaveList: action.payload?.slice(),
+      };
+    case RESET_LEAVE_LIST:
+    case LOGOUT:
+      return {
+        ...initialState,
+      };
+    default:
+      return state;
+  }
+};
+
+export default leaveUsageReducer;

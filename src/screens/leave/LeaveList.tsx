@@ -19,18 +19,62 @@
  */
 
 import React from 'react';
+import {FlatList, View, RefreshControl} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
-import MainLayout from 'layouts/MainLayout';
-import Text from 'components/DefaultText';
+import SafeAreaLayout from 'layouts/SafeAreaLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
+import {RootState} from 'store';
+import {selectEmployeeLeaveList} from 'store/leave/leave-list/selectors';
+import {fetchLeaveList} from 'store/leave/leave-list/actions';
+import Divider from 'components/DefaultDivider';
+import LeaveListItem from 'screens/leave/components/LeaveListItem';
 
 class LeaveList extends React.Component<LeaveListProps> {
+  constructor(props: LeaveListProps) {
+    super(props);
+    if (this.props.leaveList === undefined) {
+      this.props.fetchLeaveList();
+    }
+  }
+
+  onRefresh = () => {
+    this.props.fetchLeaveList();
+  };
+
   render() {
+    const {theme, leaveList: leaveRequests} = this.props;
     return (
-      <MainLayout>
-        <Text>{'TODO: Leave List'}</Text>
-      </MainLayout>
+      <SafeAreaLayout>
+        <FlatList
+          data={leaveRequests}
+          renderItem={({item}) => (
+            <>
+              <LeaveListItem leaveRequest={item} />
+            </>
+          )}
+          keyExtractor={(item) => item.leaveRequestId}
+          ItemSeparatorComponent={() => {
+            return (
+              <View style={{paddingHorizontal: theme.spacing}}>
+                <Divider />
+              </View>
+            );
+          }}
+          ListFooterComponent={
+            <View
+              style={{
+                paddingHorizontal: theme.spacing,
+                paddingBottom: theme.spacing * 4,
+              }}>
+              <Divider />
+            </View>
+          }
+          refreshControl={
+            <RefreshControl refreshing={false} onRefresh={this.onRefresh} />
+          }
+        />
+      </SafeAreaLayout>
     );
   }
 }
@@ -39,10 +83,16 @@ interface LeaveListProps extends WithTheme, ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state: RootState) => ({
+  leaveList: selectEmployeeLeaveList(state),
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  fetchLeaveList: fetchLeaveList,
+};
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-export default withTheme<LeaveListProps>()(connector(LeaveList));
+const MyLeaveWithTheme = withTheme<LeaveListProps>()(LeaveList);
+
+export default connector(MyLeaveWithTheme);

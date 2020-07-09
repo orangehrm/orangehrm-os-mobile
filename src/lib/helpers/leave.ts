@@ -19,6 +19,7 @@
  */
 
 import {Entitlement, Leave, LeaveStatus} from 'store/leave/leave-usage/types';
+import {EmployeeLeaveRequest} from 'store/leave/leave-list/types';
 import {
   SPECIFY_TIME,
   PARTIAL_OPTION_ALL,
@@ -52,17 +53,26 @@ const LEAVE_STATUS_MAP = {
   HOLIDAY: 'Holiday',
 };
 
-const assignColorsToLeaveTypes = (data: Entitlement[]) => {
-  const newEntitlementArray = data.map((item, index) => {
+type Data = Entitlement | EmployeeLeaveRequest;
+
+/**
+ * Assign leave color into `leaveType` object by considering leave type id
+ * @param data
+ */
+const assignColorsToLeaveTypes = <T extends Data>(data: T[]): T[] => {
+  const newDataArray = data.map((item) => {
     return {
       ...item,
       leaveType: {
         ...item.leaveType,
-        color: LEAVE_TYPE_COLORS[index % LEAVE_TYPE_COLORS.length],
+        color:
+          LEAVE_TYPE_COLORS[
+            parseInt(item.leaveType.id, 10) % LEAVE_TYPE_COLORS.length
+          ],
       },
     };
   });
-  return newEntitlementArray;
+  return newDataArray;
 };
 
 const sortLeaveArrayByDate = (days: Leave[]) => {

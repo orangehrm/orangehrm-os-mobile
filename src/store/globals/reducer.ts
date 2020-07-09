@@ -35,6 +35,7 @@ const initialState: GlobalsState = {
   },
   loader: {
     open: false,
+    count: 0,
   },
   initialRoute: MY_LEAVE_ENTITLEMENT_AND_USAGE,
 };
@@ -65,16 +66,17 @@ const globalsReducer = (
       return {
         ...state,
         loader: {
-          open: true,
+          open: state.loader.count + 1 > 0,
           content: action.content,
+          count: state.loader.count + 1,
         },
       };
     case CLOSE_LOADER:
       return {
         ...state,
         loader: {
-          ...initialState.snackMessage,
-          open: false,
+          open: state.loader.count - 1 !== 0,
+          count: state.loader.count - 1,
         },
       };
     default:
