@@ -18,24 +18,25 @@
  *
  */
 
-import {RootState} from 'store';
-import {createSelector} from 'reselect';
+import React from 'react';
 import {
-  LeaveListState,
-  LeaveListLeaveRequest,
-  EmployeeLeaveRequest,
-} from 'store/leave/leave-list/types';
+  RefreshControl,
+  RefreshControlProps as RNRefreshControlProps,
+} from 'react-native';
 
-export const selectLeaveList = (state: RootState) => state.leaveList;
+const DefaultRefreshControl = (props: RefreshControlProps) => {
+  const {refreshing, onRefresh} = props;
+  return (
+    <RefreshControl
+      refreshing={refreshing === undefined ? false : refreshing}
+      onRefresh={onRefresh}
+    />
+  );
+};
 
-export const selectEmployeeLeaveList = createSelector<
-  RootState,
-  LeaveListState,
-  LeaveListLeaveRequest[] | undefined
->([selectLeaveList], (leaveList) => leaveList.leaveList);
+export interface RefreshControlProps
+  extends Pick<RNRefreshControlProps, 'onRefresh'> {
+  refreshing?: boolean;
+}
 
-export const selectEmployeeLeaveRequest = createSelector<
-  RootState,
-  LeaveListState,
-  EmployeeLeaveRequest | undefined
->([selectLeaveList], (leaveList) => leaveList.employeeLeaveRequest);
+export default DefaultRefreshControl;

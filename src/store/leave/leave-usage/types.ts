@@ -108,6 +108,7 @@ export interface LeaveRequest {
   toDate: string;
   appliedDate: string;
   leaveType: string;
+  leaveBalance: string;
   numberOfDays: string;
   comments: LeaveComment[];
   days: Leave[];

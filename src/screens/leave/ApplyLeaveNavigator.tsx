@@ -19,13 +19,7 @@
  */
 
 import React from 'react';
-import {Platform} from 'react-native';
-import {
-  NavigationProp,
-  ParamListBase,
-  DrawerActions,
-  StackActions,
-} from '@react-navigation/native';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import ApplyLeave from 'screens/leave/ApplyLeave';
@@ -38,60 +32,21 @@ import {
   PICK_LEAVE_REQUEST_DURATION,
   PICK_LEAVE_REQUEST_PARTIAL_DAYS,
 } from 'screens';
-import IconButton from 'components/DefaultIconButton';
+import HeaderMenuIcon from 'components/HeaderMenuIcon';
+import HeaderBackIcon from 'components/HeaderBackIcon';
+import {getHeaderStyle} from 'lib/helpers/header';
 
 const Stack = createStackNavigator<ApplyLeaveNavigatorParamList>();
 
 class ApplyLeaveNavigator extends React.Component<ApplyLeaveNavigatorProps> {
   render() {
     const {theme, navigation} = this.props;
-    const header = {
-      headerStyle: {
-        backgroundColor: theme.palette.header,
-      },
-      headerTitleStyle: {
-        fontSize: theme.typography.headerFontSize,
-        color: theme.typography.secondaryColor,
-        marginLeft: -theme.spacing * 2,
-      },
-    };
+    const header = getHeaderStyle(theme);
     const headerMenuIcon = {
-      headerLeft: () => (
-        <IconButton
-          buttonProps={{
-            onPress: () => {
-              navigation.dispatch(DrawerActions.toggleDrawer());
-            },
-          }}
-          iconProps={{
-            name: 'menu',
-            style: {
-              fontSize: theme.typography.headerIconSize,
-              color: theme.typography.secondaryColor,
-            },
-          }}
-        />
-      ),
+      headerLeft: () => <HeaderMenuIcon navigation={navigation} />,
     };
-
     const headerBackIcon = {
-      headerLeft: () => (
-        <IconButton
-          buttonProps={{
-            onPress: () => {
-              navigation.dispatch(StackActions.pop());
-            },
-          }}
-          iconProps={{
-            name: Platform.OS === 'ios' ? 'ios-arrow-back' : 'arrow-back',
-            type: Platform.OS === 'ios' ? 'Ionicons' : 'MaterialIcons',
-            style: {
-              fontSize: theme.typography.headerIconSize,
-              color: theme.typography.secondaryColor,
-            },
-          }}
-        />
-      ),
+      headerLeft: () => <HeaderBackIcon navigation={navigation} />,
     };
 
     return (

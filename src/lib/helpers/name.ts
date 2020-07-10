@@ -18,24 +18,24 @@
  *
  */
 
-import {RootState} from 'store';
-import {createSelector} from 'reselect';
-import {
-  LeaveListState,
-  LeaveListLeaveRequest,
-  EmployeeLeaveRequest,
-} from 'store/leave/leave-list/types';
+/**
+ * @param {string} name
+ * @returns {string|undefined}
+ */
+const getNameLetters = (name: string): string | undefined => {
+  const nameChunks = name.split(' ');
+  let firstName;
+  let lastName;
+  if (nameChunks.length > 0) {
+    firstName = nameChunks[0].trim();
+  }
+  if (nameChunks.length > 1) {
+    lastName = nameChunks[nameChunks.length - 1].trim();
+  }
 
-export const selectLeaveList = (state: RootState) => state.leaveList;
+  const firstLetter = firstName?.charAt(0).toUpperCase();
+  const lastLetter = lastName?.charAt(0).toUpperCase();
+  return firstLetter?.concat(lastLetter ? lastLetter : '');
+};
 
-export const selectEmployeeLeaveList = createSelector<
-  RootState,
-  LeaveListState,
-  LeaveListLeaveRequest[] | undefined
->([selectLeaveList], (leaveList) => leaveList.leaveList);
-
-export const selectEmployeeLeaveRequest = createSelector<
-  RootState,
-  LeaveListState,
-  EmployeeLeaveRequest | undefined
->([selectLeaveList], (leaveList) => leaveList.employeeLeaveRequest);
+export {getNameLetters};

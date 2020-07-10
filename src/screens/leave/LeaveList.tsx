@@ -29,6 +29,9 @@ import {selectEmployeeLeaveList} from 'store/leave/leave-list/selectors';
 import {fetchLeaveList} from 'store/leave/leave-list/actions';
 import Divider from 'components/DefaultDivider';
 import LeaveListItem from 'screens/leave/components/LeaveListItem';
+import {LEAVE_DETAILS} from 'screens';
+import {navigate} from 'lib/helpers/navigation';
+import {LeaveListLeaveRequest} from 'store/leave/leave-list/types';
 
 class LeaveList extends React.Component<LeaveListProps> {
   constructor(props: LeaveListProps) {
@@ -42,15 +45,22 @@ class LeaveList extends React.Component<LeaveListProps> {
     this.props.fetchLeaveList();
   };
 
+  onPressLeave = (leaveRequest: LeaveListLeaveRequest) => () => {
+    navigate(LEAVE_DETAILS, {leaveRequest});
+  };
+
   render() {
-    const {theme, leaveList: leaveRequests} = this.props;
+    const {theme, leaveList} = this.props;
     return (
       <SafeAreaLayout>
         <FlatList
-          data={leaveRequests}
+          data={leaveList}
           renderItem={({item}) => (
             <>
-              <LeaveListItem leaveRequest={item} />
+              <LeaveListItem
+                leaveRequest={item}
+                onPress={this.onPressLeave(item)}
+              />
             </>
           )}
           keyExtractor={(item) => item.leaveRequestId}

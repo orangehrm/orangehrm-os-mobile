@@ -21,12 +21,17 @@
 import {LeaveRequest, LeaveType} from 'store/leave/leave-usage/types';
 
 export interface LeaveListState {
-  leaveList?: EmployeeLeaveRequest[];
+  leaveList?: LeaveListLeaveRequest[];
+  employeeLeaveRequest?: EmployeeLeaveRequest;
 }
 
 export const FETCH_LEAVE_LIST = 'LEAVE_LIST_FETCH_LEAVE_LIST';
 export const FETCH_LEAVE_LIST_FINISHED = 'LEAVE_LIST_FETCH_LEAVE_LIST_FINISHED';
 export const RESET_LEAVE_LIST = 'LEAVE_LIST_RESET_LEAVE_LIST';
+export const FETCH_EMPLOYEE_LEAVE_REQUEST =
+  'LEAVE_LIST_FETCH_EMPLOYEE_LEAVE_REQUEST';
+export const FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED =
+  'LEAVE_LIST_FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED';
 
 export interface FetchLeaveListAction {
   type: typeof FETCH_LEAVE_LIST;
@@ -34,7 +39,7 @@ export interface FetchLeaveListAction {
 
 export interface FetchLeaveListFinishedAction {
   type: typeof FETCH_LEAVE_LIST_FINISHED;
-  payload?: EmployeeLeaveRequest[];
+  payload?: LeaveListLeaveRequest[];
   error: boolean;
 }
 
@@ -42,10 +47,31 @@ export interface ResetLeaveListAction {
   type: typeof RESET_LEAVE_LIST;
 }
 
+export interface FetchEmployeeLeaveRequestAction {
+  type: typeof FETCH_EMPLOYEE_LEAVE_REQUEST;
+  leaveRequestId: string;
+}
+
+export interface FetchEmployeeLeaveRequestFinishedAction {
+  type: typeof FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED;
+  payload?: EmployeeLeaveRequest;
+  error: boolean;
+}
+
 export type LeaveUsageActionTypes =
   | FetchLeaveListAction
   | FetchLeaveListFinishedAction
-  | ResetLeaveListAction;
+  | ResetLeaveListAction
+  | FetchEmployeeLeaveRequestAction
+  | FetchEmployeeLeaveRequestFinishedAction;
+
+export interface LeaveListLeaveRequest
+  extends Omit<LeaveRequest, 'id' | 'leaveType' | 'comments' | 'days'> {
+  employeeId: string;
+  employeeName: string;
+  leaveRequestId: string;
+  leaveType: LeaveType;
+}
 
 export interface EmployeeLeaveRequest
   extends Omit<LeaveRequest, 'id' | 'leaveType'> {

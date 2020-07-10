@@ -18,8 +18,7 @@
  *
  */
 
-import {Entitlement, Leave, LeaveStatus} from 'store/leave/leave-usage/types';
-import {EmployeeLeaveRequest} from 'store/leave/leave-list/types';
+import {Leave, LeaveStatus, LeaveType} from 'store/leave/leave-usage/types';
 import {
   SPECIFY_TIME,
   PARTIAL_OPTION_ALL,
@@ -53,26 +52,34 @@ const LEAVE_STATUS_MAP = {
   HOLIDAY: 'Holiday',
 };
 
-type Data = Entitlement | EmployeeLeaveRequest;
+type Data = {leaveType: LeaveType};
+
+/**
+ * Assign leave colors into `leaveType` object in an array by considering leave type id
+ * @param data
+ */
+const assignColorsToLeaveTypes = <T extends Data>(data: T[]): T[] => {
+  const newDataArray = data.map((item) => {
+    return assignColorToLeaveType(item);
+  });
+  return newDataArray;
+};
 
 /**
  * Assign leave color into `leaveType` object by considering leave type id
  * @param data
  */
-const assignColorsToLeaveTypes = <T extends Data>(data: T[]): T[] => {
-  const newDataArray = data.map((item) => {
-    return {
-      ...item,
-      leaveType: {
-        ...item.leaveType,
-        color:
-          LEAVE_TYPE_COLORS[
-            parseInt(item.leaveType.id, 10) % LEAVE_TYPE_COLORS.length
-          ],
-      },
-    };
-  });
-  return newDataArray;
+const assignColorToLeaveType = <T extends Data>(data: T): T => {
+  return {
+    ...data,
+    leaveType: {
+      ...data.leaveType,
+      color:
+        LEAVE_TYPE_COLORS[
+          parseInt(data.leaveType.id, 10) % LEAVE_TYPE_COLORS.length
+        ],
+    },
+  };
 };
 
 const sortLeaveArrayByDate = (days: Leave[]) => {
@@ -234,6 +241,7 @@ type LeaveNameCount = {name: string; count: number; key: LeaveStatus};
 
 export {
   assignColorsToLeaveTypes,
+  assignColorToLeaveType,
   LEAVE_STATUS_MAP,
   getBreakDown,
   sortLeaveArrayByDate,

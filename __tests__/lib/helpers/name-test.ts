@@ -18,24 +18,27 @@
  *
  */
 
-import {RootState} from 'store';
-import {createSelector} from 'reselect';
-import {
-  LeaveListState,
-  LeaveListLeaveRequest,
-  EmployeeLeaveRequest,
-} from 'store/leave/leave-list/types';
+import 'react-native';
+import {getNameLetters} from 'lib/helpers/name';
 
-export const selectLeaveList = (state: RootState) => state.leaveList;
+describe('lib/helpers/name', () => {
+  test('with first name', () => {
+    const result = getNameLetters('Employee');
+    expect(result).toBe('E');
+  });
 
-export const selectEmployeeLeaveList = createSelector<
-  RootState,
-  LeaveListState,
-  LeaveListLeaveRequest[] | undefined
->([selectLeaveList], (leaveList) => leaveList.leaveList);
+  test('with first and last name', () => {
+    const result = getNameLetters('Employee Name');
+    expect(result).toBe('EN');
+  });
 
-export const selectEmployeeLeaveRequest = createSelector<
-  RootState,
-  LeaveListState,
-  EmployeeLeaveRequest | undefined
->([selectLeaveList], (leaveList) => leaveList.employeeLeaveRequest);
+  test('with full name', () => {
+    const result = getNameLetters('Employee Full Name');
+    expect(result).toBe('EN');
+  });
+
+  test('name with more spaces', () => {
+    const result = getNameLetters('Employee  Name');
+    expect(result).toBe('EN');
+  });
+});

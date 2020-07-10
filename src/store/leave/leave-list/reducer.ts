@@ -23,6 +23,8 @@ import {
   LeaveUsageActionTypes,
   FETCH_LEAVE_LIST_FINISHED,
   RESET_LEAVE_LIST,
+  FETCH_EMPLOYEE_LEAVE_REQUEST,
+  FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED,
 } from 'store/leave/leave-list/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
@@ -40,6 +42,18 @@ const leaveUsageReducer = (
       return {
         ...state,
         leaveList: action.payload?.slice(),
+        employeeLeaveRequest: initialState.employeeLeaveRequest,
+      };
+    case FETCH_EMPLOYEE_LEAVE_REQUEST:
+      //reset current value when new fetch triggers
+      return {
+        ...state,
+        employeeLeaveRequest: initialState.employeeLeaveRequest,
+      };
+    case FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED:
+      return {
+        ...state,
+        employeeLeaveRequest: action.payload,
       };
     case RESET_LEAVE_LIST:
     case LOGOUT:

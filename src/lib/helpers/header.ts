@@ -18,24 +18,23 @@
  *
  */
 
-import {RootState} from 'store';
-import {createSelector} from 'reselect';
-import {
-  LeaveListState,
-  LeaveListLeaveRequest,
-  EmployeeLeaveRequest,
-} from 'store/leave/leave-list/types';
+import {Theme} from 'theme/default';
 
-export const selectLeaveList = (state: RootState) => state.leaveList;
+/**
+ * Return common header style
+ * @param theme
+ */
+const getHeaderStyle = (theme: Theme) => {
+  return {
+    headerStyle: {
+      backgroundColor: theme.palette.header,
+    },
+    headerTitleStyle: {
+      fontSize: theme.typography.headerFontSize,
+      color: theme.typography.secondaryColor,
+      marginLeft: -theme.spacing * 2,
+    },
+  };
+};
 
-export const selectEmployeeLeaveList = createSelector<
-  RootState,
-  LeaveListState,
-  LeaveListLeaveRequest[] | undefined
->([selectLeaveList], (leaveList) => leaveList.leaveList);
-
-export const selectEmployeeLeaveRequest = createSelector<
-  RootState,
-  LeaveListState,
-  EmployeeLeaveRequest | undefined
->([selectLeaveList], (leaveList) => leaveList.employeeLeaveRequest);
+export {getHeaderStyle};

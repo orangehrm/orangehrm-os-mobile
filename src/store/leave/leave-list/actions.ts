@@ -22,9 +22,13 @@ import {
   FETCH_LEAVE_LIST,
   FETCH_LEAVE_LIST_FINISHED,
   RESET_LEAVE_LIST,
+  FETCH_EMPLOYEE_LEAVE_REQUEST,
+  FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED,
   FetchLeaveListAction,
   FetchLeaveListFinishedAction,
   ResetLeaveListAction,
+  FetchEmployeeLeaveRequestAction,
+  FetchEmployeeLeaveRequestFinishedAction,
 } from 'store/leave/leave-list/types';
 import {$PropertyType} from 'utility-types';
 
@@ -46,4 +50,20 @@ export const fetchLeaveListFinished = (
  */
 export const resethMyLeaveRequests = (): ResetLeaveListAction => ({
   type: RESET_LEAVE_LIST,
+});
+
+export const fetchEmployeeLeaveRequest = (
+  leaveRequestId: string,
+): FetchEmployeeLeaveRequestAction => ({
+  type: FETCH_EMPLOYEE_LEAVE_REQUEST,
+  leaveRequestId,
+});
+
+export const fetchEmployeeLeaveRequestFinished = (
+  payload?: $PropertyType<FetchEmployeeLeaveRequestFinishedAction, 'payload'>,
+  error: boolean = false,
+): FetchEmployeeLeaveRequestFinishedAction => ({
+  type: FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED,
+  payload,
+  error,
 });

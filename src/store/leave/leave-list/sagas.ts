@@ -25,9 +25,19 @@ import {
   closeLoader,
   showSnackMessage,
 } from 'store/saga-effects/globals';
-import {FETCH_LEAVE_LIST} from 'store/leave/leave-list/types';
-import {fetchLeaveListFinished} from 'store/leave/leave-list/actions';
-import {assignColorsToLeaveTypes} from 'lib/helpers/leave';
+import {
+  FETCH_LEAVE_LIST,
+  FETCH_EMPLOYEE_LEAVE_REQUEST,
+  FetchEmployeeLeaveRequestAction,
+} from 'store/leave/leave-list/types';
+import {
+  fetchLeaveListFinished,
+  fetchEmployeeLeaveRequestFinished,
+} from 'store/leave/leave-list/actions';
+import {
+  assignColorsToLeaveTypes,
+  assignColorToLeaveType,
+} from 'lib/helpers/leave';
 
 function* fetchLeaveList() {
   try {
@@ -51,6 +61,31 @@ function* fetchLeaveList() {
   }
 }
 
+function* fetchEmployeeLeaveRequest(action: FetchEmployeeLeaveRequestAction) {
+  try {
+    yield openLoader();
+    const response = yield apiCall(
+      apiGetCall,
+      `/api/v1/leave/leave-request/${action.leaveRequestId}`,
+    );
+    if (response.data) {
+      yield put(
+        fetchEmployeeLeaveRequestFinished(
+          assignColorToLeaveType(response.data),
+        ),
+      );
+    } else {
+      yield put(fetchEmployeeLeaveRequestFinished(undefined, true));
+    }
+  } catch (error) {
+    yield showSnackMessage('Failed to Fetch Leave Details');
+    yield put(fetchEmployeeLeaveRequestFinished(undefined, true));
+  } finally {
+    yield closeLoader();
+  }
+}
+
 export function* watchLeaveListActions() {
   yield takeEvery(FETCH_LEAVE_LIST, fetchLeaveList);
+  yield takeEvery(FETCH_EMPLOYEE_LEAVE_REQUEST, fetchEmployeeLeaveRequest);
 }

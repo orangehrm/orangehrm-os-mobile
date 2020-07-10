@@ -19,48 +19,33 @@
  */
 
 import React from 'react';
-import {
-  NavigationProp,
-  ParamListBase,
-  DrawerActions,
-} from '@react-navigation/native';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {connect, ConnectedProps} from 'react-redux';
 import LeaveList from 'screens/leave/LeaveList';
-import {LEAVE_LIST} from 'screens';
-import IconButton from 'components/DefaultIconButton';
+import LeaveDetails from 'screens/leave/LeaveDetails';
+import LeaveDays from 'screens/leave/LeaveDays';
+import LeaveComments from 'screens/leave/LeaveComments';
+import {LEAVE_LIST, LEAVE_DETAILS, LEAVE_DAYS, LEAVE_COMMENTS} from 'screens';
+import HeaderMenuIcon from 'components/HeaderMenuIcon';
+import HeaderBackIcon from 'components/HeaderBackIcon';
+import {getHeaderStyle} from 'lib/helpers/header';
+import {
+  LeaveListLeaveRequest,
+  EmployeeLeaveRequest,
+} from 'store/leave/leave-list/types';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<LeaveListNavigatorParamList>();
 
 class LeaveListNavigator extends React.Component<LeaveListNavigatorProps> {
   render() {
     const {theme, navigation} = this.props;
-    const header = {
-      headerStyle: {
-        backgroundColor: theme.palette.header,
-      },
-      headerTitleStyle: {
-        fontSize: theme.typography.headerFontSize,
-        color: theme.typography.secondaryColor,
-        marginLeft: -theme.spacing * 2,
-      },
-      headerLeft: () => (
-        <IconButton
-          buttonProps={{
-            onPress: () => {
-              navigation.dispatch(DrawerActions.toggleDrawer());
-            },
-          }}
-          iconProps={{
-            name: 'menu',
-            style: {
-              fontSize: theme.typography.headerIconSize,
-              color: theme.typography.secondaryColor,
-            },
-          }}
-        />
-      ),
+    const header = getHeaderStyle(theme);
+    const headerMenuIcon = {
+      headerLeft: () => <HeaderMenuIcon navigation={navigation} />,
+    };
+    const headerBackIcon = {
+      headerLeft: () => <HeaderBackIcon navigation={navigation} />,
     };
 
     return (
@@ -71,6 +56,34 @@ class LeaveListNavigator extends React.Component<LeaveListNavigatorProps> {
           options={{
             title: 'Leave List',
             ...header,
+            ...headerMenuIcon,
+          }}
+        />
+        <Stack.Screen
+          name={LEAVE_DETAILS}
+          component={LeaveDetails}
+          options={{
+            title: 'Leave Details',
+            ...header,
+            ...headerBackIcon,
+          }}
+        />
+        <Stack.Screen
+          name={LEAVE_DAYS}
+          component={LeaveDays}
+          options={{
+            title: 'Leave Days',
+            ...header,
+            ...headerBackIcon,
+          }}
+        />
+        <Stack.Screen
+          name={LEAVE_COMMENTS}
+          component={LeaveComments}
+          options={{
+            title: 'Comments',
+            ...header,
+            ...headerBackIcon,
           }}
         />
       </Stack.Navigator>
@@ -78,18 +91,21 @@ class LeaveListNavigator extends React.Component<LeaveListNavigatorProps> {
   }
 }
 
-interface LeaveListNavigatorProps
-  extends WithTheme,
-    ConnectedProps<typeof connector> {
+interface LeaveListNavigatorProps extends WithTheme {
   navigation: NavigationProp<ParamListBase>;
 }
 
-const mapStateToProps = () => ({});
+export type LeaveListNavigatorParamList = {
+  [LEAVE_LIST]: {};
+  [LEAVE_DETAILS]: {
+    leaveRequest: LeaveListLeaveRequest;
+  };
+  [LEAVE_DAYS]: {
+    employeeLeaveRequest: EmployeeLeaveRequest;
+  };
+  [LEAVE_COMMENTS]: {
+    employeeLeaveRequest: EmployeeLeaveRequest;
+  };
+};
 
-const mapDispatchToProps = {};
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-export default withTheme<LeaveListNavigatorProps>()(
-  connector(LeaveListNavigator),
-);
+export default withTheme<LeaveListNavigatorProps>()(LeaveListNavigator);
