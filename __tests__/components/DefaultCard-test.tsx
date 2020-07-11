@@ -24,16 +24,14 @@ import Card from '../../src/components/DefaultCard';
 import {Provider} from 'react-redux';
 import configureStore from 'store/configureStore';
 
-import renderer from 'react-test-renderer';
+import {render, fireEvent} from 'react-native-testing-library';
 const mockStore = configureStore();
 
 test('test card component', () => {
-  const cardComponent = renderer
-    .create(
-      <Provider store={mockStore}>
-        <Card />
-      </Provider>,
-    )
-    .toJSON();
+  const cardComponent = render(
+    <Provider store={mockStore}>
+      <Card />
+    </Provider>,
+  ).toJSON();
   expect(cardComponent).toMatchSnapshot();
 });

@@ -24,16 +24,25 @@ import Button from '../../src/components/DefaultButton';
 import {Provider} from 'react-redux';
 import configureStore from 'store/configureStore';
 
-import renderer from 'react-test-renderer';
+import {render, fireEvent} from 'react-native-testing-library';
 const mockStore = configureStore();
 
 test('test button component with title', () => {
-  const buttonComponent = renderer
-    .create(
-      <Provider store={mockStore}>
-        <Button title={'test'} primary />
-      </Provider>,
-    )
-    .toJSON();
+  const buttonComponent = render(
+    <Provider store={mockStore}>
+      <Button title={'test'} primary />
+    </Provider>,
+  ).toJSON();
   expect(buttonComponent).toMatchSnapshot();
+});
+
+test('test button component press event', () => {
+  const onPressMock = jest.fn();
+  const {getByText} = render(
+    <Provider store={mockStore}>
+      <Button title={'test'} primary onPress={onPressMock} />
+    </Provider>,
+  );
+  fireEvent.press(getByText('test'));
+  expect(onPressMock).toHaveBeenCalled();
 });
