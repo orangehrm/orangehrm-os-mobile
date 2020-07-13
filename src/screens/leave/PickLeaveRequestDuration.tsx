@@ -34,7 +34,7 @@ import {pickSingleDayDuration as pickSingleDayDurationAction} from 'store/leave/
 import Button from 'components/DefaultButton';
 import RadioItem from 'components/DefaultRadioItem';
 import PickLeaveSpecificTime from 'screens/leave/components/PickLeaveSpecificTime';
-import {ApplyLeaveNavigatorParamList} from 'screens/leave/ApplyLeaveNavigator';
+import {ApplyLeaveNavigatorParamList} from 'screens/leave/navigators/ApplyLeaveNavigator';
 import {PICK_LEAVE_REQUEST_DURATION} from 'screens';
 import {
   FULL_DAY,

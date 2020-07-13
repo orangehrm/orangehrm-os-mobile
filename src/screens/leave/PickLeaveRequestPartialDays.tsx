@@ -35,7 +35,7 @@ import Button from 'components/DefaultButton';
 import RadioItem from 'components/DefaultRadioItem';
 import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
-import {ApplyLeaveNavigatorParamList} from 'screens/leave/ApplyLeaveNavigator';
+import {ApplyLeaveNavigatorParamList} from 'screens/leave/navigators/ApplyLeaveNavigator';
 import PickPartialDayDuration from 'screens/leave/components/PickPartialDayDuration';
 import {PICK_LEAVE_REQUEST_DURATION} from 'screens';
 import {

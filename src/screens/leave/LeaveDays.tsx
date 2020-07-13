@@ -28,7 +28,7 @@ import {
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Divider from 'components/DefaultDivider';
-import {LeaveListNavigatorParamList} from 'screens/leave/LeaveListNavigator';
+import {LeaveListNavigatorParamList} from 'screens/leave/navigators/LeaveListNavigator';
 import {LEAVE_DAYS} from 'screens';
 import LeaveDayListItem from 'screens/leave/components/LeaveDayListItem';
 

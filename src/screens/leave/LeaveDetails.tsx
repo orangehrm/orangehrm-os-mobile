@@ -41,7 +41,7 @@ import Button from 'components/DefaultButton';
 import Divider from 'components/DefaultDivider';
 import FlatButton from 'screens/leave/components/FlatButton';
 import LeaveCommentListItem from 'screens/leave/components/LeaveCommentListItem';
-import {LeaveListNavigatorParamList} from 'screens/leave/LeaveListNavigator';
+import {LeaveListNavigatorParamList} from 'screens/leave/navigators/LeaveListNavigator';
 import {LEAVE_DETAILS, LEAVE_DAYS, LEAVE_COMMENTS} from 'screens';
 import {navigate} from 'lib/helpers/navigation';
 import {

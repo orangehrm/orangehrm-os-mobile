@@ -37,7 +37,7 @@ import {
 } from 'store/leave/apply-leave/actions';
 import Button from 'components/DefaultButton';
 import Calendar from 'screens/leave/components/Calendar';
-import {ApplyLeaveNavigatorParamList} from 'screens/leave/ApplyLeaveNavigator';
+import {ApplyLeaveNavigatorParamList} from 'screens/leave/navigators/ApplyLeaveNavigator';
 import {PICK_LEAVE_REQUEST_DAYS_CALENDAR, APPLY_LEAVE} from 'screens';
 
 class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
