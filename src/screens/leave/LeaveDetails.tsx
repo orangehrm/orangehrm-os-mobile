@@ -30,7 +30,10 @@ import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import {selectEmployeeLeaveRequest} from 'store/leave/leave-list/selectors';
-import {fetchEmployeeLeaveRequest} from 'store/leave/leave-list/actions';
+import {
+  fetchEmployeeLeaveRequest,
+  changeEmployeeLeaveRequestStatus,
+} from 'store/leave/leave-list/actions';
 import Text from 'components/DefaultText';
 import Chip from 'components/DefaultChip';
 import Avatar from 'components/DefaultAvatar';
@@ -41,6 +44,13 @@ import LeaveCommentListItem from 'screens/leave/components/LeaveCommentListItem'
 import {LeaveListNavigatorParamList} from 'screens/leave/LeaveListNavigator';
 import {LEAVE_DETAILS, LEAVE_DAYS, LEAVE_COMMENTS} from 'screens';
 import {navigate} from 'lib/helpers/navigation';
+import {
+  ACTION_CANCEL,
+  ACTION_REJECT,
+  ACTION_APPROVE,
+  ACTION_TYPE_CHANGE_STATUS,
+  LeaveRequestAllowedActions,
+} from 'store/leave/leave-list/types';
 
 class LeaveDetails extends React.Component<LeaveDetailsProps> {
   constructor(props: LeaveDetailsProps) {
@@ -58,11 +68,27 @@ class LeaveDetails extends React.Component<LeaveDetailsProps> {
     this.props.fetchEmployeeLeaveRequest(leaveRequest.leaveRequestId);
   };
 
-  onPressApproveLeave = () => {};
+  onPressApproveLeave = () => {
+    this.onPressAction(ACTION_APPROVE);
+  };
 
-  onPressRejectLeave = () => {};
+  onPressRejectLeave = () => {
+    this.onPressAction(ACTION_REJECT);
+  };
 
-  onPressCancelLeave = () => {};
+  onPressCancelLeave = () => {
+    this.onPressAction(ACTION_CANCEL);
+  };
+
+  onPressAction = (status: LeaveRequestAllowedActions) => {
+    const {employeeLeaveRequest} = this.props;
+    if (employeeLeaveRequest) {
+      this.props.changeEmployeeLeaveRequestStatus(
+        employeeLeaveRequest.leaveRequestId,
+        {actionType: ACTION_TYPE_CHANGE_STATUS, status},
+      );
+    }
+  };
 
   onPressLeaveDays = () => {
     const {employeeLeaveRequest} = this.props;
@@ -88,38 +114,55 @@ class LeaveDetails extends React.Component<LeaveDetailsProps> {
         onRefresh={this.onRefresh}
         footer={
           <>
-            <View
-              style={[
-                styles.row,
-                styles.footerView,
-                {
-                  paddingHorizontal: theme.spacing * 4,
-                  paddingVertical: theme.spacing * 2,
-                  backgroundColor: theme.palette.backgroundSecondary,
-                },
-              ]}>
-              <Button
-                title={'Cancel'}
-                bordered
-                primary
-                onPress={this.onPressCancelLeave}
-              />
-              <View style={styles.row}>
-                <Button
-                  title={'Reject'}
-                  bordered
-                  primary
-                  onPress={this.onPressRejectLeave}
-                />
-                <View style={{paddingLeft: theme.spacing * 2}}>
-                  <Button
-                    title={'Approve'}
-                    primary
-                    onPress={this.onPressApproveLeave}
-                  />
+            {employeeLeaveRequest?.allowedActions !== undefined &&
+            employeeLeaveRequest.allowedActions.length !== 0 ? (
+              <View
+                style={[
+                  styles.row,
+                  styles.footerView,
+                  {
+                    paddingHorizontal: theme.spacing * 4,
+                    paddingVertical: theme.spacing * 2,
+                    backgroundColor: theme.palette.backgroundSecondary,
+                  },
+                ]}>
+                <View>
+                  {employeeLeaveRequest.allowedActions.indexOf(
+                    ACTION_CANCEL,
+                  ) !== -1 ? (
+                    <Button
+                      title={'Cancel'}
+                      bordered
+                      primary
+                      onPress={this.onPressCancelLeave}
+                    />
+                  ) : null}
+                </View>
+                <View style={styles.row}>
+                  {employeeLeaveRequest.allowedActions.indexOf(
+                    ACTION_REJECT,
+                  ) !== -1 ? (
+                    <Button
+                      title={'Reject'}
+                      bordered
+                      primary
+                      onPress={this.onPressRejectLeave}
+                    />
+                  ) : null}
+                  {employeeLeaveRequest.allowedActions.indexOf(
+                    ACTION_APPROVE,
+                  ) !== -1 ? (
+                    <View style={{paddingLeft: theme.spacing * 2}}>
+                      <Button
+                        title={'Approve'}
+                        primary
+                        onPress={this.onPressApproveLeave}
+                      />
+                    </View>
+                  ) : null}
                 </View>
               </View>
-            </View>
+            ) : null}
           </>
         }>
         <View
@@ -275,6 +318,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = {
   fetchEmployeeLeaveRequest: fetchEmployeeLeaveRequest,
+  changeEmployeeLeaveRequestStatus: changeEmployeeLeaveRequestStatus,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

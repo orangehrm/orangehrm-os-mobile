@@ -103,9 +103,7 @@ export type LeaveListNavigatorParamList = {
   [LEAVE_DAYS]: {
     employeeLeaveRequest: EmployeeLeaveRequest;
   };
-  [LEAVE_COMMENTS]: {
-    employeeLeaveRequest: EmployeeLeaveRequest;
-  };
+  [LEAVE_COMMENTS]: {};
 };
 
 export default withTheme<LeaveListNavigatorProps>()(LeaveListNavigator);

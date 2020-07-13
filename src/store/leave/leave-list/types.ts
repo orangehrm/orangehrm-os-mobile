@@ -32,6 +32,8 @@ export const FETCH_EMPLOYEE_LEAVE_REQUEST =
   'LEAVE_LIST_FETCH_EMPLOYEE_LEAVE_REQUEST';
 export const FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED =
   'LEAVE_LIST_FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED';
+export const CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS =
+  'LEAVE_LIST_CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS';
 
 export interface FetchLeaveListAction {
   type: typeof FETCH_LEAVE_LIST;
@@ -58,12 +60,25 @@ export interface FetchEmployeeLeaveRequestFinishedAction {
   error: boolean;
 }
 
+export interface ChangeEmployeeLeaveRequestStatusAction {
+  type: typeof CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS;
+  leaveRequestId: string;
+  action: EmployeeLeaveRequestActions;
+}
+
 export type LeaveUsageActionTypes =
   | FetchLeaveListAction
   | FetchLeaveListFinishedAction
   | ResetLeaveListAction
   | FetchEmployeeLeaveRequestAction
-  | FetchEmployeeLeaveRequestFinishedAction;
+  | FetchEmployeeLeaveRequestFinishedAction
+  | ChangeEmployeeLeaveRequestStatusAction;
+
+export const ACTION_CANCEL = 'Cancel';
+export const ACTION_REJECT = 'Reject';
+export const ACTION_APPROVE = 'Approve';
+export const ACTION_TYPE_CHANGE_STATUS = 'changeStatus';
+export const ACTION_TYPE_COMMENT = 'comment';
 
 export interface LeaveListLeaveRequest
   extends Omit<LeaveRequest, 'id' | 'leaveType' | 'comments' | 'days'> {
@@ -79,4 +94,24 @@ export interface EmployeeLeaveRequest
   employeeName: string;
   leaveRequestId: string;
   leaveType: LeaveType;
+  allowedActions: LeaveRequestAllowedActions[];
 }
+
+export type LeaveRequestAllowedActions =
+  | typeof ACTION_CANCEL
+  | typeof ACTION_REJECT
+  | typeof ACTION_APPROVE;
+
+export interface EmployeeLeaveRequestAction {
+  actionType: typeof ACTION_TYPE_CHANGE_STATUS;
+  status: LeaveRequestAllowedActions;
+}
+
+export interface EmployeeLeaveRequestComment {
+  actionType: typeof ACTION_TYPE_COMMENT;
+  comment: string;
+}
+
+export type EmployeeLeaveRequestActions =
+  | EmployeeLeaveRequestAction
+  | EmployeeLeaveRequestComment;

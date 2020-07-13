@@ -30,19 +30,31 @@ import {fetchLeaveList} from 'store/leave/leave-list/actions';
 import Divider from 'components/DefaultDivider';
 import LeaveListItem from 'screens/leave/components/LeaveListItem';
 import {LEAVE_DETAILS} from 'screens';
-import {navigate} from 'lib/helpers/navigation';
+import {navigate, getNavigation} from 'lib/helpers/navigation';
 import {LeaveListLeaveRequest} from 'store/leave/leave-list/types';
 
 class LeaveList extends React.Component<LeaveListProps> {
   constructor(props: LeaveListProps) {
     super(props);
-    if (this.props.leaveList === undefined) {
-      this.props.fetchLeaveList();
-    }
+    this.updateLeaveList();
   }
 
   onRefresh = () => {
     this.props.fetchLeaveList();
+  };
+
+  componentWillMount() {
+    getNavigation()?.addListener('state', this.updateLeaveList);
+  }
+
+  componentWillUnmount() {
+    getNavigation()?.removeListener('state', this.updateLeaveList);
+  }
+
+  updateLeaveList = () => {
+    if (this.props.leaveList === undefined) {
+      this.props.fetchLeaveList();
+    }
   };
 
   onPressLeave = (leaveRequest: LeaveListLeaveRequest) => () => {

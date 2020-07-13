@@ -25,6 +25,8 @@ import {
   RESET_LEAVE_LIST,
   FETCH_EMPLOYEE_LEAVE_REQUEST,
   FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED,
+  CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
+  ACTION_TYPE_CHANGE_STATUS,
 } from 'store/leave/leave-list/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
@@ -55,6 +57,16 @@ const leaveUsageReducer = (
         ...state,
         employeeLeaveRequest: action.payload,
       };
+    case CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS:
+      //reset leave list for refresh the leave list only with state changes
+      if (action.action.actionType === ACTION_TYPE_CHANGE_STATUS) {
+        return {
+          ...state,
+          leaveList: initialState.leaveList,
+        };
+      } else {
+        return state;
+      }
     case RESET_LEAVE_LIST:
     case LOGOUT:
       return {

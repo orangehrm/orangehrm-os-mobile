@@ -24,11 +24,13 @@ import {
   RESET_LEAVE_LIST,
   FETCH_EMPLOYEE_LEAVE_REQUEST,
   FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED,
+  CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
   FetchLeaveListAction,
   FetchLeaveListFinishedAction,
   ResetLeaveListAction,
   FetchEmployeeLeaveRequestAction,
   FetchEmployeeLeaveRequestFinishedAction,
+  ChangeEmployeeLeaveRequestStatusAction,
 } from 'store/leave/leave-list/types';
 import {$PropertyType} from 'utility-types';
 
@@ -66,4 +68,18 @@ export const fetchEmployeeLeaveRequestFinished = (
   type: FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED,
   payload,
   error,
+});
+
+/**
+ * Change employee leave request status or add new comment
+ * @param {object} action
+ * @returns {object}
+ */
+export const changeEmployeeLeaveRequestStatus = (
+  leaveRequestId: string,
+  action: $PropertyType<ChangeEmployeeLeaveRequestStatusAction, 'action'>,
+): ChangeEmployeeLeaveRequestStatusAction => ({
+  type: CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
+  leaveRequestId,
+  action,
 });

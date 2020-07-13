@@ -20,24 +20,49 @@
 
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {
-  NavigationProp,
-  ParamListBase,
-  RouteProp,
-} from '@react-navigation/native';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import {connect, ConnectedProps} from 'react-redux';
+import {RootState} from 'store';
 import Divider from 'components/DefaultDivider';
-import {LeaveListNavigatorParamList} from 'screens/leave/LeaveListNavigator';
-import {LEAVE_COMMENTS} from 'screens';
 import LeaveCommentListItem from 'screens/leave/components/LeaveCommentListItem';
 import IconButton from 'components/DefaultIconButton';
 import {PickLeaveRequestCommentInput} from 'screens/leave/components/PickLeaveRequestComment';
+import {selectEmployeeLeaveRequest} from 'store/leave/leave-list/selectors';
+import {changeEmployeeLeaveRequestStatus} from 'store/leave/leave-list/actions';
+import {ACTION_TYPE_COMMENT} from 'store/leave/leave-list/types';
 
-class LeaveComments extends React.Component<LeaveCommentsProps> {
+class LeaveComments extends React.Component<
+  LeaveCommentsProps,
+  LeaveCommentsState
+> {
+  constructor(props: LeaveCommentsProps) {
+    super(props);
+    this.state = {
+      comment: '',
+    };
+  }
+
+  onPressComment = () => {
+    const {comment} = this.state;
+    const {employeeLeaveRequest} = this.props;
+    if (comment !== '' && employeeLeaveRequest) {
+      this.props.changeEmployeeLeaveRequestStatus(
+        employeeLeaveRequest.leaveRequestId,
+        {actionType: ACTION_TYPE_COMMENT, comment},
+      );
+      this.setState({comment: ''});
+    }
+  };
+
+  onChangeText = (text: string) => {
+    this.setState({comment: text});
+  };
+
   render() {
-    const {theme, route} = this.props;
-    const {employeeLeaveRequest} = route.params;
+    const {theme, employeeLeaveRequest} = this.props;
+    const {comment} = this.state;
     return (
       <MainLayout
         footer={
@@ -50,15 +75,24 @@ class LeaveComments extends React.Component<LeaveCommentsProps> {
                   paddingHorizontal: theme.spacing * 4,
                 },
               ]}>
-              <PickLeaveRequestCommentInput autoFocus={false} />
+              <View style={styles.textView}>
+                <PickLeaveRequestCommentInput
+                  autoFocus={false}
+                  onChangeText={this.onChangeText}
+                  value={comment}
+                />
+              </View>
               <View style={{paddingTop: theme.spacing * 0.5}}>
-                <IconButton iconProps={{name: 'send'}} />
+                <IconButton
+                  iconProps={{name: 'send'}}
+                  buttonProps={{onPress: this.onPressComment}}
+                />
               </View>
             </View>
           </>
         }>
         <View>
-          {employeeLeaveRequest?.comments.map((comment, index) => (
+          {employeeLeaveRequest?.comments.map((commentItem, index) => (
             <>
               <View
                 key={index}
@@ -70,7 +104,7 @@ class LeaveComments extends React.Component<LeaveCommentsProps> {
                     padding: theme.spacing * 3,
                     paddingBottom: theme.spacing * 4,
                   }}>
-                  <LeaveCommentListItem leaveComment={comment} />
+                  <LeaveCommentListItem leaveComment={commentItem} />
                 </View>
                 <Divider />
               </View>
@@ -87,11 +121,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  textView: {
+    flex: 1,
+  },
 });
 
-interface LeaveCommentsProps extends WithTheme {
+interface LeaveCommentsProps
+  extends WithTheme,
+    ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
-  route: RouteProp<LeaveListNavigatorParamList, typeof LEAVE_COMMENTS>;
 }
 
-export default withTheme<LeaveCommentsProps>()(LeaveComments);
+interface LeaveCommentsState {
+  comment: string;
+}
+
+const mapStateToProps = (state: RootState) => ({
+  employeeLeaveRequest: selectEmployeeLeaveRequest(state),
+});
+
+const mapDispatchToProps = {
+  changeEmployeeLeaveRequestStatus: changeEmployeeLeaveRequestStatus,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+const LeaveCommentsWithTheme = withTheme<LeaveCommentsProps>()(LeaveComments);
+
+export default connector(LeaveCommentsWithTheme);

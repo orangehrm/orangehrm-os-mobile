@@ -19,7 +19,7 @@
  */
 
 import {takeEvery, put} from 'redux-saga/effects';
-import {apiCall, apiGetCall} from 'store/saga-effects/api';
+import {apiCall, apiGetCall, apiPostCall} from 'store/saga-effects/api';
 import {
   openLoader,
   closeLoader,
@@ -28,11 +28,14 @@ import {
 import {
   FETCH_LEAVE_LIST,
   FETCH_EMPLOYEE_LEAVE_REQUEST,
+  CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
   FetchEmployeeLeaveRequestAction,
+  ChangeEmployeeLeaveRequestStatusAction,
 } from 'store/leave/leave-list/types';
 import {
   fetchLeaveListFinished,
   fetchEmployeeLeaveRequestFinished,
+  fetchEmployeeLeaveRequest as fetchEmployeeLeaveRequestAction,
 } from 'store/leave/leave-list/actions';
 import {
   assignColorsToLeaveTypes,
@@ -85,7 +88,36 @@ function* fetchEmployeeLeaveRequest(action: FetchEmployeeLeaveRequestAction) {
   }
 }
 
+function* changeEmployeeLeaveRequestStatus(
+  action: ChangeEmployeeLeaveRequestStatusAction,
+) {
+  try {
+    yield openLoader();
+    const response = yield apiCall(
+      apiPostCall,
+      `/api/v1/leave/leave-request/${action.leaveRequestId}`,
+      action.action,
+    );
+
+    if (response.success) {
+      //re-fetch with updated leave request data
+      yield put(fetchEmployeeLeaveRequestAction(action.leaveRequestId));
+      yield showSnackMessage('Successfully Submited');
+    } else {
+      yield showSnackMessage('Failed to Update Leave Request');
+    }
+  } catch (error) {
+    yield showSnackMessage('Failed to Update Leave Request');
+  } finally {
+    yield closeLoader();
+  }
+}
+
 export function* watchLeaveListActions() {
   yield takeEvery(FETCH_LEAVE_LIST, fetchLeaveList);
   yield takeEvery(FETCH_EMPLOYEE_LEAVE_REQUEST, fetchEmployeeLeaveRequest);
+  yield takeEvery(
+    CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
+    changeEmployeeLeaveRequestStatus,
+  );
 }
