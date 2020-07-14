@@ -74,7 +74,7 @@ describe('lib/helpers/leave', () => {
         leaveType: {
           ...leaveType,
           id: '10',
-          color: '#4ece68',
+          color: '#445abf',
         },
       },
       {

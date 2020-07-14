@@ -93,22 +93,20 @@ class LeaveComments extends React.Component<
         }>
         <View>
           {employeeLeaveRequest?.comments.map((commentItem, index) => (
-            <>
+            <View
+              key={index}
+              style={{
+                paddingHorizontal: theme.spacing,
+              }}>
               <View
-                key={index}
                 style={{
-                  paddingHorizontal: theme.spacing,
+                  padding: theme.spacing * 3,
+                  paddingBottom: theme.spacing * 4,
                 }}>
-                <View
-                  style={{
-                    padding: theme.spacing * 3,
-                    paddingBottom: theme.spacing * 4,
-                  }}>
-                  <LeaveCommentListItem leaveComment={commentItem} />
-                </View>
-                <Divider />
+                <LeaveCommentListItem leaveComment={commentItem} />
               </View>
-            </>
+              <Divider />
+            </View>
           ))}
         </View>
       </MainLayout>

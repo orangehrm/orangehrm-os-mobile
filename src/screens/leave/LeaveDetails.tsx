@@ -39,6 +39,7 @@ import Chip from 'components/DefaultChip';
 import Avatar from 'components/DefaultAvatar';
 import Button from 'components/DefaultButton';
 import Divider from 'components/DefaultDivider';
+import BottomDialog from 'components/BottomDialog';
 import FlatButton from 'screens/leave/components/FlatButton';
 import LeaveCommentListItem from 'screens/leave/components/LeaveCommentListItem';
 import {LeaveListNavigatorParamList} from 'screens/leave/navigators/LeaveListNavigator';
@@ -52,7 +53,10 @@ import {
   LeaveRequestAllowedActions,
 } from 'store/leave/leave-list/types';
 
-class LeaveDetails extends React.Component<LeaveDetailsProps> {
+class LeaveDetails extends React.Component<
+  LeaveDetailsProps,
+  LeaveDetailsState
+> {
   constructor(props: LeaveDetailsProps) {
     super(props);
     const {leaveRequest} = props.route.params;
@@ -61,6 +65,9 @@ class LeaveDetails extends React.Component<LeaveDetailsProps> {
     ) {
       this.props.fetchEmployeeLeaveRequest(leaveRequest.leaveRequestId);
     }
+    this.state = {
+      action: undefined,
+    };
   }
 
   onRefresh = () => {
@@ -69,25 +76,30 @@ class LeaveDetails extends React.Component<LeaveDetailsProps> {
   };
 
   onPressApproveLeave = () => {
-    this.onPressAction(ACTION_APPROVE);
+    this.setState({action: ACTION_APPROVE});
   };
 
   onPressRejectLeave = () => {
-    this.onPressAction(ACTION_REJECT);
+    this.setState({action: ACTION_REJECT});
   };
 
   onPressCancelLeave = () => {
-    this.onPressAction(ACTION_CANCEL);
+    this.setState({action: ACTION_CANCEL});
   };
 
-  onPressAction = (status: LeaveRequestAllowedActions) => {
+  onResetAction = () => {
+    this.setState({action: undefined});
+  };
+
+  onPressAction = (status?: LeaveRequestAllowedActions) => () => {
     const {employeeLeaveRequest} = this.props;
-    if (employeeLeaveRequest) {
+    if (employeeLeaveRequest && status) {
       this.props.changeEmployeeLeaveRequestStatus(
         employeeLeaveRequest.leaveRequestId,
         {actionType: ACTION_TYPE_CHANGE_STATUS, status},
       );
     }
+    this.onResetAction();
   };
 
   onPressLeaveDays = () => {
@@ -102,6 +114,7 @@ class LeaveDetails extends React.Component<LeaveDetailsProps> {
 
   render() {
     const {theme, employeeLeaveRequest} = this.props;
+    const {action} = this.state;
     const leaveTypeColor = employeeLeaveRequest?.leaveType.color;
     const leaveDates =
       employeeLeaveRequest?.fromDate === employeeLeaveRequest?.toDate
@@ -239,7 +252,11 @@ class LeaveDetails extends React.Component<LeaveDetailsProps> {
             </View>
           </View>
           <View style={[styles.row, styles.leaveBalanceView]}>
-            <Text>{employeeLeaveRequest?.leaveBreakdown}</Text>
+            <View>
+              {employeeLeaveRequest?.leaveBreakdown.split(',').map((text) => (
+                <Text>{text.trim()}</Text>
+              ))}
+            </View>
             <Text style={[{fontSize: theme.typography.smallFontSize}]}>
               {'Days Available: '}
               {employeeLeaveRequest?.leaveBalance
@@ -264,24 +281,70 @@ class LeaveDetails extends React.Component<LeaveDetailsProps> {
           <Divider />
           <View>
             {employeeLeaveRequest?.comments.map((comment, index) => (
-              <>
+              <View
+                key={index}
+                style={{
+                  paddingHorizontal: theme.spacing * 4,
+                }}>
+                {index !== 0 ? <Divider /> : null}
                 <View
-                  key={index}
                   style={{
-                    paddingHorizontal: theme.spacing * 4,
+                    paddingVertical: theme.spacing * 3,
                   }}>
-                  {index !== 0 ? <Divider /> : null}
-                  <View
-                    style={{
-                      paddingVertical: theme.spacing * 3,
-                    }}>
-                    <LeaveCommentListItem leaveComment={comment} />
-                  </View>
+                  <LeaveCommentListItem leaveComment={comment} />
                 </View>
-              </>
+              </View>
             ))}
           </View>
         </View>
+        <BottomDialog
+          isVisible={action !== undefined}
+          onCancel={this.onResetAction}>
+          <View style={{padding: theme.spacing * 4}}>
+            <Text
+              style={{
+                fontSize: theme.typography.headerFontSize,
+                paddingBottom: theme.spacing * 3,
+              }}>
+              {'Confirmation required'}
+            </Text>
+            {action ? (
+              <Text>{`Do you want to ${action.toLowerCase()} the leave request?`}</Text>
+            ) : null}
+            <View
+              style={[
+                styles.row,
+                styles.confirmationButtonView,
+                {paddingTop: theme.spacing * 5},
+              ]}>
+              <View
+                style={[
+                  styles.confirmationButton,
+                  {paddingHorizontal: theme.spacing},
+                ]}>
+                <Button
+                  fullWidth
+                  title={'No'}
+                  bordered
+                  primary
+                  onPress={this.onResetAction}
+                />
+              </View>
+              <View
+                style={[
+                  styles.confirmationButton,
+                  {paddingHorizontal: theme.spacing},
+                ]}>
+                <Button
+                  fullWidth
+                  title={'Yes'}
+                  primary
+                  onPress={this.onPressAction(action)}
+                />
+              </View>
+            </View>
+          </View>
+        </BottomDialog>
       </MainLayout>
     );
   }
@@ -292,6 +355,10 @@ interface LeaveDetailsProps
     ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
   route: RouteProp<LeaveListNavigatorParamList, typeof LEAVE_DETAILS>;
+}
+
+interface LeaveDetailsState {
+  action?: LeaveRequestAllowedActions;
 }
 
 const styles = StyleSheet.create({
@@ -309,6 +376,12 @@ const styles = StyleSheet.create({
   },
   leaveBalanceView: {
     justifyContent: 'space-evenly',
+  },
+  confirmationButtonView: {
+    justifyContent: 'space-evenly',
+  },
+  confirmationButton: {
+    flex: 0.5,
   },
 });
 
