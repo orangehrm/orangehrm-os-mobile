@@ -91,7 +91,7 @@ class LeaveComments extends React.Component<
             </View>
           </>
         }>
-        <View>
+        <View style={{paddingBottom: theme.spacing * 5}}>
           {employeeLeaveRequest?.comments.map((commentItem, index) => (
             <View
               key={index}

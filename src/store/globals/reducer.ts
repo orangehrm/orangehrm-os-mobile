@@ -25,6 +25,7 @@ import {
   CLOSE_SNACK_MESSAGE,
   OPEN_LOADER,
   CLOSE_LOADER,
+  TYPE_SUCCESS,
 } from 'store/globals/types';
 import {MY_LEAVE_ENTITLEMENT_AND_USAGE} from 'screens';
 
@@ -51,7 +52,7 @@ const globalsReducer = (
         snackMessage: {
           open: true,
           message: action.message,
-          type: action.snackType,
+          type: action.snackType ? action.snackType : TYPE_SUCCESS,
         },
       };
     case CLOSE_SNACK_MESSAGE:

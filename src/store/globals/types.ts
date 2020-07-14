@@ -20,13 +20,22 @@
 
 import {ReactNode} from 'react';
 
+export const TYPE_SUCCESS = 'success';
+export const TYPE_ERROR = 'error';
+export const TYPE_INFO = 'info';
+export const TYPE_WARN = 'warning';
+
 export interface GlobalsState {
   snackMessage: SnackMessage;
   loader: Loader;
   initialRoute: string;
 }
 
-export type SnackTypes = 'success' | 'error' | 'info' | 'warning';
+export type SnackTypes =
+  | typeof TYPE_SUCCESS
+  | typeof TYPE_ERROR
+  | typeof TYPE_INFO
+  | typeof TYPE_WARN;
 
 export interface SnackMessage {
   open: boolean;

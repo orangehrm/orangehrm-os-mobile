@@ -29,7 +29,6 @@ import {
   RefreshControlProps,
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {Root} from 'native-base';
 
 const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
   const {theme, children, refreshing, onRefresh, footer} = props;
@@ -42,25 +41,23 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
       />
       <SafeAreaView
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
-        <Root>
-          <KeyboardAvoidingView style={styles.root}>
-            <ScrollView
-              contentInsetAdjustmentBehavior="automatic"
-              contentContainerStyle={styles.scrollView}
-              keyboardShouldPersistTaps="handled"
-              refreshControl={
-                onRefresh === undefined ? undefined : (
-                  <RefreshControl
-                    refreshing={refreshing === undefined ? false : refreshing}
-                    onRefresh={onRefresh}
-                  />
-                )
-              }>
-              {children}
-            </ScrollView>
-            {footer === undefined ? null : footer}
-          </KeyboardAvoidingView>
-        </Root>
+        <KeyboardAvoidingView style={styles.root}>
+          <ScrollView
+            contentInsetAdjustmentBehavior="automatic"
+            contentContainerStyle={styles.scrollView}
+            keyboardShouldPersistTaps="handled"
+            refreshControl={
+              onRefresh === undefined ? undefined : (
+                <RefreshControl
+                  refreshing={refreshing === undefined ? false : refreshing}
+                  onRefresh={onRefresh}
+                />
+              )
+            }>
+            {children}
+          </ScrollView>
+          {footer === undefined ? null : footer}
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </>
   );

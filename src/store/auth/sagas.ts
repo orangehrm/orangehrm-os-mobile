@@ -53,6 +53,7 @@ import {
 import {fetchMyInfoFinished, checkInstanceFinished} from 'store/auth/actions';
 import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams} from 'store/storage/types';
+import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
 
 function* checkInstance(_action: CheckInstanceAction) {
   try {
@@ -72,9 +73,10 @@ function* checkInstance(_action: CheckInstanceAction) {
     if (error.message === 'Network request failed') {
       yield showSnackMessage(
         'Connection Error! Operation Couldn’t Be Completed.',
+        TYPE_ERROR,
       );
     } else {
-      yield showSnackMessage('Could Not Be Reached.');
+      yield showSnackMessage('Could Not Be Reached.', TYPE_ERROR);
     }
   } finally {
     yield closeLoader();
@@ -100,10 +102,11 @@ function* fetchAuthToken(action: FetchTokenAction) {
           case 'invalid_client':
             yield showSnackMessage(
               'Please add mobile client to your instance.',
+              TYPE_WARN,
             );
             break;
           default:
-            yield showSnackMessage('Invalid Credentials.');
+            yield showSnackMessage('Invalid Credentials.', TYPE_ERROR);
         }
       } else {
         yield storageSetMulti({
@@ -116,11 +119,12 @@ function* fetchAuthToken(action: FetchTokenAction) {
         });
       }
     } else {
-      yield showSnackMessage('Instance URL is empty');
+      yield showSnackMessage('Instance URL is empty', TYPE_ERROR);
     }
   } catch (error) {
     yield showSnackMessage(
       'Connection Error! Operation Couldn’t Be Completed.',
+      TYPE_ERROR,
     );
   } finally {
     yield closeLoader();
@@ -139,7 +143,7 @@ function* logout() {
       [EXPIRES_AT]: null,
     });
   } catch (error) {
-    yield showSnackMessage('Failed to Perform Action.');
+    yield showSnackMessage('Failed to Perform Action.', TYPE_ERROR);
   } finally {
     yield closeLoader();
   }

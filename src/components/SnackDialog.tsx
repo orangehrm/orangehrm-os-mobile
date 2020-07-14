@@ -19,36 +19,57 @@
  */
 
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ViewProps} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Dialog, {DialogProps} from 'components/DefaultDialog';
 
-const BottomDialog = (props: React.PropsWithChildren<BottomDialogProps>) => {
-  const {theme, children, isVisible, onCancel, ...dialogProps} = props;
+const SnackDialog = (props: React.PropsWithChildren<SnackDialogProps>) => {
+  const {
+    theme,
+    children,
+    isVisible,
+    closeSnackMessage,
+    viewProps,
+    ...dialogProps
+  } = props;
 
   return (
     <Dialog
       isVisible={isVisible}
-      onBackButtonPress={onCancel}
-      onBackdropPress={onCancel}
+      hideModalContentWhileAnimating
+      onBackButtonPress={closeSnackMessage}
+      onSwipeComplete={closeSnackMessage}
+      swipeDirection={['left', 'right', 'down']}
+      coverScreen={false}
+      hasBackdrop={false}
+      //https://github.com/react-native-community/react-native-modal/issues/163
+      useNativeDriver={false}
       {...dialogProps}
       style={[styles.dialog, dialogProps.style]}>
-      <View style={{backgroundColor: theme.palette.background}}>
+      <View
+        {...viewProps}
+        style={[
+          {
+            backgroundColor: theme.palette.background,
+            borderRadius: theme.borderRadius,
+          },
+          viewProps?.style,
+        ]}>
         {children}
       </View>
     </Dialog>
   );
 };
 
-interface BottomDialogProps extends WithTheme, DialogProps {
-  onCancel?: () => void;
+interface SnackDialogProps extends WithTheme, DialogProps {
+  closeSnackMessage?: () => void;
+  viewProps?: ViewProps;
 }
 
 const styles = StyleSheet.create({
   dialog: {
     justifyContent: 'flex-end',
-    margin: 0,
   },
 });
 
-export default withTheme<BottomDialogProps>()(BottomDialog);
+export default withTheme<SnackDialogProps>()(SnackDialog);

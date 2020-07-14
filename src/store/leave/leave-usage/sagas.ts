@@ -34,6 +34,7 @@ import {
   fetchMyLeaveRequestsFinished,
 } from 'store/leave/leave-usage/actions';
 import {assignColorsToLeaveTypes} from 'lib/helpers/leave';
+import {TYPE_ERROR} from 'store/globals/types';
 
 function* fetchMyLeaveEntitlements() {
   try {
@@ -50,9 +51,10 @@ function* fetchMyLeaveEntitlements() {
       );
     } else {
       yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
+      yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
     }
   } catch (error) {
-    yield showSnackMessage('Failed to Fetch Leave Details');
+    yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
     yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
   } finally {
     yield closeLoader();
@@ -70,9 +72,10 @@ function* fetchMyLeaveRequests() {
       yield put(fetchMyLeaveRequestsFinished(response.data));
     } else {
       yield put(fetchMyLeaveRequestsFinished(undefined, true));
+      yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
     }
   } catch (error) {
-    yield showSnackMessage('Failed to Fetch Leave Details');
+    yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
     yield put(fetchMyLeaveRequestsFinished(undefined, true));
   } finally {
     yield closeLoader();

@@ -104,12 +104,16 @@ class LeaveDetails extends React.Component<
 
   onPressLeaveDays = () => {
     const {employeeLeaveRequest} = this.props;
-    navigate(LEAVE_DAYS, {employeeLeaveRequest});
+    if (employeeLeaveRequest) {
+      navigate(LEAVE_DAYS, {employeeLeaveRequest});
+    }
   };
 
   onPressComments = () => {
     const {employeeLeaveRequest} = this.props;
-    navigate(LEAVE_COMMENTS, {employeeLeaveRequest});
+    if (employeeLeaveRequest) {
+      navigate(LEAVE_COMMENTS, {employeeLeaveRequest});
+    }
   };
 
   render() {

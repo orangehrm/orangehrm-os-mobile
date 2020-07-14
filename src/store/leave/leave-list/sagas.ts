@@ -41,6 +41,7 @@ import {
   assignColorsToLeaveTypes,
   assignColorToLeaveType,
 } from 'lib/helpers/leave';
+import {TYPE_ERROR} from 'store/globals/types';
 
 function* fetchLeaveList() {
   try {
@@ -55,9 +56,10 @@ function* fetchLeaveList() {
       );
     } else {
       yield put(fetchLeaveListFinished(undefined, true));
+      yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
     }
   } catch (error) {
-    yield showSnackMessage('Failed to Fetch Leave Details');
+    yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
     yield put(fetchLeaveListFinished(undefined, true));
   } finally {
     yield closeLoader();
@@ -79,9 +81,10 @@ function* fetchEmployeeLeaveRequest(action: FetchEmployeeLeaveRequestAction) {
       );
     } else {
       yield put(fetchEmployeeLeaveRequestFinished(undefined, true));
+      yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
     }
   } catch (error) {
-    yield showSnackMessage('Failed to Fetch Leave Details');
+    yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
     yield put(fetchEmployeeLeaveRequestFinished(undefined, true));
   } finally {
     yield closeLoader();
@@ -104,10 +107,10 @@ function* changeEmployeeLeaveRequestStatus(
       yield put(fetchEmployeeLeaveRequestAction(action.leaveRequestId));
       yield showSnackMessage('Successfully Submited');
     } else {
-      yield showSnackMessage('Failed to Update Leave Request');
+      yield showSnackMessage('Failed to Update Leave Request', TYPE_ERROR);
     }
   } catch (error) {
-    yield showSnackMessage('Failed to Update Leave Request');
+    yield showSnackMessage('Failed to Update Leave Request', TYPE_ERROR);
   } finally {
     yield closeLoader();
   }
