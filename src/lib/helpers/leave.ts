@@ -18,7 +18,7 @@
  *
  */
 
-import {Leave, LeaveStatus, LeaveType} from 'store/leave/leave-usage/types';
+import {Leave, LeaveType} from 'store/leave/leave-usage/types';
 import {
   SPECIFY_TIME,
   PARTIAL_OPTION_ALL,
@@ -95,42 +95,6 @@ const sortLeaveArrayByDate = (days: Leave[]) => {
     return 0;
   });
   return sortedDays;
-};
-
-const getBreakDown = (days: Leave[], workshift: number = 8) => {
-  let order = 0;
-  const breakDownObj: {
-    [key: string]: {count: number; order: number; name: string};
-  } = {};
-  days.forEach((leave) => {
-    const statusDays = parseFloat(leave.duration) / workshift;
-    if (leave.status === 'WEEKEND' || leave.status === 'HOLIDAY') {
-      return;
-    } else if (breakDownObj.hasOwnProperty(leave.status)) {
-      const obj = breakDownObj[leave.status];
-      breakDownObj[leave.status] = {
-        ...obj,
-        count: obj.count + statusDays,
-      };
-    } else {
-      breakDownObj[leave.status] = {
-        count: statusDays,
-        order: order,
-        name: LEAVE_STATUS_MAP[leave.status],
-      };
-      order++;
-    }
-  });
-
-  const array: LeaveNameCount[] = [];
-  Object.keys(breakDownObj).forEach((leaveStatus) => {
-    array.splice(breakDownObj[leaveStatus].order, 0, {
-      name: breakDownObj[leaveStatus].name,
-      count: breakDownObj[leaveStatus].count,
-      key: leaveStatus as LeaveStatus,
-    });
-  });
-  return array;
 };
 
 /**
@@ -237,13 +201,10 @@ const isFromTimeLessThanToTime = (
   return getDateFromString(fromTime) < getDateFromString(toTime);
 };
 
-type LeaveNameCount = {name: string; count: number; key: LeaveStatus};
-
 export {
   assignColorsToLeaveTypes,
   assignColorToLeaveType,
   LEAVE_STATUS_MAP,
-  getBreakDown,
   sortLeaveArrayByDate,
   isSingleDayRequest,
   isMultipleDayRequest,

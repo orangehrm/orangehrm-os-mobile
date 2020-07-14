@@ -32,22 +32,8 @@ import Text from 'components/DefaultText';
 import Chip from 'components/DefaultChip';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {LeaveRequest} from 'store/leave/leave-usage/types';
-import {sortLeaveArrayByDate, getBreakDown} from 'lib/helpers/leave';
 
 class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
-  getBreakDownString = () => {
-    const {leaveRequest} = this.props;
-    const breakDownArray = getBreakDown(
-      sortLeaveArrayByDate(leaveRequest.days),
-    );
-    let text = '';
-    breakDownArray.forEach((item) => {
-      // TODO: localize `item.name`
-      text += `${item.name}(${item.count.toFixed(2)}) `;
-    });
-    return text;
-  };
-
   render() {
     const {theme, leaveRequest, leaveTypeColors, onPress} = this.props;
     const leaveTypeColor = leaveTypeColors[leaveRequest.leaveType];
@@ -95,7 +81,7 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
                 {leaveDates}
               </Text>
               <Text style={[{fontSize: theme.typography.smallFontSize}]}>
-                {this.getBreakDownString()}
+                {leaveRequest.leaveBreakdown}
               </Text>
             </View>
           </View>

@@ -19,19 +19,21 @@
  */
 
 import 'react-native';
-import React from 'react';
-import Card from '../../src/components/DefaultCard';
-import {Provider} from 'react-redux';
-import configureStore from 'store/configureStore';
+import {getHeaderStyle} from 'lib/helpers/header';
+import theme from 'theme/default';
 
-import {render} from 'react-native-testing-library';
-const mockStore = configureStore();
-
-test('test card component', () => {
-  const cardComponent = render(
-    <Provider store={mockStore}>
-      <Card />
-    </Provider>,
-  ).toJSON();
-  expect(cardComponent).toMatchSnapshot();
+describe('lib/helpers/header', () => {
+  test('check return object', () => {
+    const headerStyle = getHeaderStyle(theme);
+    expect(headerStyle).toStrictEqual({
+      headerStyle: {
+        backgroundColor: theme.palette.header,
+      },
+      headerTitleStyle: {
+        fontSize: theme.typography.headerFontSize,
+        color: theme.typography.secondaryColor,
+        marginLeft: -theme.spacing * 2,
+      },
+    });
+  });
 });

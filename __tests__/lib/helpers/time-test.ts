@@ -19,19 +19,14 @@
  */
 
 import 'react-native';
-import React from 'react';
-import Card from '../../src/components/DefaultCard';
-import {Provider} from 'react-redux';
-import configureStore from 'store/configureStore';
+import {getDateFromString} from 'lib/helpers/time';
 
-import {render} from 'react-native-testing-library';
-const mockStore = configureStore();
+describe('lib/helpers/time', () => {
+  test('getDateFromString::check date object from time string', () => {
+    let date1 = getDateFromString('11:15');
+    let date2 = getDateFromString('12:30');
 
-test('test card component', () => {
-  const cardComponent = render(
-    <Provider store={mockStore}>
-      <Card />
-    </Provider>,
-  ).toJSON();
-  expect(cardComponent).toMatchSnapshot();
+    expect(date1.getHours()).toBe(date2.getHours() - 1);
+    expect(date1.getMinutes()).toBe(date2.getMinutes() - 15);
+  });
 });
