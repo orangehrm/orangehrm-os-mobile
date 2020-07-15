@@ -69,7 +69,9 @@ function* fetchMyLeaveRequests() {
       '/api/v1/leave/my-leave-request',
     );
     if (response.data) {
-      yield put(fetchMyLeaveRequestsFinished(response.data));
+      yield put(
+        fetchMyLeaveRequestsFinished(assignColorsToLeaveTypes(response.data)),
+      );
     } else {
       yield put(fetchMyLeaveRequestsFinished(undefined, true));
       yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);

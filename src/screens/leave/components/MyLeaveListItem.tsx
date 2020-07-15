@@ -25,9 +25,6 @@ import {
   StyleSheet,
   TouchableWithoutFeedbackProps,
 } from 'react-native';
-import {connect, ConnectedProps} from 'react-redux';
-import {RootState} from 'store';
-import {selectLeaveTypeColors} from 'store/leave/leave-usage/selectors';
 import Text from 'components/DefaultText';
 import Chip from 'components/DefaultChip';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -35,8 +32,8 @@ import {LeaveRequest} from 'store/leave/leave-usage/types';
 
 class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
   render() {
-    const {theme, leaveRequest, leaveTypeColors, onPress} = this.props;
-    const leaveTypeColor = leaveTypeColors[leaveRequest.leaveType];
+    const {theme, leaveRequest, onPress} = this.props;
+    const leaveTypeColor = leaveRequest.leaveType.color;
     const leaveDates =
       leaveRequest.fromDate === leaveRequest.toDate
         ? leaveRequest.fromDate
@@ -68,7 +65,7 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
                       ? {color: theme.typography.lightColor}
                       : {color: theme.typography.darkColor},
                   ]}>
-                  {leaveRequest.leaveType}
+                  {leaveRequest.leaveType.type}
                 </Text>
               </Chip>
             </View>
@@ -93,7 +90,6 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
 
 interface MyLeaveListItemProps
   extends WithTheme,
-    ConnectedProps<typeof connector>,
     Pick<TouchableWithoutFeedbackProps, 'onPress'> {
   leaveRequest: LeaveRequest;
 }
@@ -104,14 +100,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state: RootState) => ({
-  leaveTypeColors: selectLeaveTypeColors(state),
-});
-
-const connector = connect(mapStateToProps);
-
-const MyLeaveListItemWithTheme = withTheme<MyLeaveListItemProps>()(
-  MyLeaveListItem,
-);
-
-export default connector(MyLeaveListItemWithTheme);
+export default withTheme<MyLeaveListItemProps>()(MyLeaveListItem);
