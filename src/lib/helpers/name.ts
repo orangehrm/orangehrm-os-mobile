@@ -18,20 +18,24 @@
  *
  */
 
-import {all, call} from 'redux-saga/effects';
-import {loadAsyncStorage, watchSetStorageItem} from 'store/storage/sagas';
-import {watchAuthActions} from 'store/auth/sagas';
-import {watchLeaveUsageActions} from 'store/leave/leave-usage/sagas';
-import {watchApplyLeaveActions} from 'store/leave/apply-leave/sagas';
-import {watchLeaveListActions} from 'store/leave/leave-list/sagas';
+/**
+ * @param {string} name
+ * @returns {string|undefined}
+ */
+const getNameLetters = (name: string): string | undefined => {
+  const nameChunks = name.split(' ');
+  let firstName;
+  let lastName;
+  if (nameChunks.length > 0) {
+    firstName = nameChunks[0].trim();
+  }
+  if (nameChunks.length > 1) {
+    lastName = nameChunks[nameChunks.length - 1].trim();
+  }
 
-export default function* rootSaga() {
-  yield all([
-    call(loadAsyncStorage),
-    call(watchSetStorageItem),
-    call(watchAuthActions),
-    call(watchLeaveUsageActions),
-    call(watchApplyLeaveActions),
-    call(watchLeaveListActions),
-  ]);
-}
+  const firstLetter = firstName?.charAt(0).toUpperCase();
+  const lastLetter = lastName?.charAt(0).toUpperCase();
+  return firstLetter?.concat(lastLetter ? lastLetter : '');
+};
+
+export {getNameLetters};

@@ -19,25 +19,41 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {Toast} from 'native-base';
+import {View, StyleSheet} from 'react-native';
 import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
+import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Overlay from 'components/DefaultOverlay';
+import SnackDialog from 'components/SnackDialog';
+import Text from 'components/DefaultText';
+import Icon, {IconProps} from 'components/DefaultIcon';
+import {
+  TYPE_SUCCESS,
+  TYPE_ERROR,
+  TYPE_INFO,
+  TYPE_WARN,
+} from 'store/globals/types';
+import {$PropertyType} from 'utility-types';
+
+const ICON_MAP = {
+  [TYPE_SUCCESS]: {
+    name: 'checkbox-marked-circle-outline',
+    type: 'MaterialCommunityIcons',
+  },
+  [TYPE_ERROR]: {name: 'error-outline', type: 'MaterialIcons'},
+  [TYPE_INFO]: {name: 'info-outline', type: 'MaterialIcons'},
+  [TYPE_WARN]: {name: 'alert-outline', type: 'MaterialCommunityIcons'},
+};
 
 const Globals = (props: GlobalsProps) => {
   const [toastShow, setToastShow] = useState(false);
-  const {loader, snackMessage, closeSnackMessage} = props;
+  const {theme, loader, snackMessage, closeSnackMessage} = props;
   useEffect(() => {
     if (!toastShow) {
-      if (snackMessage.open) {
-        Toast.show({
-          text: snackMessage.message,
-          // TODO: set duration
-          duration: 2000,
-          onClose: () => {
-            closeSnackMessage();
-            setToastShow(false);
-          },
-        });
+      if (snackMessage.open && snackMessage.type !== TYPE_ERROR) {
+        setTimeout(() => {
+          closeSnackMessage();
+          setToastShow(false);
+        }, 3000);
         setToastShow(true);
       }
     }
@@ -45,10 +61,59 @@ const Globals = (props: GlobalsProps) => {
   return (
     <>
       <Overlay modalProps={{visible: loader.open}}>{loader.content}</Overlay>
+      <SnackDialog
+        isVisible={snackMessage.open}
+        closeSnackMessage={closeSnackMessage}
+        viewProps={{
+          style: snackMessage.type
+            ? {backgroundColor: theme.palette[snackMessage.type]}
+            : undefined,
+        }}>
+        <View style={[styles.snackView, {padding: theme.spacing * 4}]}>
+          {snackMessage.type ? (
+            <View style={styles.iconView}>
+              <Icon
+                name={ICON_MAP[snackMessage.type].name}
+                type={
+                  ICON_MAP[snackMessage.type].type as $PropertyType<
+                    IconProps,
+                    'type'
+                  >
+                }
+                style={{color: theme.typography.lightColor}}
+              />
+            </View>
+          ) : null}
+          <View
+            style={{
+              paddingLeft: theme.spacing * 3,
+              paddingRight: theme.spacing * 5,
+              paddingTop: theme.spacing * 0.5,
+            }}>
+            <Text
+              style={{
+                color: theme.typography.lightColor,
+              }}>
+              {snackMessage.message}
+            </Text>
+          </View>
+        </View>
+      </SnackDialog>
     </>
   );
 };
 
-interface GlobalsProps extends WithGlobals {}
+interface GlobalsProps extends WithGlobals, WithTheme {}
 
-export default withGlobals<GlobalsProps>()(Globals);
+const styles = StyleSheet.create({
+  snackView: {
+    flexDirection: 'row',
+  },
+  iconView: {
+    justifyContent: 'center',
+  },
+});
+
+const GlobalsWithTheme = withTheme<GlobalsProps>()(Globals);
+
+export default withGlobals()(GlobalsWithTheme);

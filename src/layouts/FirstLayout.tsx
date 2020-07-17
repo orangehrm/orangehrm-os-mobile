@@ -35,7 +35,6 @@ import CardActions from 'components/DefaultCardActions';
 import Footer from 'components/DefaultFooter';
 import Text from 'components/DefaultText';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {Root} from 'native-base';
 
 const FirstLayout = (props: FirstLayoutProps) => {
   const {header, content, actions, more, theme} = props;
@@ -47,62 +46,57 @@ const FirstLayout = (props: FirstLayoutProps) => {
       />
       <SafeAreaView
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
-        <Root>
+        <KeyboardAvoidingView style={styles.root}>
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
             contentContainerStyle={styles.scrollView}
-            keyboardShouldPersistTaps="always">
-            <KeyboardAvoidingView style={styles.root}>
-              <View
-                style={[
-                  styles.rootView,
-                  {marginHorizontal: theme.spacing * 2},
-                ]}>
-                <View style={styles.main}>
-                  <Image
-                    source={require('images/orangehrm-logo-full.png')}
-                    style={styles.logo}
-                  />
-                  <Card fullWidth style={{marginBottom: theme.spacing * 4}}>
-                    <CardHeader
+            keyboardShouldPersistTaps="handled">
+            <View
+              style={[styles.rootView, {marginHorizontal: theme.spacing * 2}]}>
+              <View style={styles.main}>
+                <Image
+                  source={require('images/orangehrm-logo-full.png')}
+                  style={styles.logo}
+                />
+                <Card fullWidth style={{marginBottom: theme.spacing * 4}}>
+                  <CardHeader
+                    style={{
+                      padding: theme.spacing * 4,
+                      paddingVertical: theme.spacing * 4,
+                      backgroundColor: theme.palette.secondary,
+                    }}>
+                    <Text
                       style={{
-                        padding: theme.spacing * 4,
-                        paddingVertical: theme.spacing * 4,
-                        backgroundColor: theme.palette.secondary,
+                        color: theme.typography.secondaryColor,
+                        fontSize: theme.typography.headerFontSize,
                       }}>
-                      <Text
-                        style={{
-                          color: theme.typography.secondaryColor,
-                          fontSize: theme.typography.headerFontSize,
-                        }}>
-                        {header}
-                      </Text>
-                    </CardHeader>
-                    <CardContent style={{padding: theme.spacing * 4}}>
-                      {content}
-                    </CardContent>
-                    <CardActions>
-                      <View
-                        style={[
-                          styles.cardActions,
-                          {
-                            paddingHorizontal: theme.spacing * 4,
-                            paddingBottom: theme.spacing * 2,
-                          },
-                        ]}>
-                        {actions}
-                      </View>
-                    </CardActions>
-                  </Card>
-                </View>
-                {more === undefined ? null : <View>{more}</View>}
-                <View>
-                  <Footer />
-                </View>
+                      {header}
+                    </Text>
+                  </CardHeader>
+                  <CardContent style={{padding: theme.spacing * 4}}>
+                    {content}
+                  </CardContent>
+                  <CardActions>
+                    <View
+                      style={[
+                        styles.cardActions,
+                        {
+                          paddingHorizontal: theme.spacing * 4,
+                          paddingBottom: theme.spacing * 2,
+                        },
+                      ]}>
+                      {actions}
+                    </View>
+                  </CardActions>
+                </Card>
               </View>
-            </KeyboardAvoidingView>
+              {more === undefined ? null : <View>{more}</View>}
+              <View>
+                <Footer />
+              </View>
+            </View>
           </ScrollView>
-        </Root>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </>
   );

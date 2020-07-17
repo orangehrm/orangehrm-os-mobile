@@ -45,15 +45,3 @@ export const selectLeaveRequests = createSelector<
   LeaveUsageState,
   LeaveRequest[] | undefined
 >([selectLeaveUsage], (leaveUsage) => leaveUsage.leaveRequest);
-
-export const selectLeaveTypeColors = createSelector<
-  RootState,
-  Entitlement[] | undefined,
-  {[type: string]: string}
->([selectEntitlement], (entitlement) => {
-  let leaveTypeColor: {[type: string]: string} = {};
-  entitlement?.forEach((item) => {
-    leaveTypeColor[item.leaveType.type] = item.leaveType.color;
-  });
-  return leaveTypeColor;
-});

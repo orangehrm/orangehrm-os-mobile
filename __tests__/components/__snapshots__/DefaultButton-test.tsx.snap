@@ -55,6 +55,7 @@ exports[`test button component with title 1`] = `
         },
         undefined,
         undefined,
+        undefined,
       ]
     }
     uppercase={false}

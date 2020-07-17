@@ -19,38 +19,38 @@
  */
 
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {Button, NativeBase} from 'native-base';
+import {Platform} from 'react-native';
+import {
+  NavigationProp,
+  ParamListBase,
+  StackActions,
+} from '@react-navigation/native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import IconButton from 'components/DefaultIconButton';
 
-const CardButton = (props: React.PropsWithChildren<CardButtonProps>) => {
-  const {children, theme, style, ...restProps} = props;
-
+const HeaderBackIcon = (props: HeaderBackIconProps) => {
+  const {theme} = props;
   return (
-    <Button
-      style={[
-        styles.button,
-        {
-          backgroundColor: theme.palette.background,
-          borderRadius: theme.borderRadius * 2,
+    <IconButton
+      buttonProps={{
+        onPress: () => {
+          props.navigation.dispatch(StackActions.pop());
         },
-        style,
-      ]}
-      rounded
-      androidRippleColor={theme.palette.default}
-      {...restProps}>
-      {children}
-    </Button>
+      }}
+      iconProps={{
+        name: Platform.OS === 'ios' ? 'ios-arrow-back' : 'arrow-back',
+        type: Platform.OS === 'ios' ? 'Ionicons' : 'MaterialIcons',
+        style: {
+          fontSize: theme.typography.headerIconSize,
+          color: theme.typography.secondaryColor,
+        },
+      }}
+    />
   );
 };
 
-export interface CardButtonProps extends NativeBase.Button, WithTheme {}
+interface HeaderBackIconProps extends WithTheme {
+  navigation: NavigationProp<ParamListBase>;
+}
 
-const styles = StyleSheet.create({
-  button: {
-    flex: 1,
-    alignItems: 'stretch',
-  },
-});
-
-export default withTheme<CardButtonProps>()(CardButton);
+export default withTheme<HeaderBackIconProps>()(HeaderBackIcon);

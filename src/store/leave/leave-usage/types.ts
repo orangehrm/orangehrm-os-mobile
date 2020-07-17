@@ -107,10 +107,12 @@ export interface LeaveRequest {
   fromDate: string;
   toDate: string;
   appliedDate: string;
-  leaveType: string;
+  leaveType: LeaveType;
+  leaveBalance: string;
   numberOfDays: string;
   comments: LeaveComment[];
   days: Leave[];
+  leaveBreakdown: string;
 }
 
 export interface Leave {

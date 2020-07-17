@@ -23,7 +23,7 @@ import {StyleSheet} from 'react-native';
 import {Button, Text, NativeBase} from 'native-base';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
-function DefaultButton(props: DefaultButtonProps) {
+const DefaultButton = (props: DefaultButtonProps) => {
   const {
     title,
     transparent,
@@ -44,6 +44,12 @@ function DefaultButton(props: DefaultButtonProps) {
     color = theme.palette.secondary;
   }
 
+  let borderedColor;
+  if (restProps.bordered) {
+    borderedColor = color;
+    color = undefined;
+  }
+
   return (
     <Button
       style={[
@@ -51,8 +57,11 @@ function DefaultButton(props: DefaultButtonProps) {
           backgroundColor: color,
           borderRadius: theme.borderRadius,
         },
+        borderedColor ? {borderColor: borderedColor} : undefined,
         style,
       ]}
+      rounded
+      androidRippleColor={borderedColor ? borderedColor : undefined}
       transparent={transparent}
       {...restProps}>
       <Text
@@ -61,12 +70,13 @@ function DefaultButton(props: DefaultButtonProps) {
           {color: theme.typography.secondaryColor},
           textProps?.style,
           fullWidth ? styles.fullWidth : undefined,
+          borderedColor ? {color: borderedColor} : undefined,
         ]}>
         {title}
       </Text>
     </Button>
   );
-}
+};
 
 interface DefaultButtonProps extends NativeBase.Button, WithTheme {
   title: string;

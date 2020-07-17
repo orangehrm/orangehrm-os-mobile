@@ -19,38 +19,36 @@
  */
 
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {Button, NativeBase} from 'native-base';
+import {View, StyleSheet} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import Dialog, {DialogProps} from 'components/DefaultDialog';
 
-const CardButton = (props: React.PropsWithChildren<CardButtonProps>) => {
-  const {children, theme, style, ...restProps} = props;
+const BottomDialog = (props: React.PropsWithChildren<BottomDialogProps>) => {
+  const {theme, children, isVisible, onCancel, ...dialogProps} = props;
 
   return (
-    <Button
-      style={[
-        styles.button,
-        {
-          backgroundColor: theme.palette.background,
-          borderRadius: theme.borderRadius * 2,
-        },
-        style,
-      ]}
-      rounded
-      androidRippleColor={theme.palette.default}
-      {...restProps}>
-      {children}
-    </Button>
+    <Dialog
+      isVisible={isVisible}
+      onBackButtonPress={onCancel}
+      onBackdropPress={onCancel}
+      {...dialogProps}
+      style={[styles.dialog, dialogProps.style]}>
+      <View style={{backgroundColor: theme.palette.background}}>
+        {children}
+      </View>
+    </Dialog>
   );
 };
 
-export interface CardButtonProps extends NativeBase.Button, WithTheme {}
+interface BottomDialogProps extends WithTheme, DialogProps {
+  onCancel?: () => void;
+}
 
 const styles = StyleSheet.create({
-  button: {
-    flex: 1,
-    alignItems: 'stretch',
+  dialog: {
+    justifyContent: 'flex-end',
+    margin: 0,
   },
 });
 
-export default withTheme<CardButtonProps>()(CardButton);
+export default withTheme<BottomDialogProps>()(BottomDialog);

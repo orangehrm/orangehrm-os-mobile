@@ -18,20 +18,22 @@
  *
  */
 
-import {all, call} from 'redux-saga/effects';
-import {loadAsyncStorage, watchSetStorageItem} from 'store/storage/sagas';
-import {watchAuthActions} from 'store/auth/sagas';
-import {watchLeaveUsageActions} from 'store/leave/leave-usage/sagas';
-import {watchApplyLeaveActions} from 'store/leave/apply-leave/sagas';
-import {watchLeaveListActions} from 'store/leave/leave-list/sagas';
+import 'react-native';
+import {getHeaderStyle} from 'lib/helpers/header';
+import theme from 'theme/default';
 
-export default function* rootSaga() {
-  yield all([
-    call(loadAsyncStorage),
-    call(watchSetStorageItem),
-    call(watchAuthActions),
-    call(watchLeaveUsageActions),
-    call(watchApplyLeaveActions),
-    call(watchLeaveListActions),
-  ]);
-}
+describe('lib/helpers/header', () => {
+  test('check return object', () => {
+    const headerStyle = getHeaderStyle(theme);
+    expect(headerStyle).toStrictEqual({
+      headerStyle: {
+        backgroundColor: theme.palette.header,
+      },
+      headerTitleStyle: {
+        fontSize: theme.typography.headerFontSize,
+        color: theme.typography.secondaryColor,
+        marginLeft: -theme.spacing * 2,
+      },
+    });
+  });
+});

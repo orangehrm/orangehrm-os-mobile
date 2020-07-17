@@ -24,7 +24,7 @@ import Card from '../../src/components/DefaultCard';
 import {Provider} from 'react-redux';
 import configureStore from 'store/configureStore';
 
-import {render, fireEvent} from 'react-native-testing-library';
+import {render} from 'react-native-testing-library';
 const mockStore = configureStore();
 
 test('test card component', () => {

@@ -19,9 +19,9 @@
  */
 
 import React from 'react';
-import {FlatList, View} from 'react-native';
+import {FlatList, View, RefreshControl} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
-import MainLayout from 'layouts/MainLayout';
+import SafeAreaLayout from 'layouts/SafeAreaLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
@@ -57,7 +57,7 @@ class MyLeave extends React.Component<MyLeaveProps> {
   render() {
     const {theme, leaveRequests} = this.props;
     return (
-      <MainLayout onRefresh={this.onRefresh}>
+      <SafeAreaLayout>
         <FlatList
           data={leaveRequests}
           renderItem={({item}) => (
@@ -82,8 +82,11 @@ class MyLeave extends React.Component<MyLeaveProps> {
               <Divider />
             </View>
           }
+          refreshControl={
+            <RefreshControl refreshing={false} onRefresh={this.onRefresh} />
+          }
         />
-      </MainLayout>
+      </SafeAreaLayout>
     );
   }
 }

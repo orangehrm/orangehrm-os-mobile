@@ -19,38 +19,36 @@
  */
 
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {Button, NativeBase} from 'native-base';
+import {
+  NavigationProp,
+  ParamListBase,
+  DrawerActions,
+} from '@react-navigation/native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import IconButton from 'components/DefaultIconButton';
 
-const CardButton = (props: React.PropsWithChildren<CardButtonProps>) => {
-  const {children, theme, style, ...restProps} = props;
-
+const HeaderMenuIcon = (props: HeaderMenuIconProps) => {
+  const {theme} = props;
   return (
-    <Button
-      style={[
-        styles.button,
-        {
-          backgroundColor: theme.palette.background,
-          borderRadius: theme.borderRadius * 2,
+    <IconButton
+      buttonProps={{
+        onPress: () => {
+          props.navigation.dispatch(DrawerActions.toggleDrawer());
         },
-        style,
-      ]}
-      rounded
-      androidRippleColor={theme.palette.default}
-      {...restProps}>
-      {children}
-    </Button>
+      }}
+      iconProps={{
+        name: 'menu',
+        style: {
+          fontSize: theme.typography.headerIconSize,
+          color: theme.typography.secondaryColor,
+        },
+      }}
+    />
   );
 };
 
-export interface CardButtonProps extends NativeBase.Button, WithTheme {}
+interface HeaderMenuIconProps extends WithTheme {
+  navigation: NavigationProp<ParamListBase>;
+}
 
-const styles = StyleSheet.create({
-  button: {
-    flex: 1,
-    alignItems: 'stretch',
-  },
-});
-
-export default withTheme<CardButtonProps>()(CardButton);
+export default withTheme<HeaderMenuIconProps>()(HeaderMenuIcon);

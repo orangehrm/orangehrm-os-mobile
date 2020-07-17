@@ -18,20 +18,27 @@
  *
  */
 
-import {all, call} from 'redux-saga/effects';
-import {loadAsyncStorage, watchSetStorageItem} from 'store/storage/sagas';
-import {watchAuthActions} from 'store/auth/sagas';
-import {watchLeaveUsageActions} from 'store/leave/leave-usage/sagas';
-import {watchApplyLeaveActions} from 'store/leave/apply-leave/sagas';
-import {watchLeaveListActions} from 'store/leave/leave-list/sagas';
+import 'react-native';
+import {getNameLetters} from 'lib/helpers/name';
 
-export default function* rootSaga() {
-  yield all([
-    call(loadAsyncStorage),
-    call(watchSetStorageItem),
-    call(watchAuthActions),
-    call(watchLeaveUsageActions),
-    call(watchApplyLeaveActions),
-    call(watchLeaveListActions),
-  ]);
-}
+describe('lib/helpers/name', () => {
+  test('with first name', () => {
+    const result = getNameLetters('Employee');
+    expect(result).toBe('E');
+  });
+
+  test('with first and last name', () => {
+    const result = getNameLetters('Employee Name');
+    expect(result).toBe('EN');
+  });
+
+  test('with full name', () => {
+    const result = getNameLetters('Employee Full Name');
+    expect(result).toBe('EN');
+  });
+
+  test('name with more spaces', () => {
+    const result = getNameLetters('Employee  Name');
+    expect(result).toBe('EN');
+  });
+});

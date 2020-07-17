@@ -47,9 +47,9 @@ import {
   SUBHEADER_LEAVE,
 } from 'screens';
 
-import ApplyLeave from 'screens/leave/ApplyLeaveNavigator';
-import MyLeaveUsage from 'screens/leave/MyLeaveUsageNavigator';
-import LeaveList from 'screens/leave/LeaveListNavigator';
+import ApplyLeave from 'screens/leave/navigators/ApplyLeaveNavigator';
+import MyLeaveUsage from 'screens/leave/navigators/MyLeaveUsageNavigator';
+import LeaveList from 'screens/leave/navigators/LeaveListNavigator';
 import DrawerContent from 'layouts/DrawerContent';
 import Overlay from 'components/DefaultOverlay';
 

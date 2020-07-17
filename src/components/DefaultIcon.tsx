@@ -22,7 +22,7 @@ import React from 'react';
 import {Icon, NativeBase} from 'native-base';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
-function DefaultIcon(props: DefaultIconProps) {
+function DefaultIcon(props: IconProps) {
   const {theme, style, ...restProps} = props;
   return (
     <Icon
@@ -39,6 +39,6 @@ function DefaultIcon(props: DefaultIconProps) {
   );
 }
 
-interface DefaultIconProps extends NativeBase.Icon, WithTheme {}
+export interface IconProps extends NativeBase.Icon, WithTheme {}
 
-export default withTheme<DefaultIconProps>()(DefaultIcon);
+export default withTheme<IconProps>()(DefaultIcon);
