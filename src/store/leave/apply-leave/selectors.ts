@@ -20,45 +20,39 @@
 
 import {RootState} from 'store';
 import {createSelector} from 'reselect';
+import {ApplyLeaveState} from 'store/leave/apply-leave/types';
 import {
-  ApplyLeaveState,
   SingleDayDuration,
   MultipleDayPartialOption,
-} from 'store/leave/apply-leave/types';
+} from 'store/leave/common-screens/types';
 
 export const selectApplyLeave = (state: RootState) => state.applyLeave;
 
-export const selectFromDate = createSelector<
+export const selectApplyLeaveFromDate = createSelector<
   RootState,
   ApplyLeaveState,
   string | undefined
 >([selectApplyLeave], (applyLeave) => applyLeave.fromDate);
 
-export const selectToDate = createSelector<
+export const selectApplyLeaveToDate = createSelector<
   RootState,
   ApplyLeaveState,
   string | undefined
 >([selectApplyLeave], (applyLeave) => applyLeave.toDate);
 
-export const selectPickedLeaveDates = createSelector<
-  RootState,
-  ApplyLeaveState,
-  boolean
->([selectApplyLeave], (applyLeave) => applyLeave.pickedLeaveDates);
-
-export const selectDuration = createSelector<
+export const selectApplyLeaveDuration = createSelector<
   RootState,
   ApplyLeaveState,
   SingleDayDuration
 >([selectApplyLeave], (applyLeave) => applyLeave.duration);
 
-export const selectPartialOption = createSelector<
+export const selectApplyLeavePartialOption = createSelector<
   RootState,
   ApplyLeaveState,
   MultipleDayPartialOption
 >([selectApplyLeave], (applyLeave) => applyLeave.partialOption);
 
-export const selectLeaveComment = createSelector<
+export const selectApplyLeaveComment = createSelector<
   RootState,
   ApplyLeaveState,
   string | undefined

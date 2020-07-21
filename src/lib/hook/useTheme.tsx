@@ -18,25 +18,11 @@
  *
  */
 
-import React from 'react';
-import {Subtract} from 'utility-types';
-import useGlobals, {Globals} from 'lib/hook/useGlobals';
+import {useSelector} from 'react-redux';
+import {selectTheme} from 'store/theme/selectors';
 
-const withGlobals = <T extends WithGlobals = WithGlobals>(_options = {}) => {
-  return (
-    WrappedComponent: React.ComponentType<T>,
-  ): React.FC<PropsWithoutWithGlobals<T>> => {
-    return (props: PropsWithoutWithGlobals<T>) => {
-      const globals = useGlobals();
-      return <WrappedComponent {...(props as T)} {...globals} />;
-    };
-  };
+const useTheme = () => {
+  return useSelector(selectTheme);
 };
 
-export interface WithGlobals extends Globals {}
-
-type PropsWithoutWithGlobals<T extends WithGlobals> = React.PropsWithChildren<
-  Subtract<T, WithGlobals>
->;
-
-export default withGlobals;
+export default useTheme;

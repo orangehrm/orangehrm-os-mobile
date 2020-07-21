@@ -20,24 +20,21 @@
 
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {
-  NavigationProp,
-  ParamListBase,
-  RouteProp,
-} from '@react-navigation/native';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
-import {selectPartialOption} from 'store/leave/apply-leave/selectors';
-import {pickMultipleDayPartialOption as pickMultipleDayPartialOptionAction} from 'store/leave/apply-leave/actions';
+import {selectPartialOption} from 'store/leave/common-screens/selectors';
+import {
+  pickMultipleDayPartialOption as pickMultipleDayPartialOptionAction,
+  setPickedState,
+} from 'store/leave/common-screens/actions';
 import Button from 'components/DefaultButton';
 import RadioItem from 'components/DefaultRadioItem';
 import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
-import {ApplyLeaveNavigatorParamList} from 'screens/leave/navigators/ApplyLeaveNavigator';
 import PickPartialDayDuration from 'screens/leave/components/PickPartialDayDuration';
-import {PICK_LEAVE_REQUEST_DURATION} from 'screens';
 import {
   HALF_DAY,
   HALF_DAY_MORNING,
@@ -47,14 +44,19 @@ import {
   PARTIAL_OPTION_END,
   PARTIAL_OPTION_START_END,
   MultipleDayPartialOption,
-} from 'store/leave/apply-leave/types';
+} from 'store/leave/common-screens/types';
 import {isValidPartialOptionSpecifyTime} from 'lib/helpers/leave';
 
 class PickLeaveRequestPartialDays extends React.Component<
   PickLeaveRequestPartialDaysProps
 > {
+  componentDidMount() {
+    this.props.setPickedState('pickedPartialOption', false);
+  }
+
   onPressContinue = (partialOption?: MultipleDayPartialOption) => () => {
     if (isValidPartialOptionSpecifyTime(partialOption)) {
+      this.props.setPickedState('pickedPartialOption', true);
       this.props.navigation.goBack();
     }
   };
@@ -80,15 +82,7 @@ class PickLeaveRequestPartialDays extends React.Component<
   };
 
   render() {
-    const {
-      theme,
-      applyLeavePartialOption,
-      pickApplyLeaveMultipleDayPartialOption,
-    } = this.props;
-
-    let partialOption = applyLeavePartialOption;
-    let pickMultipleDayPartialOption = pickApplyLeaveMultipleDayPartialOption;
-
+    const {theme, partialOption, pickMultipleDayPartialOption} = this.props;
     const radioStyle = {paddingVertical: theme.spacing * 2};
 
     return (
@@ -209,10 +203,6 @@ interface PickLeaveRequestPartialDaysProps
   extends WithTheme,
     ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
-  route: RouteProp<
-    ApplyLeaveNavigatorParamList,
-    typeof PICK_LEAVE_REQUEST_DURATION
-  >;
 }
 
 const styles = StyleSheet.create({
@@ -222,11 +212,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: RootState) => ({
-  applyLeavePartialOption: selectPartialOption(state),
+  partialOption: selectPartialOption(state),
 });
 
 const mapDispatchToProps = {
-  pickApplyLeaveMultipleDayPartialOption: pickMultipleDayPartialOptionAction,
+  pickMultipleDayPartialOption: pickMultipleDayPartialOptionAction,
+  setPickedState,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

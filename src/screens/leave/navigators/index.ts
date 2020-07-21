@@ -18,25 +18,33 @@
  *
  */
 
-import React from 'react';
-import {Subtract} from 'utility-types';
-import useGlobals, {Globals} from 'lib/hook/useGlobals';
+import {NavigationProp, RouteProp} from '@react-navigation/native';
+import {PICK_EMPLOYEE} from 'screens';
 
-const withGlobals = <T extends WithGlobals = WithGlobals>(_options = {}) => {
-  return (
-    WrappedComponent: React.ComponentType<T>,
-  ): React.FC<PropsWithoutWithGlobals<T>> => {
-    return (props: PropsWithoutWithGlobals<T>) => {
-      const globals = useGlobals();
-      return <WrappedComponent {...(props as T)} {...globals} />;
-    };
-  };
+export interface Employee {
+  empNumber: string;
+  employeeId: string;
+  firstName: string;
+  lastName: string;
+}
+
+export type CommonNavigatorParamList = {
+  [PICK_EMPLOYEE]: PickEmployeeParams;
 };
 
-export interface WithGlobals extends Globals {}
+export interface PickEmployeeParams {
+  employees?: Employee[];
+  textValue: string;
+  setTextValue: (text: string) => void;
+  pickEmployee: (employee: Employee) => void;
+}
 
-type PropsWithoutWithGlobals<T extends WithGlobals> = React.PropsWithChildren<
-  Subtract<T, WithGlobals>
+export type PickEmployeeRouteParams = RouteProp<
+  CommonNavigatorParamList,
+  typeof PICK_EMPLOYEE
 >;
 
-export default withGlobals;
+export type PickEmployeeNavigationProp = NavigationProp<
+  CommonNavigatorParamList,
+  typeof PICK_EMPLOYEE
+>;

@@ -19,44 +19,33 @@
  */
 
 import {
-  PICK_FROM_DATE,
-  PICK_TO_DATE,
-  PICK_LEAVE_DATES,
-  SAVE_SINGLE_DAY_LEAVE_REQUEST,
-  SAVE_MULTIPLE_DAY_LEAVE_REQUEST,
+  PICK_APPLY_LEAVE_FROM_DATE,
+  PICK_APPLY_LEAVE_TO_DATE,
+  APPLY_SINGLE_DAY_LEAVE_REQUEST,
+  APPLY_MULTIPLE_DAY_LEAVE_REQUEST,
   PICK_SINGLE_DAY_DURATION,
   PICK_MULTIPLE_DAY_PARTIAL_OPTION,
   PICK_LEAVE_COMMENT,
   RESET_APPLY_LEAVE,
-  RESET_SINGLE_DAY_DURATION,
-  RESET_MULTIPLE_DAY_PARTIAL_OPTION,
   PickFromDateAction,
   PickToDateAction,
-  PickDatesAction,
-  SaveSingleDayLeaveRequestAction,
-  SaveMultipleDayLeaveRequestAction,
+  ApplySingleDayLeaveRequestAction,
+  ApplyMultipleDayLeaveRequestAction,
   PickSingleDayDurationAction,
   PickMultipleDayPartialOptionAction,
   PickLeaveCommentAction,
   ResetApplyLeaveAction,
-  ResetSingleDayDurationAction,
-  ResetMultipleDayPartialOptionAction,
 } from 'store/leave/apply-leave/types';
 import {$PropertyType} from 'utility-types';
 
-export const pickLeaveFromDate = (date?: string): PickFromDateAction => ({
-  type: PICK_FROM_DATE,
+export const pickApplyLeaveFromDate = (date?: string): PickFromDateAction => ({
+  type: PICK_APPLY_LEAVE_FROM_DATE,
   date,
 });
 
-export const pickLeaveToDate = (date?: string): PickToDateAction => ({
-  type: PICK_TO_DATE,
+export const pickApplyLeaveToDate = (date?: string): PickToDateAction => ({
+  type: PICK_APPLY_LEAVE_TO_DATE,
   date,
-});
-
-export const pickLeaveDates = (state: boolean = true): PickDatesAction => ({
-  type: PICK_LEAVE_DATES,
-  state,
 });
 
 /**
@@ -64,9 +53,9 @@ export const pickLeaveDates = (state: boolean = true): PickDatesAction => ({
  * @param payload
  */
 export const saveSingleDayLeaveRequest = (
-  payload: $PropertyType<SaveSingleDayLeaveRequestAction, 'payload'>,
-): SaveSingleDayLeaveRequestAction => ({
-  type: SAVE_SINGLE_DAY_LEAVE_REQUEST,
+  payload: $PropertyType<ApplySingleDayLeaveRequestAction, 'payload'>,
+): ApplySingleDayLeaveRequestAction => ({
+  type: APPLY_SINGLE_DAY_LEAVE_REQUEST,
   payload,
 });
 
@@ -75,20 +64,20 @@ export const saveSingleDayLeaveRequest = (
  * @param payload
  */
 export const saveMultipleDayLeaveRequest = (
-  payload: $PropertyType<SaveMultipleDayLeaveRequestAction, 'payload'>,
-): SaveMultipleDayLeaveRequestAction => ({
-  type: SAVE_MULTIPLE_DAY_LEAVE_REQUEST,
+  payload: $PropertyType<ApplyMultipleDayLeaveRequestAction, 'payload'>,
+): ApplyMultipleDayLeaveRequestAction => ({
+  type: APPLY_MULTIPLE_DAY_LEAVE_REQUEST,
   payload,
 });
 
-export const pickSingleDayDuration = (
+export const pickApplyLeaveSingleDayDuration = (
   duration: $PropertyType<PickSingleDayDurationAction, 'duration'>,
 ): PickSingleDayDurationAction => ({
   type: PICK_SINGLE_DAY_DURATION,
   duration,
 });
 
-export const pickMultipleDayPartialOption = (
+export const pickApplyLeaveMultipleDayPartialOption = (
   partialOption: $PropertyType<
     PickMultipleDayPartialOptionAction,
     'partialOption'
@@ -98,7 +87,9 @@ export const pickMultipleDayPartialOption = (
   partialOption,
 });
 
-export const pickLeaveComment = (comment?: string): PickLeaveCommentAction => ({
+export const pickApplyLeaveComment = (
+  comment?: string,
+): PickLeaveCommentAction => ({
   type: PICK_LEAVE_COMMENT,
   comment,
 });
@@ -108,12 +99,4 @@ export const pickLeaveComment = (comment?: string): PickLeaveCommentAction => ({
  */
 export const resetApplyLeave = (): ResetApplyLeaveAction => ({
   type: RESET_APPLY_LEAVE,
-});
-
-export const resetSingleDayDuration = (): ResetSingleDayDurationAction => ({
-  type: RESET_SINGLE_DAY_DURATION,
-});
-
-export const resetMultipleDayPartialOption = (): ResetMultipleDayPartialOptionAction => ({
-  type: RESET_MULTIPLE_DAY_PARTIAL_OPTION,
 });

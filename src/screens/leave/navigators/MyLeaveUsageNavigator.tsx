@@ -45,13 +45,18 @@ class MyLeaveUsageNavigator extends React.Component<
     };
 
     return (
-      <Stack.Navigator initialRouteName={MY_LEAVE_ENTITLEMENT_AND_USAGE}>
+      <Stack.Navigator
+        initialRouteName={MY_LEAVE_ENTITLEMENT_AND_USAGE}
+        screenOptions={{
+          ...header,
+          ...headerBackIcon,
+        }}
+        keyboardHandlingEnabled={false}>
         <Stack.Screen
           name={MY_LEAVE_ENTITLEMENT_AND_USAGE}
           component={MyLeaveEntitilementsAndUsage}
           options={{
             title: 'My Leave Usage',
-            ...header,
             ...headerMenuIcon,
           }}
         />
@@ -60,8 +65,6 @@ class MyLeaveUsageNavigator extends React.Component<
           component={MyLeave}
           options={{
             title: 'My Leave',
-            ...header,
-            ...headerBackIcon,
           }}
         />
       </Stack.Navigator>

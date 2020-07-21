@@ -29,6 +29,8 @@ export interface GlobalsState {
   snackMessage: SnackMessage;
   loader: Loader;
   initialRoute: string;
+  previousRoute?: string;
+  currentRoute?: string;
 }
 
 export type SnackTypes =
@@ -53,6 +55,7 @@ export const SHOW_SNACK_MESSAGE = 'GLOBALS_SHOW_SNACK_MESSAGE';
 export const CLOSE_SNACK_MESSAGE = 'GLOBALS_CLOSE_SNACK_MESSAGE';
 export const OPEN_LOADER = 'GLOBALS_OPEN_LOADER';
 export const CLOSE_LOADER = 'GLOBALS_CLOSE_LOADER';
+export const CHANGE_CURRENT_ROUTE = 'GLOBALS_CHANGE_PREVIOUS_ROUTE';
 
 export interface ShowSnackAction {
   type: typeof SHOW_SNACK_MESSAGE;
@@ -73,8 +76,14 @@ export interface CloseLoaderAction {
   type: typeof CLOSE_LOADER;
 }
 
+export interface ChangeCurrentRouteAction {
+  type: typeof CHANGE_CURRENT_ROUTE;
+  route: string;
+}
+
 export type GlobalsActionTypes =
   | ShowSnackAction
   | CloseSnackAction
   | OpenLoaderAction
-  | CloseLoaderAction;
+  | CloseLoaderAction
+  | ChangeCurrentRouteAction;

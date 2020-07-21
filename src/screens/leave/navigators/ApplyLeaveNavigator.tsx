@@ -28,9 +28,9 @@ import PickLeaveRequestDuration from 'screens/leave/PickLeaveRequestDuration';
 import PickLeaveRequestPartialDays from 'screens/leave/PickLeaveRequestPartialDays';
 import {
   APPLY_LEAVE,
-  PICK_LEAVE_REQUEST_DAYS_CALENDAR,
-  PICK_LEAVE_REQUEST_DURATION,
-  PICK_LEAVE_REQUEST_PARTIAL_DAYS,
+  APPLY_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR,
+  APPLY_LEAVE_PICK_LEAVE_REQUEST_DURATION,
+  APPLY_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS,
 } from 'screens';
 import HeaderMenuIcon from 'components/HeaderMenuIcon';
 import HeaderBackIcon from 'components/HeaderBackIcon';
@@ -50,45 +50,41 @@ class ApplyLeaveNavigator extends React.Component<ApplyLeaveNavigatorProps> {
     };
 
     return (
-      <Stack.Navigator initialRouteName={APPLY_LEAVE}>
+      <Stack.Navigator
+        initialRouteName={APPLY_LEAVE}
+        screenOptions={{
+          ...header,
+          ...headerBackIcon,
+        }}
+        keyboardHandlingEnabled={false}>
         <Stack.Screen
           name={APPLY_LEAVE}
           component={ApplyLeave}
           options={{
             title: 'Apply Leave',
-            ...header,
             ...headerMenuIcon,
           }}
         />
         <Stack.Screen
-          name={PICK_LEAVE_REQUEST_DAYS_CALENDAR}
+          name={APPLY_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR}
           component={PickLeaveRequestDaysCalendar}
           options={{
             title: 'Request Day(s)',
-            ...header,
-            ...headerBackIcon,
           }}
-          initialParams={{parent: APPLY_LEAVE}}
         />
         <Stack.Screen
-          name={PICK_LEAVE_REQUEST_DURATION}
+          name={APPLY_LEAVE_PICK_LEAVE_REQUEST_DURATION}
           component={PickLeaveRequestDuration}
           options={{
             title: 'Duration',
-            ...header,
-            ...headerBackIcon,
           }}
-          initialParams={{parent: APPLY_LEAVE}}
         />
         <Stack.Screen
-          name={PICK_LEAVE_REQUEST_PARTIAL_DAYS}
+          name={APPLY_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS}
           component={PickLeaveRequestPartialDays}
           options={{
             title: 'Partial Days',
-            ...header,
-            ...headerBackIcon,
           }}
-          initialParams={{parent: APPLY_LEAVE}}
         />
       </Stack.Navigator>
     );
@@ -101,15 +97,9 @@ interface ApplyLeaveNavigatorProps extends WithTheme {
 
 export type ApplyLeaveNavigatorParamList = {
   [APPLY_LEAVE]: {};
-  [PICK_LEAVE_REQUEST_DAYS_CALENDAR]: {
-    parent: string;
-  };
-  [PICK_LEAVE_REQUEST_DURATION]: {
-    parent: string;
-  };
-  [PICK_LEAVE_REQUEST_PARTIAL_DAYS]: {
-    parent: string;
-  };
+  [APPLY_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR]: {};
+  [APPLY_LEAVE_PICK_LEAVE_REQUEST_DURATION]: {};
+  [APPLY_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS]: {};
 };
 
 export default withTheme<ApplyLeaveNavigatorProps>()(ApplyLeaveNavigator);

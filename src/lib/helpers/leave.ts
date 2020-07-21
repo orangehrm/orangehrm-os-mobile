@@ -26,7 +26,7 @@ import {
   PARTIAL_OPTION_END,
   PARTIAL_OPTION_START_END,
   MultipleDayPartialOption,
-} from 'store/leave/apply-leave/types';
+} from 'store/leave/common-screens/types';
 import {getDateFromString} from 'lib/helpers/time';
 
 const LEAVE_TYPE_COLORS = [

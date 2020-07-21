@@ -26,10 +26,10 @@ import {
   showSnackMessage,
 } from 'store/saga-effects/globals';
 import {
-  SAVE_SINGLE_DAY_LEAVE_REQUEST,
-  SAVE_MULTIPLE_DAY_LEAVE_REQUEST,
-  SaveSingleDayLeaveRequestAction,
-  SaveMultipleDayLeaveRequestAction,
+  APPLY_SINGLE_DAY_LEAVE_REQUEST,
+  APPLY_MULTIPLE_DAY_LEAVE_REQUEST,
+  ApplySingleDayLeaveRequestAction,
+  ApplyMultipleDayLeaveRequestAction,
 } from 'store/leave/apply-leave/types';
 import {
   fetchMyLeaveEntitlements,
@@ -39,7 +39,7 @@ import {resetApplyLeave} from 'store/leave/apply-leave/actions';
 import {TYPE_ERROR} from 'store/globals/types';
 
 function* saveLeaveRequest(
-  action: SaveSingleDayLeaveRequestAction | SaveMultipleDayLeaveRequestAction,
+  action: ApplySingleDayLeaveRequestAction | ApplyMultipleDayLeaveRequestAction,
 ) {
   try {
     yield openLoader();
@@ -65,6 +65,6 @@ function* saveLeaveRequest(
 }
 
 export function* watchApplyLeaveActions() {
-  yield takeEvery(SAVE_SINGLE_DAY_LEAVE_REQUEST, saveLeaveRequest);
-  yield takeEvery(SAVE_MULTIPLE_DAY_LEAVE_REQUEST, saveLeaveRequest);
+  yield takeEvery(APPLY_SINGLE_DAY_LEAVE_REQUEST, saveLeaveRequest);
+  yield takeEvery(APPLY_MULTIPLE_DAY_LEAVE_REQUEST, saveLeaveRequest);
 }

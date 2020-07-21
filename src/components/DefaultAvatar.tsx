@@ -27,11 +27,11 @@ import Text from 'components/DefaultText';
 
 const DefaultAvatar = (props: DefaultAvatarProps) => {
   const {theme, name, imageSource, ...thumbnailProps} = props;
-  let size = 56;
+  let size = theme.spacing * 14;
   if (thumbnailProps.large) {
-    size = 80;
+    size = theme.spacing * 20;
   } else if (thumbnailProps.small) {
-    size = 36;
+    size = theme.spacing * 9;
   }
 
   return (

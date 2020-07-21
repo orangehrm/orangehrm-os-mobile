@@ -38,4 +38,21 @@ const getNameLetters = (name: string): string | undefined => {
   return firstLetter?.concat(lastLetter ? lastLetter : '');
 };
 
-export {getNameLetters};
+const getFullName = (employee: {
+  firstName: string;
+  lastName: string;
+  middleName?: string;
+}) => {
+  return (
+    employee.firstName + ' ' + employee.middleName + ' ' + employee.lastName
+  );
+};
+
+const getFirstAndLastNames = (employee: {
+  firstName: string;
+  lastName: string;
+}) => {
+  return employee.firstName + ' ' + employee.lastName;
+};
+
+export {getNameLetters, getFullName, getFirstAndLastNames};

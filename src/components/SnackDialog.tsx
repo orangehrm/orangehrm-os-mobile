@@ -44,6 +44,7 @@ const SnackDialog = (props: React.PropsWithChildren<SnackDialogProps>) => {
       hasBackdrop={false}
       //https://github.com/react-native-community/react-native-modal/issues/163
       useNativeDriver={false}
+      swipeThreshold={50}
       {...dialogProps}
       style={[styles.dialog, dialogProps.style]}>
       <View

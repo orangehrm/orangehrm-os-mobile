@@ -20,22 +20,19 @@
 
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {
-  NavigationProp,
-  ParamListBase,
-  RouteProp,
-} from '@react-navigation/native';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
-import {selectDuration} from 'store/leave/apply-leave/selectors';
-import {pickSingleDayDuration as pickSingleDayDurationAction} from 'store/leave/apply-leave/actions';
+import {selectDuration} from 'store/leave/common-screens/selectors';
+import {
+  pickSingleDayDuration as pickSingleDayDurationAction,
+  setPickedState,
+} from 'store/leave/common-screens/actions';
 import Button from 'components/DefaultButton';
 import RadioItem from 'components/DefaultRadioItem';
 import PickLeaveSpecificTime from 'screens/leave/components/PickLeaveSpecificTime';
-import {ApplyLeaveNavigatorParamList} from 'screens/leave/navigators/ApplyLeaveNavigator';
-import {PICK_LEAVE_REQUEST_DURATION} from 'screens';
 import {
   FULL_DAY,
   HALF_DAY,
@@ -45,12 +42,16 @@ import {
   DEFAULT_FROM_TIME,
   DEFAULT_TO_TIME,
   SingleDayDuration,
-} from 'store/leave/apply-leave/types';
+} from 'store/leave/common-screens/types';
 import {isFromTimeLessThanToTime} from 'lib/helpers/leave';
 
 class PickLeaveRequestDuration extends React.Component<
   PickLeaveRequestDurationProps
 > {
+  componentDidMount() {
+    this.props.setPickedState('pickedDuration', false);
+  }
+
   onPressContinue = (duration?: SingleDayDuration) => () => {
     if (duration?.singleType === SPECIFY_TIME) {
       if (
@@ -62,6 +63,7 @@ class PickLeaveRequestDuration extends React.Component<
         return;
       }
     }
+    this.props.setPickedState('pickedDuration', true);
     this.props.navigation.goBack();
   };
 
@@ -124,15 +126,7 @@ class PickLeaveRequestDuration extends React.Component<
   };
 
   render() {
-    const {
-      theme,
-      applyLeaveDuration,
-      pickApplyLeaveSingleDayDuration,
-    } = this.props;
-
-    let duration = applyLeaveDuration;
-    let pickSingleDayDuration = pickApplyLeaveSingleDayDuration;
-
+    const {theme, duration, pickSingleDayDuration} = this.props;
     const radioStyle = {paddingVertical: theme.spacing * 2};
 
     return (
@@ -228,10 +222,6 @@ interface PickLeaveRequestDurationProps
   extends WithTheme,
     ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
-  route: RouteProp<
-    ApplyLeaveNavigatorParamList,
-    typeof PICK_LEAVE_REQUEST_DURATION
-  >;
 }
 
 const styles = StyleSheet.create({
@@ -241,11 +231,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: RootState) => ({
-  applyLeaveDuration: selectDuration(state),
+  duration: selectDuration(state),
 });
 
 const mapDispatchToProps = {
-  pickApplyLeaveSingleDayDuration: pickSingleDayDurationAction,
+  pickSingleDayDuration: pickSingleDayDurationAction,
+  setPickedState,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

@@ -19,19 +19,24 @@
  */
 
 import {
-  ApplyLeaveState,
+  CommonLeaveState,
   ApplyLeaveActionTypes,
-  PICK_APPLY_LEAVE_FROM_DATE,
-  PICK_APPLY_LEAVE_TO_DATE,
+  PICK_FROM_DATE,
+  PICK_TO_DATE,
+  FULL_DAY,
+  PARTIAL_OPTION_NONE,
   PICK_SINGLE_DAY_DURATION,
   PICK_MULTIPLE_DAY_PARTIAL_OPTION,
-  PICK_LEAVE_COMMENT,
-  RESET_APPLY_LEAVE,
-} from 'store/leave/apply-leave/types';
-import {FULL_DAY, PARTIAL_OPTION_NONE} from 'store/leave/common-screens/types';
+  RESET_COMMON_LEAVE_SCREENS,
+  SET_COMMON_LEAVE_SCREENS_STATE,
+  SET_PICKED_STATE,
+} from 'store/leave/common-screens/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
-const initialState: ApplyLeaveState = {
+const initialState: CommonLeaveState = {
+  pickedLeaveDates: false,
+  pickedDuration: false,
+  pickedPartialOption: false,
   duration: {
     singleType: FULL_DAY,
   },
@@ -40,17 +45,17 @@ const initialState: ApplyLeaveState = {
   },
 };
 
-const applyLeaveReducer = (
+const leaveCommonReducer = (
   state = initialState,
   action: WithLogoutAction<ApplyLeaveActionTypes>,
-): ApplyLeaveState => {
+): CommonLeaveState => {
   switch (action.type) {
-    case PICK_APPLY_LEAVE_FROM_DATE:
+    case PICK_FROM_DATE:
       return {
         ...state,
         fromDate: action.date,
       };
-    case PICK_APPLY_LEAVE_TO_DATE:
+    case PICK_TO_DATE:
       return {
         ...state,
         toDate: action.date,
@@ -65,12 +70,25 @@ const applyLeaveReducer = (
         ...state,
         partialOption: action.partialOption,
       };
-    case PICK_LEAVE_COMMENT:
+    case SET_COMMON_LEAVE_SCREENS_STATE:
       return {
         ...state,
-        comment: action.comment,
+        ...action.state,
       };
-    case RESET_APPLY_LEAVE:
+    case SET_PICKED_STATE:
+      if (action.key === undefined) {
+        return {
+          ...state,
+          pickedLeaveDates: initialState.pickedLeaveDates,
+          pickedDuration: initialState.pickedDuration,
+          pickedPartialOption: initialState.pickedPartialOption,
+        };
+      }
+      return {
+        ...state,
+        [action.key]: action.state,
+      };
+    case RESET_COMMON_LEAVE_SCREENS:
     case LOGOUT:
       return {
         ...initialState,
@@ -80,4 +98,4 @@ const applyLeaveReducer = (
   }
 };
 
-export default applyLeaveReducer;
+export default leaveCommonReducer;

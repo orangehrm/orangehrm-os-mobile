@@ -22,22 +22,26 @@ import React from 'react';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import LeaveList from 'screens/leave/LeaveList';
-import LeaveDetails from 'screens/leave/LeaveDetails';
-import LeaveDays from 'screens/leave/LeaveDays';
-import LeaveComments from 'screens/leave/LeaveComments';
-import {LEAVE_LIST, LEAVE_DETAILS, LEAVE_DAYS, LEAVE_COMMENTS} from 'screens';
+import AssignLeave from 'screens/leave/AssignLeave';
+import PickLeaveRequestDaysCalendar from 'screens/leave/PickLeaveRequestDaysCalendar';
+import PickLeaveRequestDuration from 'screens/leave/PickLeaveRequestDuration';
+import PickLeaveRequestPartialDays from 'screens/leave/PickLeaveRequestPartialDays';
+import PickEmployee from 'screens/leave/PickEmployee';
+import {
+  ASSIGN_LEAVE,
+  ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR,
+  ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DURATION,
+  ASSIGN_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS,
+  PICK_EMPLOYEE,
+} from 'screens';
 import HeaderMenuIcon from 'components/HeaderMenuIcon';
 import HeaderBackIcon from 'components/HeaderBackIcon';
 import {getHeaderStyle} from 'lib/helpers/header';
-import {
-  LeaveListLeaveRequest,
-  EmployeeLeaveRequest,
-} from 'store/leave/leave-list/types';
+import {CommonNavigatorParamList} from 'screens/leave/navigators';
 
-const Stack = createStackNavigator<LeaveListNavigatorParamList>();
+const Stack = createStackNavigator<AssignLeaveNavigatorParamList>();
 
-class LeaveListNavigator extends React.Component<LeaveListNavigatorProps> {
+class AssignLeaveNavigator extends React.Component<AssignLeaveNavigatorProps> {
   render() {
     const {theme, navigation} = this.props;
     const header = getHeaderStyle(theme);
@@ -50,59 +54,63 @@ class LeaveListNavigator extends React.Component<LeaveListNavigatorProps> {
 
     return (
       <Stack.Navigator
-        initialRouteName={LEAVE_LIST}
+        initialRouteName={ASSIGN_LEAVE}
         screenOptions={{
           ...header,
           ...headerBackIcon,
         }}
         keyboardHandlingEnabled={false}>
         <Stack.Screen
-          name={LEAVE_LIST}
-          component={LeaveList}
+          name={ASSIGN_LEAVE}
+          component={AssignLeave}
           options={{
-            title: 'Leave List',
+            title: 'Assign Leave',
             ...headerMenuIcon,
           }}
         />
         <Stack.Screen
-          name={LEAVE_DETAILS}
-          component={LeaveDetails}
+          name={ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR}
+          component={PickLeaveRequestDaysCalendar}
           options={{
-            title: 'Leave Details',
+            title: 'Request Day(s)',
           }}
         />
         <Stack.Screen
-          name={LEAVE_DAYS}
-          component={LeaveDays}
+          name={ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DURATION}
+          component={PickLeaveRequestDuration}
           options={{
-            title: 'Leave Days',
+            title: 'Duration',
           }}
         />
         <Stack.Screen
-          name={LEAVE_COMMENTS}
-          component={LeaveComments}
+          name={ASSIGN_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS}
+          component={PickLeaveRequestPartialDays}
           options={{
-            title: 'Comments',
+            title: 'Partial Days',
           }}
+        />
+        <Stack.Screen
+          name={PICK_EMPLOYEE}
+          component={PickEmployee}
+          options={{
+            title: 'Select Employee',
+          }}
+          initialParams={{}}
         />
       </Stack.Navigator>
     );
   }
 }
 
-interface LeaveListNavigatorProps extends WithTheme {
+interface AssignLeaveNavigatorProps extends WithTheme {
   navigation: NavigationProp<ParamListBase>;
 }
 
-export type LeaveListNavigatorParamList = {
-  [LEAVE_LIST]: {};
-  [LEAVE_DETAILS]: {
-    leaveRequest: LeaveListLeaveRequest;
-  };
-  [LEAVE_DAYS]: {
-    employeeLeaveRequest: EmployeeLeaveRequest;
-  };
-  [LEAVE_COMMENTS]: {};
-};
+export type AssignLeaveNavigatorParamList = {
+  [ASSIGN_LEAVE]: {};
+  [ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR]: {};
+  [ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DURATION]: {};
+  [ASSIGN_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS]: {};
+} & CommonNavigatorParamList;
 
-export default withTheme<LeaveListNavigatorProps>()(LeaveListNavigator);
+export default withTheme<AssignLeaveNavigatorProps>()(AssignLeaveNavigator);

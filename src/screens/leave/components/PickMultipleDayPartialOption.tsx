@@ -28,7 +28,7 @@ import PickLeaveSpecificTime from 'screens/leave/components/PickLeaveSpecificTim
 import {
   DEFAULT_FROM_TIME,
   DEFAULT_TO_TIME,
-} from 'store/leave/apply-leave/types';
+} from 'store/leave/common-screens/types';
 
 class PickMultipleDayPartialOption extends React.Component<
   PickMultipleDayPartialOptionProps

@@ -19,9 +19,7 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
-import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
-import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import Overlay from 'components/DefaultOverlay';
 import SnackDialog from 'components/SnackDialog';
 import Text from 'components/DefaultText';
@@ -33,6 +31,8 @@ import {
   TYPE_WARN,
 } from 'store/globals/types';
 import {$PropertyType} from 'utility-types';
+import useGlobals from 'lib/hook/useGlobals';
+import useTheme from 'lib/hook/useTheme';
 
 const ICON_MAP = {
   [TYPE_SUCCESS]: {
@@ -44,9 +44,10 @@ const ICON_MAP = {
   [TYPE_WARN]: {name: 'alert-outline', type: 'MaterialCommunityIcons'},
 };
 
-const Globals = (props: GlobalsProps) => {
+const Globals = () => {
   const [toastShow, setToastShow] = useState(false);
-  const {theme, loader, snackMessage, closeSnackMessage} = props;
+  const {loader, snackMessage, closeSnackMessage} = useGlobals();
+  const theme = useTheme();
   useEffect(() => {
     if (!toastShow) {
       if (snackMessage.open && snackMessage.type !== TYPE_ERROR) {
@@ -69,41 +70,46 @@ const Globals = (props: GlobalsProps) => {
             ? {backgroundColor: theme.palette[snackMessage.type]}
             : undefined,
         }}>
-        <View style={[styles.snackView, {padding: theme.spacing * 4}]}>
-          {snackMessage.type ? (
-            <View style={styles.iconView}>
-              <Icon
-                name={ICON_MAP[snackMessage.type].name}
-                type={
-                  ICON_MAP[snackMessage.type].type as $PropertyType<
-                    IconProps,
-                    'type'
-                  >
-                }
-                style={{color: theme.typography.lightColor}}
-              />
-            </View>
-          ) : null}
-          <View
-            style={{
-              paddingLeft: theme.spacing * 3,
-              paddingRight: theme.spacing * 5,
-              paddingTop: theme.spacing * 0.5,
-            }}>
-            <Text
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            closeSnackMessage();
+            setToastShow(false);
+          }}>
+          <View style={[styles.snackView, {padding: theme.spacing * 4}]}>
+            {snackMessage.type ? (
+              <View style={styles.iconView}>
+                <Icon
+                  name={ICON_MAP[snackMessage.type].name}
+                  type={
+                    ICON_MAP[snackMessage.type].type as $PropertyType<
+                      IconProps,
+                      'type'
+                    >
+                  }
+                  style={{color: theme.typography.lightColor}}
+                />
+              </View>
+            ) : null}
+            <View
               style={{
-                color: theme.typography.lightColor,
+                paddingLeft: theme.spacing * 3,
+                paddingRight: theme.spacing * 5,
+                paddingTop: theme.spacing * 0.5,
               }}>
-              {snackMessage.message}
-            </Text>
+              <Text
+                style={{
+                  color: theme.typography.lightColor,
+                }}>
+                {snackMessage.message}
+              </Text>
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </SnackDialog>
     </>
   );
 };
-
-interface GlobalsProps extends WithGlobals, WithTheme {}
 
 const styles = StyleSheet.create({
   snackView: {
@@ -114,6 +120,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const GlobalsWithTheme = withTheme<GlobalsProps>()(Globals);
-
-export default withGlobals()(GlobalsWithTheme);
+export default Globals;

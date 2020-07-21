@@ -50,7 +50,7 @@ export const fetchLeaveListFinished = (
 /**
  * Reset redux store leave list
  */
-export const resethMyLeaveRequests = (): ResetLeaveListAction => ({
+export const resetLeaveList = (): ResetLeaveListAction => ({
   type: RESET_LEAVE_LIST,
 });
 

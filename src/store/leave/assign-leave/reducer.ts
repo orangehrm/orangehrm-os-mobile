@@ -19,19 +19,24 @@
  */
 
 import {
-  ApplyLeaveState,
+  AssignLeaveState,
   ApplyLeaveActionTypes,
-  PICK_APPLY_LEAVE_FROM_DATE,
-  PICK_APPLY_LEAVE_TO_DATE,
+  PICK_ASSIGN_LEAVE_FROM_DATE,
+  PICK_ASSIGN_LEAVE_TO_DATE,
   PICK_SINGLE_DAY_DURATION,
   PICK_MULTIPLE_DAY_PARTIAL_OPTION,
   PICK_LEAVE_COMMENT,
-  RESET_APPLY_LEAVE,
-} from 'store/leave/apply-leave/types';
+  RESET_ASSIGN_LEAVE,
+  RESET_ASSIGN_LEAVE_WITHOUT_SUBORDINATE,
+  FETCH_SUBORDINATE_LEAVE_ENTITLEMENT_FINISHED,
+  FETCH_SUBORDINATES_FINISHED,
+  PICK_SUBORDINATE,
+  SELECT_SUBORDINATE_LEAVE_TYPE,
+} from 'store/leave/assign-leave/types';
 import {FULL_DAY, PARTIAL_OPTION_NONE} from 'store/leave/common-screens/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
-const initialState: ApplyLeaveState = {
+const initialState: AssignLeaveState = {
   duration: {
     singleType: FULL_DAY,
   },
@@ -40,17 +45,17 @@ const initialState: ApplyLeaveState = {
   },
 };
 
-const applyLeaveReducer = (
+const assignLeaveReducer = (
   state = initialState,
   action: WithLogoutAction<ApplyLeaveActionTypes>,
-): ApplyLeaveState => {
+): AssignLeaveState => {
   switch (action.type) {
-    case PICK_APPLY_LEAVE_FROM_DATE:
+    case PICK_ASSIGN_LEAVE_FROM_DATE:
       return {
         ...state,
         fromDate: action.date,
       };
-    case PICK_APPLY_LEAVE_TO_DATE:
+    case PICK_ASSIGN_LEAVE_TO_DATE:
       return {
         ...state,
         toDate: action.date,
@@ -70,7 +75,47 @@ const applyLeaveReducer = (
         ...state,
         comment: action.comment,
       };
-    case RESET_APPLY_LEAVE:
+    case RESET_ASSIGN_LEAVE_WITHOUT_SUBORDINATE:
+      return {
+        ...initialState,
+        subordinates: state.subordinates,
+      };
+    case FETCH_SUBORDINATE_LEAVE_ENTITLEMENT_FINISHED:
+      if (action.error) {
+        return state;
+      }
+      return {
+        ...state,
+        entitlement: action.payload?.slice(),
+      };
+    case FETCH_SUBORDINATES_FINISHED:
+      if (action.error) {
+        return state;
+      }
+      return {
+        ...state,
+        subordinates: action.payload,
+      };
+    case PICK_SUBORDINATE:
+      const isSubordinateChanged =
+        state.selectedSubordinate?.empNumber !== action.subordinate?.empNumber;
+
+      if (isSubordinateChanged) {
+        //reset entitlements, selected leave type, from to dates, comment of previously selected subordinate
+        //only if selected subordinate changed
+        return {
+          ...initialState,
+          subordinates: state.subordinates,
+          selectedSubordinate: action.subordinate,
+        };
+      }
+      return state;
+    case SELECT_SUBORDINATE_LEAVE_TYPE:
+      return {
+        ...state,
+        selectedLeaveTypeId: action.id,
+      };
+    case RESET_ASSIGN_LEAVE:
     case LOGOUT:
       return {
         ...initialState,
@@ -80,4 +125,4 @@ const applyLeaveReducer = (
   }
 };
 
-export default applyLeaveReducer;
+export default assignLeaveReducer;

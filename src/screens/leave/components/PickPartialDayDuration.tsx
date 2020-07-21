@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {pickMultipleDayPartialOption as pickMultipleDayPartialOptionAction} from 'store/leave/apply-leave/actions';
+import {pickMultipleDayPartialOption as pickMultipleDayPartialOptionAction} from 'store/leave/common-screens/actions';
 import PickMultipleDayPartialOption from 'screens/leave/components/PickMultipleDayPartialOption';
 import {
   HALF_DAY,
@@ -33,7 +33,7 @@ import {
   SPECIFY_TIME,
   DEFAULT_FROM_TIME,
   DEFAULT_TO_TIME,
-} from 'store/leave/apply-leave/types';
+} from 'store/leave/common-screens/types';
 
 class PickPartialDayDuration extends React.Component<
   PickPartialDayDurationProps

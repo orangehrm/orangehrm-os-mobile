@@ -18,7 +18,7 @@
  *
  */
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useWindowDimensions} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -34,7 +34,8 @@ import {logout} from 'store/auth/actions';
 import {fetchMyInfo} from 'store/auth/actions';
 import {selectMyInfoSuccess, selectIsCalledMyInfo} from 'store/auth/selectors';
 import {selectInitialRoute} from 'store/globals/selectors';
-import {navigationRef} from 'lib/helpers/navigation';
+import {navigationRef, getNavigation} from 'lib/helpers/navigation';
+import useGlobals from 'lib/hook/useGlobals';
 
 import Login from 'screens/login/Login';
 import SelectInstance from 'screens/login/SelectInstance';
@@ -44,12 +45,14 @@ import {
   APPLY_LEAVE,
   MY_LEAVE_ENTITLEMENT_AND_USAGE,
   LEAVE_LIST,
+  ASSIGN_LEAVE,
   SUBHEADER_LEAVE,
 } from 'screens';
 
 import ApplyLeave from 'screens/leave/navigators/ApplyLeaveNavigator';
 import MyLeaveUsage from 'screens/leave/navigators/MyLeaveUsageNavigator';
 import LeaveList from 'screens/leave/navigators/LeaveListNavigator';
+import AssignLeave from 'screens/leave/navigators/AssignLeaveNavigator';
 import DrawerContent from 'layouts/DrawerContent';
 import Overlay from 'components/DefaultOverlay';
 
@@ -66,6 +69,15 @@ const Navigator = (props: NavigatorProps) => {
     initialRoute,
   } = props;
   const dimensions = useWindowDimensions();
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const {changePreviousRoute} = useGlobals();
+
+  const onRouteChange = () => {
+    const currentRoute = getNavigation()?.getCurrentRoute()?.name;
+    if (currentRoute) {
+      changePreviousRoute(currentRoute);
+    }
+  };
 
   useEffect(() => {
     if (
@@ -76,7 +88,28 @@ const Navigator = (props: NavigatorProps) => {
     ) {
       props.fetchMyInfo();
     }
-  });
+
+    if (getNavigation() !== null && !isSubscribed) {
+      getNavigation()?.addListener('state', onRouteChange);
+      setIsSubscribed(true);
+    }
+    /* eslint-disable react-hooks/exhaustive-deps */
+  }, [
+    instanceUrl,
+    loggedInUsername,
+    myInfoSuccess,
+    isCalledMyInfo,
+    isSubscribed,
+  ]);
+  /* eslint-enable react-hooks/exhaustive-deps */
+
+  useEffect(() => {
+    return () => {
+      getNavigation()?.removeListener('state', onRouteChange);
+    };
+    /* eslint-disable react-hooks/exhaustive-deps */
+  }, []);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   let view = null;
   if (storageLoaded.loaded) {
@@ -113,6 +146,12 @@ const Navigator = (props: NavigatorProps) => {
             name={LEAVE_LIST}
             component={LeaveList}
             options={{drawerLabel: 'Leave List'}}
+            initialParams={{subheader: SUBHEADER_LEAVE}}
+          />
+          <Drawer.Screen
+            name={ASSIGN_LEAVE}
+            component={AssignLeave}
+            options={{drawerLabel: 'Assign Leave'}}
             initialParams={{subheader: SUBHEADER_LEAVE}}
           />
         </Drawer.Navigator>
