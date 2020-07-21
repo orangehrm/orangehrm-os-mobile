@@ -69,3 +69,9 @@ export const selectPartialOption = createSelector<
   CommonLeaveState,
   MultipleDayPartialOption
 >([selectLeaveCommon], (leaveCommon) => leaveCommon.partialOption);
+
+export const selectForceUpdateSlider = createSelector<
+  RootState,
+  CommonLeaveState,
+  number
+>([selectLeaveCommon], (leaveCommon) => leaveCommon.forceUpdateSlider);

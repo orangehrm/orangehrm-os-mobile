@@ -43,6 +43,7 @@ const initialState: CommonLeaveState = {
   partialOption: {
     partialOption: PARTIAL_OPTION_NONE,
   },
+  forceUpdateSlider: 0,
 };
 
 const leaveCommonReducer = (
@@ -74,6 +75,7 @@ const leaveCommonReducer = (
       return {
         ...state,
         ...action.state,
+        forceUpdateSlider: state.forceUpdateSlider + 1,
       };
     case SET_PICKED_STATE:
       if (action.key === undefined) {

@@ -26,6 +26,7 @@ export interface CommonLeaveState {
   pickedDuration: boolean;
   partialOption: MultipleDayPartialOption;
   pickedPartialOption: boolean;
+  forceUpdateSlider: number;
 }
 
 export const PICK_FROM_DATE = 'LEAVE_COMMON_PICK_FROM_DATE';

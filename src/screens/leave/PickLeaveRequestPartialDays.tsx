@@ -25,7 +25,10 @@ import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
-import {selectPartialOption} from 'store/leave/common-screens/selectors';
+import {
+  selectPartialOption,
+  selectForceUpdateSlider,
+} from 'store/leave/common-screens/selectors';
 import {
   pickMultipleDayPartialOption as pickMultipleDayPartialOptionAction,
   setPickedState,
@@ -82,7 +85,12 @@ class PickLeaveRequestPartialDays extends React.Component<
   };
 
   render() {
-    const {theme, partialOption, pickMultipleDayPartialOption} = this.props;
+    const {
+      theme,
+      partialOption,
+      pickMultipleDayPartialOption,
+      forceUpdateSlider,
+    } = this.props;
     const radioStyle = {paddingVertical: theme.spacing * 2};
 
     return (
@@ -193,6 +201,7 @@ class PickLeaveRequestPartialDays extends React.Component<
         <PickPartialDayDuration
           partialOption={partialOption}
           pickMultipleDayPartialOption={pickMultipleDayPartialOption}
+          forceUpdateSlider={forceUpdateSlider}
         />
       </MainLayout>
     );
@@ -213,6 +222,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: RootState) => ({
   partialOption: selectPartialOption(state),
+  forceUpdateSlider: selectForceUpdateSlider(state),
 });
 
 const mapDispatchToProps = {

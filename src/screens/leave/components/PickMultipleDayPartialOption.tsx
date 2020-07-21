@@ -47,6 +47,7 @@ class PickMultipleDayPartialOption extends React.Component<
       onPressSpecifyTime,
       setSpecificTimeFrom,
       setSpecificTimeTo,
+      forceUpdateSlider,
     } = this.props;
 
     const radioStyle = {paddingVertical: theme.spacing * 2};
@@ -104,6 +105,7 @@ class PickMultipleDayPartialOption extends React.Component<
                 toTime={specificTimeTo}
                 setFromTime={setSpecificTimeFrom}
                 setToTime={setSpecificTimeTo}
+                forceUpdate={forceUpdateSlider}
               />
             ) : null}
           </View>
@@ -125,6 +127,7 @@ interface PickMultipleDayPartialOptionProps extends WithTheme {
   onPressSpecifyTime: () => void;
   setSpecificTimeFrom: (time: string) => void;
   setSpecificTimeTo: (time: string) => void;
+  forceUpdateSlider?: number;
 }
 
 const styles = StyleSheet.create({

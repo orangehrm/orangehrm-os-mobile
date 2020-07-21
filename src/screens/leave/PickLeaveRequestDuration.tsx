@@ -25,7 +25,10 @@ import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
-import {selectDuration} from 'store/leave/common-screens/selectors';
+import {
+  selectDuration,
+  selectForceUpdateSlider,
+} from 'store/leave/common-screens/selectors';
 import {
   pickSingleDayDuration as pickSingleDayDurationAction,
   setPickedState,
@@ -126,7 +129,12 @@ class PickLeaveRequestDuration extends React.Component<
   };
 
   render() {
-    const {theme, duration, pickSingleDayDuration} = this.props;
+    const {
+      theme,
+      duration,
+      pickSingleDayDuration,
+      forceUpdateSlider,
+    } = this.props;
     const radioStyle = {paddingVertical: theme.spacing * 2};
 
     return (
@@ -210,6 +218,7 @@ class PickLeaveRequestDuration extends React.Component<
               toTime={this.getToTime(duration)}
               setFromTime={this.setFromTime(pickSingleDayDuration, duration)}
               setToTime={this.setToTime(pickSingleDayDuration, duration)}
+              forceUpdate={forceUpdateSlider}
             />
           ) : null}
         </View>
@@ -232,6 +241,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: RootState) => ({
   duration: selectDuration(state),
+  forceUpdateSlider: selectForceUpdateSlider(state),
 });
 
 const mapDispatchToProps = {

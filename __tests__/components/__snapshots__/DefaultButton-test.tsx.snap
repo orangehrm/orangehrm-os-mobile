@@ -15,6 +15,7 @@ exports[`test button component with title 1`] = `
   style={
     Object {
       "alignItems": "center",
+      "alignSelf": "flex-start",
       "backgroundColor": "#00ac51",
       "borderBottomWidth": null,
       "borderColor": "#007aff",
@@ -58,7 +59,6 @@ exports[`test button component with title 1`] = `
         undefined,
       ]
     }
-    uppercase={false}
   >
     test
   </Text>
