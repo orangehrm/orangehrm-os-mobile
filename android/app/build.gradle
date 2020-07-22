@@ -132,8 +132,8 @@ android {
         applicationId "com.orangehrm.opensource"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode "${ORANGEHRM_VERSION_CODE}".toInteger()
+        versionName "${ORANGEHRM_VERSION_NAME}"
     }
     splits {
         abi {
