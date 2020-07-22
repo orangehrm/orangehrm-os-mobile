@@ -25,7 +25,7 @@ jobs:
       - name: Get OrangeHRM version from package.json
         run: echo "::set-env name=orangehrm_version::$(node -p "require('./package.json').version")"
       - name: Update package.json version
-        run: yarn version --new-version ${{ env.orangehrm_version }}-${{ env.git_short_hash }}
+        run: yarn version --no-git-tag-version --new-version ${{ env.orangehrm_version }}-${{ env.git_short_hash }}
       - name: Update Android project version
         run: node scripts/sync-version.js --debug
       - name: Build with Gradle
