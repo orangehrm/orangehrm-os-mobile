@@ -35,7 +35,14 @@ class PickLeaveSpecificTime extends React.Component<
   };
 
   render() {
-    const {theme, fromTime, toTime, setFromTime, setToTime} = this.props;
+    const {
+      theme,
+      fromTime,
+      toTime,
+      setFromTime,
+      setToTime,
+      forceUpdate,
+    } = this.props;
 
     return (
       <>
@@ -61,6 +68,7 @@ class PickLeaveSpecificTime extends React.Component<
                 setValue={setFromTime}
                 minimumTrackTintColor={theme.palette.default}
                 maximumTrackTintColor={theme.palette.secondary}
+                forceUpdate={forceUpdate}
               />
             </View>
             <Text>{fromTime}</Text>
@@ -78,6 +86,7 @@ class PickLeaveSpecificTime extends React.Component<
                 values={getTimeValuesForSlider()}
                 value={toTime}
                 setValue={setToTime}
+                forceUpdate={forceUpdate}
               />
             </View>
             <Text>{toTime}</Text>
@@ -102,6 +111,7 @@ interface PickLeaveSpecificTimeProps extends WithTheme {
   toTime: string;
   setFromTime: (time: string) => void;
   setToTime: (time: string) => void;
+  forceUpdate?: number;
 }
 
 const styles = StyleSheet.create({

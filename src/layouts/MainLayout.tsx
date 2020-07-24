@@ -27,11 +27,19 @@ import {
   RefreshControl,
   StyleSheet,
   RefreshControlProps,
+  ScrollViewProps,
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
-  const {theme, children, refreshing, onRefresh, footer} = props;
+  const {
+    theme,
+    children,
+    refreshing,
+    onRefresh,
+    footer,
+    scrollViewProps,
+  } = props;
 
   return (
     <>
@@ -53,7 +61,8 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
                   onRefresh={onRefresh}
                 />
               )
-            }>
+            }
+            {...scrollViewProps}>
             {children}
           </ScrollView>
           {footer === undefined ? null : footer}
@@ -68,6 +77,7 @@ interface MainLayoutProps
     Pick<RefreshControlProps, 'onRefresh'> {
   refreshing?: boolean;
   footer?: React.ReactNode;
+  scrollViewProps?: ScrollViewProps;
 }
 
 const styles = StyleSheet.create({

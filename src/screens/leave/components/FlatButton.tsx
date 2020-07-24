@@ -26,12 +26,24 @@ import CardButton, {CardButtonProps} from 'screens/leave/components/CardButton';
 import Icon from 'components/DefaultIcon';
 
 const FlatButton = (props: FlatButtonProps) => {
-  const {theme, text, error, icon, rightIcon = true, ...restProps} = props;
+  const {
+    theme,
+    text,
+    error,
+    icon,
+    rightIcon = true,
+    elevation = false,
+    ...restProps
+  } = props;
 
   return (
     <>
       <CardButton
-        style={[styles.cardButton, {height: theme.spacing * 12}]}
+        style={[
+          styles.cardButton,
+          elevation ? undefined : styles.cardButtonElevation,
+          {height: theme.spacing * 12},
+        ]}
         {...restProps}>
         <View style={[styles.cardButtonContent]}>
           <View style={styles.buttonLeftView}>
@@ -57,6 +69,7 @@ interface FlatButtonProps extends Omit<CardButtonProps, 'icon'>, WithTheme {
   error?: string;
   icon?: string;
   rightIcon?: boolean;
+  elevation?: boolean;
 }
 
 const styles = StyleSheet.create({
@@ -71,6 +84,8 @@ const styles = StyleSheet.create({
   },
   cardButton: {
     borderRadius: 0,
+  },
+  cardButtonElevation: {
     elevation: 0,
   },
 });

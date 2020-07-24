@@ -18,33 +18,28 @@
  *
  */
 
-const SELECT_INSTANCE = 'SelectInstance';
-const LOGIN = 'Login';
-const MY_LEAVE_ENTITLEMENT_AND_USAGE = 'MyLeaveEntitilementsAndUsage';
-const MY_LEAVE = 'MyLeave';
-const APPLY_LEAVE = 'ApplyLeave';
-const PICK_LEAVE_REQUEST_DAYS_CALENDAR = 'PickLeaveRequestDaysCalendar';
-const PICK_LEAVE_REQUEST_DURATION = 'PickLeaveRequestDuration';
-const PICK_LEAVE_REQUEST_PARTIAL_DAYS = 'PickLeaveRequestPartialDays';
-const LEAVE_LIST = 'LeaveList';
-const LEAVE_DETAILS = 'LeaveDetails';
-const LEAVE_DAYS = 'LeaveDays';
-const LEAVE_COMMENTS = 'LeaveComments';
+export const SELECT_INSTANCE = 'SelectInstance';
+export const LOGIN = 'Login';
+export const MY_LEAVE_ENTITLEMENT_AND_USAGE = 'MyLeaveEntitilementsAndUsage';
+export const MY_LEAVE = 'MyLeave';
+export const APPLY_LEAVE = 'ApplyLeave';
+export const APPLY_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR =
+  'ApplyLeavePickLeaveRequestDaysCalendar';
+export const APPLY_LEAVE_PICK_LEAVE_REQUEST_DURATION =
+  'ApplyLeavePickLeaveRequestDuration';
+export const APPLY_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS =
+  'ApplyLeavePickLeaveRequestPartialDays';
+export const PICK_EMPLOYEE = 'PickEmployee';
+export const LEAVE_LIST = 'LeaveList';
+export const LEAVE_DETAILS = 'LeaveDetails';
+export const LEAVE_DAYS = 'LeaveDays';
+export const LEAVE_COMMENTS = 'LeaveComments';
+export const ASSIGN_LEAVE = 'AssignLeave';
+export const ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR =
+  'AssignLeavePickLeaveRequestDaysCalendar';
+export const ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DURATION =
+  'AssignLeavePickLeaveRequestDuration';
+export const ASSIGN_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS =
+  'AssignLeavePickLeaveRequestPartialDays';
 
-const SUBHEADER_LEAVE = 'Leave';
-
-export {
-  SELECT_INSTANCE,
-  LOGIN,
-  MY_LEAVE_ENTITLEMENT_AND_USAGE,
-  MY_LEAVE,
-  APPLY_LEAVE,
-  PICK_LEAVE_REQUEST_DAYS_CALENDAR,
-  PICK_LEAVE_REQUEST_DURATION,
-  PICK_LEAVE_REQUEST_PARTIAL_DAYS,
-  LEAVE_LIST,
-  LEAVE_DETAILS,
-  LEAVE_DAYS,
-  LEAVE_COMMENTS,
-  SUBHEADER_LEAVE,
-};
+export const SUBHEADER_LEAVE = 'Leave';

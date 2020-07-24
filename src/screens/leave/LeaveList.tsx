@@ -29,9 +29,10 @@ import {selectEmployeeLeaveList} from 'store/leave/leave-list/selectors';
 import {fetchLeaveList} from 'store/leave/leave-list/actions';
 import Divider from 'components/DefaultDivider';
 import LeaveListItem from 'screens/leave/components/LeaveListItem';
-import {LEAVE_DETAILS} from 'screens';
-import {navigate, getNavigation} from 'lib/helpers/navigation';
+import {LEAVE_DETAILS, LEAVE_LIST} from 'screens';
+import {navigate} from 'lib/helpers/navigation';
 import {LeaveListLeaveRequest} from 'store/leave/leave-list/types';
+import {selectCurrentRoute} from 'store/globals/selectors';
 
 class LeaveList extends React.Component<LeaveListProps> {
   constructor(props: LeaveListProps) {
@@ -43,12 +44,15 @@ class LeaveList extends React.Component<LeaveListProps> {
     this.props.fetchLeaveList();
   };
 
-  componentWillMount() {
-    getNavigation()?.addListener('state', this.updateLeaveList);
-  }
-
-  componentWillUnmount() {
-    getNavigation()?.removeListener('state', this.updateLeaveList);
+  componentDidUpdate(prevProps: LeaveListProps) {
+    if (
+      prevProps.currentRoute !== this.props.currentRoute &&
+      this.props.currentRoute === LEAVE_LIST
+    ) {
+      if (this.props.leaveList === undefined) {
+        this.props.fetchLeaveList();
+      }
+    }
   }
 
   updateLeaveList = () => {
@@ -107,6 +111,7 @@ interface LeaveListProps extends WithTheme, ConnectedProps<typeof connector> {
 
 const mapStateToProps = (state: RootState) => ({
   leaveList: selectEmployeeLeaveList(state),
+  currentRoute: selectCurrentRoute(state),
 });
 
 const mapDispatchToProps = {

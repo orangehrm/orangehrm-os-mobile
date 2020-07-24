@@ -39,6 +39,7 @@ class LeaveBalanceCard extends React.Component<LeaveBalanceCardProps> {
       selectedColor = '#bdbdbd',
       onPress,
     } = this.props;
+    const size = theme.spacing * 25;
     return (
       <>
         <TouchableWithoutFeedback onPress={onPress}>
@@ -49,6 +50,8 @@ class LeaveBalanceCard extends React.Component<LeaveBalanceCardProps> {
                 padding: theme.spacing * 2,
                 paddingBottom: theme.spacing * 4,
                 borderRadius: theme.borderRadius * 2,
+                height: size,
+                width: size,
               },
               selected ? {backgroundColor: selectedColor} : undefined,
             ]}>
@@ -110,8 +113,6 @@ interface LeaveBalanceCardProps
 
 const styles = StyleSheet.create({
   card: {
-    height: 100,
-    width: 100,
     backgroundColor: '#ececec',
     alignItems: 'center',
     justifyContent: 'center',

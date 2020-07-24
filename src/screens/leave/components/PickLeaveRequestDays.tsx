@@ -24,12 +24,7 @@ import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Text from 'components/DefaultText';
 import CardButton from 'screens/leave/components/CardButton';
 import Icon from 'components/DefaultIcon';
-import {
-  PICK_LEAVE_REQUEST_DAYS_CALENDAR,
-  PICK_LEAVE_REQUEST_DURATION,
-  PICK_LEAVE_REQUEST_PARTIAL_DAYS,
-} from 'screens';
-import {navigate, getNavigation} from 'lib/helpers/navigation';
+import {navigate} from 'lib/helpers/navigation';
 import {isSingleDayRequest, isMultipleDayRequest} from 'lib/helpers/leave';
 import {
   FULL_DAY,
@@ -44,44 +39,24 @@ import {
   PARTIAL_OPTION_START_END,
   SingleDayDuration,
   MultipleDayPartialOption,
-} from 'store/leave/apply-leave/types';
-import {
-  resetSingleDayDuration,
-  resetMultipleDayPartialOption,
-} from 'store/leave/apply-leave/actions';
-import {
-  isFromTimeLessThanToTime,
-  isValidPartialOptionSpecifyTime,
-} from 'lib/helpers/leave';
+} from 'store/leave/common-screens/types';
 
-class PickLeaveRequestDays extends React.Component<
-  PickLeaveRequestDaysProps,
-  PickLeaveRequestDaysState
-> {
+class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
   constructor(props: PickLeaveRequestDaysProps) {
     super(props);
-    this.state = {
-      error: '',
-      oncePressed: false,
-    };
   }
 
   onPressRequestDays = () => {
-    navigate(PICK_LEAVE_REQUEST_DAYS_CALENDAR, {
-      parent: this.props.currentRoute,
-    });
+    navigate(this.props.calendarScreenRoute);
+    this.setState({oncePressed: true});
   };
 
   onPressDuration = () => {
-    navigate(PICK_LEAVE_REQUEST_DURATION, {
-      parent: this.props.currentRoute,
-    });
+    navigate(this.props.durationScreenRoute);
   };
 
   onPressPartialDays = () => {
-    navigate(PICK_LEAVE_REQUEST_PARTIAL_DAYS, {
-      parent: this.props.currentRoute,
-    });
+    navigate(this.props.partialDaysScreenRoute);
   };
 
   getSelectedTextForDuration = () => {
@@ -178,67 +153,8 @@ class PickLeaveRequestDays extends React.Component<
     return details;
   };
 
-  componentWillMount() {
-    getNavigation()?.addListener('state', this.routeChangeListner);
-  }
-
-  componentWillUnmount() {
-    getNavigation()?.removeListener('state', this.routeChangeListner);
-  }
-
-  componentDidUpdate(prevProps: PickLeaveRequestDaysProps) {
-    const {showError} = this.props;
-    if (showError !== prevProps.showError) {
-      if (showError) {
-        this.showError();
-      } else {
-        this.clearError();
-      }
-    }
-  }
-
-  showError = () => {
-    this.setState({error: 'Required'});
-  };
-
-  clearError = () => {
-    this.setState({error: ''});
-  };
-
-  routeChangeListner = () => {
-    const {
-      fromDate,
-      duration,
-      partialOption,
-      resetDuration,
-      resetPartialOption,
-    } = this.props;
-    const {oncePressed} = this.state;
-    if (fromDate === undefined && oncePressed) {
-      this.showError();
-    } else {
-      this.clearError();
-    }
-
-    if (duration.singleType === SPECIFY_TIME) {
-      if (
-        !isFromTimeLessThanToTime(
-          duration.singleFromTime,
-          duration.singleToTime,
-        )
-      ) {
-        resetDuration();
-      }
-    }
-
-    if (!isValidPartialOptionSpecifyTime(partialOption)) {
-      resetPartialOption();
-    }
-  };
-
   render() {
-    const {theme, fromDate, toDate} = this.props;
-    const {error} = this.state;
+    const {theme, fromDate, toDate, error} = this.props;
     const partialOptionDetails = this.getPartialOptionDetails();
 
     return (
@@ -246,10 +162,7 @@ class PickLeaveRequestDays extends React.Component<
         <View>
           <CardButton
             style={[styles.cardButton, {height: theme.spacing * 12}]}
-            onPress={() => {
-              this.onPressRequestDays();
-              this.setState({oncePressed: true});
-            }}>
+            onPress={this.onPressRequestDays}>
             <View style={[styles.cardButtonContent]}>
               <View style={styles.buttonLeftView}>
                 <Icon name={'calendar'} />
@@ -257,7 +170,7 @@ class PickLeaveRequestDays extends React.Component<
                   {'Request Day(s)'}
                 </Text>
               </View>
-              {error !== '' ? (
+              {error && error !== '' ? (
                 <Text
                   style={{
                     color: theme.palette.error,
@@ -353,8 +266,9 @@ class PickLeaveRequestDays extends React.Component<
                       paddingLeft: theme.spacing * 13,
                       paddingRight: theme.spacing * 20,
                     }}>
-                    {partialOptionDetails.map((item) => (
+                    {partialOptionDetails.map((item, index) => (
                       <View
+                        key={index}
                         style={[
                           styles.partialDaysTextView,
                           {
@@ -377,19 +291,14 @@ class PickLeaveRequestDays extends React.Component<
 }
 
 interface PickLeaveRequestDaysProps extends WithTheme {
-  currentRoute: string;
   fromDate?: string;
   toDate?: string;
   duration: SingleDayDuration;
   partialOption: MultipleDayPartialOption;
-  resetDuration: typeof resetSingleDayDuration;
-  resetPartialOption: typeof resetMultipleDayPartialOption;
-  showError?: boolean;
-}
-
-interface PickLeaveRequestDaysState {
-  error: string;
-  oncePressed: boolean;
+  calendarScreenRoute: string;
+  durationScreenRoute: string;
+  partialDaysScreenRoute: string;
+  error?: string;
 }
 
 type NameValue = {name: string; value: string};

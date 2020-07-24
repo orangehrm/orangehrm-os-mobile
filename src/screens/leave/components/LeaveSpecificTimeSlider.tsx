@@ -20,19 +20,19 @@
 
 import React, {useState, useEffect} from 'react';
 import Slider, {SliderProps} from '@react-native-community/slider';
-import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import useTheme from 'lib/hook/useTheme';
 
 const LeaveSpecificTimeSlider = (props: LeaveSpecificTimeSliderProps) => {
   const [sliderInitialValue, setSliderInitialValue] = useState();
-  const {theme, values, value, setValue, ...sliderProps} = props;
+  const theme = useTheme();
+  const {values, value, setValue, forceUpdate, ...sliderProps} = props;
 
   useEffect(() => {
     setSliderInitialValue(
       values.findIndex((sliderValue) => sliderValue === value),
     );
-    // setValue(value);
     /* eslint-disable react-hooks/exhaustive-deps */
-  }, []);
+  }, [forceUpdate]);
   /* eslint-enable react-hooks/exhaustive-deps */
 
   return (
@@ -54,14 +54,11 @@ const LeaveSpecificTimeSlider = (props: LeaveSpecificTimeSliderProps) => {
   );
 };
 
-interface LeaveSpecificTimeSliderProps
-  extends WithTheme,
-    Omit<SliderProps, 'value'> {
+interface LeaveSpecificTimeSliderProps extends Omit<SliderProps, 'value'> {
   values: string[];
   value: string;
   setValue: (value: string) => void;
+  forceUpdate?: number;
 }
 
-export default withTheme<LeaveSpecificTimeSliderProps>()(
-  LeaveSpecificTimeSlider,
-);
+export default LeaveSpecificTimeSlider;

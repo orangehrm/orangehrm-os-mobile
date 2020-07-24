@@ -24,6 +24,7 @@ import {watchAuthActions} from 'store/auth/sagas';
 import {watchLeaveUsageActions} from 'store/leave/leave-usage/sagas';
 import {watchApplyLeaveActions} from 'store/leave/apply-leave/sagas';
 import {watchLeaveListActions} from 'store/leave/leave-list/sagas';
+import {watchAssignLeaveActions} from 'store/leave/assign-leave/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -33,5 +34,6 @@ export default function* rootSaga() {
     call(watchLeaveUsageActions),
     call(watchApplyLeaveActions),
     call(watchLeaveListActions),
+    call(watchAssignLeaveActions),
   ]);
 }

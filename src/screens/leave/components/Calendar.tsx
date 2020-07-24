@@ -73,9 +73,11 @@ const Calendar = (props: CalendarProps) => {
         );
         setMarkedDates(getMarkedDatesForPeriod(dates));
       }
+    } else {
+      setMarkedDates({});
     }
     /* eslint-disable react-hooks/exhaustive-deps */
-  }, []);
+  }, [fromDate, toDate]);
   /* eslint-enable react-hooks/exhaustive-deps */
 
   const onDayPress: DateCallbackHandler = (day) => {

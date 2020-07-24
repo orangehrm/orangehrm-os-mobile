@@ -25,6 +25,7 @@ import {
   CLOSE_SNACK_MESSAGE,
   OPEN_LOADER,
   CLOSE_LOADER,
+  CHANGE_CURRENT_ROUTE,
   TYPE_SUCCESS,
 } from 'store/globals/types';
 import {MY_LEAVE_ENTITLEMENT_AND_USAGE} from 'screens';
@@ -39,6 +40,7 @@ const initialState: GlobalsState = {
     count: 0,
   },
   initialRoute: MY_LEAVE_ENTITLEMENT_AND_USAGE,
+  currentRoute: MY_LEAVE_ENTITLEMENT_AND_USAGE,
 };
 
 const globalsReducer = (
@@ -79,6 +81,19 @@ const globalsReducer = (
           open: state.loader.count - 1 !== 0,
           count: state.loader.count - 1,
         },
+      };
+    case CHANGE_CURRENT_ROUTE:
+      if (
+        state.currentRoute === action.route ||
+        (state.currentRoute !== undefined &&
+          state.currentRoute === state.previousRoute)
+      ) {
+        return state;
+      }
+      return {
+        ...state,
+        currentRoute: action.route,
+        previousRoute: state.currentRoute,
       };
     default:
       return state;

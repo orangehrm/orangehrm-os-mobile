@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {pickMultipleDayPartialOption as pickMultipleDayPartialOptionAction} from 'store/leave/apply-leave/actions';
+import {pickMultipleDayPartialOption as pickMultipleDayPartialOptionAction} from 'store/leave/common-screens/actions';
 import PickMultipleDayPartialOption from 'screens/leave/components/PickMultipleDayPartialOption';
 import {
   HALF_DAY,
@@ -33,7 +33,7 @@ import {
   SPECIFY_TIME,
   DEFAULT_FROM_TIME,
   DEFAULT_TO_TIME,
-} from 'store/leave/apply-leave/types';
+} from 'store/leave/common-screens/types';
 
 class PickPartialDayDuration extends React.Component<
   PickPartialDayDurationProps
@@ -208,7 +208,11 @@ class PickPartialDayDuration extends React.Component<
   };
 
   render() {
-    const {partialOption, pickMultipleDayPartialOption} = this.props;
+    const {
+      partialOption,
+      pickMultipleDayPartialOption,
+      forceUpdateSlider,
+    } = this.props;
 
     return (
       <>
@@ -321,6 +325,7 @@ class PickPartialDayDuration extends React.Component<
                   });
                 }
               }}
+              forceUpdateSlider={forceUpdateSlider}
             />
           </>
         ) : null}
@@ -378,6 +383,7 @@ class PickPartialDayDuration extends React.Component<
                   endDayToTime: time,
                 });
               }}
+              forceUpdateSlider={forceUpdateSlider}
             />
           </>
         ) : null}
@@ -398,6 +404,10 @@ class PickPartialDayDuration extends React.Component<
               onPressHalfDayMorning={() => {
                 pickMultipleDayPartialOption({
                   ...partialOption,
+                  ...(partialOption.startDayType === SPECIFY_TIME && {
+                    startDayFromTime: undefined,
+                    startDayToTime: undefined,
+                  }),
                   partialOption: PARTIAL_OPTION_START_END,
                   startDayType: HALF_DAY,
                   startDayAMPM: HALF_DAY_MORNING,
@@ -406,6 +416,10 @@ class PickPartialDayDuration extends React.Component<
               onPressHalfDayAfternoon={() => {
                 pickMultipleDayPartialOption({
                   ...partialOption,
+                  ...(partialOption.startDayType === SPECIFY_TIME && {
+                    startDayFromTime: undefined,
+                    startDayToTime: undefined,
+                  }),
                   partialOption: PARTIAL_OPTION_START_END,
                   startDayType: HALF_DAY,
                   startDayAMPM: HALF_DAY_AFTERNOON,
@@ -414,6 +428,9 @@ class PickPartialDayDuration extends React.Component<
               onPressSpecifyTime={() => {
                 pickMultipleDayPartialOption({
                   ...partialOption,
+                  ...(partialOption.startDayType === HALF_DAY && {
+                    startDayAMPM: undefined,
+                  }),
                   partialOption: PARTIAL_OPTION_START_END,
                   startDayType: SPECIFY_TIME,
                   startDayFromTime: DEFAULT_FROM_TIME,
@@ -446,6 +463,7 @@ class PickPartialDayDuration extends React.Component<
                   startDayToTime: time,
                 });
               }}
+              forceUpdateSlider={forceUpdateSlider}
             />
             <PickMultipleDayPartialOption
               title={'End Day'}
@@ -461,6 +479,10 @@ class PickPartialDayDuration extends React.Component<
               onPressHalfDayMorning={() => {
                 pickMultipleDayPartialOption({
                   ...partialOption,
+                  ...(partialOption.endDayType === SPECIFY_TIME && {
+                    endDayFromTime: undefined,
+                    endDayToTime: undefined,
+                  }),
                   partialOption: PARTIAL_OPTION_START_END,
                   endDayType: HALF_DAY,
                   endDayAMPM: HALF_DAY_MORNING,
@@ -469,6 +491,10 @@ class PickPartialDayDuration extends React.Component<
               onPressHalfDayAfternoon={() => {
                 pickMultipleDayPartialOption({
                   ...partialOption,
+                  ...(partialOption.endDayType === SPECIFY_TIME && {
+                    endDayFromTime: undefined,
+                    endDayToTime: undefined,
+                  }),
                   partialOption: PARTIAL_OPTION_START_END,
                   endDayType: HALF_DAY,
                   endDayAMPM: HALF_DAY_AFTERNOON,
@@ -477,6 +503,9 @@ class PickPartialDayDuration extends React.Component<
               onPressSpecifyTime={() => {
                 pickMultipleDayPartialOption({
                   ...partialOption,
+                  ...(partialOption.endDayType === HALF_DAY && {
+                    endDayAMPM: undefined,
+                  }),
                   partialOption: PARTIAL_OPTION_START_END,
                   endDayType: SPECIFY_TIME,
                   endDayFromTime: DEFAULT_FROM_TIME,
@@ -509,6 +538,7 @@ class PickPartialDayDuration extends React.Component<
                   endDayToTime: time,
                 });
               }}
+              forceUpdateSlider={forceUpdateSlider}
             />
           </>
         ) : null}
@@ -520,6 +550,7 @@ class PickPartialDayDuration extends React.Component<
 interface PickPartialDayDurationProps {
   partialOption?: MultipleDayPartialOption;
   pickMultipleDayPartialOption: typeof pickMultipleDayPartialOptionAction;
+  forceUpdateSlider?: number;
 }
 
 export default PickPartialDayDuration;

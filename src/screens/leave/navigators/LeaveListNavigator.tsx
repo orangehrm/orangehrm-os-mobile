@@ -49,13 +49,18 @@ class LeaveListNavigator extends React.Component<LeaveListNavigatorProps> {
     };
 
     return (
-      <Stack.Navigator initialRouteName={LEAVE_LIST}>
+      <Stack.Navigator
+        initialRouteName={LEAVE_LIST}
+        screenOptions={{
+          ...header,
+          ...headerBackIcon,
+        }}
+        keyboardHandlingEnabled={false}>
         <Stack.Screen
           name={LEAVE_LIST}
           component={LeaveList}
           options={{
             title: 'Leave List',
-            ...header,
             ...headerMenuIcon,
           }}
         />
@@ -64,8 +69,6 @@ class LeaveListNavigator extends React.Component<LeaveListNavigatorProps> {
           component={LeaveDetails}
           options={{
             title: 'Leave Details',
-            ...header,
-            ...headerBackIcon,
           }}
         />
         <Stack.Screen
@@ -73,8 +76,6 @@ class LeaveListNavigator extends React.Component<LeaveListNavigatorProps> {
           component={LeaveDays}
           options={{
             title: 'Leave Days',
-            ...header,
-            ...headerBackIcon,
           }}
         />
         <Stack.Screen
@@ -82,8 +83,6 @@ class LeaveListNavigator extends React.Component<LeaveListNavigatorProps> {
           component={LeaveComments}
           options={{
             title: 'Comments',
-            ...header,
-            ...headerBackIcon,
           }}
         />
       </Stack.Navigator>

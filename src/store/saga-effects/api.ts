@@ -32,6 +32,8 @@ import {storageSetMulti, selectAuthParams} from 'store/saga-effects/storage';
 import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams} from 'store/storage/types';
 
+export const HTTP_NOT_FOUND = '404';
+
 export function* apiCall<Fn extends (...args: any[]) => any>(
   fn: Fn,
   ...args: Parameters<Fn>

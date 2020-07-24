@@ -9,49 +9,17 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* OrangeHRMTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* OrangeHRMTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* OrangeHRMTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* OrangeHRMTests.m */; };
-		8DBFB64A24B5AD60006F1B8A /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63024B5AB7A006F1B8A /* AntDesign.ttf */; };
-		8DBFB64B24B5AD60006F1B8A /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB62B24B5AB7A006F1B8A /* Entypo.ttf */; };
-		8DBFB64C24B5AD60006F1B8A /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63724B5AB7B006F1B8A /* EvilIcons.ttf */; };
-		8DBFB64D24B5AD60006F1B8A /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63424B5AB7B006F1B8A /* Feather.ttf */; };
-		8DBFB64E24B5AD60006F1B8A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63224B5AB7B006F1B8A /* FontAwesome.ttf */; };
-		8DBFB64F24B5AD60006F1B8A /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63624B5AB7B006F1B8A /* FontAwesome5_Brands.ttf */; };
-		8DBFB65024B5AD60006F1B8A /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB62C24B5AB7A006F1B8A /* FontAwesome5_Regular.ttf */; };
-		8DBFB65124B5AD60006F1B8A /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB62A24B5AB7A006F1B8A /* FontAwesome5_Solid.ttf */; };
-		8DBFB65224B5AD60006F1B8A /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB62D24B5AB7A006F1B8A /* Fontisto.ttf */; };
-		8DBFB65324B5AD60006F1B8A /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63824B5AB7B006F1B8A /* Foundation.ttf */; };
-		8DBFB65424B5AD60006F1B8A /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63324B5AB7B006F1B8A /* Ionicons.ttf */; };
-		8DBFB65524B5AD60006F1B8A /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB62E24B5AB7A006F1B8A /* MaterialCommunityIcons.ttf */; };
-		8DBFB65624B5AD60006F1B8A /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63524B5AB7B006F1B8A /* MaterialIcons.ttf */; };
-		8DBFB65724B5AD60006F1B8A /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63924B5AB7B006F1B8A /* Octicons.ttf */; };
-		8DBFB65824B5AD60006F1B8A /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB62F24B5AB7A006F1B8A /* SimpleLineIcons.ttf */; };
-		8DBFB65924B5AD60006F1B8A /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63124B5AB7A006F1B8A /* Zocial.ttf */; };
-		8DBFB68424B5B2C7006F1B8A /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63024B5AB7A006F1B8A /* AntDesign.ttf */; };
-		8DBFB68524B5B2C7006F1B8A /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB62B24B5AB7A006F1B8A /* Entypo.ttf */; };
-		8DBFB68624B5B2C7006F1B8A /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63724B5AB7B006F1B8A /* EvilIcons.ttf */; };
-		8DBFB68724B5B2C7006F1B8A /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63424B5AB7B006F1B8A /* Feather.ttf */; };
-		8DBFB68824B5B2C7006F1B8A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63224B5AB7B006F1B8A /* FontAwesome.ttf */; };
-		8DBFB68924B5B2C7006F1B8A /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63624B5AB7B006F1B8A /* FontAwesome5_Brands.ttf */; };
-		8DBFB68A24B5B2C7006F1B8A /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB62C24B5AB7A006F1B8A /* FontAwesome5_Regular.ttf */; };
-		8DBFB68B24B5B2C7006F1B8A /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB62A24B5AB7A006F1B8A /* FontAwesome5_Solid.ttf */; };
-		8DBFB68C24B5B2C7006F1B8A /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB62D24B5AB7A006F1B8A /* Fontisto.ttf */; };
-		8DBFB68D24B5B2C7006F1B8A /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63824B5AB7B006F1B8A /* Foundation.ttf */; };
-		8DBFB68E24B5B2C7006F1B8A /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63324B5AB7B006F1B8A /* Ionicons.ttf */; };
-		8DBFB68F24B5B2C7006F1B8A /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB62E24B5AB7A006F1B8A /* MaterialCommunityIcons.ttf */; };
-		8DBFB69024B5B2C7006F1B8A /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63524B5AB7B006F1B8A /* MaterialIcons.ttf */; };
-		8DBFB69124B5B2C7006F1B8A /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63924B5AB7B006F1B8A /* Octicons.ttf */; };
-		8DBFB69224B5B2C7006F1B8A /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB62F24B5AB7A006F1B8A /* SimpleLineIcons.ttf */; };
-		8DBFB69324B5B2C7006F1B8A /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DBFB63124B5AB7A006F1B8A /* Zocial.ttf */; };
-		96CC2E1B06A3F462C009E69F /* libPods-OrangeHRM-OrangeHRMTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9441878D5AD8376CEB3D13DE /* libPods-OrangeHRM-OrangeHRMTests.a */; };
-		D91A28DA755E1988722F7073 /* libPods-OrangeHRM-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A4397522800ED54497E30BB /* libPods-OrangeHRM-tvOS.a */; };
-		E0D1DA72EC7430D1010BC4E5 /* libPods-OrangeHRM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CF53AFE98784013BA1A509A /* libPods-OrangeHRM.a */; };
-		E88A7508F7E0104B50CB427A /* libPods-OrangeHRM-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA20A0E204D735745233795E /* libPods-OrangeHRM-tvOSTests.a */; };
+		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		9D52C2EDDF218E73E6DE5421 /* libPods-OrangeHRM-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AC58EC52520E41A9E9C0A7E /* libPods-OrangeHRM-tvOS.a */; };
+		A4918D00B405E78A4DFAC6A9 /* libPods-OrangeHRM-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 13862986CE4B062F2E4352B1 /* libPods-OrangeHRM-tvOSTests.a */; };
+		AAA4444B17AB49FEDCC8AEB2 /* libPods-OrangeHRM-OrangeHRMTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 008FA60B9E0B9F7D7CECA50D /* libPods-OrangeHRM-OrangeHRMTests.a */; };
+		F1853ABC7C542CC8534F4CDD /* libPods-OrangeHRM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8BCD2D0F88B6F157F87E29CC /* libPods-OrangeHRM.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,48 +41,32 @@
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		008FA60B9E0B9F7D7CECA50D /* libPods-OrangeHRM-OrangeHRMTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OrangeHRM-OrangeHRMTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356EE1AD99517003FC87E /* OrangeHRMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrangeHRMTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* OrangeHRMTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OrangeHRMTests.m; sourceTree = "<group>"; };
+		09D29E40AC3D8217F55FFE13 /* Pods-OrangeHRM-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-OrangeHRM-tvOSTests/Pods-OrangeHRM-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		0A91C5C53E2391768A84E7B4 /* Pods-OrangeHRM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM.release.xcconfig"; path = "Target Support Files/Pods-OrangeHRM/Pods-OrangeHRM.release.xcconfig"; sourceTree = "<group>"; };
+		13862986CE4B062F2E4352B1 /* libPods-OrangeHRM-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OrangeHRM-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* OrangeHRM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OrangeHRM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = OrangeHRM/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = OrangeHRM/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = OrangeHRM/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = OrangeHRM/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = OrangeHRM/main.m; sourceTree = "<group>"; };
-		1CF53AFE98784013BA1A509A /* libPods-OrangeHRM.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OrangeHRM.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		252E7F928B659395AD7F5922 /* Pods-OrangeHRM-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM-tvOS.release.xcconfig"; path = "Target Support Files/Pods-OrangeHRM-tvOS/Pods-OrangeHRM-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		2C42A02D0A776E0182F4C706 /* Pods-OrangeHRM-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-OrangeHRM-tvOS/Pods-OrangeHRM-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* OrangeHRM-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OrangeHRM-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* OrangeHRM-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OrangeHRM-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3A4397522800ED54497E30BB /* libPods-OrangeHRM-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OrangeHRM-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		49AD60E8E780EDE87D099DC8 /* Pods-OrangeHRM-OrangeHRMTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM-OrangeHRMTests.debug.xcconfig"; path = "Target Support Files/Pods-OrangeHRM-OrangeHRMTests/Pods-OrangeHRM-OrangeHRMTests.debug.xcconfig"; sourceTree = "<group>"; };
-		657821FD33B4DFEC854C240C /* Pods-OrangeHRM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM.debug.xcconfig"; path = "Target Support Files/Pods-OrangeHRM/Pods-OrangeHRM.debug.xcconfig"; sourceTree = "<group>"; };
-		8DBFB62A24B5AB7A006F1B8A /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
-		8DBFB62B24B5AB7A006F1B8A /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
-		8DBFB62C24B5AB7A006F1B8A /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
-		8DBFB62D24B5AB7A006F1B8A /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
-		8DBFB62E24B5AB7A006F1B8A /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
-		8DBFB62F24B5AB7A006F1B8A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
-		8DBFB63024B5AB7A006F1B8A /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
-		8DBFB63124B5AB7A006F1B8A /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
-		8DBFB63224B5AB7B006F1B8A /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
-		8DBFB63324B5AB7B006F1B8A /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
-		8DBFB63424B5AB7B006F1B8A /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
-		8DBFB63524B5AB7B006F1B8A /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
-		8DBFB63624B5AB7B006F1B8A /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
-		8DBFB63724B5AB7B006F1B8A /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
-		8DBFB63824B5AB7B006F1B8A /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
-		8DBFB63924B5AB7B006F1B8A /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
-		9441878D5AD8376CEB3D13DE /* libPods-OrangeHRM-OrangeHRMTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OrangeHRM-OrangeHRMTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AC3E184957363AB1CDA7C3F0 /* Pods-OrangeHRM-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-OrangeHRM-tvOSTests/Pods-OrangeHRM-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		AE6C16953E608023768E3165 /* Pods-OrangeHRM-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-OrangeHRM-tvOSTests/Pods-OrangeHRM-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		E1147F05B9EA0A4C01F13E1D /* Pods-OrangeHRM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM.release.xcconfig"; path = "Target Support Files/Pods-OrangeHRM/Pods-OrangeHRM.release.xcconfig"; sourceTree = "<group>"; };
-		EA20A0E204D735745233795E /* libPods-OrangeHRM-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OrangeHRM-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		44E051E4D9E91763F0619D3F /* Pods-OrangeHRM-OrangeHRMTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM-OrangeHRMTests.debug.xcconfig"; path = "Target Support Files/Pods-OrangeHRM-OrangeHRMTests/Pods-OrangeHRM-OrangeHRMTests.debug.xcconfig"; sourceTree = "<group>"; };
+		6AC58EC52520E41A9E9C0A7E /* libPods-OrangeHRM-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OrangeHRM-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = OrangeHRM/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8BCD2D0F88B6F157F87E29CC /* libPods-OrangeHRM.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OrangeHRM.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5C90F60A18F6D0D9EFD5A2D /* Pods-OrangeHRM-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-OrangeHRM-tvOSTests/Pods-OrangeHRM-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		ACA717F0BA1A9004D9A24785 /* Pods-OrangeHRM-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM-tvOS.release.xcconfig"; path = "Target Support Files/Pods-OrangeHRM-tvOS/Pods-OrangeHRM-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		CC9038420FAA6A4C001A1761 /* Pods-OrangeHRM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM.debug.xcconfig"; path = "Target Support Files/Pods-OrangeHRM/Pods-OrangeHRM.debug.xcconfig"; sourceTree = "<group>"; };
+		EB309C5BD6C8B7625C5F251E /* Pods-OrangeHRM-OrangeHRMTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM-OrangeHRMTests.release.xcconfig"; path = "Target Support Files/Pods-OrangeHRM-OrangeHRMTests/Pods-OrangeHRM-OrangeHRMTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		FC1482D49AA8AAC3C8078B54 /* Pods-OrangeHRM-OrangeHRMTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM-OrangeHRMTests.release.xcconfig"; path = "Target Support Files/Pods-OrangeHRM-OrangeHRMTests/Pods-OrangeHRM-OrangeHRMTests.release.xcconfig"; sourceTree = "<group>"; };
+		F199367000A4D55B5CBF5501 /* Pods-OrangeHRM-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-OrangeHRM-tvOS/Pods-OrangeHRM-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,7 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96CC2E1B06A3F462C009E69F /* libPods-OrangeHRM-OrangeHRMTests.a in Frameworks */,
+				AAA4444B17AB49FEDCC8AEB2 /* libPods-OrangeHRM-OrangeHRMTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,7 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E0D1DA72EC7430D1010BC4E5 /* libPods-OrangeHRM.a in Frameworks */,
+				F1853ABC7C542CC8534F4CDD /* libPods-OrangeHRM.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,7 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D91A28DA755E1988722F7073 /* libPods-OrangeHRM-tvOS.a in Frameworks */,
+				9D52C2EDDF218E73E6DE5421 /* libPods-OrangeHRM-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,7 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E88A7508F7E0104B50CB427A /* libPods-OrangeHRM-tvOSTests.a in Frameworks */,
+				A4918D00B405E78A4DFAC6A9 /* libPods-OrangeHRM-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,21 +122,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		0B4FAB5299F1DA23B6FCCB7B /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				657821FD33B4DFEC854C240C /* Pods-OrangeHRM.debug.xcconfig */,
-				E1147F05B9EA0A4C01F13E1D /* Pods-OrangeHRM.release.xcconfig */,
-				49AD60E8E780EDE87D099DC8 /* Pods-OrangeHRM-OrangeHRMTests.debug.xcconfig */,
-				FC1482D49AA8AAC3C8078B54 /* Pods-OrangeHRM-OrangeHRMTests.release.xcconfig */,
-				2C42A02D0A776E0182F4C706 /* Pods-OrangeHRM-tvOS.debug.xcconfig */,
-				252E7F928B659395AD7F5922 /* Pods-OrangeHRM-tvOS.release.xcconfig */,
-				AE6C16953E608023768E3165 /* Pods-OrangeHRM-tvOSTests.debug.xcconfig */,
-				AC3E184957363AB1CDA7C3F0 /* Pods-OrangeHRM-tvOSTests.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		13B07FAE1A68108700A75B9A /* OrangeHRM */ = {
 			isa = PBXGroup;
 			children = (
@@ -193,7 +130,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
+				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = OrangeHRM;
@@ -204,35 +141,12 @@
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				1CF53AFE98784013BA1A509A /* libPods-OrangeHRM.a */,
-				9441878D5AD8376CEB3D13DE /* libPods-OrangeHRM-OrangeHRMTests.a */,
-				3A4397522800ED54497E30BB /* libPods-OrangeHRM-tvOS.a */,
-				EA20A0E204D735745233795E /* libPods-OrangeHRM-tvOSTests.a */,
+				8BCD2D0F88B6F157F87E29CC /* libPods-OrangeHRM.a */,
+				008FA60B9E0B9F7D7CECA50D /* libPods-OrangeHRM-OrangeHRMTests.a */,
+				6AC58EC52520E41A9E9C0A7E /* libPods-OrangeHRM-tvOS.a */,
+				13862986CE4B062F2E4352B1 /* libPods-OrangeHRM-tvOSTests.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		3BD90BA1674245AE9A7D1111 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				8DBFB63024B5AB7A006F1B8A /* AntDesign.ttf */,
-				8DBFB62B24B5AB7A006F1B8A /* Entypo.ttf */,
-				8DBFB63724B5AB7B006F1B8A /* EvilIcons.ttf */,
-				8DBFB63424B5AB7B006F1B8A /* Feather.ttf */,
-				8DBFB63224B5AB7B006F1B8A /* FontAwesome.ttf */,
-				8DBFB63624B5AB7B006F1B8A /* FontAwesome5_Brands.ttf */,
-				8DBFB62C24B5AB7A006F1B8A /* FontAwesome5_Regular.ttf */,
-				8DBFB62A24B5AB7A006F1B8A /* FontAwesome5_Solid.ttf */,
-				8DBFB62D24B5AB7A006F1B8A /* Fontisto.ttf */,
-				8DBFB63824B5AB7B006F1B8A /* Foundation.ttf */,
-				8DBFB63324B5AB7B006F1B8A /* Ionicons.ttf */,
-				8DBFB62E24B5AB7A006F1B8A /* MaterialCommunityIcons.ttf */,
-				8DBFB63524B5AB7B006F1B8A /* MaterialIcons.ttf */,
-				8DBFB63924B5AB7B006F1B8A /* Octicons.ttf */,
-				8DBFB62F24B5AB7A006F1B8A /* SimpleLineIcons.ttf */,
-				8DBFB63124B5AB7A006F1B8A /* Zocial.ttf */,
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -250,8 +164,7 @@
 				00E356EF1AD99517003FC87E /* OrangeHRMTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				0B4FAB5299F1DA23B6FCCB7B /* Pods */,
-				3BD90BA1674245AE9A7D1111 /* Resources */,
+				F2F36129198982F7561991A9 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -269,6 +182,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		F2F36129198982F7561991A9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CC9038420FAA6A4C001A1761 /* Pods-OrangeHRM.debug.xcconfig */,
+				0A91C5C53E2391768A84E7B4 /* Pods-OrangeHRM.release.xcconfig */,
+				44E051E4D9E91763F0619D3F /* Pods-OrangeHRM-OrangeHRMTests.debug.xcconfig */,
+				EB309C5BD6C8B7625C5F251E /* Pods-OrangeHRM-OrangeHRMTests.release.xcconfig */,
+				F199367000A4D55B5CBF5501 /* Pods-OrangeHRM-tvOS.debug.xcconfig */,
+				ACA717F0BA1A9004D9A24785 /* Pods-OrangeHRM-tvOS.release.xcconfig */,
+				A5C90F60A18F6D0D9EFD5A2D /* Pods-OrangeHRM-tvOSTests.debug.xcconfig */,
+				09D29E40AC3D8217F55FFE13 /* Pods-OrangeHRM-tvOSTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -276,11 +205,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "OrangeHRMTests" */;
 			buildPhases = (
-				521413C44CFCBC156CC74EA3 /* [CP] Check Pods Manifest.lock */,
+				72163D60FC9D9AC74240AA67 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				EE9C60163EF4BA6CD2B5327C /* [CP] Copy Pods Resources */,
+				A57D824A338BE83D6178C8EE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -296,13 +225,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "OrangeHRM" */;
 			buildPhases = (
-				DCE34966C528DA9530EA9B29 /* [CP] Check Pods Manifest.lock */,
+				448A110E14D61382F68141EE /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				25609E42204BE4CF368C9D66 /* [CP] Copy Pods Resources */,
+				E1B9788D3298B51C54A4D7AC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -317,7 +246,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "OrangeHRM-tvOS" */;
 			buildPhases = (
-				C59B43577629CA725CCDA64D /* [CP] Check Pods Manifest.lock */,
+				9B30EC4ED6B2E82E70E250D5 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -337,7 +266,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "OrangeHRM-tvOSTests" */;
 			buildPhases = (
-				A745B10FEF9B50A876862B90 /* [CP] Check Pods Manifest.lock */,
+				2DA9204B50354BF3A57D0043 /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -365,7 +294,6 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 569RL3Z74X;
 						LastSwiftMigration = 1120;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -445,7 +373,7 @@
 				8DBFB65824B5AD60006F1B8A /* SimpleLineIcons.ttf in Resources */,
 				8DBFB65924B5AD60006F1B8A /* Zocial.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,23 +407,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
-		};
-		25609E42204BE4CF368C9D66 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-OrangeHRM/Pods-OrangeHRM-resources.sh",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OrangeHRM/Pods-OrangeHRM-resources.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -511,29 +423,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		521413C44CFCBC156CC74EA3 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-OrangeHRM-OrangeHRMTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A745B10FEF9B50A876862B90 /* [CP] Check Pods Manifest.lock */ = {
+		2DA9204B50354BF3A57D0043 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -555,29 +445,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C59B43577629CA725CCDA64D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-OrangeHRM-tvOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DCE34966C528DA9530EA9B29 /* [CP] Check Pods Manifest.lock */ = {
+		448A110E14D61382F68141EE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -599,7 +467,51 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EE9C60163EF4BA6CD2B5327C /* [CP] Copy Pods Resources */ = {
+		72163D60FC9D9AC74240AA67 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OrangeHRM-OrangeHRMTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9B30EC4ED6B2E82E70E250D5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OrangeHRM-tvOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A57D824A338BE83D6178C8EE /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -622,6 +534,7 @@
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -641,10 +554,29 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OrangeHRM-OrangeHRMTests/Pods-OrangeHRM-OrangeHRMTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E1B9788D3298B51C54A4D7AC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OrangeHRM/Pods-OrangeHRM-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OrangeHRM/Pods-OrangeHRM-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -737,22 +669,10 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = OrangeHRM;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 49AD60E8E780EDE87D099DC8 /* Pods-OrangeHRM-OrangeHRMTests.debug.xcconfig */;
+			baseConfigurationReference = 44E051E4D9E91763F0619D3F /* Pods-OrangeHRM-OrangeHRMTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -760,7 +680,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = OrangeHRMTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -775,12 +695,12 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC1482D49AA8AAC3C8078B54 /* Pods-OrangeHRM-OrangeHRMTests.release.xcconfig */;
+			baseConfigurationReference = EB309C5BD6C8B7625C5F251E /* Pods-OrangeHRM-OrangeHRMTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = OrangeHRMTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -795,7 +715,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 657821FD33B4DFEC854C240C /* Pods-OrangeHRM.debug.xcconfig */;
+			baseConfigurationReference = CC9038420FAA6A4C001A1761 /* Pods-OrangeHRM.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -823,7 +743,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1147F05B9EA0A4C01F13E1D /* Pods-OrangeHRM.release.xcconfig */;
+			baseConfigurationReference = 0A91C5C53E2391768A84E7B4 /* Pods-OrangeHRM.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -845,7 +765,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2C42A02D0A776E0182F4C706 /* Pods-OrangeHRM-tvOS.debug.xcconfig */;
+			baseConfigurationReference = F199367000A4D55B5CBF5501 /* Pods-OrangeHRM-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -867,13 +787,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Debug;
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 252E7F928B659395AD7F5922 /* Pods-OrangeHRM-tvOS.release.xcconfig */;
+			baseConfigurationReference = ACA717F0BA1A9004D9A24785 /* Pods-OrangeHRM-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -895,13 +815,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
+				TVOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AE6C16953E608023768E3165 /* Pods-OrangeHRM-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = A5C90F60A18F6D0D9EFD5A2D /* Pods-OrangeHRM-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -928,7 +848,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AC3E184957363AB1CDA7C3F0 /* Pods-OrangeHRM-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = 09D29E40AC3D8217F55FFE13 /* Pods-OrangeHRM-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1000,7 +920,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
@@ -1053,7 +973,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",

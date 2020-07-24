@@ -20,55 +20,37 @@
 
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {
-  NavigationProp,
-  ParamListBase,
-  RouteProp,
-} from '@react-navigation/native';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import SafeAreaLayout from 'layouts/SafeAreaLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
-import {selectFromDate, selectToDate} from 'store/leave/apply-leave/selectors';
+import {
+  selectFromDate,
+  selectToDate,
+} from 'store/leave/common-screens/selectors';
 import {
   pickLeaveFromDate,
   pickLeaveToDate,
-  pickLeaveDates,
-} from 'store/leave/apply-leave/actions';
+  setPickedState,
+} from 'store/leave/common-screens/actions';
 import Button from 'components/DefaultButton';
 import Calendar from 'screens/leave/components/Calendar';
-import {ApplyLeaveNavigatorParamList} from 'screens/leave/navigators/ApplyLeaveNavigator';
-import {PICK_LEAVE_REQUEST_DAYS_CALENDAR, APPLY_LEAVE} from 'screens';
 
 class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
+  componentDidMount() {
+    this.props.setPickedState('pickedLeaveDates', false);
+  }
+
   onPressContinue = () => {
-    this.props.navigation.goBack();
+    if (this.props.fromDate) {
+      this.props.navigation.goBack();
+      this.props.setPickedState('pickedLeaveDates', true);
+    }
   };
 
   render() {
-    const {
-      theme,
-      route,
-      applyLeaveFromDate,
-      applyLeaveToDate,
-      setApplyLeaveFromDate,
-      setApplyLeaveToDate,
-      pickApplyLeaveDates,
-    } = this.props;
-
-    let fromDate;
-    let toDate;
-    let setFromDate;
-    let setToDate;
-    let pickLeaveDatesAction: (state: boolean) => any;
-
-    if (route.params.parent === APPLY_LEAVE) {
-      fromDate = applyLeaveFromDate;
-      toDate = applyLeaveToDate;
-      setFromDate = setApplyLeaveFromDate;
-      setToDate = setApplyLeaveToDate;
-      pickLeaveDatesAction = pickApplyLeaveDates;
-    }
+    const {theme, fromDate, toDate, setFromDate, setToDate} = this.props;
 
     return (
       <SafeAreaLayout>
@@ -94,10 +76,7 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
             title={'Continue'}
             primary
             fullWidth
-            onPress={() => {
-              pickLeaveDatesAction(true);
-              this.onPressContinue();
-            }}
+            onPress={this.onPressContinue}
           />
         </View>
       </SafeAreaLayout>
@@ -109,10 +88,6 @@ interface PickLeaveRequestDaysProps
   extends WithTheme,
     ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
-  route: RouteProp<
-    ApplyLeaveNavigatorParamList,
-    typeof PICK_LEAVE_REQUEST_DAYS_CALENDAR
-  >;
 }
 
 const styles = StyleSheet.create({
@@ -123,14 +98,14 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: RootState) => ({
-  applyLeaveFromDate: selectFromDate(state),
-  applyLeaveToDate: selectToDate(state),
+  fromDate: selectFromDate(state),
+  toDate: selectToDate(state),
 });
 
 const mapDispatchToProps = {
-  setApplyLeaveFromDate: pickLeaveFromDate,
-  setApplyLeaveToDate: pickLeaveToDate,
-  pickApplyLeaveDates: pickLeaveDates,
+  setFromDate: pickLeaveFromDate,
+  setToDate: pickLeaveToDate,
+  setPickedState,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

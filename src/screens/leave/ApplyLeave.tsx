@@ -30,19 +30,36 @@ import {
   selectSelectedLeaveTypeId,
 } from 'store/leave/leave-usage/selectors';
 import {
+  selectApplyLeaveFromDate,
+  selectApplyLeaveToDate,
+  selectApplyLeaveDuration,
+  selectApplyLeavePartialOption,
+  selectApplyLeaveComment,
+} from 'store/leave/apply-leave/selectors';
+import {
+  saveSingleDayLeaveRequest,
+  saveMultipleDayLeaveRequest,
+  pickApplyLeaveComment,
+  pickApplyLeaveFromDate,
+  pickApplyLeaveToDate,
+  pickApplyLeaveSingleDayDuration,
+  pickApplyLeaveMultipleDayPartialOption,
+} from 'store/leave/apply-leave/actions';
+import {
+  selectLeaveType,
+  fetchMyLeaveEntitlements,
+} from 'store/leave/leave-usage/actions';
+import {
   selectFromDate,
   selectToDate,
   selectDuration,
   selectPartialOption,
-  selectLeaveComment,
-} from 'store/leave/apply-leave/selectors';
-import {selectLeaveType} from 'store/leave/leave-usage/actions';
-import {
-  saveSingleDayLeaveRequest,
-  saveMultipleDayLeaveRequest,
-  pickLeaveComment,
-} from 'store/leave/apply-leave/actions';
-import {fetchMyLeaveEntitlements} from 'store/leave/leave-usage/actions';
+  selectPickedLeaveDates,
+  selectPickedLeaveDuration,
+  selectPickedLeavePartialOption,
+} from 'store/leave/common-screens/selectors';
+import {selectPreviousRoute, selectCurrentRoute} from 'store/globals/selectors';
+import {setCommonLeaveScreensState} from 'store/leave/common-screens/actions';
 import Button from 'components/DefaultButton';
 import PickLeaveRequestType from 'screens/leave/components/PickLeaveRequestType';
 import PickLeaveRequestDays from 'screens/leave/components/PickLeaveRequestDays';
@@ -50,20 +67,21 @@ import PickLeaveRequestComment, {
   PickLeaveRequestCommentInput,
 } from 'screens/leave/components/PickLeaveRequestComment';
 import Divider from 'components/DefaultDivider';
-import {APPLY_LEAVE} from 'screens';
-import {isSingleDayRequest, isMultipleDayRequest} from 'lib/helpers/leave';
-import {LeaveRequest} from 'store/leave/apply-leave/types';
 import {
-  resetSingleDayDuration as resetSingleDayDurationAction,
-  resetMultipleDayPartialOption as resetMultipleDayPartialOptionAction,
-} from 'store/leave/apply-leave/actions';
+  APPLY_LEAVE,
+  APPLY_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR,
+  APPLY_LEAVE_PICK_LEAVE_REQUEST_DURATION,
+  APPLY_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS,
+} from 'screens';
+import {isSingleDayRequest, isMultipleDayRequest} from 'lib/helpers/leave';
+import {LeaveRequest} from 'store/leave/common-screens/types';
 
 class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
   constructor(props: ApplyLeaveProps) {
     super(props);
     this.state = {
       typingComment: false,
-      showRequestDaysError: false,
+      requestDaysError: '',
     };
     this.updateEntitlements();
   }
@@ -74,6 +92,51 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
 
   componentWillUnmount() {
     Keyboard.removeListener('keyboardDidHide', this.hideCommentInput);
+  }
+
+  componentDidUpdate(prevProps: ApplyLeaveProps) {
+    const {
+      previousRoute,
+      currentRoute,
+      fromDate,
+      toDate,
+      duration,
+      partialOption,
+      pickedLeaveDates,
+      pickedLeaveDuration,
+      pickedLeavePartialOption,
+    } = this.props;
+    if (
+      prevProps.previousRoute !== previousRoute &&
+      currentRoute?.startsWith(APPLY_LEAVE)
+    ) {
+      if (previousRoute === APPLY_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR) {
+        if (pickedLeaveDates) {
+          this.hideRequestDaysError();
+          this.props.pickApplyLeaveFromDate(this.props.commonFromDate);
+          this.props.pickApplyLeaveToDate(this.props.commonToDate);
+        }
+      } else if (previousRoute === APPLY_LEAVE_PICK_LEAVE_REQUEST_DURATION) {
+        if (pickedLeaveDuration) {
+          this.props.pickApplyLeaveSingleDayDuration(this.props.commonDuration);
+        }
+      } else if (
+        previousRoute === APPLY_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS
+      ) {
+        if (pickedLeavePartialOption) {
+          this.props.pickApplyLeaveMultipleDayPartialOption(
+            this.props.commonPartialOption,
+          );
+        }
+      } else {
+        this.props.setCommonLeaveScreensState({
+          fromDate,
+          toDate,
+          duration,
+          partialOption,
+        });
+      }
+    }
   }
 
   toggleCommentInput = () => {
@@ -123,10 +186,18 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
           ...partialOption,
         });
       }
-      this.setState({showRequestDaysError: false});
+      this.hideRequestDaysError();
     } else {
-      this.setState({showRequestDaysError: true});
+      this.showRequestDaysError();
     }
+  };
+
+  showRequestDaysError = () => {
+    this.setState({requestDaysError: 'Required'});
+  };
+
+  hideRequestDaysError = () => {
+    this.setState({requestDaysError: ''});
   };
 
   onRefresh = () => {
@@ -151,10 +222,8 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       partialOption,
       comment,
       setLeaveComment,
-      resetSingleDayDuration,
-      resetMultipleDayPartialOption,
     } = this.props;
-    const {typingComment, showRequestDaysError} = this.state;
+    const {typingComment, requestDaysError} = this.state;
     return (
       <MainLayout
         onRefresh={entitlements ? undefined : this.onRefresh}
@@ -204,14 +273,14 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
             selectLeaveTypeAction={selectLeaveTypeAction}
           />
           <PickLeaveRequestDays
-            currentRoute={APPLY_LEAVE}
             fromDate={fromDate}
             toDate={toDate}
             duration={duration}
             partialOption={partialOption}
-            resetDuration={resetSingleDayDuration}
-            resetPartialOption={resetMultipleDayPartialOption}
-            showError={showRequestDaysError}
+            calendarScreenRoute={APPLY_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR}
+            durationScreenRoute={APPLY_LEAVE_PICK_LEAVE_REQUEST_DURATION}
+            partialDaysScreenRoute={APPLY_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS}
+            error={requestDaysError}
           />
           <View style={{paddingTop: theme.spacing * 2}}>
             <PickLeaveRequestComment
@@ -231,7 +300,7 @@ interface ApplyLeaveProps extends WithTheme, ConnectedProps<typeof connector> {
 
 interface ApplyLeaveState {
   typingComment: boolean;
-  showRequestDaysError: boolean;
+  requestDaysError: string;
 }
 
 const styles = StyleSheet.create({
@@ -243,11 +312,20 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: RootState) => ({
   entitlements: selectEntitlement(state),
   selectedLeaveTypeId: selectSelectedLeaveTypeId(state),
-  fromDate: selectFromDate(state),
-  toDate: selectToDate(state),
-  duration: selectDuration(state),
-  partialOption: selectPartialOption(state),
-  comment: selectLeaveComment(state),
+  fromDate: selectApplyLeaveFromDate(state),
+  toDate: selectApplyLeaveToDate(state),
+  duration: selectApplyLeaveDuration(state),
+  partialOption: selectApplyLeavePartialOption(state),
+  comment: selectApplyLeaveComment(state),
+  commonFromDate: selectFromDate(state),
+  commonToDate: selectToDate(state),
+  commonDuration: selectDuration(state),
+  commonPartialOption: selectPartialOption(state),
+  previousRoute: selectPreviousRoute(state),
+  currentRoute: selectCurrentRoute(state),
+  pickedLeaveDates: selectPickedLeaveDates(state),
+  pickedLeaveDuration: selectPickedLeaveDuration(state),
+  pickedLeavePartialOption: selectPickedLeavePartialOption(state),
 });
 
 const mapDispatchToProps = {
@@ -255,9 +333,12 @@ const mapDispatchToProps = {
   saveSingleDayLeaveRequest: saveSingleDayLeaveRequest,
   saveMultipleDayLeaveRequest: saveMultipleDayLeaveRequest,
   fetchMyLeaveEntitlements: fetchMyLeaveEntitlements,
-  setLeaveComment: pickLeaveComment,
-  resetSingleDayDuration: resetSingleDayDurationAction,
-  resetMultipleDayPartialOption: resetMultipleDayPartialOptionAction,
+  setLeaveComment: pickApplyLeaveComment,
+  pickApplyLeaveFromDate,
+  pickApplyLeaveToDate,
+  pickApplyLeaveSingleDayDuration,
+  pickApplyLeaveMultipleDayPartialOption,
+  setCommonLeaveScreensState,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

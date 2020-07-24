@@ -20,20 +20,35 @@
 
 import {RootState} from 'store';
 import {createSelector} from 'reselect';
+import {GlobalsState, SnackMessage, Loader} from 'store/globals/types';
 
 export const selectGlobals = (state: RootState) => state.globals;
 
-export const selectSnackMessage = createSelector(
-  selectGlobals,
-  (globals) => globals.snackMessage,
-);
+export const selectSnackMessage = createSelector<
+  RootState,
+  GlobalsState,
+  SnackMessage
+>(selectGlobals, (globals) => globals.snackMessage);
 
-export const selectLoader = createSelector(
+export const selectLoader = createSelector<RootState, GlobalsState, Loader>(
   selectGlobals,
   (globals) => globals.loader,
 );
 
-export const selectInitialRoute = createSelector(
-  selectGlobals,
-  (globals) => globals.initialRoute,
-);
+export const selectInitialRoute = createSelector<
+  RootState,
+  GlobalsState,
+  string
+>(selectGlobals, (globals) => globals.initialRoute);
+
+export const selectPreviousRoute = createSelector<
+  RootState,
+  GlobalsState,
+  string | undefined
+>(selectGlobals, (globals) => globals.previousRoute);
+
+export const selectCurrentRoute = createSelector<
+  RootState,
+  GlobalsState,
+  string | undefined
+>(selectGlobals, (globals) => globals.currentRoute);

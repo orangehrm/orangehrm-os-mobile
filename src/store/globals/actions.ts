@@ -23,12 +23,14 @@ import {
   CLOSE_SNACK_MESSAGE,
   OPEN_LOADER,
   CLOSE_LOADER,
+  CHANGE_CURRENT_ROUTE,
   Loader,
   SnackTypes,
   ShowSnackAction,
   CloseSnackAction,
   OpenLoaderAction,
   CloseLoaderAction,
+  ChangeCurrentRouteAction,
 } from './types';
 
 export const showSnackMessage = (
@@ -62,3 +64,14 @@ export const closeLoader = (): CloseLoaderAction => {
     type: CLOSE_LOADER,
   };
 };
+
+/**
+ * Derive previous route by current route
+ * @param currentRoute
+ */
+export const changeCurrentRoute = (
+  currentRoute: string,
+): ChangeCurrentRouteAction => ({
+  type: CHANGE_CURRENT_ROUTE,
+  route: currentRoute,
+});

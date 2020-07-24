@@ -20,56 +20,20 @@
 
 import React from 'react';
 import {Subtract} from 'utility-types';
-import {useSelector, useDispatch} from 'react-redux';
-import {selectLoader, selectSnackMessage} from 'store/globals/selectors';
-import {
-  openLoader,
-  closeLoader,
-  showSnackMessage,
-  closeSnackMessage,
-} from 'store/globals/actions';
-import {RootState} from 'store';
-import {GlobalsState} from 'store/globals/types';
+import useGlobals, {Globals} from 'lib/hook/useGlobals';
 
 const withGlobals = <T extends WithGlobals = WithGlobals>(_options = {}) => {
   return (
     WrappedComponent: React.ComponentType<T>,
   ): React.FC<PropsWithoutWithGlobals<T>> => {
     return (props: PropsWithoutWithGlobals<T>) => {
-      const loader = useSelector((state: RootState) => selectLoader(state));
-      const snackMessage = useSelector((state: RootState) =>
-        selectSnackMessage(state),
-      );
-      const dispatch = useDispatch();
-      return (
-        <WrappedComponent
-          {...(props as T)}
-          loader={loader}
-          snackMessage={snackMessage}
-          openLoader={(...args: Parameters<typeof openLoader>) =>
-            dispatch(openLoader(...args))
-          }
-          closeLoader={(...args: Parameters<typeof closeLoader>) =>
-            dispatch(closeLoader(...args))
-          }
-          showSnackMessage={(...args: Parameters<typeof showSnackMessage>) =>
-            dispatch(showSnackMessage(...args))
-          }
-          closeSnackMessage={(...args: Parameters<typeof closeSnackMessage>) =>
-            dispatch(closeSnackMessage(...args))
-          }
-        />
-      );
+      const globals = useGlobals();
+      return <WrappedComponent {...(props as T)} {...globals} />;
     };
   };
 };
 
-export interface WithGlobals extends GlobalsState {
-  openLoader: typeof openLoader;
-  closeLoader: typeof closeLoader;
-  showSnackMessage: typeof showSnackMessage;
-  closeSnackMessage: typeof closeSnackMessage;
-}
+export interface WithGlobals extends Globals {}
 
 type PropsWithoutWithGlobals<T extends WithGlobals> = React.PropsWithChildren<
   Subtract<T, WithGlobals>

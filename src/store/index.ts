@@ -26,6 +26,8 @@ import globalsReducer from './globals/reducer';
 import leaveUsageReducer from './leave/leave-usage/reducer';
 import applyLeaveReducer from './leave/apply-leave/reducer';
 import leaveListReducer from './leave/leave-list/reducer';
+import assignLeaveReducer from './leave/assign-leave/reducer';
+import leaveCommonReducer from './leave/common-screens/reducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -35,6 +37,8 @@ const rootReducer = combineReducers({
   leaveUsage: leaveUsageReducer,
   applyLeave: applyLeaveReducer,
   leaveList: leaveListReducer,
+  assignLeave: assignLeaveReducer,
+  leaveCommon: leaveCommonReducer,
 });
 
 export default rootReducer;

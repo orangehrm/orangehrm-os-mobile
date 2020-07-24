@@ -21,22 +21,17 @@
 import {
   ApplyLeaveState,
   ApplyLeaveActionTypes,
-  PICK_FROM_DATE,
-  PICK_TO_DATE,
-  PICK_LEAVE_DATES,
-  FULL_DAY,
-  PARTIAL_OPTION_NONE,
+  PICK_APPLY_LEAVE_FROM_DATE,
+  PICK_APPLY_LEAVE_TO_DATE,
   PICK_SINGLE_DAY_DURATION,
   PICK_MULTIPLE_DAY_PARTIAL_OPTION,
   PICK_LEAVE_COMMENT,
   RESET_APPLY_LEAVE,
-  RESET_SINGLE_DAY_DURATION,
-  RESET_MULTIPLE_DAY_PARTIAL_OPTION,
 } from 'store/leave/apply-leave/types';
+import {FULL_DAY, PARTIAL_OPTION_NONE} from 'store/leave/common-screens/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
 const initialState: ApplyLeaveState = {
-  pickedLeaveDates: false,
   duration: {
     singleType: FULL_DAY,
   },
@@ -50,20 +45,15 @@ const applyLeaveReducer = (
   action: WithLogoutAction<ApplyLeaveActionTypes>,
 ): ApplyLeaveState => {
   switch (action.type) {
-    case PICK_FROM_DATE:
+    case PICK_APPLY_LEAVE_FROM_DATE:
       return {
         ...state,
         fromDate: action.date,
       };
-    case PICK_TO_DATE:
+    case PICK_APPLY_LEAVE_TO_DATE:
       return {
         ...state,
         toDate: action.date,
-      };
-    case PICK_LEAVE_DATES:
-      return {
-        ...state,
-        pickedLeaveDates: action.state,
       };
     case PICK_SINGLE_DAY_DURATION:
       return {
@@ -79,16 +69,6 @@ const applyLeaveReducer = (
       return {
         ...state,
         comment: action.comment,
-      };
-    case RESET_SINGLE_DAY_DURATION:
-      return {
-        ...state,
-        duration: initialState.duration,
-      };
-    case RESET_MULTIPLE_DAY_PARTIAL_OPTION:
-      return {
-        ...state,
-        partialOption: initialState.partialOption,
       };
     case RESET_APPLY_LEAVE:
     case LOGOUT:

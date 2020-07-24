@@ -22,7 +22,6 @@ import React from 'react';
 import {FlatList, View, StyleSheet, ViewProps} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import LeaveBalanceCard from 'screens/leave/components/LeaveBalanceCard';
-import {selectLeaveType} from 'store/leave/leave-usage/actions';
 import {Entitlement} from 'store/leave/leave-usage/types';
 
 class LeaveBalanceRow extends React.Component<LeaveBalanceRowProps> {
@@ -104,7 +103,7 @@ export interface LeaveBalanceRowProps
   marginHorizontal?: number;
   entitlement?: Entitlement[];
   selectedLeaveTypeId?: string;
-  selectLeaveTypeAction: typeof selectLeaveType;
+  selectLeaveTypeAction: (id: string) => {type: string; id: string};
 }
 
 const styles = StyleSheet.create({

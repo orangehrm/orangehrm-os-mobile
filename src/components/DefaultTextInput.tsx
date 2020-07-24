@@ -25,15 +25,18 @@ import {
   TextInput,
   TextInputProps as RNTextInputProps,
 } from 'react-native';
-import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import useTheme from 'lib/hook/useTheme';
 
-const DefaultTextInput = (
-  props: React.PropsWithChildren<DefaultTextInputProps>,
-) => {
-  const {viewProps, theme, ...inputProps} = props;
+const DefaultTextInput = React.forwardRef<
+  TextInput,
+  React.PropsWithChildren<TextInputProps>
+>((props, ref) => {
+  const {viewProps, ...inputProps} = props;
+  const theme = useTheme();
   return (
     <View {...viewProps}>
       <TextInput
+        ref={ref}
         {...inputProps}
         style={[
           {
@@ -45,12 +48,11 @@ const DefaultTextInput = (
       />
     </View>
   );
-};
-
-interface DefaultTextInputProps extends TextInputProps, WithTheme {}
+});
 
 export interface TextInputProps extends RNTextInputProps {
   viewProps?: ViewProps;
+  ref?: React.RefObject<TextInput> | ((instance: TextInput | null) => void);
 }
 
-export default withTheme<DefaultTextInputProps>()(DefaultTextInput);
+export default DefaultTextInput;

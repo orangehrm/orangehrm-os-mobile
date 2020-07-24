@@ -23,7 +23,7 @@ import {NavigationContainerRef} from '@react-navigation/native';
 
 export const navigationRef = React.createRef<NavigationContainerRef>();
 
-export const navigate = (name: string, params: any = {}) => {
+export const navigate = <Params extends {}>(name: string, params?: Params) => {
   navigationRef.current?.navigate(name, params);
 };
 
