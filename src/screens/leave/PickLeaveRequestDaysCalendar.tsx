@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Keyboard} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import SafeAreaLayout from 'layouts/SafeAreaLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -40,6 +40,7 @@ import Calendar from 'screens/leave/components/Calendar';
 class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
   componentDidMount() {
     this.props.setPickedState('pickedLeaveDates', false);
+    Keyboard.dismiss();
   }
 
   onPressContinue = () => {

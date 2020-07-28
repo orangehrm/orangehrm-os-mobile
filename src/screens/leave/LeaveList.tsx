@@ -49,9 +49,7 @@ class LeaveList extends React.Component<LeaveListProps> {
       prevProps.currentRoute !== this.props.currentRoute &&
       this.props.currentRoute === LEAVE_LIST
     ) {
-      if (this.props.leaveList === undefined) {
-        this.props.fetchLeaveList();
-      }
+      this.updateLeaveList();
     }
   }
 
