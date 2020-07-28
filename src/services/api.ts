@@ -23,6 +23,10 @@ import {AuthenticationError} from 'services/errors/authentication';
 
 export const HTTP_NOT_FOUND = '404';
 
+/**
+ * Compare given ISO date with now.
+ * @param expiredAtISO ISO date. e.g. 2020-07-28T07:01:21.152Z
+ */
 export const isAccessTokenExpired = (expiredAtISO: NullableString) => {
   if (typeof expiredAtISO === 'string') {
     const now = new Date();
@@ -32,6 +36,11 @@ export const isAccessTokenExpired = (expiredAtISO: NullableString) => {
   return true;
 };
 
+/**
+ * Return not localized string for given error object
+ * @param error
+ * @param defaultMessage
+ */
 export const getMessageAlongWithGenericErrors = (
   error: any,
   defaultMessage: string = 'Unexpected Error Occurred.',
@@ -46,6 +55,11 @@ export const getMessageAlongWithGenericErrors = (
   return defaultMessage;
 };
 
+/**
+ * Return not localized string for given API response object which contain error
+ * @param response
+ * @param defaultMessage
+ */
 export const getMessageAlongWithResponseErrors = (
   response: any,
   defaultMessage: string = 'Operation Couldn’t Be Completed.',

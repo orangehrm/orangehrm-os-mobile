@@ -68,7 +68,7 @@
       "node"
     ],
     "testRegex": [
-      "./__tests__/[^setup].*.(tsx|ts)$"
+      "./__tests__/.*.(tsx|ts)$"
     ],
     "setupFiles": [
       "./node_modules/react-native-gesture-handler/jestSetup.js",
