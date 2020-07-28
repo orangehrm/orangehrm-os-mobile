@@ -58,7 +58,7 @@ describe('services/api', () => {
     expect(result).toBe('Connection Error! Operation Couldn’t Be Completed.');
   });
 
-  test('getMessageAlongWithGenericErrors::check throw from fetch when offline', () => {
+  test('getMessageAlongWithGenericErrors::check throw when authentication failed', () => {
     const result = getMessageAlongWithGenericErrors(
       new AuthenticationError('Authentication Failed.'),
     );
