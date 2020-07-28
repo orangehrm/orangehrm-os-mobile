@@ -31,6 +31,7 @@ import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 const initialState: AuthState = {
   myInfoSuccess: false,
   isCalledMyInfo: false,
+  isFinishedMyInfo: false,
   checkingInstance: false,
   instanceExists: false,
 };
@@ -45,12 +46,14 @@ const authReducer = (
         ...state,
         myInfo: action.payload,
         myInfoSuccess: !action.error,
+        isFinishedMyInfo: true,
       };
     case FETCH_MY_INFO:
       return {
         ...state,
         myInfoSuccess: false,
         isCalledMyInfo: true,
+        isFinishedMyInfo: false,
       };
     case CHECK_INSTANCE:
       return {

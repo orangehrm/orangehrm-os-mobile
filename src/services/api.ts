@@ -19,6 +19,9 @@
  */
 
 import {NullableString} from 'store/storage/types';
+import {AuthenticationError} from 'services/errors/authentication';
+
+export const HTTP_NOT_FOUND = '404';
 
 export const isAccessTokenExpired = (expiredAtISO: NullableString) => {
   if (typeof expiredAtISO === 'string') {
@@ -27,4 +30,42 @@ export const isAccessTokenExpired = (expiredAtISO: NullableString) => {
     return now.getTime() >= expired.getTime();
   }
   return true;
+};
+
+export const getMessageAlongWithGenericErrors = (
+  error: any,
+  defaultMessage: string = 'Unexpected Error Occurred.',
+) => {
+  if (error instanceof Object && !Array.isArray(error)) {
+    if (error.message === 'Network request failed') {
+      return 'Connection Error! Operation Couldn’t Be Completed.';
+    } else if (error instanceof AuthenticationError) {
+      return error.message;
+    }
+  }
+  return defaultMessage;
+};
+
+export const getMessageAlongWithResponseErrors = (
+  response: any,
+  defaultMessage: string = 'Operation Couldn’t Be Completed.',
+) => {
+  if (response instanceof Object && !Array.isArray(response)) {
+    if (response.error?.status === '404') {
+      return 'No Records Found.';
+    } else if (Array.isArray(response.error)) {
+      if (
+        [
+          'Employee not assigned',
+          'Employee is terminated',
+          'Account disabled',
+        ].includes(response.error[0])
+      ) {
+        throw new AuthenticationError(response.error[0]);
+      } else {
+        return response.error[0];
+      }
+    }
+  }
+  return defaultMessage;
 };
