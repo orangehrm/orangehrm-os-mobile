@@ -53,7 +53,9 @@ import {
 import {fetchMyInfoFinished, checkInstanceFinished} from 'store/auth/actions';
 import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams} from 'store/storage/types';
-import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
+import {TYPE_ERROR} from 'store/globals/types';
+import {getMessageAlongWithGenericErrors} from 'services/api';
+import {AuthenticationError} from 'services/errors/authentication';
 
 function* checkInstance(_action: CheckInstanceAction) {
   try {
@@ -70,14 +72,10 @@ function* checkInstance(_action: CheckInstanceAction) {
     }
   } catch (error) {
     yield put(checkInstanceFinished(true));
-    if (error.message === 'Network request failed') {
-      yield showSnackMessage(
-        'Connection Error! Operation Couldn’t Be Completed.',
-        TYPE_ERROR,
-      );
-    } else {
-      yield showSnackMessage('Could Not Be Reached.', TYPE_ERROR);
-    }
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Could Not Be Reached.'),
+      TYPE_ERROR,
+    );
   } finally {
     yield closeLoader();
   }
@@ -98,15 +96,10 @@ function* fetchAuthToken(action: FetchTokenAction) {
 
       const data = yield call([response, response.json]);
       if (data.error) {
-        switch (data.error) {
-          case 'invalid_client':
-            yield showSnackMessage(
-              'Please add mobile client to your instance.',
-              TYPE_WARN,
-            );
-            break;
-          default:
-            yield showSnackMessage('Invalid Credentials.', TYPE_ERROR);
+        if (data.error === 'authentication_failed') {
+          throw new AuthenticationError(data.error_description);
+        } else {
+          throw new AuthenticationError('Invalid Credentials.');
         }
       } else {
         yield storageSetMulti({
@@ -119,11 +112,11 @@ function* fetchAuthToken(action: FetchTokenAction) {
         });
       }
     } else {
-      yield showSnackMessage('Instance URL is empty', TYPE_ERROR);
+      yield showSnackMessage('Instance URL is empty.', TYPE_ERROR);
     }
   } catch (error) {
     yield showSnackMessage(
-      'Connection Error! Operation Couldn’t Be Completed.',
+      getMessageAlongWithGenericErrors(error, 'Authentication Failed.'),
       TYPE_ERROR,
     );
   } finally {

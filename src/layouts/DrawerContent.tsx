@@ -39,7 +39,7 @@ import Icon from 'components/DefaultIcon';
 import Text from 'components/DefaultText';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
-import {selectMyInfoSuccess, selectMyInfo} from 'store/auth/selectors';
+import {selectMyInfoFinished, selectMyInfo} from 'store/auth/selectors';
 import {fetchMyInfo as fetchMyInfoAction} from 'store/auth/actions';
 
 const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
@@ -47,7 +47,7 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
     theme,
     logoutOnPress,
     myInfo,
-    myInfoSuccess,
+    myInfoFinished,
     fetchMyInfo,
     ...restProps
   } = props;
@@ -70,7 +70,7 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
       <DrawerContentScrollView
         contentContainerStyle={styles.contentContainer}
         refreshControl={
-          <RefreshControl refreshing={!myInfoSuccess} onRefresh={onRefresh} />
+          <RefreshControl refreshing={!myInfoFinished} onRefresh={onRefresh} />
         }>
         <View style={styles.view}>
           <View>
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: RootState) => ({
-  myInfoSuccess: selectMyInfoSuccess(state),
+  myInfoFinished: selectMyInfoFinished(state),
   myInfo: selectMyInfo(state),
 });
 

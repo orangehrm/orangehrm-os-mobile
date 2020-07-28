@@ -35,6 +35,10 @@ import {
 } from 'store/leave/leave-usage/actions';
 import {assignColorsToLeaveTypes} from 'lib/helpers/leave';
 import {TYPE_ERROR} from 'store/globals/types';
+import {
+  getMessageAlongWithGenericErrors,
+  getMessageAlongWithResponseErrors,
+} from 'services/api';
 
 function* fetchMyLeaveEntitlements() {
   try {
@@ -51,10 +55,19 @@ function* fetchMyLeaveEntitlements() {
       );
     } else {
       yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
-      yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Leave Details',
+        ),
+        TYPE_ERROR,
+      );
     }
   } catch (error) {
-    yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Leave Details'),
+      TYPE_ERROR,
+    );
     yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
   } finally {
     yield closeLoader();
@@ -74,10 +87,19 @@ function* fetchMyLeaveRequests() {
       );
     } else {
       yield put(fetchMyLeaveRequestsFinished(undefined, true));
-      yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Leave Details',
+        ),
+        TYPE_ERROR,
+      );
     }
   } catch (error) {
-    yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Leave Details'),
+      TYPE_ERROR,
+    );
     yield put(fetchMyLeaveRequestsFinished(undefined, true));
   } finally {
     yield closeLoader();

@@ -22,6 +22,7 @@ export interface AuthState {
   myInfo?: MyInfo;
   myInfoSuccess: boolean;
   isCalledMyInfo: boolean;
+  isFinishedMyInfo: boolean;
   checkingInstance: boolean;
   instanceExists: boolean;
 }
