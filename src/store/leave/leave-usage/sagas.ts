@@ -36,6 +36,10 @@ import {
 import {assignColorsToLeaveTypes} from 'lib/helpers/leave';
 import {TYPE_ERROR} from 'store/globals/types';
 import {
+  API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT,
+  API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
+} from 'services/endpoints';
+import {
   getMessageAlongWithGenericErrors,
   getMessageAlongWithResponseErrors,
 } from 'services/api';
@@ -45,7 +49,7 @@ function* fetchMyLeaveEntitlements() {
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      '/api/v1/leave/my-leave-entitlement',
+      API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT,
     );
     if (response.data) {
       yield put(
@@ -79,7 +83,7 @@ function* fetchMyLeaveRequests() {
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      '/api/v1/leave/my-leave-request',
+      API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
     );
     if (response.data) {
       yield put(

@@ -43,6 +43,11 @@ import {
 } from 'lib/helpers/leave';
 import {TYPE_ERROR} from 'store/globals/types';
 import {
+  API_ENDPOINT_LEAVE_LIST,
+  API_ENDPOINT_LEAVE_REQUEST,
+  prepare,
+} from 'services/endpoints';
+import {
   getMessageAlongWithGenericErrors,
   getMessageAlongWithResponseErrors,
 } from 'services/api';
@@ -52,7 +57,7 @@ function* fetchLeaveList() {
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      '/api/v1/leave/leave-list?pendingApproval=true',
+      prepare(API_ENDPOINT_LEAVE_LIST, {}, {pendingApproval: true}),
     );
     if (response.data) {
       yield put(
@@ -84,7 +89,7 @@ function* fetchEmployeeLeaveRequest(action: FetchEmployeeLeaveRequestAction) {
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      `/api/v1/leave/leave-request/${action.leaveRequestId}`,
+      prepare(API_ENDPOINT_LEAVE_REQUEST, {id: action.leaveRequestId}),
     );
     if (response.data) {
       yield put(
@@ -120,7 +125,7 @@ function* changeEmployeeLeaveRequestStatus(
     yield openLoader();
     const response = yield apiCall(
       apiPostCall,
-      `/api/v1/leave/leave-request/${action.leaveRequestId}`,
+      prepare(API_ENDPOINT_LEAVE_REQUEST, {id: action.leaveRequestId}),
       action.action,
     );
 

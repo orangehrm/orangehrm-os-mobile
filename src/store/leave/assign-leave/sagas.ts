@@ -43,6 +43,12 @@ import {resetLeaveList} from 'store/leave/leave-list/actions';
 import {assignColorsToLeaveTypes} from 'lib/helpers/leave';
 import {TYPE_ERROR} from 'store/globals/types';
 import {
+  API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST,
+  API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT,
+  API_ENDPOINT_EMPLOYEES,
+  prepare,
+} from 'services/endpoints';
+import {
   getMessageAlongWithGenericErrors,
   getMessageAlongWithResponseErrors,
   HTTP_NOT_FOUND,
@@ -57,7 +63,7 @@ function* saveLeaveRequest(
     yield openLoader();
     const response = yield apiCall(
       apiPostCall,
-      `/api/v1/subordinate/${action.empNumber}/leave-request`,
+      prepare(API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST, {id: action.empNumber}),
       action.payload,
     );
 
@@ -88,7 +94,9 @@ function* fetchSubordinateLeaveEntitlements(
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      `/api/v1/subordinate/${action.empNumber}/leave-entitlement`,
+      prepare(API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT, {
+        id: action.empNumber,
+      }),
     );
     if (response.data) {
       yield put(
@@ -125,11 +133,13 @@ function* fetchSubordinateLeaveEntitlements(
 function* fetchAccessibleEmployees() {
   try {
     yield openLoader();
-    const queryParams =
-      'actionName=assign_leave&properties[]=firstName&properties[]=lastName&properties[]=employeeId';
+    const queryParams = {
+      actionName: 'assign_leave',
+      properties: ['firstName', 'lastName', 'employeeId'],
+    };
     const response = yield apiCall(
       apiGetCall,
-      `/api/v1/employees?${queryParams}`,
+      prepare(API_ENDPOINT_EMPLOYEES, {}, queryParams),
     );
     if (response.data) {
       yield put(fetchSubordinatesFinished(response.data));
