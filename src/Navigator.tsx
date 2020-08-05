@@ -30,9 +30,13 @@ import {
   selectInstanceUrl,
   selectUsername,
 } from 'store/storage/selectors';
-import {logout} from 'store/auth/actions';
 import {fetchMyInfo} from 'store/auth/actions';
-import {selectMyInfoSuccess, selectIsCalledMyInfo} from 'store/auth/selectors';
+import {
+  selectMyInfoSuccess,
+  selectIsCalledMyInfo,
+  selectMyInfo,
+} from 'store/auth/selectors';
+import {USER_ROLE_ADMIN} from 'store/auth/types';
 import {selectInitialRoute} from 'store/globals/selectors';
 import {navigationRef, getNavigation} from 'lib/helpers/navigation';
 import useGlobals from 'lib/hook/useGlobals';
@@ -67,6 +71,7 @@ const Navigator = (props: NavigatorProps) => {
     myInfoSuccess,
     isCalledMyInfo,
     initialRoute,
+    myInfo,
   } = props;
   const dimensions = useWindowDimensions();
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -122,13 +127,7 @@ const Navigator = (props: NavigatorProps) => {
           openByDefault={false}
           drawerType={isLargeScreen ? 'permanent' : 'front'}
           drawerContent={(drawerContentProps: any) => (
-            <DrawerContent
-              {...drawerContentProps}
-              logoutOnPress={() => {
-                drawerContentProps.navigation.closeDrawer();
-                props.logout();
-              }}
-            />
+            <DrawerContent {...drawerContentProps} />
           )}>
           <Drawer.Screen
             name={APPLY_LEAVE}
@@ -142,18 +141,23 @@ const Navigator = (props: NavigatorProps) => {
             options={{drawerLabel: 'My Leave Usage'}}
             initialParams={{subheader: SUBHEADER_LEAVE}}
           />
-          <Drawer.Screen
-            name={LEAVE_LIST}
-            component={LeaveList}
-            options={{drawerLabel: 'Leave List'}}
-            initialParams={{subheader: SUBHEADER_LEAVE}}
-          />
-          <Drawer.Screen
-            name={ASSIGN_LEAVE}
-            component={AssignLeave}
-            options={{drawerLabel: 'Assign Leave'}}
-            initialParams={{subheader: SUBHEADER_LEAVE}}
-          />
+          {myInfo?.user.userRole === USER_ROLE_ADMIN ||
+          myInfo?.user.isSupervisor === true ? (
+            <>
+              <Drawer.Screen
+                name={LEAVE_LIST}
+                component={LeaveList}
+                options={{drawerLabel: 'Leave List'}}
+                initialParams={{subheader: SUBHEADER_LEAVE}}
+              />
+              <Drawer.Screen
+                name={ASSIGN_LEAVE}
+                component={AssignLeave}
+                options={{drawerLabel: 'Assign Leave'}}
+                initialParams={{subheader: SUBHEADER_LEAVE}}
+              />
+            </>
+          ) : null}
         </Drawer.Navigator>
       );
     } else {
@@ -187,10 +191,10 @@ const mapStateToProps = (state: RootState) => ({
   myInfoSuccess: selectMyInfoSuccess(state),
   isCalledMyInfo: selectIsCalledMyInfo(state),
   initialRoute: selectInitialRoute(state),
+  myInfo: selectMyInfo(state),
 });
 
 const mapDispatchToProps = {
-  logout: logout,
   fetchMyInfo: fetchMyInfo,
 };
 

@@ -18,6 +18,9 @@
  *
  */
 
+export const USER_ROLE_ADMIN = 'Admin';
+export const USER_ROLE_ESS = 'ESS';
+
 export interface AuthState {
   myInfo?: MyInfo;
   myInfoSuccess: boolean;
@@ -97,7 +100,7 @@ export interface Employee {
   code: string;
   jobTitle: NullableString;
   unit: NullableString;
-  supervisor: NullableString;
+  supervisor: null | Supervisor[];
 }
 
 export interface EmployeePhoto {
@@ -106,13 +109,26 @@ export interface EmployeePhoto {
 
 export interface User {
   userName: string;
-  userRole: string;
+  userRole: typeof USER_ROLE_ADMIN | typeof USER_ROLE_ESS;
+  isSupervisor: boolean;
+  isProjectAdmin: boolean;
+  isManager: boolean;
+  isDirector: boolean;
+  isAcceptor: boolean;
+  isOfferer: boolean;
+  isHiringManager: boolean;
+  isInterviewer: boolean;
 }
 
 export interface MyInfo {
   employee: Employee;
   employeePhoto: NullableString;
   user: User;
+}
+
+export interface Supervisor {
+  id: string;
+  name: string;
 }
 
 export type AuthResponse = AuthSuccessResponse | AuthErrorResponse;
