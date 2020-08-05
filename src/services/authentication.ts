@@ -18,6 +18,8 @@
  *
  */
 
+import {API_ENDPOINT_AUTH_ISSUE_TOKEN} from 'services/endpoints';
+
 export const PUBLIC_MOBILE_CLIENT_ID = 'mobile';
 export const PUBLIC_MOBILE_CLIENT_SECRET = 'mobile';
 export const GRANT_TYPE_PASSWORD = 'password';
@@ -58,7 +60,7 @@ export const checkInstance = (instanceUrl: string) => {
 };
 
 export const authRequest = (instanceUrl: string, body: object) => {
-  const authEndpoint = instanceUrl + '/oauth/issueToken';
+  const authEndpoint = instanceUrl + API_ENDPOINT_AUTH_ISSUE_TOKEN;
 
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');

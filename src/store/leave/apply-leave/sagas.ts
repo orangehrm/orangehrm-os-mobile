@@ -37,6 +37,7 @@ import {
 } from 'store/leave/leave-usage/actions';
 import {resetApplyLeave} from 'store/leave/apply-leave/actions';
 import {TYPE_ERROR} from 'store/globals/types';
+import {API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST} from 'services/endpoints';
 
 function* saveLeaveRequest(
   action: ApplySingleDayLeaveRequestAction | ApplyMultipleDayLeaveRequestAction,
@@ -45,7 +46,7 @@ function* saveLeaveRequest(
     yield openLoader();
     const response = yield apiCall(
       apiPostCall,
-      '/api/v1/leave/my-leave-request',
+      API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
       action.payload,
     );
 
