@@ -42,13 +42,22 @@ import {
   assignColorToLeaveType,
 } from 'lib/helpers/leave';
 import {TYPE_ERROR} from 'store/globals/types';
+import {
+  API_ENDPOINT_LEAVE_LIST,
+  API_ENDPOINT_LEAVE_REQUEST,
+  prepare,
+} from 'services/endpoints';
+import {
+  getMessageAlongWithGenericErrors,
+  getMessageAlongWithResponseErrors,
+} from 'services/api';
 
 function* fetchLeaveList() {
   try {
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      '/api/v1/leave/leave-list?pendingApproval=true',
+      prepare(API_ENDPOINT_LEAVE_LIST, {}, {pendingApproval: true}),
     );
     if (response.data) {
       yield put(
@@ -56,10 +65,19 @@ function* fetchLeaveList() {
       );
     } else {
       yield put(fetchLeaveListFinished(undefined, true));
-      yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Leave Details',
+        ),
+        TYPE_ERROR,
+      );
     }
   } catch (error) {
-    yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Leave Details'),
+      TYPE_ERROR,
+    );
     yield put(fetchLeaveListFinished(undefined, true));
   } finally {
     yield closeLoader();
@@ -71,7 +89,7 @@ function* fetchEmployeeLeaveRequest(action: FetchEmployeeLeaveRequestAction) {
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      `/api/v1/leave/leave-request/${action.leaveRequestId}`,
+      prepare(API_ENDPOINT_LEAVE_REQUEST, {id: action.leaveRequestId}),
     );
     if (response.data) {
       yield put(
@@ -81,10 +99,19 @@ function* fetchEmployeeLeaveRequest(action: FetchEmployeeLeaveRequestAction) {
       );
     } else {
       yield put(fetchEmployeeLeaveRequestFinished(undefined, true));
-      yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Leave Details',
+        ),
+        TYPE_ERROR,
+      );
     }
   } catch (error) {
-    yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Leave Details'),
+      TYPE_ERROR,
+    );
     yield put(fetchEmployeeLeaveRequestFinished(undefined, true));
   } finally {
     yield closeLoader();
@@ -98,7 +125,7 @@ function* changeEmployeeLeaveRequestStatus(
     yield openLoader();
     const response = yield apiCall(
       apiPostCall,
-      `/api/v1/leave/leave-request/${action.leaveRequestId}`,
+      prepare(API_ENDPOINT_LEAVE_REQUEST, {id: action.leaveRequestId}),
       action.action,
     );
 
@@ -107,10 +134,19 @@ function* changeEmployeeLeaveRequestStatus(
       yield put(fetchEmployeeLeaveRequestAction(action.leaveRequestId));
       yield showSnackMessage('Successfully Submited');
     } else {
-      yield showSnackMessage('Failed to Update Leave Request', TYPE_ERROR);
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Update Leave Request',
+        ),
+        TYPE_ERROR,
+      );
     }
   } catch (error) {
-    yield showSnackMessage('Failed to Update Leave Request', TYPE_ERROR);
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Update Leave Request'),
+      TYPE_ERROR,
+    );
   } finally {
     yield closeLoader();
   }

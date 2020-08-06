@@ -18,11 +18,60 @@
  *
  */
 
-const API_ENDPOINT_AUTH_ISSUE_TOKEN = '/oauth/issueToken';
-const API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST = '/api/v1/leave/my-leave-request';
+import {EndpointError} from 'services/errors/endpoints';
 
-export {
-    API_ENDPOINT_AUTH_ISSUE_TOKEN,
-    API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
-  };
-  
+export const API_ENDPOINT_AUTH_ISSUE_TOKEN = '/oauth/issueToken';
+export const API_ENDPOINT_MY_INFO = '/api/v1/myinfo';
+export const API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT =
+  '/api/v1/leave/my-leave-entitlement';
+export const API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST =
+  '/api/v1/leave/my-leave-request';
+export const API_ENDPOINT_LEAVE_LIST = '/api/v1/leave/leave-list';
+export const API_ENDPOINT_LEAVE_REQUEST = '/api/v1/leave/leave-request/{id}';
+export const API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT =
+  '/api/v1/subordinate/{id}/leave-entitlement';
+export const API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST =
+  '/api/v1/subordinate/{id}/leave-request';
+export const API_ENDPOINT_EMPLOYEES = '/api/v1/employees';
+export const API_ENDPOINT_API_DEFINITION = '/api/v1/api-definition';
+
+export const prepare = (
+  endpoint: string,
+  params: {[key: string]: string | number} = {},
+  query: {[key: string]: string | number | boolean | string[]} = {},
+) => {
+  let preparedEndpoint = endpoint;
+  Object.keys(params).forEach((param) => {
+    const paramPlaceholder = `{${param}}`;
+    if (preparedEndpoint.includes(paramPlaceholder)) {
+      let paramValue = params[param];
+      if (typeof paramValue === 'number') {
+        paramValue = paramValue.toString();
+      }
+      preparedEndpoint = preparedEndpoint.replace(paramPlaceholder, paramValue);
+    } else {
+      throw new EndpointError('Invalid parameter.');
+    }
+  });
+  let preparedQueryString = '?';
+  const queryKeys = Object.keys(query);
+  queryKeys.forEach((queryKey, index) => {
+    if (index !== 0) {
+      preparedQueryString += '&';
+    }
+    const queryValue = query[queryKey];
+    if (Array.isArray(queryValue)) {
+      queryValue.forEach((queryValueItem, itemIndex) => {
+        if (itemIndex !== 0) {
+          preparedQueryString += '&';
+        }
+        preparedQueryString += `${queryKey}[]=${queryValueItem}`;
+      });
+    } else {
+      preparedQueryString += `${queryKey}=${queryValue}`;
+    }
+  });
+  return encodeURI(
+    preparedEndpoint + (queryKeys.length === 0 ? '' : preparedQueryString),
+  );
+};

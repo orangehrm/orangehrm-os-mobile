@@ -18,7 +18,7 @@
  *
  */
 
-import {call} from 'redux-saga/effects';
+import {call, put} from 'redux-saga/effects';
 import {isAccessTokenExpired} from 'services/api';
 import {getNewAccessToken} from 'services/authentication';
 import {
@@ -31,8 +31,8 @@ import {
 import {storageSetMulti, selectAuthParams} from 'store/saga-effects/storage';
 import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams} from 'store/storage/types';
-
-export const HTTP_NOT_FOUND = '404';
+import {logout} from 'store/auth/actions';
+import {AuthenticationError} from 'services/errors/authentication';
 
 export function* apiCall<Fn extends (...args: any[]) => any>(
   fn: Fn,
@@ -49,14 +49,33 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
       );
       const data = yield call([response, response.json]);
 
-      yield storageSetMulti({
-        [ACCESS_TOKEN]: data.access_token,
-        // TODO: Not recieving from issue token endpoint
-        // [REFRESH_TOKEN]: data.refresh_token,
-        [TOKEN_TYPE]: data.token_type,
-        [SCOPE]: data.scope,
-        [EXPIRES_AT]: getExpiredAt(data.expires_in),
-      });
+      if (data.access_token) {
+        yield storageSetMulti({
+          [ACCESS_TOKEN]: data.access_token,
+          ...(data.refresh_token !== undefined &&
+            data.refresh_token !== null && {
+              [REFRESH_TOKEN]: data.refresh_token,
+            }),
+          [TOKEN_TYPE]: data.token_type,
+          [SCOPE]: data.scope,
+          [EXPIRES_AT]: getExpiredAt(data.expires_in),
+        });
+      } else {
+        if (data.error === 'authentication_failed') {
+          // employee not assigned, terminated, disabled
+          yield put(logout());
+          throw new AuthenticationError(data.error_description);
+        } else if (
+          data.error === 'invalid_grant' &&
+          data.error_description === 'Refresh token has expired'
+        ) {
+          // expire refresh token time
+          yield put(logout());
+          throw new AuthenticationError('Authentication Expired');
+        } else {
+          throw new AuthenticationError('Authentication Failed');
+        }
+      }
     } else {
       throw new Error("Couldn't call with empty instanceUrl or refreshToken.");
     }

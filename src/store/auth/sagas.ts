@@ -18,7 +18,7 @@
  *
  */
 
-import {call, takeEvery, put} from 'redux-saga/effects';
+import {call, takeEvery, put, select} from 'redux-saga/effects';
 import {
   FETCH_TOKEN,
   LOGOUT,
@@ -27,10 +27,13 @@ import {
   FetchTokenAction,
   CheckInstanceAction,
 } from './types';
+import {authenticate} from 'services/authentication';
 import {
-  authenticate,
   checkInstance as checkInstanceRequest,
-} from 'services/authentication';
+  checkInstanceCompatibility,
+  checkRemovedEndpoints,
+  checkDeprecatedEndpoints,
+} from 'services/instance-check';
 import {
   USERNAME,
   ACCESS_TOKEN,
@@ -54,29 +57,35 @@ import {fetchMyInfoFinished, checkInstanceFinished} from 'store/auth/actions';
 import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams} from 'store/storage/types';
 import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
+import {getMessageAlongWithGenericErrors} from 'services/api';
+import {selectInstanceExists} from 'store/auth/selectors';
+import {API_ENDPOINT_MY_INFO, prepare} from 'services/endpoints';
+import {AuthenticationError} from 'services/errors/authentication';
 
-function* checkInstance(_action: CheckInstanceAction) {
+function* checkInstance(action?: CheckInstanceAction) {
   try {
     yield openLoader();
     const instanceUrl: string = yield selectInstanceUrl();
     const response = yield call(checkInstanceRequest, instanceUrl);
     const data = yield call([response, response.json]);
 
-    // TODO: Replace check success response from new endpoint instead error result from `issueToken`
-    if (data.error === 'invalid_request') {
-      yield put(checkInstanceFinished());
-    } else {
-      yield put(checkInstanceFinished(true));
+    checkInstanceCompatibility(data);
+    checkRemovedEndpoints(data);
+    const usingDeprecatedEndpoints = checkDeprecatedEndpoints(data);
+    if (usingDeprecatedEndpoints) {
+      yield showSnackMessage('Please Update the Application.', TYPE_WARN);
     }
+
+    yield put(checkInstanceFinished());
   } catch (error) {
-    yield put(checkInstanceFinished(true));
-    if (error.message === 'Network request failed') {
+    if (action) {
+      yield put(checkInstanceFinished(true));
       yield showSnackMessage(
-        'Connection Error! Operation Couldn’t Be Completed.',
+        getMessageAlongWithGenericErrors(error, 'Could Not Be Reached.'),
         TYPE_ERROR,
       );
     } else {
-      yield showSnackMessage('Could Not Be Reached.', TYPE_ERROR);
+      throw error;
     }
   } finally {
     yield closeLoader();
@@ -86,6 +95,10 @@ function* checkInstance(_action: CheckInstanceAction) {
 function* fetchAuthToken(action: FetchTokenAction) {
   try {
     yield openLoader();
+    const instanceExists = yield select(selectInstanceExists);
+    if (!instanceExists) {
+      yield* checkInstance();
+    }
     const authParams: AuthParams = yield selectAuthParams();
 
     if (authParams.instanceUrl !== null) {
@@ -98,15 +111,10 @@ function* fetchAuthToken(action: FetchTokenAction) {
 
       const data = yield call([response, response.json]);
       if (data.error) {
-        switch (data.error) {
-          case 'invalid_client':
-            yield showSnackMessage(
-              'Please add mobile client to your instance.',
-              TYPE_WARN,
-            );
-            break;
-          default:
-            yield showSnackMessage('Invalid Credentials.', TYPE_ERROR);
+        if (data.error === 'authentication_failed') {
+          throw new AuthenticationError(data.error_description);
+        } else {
+          throw new AuthenticationError('Invalid Credentials.');
         }
       } else {
         yield storageSetMulti({
@@ -119,11 +127,11 @@ function* fetchAuthToken(action: FetchTokenAction) {
         });
       }
     } else {
-      yield showSnackMessage('Instance URL is empty', TYPE_ERROR);
+      yield showSnackMessage('Instance URL is empty.', TYPE_ERROR);
     }
   } catch (error) {
     yield showSnackMessage(
-      'Connection Error! Operation Couldn’t Be Completed.',
+      getMessageAlongWithGenericErrors(error, 'Authentication Failed.'),
       TYPE_ERROR,
     );
   } finally {
@@ -151,7 +159,10 @@ function* logout() {
 
 function* fetchMyInfo() {
   try {
-    const response = yield apiCall(apiGetCall, '/api/v1/myinfo');
+    const response = yield apiCall(
+      apiGetCall,
+      prepare(API_ENDPOINT_MY_INFO, {}, {withPhoto: true}),
+    );
     if (response.data) {
       yield put(fetchMyInfoFinished(response.data));
     } else {

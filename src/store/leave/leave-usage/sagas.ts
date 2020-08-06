@@ -35,13 +35,21 @@ import {
 } from 'store/leave/leave-usage/actions';
 import {assignColorsToLeaveTypes} from 'lib/helpers/leave';
 import {TYPE_ERROR} from 'store/globals/types';
+import {
+  API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT,
+  API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
+} from 'services/endpoints';
+import {
+  getMessageAlongWithGenericErrors,
+  getMessageAlongWithResponseErrors,
+} from 'services/api';
 
 function* fetchMyLeaveEntitlements() {
   try {
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      '/api/v1/leave/my-leave-entitlement',
+      API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT,
     );
     if (response.data) {
       yield put(
@@ -51,10 +59,19 @@ function* fetchMyLeaveEntitlements() {
       );
     } else {
       yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
-      yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Leave Details',
+        ),
+        TYPE_ERROR,
+      );
     }
   } catch (error) {
-    yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Leave Details'),
+      TYPE_ERROR,
+    );
     yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
   } finally {
     yield closeLoader();
@@ -66,7 +83,7 @@ function* fetchMyLeaveRequests() {
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      '/api/v1/leave/my-leave-request',
+      API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
     );
     if (response.data) {
       yield put(
@@ -74,10 +91,19 @@ function* fetchMyLeaveRequests() {
       );
     } else {
       yield put(fetchMyLeaveRequestsFinished(undefined, true));
-      yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Leave Details',
+        ),
+        TYPE_ERROR,
+      );
     }
   } catch (error) {
-    yield showSnackMessage('Failed to Fetch Leave Details', TYPE_ERROR);
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Leave Details'),
+      TYPE_ERROR,
+    );
     yield put(fetchMyLeaveRequestsFinished(undefined, true));
   } finally {
     yield closeLoader();

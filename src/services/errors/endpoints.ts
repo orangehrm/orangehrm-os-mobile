@@ -18,25 +18,9 @@
  *
  */
 
-import React from 'react';
-import {
-  RefreshControl,
-  RefreshControlProps as RNRefreshControlProps,
-} from 'react-native';
-
-const DefaultRefreshControl = (props: RefreshControlProps) => {
-  const {refreshing, onRefresh} = props;
-  return (
-    <RefreshControl
-      refreshing={refreshing === undefined ? false : refreshing}
-      onRefresh={onRefresh}
-    />
-  );
-};
-
-export interface RefreshControlProps
-  extends Pick<RNRefreshControlProps, 'onRefresh'> {
-  refreshing?: boolean;
+export class EndpointError extends Error {
+  constructor(...params: any) {
+    super(...params);
+    this.name = 'EndpointError';
+  }
 }
-
-export default DefaultRefreshControl;

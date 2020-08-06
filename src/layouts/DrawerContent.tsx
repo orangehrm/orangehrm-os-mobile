@@ -18,20 +18,16 @@
  *
  */
 
-import React, {useCallback} from 'react';
+import React, {useCallback, Fragment} from 'react';
 import {StyleSheet, View, RefreshControl} from 'react-native';
-import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem,
-} from '@react-navigation/drawer';
+import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
+import {DrawerActions} from '@react-navigation/native';
 import {
   DrawerNavigationHelpers,
   DrawerDescriptorMap,
   DrawerContentOptions,
 } from '@react-navigation/drawer/lib/typescript/src/types';
-import {DrawerNavigationState} from '@react-navigation/routers/lib/typescript/src/DrawerRouter';
+import {DrawerNavigationState as BaseDrawerNavigationState} from '@react-navigation/routers/lib/typescript/src/DrawerRouter';
 import ProfilePicture from 'components/ProfilePicture';
 import Footer from 'components/DefaultFooter';
 import Divider from 'components/DefaultDivider';
@@ -39,27 +35,52 @@ import Icon from 'components/DefaultIcon';
 import Text from 'components/DefaultText';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
-import {selectMyInfoSuccess, selectMyInfo} from 'store/auth/selectors';
-import {fetchMyInfo as fetchMyInfoAction} from 'store/auth/actions';
+import {selectMyInfoFinished, selectMyInfo} from 'store/auth/selectors';
+import {
+  fetchMyInfo as fetchMyInfoAction,
+  logout as logoutAction,
+} from 'store/auth/actions';
+import useTheme from 'lib/hook/useTheme';
+import {getDrawerItems} from 'services/drawer';
+import {SUBHEADER_LEAVE} from 'screens';
 
 const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   const {
-    theme,
-    logoutOnPress,
     myInfo,
-    myInfoSuccess,
+    myInfoFinished,
     fetchMyInfo,
-    ...restProps
+    logout,
+    ...drawerContentProps
   } = props;
+  const theme = useTheme();
 
   const onRefresh = useCallback(() => {
     fetchMyInfo();
   }, [fetchMyInfo]);
 
+  const logoutOnPress = useCallback(() => {
+    drawerContentProps.navigation.closeDrawer();
+    logout();
+  }, [logout, drawerContentProps]);
+
   let imageSource;
   if (myInfo?.employeePhoto !== undefined && myInfo?.employeePhoto !== null) {
     imageSource = {uri: `data:image/png;base64,${myInfo?.employeePhoto}`};
   }
+
+  const commonProps = {
+    activeTintColor: theme.palette.secondary,
+    inactiveTintColor: theme.typography.primaryColor,
+    activeBackgroundColor: theme.palette.background,
+    labelStyle: styles.label,
+  };
+
+  const history = [...drawerContentProps.state.history];
+  let currentDrawerItem = history.pop();
+  if (currentDrawerItem?.type !== 'route') {
+    currentDrawerItem = history.pop();
+  }
+
   return (
     <>
       <ProfilePicture
@@ -70,24 +91,45 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
       <DrawerContentScrollView
         contentContainerStyle={styles.contentContainer}
         refreshControl={
-          <RefreshControl refreshing={!myInfoSuccess} onRefresh={onRefresh} />
+          <RefreshControl refreshing={!myInfoFinished} onRefresh={onRefresh} />
         }>
         <View style={styles.view}>
           <View>
-            <View style={styles.subheader}>
-              <Icon name={'briefcase'} style={{margin: theme.spacing * 2}} />
-              <Text style={[styles.label, {margin: theme.spacing * 2.5}]}>
-                {'Leave'}
-              </Text>
-            </View>
-            <View style={{marginLeft: theme.spacing * 4}}>
-              <DrawerItemList
-                {...restProps}
-                activeTintColor={theme.palette.secondary}
-                activeBackgroundColor={theme.palette.background}
-                labelStyle={styles.label}
-              />
-            </View>
+            {getDrawerItems(
+              drawerContentProps.state,
+              drawerContentProps.descriptors,
+            ).map((drawerItem) => (
+              <Fragment key={drawerItem.key}>
+                {drawerItem.subheader ? (
+                  <View style={styles.subheader}>
+                    <Icon
+                      name={drawerItem.subheaderIcon?.name}
+                      style={{margin: theme.spacing * 2}}
+                    />
+                    <Text style={[styles.label, {margin: theme.spacing * 2.5}]}>
+                      {drawerItem.subheader}
+                    </Text>
+                  </View>
+                ) : null}
+                <View style={{marginLeft: theme.spacing * 4}}>
+                  <DrawerItem
+                    label={drawerItem.label}
+                    labelStyle={{color: theme.typography.primaryColor}}
+                    onPress={() => {
+                      drawerContentProps.navigation.closeDrawer();
+                      drawerContentProps.navigation.dispatch(
+                        DrawerActions.jumpTo(drawerItem.name),
+                      );
+                    }}
+                    focused={
+                      currentDrawerItem?.type === 'route' &&
+                      currentDrawerItem.key === drawerItem.key
+                    }
+                    {...commonProps}
+                  />
+                </View>
+              </Fragment>
+            ))}
           </View>
           <View>
             <Divider />
@@ -95,9 +137,7 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
               label={'Logout'}
               onPress={logoutOnPress}
               icon={() => <Icon name={'logout'} />}
-              activeTintColor={theme.palette.secondary}
-              activeBackgroundColor={theme.palette.background}
-              labelStyle={styles.label}
+              {...commonProps}
             />
             <Divider />
             <Footer />
@@ -106,6 +146,18 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
       </DrawerContentScrollView>
     </>
   );
+};
+
+export type DrawerNavigationState = BaseDrawerNavigationState & {
+  routeNames: string[];
+  routes: Array<{
+    key: string;
+    name: string;
+    params: {
+      subheader: typeof SUBHEADER_LEAVE;
+      [key: string]: any;
+    };
+  }>;
 };
 
 type DrawerItemListProps = Omit<
@@ -117,11 +169,7 @@ type DrawerItemListProps = Omit<
   descriptors: DrawerDescriptorMap;
 };
 
-interface DrawerContentProps
-  extends WithTheme,
-    ConnectedProps<typeof connector> {
-  logoutOnPress: () => void;
-}
+interface DrawerContentProps extends ConnectedProps<typeof connector> {}
 
 const styles = StyleSheet.create({
   label: {
@@ -141,18 +189,15 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: RootState) => ({
-  myInfoSuccess: selectMyInfoSuccess(state),
+  myInfoFinished: selectMyInfoFinished(state),
   myInfo: selectMyInfo(state),
 });
 
 const mapDispatchToProps = {
   fetchMyInfo: fetchMyInfoAction,
+  logout: logoutAction,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const DrawerContentWithTheme = withTheme<
-  DrawerContentProps & DrawerItemListProps
->()(DrawerContent);
-
-export default connector(DrawerContentWithTheme);
+export default connector(DrawerContent);

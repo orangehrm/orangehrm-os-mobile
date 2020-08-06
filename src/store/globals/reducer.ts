@@ -78,8 +78,8 @@ const globalsReducer = (
       return {
         ...state,
         loader: {
-          open: state.loader.count - 1 !== 0,
-          count: state.loader.count - 1,
+          open: state.loader.count - 1 > 0,
+          count: state.loader.count > 0 ? state.loader.count - 1 : 0,
         },
       };
     case CHANGE_CURRENT_ROUTE:

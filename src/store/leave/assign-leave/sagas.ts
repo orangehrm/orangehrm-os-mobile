@@ -19,12 +19,7 @@
  */
 
 import {takeEvery, put} from 'redux-saga/effects';
-import {
-  apiCall,
-  apiGetCall,
-  apiPostCall,
-  HTTP_NOT_FOUND,
-} from 'store/saga-effects/api';
+import {apiCall, apiGetCall, apiPostCall} from 'store/saga-effects/api';
 import {
   openLoader,
   closeLoader,
@@ -47,6 +42,17 @@ import {
 import {resetLeaveList} from 'store/leave/leave-list/actions';
 import {assignColorsToLeaveTypes} from 'lib/helpers/leave';
 import {TYPE_ERROR} from 'store/globals/types';
+import {
+  API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST,
+  API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT,
+  API_ENDPOINT_EMPLOYEES,
+  prepare,
+} from 'services/endpoints';
+import {
+  getMessageAlongWithGenericErrors,
+  getMessageAlongWithResponseErrors,
+  HTTP_NOT_FOUND,
+} from 'services/api';
 
 function* saveLeaveRequest(
   action:
@@ -57,7 +63,7 @@ function* saveLeaveRequest(
     yield openLoader();
     const response = yield apiCall(
       apiPostCall,
-      `/api/v1/subordinate/${action.empNumber}/leave-request`,
+      prepare(API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST, {id: action.empNumber}),
       action.payload,
     );
 
@@ -66,10 +72,16 @@ function* saveLeaveRequest(
       yield put(resetLeaveList());
       yield showSnackMessage('Successfully Submited');
     } else {
-      yield showSnackMessage('Failed to Save Leave', TYPE_ERROR);
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(response, 'Failed to Save Leave'),
+        TYPE_ERROR,
+      );
     }
   } catch (error) {
-    yield showSnackMessage('Failed to Save Leave', TYPE_ERROR);
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Save Leave'),
+      TYPE_ERROR,
+    );
   } finally {
     yield closeLoader();
   }
@@ -82,7 +94,9 @@ function* fetchSubordinateLeaveEntitlements(
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      `/api/v1/subordinate/${action.empNumber}/leave-entitlement`,
+      prepare(API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT, {
+        id: action.empNumber,
+      }),
     );
     if (response.data) {
       yield put(
@@ -95,13 +109,19 @@ function* fetchSubordinateLeaveEntitlements(
     } else {
       yield put(fetchSubordinateLeaveEntitlementsFinished(undefined, true));
       yield showSnackMessage(
-        'Failed to Fetch Subordinate Leave Entitlements',
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Subordinate Leave Entitlements.',
+        ),
         TYPE_ERROR,
       );
     }
   } catch (error) {
     yield showSnackMessage(
-      'Failed to Fetch Subordinate Leave Entitlements',
+      getMessageAlongWithGenericErrors(
+        error,
+        'Failed to Fetch Subordinate Leave Entitlements',
+      ),
       TYPE_ERROR,
     );
     yield put(fetchSubordinateLeaveEntitlementsFinished(undefined, true));
@@ -113,20 +133,31 @@ function* fetchSubordinateLeaveEntitlements(
 function* fetchAccessibleEmployees() {
   try {
     yield openLoader();
-    const queryParams =
-      'actionName=assign_leave&properties[]=firstName&properties[]=lastName&properties[]=employeeId';
+    const queryParams = {
+      actionName: 'assign_leave',
+      properties: ['firstName', 'lastName', 'employeeId'],
+    };
     const response = yield apiCall(
       apiGetCall,
-      `/api/v1/employees?${queryParams}`,
+      prepare(API_ENDPOINT_EMPLOYEES, {}, queryParams),
     );
     if (response.data) {
       yield put(fetchSubordinatesFinished(response.data));
     } else {
       yield put(fetchSubordinatesFinished(undefined, true));
-      yield showSnackMessage('Failed to Fetch Subordinates', TYPE_ERROR);
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Subordinates',
+        ),
+        TYPE_ERROR,
+      );
     }
   } catch (error) {
-    yield showSnackMessage('Failed to Fetch Subordinates', TYPE_ERROR);
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Subordinates'),
+      TYPE_ERROR,
+    );
     yield put(fetchSubordinatesFinished(undefined, true));
   } finally {
     yield closeLoader();

@@ -53,3 +53,9 @@ export const selectCheckingInstance = createSelector<
   AuthState,
   boolean
 >([selectAuth], (auth) => auth.checkingInstance);
+
+export const selectMyInfoFinished = createSelector<
+  RootState,
+  AuthState,
+  boolean
+>([selectAuth], (auth) => auth.isFinishedMyInfo);

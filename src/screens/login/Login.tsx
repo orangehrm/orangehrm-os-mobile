@@ -146,6 +146,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                 title={instanceUrl}
                 onPress={this.handleSelectInstanceOnClick}
                 transparent
+                fullWidth
                 textProps={{
                   style: {color: theme.palette.secondary},
                   uppercase: false,

@@ -19,7 +19,15 @@
  */
 
 import {NullableString} from 'store/storage/types';
+import {AuthenticationError} from 'services/errors/authentication';
+import {InstanceCheckError} from 'services/errors/instance-check';
 
+export const HTTP_NOT_FOUND = '404';
+
+/**
+ * Compare given ISO date with now.
+ * @param expiredAtISO ISO date. e.g. 2020-07-28T07:01:21.152Z
+ */
 export const isAccessTokenExpired = (expiredAtISO: NullableString) => {
   if (typeof expiredAtISO === 'string') {
     const now = new Date();
@@ -27,4 +35,60 @@ export const isAccessTokenExpired = (expiredAtISO: NullableString) => {
     return now.getTime() >= expired.getTime();
   }
   return true;
+};
+
+/**
+ * Return not localized string for given error object
+ * @param error
+ * @param defaultMessage
+ */
+export const getMessageAlongWithGenericErrors = (
+  error: any,
+  defaultMessage: string = 'Unexpected Error Occurred.',
+) => {
+  if (error instanceof Object && !Array.isArray(error)) {
+    if (error.message === 'Network request failed') {
+      return 'Connection Error! Operation Couldn’t Be Completed.';
+    } else if (
+      typeof error.message === 'string' &&
+      error.message.startsWith('JSON Parse error:')
+    ) {
+      return 'Route Not Found. Please Contact Your System Administrator.';
+    } else if (
+      error instanceof AuthenticationError ||
+      error instanceof InstanceCheckError
+    ) {
+      return error.message;
+    }
+  }
+  return defaultMessage;
+};
+
+/**
+ * Return not localized string for given API response object which contain error
+ * @param response
+ * @param defaultMessage
+ */
+export const getMessageAlongWithResponseErrors = (
+  response: any,
+  defaultMessage: string = 'Operation Couldn’t Be Completed.',
+) => {
+  if (response instanceof Object && !Array.isArray(response)) {
+    if (response.error?.status === '404') {
+      return 'No Records Found.';
+    } else if (Array.isArray(response.error)) {
+      if (
+        [
+          'Employee not assigned',
+          'Employee is terminated',
+          'Account disabled',
+        ].includes(response.error[0])
+      ) {
+        throw new AuthenticationError(response.error[0]);
+      } else {
+        return response.error[0];
+      }
+    }
+  }
+  return defaultMessage;
 };
