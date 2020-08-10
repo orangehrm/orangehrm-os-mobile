@@ -29,11 +29,11 @@ import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
-import {selectEmployeeLeaveRequest} from 'store/leave/leave-list/selectors';
+import {selectLeaveRequestDetail} from 'store/leave/leave-usage/selectors';
 import {
-  fetchEmployeeLeaveRequest,
-  changeEmployeeLeaveRequestStatus,
-} from 'store/leave/leave-list/actions';
+  fetchMyLeaveDetails,
+  changeMyLeaveRequestStatus,
+} from 'store/leave/leave-usage/actions';
 import Text from 'components/DefaultText';
 import Chip from 'components/DefaultChip';
 import Avatar from 'components/DefaultAvatar';
@@ -41,30 +41,26 @@ import Button from 'components/DefaultButton';
 import Divider from 'components/DefaultDivider';
 import FlatButton from 'screens/leave/components/FlatButton';
 import LeaveCommentListItem from 'screens/leave/components/LeaveCommentListItem';
+import {MyLeaveUsageNavigatorParamList} from 'screens/leave/navigators/MyLeaveUsageNavigator';
 import BottomConfirmationDialog from 'screens/leave/components/BottomConfirmationDialog';
-import {LeaveListNavigatorParamList} from 'screens/leave/navigators/LeaveListNavigator';
-import {LEAVE_DETAILS, LEAVE_DAYS, LEAVE_COMMENTS} from 'screens';
+import {MY_LEAVE_DETAILS, LEAVE_DAYS, LEAVE_COMMENTS} from 'screens';
 import {navigate} from 'lib/helpers/navigation';
 import {
   ACTION_CANCEL,
-  ACTION_REJECT,
-  ACTION_APPROVE,
   ACTION_TYPE_CHANGE_STATUS,
   LeaveRequestAllowedActions,
 } from 'store/leave/leave-list/types';
 import {LeaveDaysParam, LeaveCommentsParam} from 'screens/leave/navigators';
 
-class LeaveDetails extends React.Component<
-  LeaveDetailsProps,
-  LeaveDetailsState
+class MyLeaveDetails extends React.Component<
+  MyLeaveDetailsProps,
+  MyLeaveDetailsState
 > {
-  constructor(props: LeaveDetailsProps) {
+  constructor(props: MyLeaveDetailsProps) {
     super(props);
     const {leaveRequest} = props.route.params;
-    if (
-      props.employeeLeaveRequest?.leaveRequestId !== leaveRequest.leaveRequestId
-    ) {
-      this.props.fetchEmployeeLeaveRequest(leaveRequest.leaveRequestId);
+    if (props.leaveRequestDetail?.leaveRequestId !== leaveRequest.id) {
+      this.props.fetchMyLeaveDetails(leaveRequest.id);
     }
     this.state = {
       action: undefined,
@@ -73,15 +69,7 @@ class LeaveDetails extends React.Component<
 
   onRefresh = () => {
     const {leaveRequest} = this.props.route.params;
-    this.props.fetchEmployeeLeaveRequest(leaveRequest.leaveRequestId);
-  };
-
-  onPressApproveLeave = () => {
-    this.setState({action: ACTION_APPROVE});
-  };
-
-  onPressRejectLeave = () => {
-    this.setState({action: ACTION_REJECT});
+    this.props.fetchMyLeaveDetails(leaveRequest.id);
   };
 
   onPressCancelLeave = () => {
@@ -93,91 +81,64 @@ class LeaveDetails extends React.Component<
   };
 
   onPressAction = (status?: LeaveRequestAllowedActions) => () => {
-    const {employeeLeaveRequest} = this.props;
-    if (employeeLeaveRequest && status) {
-      this.props.changeEmployeeLeaveRequestStatus(
-        employeeLeaveRequest.leaveRequestId,
-        {actionType: ACTION_TYPE_CHANGE_STATUS, status},
-      );
+    const {leaveRequestDetail} = this.props;
+    if (leaveRequestDetail && status) {
+      this.props.changeMyLeaveRequestStatus(leaveRequestDetail.leaveRequestId, {
+        actionType: ACTION_TYPE_CHANGE_STATUS,
+        status,
+      });
     }
     this.onResetAction();
   };
 
   onPressLeaveDays = () => {
-    const {employeeLeaveRequest} = this.props;
-    if (employeeLeaveRequest) {
-      navigate<LeaveDaysParam>(LEAVE_DAYS, {employeeLeaveRequest});
+    const {leaveRequestDetail} = this.props;
+    if (leaveRequestDetail) {
+      navigate<LeaveDaysParam>(LEAVE_DAYS, {
+        employeeLeaveRequest: leaveRequestDetail,
+      });
     }
   };
 
   onPressComments = () => {
-    const {employeeLeaveRequest} = this.props;
-    if (employeeLeaveRequest) {
+    const {leaveRequestDetail} = this.props;
+    if (leaveRequestDetail) {
       navigate<LeaveCommentsParam>(LEAVE_COMMENTS, {
-        employeeLeaveRequestSelector: selectEmployeeLeaveRequest,
-        changeEmployeeLeaveRequestStatusAction: changeEmployeeLeaveRequestStatus,
+        employeeLeaveRequestSelector: selectLeaveRequestDetail,
+        changeEmployeeLeaveRequestStatusAction: changeMyLeaveRequestStatus,
       });
     }
   };
 
   render() {
-    const {theme, employeeLeaveRequest} = this.props;
+    const {theme, leaveRequestDetail} = this.props;
     const {action} = this.state;
-    const leaveTypeColor = employeeLeaveRequest?.leaveType.color;
+    const leaveTypeColor = leaveRequestDetail?.leaveType.color;
     const leaveDates =
-      employeeLeaveRequest?.fromDate === employeeLeaveRequest?.toDate
-        ? employeeLeaveRequest?.fromDate
-        : employeeLeaveRequest?.fromDate +
-          ' to ' +
-          employeeLeaveRequest?.toDate;
+      leaveRequestDetail?.fromDate === leaveRequestDetail?.toDate
+        ? leaveRequestDetail?.fromDate
+        : leaveRequestDetail?.fromDate + ' to ' + leaveRequestDetail?.toDate;
     return (
       <MainLayout
         onRefresh={this.onRefresh}
         footer={
           <>
-            {employeeLeaveRequest?.allowedActions !== undefined &&
-            employeeLeaveRequest.allowedActions.length !== 0 ? (
+            {leaveRequestDetail?.allowedActions !== undefined &&
+            leaveRequestDetail.allowedActions.length !== 0 ? (
               <View
-                style={[
-                  styles.row,
-                  styles.footerView,
-                  {
-                    paddingHorizontal: theme.spacing * 4,
-                    paddingVertical: theme.spacing * 2,
-                    backgroundColor: theme.palette.backgroundSecondary,
-                  },
-                ]}>
-                <View>
-                  {employeeLeaveRequest.allowedActions.indexOf(
-                    ACTION_CANCEL,
-                  ) !== -1 ? (
-                    <Button
-                      title={'Cancel'}
-                      bordered
-                      primary
-                      onPress={this.onPressCancelLeave}
-                    />
-                  ) : null}
-                </View>
-                <View style={styles.row}>
-                  {employeeLeaveRequest.allowedActions.indexOf(
-                    ACTION_REJECT,
-                  ) !== -1 ? (
-                    <Button
-                      title={'Reject'}
-                      bordered
-                      primary
-                      onPress={this.onPressRejectLeave}
-                    />
-                  ) : null}
-                  {employeeLeaveRequest.allowedActions.indexOf(
-                    ACTION_APPROVE,
-                  ) !== -1 ? (
+                style={{
+                  paddingHorizontal: theme.spacing * 4,
+                  paddingVertical: theme.spacing * 2,
+                  backgroundColor: theme.palette.backgroundSecondary,
+                }}>
+                <View style={[styles.row, styles.footerView]}>
+                  {leaveRequestDetail.allowedActions.indexOf(ACTION_CANCEL) !==
+                  -1 ? (
                     <View style={{paddingLeft: theme.spacing * 2}}>
                       <Button
-                        title={'Approve'}
+                        title={'Cancel'}
                         primary
-                        onPress={this.onPressApproveLeave}
+                        onPress={this.onPressCancelLeave}
                       />
                     </View>
                   ) : null}
@@ -204,7 +165,7 @@ class LeaveDetails extends React.Component<
                 paddingVertical: theme.spacing * 2,
                 paddingRight: theme.spacing * 4,
               }}>
-              <Avatar name={employeeLeaveRequest?.employeeName} />
+              <Avatar name={leaveRequestDetail?.employeeName} />
             </View>
             <View>
               <View style={{paddingHorizontal: theme.spacing * 2}}>
@@ -216,7 +177,7 @@ class LeaveDetails extends React.Component<
                       fontSize: theme.typography.fontSize * 1.2,
                     },
                   ]}>
-                  {employeeLeaveRequest?.employeeName}
+                  {leaveRequestDetail?.employeeName}
                 </Text>
               </View>
               <View
@@ -250,8 +211,8 @@ class LeaveDetails extends React.Component<
                           ? {color: theme.typography.lightColor}
                           : {color: theme.typography.darkColor},
                       ]}>
-                      {employeeLeaveRequest?.leaveType.type
-                        ? employeeLeaveRequest?.leaveType.type
+                      {leaveRequestDetail?.leaveType.type
+                        ? leaveRequestDetail?.leaveType.type
                         : '--'}
                     </Text>
                   </Chip>
@@ -261,14 +222,14 @@ class LeaveDetails extends React.Component<
           </View>
           <View style={[styles.row, styles.leaveBalanceView]}>
             <View>
-              {employeeLeaveRequest?.leaveBreakdown.split(',').map((text) => (
+              {leaveRequestDetail?.leaveBreakdown.split(',').map((text) => (
                 <Text>{text.trim()}</Text>
               ))}
             </View>
             <Text style={[{fontSize: theme.typography.smallFontSize}]}>
               {'Days Available: '}
-              {employeeLeaveRequest?.leaveBalance
-                ? employeeLeaveRequest?.leaveBalance
+              {leaveRequestDetail?.leaveBalance
+                ? leaveRequestDetail?.leaveBalance
                 : '--'}
               {' Day(s)'}
             </Text>
@@ -288,7 +249,7 @@ class LeaveDetails extends React.Component<
           />
           <Divider />
           <View>
-            {employeeLeaveRequest?.comments.map((comment, index) => (
+            {leaveRequestDetail?.comments.map((comment, index) => (
               <View
                 key={index}
                 style={{
@@ -315,14 +276,14 @@ class LeaveDetails extends React.Component<
   }
 }
 
-interface LeaveDetailsProps
+interface MyLeaveDetailsProps
   extends WithTheme,
     ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
-  route: RouteProp<LeaveListNavigatorParamList, typeof LEAVE_DETAILS>;
+  route: RouteProp<MyLeaveUsageNavigatorParamList, typeof MY_LEAVE_DETAILS>;
 }
 
-interface LeaveDetailsState {
+interface MyLeaveDetailsState {
   action?: LeaveRequestAllowedActions;
 }
 
@@ -337,30 +298,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   footerView: {
-    justifyContent: 'space-between',
+    alignSelf: 'flex-end',
   },
   leaveBalanceView: {
     justifyContent: 'space-evenly',
   },
-  confirmationButtonView: {
-    justifyContent: 'space-evenly',
-  },
-  confirmationButton: {
-    flex: 0.5,
-  },
 });
 
 const mapStateToProps = (state: RootState) => ({
-  employeeLeaveRequest: selectEmployeeLeaveRequest(state),
+  leaveRequestDetail: selectLeaveRequestDetail(state),
 });
 
 const mapDispatchToProps = {
-  fetchEmployeeLeaveRequest: fetchEmployeeLeaveRequest,
-  changeEmployeeLeaveRequestStatus: changeEmployeeLeaveRequestStatus,
+  fetchMyLeaveDetails: fetchMyLeaveDetails,
+  changeMyLeaveRequestStatus: changeMyLeaveRequestStatus,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const MyLeaveWithTheme = withTheme<LeaveDetailsProps>()(LeaveDetails);
+const MyLeaveWithTheme = withTheme<MyLeaveDetailsProps>()(MyLeaveDetails);
 
 export default connector(MyLeaveWithTheme);

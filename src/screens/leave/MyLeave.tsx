@@ -31,8 +31,13 @@ import {
   fetchMyLeaveRequests,
   fetchMyLeaveEntitlements,
 } from 'store/leave/leave-usage/actions';
+import {LeaveRequest} from 'store/leave/leave-usage/types';
 import Divider from 'components/DefaultDivider';
 import MyLeaveListItem from 'screens/leave/components/MyLeaveListItem';
+import {MY_LEAVE_DETAILS, MY_LEAVE} from 'screens';
+import {navigate} from 'lib/helpers/navigation';
+import {MyLeaveDetailsParam} from 'screens/leave/navigators/MyLeaveUsageNavigator';
+import {selectCurrentRoute} from 'store/globals/selectors';
 
 class MyLeave extends React.Component<MyLeaveProps> {
   constructor(props: MyLeaveProps) {
@@ -41,6 +46,18 @@ class MyLeave extends React.Component<MyLeaveProps> {
       this.props.fetchMyLeaveRequests();
     }
     this.updateEntitlements();
+  }
+
+  componentDidUpdate(prevProps: MyLeaveProps) {
+    if (
+      prevProps.currentRoute !== this.props.currentRoute &&
+      this.props.currentRoute === MY_LEAVE &&
+      this.props.leaveRequests === undefined
+    ) {
+      // update my leave list and leave entitlements,
+      // once perform action on my leave list item
+      this.onRefresh();
+    }
   }
 
   onRefresh = () => {
@@ -54,6 +71,10 @@ class MyLeave extends React.Component<MyLeaveProps> {
     }
   };
 
+  onPressLeave = (leaveRequest: LeaveRequest) => () => {
+    navigate<MyLeaveDetailsParam>(MY_LEAVE_DETAILS, {leaveRequest});
+  };
+
   render() {
     const {theme, leaveRequests} = this.props;
     return (
@@ -61,9 +82,10 @@ class MyLeave extends React.Component<MyLeaveProps> {
         <FlatList
           data={leaveRequests}
           renderItem={({item}) => (
-            <>
-              <MyLeaveListItem leaveRequest={item} />
-            </>
+            <MyLeaveListItem
+              leaveRequest={item}
+              onPress={this.onPressLeave(item)}
+            />
           )}
           keyExtractor={(item) => item.id}
           ItemSeparatorComponent={() => {
@@ -98,6 +120,7 @@ interface MyLeaveProps extends WithTheme, ConnectedProps<typeof connector> {
 const mapStateToProps = (state: RootState) => ({
   leaveRequests: selectLeaveRequests(state),
   entitlements: selectEntitlement(state),
+  currentRoute: selectCurrentRoute(state),
 });
 
 const mapDispatchToProps = {

@@ -18,18 +18,13 @@
  *
  */
 
-import React from 'react';
+import React, {Fragment} from 'react';
 import {View} from 'react-native';
-import {
-  NavigationProp,
-  ParamListBase,
-  RouteProp,
-} from '@react-navigation/native';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Divider from 'components/DefaultDivider';
-import {LeaveListNavigatorParamList} from 'screens/leave/navigators/LeaveListNavigator';
-import {LEAVE_DAYS} from 'screens';
+import {LeaveDaysRouteParams} from 'screens/leave/navigators';
 import LeaveDayListItem from 'screens/leave/components/LeaveDayListItem';
 
 class LeaveDays extends React.Component<LeaveDaysProps> {
@@ -39,13 +34,13 @@ class LeaveDays extends React.Component<LeaveDaysProps> {
     return (
       <MainLayout>
         <View>
-          {employeeLeaveRequest?.days.map((leave) => (
-            <>
+          {employeeLeaveRequest?.days.map((leave, index) => (
+            <Fragment key={index}>
               <LeaveDayListItem leave={leave} />
               <View style={{paddingHorizontal: theme.spacing}}>
                 <Divider />
               </View>
-            </>
+            </Fragment>
           ))}
         </View>
       </MainLayout>
@@ -55,7 +50,7 @@ class LeaveDays extends React.Component<LeaveDaysProps> {
 
 interface LeaveDaysProps extends WithTheme {
   navigation: NavigationProp<ParamListBase>;
-  route: RouteProp<LeaveListNavigatorParamList, typeof LEAVE_DAYS>;
+  route: LeaveDaysRouteParams;
 }
 
 export default withTheme<LeaveDaysProps>()(LeaveDays);

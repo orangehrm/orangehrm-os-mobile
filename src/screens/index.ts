@@ -41,5 +41,6 @@ export const ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DURATION =
   'AssignLeavePickLeaveRequestDuration';
 export const ASSIGN_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS =
   'AssignLeavePickLeaveRequestPartialDays';
+export const MY_LEAVE_DETAILS = 'MyLeaveDetails';
 
 export const SUBHEADER_LEAVE = 'Leave';

@@ -37,6 +37,7 @@ const defaultTheme: Theme = {
     fontSize: 14,
     headerFontSize: 20,
     smallFontSize: 12,
+    tinyFontSize: 10,
     primaryColor: '#818181',
     secondaryColor: '#ffffff',
     darkColor: '#000000',
@@ -67,6 +68,7 @@ export interface Typography {
   fontSize: number;
   headerFontSize: number;
   smallFontSize: number;
+  tinyFontSize: number;
   primaryColor: string;
   secondaryColor: string;
   darkColor: string;

@@ -24,14 +24,14 @@ import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
+import {Dispatch, Action} from 'redux';
 import {RootState} from 'store';
 import Divider from 'components/DefaultDivider';
 import LeaveCommentListItem from 'screens/leave/components/LeaveCommentListItem';
 import IconButton from 'components/DefaultIconButton';
 import {PickLeaveRequestCommentInput} from 'screens/leave/components/PickLeaveRequestComment';
-import {selectEmployeeLeaveRequest} from 'store/leave/leave-list/selectors';
-import {changeEmployeeLeaveRequestStatus} from 'store/leave/leave-list/actions';
 import {ACTION_TYPE_COMMENT} from 'store/leave/leave-list/types';
+import {LeaveCommentsRouteParams} from 'screens/leave/navigators';
 
 class LeaveComments extends React.Component<
   LeaveCommentsProps,
@@ -46,11 +46,17 @@ class LeaveComments extends React.Component<
 
   onPressComment = () => {
     const {comment} = this.state;
-    const {employeeLeaveRequest} = this.props;
+    const {
+      employeeLeaveRequest,
+      changeEmployeeLeaveRequestStatus,
+      dispatch,
+    } = this.props;
     if (comment !== '' && employeeLeaveRequest) {
-      this.props.changeEmployeeLeaveRequestStatus(
-        employeeLeaveRequest.leaveRequestId,
-        {actionType: ACTION_TYPE_COMMENT, comment},
+      dispatch(
+        changeEmployeeLeaveRequestStatus(employeeLeaveRequest.leaveRequestId, {
+          actionType: ACTION_TYPE_COMMENT,
+          comment,
+        }),
       );
       this.setState({comment: ''});
     }
@@ -128,19 +134,27 @@ interface LeaveCommentsProps
   extends WithTheme,
     ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
+  route: LeaveCommentsRouteParams;
 }
 
 interface LeaveCommentsState {
   comment: string;
 }
 
-const mapStateToProps = (state: RootState) => ({
-  employeeLeaveRequest: selectEmployeeLeaveRequest(state),
+const mapStateToProps = (state: RootState, ownProps: LeaveCommentsProps) => ({
+  employeeLeaveRequest: ownProps.route.params.employeeLeaveRequestSelector(
+    state,
+  ),
 });
 
-const mapDispatchToProps = {
-  changeEmployeeLeaveRequestStatus: changeEmployeeLeaveRequestStatus,
-};
+const mapDispatchToProps = (
+  dispatch: Dispatch<Action>,
+  ownProps: LeaveCommentsProps,
+) => ({
+  changeEmployeeLeaveRequestStatus:
+    ownProps.route.params.changeEmployeeLeaveRequestStatusAction,
+  dispatch,
+});
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 

@@ -24,12 +24,23 @@ import {createStackNavigator} from '@react-navigation/stack';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import MyLeaveEntitilementsAndUsage from 'screens/leave/MyLeaveUsage';
 import MyLeave from 'screens/leave/MyLeave';
-import {MY_LEAVE_ENTITLEMENT_AND_USAGE, MY_LEAVE} from 'screens';
+import MyLeaveDetails from 'screens/leave/MyLeaveDetails';
+import LeaveDays from 'screens/leave/LeaveDays';
+import LeaveComments from 'screens/leave/LeaveComments';
+import {
+  MY_LEAVE_ENTITLEMENT_AND_USAGE,
+  MY_LEAVE,
+  MY_LEAVE_DETAILS,
+  LEAVE_DAYS,
+  LEAVE_COMMENTS,
+} from 'screens';
 import HeaderMenuIcon from 'components/HeaderMenuIcon';
 import HeaderBackIcon from 'components/HeaderBackIcon';
 import {getHeaderStyle} from 'lib/helpers/header';
+import {LeaveRequest} from 'store/leave/leave-usage/types';
+import {LeaveDaysParamList} from 'screens/leave/navigators';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<MyLeaveUsageNavigatorParamList>();
 
 class MyLeaveUsageNavigator extends React.Component<
   MyLeaveUsageNavigatorProps
@@ -67,6 +78,27 @@ class MyLeaveUsageNavigator extends React.Component<
             title: 'My Leave',
           }}
         />
+        <Stack.Screen
+          name={MY_LEAVE_DETAILS}
+          component={MyLeaveDetails}
+          options={{
+            title: 'Leave Details',
+          }}
+        />
+        <Stack.Screen
+          name={LEAVE_DAYS}
+          component={LeaveDays}
+          options={{
+            title: 'Leave Days',
+          }}
+        />
+        <Stack.Screen
+          name={LEAVE_COMMENTS}
+          component={LeaveComments}
+          options={{
+            title: 'Comments',
+          }}
+        />
       </Stack.Navigator>
     );
   }
@@ -74,6 +106,17 @@ class MyLeaveUsageNavigator extends React.Component<
 
 interface MyLeaveUsageNavigatorProps extends WithTheme {
   navigation: NavigationProp<ParamListBase>;
+}
+
+export type MyLeaveUsageNavigatorParamList = {
+  [MY_LEAVE_ENTITLEMENT_AND_USAGE]: {};
+  [MY_LEAVE]: {};
+  [MY_LEAVE_DETAILS]: MyLeaveDetailsParam;
+  [LEAVE_COMMENTS]: {};
+} & LeaveDaysParamList;
+
+export interface MyLeaveDetailsParam {
+  leaveRequest: LeaveRequest;
 }
 
 export default withTheme<MyLeaveUsageNavigatorProps>()(MyLeaveUsageNavigator);

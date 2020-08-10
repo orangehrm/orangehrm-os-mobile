@@ -33,6 +33,7 @@ import {LEAVE_DETAILS, LEAVE_LIST} from 'screens';
 import {navigate} from 'lib/helpers/navigation';
 import {LeaveListLeaveRequest} from 'store/leave/leave-list/types';
 import {selectCurrentRoute} from 'store/globals/selectors';
+import {LeaveDetailsParam} from 'screens/leave/navigators/LeaveListNavigator';
 
 class LeaveList extends React.Component<LeaveListProps> {
   constructor(props: LeaveListProps) {
@@ -60,7 +61,7 @@ class LeaveList extends React.Component<LeaveListProps> {
   };
 
   onPressLeave = (leaveRequest: LeaveListLeaveRequest) => () => {
-    navigate(LEAVE_DETAILS, {leaveRequest});
+    navigate<LeaveDetailsParam>(LEAVE_DETAILS, {leaveRequest});
   };
 
   render() {

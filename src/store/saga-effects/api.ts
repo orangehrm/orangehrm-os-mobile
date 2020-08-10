@@ -42,7 +42,7 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
 
   if (isAccessTokenExpired(authParams.expiresAt)) {
     if (authParams.refreshToken !== null && authParams.instanceUrl !== null) {
-      const response = yield call(
+      const response: Response = yield call(
         getNewAccessToken,
         authParams.instanceUrl,
         authParams.refreshToken,
@@ -100,7 +100,7 @@ export function* apiGetCall(endpoint: string) {
     };
     const url = authParams.instanceUrl + endpoint;
 
-    const response = yield call(fetch, url, requestOptions);
+    const response: Response = yield call(fetch, url, requestOptions);
     const data = yield call([response, response.json]);
     return data;
   }
@@ -125,7 +125,7 @@ export function* apiPostCall(endpoint: string, body: object) {
     };
     const url = authParams.instanceUrl + endpoint;
 
-    const response = yield call(fetch, url, requestOptions);
+    const response: Response = yield call(fetch, url, requestOptions);
     const data = yield call([response, response.json]);
     return data;
   }
