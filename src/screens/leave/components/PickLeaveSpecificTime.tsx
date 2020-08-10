@@ -44,6 +44,9 @@ class PickLeaveSpecificTime extends React.Component<
       forceUpdate,
     } = this.props;
 
+    const sliderValues = getTimeValuesForSlider();
+    const bottomRowStyle = {marginTop: theme.spacing * 8};
+
     return (
       <>
         <Divider />
@@ -60,36 +63,34 @@ class PickLeaveSpecificTime extends React.Component<
                 paddingVertical: theme.spacing * 4,
               },
             ]}>
-            <Text style={styles.text}>{'From'}</Text>
+            <View>
+              <Text numberOfLines={1}>{'From'}</Text>
+              <Text numberOfLines={1} style={bottomRowStyle}>
+                {'To'}
+              </Text>
+            </View>
             <View style={styles.sliderView}>
               <LeaveSpecificTimeSlider
-                values={getTimeValuesForSlider()}
+                values={sliderValues}
                 value={fromTime}
                 setValue={setFromTime}
                 minimumTrackTintColor={theme.palette.default}
                 maximumTrackTintColor={theme.palette.secondary}
                 forceUpdate={forceUpdate}
               />
+              <View style={bottomRowStyle}>
+                <LeaveSpecificTimeSlider
+                  values={sliderValues}
+                  value={toTime}
+                  setValue={setToTime}
+                  forceUpdate={forceUpdate}
+                />
+              </View>
             </View>
-            <Text>{fromTime}</Text>
-          </View>
-          <View
-            style={[
-              styles.rowView,
-              {
-                paddingVertical: theme.spacing * 4,
-              },
-            ]}>
-            <Text style={styles.text}>{'To'}</Text>
-            <View style={styles.sliderView}>
-              <LeaveSpecificTimeSlider
-                values={getTimeValuesForSlider()}
-                value={toTime}
-                setValue={setToTime}
-                forceUpdate={forceUpdate}
-              />
+            <View>
+              <Text>{fromTime}</Text>
+              <Text style={bottomRowStyle}>{toTime}</Text>
             </View>
-            <Text>{toTime}</Text>
           </View>
           {this.isValidTimes(fromTime, toTime) ? null : (
             <Text
@@ -120,9 +121,6 @@ const styles = StyleSheet.create({
   },
   sliderView: {
     flex: 1,
-  },
-  text: {
-    width: 30,
   },
 });
 
