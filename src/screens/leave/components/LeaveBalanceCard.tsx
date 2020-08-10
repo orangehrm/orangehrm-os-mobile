@@ -87,8 +87,12 @@ class LeaveBalanceCard extends React.Component<LeaveBalanceCardProps> {
               {leaveBalance}
             </Text>
             <Text
+              numberOfLines={1}
               style={[
-                {fontSize: theme.typography.smallFontSize},
+                {
+                  fontSize: theme.typography.tinyFontSize,
+                  paddingTop: theme.spacing,
+                },
                 selected
                   ? {color: theme.typography.lightColor}
                   : {color: theme.typography.darkColor},
