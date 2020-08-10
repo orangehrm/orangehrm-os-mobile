@@ -201,7 +201,7 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
   };
 
   onRefresh = () => {
-    this.updateEntitlements();
+    this.props.fetchMyLeaveEntitlements();
   };
 
   updateEntitlements = () => {

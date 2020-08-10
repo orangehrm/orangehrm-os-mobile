@@ -66,17 +66,22 @@ function* checkInstance(action?: CheckInstanceAction) {
   try {
     yield openLoader();
     const instanceUrl: string = yield selectInstanceUrl();
-    const response = yield call(checkInstanceRequest, instanceUrl);
-    const data = yield call([response, response.json]);
+    const response: Response = yield call(checkInstanceRequest, instanceUrl);
 
-    checkInstanceCompatibility(data);
-    checkRemovedEndpoints(data);
-    const usingDeprecatedEndpoints = checkDeprecatedEndpoints(data);
-    if (usingDeprecatedEndpoints) {
-      yield showSnackMessage('Please Update the Application.', TYPE_WARN);
+    if (response.ok) {
+      const data = yield call([response, response.json]);
+
+      checkInstanceCompatibility(data);
+      checkRemovedEndpoints(data);
+      const usingDeprecatedEndpoints = checkDeprecatedEndpoints(data);
+      if (usingDeprecatedEndpoints) {
+        yield showSnackMessage('Please Update the Application.', TYPE_WARN);
+      }
+
+      yield put(checkInstanceFinished());
+    } else {
+      yield showSnackMessage('Could Not Be Reached.', TYPE_ERROR);
     }
-
-    yield put(checkInstanceFinished());
   } catch (error) {
     if (action) {
       yield put(checkInstanceFinished(true));
@@ -102,7 +107,7 @@ function* fetchAuthToken(action: FetchTokenAction) {
     const authParams: AuthParams = yield selectAuthParams();
 
     if (authParams.instanceUrl !== null) {
-      const response = yield call(
+      const response: Response = yield call(
         authenticate,
         authParams.instanceUrl,
         action.username,
