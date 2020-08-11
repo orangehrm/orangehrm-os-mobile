@@ -222,9 +222,11 @@ class MyLeaveDetails extends React.Component<
           </View>
           <View style={[styles.row, styles.leaveBalanceView]}>
             <View>
-              {leaveRequestDetail?.leaveBreakdown.split(',').map((text) => (
-                <Text>{text.trim()}</Text>
-              ))}
+              {leaveRequestDetail?.leaveBreakdown
+                .split(',')
+                .map((text, index) => (
+                  <Text key={index}>{text.trim()}</Text>
+                ))}
             </View>
             <Text style={[{fontSize: theme.typography.smallFontSize}]}>
               {'Days Available: '}

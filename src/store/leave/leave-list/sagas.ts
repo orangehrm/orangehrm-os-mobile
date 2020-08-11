@@ -50,6 +50,7 @@ import {
 import {
   getMessageAlongWithGenericErrors,
   getMessageAlongWithResponseErrors,
+  HTTP_NOT_FOUND,
 } from 'services/api';
 
 function* fetchLeaveList() {
@@ -64,7 +65,12 @@ function* fetchLeaveList() {
         fetchLeaveListFinished(assignColorsToLeaveTypes(response.data)),
       );
     } else {
-      yield put(fetchLeaveListFinished(undefined, true));
+      yield put(
+        fetchLeaveListFinished(
+          undefined,
+          response.getResponse().status === HTTP_NOT_FOUND ? false : true,
+        ),
+      );
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(
           response,

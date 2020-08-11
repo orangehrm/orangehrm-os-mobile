@@ -104,7 +104,7 @@ function* fetchSubordinateLeaveEntitlements(
           assignColorsToLeaveTypes(response.data),
         ),
       );
-    } else if (response.error.status === HTTP_NOT_FOUND) {
+    } else if (response.getResponse().status === HTTP_NOT_FOUND) {
       yield put(fetchSubordinateLeaveEntitlementsFinished([]));
     } else {
       yield put(fetchSubordinateLeaveEntitlementsFinished(undefined, true));

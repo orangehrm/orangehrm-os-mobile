@@ -43,6 +43,7 @@ const defaultTheme: Theme = {
     darkColor: '#000000',
     lightColor: '#ffffff',
     iconSize: 20,
+    largeIconSize: 32,
     headerIconSize: 24,
   },
   borderRadius: 4,
@@ -74,6 +75,7 @@ export interface Typography {
   darkColor: string;
   lightColor: string;
   iconSize: number;
+  largeIconSize: number;
   headerIconSize: number;
 }
 

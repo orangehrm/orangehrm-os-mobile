@@ -72,11 +72,12 @@ const leaveUsageReducer = (
         leaveRequestDetail: action.payload,
       };
     case CHANGE_MY_LEAVE_REQUEST_STATUS:
-      //reset my leave list for refresh the my leave list only with state changes
+      //reset my leave list, entitlements for refresh the my leave list only with state changes
       if (action.action.actionType === ACTION_TYPE_CHANGE_STATUS) {
         return {
           ...state,
           leaveRequest: initialState.leaveRequest,
+          entitlement: initialState.entitlement,
         };
       } else {
         return state;

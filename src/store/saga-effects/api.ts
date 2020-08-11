@@ -102,6 +102,9 @@ export function* apiGetCall(endpoint: string) {
 
     const response: Response = yield call(fetch, url, requestOptions);
     const data = yield call([response, response.json]);
+    data.getResponse = () => {
+      return response;
+    };
     return data;
   }
   throw new Error("Couldn't call with empty instanceUrl or accessToken.");
@@ -127,6 +130,9 @@ export function* apiPostCall(endpoint: string, body: object) {
 
     const response: Response = yield call(fetch, url, requestOptions);
     const data = yield call([response, response.json]);
+    data.getResponse = () => {
+      return response;
+    };
     return data;
   }
   throw new Error("Couldn't call with empty instanceUrl or accessToken.");

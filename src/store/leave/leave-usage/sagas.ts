@@ -53,6 +53,7 @@ import {
 import {
   getMessageAlongWithGenericErrors,
   getMessageAlongWithResponseErrors,
+  HTTP_NOT_FOUND,
 } from 'services/api';
 
 function* fetchMyLeaveEntitlements() {
@@ -69,7 +70,11 @@ function* fetchMyLeaveEntitlements() {
         ),
       );
     } else {
-      yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
+      if (response.getResponse().status === HTTP_NOT_FOUND) {
+        yield put(fetchMyLeaveEntitlementsFinished([]));
+      } else {
+        yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
+      }
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(
           response,

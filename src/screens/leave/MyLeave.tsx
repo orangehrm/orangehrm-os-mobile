@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {FlatList, View, RefreshControl} from 'react-native';
+import {FlatList, View, RefreshControl, StyleSheet} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import SafeAreaLayout from 'layouts/SafeAreaLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -27,12 +27,11 @@ import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import {selectLeaveRequests} from 'store/leave/leave-usage/selectors';
 import {selectEntitlement} from 'store/leave/leave-usage/selectors';
-import {
-  fetchMyLeaveRequests,
-  fetchMyLeaveEntitlements,
-} from 'store/leave/leave-usage/actions';
+import {fetchMyLeaveRequests} from 'store/leave/leave-usage/actions';
 import {LeaveRequest} from 'store/leave/leave-usage/types';
 import Divider from 'components/DefaultDivider';
+import Text from 'components/DefaultText';
+import Icon from 'components/DefaultIcon';
 import MyLeaveListItem from 'screens/leave/components/MyLeaveListItem';
 import {MY_LEAVE_DETAILS, MY_LEAVE} from 'screens';
 import {navigate} from 'lib/helpers/navigation';
@@ -45,7 +44,6 @@ class MyLeave extends React.Component<MyLeaveProps> {
     if (this.props.leaveRequests === undefined) {
       this.props.fetchMyLeaveRequests();
     }
-    this.updateEntitlements();
   }
 
   componentDidUpdate(prevProps: MyLeaveProps) {
@@ -54,21 +52,14 @@ class MyLeave extends React.Component<MyLeaveProps> {
       this.props.currentRoute === MY_LEAVE &&
       this.props.leaveRequests === undefined
     ) {
-      // update my leave list and leave entitlements,
+      // update my leave list,
       // once perform action on my leave list item
       this.onRefresh();
     }
   }
 
   onRefresh = () => {
-    this.props.fetchMyLeaveEntitlements();
     this.props.fetchMyLeaveRequests();
-  };
-
-  updateEntitlements = () => {
-    if (this.props.entitlements === undefined) {
-      this.props.fetchMyLeaveEntitlements();
-    }
   };
 
   onPressLeave = (leaveRequest: LeaveRequest) => () => {
@@ -96,16 +87,34 @@ class MyLeave extends React.Component<MyLeaveProps> {
             );
           }}
           ListFooterComponent={
-            <View
-              style={{
-                paddingHorizontal: theme.spacing,
-                paddingBottom: theme.spacing * 4,
-              }}>
-              <Divider />
-            </View>
+            leaveRequests === undefined ||
+            leaveRequests?.length === 0 ? null : (
+              <View
+                style={{
+                  paddingHorizontal: theme.spacing,
+                  paddingBottom: theme.spacing * 4,
+                }}>
+                <Divider />
+              </View>
+            )
           }
           refreshControl={
             <RefreshControl refreshing={false} onRefresh={this.onRefresh} />
+          }
+          contentContainerStyle={styles.contentContainer}
+          ListEmptyComponent={
+            <View style={styles.emptyContentView}>
+              <Icon
+                name={'info-outline'}
+                type={'MaterialIcons'}
+                style={{
+                  fontSize: theme.typography.largeIconSize,
+                  paddingBottom: theme.spacing * 2,
+                  marginTop: -theme.spacing * 2,
+                }}
+              />
+              <Text>{'No Leave Requests Found.'}</Text>
+            </View>
           }
         />
       </SafeAreaLayout>
@@ -117,6 +126,18 @@ interface MyLeaveProps extends WithTheme, ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
 }
 
+const styles = StyleSheet.create({
+  emptyContentView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'column',
+  },
+  contentContainer: {
+    flexGrow: 1,
+  },
+});
+
 const mapStateToProps = (state: RootState) => ({
   leaveRequests: selectLeaveRequests(state),
   entitlements: selectEntitlement(state),
@@ -125,7 +146,6 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = {
   fetchMyLeaveRequests: fetchMyLeaveRequests,
-  fetchMyLeaveEntitlements: fetchMyLeaveEntitlements,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
