@@ -29,6 +29,7 @@ import {
   TYPE_SUCCESS,
 } from 'store/globals/types';
 import {MY_LEAVE_ENTITLEMENT_AND_USAGE} from 'screens';
+import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
 const initialState: GlobalsState = {
   snackMessage: {
@@ -45,7 +46,7 @@ const initialState: GlobalsState = {
 
 const globalsReducer = (
   state = initialState,
-  action: GlobalsActionTypes,
+  action: WithLogoutAction<GlobalsActionTypes>,
 ): GlobalsState => {
   switch (action.type) {
     case SHOW_SNACK_MESSAGE:
@@ -94,6 +95,12 @@ const globalsReducer = (
         ...state,
         currentRoute: action.route,
         previousRoute: state.currentRoute,
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        currentRoute: initialState.currentRoute,
+        previousRoute: initialState.previousRoute,
       };
     default:
       return state;

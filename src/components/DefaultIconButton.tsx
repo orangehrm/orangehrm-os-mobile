@@ -22,7 +22,7 @@ import React from 'react';
 import {Button, NativeBase} from 'native-base';
 import Icon from 'components/DefaultIcon';
 
-const DefaultIconButton = (props: DefaultIconButtonProps) => {
+const DefaultIconButton = (props: IconButtonProps) => {
   const {iconProps, buttonProps} = props;
 
   return (
@@ -32,7 +32,7 @@ const DefaultIconButton = (props: DefaultIconButtonProps) => {
   );
 };
 
-interface DefaultIconButtonProps {
+export interface IconButtonProps {
   iconProps: NativeBase.Icon;
   buttonProps?: NativeBase.Button;
 }

@@ -19,7 +19,12 @@
  */
 
 import React from 'react';
-import {View, StyleSheet, Keyboard} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Keyboard,
+  TextInput as RNTextInput,
+} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -67,7 +72,7 @@ import Button from 'components/DefaultButton';
 import PickLeaveRequestType from 'screens/leave/components/PickLeaveRequestType';
 import PickLeaveRequestDays from 'screens/leave/components/PickLeaveRequestDays';
 import PickLeaveRequestComment, {
-  PickLeaveRequestCommentInput,
+  PickLeaveRequestCommentFooter,
 } from 'screens/leave/components/PickLeaveRequestComment';
 import PickSubordinate from 'screens/leave/components/PickSubordinate';
 import Divider from 'components/DefaultDivider';
@@ -83,11 +88,15 @@ import {isSingleDayRequest, isMultipleDayRequest} from 'lib/helpers/leave';
 import {LeaveRequest} from 'store/leave/common-screens/types';
 
 class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
+  inputRef: RNTextInput | null;
+
   constructor(props: AssignLeaveProps) {
     super(props);
+    this.inputRef = null;
     this.state = {
       typingComment: false,
       requestDaysError: '',
+      comment: '',
     };
     this.updateSubordinateList();
   }
@@ -100,7 +109,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
     Keyboard.removeListener('keyboardDidHide', this.onKeyboardHide);
   }
 
-  componentDidUpdate(prevProps: AssignLeaveProps) {
+  componentDidUpdate(prevProps: AssignLeaveProps, prevState: AssignLeaveState) {
     const {
       selectedSubordinate,
       previousRoute,
@@ -156,6 +165,15 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
         });
       }
     }
+
+    const {typingComment} = this.state;
+    if (prevState.typingComment !== typingComment) {
+      if (typingComment === true) {
+        this.inputRef?.focus();
+      } else {
+        this.inputRef?.blur();
+      }
+    }
   }
 
   onKeyboardHide = () => {
@@ -199,7 +217,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
         fromDate: fromDate,
         toDate: toDate ? toDate : fromDate,
         type: selectedLeaveType?.leaveType.id,
-        comment: comment,
+        comment: comment === '' ? undefined : comment,
       };
       if (isSingleDayRequest(fromDate, toDate)) {
         this.props.saveSingleDayLeaveRequest(selectedSubordinate.empNumber, {
@@ -216,6 +234,19 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
     } else {
       this.showRequestDaysError();
     }
+  };
+
+  onPressCommentButton = () => {
+    const {setLeaveComment} = this.props;
+    const {comment} = this.state;
+    setLeaveComment(comment);
+    this.hideCommentInput();
+  };
+
+  setLeaveComment = (text: string) => {
+    this.setState({
+      comment: text,
+    });
   };
 
   showRequestDaysError = () => {
@@ -249,13 +280,12 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
       toDate,
       duration,
       partialOption,
-      comment,
-      setLeaveComment,
+      comment: commentSaved,
       subordinates,
       selectedSubordinate,
       pickSubordinate,
     } = this.props;
-    const {typingComment, requestDaysError} = this.state;
+    const {typingComment, requestDaysError, comment} = this.state;
     return (
       <MainLayout
         onRefresh={
@@ -272,13 +302,14 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
                 {typingComment ? (
                   <>
                     <Divider />
-                    <View style={{paddingHorizontal: theme.spacing * 4}}>
-                      <PickLeaveRequestCommentInput
-                        value={comment}
-                        onChangeText={setLeaveComment}
-                        onBlur={this.hideCommentInput}
-                      />
-                    </View>
+                    <PickLeaveRequestCommentFooter
+                      ref={(input) => {
+                        this.inputRef = input;
+                      }}
+                      value={comment}
+                      onChangeText={this.setLeaveComment}
+                      onPress={this.onPressCommentButton}
+                    />
                   </>
                 ) : (
                   <View
@@ -351,7 +382,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
                   <View style={{paddingTop: theme.spacing * 2}}>
                     <PickLeaveRequestComment
                       onPress={this.toggleCommentInput}
-                      comment={comment}
+                      comment={commentSaved}
                     />
                   </View>
                 </>
@@ -371,6 +402,7 @@ interface AssignLeaveProps extends WithTheme, ConnectedProps<typeof connector> {
 interface AssignLeaveState {
   typingComment: boolean;
   requestDaysError: string;
+  comment: string;
 }
 
 const styles = StyleSheet.create({

@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -28,8 +28,7 @@ import {Dispatch, Action} from 'redux';
 import {RootState} from 'store';
 import Divider from 'components/DefaultDivider';
 import LeaveCommentListItem from 'screens/leave/components/LeaveCommentListItem';
-import IconButton from 'components/DefaultIconButton';
-import {PickLeaveRequestCommentInput} from 'screens/leave/components/PickLeaveRequestComment';
+import {PickLeaveRequestCommentFooter} from 'screens/leave/components/PickLeaveRequestComment';
 import {ACTION_TYPE_COMMENT} from 'store/leave/leave-list/types';
 import {LeaveCommentsRouteParams} from 'screens/leave/navigators';
 
@@ -72,30 +71,11 @@ class LeaveComments extends React.Component<
     return (
       <MainLayout
         footer={
-          <>
-            <View
-              style={[
-                styles.footerView,
-                {
-                  backgroundColor: theme.palette.backgroundSecondary,
-                  paddingHorizontal: theme.spacing * 4,
-                },
-              ]}>
-              <View style={styles.textView}>
-                <PickLeaveRequestCommentInput
-                  autoFocus={false}
-                  onChangeText={this.onChangeText}
-                  value={comment}
-                />
-              </View>
-              <View style={{paddingTop: theme.spacing * 0.5}}>
-                <IconButton
-                  iconProps={{name: 'send'}}
-                  buttonProps={{onPress: this.onPressComment}}
-                />
-              </View>
-            </View>
-          </>
+          <PickLeaveRequestCommentFooter
+            value={comment}
+            onChangeText={this.onChangeText}
+            autoFocus={false}
+          />
         }>
         <View style={{paddingBottom: theme.spacing * 5}}>
           {employeeLeaveRequest?.comments.map((commentItem, index) => (
@@ -119,16 +99,6 @@ class LeaveComments extends React.Component<
     );
   }
 }
-
-const styles = StyleSheet.create({
-  footerView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  textView: {
-    flex: 1,
-  },
-});
 
 interface LeaveCommentsProps
   extends WithTheme,

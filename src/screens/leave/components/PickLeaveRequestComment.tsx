@@ -19,15 +19,23 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
-import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import {
+  StyleSheet,
+  View,
+  TouchableWithoutFeedback,
+  TextInput as RNTextInput,
+} from 'react-native';
+import useTheme from 'lib/hook/useTheme';
 import Text from 'components/DefaultText';
 import CardButton from 'screens/leave/components/CardButton';
 import Icon from 'components/DefaultIcon';
+import IconButton, {IconButtonProps} from 'components/DefaultIconButton';
 import TextInput, {TextInputProps} from 'components/DefaultTextInput';
+import {$PropertyType} from 'utility-types';
 
 const PickLeaveRequestComment = (props: PickLeaveRequestCommentProps) => {
-  const {theme, onPress, comment} = props;
+  const {onPress, comment} = props;
+  const theme = useTheme();
   return (
     <>
       <View>
@@ -59,7 +67,7 @@ const PickLeaveRequestComment = (props: PickLeaveRequestCommentProps) => {
   );
 };
 
-interface PickLeaveRequestCommentProps extends WithTheme {
+interface PickLeaveRequestCommentProps {
   onPress?: () => void;
   comment?: string;
 }
@@ -77,16 +85,25 @@ const styles = StyleSheet.create({
   cardButton: {
     borderRadius: 0,
   },
+  footerView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  textView: {
+    flex: 1,
+  },
 });
 
-export default withTheme<PickLeaveRequestCommentProps>()(
-  PickLeaveRequestComment,
-);
+export default PickLeaveRequestComment;
 
-export const PickLeaveRequestCommentInput = (props: TextInputProps) => {
+export const PickLeaveRequestCommentInput = React.forwardRef<
+  RNTextInput,
+  TextInputProps
+>((props, ref) => {
   return (
     <>
       <TextInput
+        ref={ref}
         placeholder={'Add a Comment...'}
         multiline
         maxLength={250}
@@ -95,4 +112,38 @@ export const PickLeaveRequestCommentInput = (props: TextInputProps) => {
       />
     </>
   );
-};
+});
+
+export const PickLeaveRequestCommentFooter = React.forwardRef<
+  RNTextInput,
+  PickLeaveRequestCommentFooterProps
+>((props, ref) => {
+  const {value: comment, onChangeText, autoFocus, ...buttonProps} = props;
+  const theme = useTheme();
+  return (
+    <View
+      style={[
+        styles.footerView,
+        {
+          backgroundColor: theme.palette.backgroundSecondary,
+          paddingHorizontal: theme.spacing * 4,
+        },
+      ]}>
+      <View style={styles.textView}>
+        <PickLeaveRequestCommentInput
+          ref={ref}
+          autoFocus={autoFocus}
+          onChangeText={onChangeText}
+          value={comment}
+        />
+      </View>
+      <View style={{paddingTop: theme.spacing * 0.5}}>
+        <IconButton iconProps={{name: 'send'}} buttonProps={buttonProps} />
+      </View>
+    </View>
+  );
+});
+
+export interface PickLeaveRequestCommentFooterProps
+  extends Pick<TextInputProps, 'onChangeText' | 'value' | 'autoFocus'>,
+    NonNullable<$PropertyType<IconButtonProps, 'buttonProps'>> {}

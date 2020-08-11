@@ -52,7 +52,6 @@ const DefaultTextInput = React.forwardRef<
 
 export interface TextInputProps extends RNTextInputProps {
   viewProps?: ViewProps;
-  ref?: React.RefObject<TextInput> | ((instance: TextInput | null) => void);
 }
 
 export default DefaultTextInput;
