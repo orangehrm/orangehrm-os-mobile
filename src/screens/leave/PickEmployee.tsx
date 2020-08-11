@@ -25,6 +25,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput as RNTextInput,
+  RefreshControl,
 } from 'react-native';
 import SafeAreaLayout from 'layouts/SafeAreaLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -71,7 +72,7 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
 
   render() {
     const {theme, route, navigation} = this.props;
-    const {employees, textValue, setTextValue} = route.params;
+    const {employees, textValue, setTextValue, onRefresh} = route.params;
 
     let filteredData;
     if (textValue !== '') {
@@ -170,8 +171,10 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
                               paddingLeft: theme.spacing * 4,
                             },
                           ]}>
-                          <Text>{fullName}</Text>
-                          <Text>{item.employeeId}</Text>
+                          <Text style={styles.fullName}>{fullName}</Text>
+                          <Text style={styles.employeeId}>
+                            {item.employeeId}
+                          </Text>
                         </View>
                       </View>
                     </TouchableOpacity>
@@ -179,6 +182,9 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
                 }}
                 keyExtractor={(item) => item.empNumber}
                 keyboardShouldPersistTaps="handled"
+                refreshControl={
+                  <RefreshControl refreshing={false} onRefresh={onRefresh} />
+                }
               />
             )}
           </View>
@@ -214,6 +220,13 @@ const styles = StyleSheet.create({
   },
   center: {
     justifyContent: 'center',
+  },
+  fullName: {
+    flex: 5,
+  },
+  employeeId: {
+    flex: 1,
+    textAlign: 'right',
   },
 });
 

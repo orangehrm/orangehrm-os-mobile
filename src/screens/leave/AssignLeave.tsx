@@ -343,6 +343,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
             subordinates={subordinates}
             selectedSubordinate={selectedSubordinate}
             setSelectedSubordinate={pickSubordinate}
+            onRefreshSubordinate={this.updateSubordinateList}
           />
           {selectedSubordinate ? (
             <>

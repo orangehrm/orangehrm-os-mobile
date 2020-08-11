@@ -42,6 +42,7 @@ export interface PickEmployeeParams {
   textValue: string;
   setTextValue: (text: string) => void;
   pickEmployee: (employee: Employee) => void;
+  onRefresh: () => void;
 }
 
 export type PickEmployeeRouteParams = RouteProp<
