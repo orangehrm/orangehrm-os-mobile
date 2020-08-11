@@ -92,6 +92,10 @@ class SelectInstance extends React.Component<
 
   handleOnChange = (text: string) => {
     this.setState({instanceUrl: text});
+    if (text === '') {
+      this.setState({errorMessage: 'Required'});
+      return;
+    }
     const isUrl = checkUrl(text);
     const isDomain = checkDomain(text);
     if (!isUrl && !isDomain) {
