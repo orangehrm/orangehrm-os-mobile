@@ -28,16 +28,30 @@ import {RootState} from 'store';
 import {
   selectFromDate,
   selectToDate,
+  selectHolidays,
+  selectWorkWeek,
 } from 'store/leave/common-screens/selectors';
 import {
   pickLeaveFromDate,
   pickLeaveToDate,
   setPickedState,
+  fetchHolidays,
+  fetchWorkWeek,
 } from 'store/leave/common-screens/actions';
 import Button from 'components/DefaultButton';
 import Calendar from 'screens/leave/components/Calendar';
 
 class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
+  constructor(props: PickLeaveRequestDaysProps) {
+    super(props);
+    if (props.holidays === undefined) {
+      props.fetchHolidays();
+    }
+    if (props.workWeek === undefined) {
+      props.fetchWorkWeek();
+    }
+  }
+
   componentDidMount() {
     this.props.setPickedState('pickedLeaveDates', false);
     Keyboard.dismiss();
@@ -51,7 +65,15 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
   };
 
   render() {
-    const {theme, fromDate, toDate, setFromDate, setToDate} = this.props;
+    const {
+      theme,
+      fromDate,
+      toDate,
+      setFromDate,
+      setToDate,
+      holidays,
+      workWeek,
+    } = this.props;
 
     return (
       <SafeAreaLayout>
@@ -65,6 +87,8 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
             toDate={toDate}
             setFromDate={setFromDate}
             setToDate={setToDate}
+            holidays={holidays}
+            workWeek={workWeek}
           />
         </View>
         <View
@@ -101,12 +125,16 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: RootState) => ({
   fromDate: selectFromDate(state),
   toDate: selectToDate(state),
+  holidays: selectHolidays(state),
+  workWeek: selectWorkWeek(state),
 });
 
 const mapDispatchToProps = {
   setFromDate: pickLeaveFromDate,
   setToDate: pickLeaveToDate,
   setPickedState,
+  fetchHolidays,
+  fetchWorkWeek,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

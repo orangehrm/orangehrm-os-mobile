@@ -27,6 +27,8 @@ export interface CommonLeaveState {
   partialOption: MultipleDayPartialOption;
   pickedPartialOption: boolean;
   forceUpdateSlider: number;
+  holidays?: Holiday[];
+  workWeek?: WorkWeek;
 }
 
 export const PICK_FROM_DATE = 'LEAVE_COMMON_PICK_FROM_DATE';
@@ -38,6 +40,10 @@ export const RESET_COMMON_LEAVE_SCREENS = 'LEAVE_COMMON_RESET_LEAVE_COMMON';
 export const SET_COMMON_LEAVE_SCREENS_STATE =
   'LEAVE_COMMON_SET_COMMON_LEAVE_SCREENS_STATE';
 export const SET_PICKED_STATE = 'LEAVE_COMMON_SET_PICKED_STATE';
+export const FETCH_HOLIDAYS = 'LEAVE_COMMON_FETCH_HOLIDAYS';
+export const FETCH_HOLIDAYS_FINISHED = 'LEAVE_COMMON_FETCH_HOLIDAYS_FINISHED';
+export const FETCH_WORK_WEEK = 'LEAVE_COMMON_WORK_WEEK';
+export const FETCH_WORK_WEEK_FINISHED = 'LEAVE_COMMON_WORK_WEEK_FINISHED';
 
 export interface PickFromDateAction {
   type: typeof PICK_FROM_DATE;
@@ -79,6 +85,24 @@ export interface SetPickedStateAction {
   state: boolean;
 }
 
+export interface FetchHolidaysAction {
+  type: typeof FETCH_HOLIDAYS;
+}
+
+export interface FetchHolidaysFinishedAction
+  extends Pick<CommonLeaveState, 'holidays'> {
+  type: typeof FETCH_HOLIDAYS_FINISHED;
+}
+
+export interface FetchWorkWeekAction {
+  type: typeof FETCH_WORK_WEEK;
+}
+
+export interface FetchWorkWeekFinishedAction
+  extends Pick<CommonLeaveState, 'workWeek'> {
+  type: typeof FETCH_WORK_WEEK_FINISHED;
+}
+
 export type ApplyLeaveActionTypes =
   | PickFromDateAction
   | PickToDateAction
@@ -86,7 +110,11 @@ export type ApplyLeaveActionTypes =
   | PickMultipleDayPartialOptionAction
   | ResetCommonLeaveScreensAction
   | SetCommonLeaveScreensStateAction
-  | SetPickedStateAction;
+  | SetPickedStateAction
+  | FetchHolidaysAction
+  | FetchHolidaysFinishedAction
+  | FetchWorkWeekAction
+  | FetchWorkWeekFinishedAction;
 
 export interface LeaveRequest {
   type: string;
@@ -209,3 +237,39 @@ export type LeaveRequestActions =
   | 'PENDING'
   | 'REJECTED'
   | 'CANCELLED';
+
+export const RECURRING_TRUE = '1';
+export const RECURRING_FALSE = '0';
+
+export const WORK_WEEK_FULL = '0';
+export const WORK_WEEK_HALF = '4';
+export const WORK_WEEK_NON = '8';
+
+export interface Holiday {
+  id: string;
+  recurring: typeof RECURRING_TRUE | typeof RECURRING_FALSE;
+  description: string;
+  date: string;
+  length: typeof WORK_WEEK_FULL | typeof WORK_WEEK_HALF;
+}
+
+export interface WorkWeek {
+  mon: WorkWeekType;
+  tue: WorkWeekType;
+  wed: WorkWeekType;
+  thu: WorkWeekType;
+  fri: WorkWeekType;
+  sat: WorkWeekType;
+  sun: WorkWeekType;
+}
+
+export type WorkWeekType =
+  | typeof WORK_WEEK_FULL
+  | typeof WORK_WEEK_HALF
+  | typeof WORK_WEEK_NON;
+
+export interface WorkShift {
+  workShift: string;
+  startTime: string;
+  endTime: string;
+}
