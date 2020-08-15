@@ -75,6 +75,7 @@ class LeaveComments extends React.Component<
             value={comment}
             onChangeText={this.onChangeText}
             autoFocus={false}
+            onPress={this.onPressComment}
           />
         }>
         <View style={{paddingBottom: theme.spacing * 5}}>
