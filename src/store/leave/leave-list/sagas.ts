@@ -65,19 +65,18 @@ function* fetchLeaveList() {
         fetchLeaveListFinished(assignColorsToLeaveTypes(response.data)),
       );
     } else {
-      yield put(
-        fetchLeaveListFinished(
-          undefined,
-          response.getResponse().status === HTTP_NOT_FOUND ? false : true,
-        ),
-      );
-      yield showSnackMessage(
-        getMessageAlongWithResponseErrors(
-          response,
-          'Failed to Fetch Leave Details',
-        ),
-        TYPE_ERROR,
-      );
+      if (response.getResponse().status === HTTP_NOT_FOUND) {
+        yield put(fetchLeaveListFinished([]));
+      } else {
+        yield put(fetchLeaveListFinished(undefined, true));
+        yield showSnackMessage(
+          getMessageAlongWithResponseErrors(
+            response,
+            'Failed to Fetch Leave Details',
+          ),
+          TYPE_ERROR,
+        );
+      }
     }
   } catch (error) {
     yield showSnackMessage(

@@ -103,18 +103,20 @@ class MyLeave extends React.Component<MyLeaveProps> {
           }
           contentContainerStyle={styles.contentContainer}
           ListEmptyComponent={
-            <View style={styles.emptyContentView}>
-              <Icon
-                name={'info-outline'}
-                type={'MaterialIcons'}
-                style={{
-                  fontSize: theme.typography.largeIconSize,
-                  paddingBottom: theme.spacing * 2,
-                  marginTop: -theme.spacing * 2,
-                }}
-              />
-              <Text>{'No Leave Requests Found.'}</Text>
-            </View>
+            leaveRequests !== undefined ? (
+              <View style={styles.emptyContentView}>
+                <Icon
+                  name={'info-outline'}
+                  type={'MaterialIcons'}
+                  style={{
+                    fontSize: theme.typography.largeIconSize,
+                    paddingBottom: theme.spacing * 2,
+                    marginTop: -theme.spacing * 2,
+                  }}
+                />
+                <Text>{'No Leave Requests Found.'}</Text>
+              </View>
+            ) : null
           }
         />
       </SafeAreaLayout>

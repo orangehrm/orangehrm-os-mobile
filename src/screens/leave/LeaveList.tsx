@@ -104,18 +104,20 @@ class LeaveList extends React.Component<LeaveListProps> {
           }
           contentContainerStyle={styles.contentContainer}
           ListEmptyComponent={
-            <View style={styles.emptyContentView}>
-              <Icon
-                name={'info-outline'}
-                type={'MaterialIcons'}
-                style={{
-                  fontSize: theme.typography.largeIconSize,
-                  paddingBottom: theme.spacing * 2,
-                  marginTop: -theme.spacing * 2,
-                }}
-              />
-              <Text>{'No Leave Requests Found.'}</Text>
-            </View>
+            leaveList !== undefined ? (
+              <View style={styles.emptyContentView}>
+                <Icon
+                  name={'info-outline'}
+                  type={'MaterialIcons'}
+                  style={{
+                    fontSize: theme.typography.largeIconSize,
+                    paddingBottom: theme.spacing * 2,
+                    marginTop: -theme.spacing * 2,
+                  }}
+                />
+                <Text>{'No Leave Requests Found.'}</Text>
+              </View>
+            ) : null
           }
         />
       </SafeAreaLayout>
