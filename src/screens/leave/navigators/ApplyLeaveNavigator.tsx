@@ -26,15 +26,18 @@ import ApplyLeave from 'screens/leave/ApplyLeave';
 import PickLeaveRequestDaysCalendar from 'screens/leave/PickLeaveRequestDaysCalendar';
 import PickLeaveRequestDuration from 'screens/leave/PickLeaveRequestDuration';
 import PickLeaveRequestPartialDays from 'screens/leave/PickLeaveRequestPartialDays';
+import LeaveRequestSuccess from 'screens/leave/LeaveRequestSuccess';
 import {
   APPLY_LEAVE,
   APPLY_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR,
   APPLY_LEAVE_PICK_LEAVE_REQUEST_DURATION,
   APPLY_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS,
+  LEAVE_REQUEST_SUCCESS,
 } from 'screens';
 import HeaderMenuIcon from 'components/HeaderMenuIcon';
 import HeaderBackIcon from 'components/HeaderBackIcon';
 import {getHeaderStyle} from 'lib/helpers/header';
+import {LeaveRequestSuccessParamList} from 'screens/leave/navigators';
 
 const Stack = createStackNavigator<ApplyLeaveNavigatorParamList>();
 
@@ -86,6 +89,13 @@ class ApplyLeaveNavigator extends React.Component<ApplyLeaveNavigatorProps> {
             title: 'Partial Days',
           }}
         />
+        <Stack.Screen
+          name={LEAVE_REQUEST_SUCCESS}
+          component={LeaveRequestSuccess}
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack.Navigator>
     );
   }
@@ -100,6 +110,6 @@ export type ApplyLeaveNavigatorParamList = {
   [APPLY_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR]: {};
   [APPLY_LEAVE_PICK_LEAVE_REQUEST_DURATION]: {};
   [APPLY_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS]: {};
-};
+} & LeaveRequestSuccessParamList;
 
 export default withTheme<ApplyLeaveNavigatorProps>()(ApplyLeaveNavigator);

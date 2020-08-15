@@ -19,7 +19,12 @@
  */
 
 import {NavigationProp, RouteProp} from '@react-navigation/native';
-import {PICK_EMPLOYEE, LEAVE_DAYS, LEAVE_COMMENTS} from 'screens';
+import {
+  PICK_EMPLOYEE,
+  LEAVE_DAYS,
+  LEAVE_COMMENTS,
+  LEAVE_REQUEST_SUCCESS,
+} from 'screens';
 import {EmployeeLeaveRequest} from 'store/leave/leave-list/types';
 import {selectEmployeeLeaveRequest} from 'store/leave/leave-list/selectors';
 import {selectLeaveRequestDetail} from 'store/leave/leave-usage/selectors';
@@ -84,4 +89,15 @@ export type LeaveCommentsParamList = {
 export type LeaveCommentsRouteParams = RouteProp<
   LeaveCommentsParamList,
   typeof LEAVE_COMMENTS
+>;
+
+export interface LeaveRequestSuccessParam {}
+
+export type LeaveRequestSuccessParamList = {
+  [LEAVE_REQUEST_SUCCESS]: LeaveRequestSuccessParam;
+};
+
+export type LeaveRequestSuccessRouteParams = RouteProp<
+  LeaveRequestSuccessParamList,
+  typeof LEAVE_REQUEST_SUCCESS
 >;
