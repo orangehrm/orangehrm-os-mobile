@@ -57,7 +57,7 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
               }}>
               <Avatar name={leaveRequest.employeeName} />
             </View>
-            <View>
+            <View style={styles.contentView}>
               <View style={{paddingHorizontal: theme.spacing * 2}}>
                 <Text
                   style={[
@@ -129,6 +129,9 @@ const styles = StyleSheet.create({
   row: {
     flex: 1,
     flexDirection: 'row',
+  },
+  contentView: {
+    flex: 1,
   },
 });
 
