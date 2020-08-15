@@ -25,8 +25,13 @@ import Globals from 'components/Globals';
 
 import {Provider} from 'react-redux';
 import configureStore from 'store/configureStore';
+import * as Sentry from '@sentry/react-native';
 
 const store = configureStore();
+Sentry.init({
+  dsn: 'https://1ede9819f32a4e628dd1792ef76f6836@o432607.ingest.sentry.io/5385524',
+});
+
 
 const App = () => {
   return (
