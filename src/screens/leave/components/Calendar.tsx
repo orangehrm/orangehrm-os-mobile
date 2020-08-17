@@ -29,6 +29,22 @@ import {
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {$PropertyType} from 'utility-types';
 import {getDatesWithinPeriod, getDateString} from 'lib/helpers/date';
+import {
+  Holiday,
+  WorkWeek,
+  WORK_WEEK_FULL,
+  WORK_WEEK_NON,
+} from 'store/leave/common-screens/types';
+
+const MAP = {
+  0: 'sun',
+  1: 'mon',
+  2: 'tue',
+  3: 'wed',
+  4: 'thu',
+  5: 'fri',
+  6: 'sat',
+};
 
 const Calendar = (props: CalendarProps) => {
   const {
@@ -37,9 +53,14 @@ const Calendar = (props: CalendarProps) => {
     toDate,
     setFromDate = () => {},
     setToDate = () => {},
+    holidays,
+    workWeek,
     ...restProps
   } = props;
   const [markedDates, setMarkedDates] = useState<
+    $PropertyType<PeriodMarkingProps, 'markedDates'>
+  >({});
+  const [markedHolidays, setMarkedHolidays] = useState<
     $PropertyType<PeriodMarkingProps, 'markedDates'>
   >({});
   const currentDate = getDateString(new Date());
@@ -49,8 +70,60 @@ const Calendar = (props: CalendarProps) => {
   };
 
   useEffect(() => {
+    const markedHolidaysObj: {[key: string]: any} = {};
+    holidays?.forEach((holiday) => {
+      markedHolidaysObj[holiday.date] = {
+        startingDay: true,
+        endingDay: true,
+        color:
+          holiday.length === WORK_WEEK_FULL
+            ? theme.palette.defaultDark
+            : theme.palette.default,
+      };
+    });
+
+    const today = new Date();
+    const minDate = new Date();
+    const maxDate = new Date();
+    minDate.setMonth(today.getMonth() - 50);
+    maxDate.setMonth(today.getMonth() + 50);
+
+    const markedNonWorkingDaysObj: {[key: string]: any} = {};
+    const dates = getDatesWithinPeriod(minDate, maxDate);
+    if (workWeek !== undefined) {
+      dates.forEach((date) => {
+        const day = date.getUTCDay();
+        const workDay =
+          workWeek[MAP[day as keyof typeof MAP] as keyof WorkWeek];
+        if (workDay !== WORK_WEEK_FULL) {
+          markedNonWorkingDaysObj[getDateString(date)] = {
+            startingDay: true,
+            endingDay: true,
+            color:
+              workDay === WORK_WEEK_NON
+                ? theme.palette.defaultDark
+                : theme.palette.default,
+          };
+        }
+      });
+    }
+
+    setMarkedHolidays({...markedNonWorkingDaysObj, ...markedHolidaysObj});
+  }, [holidays, workWeek, theme]);
+
+  useEffect(() => {
+    setMarkedDates({
+      ...markedHolidays,
+      ...markedDates,
+    });
+    /* eslint-disable react-hooks/exhaustive-deps */
+  }, [markedHolidays]);
+  /* eslint-enable react-hooks/exhaustive-deps */
+
+  useEffect(() => {
     if (fromDate !== undefined && toDate === undefined) {
       setMarkedDates({
+        ...markedHolidays,
         [fromDate]: {
           startingDay: true,
           endingDay: true,
@@ -60,6 +133,7 @@ const Calendar = (props: CalendarProps) => {
     } else if (fromDate !== undefined && toDate !== undefined) {
       if (fromDate === toDate) {
         setMarkedDates({
+          ...markedHolidays,
           [fromDate]: {
             startingDay: true,
             endingDay: true,
@@ -71,10 +145,13 @@ const Calendar = (props: CalendarProps) => {
           new Date(fromDate),
           new Date(toDate),
         );
-        setMarkedDates(getMarkedDatesForPeriod(dates));
+        setMarkedDates({
+          ...markedHolidays,
+          ...getMarkedDatesForPeriod(dates),
+        });
       }
     } else {
-      setMarkedDates({});
+      setMarkedDates({...markedHolidays});
     }
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [fromDate, toDate]);
@@ -86,6 +163,7 @@ const Calendar = (props: CalendarProps) => {
     if (fromDate === selectedDate) {
       setToDate(selectedDate);
       setMarkedDates({
+        ...markedHolidays,
         [selectedDate]: {
           startingDay: true,
           endingDay: true,
@@ -106,11 +184,15 @@ const Calendar = (props: CalendarProps) => {
         setToDate(selectedDate);
       }
 
-      setMarkedDates(getMarkedDatesForPeriod(dates));
+      setMarkedDates({
+        ...markedHolidays,
+        ...getMarkedDatesForPeriod(dates),
+      });
     } else {
       setFromDate(selectedDate);
       setToDate(undefined);
       setMarkedDates({
+        ...markedHolidays,
         [selectedDate]: {
           startingDay: true,
           endingDay: true,
@@ -181,6 +263,8 @@ export interface CalendarProps
   toDate?: string;
   setFromDate?: (date?: string) => any;
   setToDate?: (date?: string) => any;
+  holidays?: Holiday[];
+  workWeek?: WorkWeek;
 }
 
 export default withTheme<CalendarProps>()(Calendar);

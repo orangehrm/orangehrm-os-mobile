@@ -30,6 +30,8 @@ import {
   RESET_COMMON_LEAVE_SCREENS,
   SET_COMMON_LEAVE_SCREENS_STATE,
   SET_PICKED_STATE,
+  FETCH_HOLIDAYS_FINISHED,
+  FETCH_WORK_WEEK_FINISHED,
 } from 'store/leave/common-screens/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
@@ -89,6 +91,16 @@ const leaveCommonReducer = (
       return {
         ...state,
         [action.key]: action.state,
+      };
+    case FETCH_HOLIDAYS_FINISHED:
+      return {
+        ...state,
+        holidays: action.holidays,
+      };
+    case FETCH_WORK_WEEK_FINISHED:
+      return {
+        ...state,
+        workWeek: action.workWeek,
       };
     case RESET_COMMON_LEAVE_SCREENS:
     case LOGOUT:

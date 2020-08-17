@@ -24,6 +24,8 @@ import {
   CommonLeaveState,
   SingleDayDuration,
   MultipleDayPartialOption,
+  Holiday,
+  WorkWeek,
 } from 'store/leave/common-screens/types';
 
 export const selectLeaveCommon = (state: RootState) => state.leaveCommon;
@@ -75,3 +77,15 @@ export const selectForceUpdateSlider = createSelector<
   CommonLeaveState,
   number
 >([selectLeaveCommon], (leaveCommon) => leaveCommon.forceUpdateSlider);
+
+export const selectHolidays = createSelector<
+  RootState,
+  CommonLeaveState,
+  Holiday[] | undefined
+>([selectLeaveCommon], (leaveCommon) => leaveCommon.holidays);
+
+export const selectWorkWeek = createSelector<
+  RootState,
+  CommonLeaveState,
+  WorkWeek | undefined
+>([selectLeaveCommon], (leaveCommon) => leaveCommon.workWeek);

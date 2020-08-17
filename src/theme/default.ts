@@ -21,6 +21,7 @@
 const defaultTheme: Theme = {
   palette: {
     default: '#e0e0e0',
+    defaultDark: '#c2c2c2',
     primary: '#00ac51',
     secondary: '#f88400',
     error: '#f44336',
@@ -52,6 +53,7 @@ const defaultTheme: Theme = {
 
 export interface Palette {
   default: string;
+  defaultDark: string;
   primary: string;
   secondary: string;
   error: string;

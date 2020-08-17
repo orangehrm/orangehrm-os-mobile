@@ -40,6 +40,9 @@ const DUMMY_OPEN_API_DEFINITION = {
     '/subordinate/{id}/leave-entitlement': {get: {}},
     '/subordinate/{id}/leave-request': {post: {}},
     '/employees': {get: {}},
+    '/leave/holidays': {get: {}},
+    '/leave/work-shift': {get: {}},
+    '/leave/work-week': {get: {}},
   },
 };
 

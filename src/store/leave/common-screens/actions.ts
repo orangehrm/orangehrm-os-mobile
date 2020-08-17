@@ -26,6 +26,10 @@ import {
   RESET_COMMON_LEAVE_SCREENS,
   SET_COMMON_LEAVE_SCREENS_STATE,
   SET_PICKED_STATE,
+  FETCH_HOLIDAYS,
+  FETCH_HOLIDAYS_FINISHED,
+  FETCH_WORK_WEEK,
+  FETCH_WORK_WEEK_FINISHED,
   PickFromDateAction,
   PickToDateAction,
   PickSingleDayDurationAction,
@@ -33,6 +37,10 @@ import {
   ResetCommonLeaveScreensAction,
   SetCommonLeaveScreensStateAction,
   SetPickedStateAction,
+  FetchHolidaysAction,
+  FetchHolidaysFinishedAction,
+  FetchWorkWeekAction,
+  FetchWorkWeekFinishedAction,
 } from 'store/leave/common-screens/types';
 import {$PropertyType} from 'utility-types';
 
@@ -93,4 +101,26 @@ export const resetPickedState = (): SetPickedStateAction => ({
   type: SET_PICKED_STATE,
   key: undefined,
   state: false,
+});
+
+export const fetchHolidays = (): FetchHolidaysAction => ({
+  type: FETCH_HOLIDAYS,
+});
+
+export const fetchHolidaysFinished = (
+  holidays: $PropertyType<FetchHolidaysFinishedAction, 'holidays'>,
+): FetchHolidaysFinishedAction => ({
+  type: FETCH_HOLIDAYS_FINISHED,
+  holidays,
+});
+
+export const fetchWorkWeek = (): FetchWorkWeekAction => ({
+  type: FETCH_WORK_WEEK,
+});
+
+export const fetchWorkWeekFinished = (
+  workWeek: $PropertyType<FetchWorkWeekFinishedAction, 'workWeek'>,
+): FetchWorkWeekFinishedAction => ({
+  type: FETCH_WORK_WEEK_FINISHED,
+  workWeek,
 });
