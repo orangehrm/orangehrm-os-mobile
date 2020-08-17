@@ -19,12 +19,7 @@
  */
 
 import {useSelector, useDispatch} from 'react-redux';
-import {
-  selectLoader,
-  selectSnackMessage,
-  selectPreviousRoute,
-  selectCurrentRoute,
-} from 'store/globals/selectors';
+import {selectLoader, selectSnackMessage} from 'store/globals/selectors';
 import {
   openLoader,
   closeLoader,
@@ -37,14 +32,10 @@ import {GlobalsState} from 'store/globals/types';
 const useGlobals = () => {
   const loader = useSelector(selectLoader);
   const snackMessage = useSelector(selectSnackMessage);
-  const previousRoute = useSelector(selectPreviousRoute);
-  const currentRoute = useSelector(selectCurrentRoute);
   const dispatch = useDispatch();
   return {
     loader,
     snackMessage,
-    previousRoute,
-    currentRoute,
     openLoader: (...args: Parameters<typeof openLoader>) => {
       dispatch(openLoader(...args));
     },
@@ -57,7 +48,7 @@ const useGlobals = () => {
     closeSnackMessage: (...args: Parameters<typeof closeSnackMessage>) => {
       dispatch(closeSnackMessage(...args));
     },
-    changePreviousRoute: (...args: Parameters<typeof changeCurrentRoute>) => {
+    changeCurrentRoute: (...args: Parameters<typeof changeCurrentRoute>) => {
       dispatch(changeCurrentRoute(...args));
     },
   };

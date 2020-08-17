@@ -27,8 +27,14 @@ import {
   PICK_MULTIPLE_DAY_PARTIAL_OPTION,
   PICK_LEAVE_COMMENT,
   RESET_APPLY_LEAVE,
+  FETCH_WORK_SHIFT,
+  FETCH_WORK_SHIFT_FINISHED,
 } from 'store/leave/apply-leave/types';
-import {FULL_DAY, PARTIAL_OPTION_NONE} from 'store/leave/common-screens/types';
+import {
+  FULL_DAY,
+  PARTIAL_OPTION_NONE,
+  DEFAULT_WORK_SHIFT,
+} from 'store/leave/common-screens/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
 const initialState: ApplyLeaveState = {
@@ -38,6 +44,8 @@ const initialState: ApplyLeaveState = {
   partialOption: {
     partialOption: PARTIAL_OPTION_NONE,
   },
+  workShift: DEFAULT_WORK_SHIFT,
+  workShiftFetched: false,
 };
 
 const applyLeaveReducer = (
@@ -69,6 +77,17 @@ const applyLeaveReducer = (
       return {
         ...state,
         comment: action.comment,
+      };
+    case FETCH_WORK_SHIFT:
+      return {
+        ...state,
+        workShiftFetched: false,
+      };
+    case FETCH_WORK_SHIFT_FINISHED:
+      return {
+        ...state,
+        workShift: action.workShift,
+        workShiftFetched: true,
       };
     case RESET_APPLY_LEAVE:
     case LOGOUT:

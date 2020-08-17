@@ -28,6 +28,7 @@ import {RootState} from 'store';
 import {
   selectPartialOption,
   selectForceUpdateSlider,
+  selectWorkShift,
 } from 'store/leave/common-screens/selectors';
 import {
   pickMultipleDayPartialOption as pickMultipleDayPartialOptionAction,
@@ -90,6 +91,7 @@ class PickLeaveRequestPartialDays extends React.Component<
       partialOption,
       pickMultipleDayPartialOption,
       forceUpdateSlider,
+      workShift,
     } = this.props;
     const radioStyle = {paddingVertical: theme.spacing * 2};
 
@@ -202,6 +204,7 @@ class PickLeaveRequestPartialDays extends React.Component<
           partialOption={partialOption}
           pickMultipleDayPartialOption={pickMultipleDayPartialOption}
           forceUpdateSlider={forceUpdateSlider}
+          workShift={workShift}
         />
       </MainLayout>
     );
@@ -223,6 +226,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: RootState) => ({
   partialOption: selectPartialOption(state),
   forceUpdateSlider: selectForceUpdateSlider(state),
+  workShift: selectWorkShift(state),
 });
 
 const mapDispatchToProps = {

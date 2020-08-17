@@ -24,6 +24,7 @@ import {ApplyLeaveState} from 'store/leave/apply-leave/types';
 import {
   SingleDayDuration,
   MultipleDayPartialOption,
+  WorkShift,
 } from 'store/leave/common-screens/types';
 
 export const selectApplyLeave = (state: RootState) => state.applyLeave;
@@ -57,3 +58,15 @@ export const selectApplyLeaveComment = createSelector<
   ApplyLeaveState,
   string | undefined
 >([selectApplyLeave], (applyLeave) => applyLeave.comment);
+
+export const selectWorkShift = createSelector<
+  RootState,
+  ApplyLeaveState,
+  WorkShift
+>([selectApplyLeave], (applyLeave) => applyLeave.workShift);
+
+export const selectWorkShiftFetched = createSelector<
+  RootState,
+  ApplyLeaveState,
+  boolean
+>([selectApplyLeave], (applyLeave) => applyLeave.workShiftFetched);

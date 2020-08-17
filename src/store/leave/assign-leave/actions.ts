@@ -34,6 +34,8 @@ import {
   FETCH_SUBORDINATES,
   FETCH_SUBORDINATES_FINISHED,
   PICK_SUBORDINATE,
+  FETCH_WORK_SHIFT,
+  FETCH_WORK_SHIFT_FINISHED,
   PickFromDateAction,
   PickToDateAction,
   AssignSingleDayLeaveRequestAction,
@@ -49,6 +51,8 @@ import {
   FetchSubordinatesAction,
   FetchSubordinatesFinishedAction,
   PickSubordinateAction,
+  FetchWorkShiftAction,
+  FetchWorkShiftFinishedAction,
 } from 'store/leave/assign-leave/types';
 import {$PropertyType} from 'utility-types';
 import {Entitlement} from 'store/leave/leave-usage/types';
@@ -165,4 +169,16 @@ export const pickSubordinate = (
 ): PickSubordinateAction => ({
   type: PICK_SUBORDINATE,
   subordinate,
+});
+
+export const fetchWorkShift = (empNumber: string): FetchWorkShiftAction => ({
+  type: FETCH_WORK_SHIFT,
+  empNumber,
+});
+
+export const fetchWorkShiftFinished = (
+  workShift: $PropertyType<FetchWorkShiftFinishedAction, 'workShift'>,
+): FetchWorkShiftFinishedAction => ({
+  type: FETCH_WORK_SHIFT_FINISHED,
+  workShift,
 });

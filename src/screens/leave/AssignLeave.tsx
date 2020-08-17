@@ -40,6 +40,8 @@ import {
   selectSubordinateSelectedLeaveTypeId,
   selectSubordinates,
   selectSelectedSubordinate,
+  selectWorkShift,
+  selectWorkShiftFetched,
 } from 'store/leave/assign-leave/selectors';
 import {
   selectFromDate,
@@ -62,6 +64,7 @@ import {
   pickAssignLeaveToDate,
   pickAssignLeaveSingleDayDuration,
   pickAssignLeaveMultipleDayPartialOption,
+  fetchWorkShift,
 } from 'store/leave/assign-leave/actions';
 import {selectPreviousRoute, selectCurrentRoute} from 'store/globals/selectors';
 import {
@@ -121,6 +124,8 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
       pickedLeaveDates,
       pickedLeaveDuration,
       pickedLeavePartialOption,
+      workShift,
+      workShiftFetched,
     } = this.props;
     if (prevProps.selectedSubordinate !== selectedSubordinate) {
       this.updateSubordinateEntitlements();
@@ -162,8 +167,22 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
           toDate,
           duration,
           partialOption,
+          workShift,
         });
       }
+
+      if (
+        (currentRoute === ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DURATION ||
+          currentRoute === ASSIGN_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS) &&
+        !workShiftFetched &&
+        selectedSubordinate
+      ) {
+        this.props.fetchWorkShift(selectedSubordinate.empNumber);
+      }
+    }
+
+    if (prevProps.workShift !== workShift) {
+      this.props.setCommonLeaveScreensState({workShift});
     }
 
     const {typingComment} = this.state;
@@ -436,6 +455,8 @@ const mapStateToProps = (state: RootState) => ({
   pickedLeaveDates: selectPickedLeaveDates(state),
   pickedLeaveDuration: selectPickedLeaveDuration(state),
   pickedLeavePartialOption: selectPickedLeavePartialOption(state),
+  workShift: selectWorkShift(state),
+  workShiftFetched: selectWorkShiftFetched(state),
 });
 
 const mapDispatchToProps = {
@@ -452,6 +473,7 @@ const mapDispatchToProps = {
   pickAssignLeaveMultipleDayPartialOption: pickAssignLeaveMultipleDayPartialOption,
   resetCommonLeave: resetCommonLeave,
   setCommonLeaveScreensState: setCommonLeaveScreensState,
+  fetchWorkShift,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

@@ -24,6 +24,7 @@ import {AssignLeaveState, Subordinate} from 'store/leave/assign-leave/types';
 import {
   SingleDayDuration,
   MultipleDayPartialOption,
+  WorkShift,
 } from 'store/leave/common-screens/types';
 import {Entitlement} from 'store/leave/leave-usage/types';
 
@@ -82,3 +83,15 @@ export const selectSelectedSubordinate = createSelector<
   AssignLeaveState,
   Subordinate | undefined
 >([selectAssignLeave], (assignLeave) => assignLeave.selectedSubordinate);
+
+export const selectWorkShift = createSelector<
+  RootState,
+  AssignLeaveState,
+  WorkShift
+>([selectAssignLeave], (assignLeave) => assignLeave.workShift);
+
+export const selectWorkShiftFetched = createSelector<
+  RootState,
+  AssignLeaveState,
+  boolean
+>([selectAssignLeave], (assignLeave) => assignLeave.workShiftFetched);

@@ -40,6 +40,8 @@ import {
   selectApplyLeaveDuration,
   selectApplyLeavePartialOption,
   selectApplyLeaveComment,
+  selectWorkShift,
+  selectWorkShiftFetched,
 } from 'store/leave/apply-leave/selectors';
 import {
   saveSingleDayLeaveRequest,
@@ -49,6 +51,7 @@ import {
   pickApplyLeaveToDate,
   pickApplyLeaveSingleDayDuration,
   pickApplyLeaveMultipleDayPartialOption,
+  fetchWorkShift,
 } from 'store/leave/apply-leave/actions';
 import {
   selectLeaveType,
@@ -114,6 +117,8 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       pickedLeaveDates,
       pickedLeaveDuration,
       pickedLeavePartialOption,
+      workShift,
+      workShiftFetched,
     } = this.props;
     if (
       prevProps.previousRoute !== previousRoute &&
@@ -143,8 +148,21 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
           toDate,
           duration,
           partialOption,
+          workShift,
         });
       }
+
+      if (
+        (currentRoute === APPLY_LEAVE_PICK_LEAVE_REQUEST_DURATION ||
+          currentRoute === APPLY_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS) &&
+        !workShiftFetched
+      ) {
+        this.props.fetchWorkShift();
+      }
+    }
+
+    if (prevProps.workShift !== workShift) {
+      this.props.setCommonLeaveScreensState({workShift});
     }
 
     const {typingComment} = this.state;
@@ -356,6 +374,8 @@ const mapStateToProps = (state: RootState) => ({
   pickedLeaveDates: selectPickedLeaveDates(state),
   pickedLeaveDuration: selectPickedLeaveDuration(state),
   pickedLeavePartialOption: selectPickedLeavePartialOption(state),
+  workShift: selectWorkShift(state),
+  workShiftFetched: selectWorkShiftFetched(state),
 });
 
 const mapDispatchToProps = {
@@ -369,6 +389,7 @@ const mapDispatchToProps = {
   pickApplyLeaveSingleDayDuration,
   pickApplyLeaveMultipleDayPartialOption,
   setCommonLeaveScreensState,
+  fetchWorkShift,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

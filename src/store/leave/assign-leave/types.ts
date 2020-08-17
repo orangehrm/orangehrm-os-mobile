@@ -23,6 +23,7 @@ import {
   MultipleDayPartialOption,
   SingleDayLeaveRequest,
   MultipleDayLeaveRequest,
+  WorkShift,
 } from 'store/leave/common-screens/types';
 import {Entitlement} from 'store/leave/leave-usage/types';
 
@@ -36,6 +37,8 @@ export interface AssignLeaveState {
   selectedLeaveTypeId?: string;
   selectedSubordinate?: Subordinate;
   subordinates?: Subordinate[];
+  workShift: WorkShift;
+  workShiftFetched: boolean;
 }
 
 export const PICK_ASSIGN_LEAVE_FROM_DATE = 'ASSIGN_LEAVE_PICK_FROM_DATE';
@@ -61,6 +64,9 @@ export const FETCH_SUBORDINATES = 'ASSIGN_LEAVE_FETCH_SUBORDINATES';
 export const FETCH_SUBORDINATES_FINISHED =
   'ASSIGN_LEAVE_FETCH_SUBORDINATES_FINISHED';
 export const PICK_SUBORDINATE = 'ASSIGN_LEAVE_PICK_SUBORDINATE';
+export const FETCH_WORK_SHIFT = 'ASSIGN_LEAVE_FETCH_WORK_SHIFT';
+export const FETCH_WORK_SHIFT_FINISHED =
+  'ASSIGN_LEAVE_FETCH_WORK_SHIFT_FINISHED';
 
 export interface PickFromDateAction {
   type: typeof PICK_ASSIGN_LEAVE_FROM_DATE;
@@ -138,6 +144,16 @@ export interface PickSubordinateAction {
   subordinate?: Subordinate;
 }
 
+export interface FetchWorkShiftAction {
+  type: typeof FETCH_WORK_SHIFT;
+  empNumber: string;
+}
+
+export interface FetchWorkShiftFinishedAction {
+  type: typeof FETCH_WORK_SHIFT_FINISHED;
+  workShift: WorkShift;
+}
+
 export type ApplyLeaveActionTypes =
   | PickFromDateAction
   | PickToDateAction
@@ -153,7 +169,9 @@ export type ApplyLeaveActionTypes =
   | SelectSubordinateLeaveTypeAction
   | FetchSubordinatesAction
   | FetchSubordinatesFinishedAction
-  | PickSubordinateAction;
+  | PickSubordinateAction
+  | FetchWorkShiftAction
+  | FetchWorkShiftFinishedAction;
 
 export interface Subordinate {
   empNumber: string;

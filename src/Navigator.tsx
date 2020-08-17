@@ -75,12 +75,12 @@ const Navigator = (props: NavigatorProps) => {
   } = props;
   const dimensions = useWindowDimensions();
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const {changePreviousRoute} = useGlobals();
+  const {changeCurrentRoute} = useGlobals();
 
   const onRouteChange = () => {
     const currentRoute = getNavigation()?.getCurrentRoute()?.name;
     if (currentRoute) {
-      changePreviousRoute(currentRoute);
+      changeCurrentRoute(currentRoute);
     }
   };
 
