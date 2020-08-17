@@ -115,10 +115,15 @@ export interface Entitlement {
   leaveType: LeaveType;
 }
 
+export const LEAVE_TYPE_DELETED_YES = '1';
+export const LEAVE_TYPE_DELETED_NO = '0';
+
 export interface LeaveType {
   id: string;
   type: string;
   color: string;
+  deleted: typeof LEAVE_TYPE_DELETED_YES | typeof LEAVE_TYPE_DELETED_NO;
+  situational: boolean;
 }
 
 export interface LeaveBalance {
