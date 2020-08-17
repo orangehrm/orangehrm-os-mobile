@@ -64,4 +64,5 @@ export const selectAuthParams = createSelector<
   [ACCESS_TOKEN]: storage[ACCESS_TOKEN],
   [REFRESH_TOKEN]: storage[REFRESH_TOKEN],
   [EXPIRES_AT]: storage[EXPIRES_AT],
+  fetchingAccessTokenLock: storage.fetchingAccessTokenLock,
 }));

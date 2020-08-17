@@ -23,10 +23,12 @@ import {
   SET_ITEM,
   SET_MULTI,
   CHANGE_LOADED,
+  SET_FETCHING_ACCESS_TOKEN_LOCK,
   NullableString,
   SetMultiAction,
   SetItemAction,
   ChangeLoadedAction,
+  SetFetchingAccessTokenLockAction,
 } from './types';
 
 export const setItem = (key: string, value: NullableString): SetItemAction => {
@@ -56,3 +58,10 @@ export const changeLoaded = (
     error,
   };
 };
+
+export const setFetchingAccessTokenLock = (
+  state: boolean,
+): SetFetchingAccessTokenLockAction => ({
+  type: SET_FETCHING_ACCESS_TOKEN_LOCK,
+  state,
+});
