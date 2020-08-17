@@ -27,17 +27,22 @@ import PickLeaveRequestDaysCalendar from 'screens/leave/PickLeaveRequestDaysCale
 import PickLeaveRequestDuration from 'screens/leave/PickLeaveRequestDuration';
 import PickLeaveRequestPartialDays from 'screens/leave/PickLeaveRequestPartialDays';
 import PickEmployee from 'screens/leave/PickEmployee';
+import LeaveRequestSuccess from 'screens/leave/LeaveRequestSuccess';
 import {
   ASSIGN_LEAVE,
   ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR,
   ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DURATION,
   ASSIGN_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS,
   PICK_EMPLOYEE,
+  LEAVE_REQUEST_SUCCESS,
 } from 'screens';
 import HeaderMenuIcon from 'components/HeaderMenuIcon';
 import HeaderBackIcon from 'components/HeaderBackIcon';
 import {getHeaderStyle} from 'lib/helpers/header';
-import {CommonNavigatorParamList} from 'screens/leave/navigators';
+import {
+  CommonNavigatorParamList,
+  LeaveRequestSuccessParamList,
+} from 'screens/leave/navigators';
 
 const Stack = createStackNavigator<AssignLeaveNavigatorParamList>();
 
@@ -97,6 +102,13 @@ class AssignLeaveNavigator extends React.Component<AssignLeaveNavigatorProps> {
           }}
           initialParams={{}}
         />
+        <Stack.Screen
+          name={LEAVE_REQUEST_SUCCESS}
+          component={LeaveRequestSuccess}
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack.Navigator>
     );
   }
@@ -111,6 +123,7 @@ export type AssignLeaveNavigatorParamList = {
   [ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR]: {};
   [ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DURATION]: {};
   [ASSIGN_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS]: {};
-} & CommonNavigatorParamList;
+} & CommonNavigatorParamList &
+  LeaveRequestSuccessParamList;
 
 export default withTheme<AssignLeaveNavigatorProps>()(AssignLeaveNavigator);

@@ -18,7 +18,7 @@
  *
  */
 
-import {LeaveRequest, LeaveType} from 'store/leave/leave-usage/types';
+import {LeaveRequest} from 'store/leave/leave-usage/types';
 
 export interface LeaveListState {
   leaveList?: LeaveListLeaveRequest[];
@@ -81,19 +81,16 @@ export const ACTION_TYPE_CHANGE_STATUS = 'changeStatus';
 export const ACTION_TYPE_COMMENT = 'comment';
 
 export interface LeaveListLeaveRequest
-  extends Omit<LeaveRequest, 'id' | 'leaveType' | 'comments' | 'days'> {
+  extends Omit<LeaveRequest, 'id' | 'comments' | 'days'> {
   employeeId: string;
   employeeName: string;
   leaveRequestId: string;
-  leaveType: LeaveType;
 }
 
-export interface EmployeeLeaveRequest
-  extends Omit<LeaveRequest, 'id' | 'leaveType'> {
+export interface EmployeeLeaveRequest extends Omit<LeaveRequest, 'id'> {
   employeeId: string;
   employeeName: string;
   leaveRequestId: string;
-  leaveType: LeaveType;
   allowedActions: LeaveRequestAllowedActions[];
 }
 

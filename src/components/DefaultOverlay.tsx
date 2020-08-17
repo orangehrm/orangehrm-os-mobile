@@ -37,7 +37,11 @@ const DefaultOverlay = (
   const {modalProps, children, text, textStyle, theme} = props;
   return (
     <View style={styles.centeredView}>
-      <Modal animationType="fade" transparent {...modalProps}>
+      <Modal
+        animationType="fade"
+        transparent
+        statusBarTranslucent
+        {...modalProps}>
         <View style={styles.container}>
           <View style={styles.background}>
             {children === undefined ? <Spinner /> : children}

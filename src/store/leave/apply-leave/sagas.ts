@@ -42,6 +42,9 @@ import {
   getMessageAlongWithGenericErrors,
   getMessageAlongWithResponseErrors,
 } from 'services/api';
+import {navigate} from 'lib/helpers/navigation';
+import {LEAVE_REQUEST_SUCCESS} from 'screens';
+import {LeaveRequestSuccessParam} from 'screens/leave/navigators';
 
 function* saveLeaveRequest(
   action: ApplySingleDayLeaveRequestAction | ApplyMultipleDayLeaveRequestAction,
@@ -58,7 +61,7 @@ function* saveLeaveRequest(
       yield put(fetchMyLeaveEntitlements());
       yield put(resethMyLeaveRequests());
       yield put(resetApplyLeave());
-      yield showSnackMessage('Successfully Submited');
+      navigate<LeaveRequestSuccessParam>(LEAVE_REQUEST_SUCCESS);
     } else {
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(response, 'Failed to Save Leave'),

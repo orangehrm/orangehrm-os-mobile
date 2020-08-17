@@ -25,6 +25,7 @@ import {
   Entitlement,
   LeaveRequest,
 } from 'store/leave/leave-usage/types';
+import {EmployeeLeaveRequest} from 'store/leave/leave-list/types';
 
 export const selectLeaveUsage = (state: RootState) => state.leaveUsage;
 
@@ -45,3 +46,9 @@ export const selectLeaveRequests = createSelector<
   LeaveUsageState,
   LeaveRequest[] | undefined
 >([selectLeaveUsage], (leaveUsage) => leaveUsage.leaveRequest);
+
+export const selectLeaveRequestDetail = createSelector<
+  RootState,
+  LeaveUsageState,
+  EmployeeLeaveRequest | undefined
+>([selectLeaveUsage], (leaveList) => leaveList.leaveRequestDetail);

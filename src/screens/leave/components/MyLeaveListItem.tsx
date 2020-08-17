@@ -77,7 +77,7 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
                 }}>
                 {leaveDates}
               </Text>
-              <Text style={[{fontSize: theme.typography.smallFontSize}]}>
+              <Text style={{fontSize: theme.typography.smallFontSize}}>
                 {leaveRequest.leaveBreakdown}
               </Text>
             </View>

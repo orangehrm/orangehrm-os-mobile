@@ -20,11 +20,16 @@
 
 import {MutableKeys} from 'utility-types';
 import {LEAVE_STATUS_MAP} from 'lib/helpers/leave';
+import {
+  EmployeeLeaveRequest,
+  EmployeeLeaveRequestActions,
+} from 'store/leave/leave-list/types';
 
 export interface LeaveUsageState {
   entitlement?: Entitlement[];
   leaveRequest?: LeaveRequest[];
   selectedLeaveTypeId?: string;
+  leaveRequestDetail?: EmployeeLeaveRequest;
 }
 
 export type NullableString = string | null;
@@ -38,6 +43,11 @@ export const FETCH_MY_LEAVE_REQUEST = 'LEAVE_USAGE_FETCH_MY_LEAVE_REQUEST';
 export const FETCH_MY_LEAVE_REQUEST_FINISHED =
   'LEAVE_USAGE_FETCH_MY_LEAVE_REQUEST_FINISHED';
 export const RESET_MY_LEAVE_REQUEST = 'LEAVE_USAGE_RESET_MY_LEAVE_REQUEST';
+export const FETCH_MY_LEAVE_DETAILS_FINISHED =
+  'LEAVE_USAGE_FETCH_MY_LEAVE_DETAILS_FINISHED';
+export const FETCH_MY_LEAVE_DETAILS = 'LEAVE_USAGE_FETCH_MY_LEAVE_DETAILS';
+export const CHANGE_MY_LEAVE_REQUEST_STATUS =
+  'LEAVE_USAGE_CHANGE_MY_LEAVE_REQUEST_STATUS';
 
 export interface FetchMyLeaveEntitlementAction {
   type: typeof FETCH_MY_LEAVE_ENTITLEMENT;
@@ -68,13 +78,33 @@ export interface ResetMyLeaveRequestAction {
   type: typeof RESET_MY_LEAVE_REQUEST;
 }
 
+export interface FetchMyLeaveRequestDetailsAction {
+  type: typeof FETCH_MY_LEAVE_DETAILS;
+  leaveRequestId: string;
+}
+
+export interface FetchMyLeaveRequestDetailsFinishedAction {
+  type: typeof FETCH_MY_LEAVE_DETAILS_FINISHED;
+  payload?: EmployeeLeaveRequest;
+  error: boolean;
+}
+
+export interface ChangeMyLeaveRequestStatusAction {
+  type: typeof CHANGE_MY_LEAVE_REQUEST_STATUS;
+  leaveRequestId: string;
+  action: EmployeeLeaveRequestActions;
+}
+
 export type LeaveUsageActionTypes =
   | FetchMyLeaveEntitlementAction
   | FetchMyLeaveEntitlementFinishedAction
   | SelectLeaveTypeAction
   | FetchMyLeaveRequestAction
   | FetchMyLeaveRequestFinishedAction
-  | ResetMyLeaveRequestAction;
+  | ResetMyLeaveRequestAction
+  | FetchMyLeaveRequestDetailsAction
+  | FetchMyLeaveRequestDetailsFinishedAction
+  | ChangeMyLeaveRequestStatusAction;
 
 export interface Entitlement {
   id: string;

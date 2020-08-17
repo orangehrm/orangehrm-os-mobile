@@ -50,7 +50,7 @@ class LeaveUsageActions extends React.Component<LeaveUsageActionsProps> {
               <View style={styles.buttonLeftView}>
                 <Icon name={'history'} />
                 <Text style={{paddingTop: theme.spacing * 0.5}}>
-                  {'My Leave Usage'}
+                  {'My Leave'}
                 </Text>
               </View>
               <Icon name={'chevron-right'} />

@@ -22,7 +22,7 @@ import {NullableString} from 'store/storage/types';
 import {AuthenticationError} from 'services/errors/authentication';
 import {InstanceCheckError} from 'services/errors/instance-check';
 
-export const HTTP_NOT_FOUND = '404';
+export const HTTP_NOT_FOUND = 404;
 
 /**
  * Compare given ISO date with now.
@@ -74,7 +74,7 @@ export const getMessageAlongWithResponseErrors = (
   defaultMessage: string = 'Operation Couldn’t Be Completed.',
 ) => {
   if (response instanceof Object && !Array.isArray(response)) {
-    if (response.error?.status === '404') {
+    if (parseInt(response.error?.status, 10) === HTTP_NOT_FOUND) {
       return 'No Records Found.';
     } else if (Array.isArray(response.error)) {
       if (

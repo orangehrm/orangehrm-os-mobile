@@ -53,6 +53,9 @@ import {
   getMessageAlongWithResponseErrors,
   HTTP_NOT_FOUND,
 } from 'services/api';
+import {navigate} from 'lib/helpers/navigation';
+import {LEAVE_REQUEST_SUCCESS} from 'screens';
+import {LeaveRequestSuccessParam} from 'screens/leave/navigators';
 
 function* saveLeaveRequest(
   action:
@@ -70,7 +73,7 @@ function* saveLeaveRequest(
     if (response.success) {
       yield put(resetAssignLeaveWithoutSubordinates());
       yield put(resetLeaveList());
-      yield showSnackMessage('Successfully Submited');
+      navigate<LeaveRequestSuccessParam>(LEAVE_REQUEST_SUCCESS);
     } else {
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(response, 'Failed to Save Leave'),
@@ -104,7 +107,7 @@ function* fetchSubordinateLeaveEntitlements(
           assignColorsToLeaveTypes(response.data),
         ),
       );
-    } else if (response.error.status === HTTP_NOT_FOUND) {
+    } else if (response.getResponse().status === HTTP_NOT_FOUND) {
       yield put(fetchSubordinateLeaveEntitlementsFinished([]));
     } else {
       yield put(fetchSubordinateLeaveEntitlementsFinished(undefined, true));

@@ -34,13 +34,25 @@ import LeaveBalanceRow from 'screens/leave/components/LeaveBalanceRow';
 import LeaveUsageCard from 'screens/leave/components/LeaveUsageCard';
 import LeaveUsageActions from 'screens/leave/components/LeaveUsageActions';
 import Fab, {FabSpace} from 'components/DefaultFab';
-import {APPLY_LEAVE} from 'screens';
+import {APPLY_LEAVE, MY_LEAVE_ENTITLEMENT_AND_USAGE} from 'screens';
 import {navigate} from 'lib/helpers/navigation';
+import {selectCurrentRoute} from 'store/globals/selectors';
 
 class MyLeaveUsage extends React.Component<MyLeaveUsageProps> {
   constructor(props: MyLeaveUsageProps) {
     super(props);
     this.props.fetchMyLeaveEntitlements();
+  }
+
+  componentDidUpdate(prevProps: MyLeaveUsageProps) {
+    if (
+      prevProps.currentRoute !== this.props.currentRoute &&
+      this.props.currentRoute === MY_LEAVE_ENTITLEMENT_AND_USAGE &&
+      this.props.entitlements === undefined
+    ) {
+      // update leave entitlements
+      this.onRefresh();
+    }
   }
 
   onRefresh = () => {
@@ -90,6 +102,7 @@ interface MyLeaveUsageProps
 const mapStateToProps = (state: RootState) => ({
   entitlements: selectEntitlement(state),
   selectedLeaveTypeId: selectSelectedLeaveTypeId(state),
+  currentRoute: selectCurrentRoute(state),
 });
 
 const mapDispatchToProps = {

@@ -77,9 +77,13 @@ class SelectInstance extends React.Component<
   };
 
   handleOnPress = () => {
-    if (this.state.errorMessage === '') {
+    let {instanceUrl, errorMessage} = this.state;
+    if (instanceUrl === '') {
+      this.setState({errorMessage: 'Required'});
+      return;
+    }
+    if (errorMessage === '') {
       const {storageSetItem} = this.props;
-      let instanceUrl = this.state.instanceUrl;
       const isDomain = checkDomain(instanceUrl);
       if (isDomain) {
         instanceUrl = `https://${instanceUrl}`;
@@ -92,6 +96,10 @@ class SelectInstance extends React.Component<
 
   handleOnChange = (text: string) => {
     this.setState({instanceUrl: text});
+    if (text === '') {
+      this.setState({errorMessage: 'Required'});
+      return;
+    }
     const isUrl = checkUrl(text);
     const isDomain = checkDomain(text);
     if (!isUrl && !isDomain) {
@@ -115,9 +123,13 @@ class SelectInstance extends React.Component<
             keyboardType={Platform.OS === 'ios' ? 'url' : 'email-address'}
             multiline
             helperText={errorMessage === '' ? undefined : errorMessage}
-            itemProps={{error: errorMessage === '' ? false : true}}
+            itemProps={{error: errorMessage !== ''}}
             onSubmitEditing={this.handleOnPress}
             blurOnSubmit
+            autoFocus={
+              // OHRM-758:placeholder overlaps prod release
+              this.props.instanceUrl !== null && this.props.instanceUrl !== ''
+            }
           />
         }
         actions={
