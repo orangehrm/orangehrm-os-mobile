@@ -194,7 +194,6 @@
 				A5C90F60A18F6D0D9EFD5A2D /* Pods-OrangeHRM-tvOSTests.debug.xcconfig */,
 				09D29E40AC3D8217F55FFE13 /* Pods-OrangeHRM-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -291,10 +290,13 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = A34772N44U;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = A34772N44U;
 						LastSwiftMigration = 1120;
+						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -333,22 +335,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DBFB68424B5B2C7006F1B8A /* AntDesign.ttf in Resources */,
-				8DBFB68524B5B2C7006F1B8A /* Entypo.ttf in Resources */,
-				8DBFB68624B5B2C7006F1B8A /* EvilIcons.ttf in Resources */,
-				8DBFB68724B5B2C7006F1B8A /* Feather.ttf in Resources */,
-				8DBFB68824B5B2C7006F1B8A /* FontAwesome.ttf in Resources */,
-				8DBFB68924B5B2C7006F1B8A /* FontAwesome5_Brands.ttf in Resources */,
-				8DBFB68A24B5B2C7006F1B8A /* FontAwesome5_Regular.ttf in Resources */,
-				8DBFB68B24B5B2C7006F1B8A /* FontAwesome5_Solid.ttf in Resources */,
-				8DBFB68C24B5B2C7006F1B8A /* Fontisto.ttf in Resources */,
-				8DBFB68D24B5B2C7006F1B8A /* Foundation.ttf in Resources */,
-				8DBFB68E24B5B2C7006F1B8A /* Ionicons.ttf in Resources */,
-				8DBFB68F24B5B2C7006F1B8A /* MaterialCommunityIcons.ttf in Resources */,
-				8DBFB69024B5B2C7006F1B8A /* MaterialIcons.ttf in Resources */,
-				8DBFB69124B5B2C7006F1B8A /* Octicons.ttf in Resources */,
-				8DBFB69224B5B2C7006F1B8A /* SimpleLineIcons.ttf in Resources */,
-				8DBFB69324B5B2C7006F1B8A /* Zocial.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,22 +342,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8DBFB64A24B5AD60006F1B8A /* AntDesign.ttf in Resources */,
-				8DBFB64B24B5AD60006F1B8A /* Entypo.ttf in Resources */,
-				8DBFB64C24B5AD60006F1B8A /* EvilIcons.ttf in Resources */,
-				8DBFB64D24B5AD60006F1B8A /* Feather.ttf in Resources */,
-				8DBFB64E24B5AD60006F1B8A /* FontAwesome.ttf in Resources */,
-				8DBFB64F24B5AD60006F1B8A /* FontAwesome5_Brands.ttf in Resources */,
-				8DBFB65024B5AD60006F1B8A /* FontAwesome5_Regular.ttf in Resources */,
-				8DBFB65124B5AD60006F1B8A /* FontAwesome5_Solid.ttf in Resources */,
-				8DBFB65224B5AD60006F1B8A /* Fontisto.ttf in Resources */,
-				8DBFB65324B5AD60006F1B8A /* Foundation.ttf in Resources */,
-				8DBFB65424B5AD60006F1B8A /* Ionicons.ttf in Resources */,
-				8DBFB65524B5AD60006F1B8A /* MaterialCommunityIcons.ttf in Resources */,
-				8DBFB65624B5AD60006F1B8A /* MaterialIcons.ttf in Resources */,
-				8DBFB65724B5AD60006F1B8A /* Octicons.ttf in Resources */,
-				8DBFB65824B5AD60006F1B8A /* SimpleLineIcons.ttf in Resources */,
-				8DBFB65924B5AD60006F1B8A /* Zocial.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 			);
@@ -568,10 +538,42 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-OrangeHRM/Pods-OrangeHRM-resources.sh",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -675,6 +677,7 @@
 			baseConfigurationReference = 44E051E4D9E91763F0619D3F /* Pods-OrangeHRM-OrangeHRMTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = A34772N44U;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -687,7 +690,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.orangehrm.opensource;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OrangeHRM.app/OrangeHRM";
 			};
@@ -699,6 +702,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = A34772N44U;
 				INFOPLIST_FILE = OrangeHRMTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -707,7 +711,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.orangehrm.opensource;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OrangeHRM.app/OrangeHRM";
 			};
@@ -719,8 +723,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 569RL3Z74X;
+				DEVELOPMENT_TEAM = A34772N44U;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -728,13 +734,15 @@
 				);
 				INFOPLIST_FILE = OrangeHRM/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.orangehrm.opensource;
+				PRODUCT_BUNDLE_IDENTIFIER = com.orangehrm.opensource;
 				PRODUCT_NAME = OrangeHRM;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -747,17 +755,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 569RL3Z74X;
+				DEVELOPMENT_TEAM = A34772N44U;
 				INFOPLIST_FILE = OrangeHRM/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.orangehrm.opensource;
+				PRODUCT_BUNDLE_IDENTIFIER = com.orangehrm.opensource;
 				PRODUCT_NAME = OrangeHRM;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -783,7 +795,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.OrangeHRM-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.orangehrm.opensource;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -811,7 +823,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.OrangeHRM-tvOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.orangehrm.opensource;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -838,7 +850,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.OrangeHRM-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = org.orangehrm.opensource;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OrangeHRM-tvOS.app/OrangeHRM-tvOS";
@@ -865,7 +877,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.OrangeHRM-tvOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = org.orangehrm.opensource;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OrangeHRM-tvOS.app/OrangeHRM-tvOS";
