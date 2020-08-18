@@ -55,6 +55,7 @@ import {
   getMessageAlongWithResponseErrors,
   HTTP_NOT_FOUND,
 } from 'services/api';
+import {ACTION_TYPE_CHANGE_STATUS} from 'store/leave/leave-list/types';
 
 function* fetchMyLeaveEntitlements() {
   try {
@@ -174,7 +175,11 @@ function* changeMyLeaveRequestStatus(action: ChangeMyLeaveRequestStatusAction) {
     if (response.success) {
       //re-fetch with updated leave request data
       yield put(fetchMyLeaveDetailsAction(action.leaveRequestId));
-      yield showSnackMessage('Successfully Submited');
+      yield showSnackMessage(
+        action.action.actionType === ACTION_TYPE_CHANGE_STATUS
+          ? 'Successfully Updated'
+          : 'Successfully Saved',
+      );
     } else {
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(

@@ -31,6 +31,7 @@ import {
   CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
   FetchEmployeeLeaveRequestAction,
   ChangeEmployeeLeaveRequestStatusAction,
+  ACTION_TYPE_CHANGE_STATUS,
 } from 'store/leave/leave-list/types';
 import {
   fetchLeaveListFinished,
@@ -137,7 +138,11 @@ function* changeEmployeeLeaveRequestStatus(
     if (response.success) {
       //re-fetch with updated leave request data
       yield put(fetchEmployeeLeaveRequestAction(action.leaveRequestId));
-      yield showSnackMessage('Successfully Submited');
+      yield showSnackMessage(
+        action.action.actionType === ACTION_TYPE_CHANGE_STATUS
+          ? 'Successfully Updated'
+          : 'Successfully Saved',
+      );
     } else {
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(
