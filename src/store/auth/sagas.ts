@@ -80,13 +80,13 @@ function* checkInstance(action?: CheckInstanceAction) {
 
       yield put(checkInstanceFinished());
     } else {
-      yield showSnackMessage('Could Not Be Reached.', TYPE_ERROR);
+      yield showSnackMessage('Invalid URL', TYPE_ERROR);
     }
   } catch (error) {
     if (action) {
       yield put(checkInstanceFinished(true));
       yield showSnackMessage(
-        getMessageAlongWithGenericErrors(error, 'Could Not Be Reached.'),
+        getMessageAlongWithGenericErrors(error, 'Invalid URL'),
         TYPE_ERROR,
       );
     } else {
