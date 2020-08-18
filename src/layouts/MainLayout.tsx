@@ -28,6 +28,7 @@ import {
   StyleSheet,
   RefreshControlProps,
   ScrollViewProps,
+  Platform,
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
@@ -49,7 +50,9 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
       />
       <SafeAreaView
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
-        <KeyboardAvoidingView style={styles.root}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={styles.root}>
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
             contentContainerStyle={styles.scrollView}

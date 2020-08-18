@@ -38,8 +38,8 @@ const HeaderBackIcon = (props: HeaderBackIconProps) => {
         },
       }}
       iconProps={{
-        name: Platform.OS === 'ios' ? 'ios-arrow-back' : 'arrow-back',
-        type: Platform.OS === 'ios' ? 'Ionicons' : 'MaterialIcons',
+        name: Platform.OS === 'ios' ? 'chevron-thin-left' : 'arrow-back',
+        type: Platform.OS === 'ios' ? 'Entypo' : 'MaterialIcons',
         style: {
           fontSize: theme.typography.headerIconSize,
           color: theme.typography.secondaryColor,

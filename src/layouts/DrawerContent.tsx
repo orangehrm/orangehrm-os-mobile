@@ -19,7 +19,7 @@
  */
 
 import React, {useCallback, Fragment} from 'react';
-import {StyleSheet, View, RefreshControl} from 'react-native';
+import {StyleSheet, View, RefreshControl, SafeAreaView} from 'react-native';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {DrawerActions} from '@react-navigation/native';
 import {
@@ -82,7 +82,7 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   }
 
   return (
-    <>
+    <SafeAreaView style={styles.safeArea}>
       <ProfilePicture
         name={myInfo?.employee.fullName}
         jobTitle={myInfo?.employee.jobTitle}
@@ -144,7 +144,7 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
           </View>
         </View>
       </DrawerContentScrollView>
-    </>
+    </SafeAreaView>
   );
 };
 
@@ -185,6 +185,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
+  },
+  safeArea: {
+    flex: 1,
   },
 });
 

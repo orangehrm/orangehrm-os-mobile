@@ -27,6 +27,7 @@ import {
   Image,
   KeyboardAvoidingView,
   StyleSheet,
+  Platform,
 } from 'react-native';
 import Card from 'components/DefaultCard';
 import CardHeader from 'components/DefaultCardHeader';
@@ -46,7 +47,9 @@ const FirstLayout = (props: FirstLayoutProps) => {
       />
       <SafeAreaView
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
-        <KeyboardAvoidingView style={styles.root}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={styles.root}>
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
             contentContainerStyle={styles.scrollView}

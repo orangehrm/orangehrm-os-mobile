@@ -24,6 +24,7 @@ import {
   StatusBar,
   KeyboardAvoidingView,
   StyleSheet,
+  Platform,
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
@@ -40,7 +41,9 @@ const SafeAreaLayout = (
       />
       <SafeAreaView
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
-        <KeyboardAvoidingView style={styles.root}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={styles.root}>
           {children}
         </KeyboardAvoidingView>
       </SafeAreaView>
