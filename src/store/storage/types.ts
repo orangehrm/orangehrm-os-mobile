@@ -38,6 +38,7 @@ export interface StorageState {
   [TOKEN_TYPE]: NullableString;
   loaded?: boolean;
   error?: any;
+  fetchingAccessTokenLock: boolean;
 }
 
 export type NullableString = string | null;
@@ -45,6 +46,8 @@ export type NullableString = string | null;
 export const SET_ITEM = 'STORAGE_SET_ITEM';
 export const SET_MULTI = 'STORAGE_SET_MULTI';
 export const CHANGE_LOADED = 'STORAGE_CHANGE_LOADED';
+export const SET_FETCHING_ACCESS_TOKEN_LOCK =
+  'STORAGE_SET_FETCHING_ACCESS_TOKEN_LOCK';
 
 export interface SetItemAction {
   type: typeof SET_ITEM;
@@ -63,14 +66,21 @@ export interface ChangeLoadedAction {
   error?: any;
 }
 
+export interface SetFetchingAccessTokenLockAction {
+  type: typeof SET_FETCHING_ACCESS_TOKEN_LOCK;
+  state: boolean;
+}
+
 export interface AuthParams {
   [INSTANCE_URL]: NullableString;
   [ACCESS_TOKEN]: NullableString;
   [REFRESH_TOKEN]: NullableString;
   [EXPIRES_AT]: NullableString;
+  fetchingAccessTokenLock: boolean;
 }
 
 export type StorageActionTypes =
   | SetItemAction
   | SetMultiAction
-  | ChangeLoadedAction;
+  | ChangeLoadedAction
+  | SetFetchingAccessTokenLockAction;

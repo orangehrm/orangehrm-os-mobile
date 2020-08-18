@@ -27,6 +27,8 @@ import {
   PICK_MULTIPLE_DAY_PARTIAL_OPTION,
   PICK_LEAVE_COMMENT,
   RESET_APPLY_LEAVE,
+  FETCH_WORK_SHIFT,
+  FETCH_WORK_SHIFT_FINISHED,
   PickFromDateAction,
   PickToDateAction,
   ApplySingleDayLeaveRequestAction,
@@ -35,6 +37,8 @@ import {
   PickMultipleDayPartialOptionAction,
   PickLeaveCommentAction,
   ResetApplyLeaveAction,
+  FetchWorkShiftAction,
+  FetchWorkShiftFinishedAction,
 } from 'store/leave/apply-leave/types';
 import {$PropertyType} from 'utility-types';
 
@@ -99,4 +103,15 @@ export const pickApplyLeaveComment = (
  */
 export const resetApplyLeave = (): ResetApplyLeaveAction => ({
   type: RESET_APPLY_LEAVE,
+});
+
+export const fetchWorkShift = (): FetchWorkShiftAction => ({
+  type: FETCH_WORK_SHIFT,
+});
+
+export const fetchWorkShiftFinished = (
+  workShift: $PropertyType<FetchWorkShiftFinishedAction, 'workShift'>,
+): FetchWorkShiftFinishedAction => ({
+  type: FETCH_WORK_SHIFT_FINISHED,
+  workShift,
 });

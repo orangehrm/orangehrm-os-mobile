@@ -28,6 +28,7 @@ import {RootState} from 'store';
 import {
   selectDuration,
   selectForceUpdateSlider,
+  selectWorkShift,
 } from 'store/leave/common-screens/selectors';
 import {
   pickSingleDayDuration as pickSingleDayDurationAction,
@@ -42,8 +43,6 @@ import {
   SPECIFY_TIME,
   HALF_DAY_MORNING,
   HALF_DAY_AFTERNOON,
-  DEFAULT_FROM_TIME,
-  DEFAULT_TO_TIME,
   SingleDayDuration,
 } from 'store/leave/common-screens/types';
 import {isFromTimeLessThanToTime} from 'lib/helpers/leave';
@@ -93,15 +92,17 @@ class PickLeaveRequestDuration extends React.Component<
   };
 
   getFromTime = (duration?: SingleDayDuration) => {
+    const {workShift} = this.props;
     return duration?.singleType === SPECIFY_TIME
       ? duration.singleFromTime
-      : DEFAULT_FROM_TIME;
+      : workShift.startTime;
   };
 
   getToTime = (duration?: SingleDayDuration) => {
+    const {workShift} = this.props;
     return duration?.singleType === SPECIFY_TIME
       ? duration.singleToTime
-      : DEFAULT_TO_TIME;
+      : workShift.endTime;
   };
 
   setFromTime = (
@@ -134,6 +135,7 @@ class PickLeaveRequestDuration extends React.Component<
       duration,
       pickSingleDayDuration,
       forceUpdateSlider,
+      workShift,
     } = this.props;
     const radioStyle = {paddingVertical: theme.spacing * 2};
 
@@ -205,8 +207,8 @@ class PickLeaveRequestDuration extends React.Component<
               onPress={() => {
                 pickSingleDayDuration({
                   singleType: SPECIFY_TIME,
-                  singleFromTime: DEFAULT_FROM_TIME,
-                  singleToTime: DEFAULT_TO_TIME,
+                  singleFromTime: workShift.startTime,
+                  singleToTime: workShift.endTime,
                 });
               }}
             />
@@ -242,6 +244,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: RootState) => ({
   duration: selectDuration(state),
   forceUpdateSlider: selectForceUpdateSlider(state),
+  workShift: selectWorkShift(state),
 });
 
 const mapDispatchToProps = {

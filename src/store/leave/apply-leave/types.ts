@@ -23,6 +23,7 @@ import {
   MultipleDayPartialOption,
   SingleDayLeaveRequest,
   MultipleDayLeaveRequest,
+  WorkShift,
 } from 'store/leave/common-screens/types';
 
 export interface ApplyLeaveState {
@@ -31,6 +32,8 @@ export interface ApplyLeaveState {
   comment?: string;
   duration: SingleDayDuration;
   partialOption: MultipleDayPartialOption;
+  workShift: WorkShift;
+  workShiftFetched: boolean;
 }
 
 export const PICK_APPLY_LEAVE_FROM_DATE = 'APPLY_LEAVE_PICK_FROM_DATE';
@@ -44,6 +47,9 @@ export const PICK_MULTIPLE_DAY_PARTIAL_OPTION =
   'APPLY_LEAVE_PICK_MULTIPLE_DAY_PARTIAL_OPTION';
 export const PICK_LEAVE_COMMENT = 'APPLY_LEAVE_PICK_LEAVE_COMMENT';
 export const RESET_APPLY_LEAVE = 'APPLY_LEAVE_RESET_APPLY_LEAVE';
+export const FETCH_WORK_SHIFT = 'APPLY_LEAVE_FETCH_WORK_SHIFT';
+export const FETCH_WORK_SHIFT_FINISHED =
+  'APPLY_LEAVE_FETCH_WORK_SHIFT_FINISHED';
 
 export interface PickFromDateAction {
   type: typeof PICK_APPLY_LEAVE_FROM_DATE;
@@ -84,6 +90,15 @@ export interface ResetApplyLeaveAction {
   type: typeof RESET_APPLY_LEAVE;
 }
 
+export interface FetchWorkShiftAction {
+  type: typeof FETCH_WORK_SHIFT;
+}
+
+export interface FetchWorkShiftFinishedAction {
+  type: typeof FETCH_WORK_SHIFT_FINISHED;
+  workShift: WorkShift;
+}
+
 export type ApplyLeaveActionTypes =
   | PickFromDateAction
   | PickToDateAction
@@ -92,4 +107,6 @@ export type ApplyLeaveActionTypes =
   | PickSingleDayDurationAction
   | PickMultipleDayPartialOptionAction
   | PickLeaveCommentAction
-  | ResetApplyLeaveAction;
+  | ResetApplyLeaveAction
+  | FetchWorkShiftAction
+  | FetchWorkShiftFinishedAction;

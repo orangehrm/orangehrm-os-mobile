@@ -32,8 +32,14 @@ import {
   FETCH_SUBORDINATES_FINISHED,
   PICK_SUBORDINATE,
   SELECT_SUBORDINATE_LEAVE_TYPE,
+  FETCH_WORK_SHIFT,
+  FETCH_WORK_SHIFT_FINISHED,
 } from 'store/leave/assign-leave/types';
-import {FULL_DAY, PARTIAL_OPTION_NONE} from 'store/leave/common-screens/types';
+import {
+  FULL_DAY,
+  PARTIAL_OPTION_NONE,
+  DEFAULT_WORK_SHIFT,
+} from 'store/leave/common-screens/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
 const initialState: AssignLeaveState = {
@@ -43,6 +49,8 @@ const initialState: AssignLeaveState = {
   partialOption: {
     partialOption: PARTIAL_OPTION_NONE,
   },
+  workShift: DEFAULT_WORK_SHIFT,
+  workShiftFetched: false,
 };
 
 const assignLeaveReducer = (
@@ -114,6 +122,17 @@ const assignLeaveReducer = (
       return {
         ...state,
         selectedLeaveTypeId: action.id,
+      };
+    case FETCH_WORK_SHIFT:
+      return {
+        ...state,
+        workShiftFetched: false,
+      };
+    case FETCH_WORK_SHIFT_FINISHED:
+      return {
+        ...state,
+        workShift: action.workShift,
+        workShiftFetched: true,
       };
     case RESET_ASSIGN_LEAVE:
     case LOGOUT:

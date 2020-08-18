@@ -31,8 +31,7 @@ import {
   PARTIAL_OPTION_START_END,
   MultipleDayPartialOption,
   SPECIFY_TIME,
-  DEFAULT_FROM_TIME,
-  DEFAULT_TO_TIME,
+  WorkShift,
 } from 'store/leave/common-screens/types';
 
 class PickPartialDayDuration extends React.Component<
@@ -212,6 +211,7 @@ class PickPartialDayDuration extends React.Component<
       partialOption,
       pickMultipleDayPartialOption,
       forceUpdateSlider,
+      workShift,
     } = this.props;
 
     return (
@@ -265,15 +265,15 @@ class PickPartialDayDuration extends React.Component<
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_ALL,
                     startDayType: SPECIFY_TIME,
-                    startDayFromTime: DEFAULT_FROM_TIME,
-                    startDayToTime: DEFAULT_TO_TIME,
+                    startDayFromTime: workShift.startTime,
+                    startDayToTime: workShift.endTime,
                   });
                 } else {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_START,
                     startDayType: SPECIFY_TIME,
-                    startDayFromTime: DEFAULT_FROM_TIME,
-                    startDayToTime: DEFAULT_TO_TIME,
+                    startDayFromTime: workShift.startTime,
+                    startDayToTime: workShift.endTime,
                   });
                 }
               }}
@@ -288,7 +288,7 @@ class PickPartialDayDuration extends React.Component<
                     startDayToTime:
                       partialOption.startDayType === SPECIFY_TIME
                         ? partialOption.startDayToTime
-                        : DEFAULT_TO_TIME,
+                        : workShift.endTime,
                   });
                 } else {
                   pickMultipleDayPartialOption({
@@ -298,7 +298,7 @@ class PickPartialDayDuration extends React.Component<
                     startDayToTime:
                       partialOption.startDayType === SPECIFY_TIME
                         ? partialOption.startDayToTime
-                        : DEFAULT_TO_TIME,
+                        : workShift.endTime,
                   });
                 }
               }}
@@ -310,7 +310,7 @@ class PickPartialDayDuration extends React.Component<
                     startDayFromTime:
                       partialOption.startDayType === SPECIFY_TIME
                         ? partialOption.startDayFromTime
-                        : DEFAULT_FROM_TIME,
+                        : workShift.startTime,
                     startDayToTime: time,
                   });
                 } else {
@@ -320,7 +320,7 @@ class PickPartialDayDuration extends React.Component<
                     startDayFromTime:
                       partialOption.startDayType === SPECIFY_TIME
                         ? partialOption.startDayFromTime
-                        : DEFAULT_FROM_TIME,
+                        : workShift.startTime,
                     startDayToTime: time,
                   });
                 }
@@ -355,8 +355,8 @@ class PickPartialDayDuration extends React.Component<
                 pickMultipleDayPartialOption({
                   partialOption: PARTIAL_OPTION_END,
                   endDayType: SPECIFY_TIME,
-                  endDayFromTime: DEFAULT_FROM_TIME,
-                  endDayToTime: DEFAULT_TO_TIME,
+                  endDayFromTime: workShift.startTime,
+                  endDayToTime: workShift.endTime,
                 });
               }}
               specificTimeFrom={this.getFromTime(partialOption)}
@@ -369,7 +369,7 @@ class PickPartialDayDuration extends React.Component<
                   endDayToTime:
                     partialOption.endDayType === SPECIFY_TIME
                       ? partialOption.endDayToTime
-                      : DEFAULT_TO_TIME,
+                      : workShift.endTime,
                 });
               }}
               setSpecificTimeTo={(time) => {
@@ -379,7 +379,7 @@ class PickPartialDayDuration extends React.Component<
                   endDayFromTime:
                     partialOption.endDayType === SPECIFY_TIME
                       ? partialOption.endDayFromTime
-                      : DEFAULT_FROM_TIME,
+                      : workShift.startTime,
                   endDayToTime: time,
                 });
               }}
@@ -433,8 +433,8 @@ class PickPartialDayDuration extends React.Component<
                   }),
                   partialOption: PARTIAL_OPTION_START_END,
                   startDayType: SPECIFY_TIME,
-                  startDayFromTime: DEFAULT_FROM_TIME,
-                  startDayToTime: DEFAULT_TO_TIME,
+                  startDayFromTime: workShift.startTime,
+                  startDayToTime: workShift.endTime,
                 });
               }}
               specificTimeFrom={this.getFromTime(partialOption, 'start')}
@@ -448,7 +448,7 @@ class PickPartialDayDuration extends React.Component<
                   startDayToTime:
                     partialOption.startDayType === SPECIFY_TIME
                       ? partialOption.startDayToTime
-                      : DEFAULT_TO_TIME,
+                      : workShift.endTime,
                 });
               }}
               setSpecificTimeTo={(time) => {
@@ -459,7 +459,7 @@ class PickPartialDayDuration extends React.Component<
                   startDayFromTime:
                     partialOption.startDayType === SPECIFY_TIME
                       ? partialOption.startDayFromTime
-                      : DEFAULT_FROM_TIME,
+                      : workShift.startTime,
                   startDayToTime: time,
                 });
               }}
@@ -508,8 +508,8 @@ class PickPartialDayDuration extends React.Component<
                   }),
                   partialOption: PARTIAL_OPTION_START_END,
                   endDayType: SPECIFY_TIME,
-                  endDayFromTime: DEFAULT_FROM_TIME,
-                  endDayToTime: DEFAULT_TO_TIME,
+                  endDayFromTime: workShift.startTime,
+                  endDayToTime: workShift.endTime,
                 });
               }}
               specificTimeFrom={this.getFromTime(partialOption, 'end')}
@@ -523,7 +523,7 @@ class PickPartialDayDuration extends React.Component<
                   endDayToTime:
                     partialOption.endDayType === SPECIFY_TIME
                       ? partialOption.endDayToTime
-                      : DEFAULT_TO_TIME,
+                      : workShift.endTime,
                 });
               }}
               setSpecificTimeTo={(time) => {
@@ -534,7 +534,7 @@ class PickPartialDayDuration extends React.Component<
                   endDayFromTime:
                     partialOption.endDayType === SPECIFY_TIME
                       ? partialOption.endDayFromTime
-                      : DEFAULT_FROM_TIME,
+                      : workShift.startTime,
                   endDayToTime: time,
                 });
               }}
@@ -551,6 +551,7 @@ interface PickPartialDayDurationProps {
   partialOption?: MultipleDayPartialOption;
   pickMultipleDayPartialOption: typeof pickMultipleDayPartialOptionAction;
   forceUpdateSlider?: number;
+  workShift: WorkShift;
 }
 
 export default PickPartialDayDuration;

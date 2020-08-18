@@ -29,6 +29,7 @@ export interface CommonLeaveState {
   forceUpdateSlider: number;
   holidays?: Holiday[];
   workWeek?: WorkWeek;
+  workShift: WorkShift;
 }
 
 export const PICK_FROM_DATE = 'LEAVE_COMMON_PICK_FROM_DATE';
@@ -142,6 +143,11 @@ export const HALF_DAY_MORNING = 'AM';
 export const HALF_DAY_AFTERNOON = 'PM';
 export const DEFAULT_FROM_TIME = '09:00';
 export const DEFAULT_TO_TIME = '17:00';
+export const DEFAULT_WORK_SHIFT = {
+  workShift: '8.00',
+  startTime: DEFAULT_FROM_TIME,
+  endTime: DEFAULT_TO_TIME,
+};
 
 export interface SingleDayLeaveRequestHalfDay {
   singleType: typeof HALF_DAY;

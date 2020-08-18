@@ -30,22 +30,26 @@ import {
   ASSIGN_MULTIPLE_DAY_LEAVE_REQUEST,
   FETCH_SUBORDINATE_LEAVE_ENTITLEMENT,
   FETCH_SUBORDINATES,
+  FETCH_WORK_SHIFT,
   AssignSingleDayLeaveRequestAction,
   AssignMultipleDayLeaveRequestAction,
   FetchSubordinateLeaveEntitlementAction,
+  FetchWorkShiftAction,
 } from 'store/leave/assign-leave/types';
 import {
   resetAssignLeaveWithoutSubordinates,
   fetchSubordinateLeaveEntitlementsFinished,
   fetchSubordinatesFinished,
+  fetchWorkShiftFinished,
 } from 'store/leave/assign-leave/actions';
 import {resetLeaveList} from 'store/leave/leave-list/actions';
 import {assignColorsToLeaveTypes} from 'lib/helpers/leave';
-import {TYPE_ERROR} from 'store/globals/types';
+import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
 import {
   API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST,
   API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT,
   API_ENDPOINT_EMPLOYEES,
+  API_ENDPOINT_LEAVE_WORK_SHIFT,
   prepare,
 } from 'services/endpoints';
 import {
@@ -167,6 +171,26 @@ function* fetchAccessibleEmployees() {
   }
 }
 
+function* fetchWorkShift(action: FetchWorkShiftAction) {
+  try {
+    yield openLoader();
+    const response = yield apiCall(
+      apiGetCall,
+      prepare(API_ENDPOINT_LEAVE_WORK_SHIFT, {}, {empNumber: action.empNumber}),
+    );
+
+    if (response.data) {
+      yield put(fetchWorkShiftFinished(response.data));
+    } else {
+      yield showSnackMessage('Failed to Load Work Shift.', TYPE_WARN);
+    }
+  } catch (error) {
+    yield showSnackMessage('Failed to Load Work Shift.', TYPE_WARN);
+  } finally {
+    yield closeLoader();
+  }
+}
+
 export function* watchAssignLeaveActions() {
   yield takeEvery(ASSIGN_SINGLE_DAY_LEAVE_REQUEST, saveLeaveRequest);
   yield takeEvery(ASSIGN_MULTIPLE_DAY_LEAVE_REQUEST, saveLeaveRequest);
@@ -175,4 +199,5 @@ export function* watchAssignLeaveActions() {
     fetchSubordinateLeaveEntitlements,
   );
   yield takeEvery(FETCH_SUBORDINATES, fetchAccessibleEmployees);
+  yield takeEvery(FETCH_WORK_SHIFT, fetchWorkShift);
 }

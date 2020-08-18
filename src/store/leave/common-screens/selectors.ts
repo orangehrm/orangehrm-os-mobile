@@ -26,6 +26,7 @@ import {
   MultipleDayPartialOption,
   Holiday,
   WorkWeek,
+  WorkShift,
 } from 'store/leave/common-screens/types';
 
 export const selectLeaveCommon = (state: RootState) => state.leaveCommon;
@@ -89,3 +90,9 @@ export const selectWorkWeek = createSelector<
   CommonLeaveState,
   WorkWeek | undefined
 >([selectLeaveCommon], (leaveCommon) => leaveCommon.workWeek);
+
+export const selectWorkShift = createSelector<
+  RootState,
+  CommonLeaveState,
+  WorkShift
+>([selectLeaveCommon], (leaveCommon) => leaveCommon.workShift);

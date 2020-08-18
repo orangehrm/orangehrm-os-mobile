@@ -18,7 +18,7 @@
  *
  */
 
-import {call, put} from 'redux-saga/effects';
+import {call, put, take} from 'redux-saga/effects';
 import {isAccessTokenExpired} from 'services/api';
 import {getNewAccessToken} from 'services/authentication';
 import {
@@ -29,6 +29,11 @@ import {
   EXPIRES_AT,
 } from 'services/storage';
 import {storageSetMulti, selectAuthParams} from 'store/saga-effects/storage';
+import {setFetchingAccessTokenLock} from 'store/storage/actions';
+import {
+  SET_FETCHING_ACCESS_TOKEN_LOCK,
+  SetFetchingAccessTokenLockAction,
+} from 'store/storage/types';
 import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams} from 'store/storage/types';
 import {logout} from 'store/auth/actions';
@@ -38,7 +43,24 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
   fn: Fn,
   ...args: Parameters<Fn>
 ) {
-  const authParams: AuthParams = yield selectAuthParams();
+  let authParams: AuthParams = yield selectAuthParams();
+
+  if (authParams.fetchingAccessTokenLock) {
+    let action: SetFetchingAccessTokenLockAction;
+    // `task` effect is blocking
+    while ((action = yield take(SET_FETCHING_ACCESS_TOKEN_LOCK))) {
+      if (action.state === false) {
+        // Aquired lock
+        yield put(setFetchingAccessTokenLock(true));
+        break;
+      }
+    }
+    // Update auth params to continue after waiting
+    authParams = yield selectAuthParams();
+  } else {
+    // Aquired lock
+    yield put(setFetchingAccessTokenLock(true));
+  }
 
   if (isAccessTokenExpired(authParams.expiresAt)) {
     if (authParams.refreshToken !== null && authParams.instanceUrl !== null) {
@@ -80,6 +102,8 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
       throw new Error("Couldn't call with empty instanceUrl or refreshToken.");
     }
   }
+  // Release lock
+  yield put(setFetchingAccessTokenLock(false));
 
   const result = yield call(fn, ...args);
   return result;

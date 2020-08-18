@@ -24,6 +24,7 @@ import {
   SET_ITEM,
   SET_MULTI,
   CHANGE_LOADED,
+  SET_FETCHING_ACCESS_TOKEN_LOCK,
 } from 'store/storage/types';
 import {
   INSTANCE_URL,
@@ -44,6 +45,7 @@ const initialState: StorageState = {
   [SCOPE]: null,
   [TOKEN_TYPE]: null,
   loaded: false,
+  fetchingAccessTokenLock: false,
 };
 
 const storageReducer = (
@@ -66,6 +68,11 @@ const storageReducer = (
         ...state,
         loaded: action.state,
         error: action.error,
+      };
+    case SET_FETCHING_ACCESS_TOKEN_LOCK:
+      return {
+        ...state,
+        fetchingAccessTokenLock: action.state,
       };
     default:
       return state;

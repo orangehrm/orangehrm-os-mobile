@@ -32,6 +32,7 @@ import {
   SET_PICKED_STATE,
   FETCH_HOLIDAYS_FINISHED,
   FETCH_WORK_WEEK_FINISHED,
+  DEFAULT_WORK_SHIFT,
 } from 'store/leave/common-screens/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
@@ -45,6 +46,7 @@ const initialState: CommonLeaveState = {
   partialOption: {
     partialOption: PARTIAL_OPTION_NONE,
   },
+  workShift: DEFAULT_WORK_SHIFT,
   forceUpdateSlider: 0,
 };
 
