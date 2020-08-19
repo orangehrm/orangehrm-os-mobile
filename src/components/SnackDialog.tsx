@@ -19,7 +19,14 @@
  */
 
 import React from 'react';
-import {View, StyleSheet, ViewProps} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ViewProps,
+  Platform,
+  KeyboardAvoidingView,
+  SafeAreaView,
+} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Dialog, {DialogProps} from 'components/DefaultDialog';
 
@@ -45,19 +52,25 @@ const SnackDialog = (props: React.PropsWithChildren<SnackDialogProps>) => {
       //https://github.com/react-native-community/react-native-modal/issues/163
       useNativeDriver={false}
       swipeThreshold={50}
+      // avoidKeyboard
       {...dialogProps}
       style={[styles.dialog, dialogProps.style]}>
-      <View
-        {...viewProps}
-        style={[
-          {
-            backgroundColor: theme.palette.background,
-            borderRadius: theme.borderRadius,
-          },
-          viewProps?.style,
-        ]}>
-        {children}
-      </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <SafeAreaView>
+          <View
+            {...viewProps}
+            style={[
+              {
+                backgroundColor: theme.palette.background,
+                borderRadius: theme.borderRadius,
+              },
+              viewProps?.style,
+            ]}>
+            {children}
+          </View>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     </Dialog>
   );
 };
