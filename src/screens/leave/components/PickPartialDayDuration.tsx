@@ -19,6 +19,7 @@
  */
 
 import React from 'react';
+import {View} from 'react-native';
 import {pickMultipleDayPartialOption as pickMultipleDayPartialOptionAction} from 'store/leave/common-screens/actions';
 import PickMultipleDayPartialOption from 'screens/leave/components/PickMultipleDayPartialOption';
 import {
@@ -215,7 +216,7 @@ class PickPartialDayDuration extends React.Component<
     } = this.props;
 
     return (
-      <>
+      <View>
         {partialOption?.partialOption === PARTIAL_OPTION_ALL ||
         partialOption?.partialOption === PARTIAL_OPTION_START ? (
           <>
@@ -542,7 +543,7 @@ class PickPartialDayDuration extends React.Component<
             />
           </>
         ) : null}
-      </>
+      </View>
     );
   }
 }

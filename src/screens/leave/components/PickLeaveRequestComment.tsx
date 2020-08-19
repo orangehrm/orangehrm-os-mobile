@@ -24,6 +24,7 @@ import {
   View,
   TouchableWithoutFeedback,
   TextInput as RNTextInput,
+  Platform,
 } from 'react-native';
 import useTheme from 'lib/hook/useTheme';
 import Text from 'components/DefaultText';
@@ -91,6 +92,11 @@ const styles = StyleSheet.create({
   },
   textView: {
     flex: 1,
+    ...Platform.select({
+      ios: {
+        justifyContent: 'center',
+      },
+    }),
   },
 });
 

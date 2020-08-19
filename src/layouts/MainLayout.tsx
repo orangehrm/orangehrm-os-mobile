@@ -23,12 +23,10 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
-  KeyboardAvoidingView,
   RefreshControl,
   StyleSheet,
   RefreshControlProps,
   ScrollViewProps,
-  Platform,
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
@@ -50,26 +48,22 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
       />
       <SafeAreaView
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-          style={styles.root}>
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            contentContainerStyle={styles.scrollView}
-            keyboardShouldPersistTaps="handled"
-            refreshControl={
-              onRefresh === undefined ? undefined : (
-                <RefreshControl
-                  refreshing={refreshing === undefined ? false : refreshing}
-                  onRefresh={onRefresh}
-                />
-              )
-            }
-            {...scrollViewProps}>
-            {children}
-          </ScrollView>
-          {footer === undefined ? null : footer}
-        </KeyboardAvoidingView>
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          contentContainerStyle={styles.scrollView}
+          keyboardShouldPersistTaps="handled"
+          refreshControl={
+            onRefresh === undefined ? undefined : (
+              <RefreshControl
+                refreshing={refreshing === undefined ? false : refreshing}
+                onRefresh={onRefresh}
+              />
+            )
+          }
+          {...scrollViewProps}>
+          {children}
+        </ScrollView>
+        {footer === undefined ? null : footer}
       </SafeAreaView>
     </>
   );
@@ -89,9 +83,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flexGrow: 1,
-  },
-  root: {
-    flex: 1,
   },
 });
 

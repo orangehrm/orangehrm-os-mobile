@@ -19,7 +19,12 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {useWindowDimensions} from 'react-native';
+import {
+  useWindowDimensions,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -122,43 +127,47 @@ const Navigator = (props: NavigatorProps) => {
       // TODO: Handle large screens
       const isLargeScreen = dimensions.width >= 768;
       view = (
-        <Drawer.Navigator
-          initialRouteName={initialRoute}
-          openByDefault={false}
-          drawerType={isLargeScreen ? 'permanent' : 'front'}
-          drawerContent={(drawerContentProps: any) => (
-            <DrawerContent {...drawerContentProps} />
-          )}>
-          <Drawer.Screen
-            name={APPLY_LEAVE}
-            component={ApplyLeave}
-            options={{drawerLabel: 'Apply Leave'}}
-            initialParams={{subheader: SUBHEADER_LEAVE}}
-          />
-          <Drawer.Screen
-            name={MY_LEAVE_ENTITLEMENT_AND_USAGE}
-            component={MyLeaveUsage}
-            options={{drawerLabel: 'My Leave Usage'}}
-            initialParams={{subheader: SUBHEADER_LEAVE}}
-          />
-          {myInfo?.user.userRole === USER_ROLE_ADMIN ||
-          myInfo?.user.isSupervisor === true ? (
-            <>
-              <Drawer.Screen
-                name={LEAVE_LIST}
-                component={LeaveList}
-                options={{drawerLabel: 'Leave List'}}
-                initialParams={{subheader: SUBHEADER_LEAVE}}
-              />
-              <Drawer.Screen
-                name={ASSIGN_LEAVE}
-                component={AssignLeave}
-                options={{drawerLabel: 'Assign Leave'}}
-                initialParams={{subheader: SUBHEADER_LEAVE}}
-              />
-            </>
-          ) : null}
-        </Drawer.Navigator>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={styles.root}>
+          <Drawer.Navigator
+            initialRouteName={initialRoute}
+            openByDefault={false}
+            drawerType={isLargeScreen ? 'permanent' : 'front'}
+            drawerContent={(drawerContentProps: any) => (
+              <DrawerContent {...drawerContentProps} />
+            )}>
+            <Drawer.Screen
+              name={APPLY_LEAVE}
+              component={ApplyLeave}
+              options={{drawerLabel: 'Apply Leave'}}
+              initialParams={{subheader: SUBHEADER_LEAVE}}
+            />
+            <Drawer.Screen
+              name={MY_LEAVE_ENTITLEMENT_AND_USAGE}
+              component={MyLeaveUsage}
+              options={{drawerLabel: 'My Leave Usage'}}
+              initialParams={{subheader: SUBHEADER_LEAVE}}
+            />
+            {myInfo?.user.userRole === USER_ROLE_ADMIN ||
+            myInfo?.user.isSupervisor === true ? (
+              <>
+                <Drawer.Screen
+                  name={LEAVE_LIST}
+                  component={LeaveList}
+                  options={{drawerLabel: 'Leave List'}}
+                  initialParams={{subheader: SUBHEADER_LEAVE}}
+                />
+                <Drawer.Screen
+                  name={ASSIGN_LEAVE}
+                  component={AssignLeave}
+                  options={{drawerLabel: 'Assign Leave'}}
+                  initialParams={{subheader: SUBHEADER_LEAVE}}
+                />
+              </>
+            ) : null}
+          </Drawer.Navigator>
+        </KeyboardAvoidingView>
       );
     } else {
       let initialRouteName = LOGIN;
@@ -183,6 +192,12 @@ const Navigator = (props: NavigatorProps) => {
 };
 
 interface NavigatorProps extends ConnectedProps<typeof connector> {}
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
+});
 
 const mapStateToProps = (state: RootState) => ({
   storageLoaded: selectStorageLoaded(state),

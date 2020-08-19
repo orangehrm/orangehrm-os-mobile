@@ -123,6 +123,7 @@ class PickLeaveRequestPartialDays extends React.Component<
           <View
             style={{
               backgroundColor: theme.palette.background,
+              marginBottom: theme.spacing * 2,
             }}>
             <Text bold style={{padding: theme.spacing * 4}}>
               {'Select Your Partial Leave Day(s)'}
@@ -199,13 +200,13 @@ class PickLeaveRequestPartialDays extends React.Component<
               />
             </View>
           </View>
+          <PickPartialDayDuration
+            partialOption={partialOption}
+            pickMultipleDayPartialOption={pickMultipleDayPartialOption}
+            forceUpdateSlider={forceUpdateSlider}
+            workShift={workShift}
+          />
         </View>
-        <PickPartialDayDuration
-          partialOption={partialOption}
-          pickMultipleDayPartialOption={pickMultipleDayPartialOption}
-          forceUpdateSlider={forceUpdateSlider}
-          workShift={workShift}
-        />
       </MainLayout>
     );
   }
