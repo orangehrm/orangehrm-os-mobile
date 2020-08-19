@@ -130,6 +130,7 @@ class SelectInstance extends React.Component<
               // OHRM-758:placeholder overlaps prod release
               this.props.instanceUrl !== null && this.props.instanceUrl !== ''
             }
+            autoCorrect={false}
           />
         }
         actions={

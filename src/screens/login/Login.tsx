@@ -114,6 +114,7 @@ class Login extends React.Component<LoginProps, LoginState> {
               itemProps={{error: usernameError === '' ? false : true}}
               onSubmitEditing={this.handleFocusPassword}
               returnKeyType={'next'}
+              autoCorrect={false}
             />
             <TextField
               label={'Password'}
