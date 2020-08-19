@@ -48,7 +48,7 @@
 		09D29E40AC3D8217F55FFE13 /* Pods-OrangeHRM-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-OrangeHRM-tvOSTests/Pods-OrangeHRM-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		0A91C5C53E2391768A84E7B4 /* Pods-OrangeHRM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OrangeHRM.release.xcconfig"; path = "Target Support Files/Pods-OrangeHRM/Pods-OrangeHRM.release.xcconfig"; sourceTree = "<group>"; };
 		13862986CE4B062F2E4352B1 /* libPods-OrangeHRM-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OrangeHRM-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07F961A680F5B00A75B9A /* OrangeHRM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OrangeHRM.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* OrangeHRM Open Source.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OrangeHRM Open Source.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = OrangeHRM/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = OrangeHRM/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = OrangeHRM/Images.xcassets; sourceTree = "<group>"; };
@@ -174,7 +174,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* OrangeHRM.app */,
+				13B07F961A680F5B00A75B9A /* OrangeHRM Open Source.app */,
 				00E356EE1AD99517003FC87E /* OrangeHRMTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* OrangeHRM-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* OrangeHRM-tvOSTests.xctest */,
@@ -238,7 +238,7 @@
 			);
 			name = OrangeHRM;
 			productName = OrangeHRM;
-			productReference = 13B07F961A680F5B00A75B9A /* OrangeHRM.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* OrangeHRM Open Source.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2D02E47A1E0B4A5D006451C7 /* OrangeHRM-tvOS */ = {
@@ -725,7 +725,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = A34772N44U;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -741,7 +741,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.orangehrm.opensource;
-				PRODUCT_NAME = OrangeHRM;
+				PRODUCT_NAME = "OrangeHRM Open Source";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -757,7 +757,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = A34772N44U;
 				INFOPLIST_FILE = OrangeHRM/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -768,7 +768,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.orangehrm.opensource;
-				PRODUCT_NAME = OrangeHRM;
+				PRODUCT_NAME = "OrangeHRM Open Source";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

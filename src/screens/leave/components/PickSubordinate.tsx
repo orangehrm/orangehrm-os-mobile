@@ -25,6 +25,7 @@ import {
   ViewProps,
   TextInput as RNTextInput,
   TouchableWithoutFeedback,
+  Platform,
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Text from 'components/DefaultText';
@@ -117,11 +118,14 @@ class PickSubordinate extends React.Component<
           onPress={this.onPressEmployee}
         />
         <View
-          style={{
-            paddingRight: theme.spacing * 6,
-            paddingLeft: theme.spacing * 12,
-            backgroundColor: theme.palette.background,
-          }}>
+          style={[
+            {
+              paddingRight: theme.spacing * 6,
+              paddingLeft: theme.spacing * 12,
+              backgroundColor: theme.palette.background,
+            },
+            styles.marginForShadow,
+          ]}>
           {subordinates ? (
             <TouchableWithoutFeedback onPress={this.onPressEmployee}>
               <View style={styles.textInputView}>
@@ -136,6 +140,13 @@ class PickSubordinate extends React.Component<
                       this.setState({textValue: text});
                     }}
                     multiline
+                    style={{
+                      ...Platform.select({
+                        ios: {
+                          marginVertical: theme.spacing * 4,
+                        },
+                      }),
+                    }}
                   />
                 </View>
                 {selectedSubordinate !== undefined ? (
@@ -179,6 +190,13 @@ const styles = StyleSheet.create({
   employeeId: {
     flex: 1,
     textAlign: 'right',
+  },
+  marginForShadow: {
+    ...Platform.select({
+      ios: {
+        marginTop: 2,
+      },
+    }),
   },
 });
 
