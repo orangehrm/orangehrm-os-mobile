@@ -26,6 +26,7 @@ import {
   TouchableOpacity,
   TextInput as RNTextInput,
   RefreshControl,
+  Platform,
 } from 'react-native';
 import SafeAreaLayout from 'layouts/SafeAreaLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -100,7 +101,7 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
               onPress={this.onPressEmployeePicker}
             />
           </View>
-          <View style={[styles.inflex]}>
+          <View style={styles.inflex}>
             <PickEmployeeTextInput
               ref={(input) => {
                 this.inputRef = input;
@@ -116,6 +117,11 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
                   paddingRight,
                   paddingLeft: theme.spacing * 12,
                   backgroundColor: theme.palette.background,
+                  ...Platform.select({
+                    ios: {
+                      paddingVertical: theme.spacing * 4,
+                    },
+                  }),
                 },
                 styles.textInputView,
               ]}
@@ -227,6 +233,20 @@ const styles = StyleSheet.create({
   employeeId: {
     flex: 1,
     textAlign: 'right',
+  },
+  textInput: {
+    ...Platform.select({
+      ios: {
+        shadowOpacity: 0.5,
+        shadowRadius: 1,
+        shadowColor: 'black',
+        shadowOffset: {height: 0.5, width: 0},
+        elevation: 2,
+        alignItems: 'center',
+        // To show the shaddow
+        marginBottom: 2,
+      },
+    }),
   },
 });
 

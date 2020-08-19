@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {Button, NativeBase} from 'native-base';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
@@ -50,6 +50,16 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     alignItems: 'stretch',
+    ...Platform.select({
+      ios: {
+        shadowOpacity: 0.5,
+        shadowRadius: 1,
+        shadowColor: 'black',
+        shadowOffset: {height: 0.5, width: 0},
+        elevation: 2,
+        alignItems: 'center',
+      },
+    }),
   },
 });
 

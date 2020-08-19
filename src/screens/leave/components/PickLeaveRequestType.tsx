@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, ViewProps} from 'react-native';
+import {StyleSheet, View, ViewProps, Platform} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Text from 'components/DefaultText';
 import CardButton from 'screens/leave/components/CardButton';
@@ -42,7 +42,11 @@ class PickLeaveType extends React.Component<PickLeaveTypeProps> {
       <>
         <View style={style}>
           <CardButton
-            style={[styles.cardButton, {height: theme.spacing * 12}]}
+            style={[
+              styles.cardButton,
+              {height: theme.spacing * 12},
+              styles.marginForShadow,
+            ]}
             rounded={false}>
             <View
               style={[
@@ -111,6 +115,13 @@ const styles = StyleSheet.create({
   },
   cardButton: {
     borderRadius: 0,
+  },
+  marginForShadow: {
+    ...Platform.select({
+      ios: {
+        marginBottom: 2,
+      },
+    }),
   },
 });
 
