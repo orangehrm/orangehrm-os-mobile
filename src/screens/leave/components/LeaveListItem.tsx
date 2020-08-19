@@ -30,6 +30,7 @@ import Chip from 'components/DefaultChip';
 import Avatar from 'components/DefaultAvatar';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {LeaveListLeaveRequest} from 'store/leave/leave-list/types';
+import {LEAVE_TYPE_DELETED_YES} from 'store/leave/leave-usage/types';
 
 class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
   render() {
@@ -90,6 +91,9 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
                         : {color: theme.typography.darkColor},
                     ]}>
                     {leaveRequest.leaveType.type}
+                    {leaveRequest.leaveType.deleted === LEAVE_TYPE_DELETED_YES
+                      ? ' (Deleted)'
+                      : ''}
                   </Text>
                 </Chip>
               </View>

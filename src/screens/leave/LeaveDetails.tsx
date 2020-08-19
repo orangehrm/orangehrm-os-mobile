@@ -53,6 +53,7 @@ import {
   LeaveRequestAllowedActions,
 } from 'store/leave/leave-list/types';
 import {LeaveDaysParam, LeaveCommentsParam} from 'screens/leave/navigators';
+import {LEAVE_TYPE_DELETED_YES} from 'store/leave/leave-usage/types';
 
 class LeaveDetails extends React.Component<
   LeaveDetailsProps,
@@ -251,7 +252,11 @@ class LeaveDetails extends React.Component<
                           : {color: theme.typography.darkColor},
                       ]}>
                       {employeeLeaveRequest?.leaveType.type
-                        ? employeeLeaveRequest?.leaveType.type
+                        ? employeeLeaveRequest?.leaveType.type +
+                          (employeeLeaveRequest?.leaveType.deleted ===
+                          LEAVE_TYPE_DELETED_YES
+                            ? ' (Deleted)'
+                            : '')
                         : '--'}
                     </Text>
                   </Chip>

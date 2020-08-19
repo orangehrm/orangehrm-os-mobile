@@ -55,6 +55,7 @@ import {
   getMessageAlongWithResponseErrors,
   HTTP_NOT_FOUND,
 } from 'services/api';
+import {ACTION_TYPE_CHANGE_STATUS} from 'store/leave/leave-list/types';
 
 function* fetchMyLeaveEntitlements() {
   try {
@@ -72,16 +73,17 @@ function* fetchMyLeaveEntitlements() {
     } else {
       if (response.getResponse().status === HTTP_NOT_FOUND) {
         yield put(fetchMyLeaveEntitlementsFinished([]));
+        yield showSnackMessage('No Leave Types with Leave Balance', TYPE_ERROR);
       } else {
         yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
+        yield showSnackMessage(
+          getMessageAlongWithResponseErrors(
+            response,
+            'Failed to Fetch Leave Details',
+          ),
+          TYPE_ERROR,
+        );
       }
-      yield showSnackMessage(
-        getMessageAlongWithResponseErrors(
-          response,
-          'Failed to Fetch Leave Details',
-        ),
-        TYPE_ERROR,
-      );
     }
   } catch (error) {
     yield showSnackMessage(
@@ -174,7 +176,11 @@ function* changeMyLeaveRequestStatus(action: ChangeMyLeaveRequestStatusAction) {
     if (response.success) {
       //re-fetch with updated leave request data
       yield put(fetchMyLeaveDetailsAction(action.leaveRequestId));
-      yield showSnackMessage('Successfully Submited');
+      yield showSnackMessage(
+        action.action.actionType === ACTION_TYPE_CHANGE_STATUS
+          ? 'Successfully Updated'
+          : 'Successfully Saved',
+      );
     } else {
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(

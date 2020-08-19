@@ -26,13 +26,15 @@ import {
   CHECK_INSTANCE,
   FetchTokenAction,
   CheckInstanceAction,
-} from './types';
+  FetchEnabledModulesAction,
+} from 'store/auth/types';
 import {authenticate} from 'services/authentication';
 import {
   checkInstance as checkInstanceRequest,
   checkInstanceCompatibility,
   checkRemovedEndpoints,
   checkDeprecatedEndpoints,
+  getEnabledModules,
 } from 'services/instance-check';
 import {
   USERNAME,
@@ -53,7 +55,11 @@ import {
   selectAuthParams,
   selectInstanceUrl,
 } from 'store/saga-effects/storage';
-import {fetchMyInfoFinished, checkInstanceFinished} from 'store/auth/actions';
+import {
+  fetchMyInfoFinished,
+  checkInstanceFinished,
+  fetchEnabledModulesFinished,
+} from 'store/auth/actions';
 import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams} from 'store/storage/types';
 import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
@@ -61,6 +67,7 @@ import {getMessageAlongWithGenericErrors} from 'services/api';
 import {selectInstanceExists} from 'store/auth/selectors';
 import {API_ENDPOINT_MY_INFO, prepare} from 'services/endpoints';
 import {AuthenticationError} from 'services/errors/authentication';
+import {InstanceCheckError} from 'services/errors/instance-check';
 
 function* checkInstance(action?: CheckInstanceAction) {
   try {
@@ -78,15 +85,17 @@ function* checkInstance(action?: CheckInstanceAction) {
         yield showSnackMessage('Please Update the Application.', TYPE_WARN);
       }
 
+      yield* fetchEnabledModules();
+
       yield put(checkInstanceFinished());
     } else {
-      yield showSnackMessage('Could Not Be Reached.', TYPE_ERROR);
+      yield showSnackMessage('Invalid URL', TYPE_ERROR);
     }
   } catch (error) {
     if (action) {
       yield put(checkInstanceFinished(true));
       yield showSnackMessage(
-        getMessageAlongWithGenericErrors(error, 'Could Not Be Reached.'),
+        getMessageAlongWithGenericErrors(error, 'Invalid URL'),
         TYPE_ERROR,
       );
     } else {
@@ -94,6 +103,49 @@ function* checkInstance(action?: CheckInstanceAction) {
     }
   } finally {
     yield closeLoader();
+  }
+}
+
+function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
+  try {
+    const instanceUrl: string = yield selectInstanceUrl();
+    const response: Response = yield call(getEnabledModules, instanceUrl);
+
+    if (response.ok) {
+      const responseData = yield call([response, response.json]);
+
+      if (responseData.data) {
+        yield put(fetchEnabledModulesFinished(responseData.data));
+        if (!responseData.data.modules.mobile) {
+          // Logout in case loggedin user
+          yield* logout();
+          throw new InstanceCheckError(
+            'The Mobile App Is Not Enabled, Please Contact Your System Administrator.',
+          );
+        } else if (!responseData.data.modules.leave) {
+          yield showSnackMessage(
+            'Leave Module Is Disabled, Please Contact Your System Administrator',
+            TYPE_ERROR,
+          );
+        }
+      } else {
+        throw new InstanceCheckError('Failed to Load Enabled Modules.');
+      }
+    } else {
+      throw new InstanceCheckError('Failed to Load Enabled Modules.');
+    }
+  } catch (error) {
+    if (error instanceof InstanceCheckError && action === undefined) {
+      throw error;
+    }
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(
+        error,
+        'Failed to Load Enabled Modules.',
+      ),
+      TYPE_ERROR,
+    );
+    yield put(fetchEnabledModulesFinished(undefined, true));
   }
 }
 
@@ -164,6 +216,8 @@ function* logout() {
 
 function* fetchMyInfo() {
   try {
+    yield* fetchEnabledModules();
+
     const response = yield apiCall(
       apiGetCall,
       prepare(API_ENDPOINT_MY_INFO, {}, {withPhoto: true}),
@@ -174,6 +228,12 @@ function* fetchMyInfo() {
       yield put(fetchMyInfoFinished(undefined, true));
     }
   } catch (error) {
+    if (error instanceof InstanceCheckError) {
+      yield showSnackMessage(
+        getMessageAlongWithGenericErrors(error, 'Failed to Check Instance.'),
+        TYPE_ERROR,
+      );
+    }
     yield put(fetchMyInfoFinished(undefined, true));
   }
 }
@@ -182,5 +242,6 @@ export function* watchAuthActions() {
   yield takeEvery(FETCH_TOKEN, fetchAuthToken);
   yield takeEvery(LOGOUT, logout);
   yield takeEvery(FETCH_MY_INFO, fetchMyInfo);
+  yield takeEvery(CHECK_INSTANCE, checkInstance);
   yield takeEvery(CHECK_INSTANCE, checkInstance);
 }

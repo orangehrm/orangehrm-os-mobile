@@ -24,6 +24,7 @@ import {
   FETCH_MY_INFO_FINISHED,
   CHECK_INSTANCE,
   CHECK_INSTANCE_FINISHED,
+  FETCH_ENABLED_MODULES_FINISHED,
   AuthActionTypes,
 } from 'store/auth/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
@@ -66,6 +67,11 @@ const authReducer = (
         ...state,
         checkingInstance: false,
         instanceExists: !action.error,
+      };
+    case FETCH_ENABLED_MODULES_FINISHED:
+      return {
+        ...state,
+        enabledModules: action.payload,
       };
     case LOGOUT:
       return {

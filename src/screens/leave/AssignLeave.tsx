@@ -249,6 +249,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
           ...partialOption,
         });
       }
+      this.setState({comment: ''});
       this.hideRequestDaysError();
     } else {
       this.showRequestDaysError();
@@ -374,7 +375,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
                       padding: theme.spacing * 4,
                     },
                   ]}>
-                  <Text>{'No Records Found'}</Text>
+                  <Text>{'No Leave Types with Leave Balance'}</Text>
                 </View>
               ) : (
                 <>

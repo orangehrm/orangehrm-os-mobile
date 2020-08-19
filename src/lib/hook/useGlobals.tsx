@@ -54,7 +54,8 @@ const useGlobals = () => {
   };
 };
 
-export interface Globals extends GlobalsState {
+export interface Globals
+  extends Omit<GlobalsState, 'previousRoute' | 'currentRoute'> {
   openLoader: typeof openLoader;
   closeLoader: typeof closeLoader;
   showSnackMessage: typeof showSnackMessage;

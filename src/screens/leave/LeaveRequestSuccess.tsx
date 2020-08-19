@@ -80,7 +80,7 @@ class LeaveRequestSuccess extends React.Component<LeaveRequestSuccessProps> {
                 }}>
                 {'Completed'}
               </Text>
-              <Text>{'Leave Requests Has Been Successfully Submitted.'}</Text>
+              <Text>{'Leave Request Has Been Successfully Submitted.'}</Text>
             </View>
             <View>
               <IconButton

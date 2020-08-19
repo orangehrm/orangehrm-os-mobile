@@ -28,6 +28,7 @@ import {
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import {
@@ -83,6 +84,7 @@ import {
 } from 'screens';
 import {isSingleDayRequest, isMultipleDayRequest} from 'lib/helpers/leave';
 import {LeaveRequest} from 'store/leave/common-screens/types';
+import {TYPE_ERROR} from 'store/globals/types';
 
 class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
   inputRef: RNTextInput | null;
@@ -119,6 +121,8 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       pickedLeavePartialOption,
       workShift,
       workShiftFetched,
+      entitlements,
+      showSnackMessage,
     } = this.props;
     if (
       prevProps.previousRoute !== previousRoute &&
@@ -158,6 +162,10 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
         !workShiftFetched
       ) {
         this.props.fetchWorkShift();
+      }
+
+      if (entitlements?.length === 0) {
+        showSnackMessage('No Leave Types with Leave Balance', TYPE_ERROR);
       }
     }
 
@@ -222,6 +230,7 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
           ...partialOption,
         });
       }
+      this.setState({comment: ''});
       this.hideRequestDaysError();
     } else {
       this.showRequestDaysError();
@@ -274,7 +283,7 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
     const {typingComment, requestDaysError, comment} = this.state;
     return (
       <MainLayout
-        onRefresh={entitlements ? undefined : this.onRefresh}
+        onRefresh={this.onRefresh}
         footer={
           <>
             {typingComment ? (
@@ -341,7 +350,10 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
   }
 }
 
-interface ApplyLeaveProps extends WithTheme, ConnectedProps<typeof connector> {
+interface ApplyLeaveProps
+  extends WithTheme,
+    WithGlobals,
+    ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
 }
 
@@ -396,4 +408,8 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 const ApplyLeaveWithTheme = withTheme<ApplyLeaveProps>()(ApplyLeave);
 
-export default connector(ApplyLeaveWithTheme);
+const ApplyLeaveWithGlobals = withGlobals<ApplyLeaveProps>()(
+  ApplyLeaveWithTheme,
+);
+
+export default connector(ApplyLeaveWithGlobals);

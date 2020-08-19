@@ -28,6 +28,7 @@ export interface AuthState {
   isFinishedMyInfo: boolean;
   checkingInstance: boolean;
   instanceExists: boolean;
+  enabledModules?: EnabledModules;
 }
 
 export const FETCH_TOKEN = 'AUTH_FETCH_TOKEN';
@@ -36,6 +37,9 @@ export const FETCH_MY_INFO = 'AUTH_FETCH_MY_INFO';
 export const FETCH_MY_INFO_FINISHED = 'AUTH_FETCH_MY_INFO_FINISHED';
 export const CHECK_INSTANCE = 'AUTH_CHECK_INSTANCE';
 export const CHECK_INSTANCE_FINISHED = 'AUTH_CHECK_INSTANCE_FINISHED';
+export const FETCH_ENABLED_MODULES = 'AUTH_FETCH_ENABLED_MODULES';
+export const FETCH_ENABLED_MODULES_FINISHED =
+  'AUTH_FETCH_ENABLED_MODULES_FINISHED';
 
 export interface FetchTokenAction {
   type: typeof FETCH_TOKEN;
@@ -68,13 +72,25 @@ export interface CheckInstanceFinishedAction {
   error: boolean;
 }
 
+export interface FetchEnabledModulesAction {
+  type: typeof FETCH_ENABLED_MODULES;
+}
+
+export interface FetchEnabledModulesFinishedAction {
+  type: typeof FETCH_ENABLED_MODULES_FINISHED;
+  payload?: EnabledModules;
+  error: boolean;
+}
+
 export type AuthActionTypes =
   | FetchTokenAction
   | LogoutAction
   | FetchMyInfoAction
   | FetchMyInfoFinishedAction
   | CheckInstanceAction
-  | CheckInstanceFinishedAction;
+  | CheckInstanceFinishedAction
+  | FetchEnabledModulesAction
+  | FetchEnabledModulesFinishedAction;
 
 export interface AuthSuccessResponse {
   access_token: string;
@@ -132,3 +148,25 @@ export interface Supervisor {
 }
 
 export type AuthResponse = AuthSuccessResponse | AuthErrorResponse;
+
+export interface EnabledModules {
+  modules: {
+    admin: boolean;
+    pim: boolean;
+    leave: boolean;
+    time: boolean;
+    recruitment: boolean;
+    performance: boolean;
+    directory: boolean;
+    maintenance: boolean;
+    mobile: boolean;
+  };
+  meta: {
+    leave: {
+      isLeavePeriodDefined: boolean;
+    };
+    time: {
+      isTimesheetPeriodDefined: boolean;
+    };
+  };
+}
