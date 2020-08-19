@@ -43,6 +43,7 @@ const DUMMY_OPEN_API_DEFINITION = {
     '/leave/holidays': {get: {}},
     '/leave/work-shift': {get: {}},
     '/leave/work-week': {get: {}},
+    '/leave/leave-types': {get: {}},
   },
 };
 

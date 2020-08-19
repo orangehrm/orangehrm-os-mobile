@@ -42,6 +42,7 @@ import {
   selectSelectedSubordinate,
   selectWorkShift,
   selectWorkShiftFetched,
+  selectLeaveTypes,
 } from 'store/leave/assign-leave/selectors';
 import {
   selectFromDate,
@@ -65,6 +66,7 @@ import {
   pickAssignLeaveSingleDayDuration,
   pickAssignLeaveMultipleDayPartialOption,
   fetchWorkShift,
+  fetchLeaveTypes,
 } from 'store/leave/assign-leave/actions';
 import {selectPreviousRoute, selectCurrentRoute} from 'store/globals/selectors';
 import {
@@ -80,6 +82,7 @@ import PickLeaveRequestComment, {
 import PickSubordinate from 'screens/leave/components/PickSubordinate';
 import Divider from 'components/DefaultDivider';
 import Text from 'components/DefaultText';
+import Icon from 'components/DefaultIcon';
 import {
   ASSIGN_LEAVE,
   PICK_EMPLOYEE,
@@ -87,7 +90,11 @@ import {
   ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DURATION,
   ASSIGN_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS,
 } from 'screens';
-import {isSingleDayRequest, isMultipleDayRequest} from 'lib/helpers/leave';
+import {
+  isSingleDayRequest,
+  isMultipleDayRequest,
+  getEntitlementWithZeroBalanced,
+} from 'lib/helpers/leave';
 import {LeaveRequest} from 'store/leave/common-screens/types';
 
 class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
@@ -102,6 +109,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
       comment: '',
     };
     this.updateSubordinateList();
+    props.fetchLeaveTypes();
   }
 
   componentDidMount() {
@@ -227,10 +235,12 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
       partialOption,
       entitlements,
       selectedSubordinate,
+      leaveTypes,
     } = this.props;
-    const selectedLeaveType = entitlements?.find(
-      (item) => item.id === selectedLeaveTypeId,
-    );
+    const selectedLeaveType = getEntitlementWithZeroBalanced(
+      leaveTypes,
+      entitlements,
+    )?.find((item) => item.id === selectedLeaveTypeId);
     if (fromDate && selectedLeaveType && selectedSubordinate) {
       let leaveRequest: LeaveRequest = {
         fromDate: fromDate,
@@ -304,6 +314,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
       subordinates,
       selectedSubordinate,
       pickSubordinate,
+      leaveTypes,
     } = this.props;
     const {typingComment, requestDaysError, comment} = this.state;
     return (
@@ -367,7 +378,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
           />
           {selectedSubordinate ? (
             <>
-              {entitlements?.length === 0 ? (
+              {leaveTypes?.length === 0 ? (
                 <View
                   style={[
                     styles.noRecordsTextView,
@@ -375,12 +386,26 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
                       padding: theme.spacing * 4,
                     },
                   ]}>
-                  <Text>{'No Leave Types with Leave Balance'}</Text>
+                  <View style={{paddingVertical: theme.spacing * 2}}>
+                    <Icon
+                      name={'info-outline'}
+                      type={'MaterialIcons'}
+                      style={{fontSize: theme.typography.largeIconSize}}
+                    />
+                  </View>
+                  <Text style={styles.noRecordsText}>
+                    {
+                      'There Are No Leave Types Defined, Please Contact Your System Administrator.'
+                    }
+                  </Text>
                 </View>
               ) : (
                 <>
                   <PickLeaveRequestType
-                    entitlement={entitlements}
+                    entitlement={getEntitlementWithZeroBalanced(
+                      leaveTypes,
+                      entitlements,
+                    )}
                     selectedLeaveTypeId={selectedLeaveTypeId}
                     selectLeaveTypeAction={selectLeaveTypeAction}
                   />
@@ -435,6 +460,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  noRecordsText: {
+    textAlign: 'center',
+  },
 });
 
 const mapStateToProps = (state: RootState) => ({
@@ -458,6 +486,7 @@ const mapStateToProps = (state: RootState) => ({
   pickedLeavePartialOption: selectPickedLeavePartialOption(state),
   workShift: selectWorkShift(state),
   workShiftFetched: selectWorkShiftFetched(state),
+  leaveTypes: selectLeaveTypes(state),
 });
 
 const mapDispatchToProps = {
@@ -475,6 +504,7 @@ const mapDispatchToProps = {
   resetCommonLeave: resetCommonLeave,
   setCommonLeaveScreensState: setCommonLeaveScreensState,
   fetchWorkShift,
+  fetchLeaveTypes,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
