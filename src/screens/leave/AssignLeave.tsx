@@ -249,6 +249,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
           ...partialOption,
         });
       }
+      this.setState({comment: ''});
       this.hideRequestDaysError();
     } else {
       this.showRequestDaysError();
