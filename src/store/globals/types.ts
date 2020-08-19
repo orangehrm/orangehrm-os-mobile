@@ -27,6 +27,7 @@ export const TYPE_WARN = 'warning';
 
 export interface GlobalsState {
   snackMessage: SnackMessage;
+  snackMessages: Array<Omit<SnackMessage, 'open'>>;
   loader: Loader;
   initialRoute: string;
   previousRoute?: string;

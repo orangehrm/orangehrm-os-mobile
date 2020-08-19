@@ -20,7 +20,7 @@
 
 import {RootState} from 'store';
 import {createSelector} from 'reselect';
-import {AuthState, MyInfo} from 'store/auth/types';
+import {AuthState, MyInfo, EnabledModules} from 'store/auth/types';
 
 export const selectAuth = (state: RootState): AuthState => state.auth;
 
@@ -59,3 +59,9 @@ export const selectMyInfoFinished = createSelector<
   AuthState,
   boolean
 >([selectAuth], (auth) => auth.isFinishedMyInfo);
+
+export const selectEnabledModules = createSelector<
+  RootState,
+  AuthState,
+  EnabledModules | undefined
+>([selectAuth], (auth) => auth.enabledModules);

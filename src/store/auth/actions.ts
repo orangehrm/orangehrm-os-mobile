@@ -25,6 +25,8 @@ import {
   FETCH_MY_INFO_FINISHED,
   CHECK_INSTANCE,
   CHECK_INSTANCE_FINISHED,
+  FETCH_ENABLED_MODULES,
+  FETCH_ENABLED_MODULES_FINISHED,
   FetchTokenAction,
   LogoutAction,
   FetchMyInfoAction,
@@ -32,6 +34,9 @@ import {
   CheckInstanceAction,
   CheckInstanceFinishedAction,
   MyInfo,
+  FetchEnabledModulesFinishedAction,
+  FetchEnabledModulesAction,
+  EnabledModules,
 } from 'store/auth/types';
 
 export const fetchAuthToken = (
@@ -76,5 +81,18 @@ export const checkInstanceFinished = (
   error: boolean = false,
 ): CheckInstanceFinishedAction => ({
   type: CHECK_INSTANCE_FINISHED,
+  error,
+});
+
+export const fetchEnabledModules = (): FetchEnabledModulesAction => ({
+  type: FETCH_ENABLED_MODULES,
+});
+
+export const fetchEnabledModulesFinished = (
+  payload?: EnabledModules,
+  error: boolean = false,
+): FetchEnabledModulesFinishedAction => ({
+  type: FETCH_ENABLED_MODULES_FINISHED,
+  payload,
   error,
 });

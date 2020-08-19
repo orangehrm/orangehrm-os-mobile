@@ -21,6 +21,8 @@
 import {SUBHEADER_LEAVE} from 'screens';
 import {DrawerNavigationState} from 'layouts/DrawerContent';
 import {DrawerDescriptorMap} from '@react-navigation/drawer/lib/typescript/src/types';
+import {EnabledModules} from 'store/auth/types';
+import {$PropertyType} from 'utility-types';
 
 type DrawerItem = {
   name: string;
@@ -33,28 +35,40 @@ type DrawerItem = {
 export const getDrawerItems = (
   drawerNavigationState: DrawerNavigationState,
   drawerDescriptors: DrawerDescriptorMap,
+  enabledModules?: EnabledModules,
 ) => {
   const items: DrawerItem[] = [];
   const subheaders: {[key: string]: undefined} = {};
-  drawerNavigationState.routes.forEach((route) => {
-    const item: DrawerItem = {
-      name: route.name,
-      key: route.key,
-      label: drawerDescriptors[route.key].options.drawerLabel,
-      subheader: undefined,
-      subheaderIcon: undefined,
-    };
-    if (!subheaders.hasOwnProperty(route.params.subheader)) {
-      item.subheader = route.params.subheader;
-      item.subheaderIcon = SUBHEADER_ICONS[route.params.subheader];
-      subheaders[route.params.subheader] = undefined;
-    }
+  if (enabledModules !== undefined) {
+    drawerNavigationState.routes.forEach((route) => {
+      const moduleName = SUBHEADER_MODULE_MAP[
+        route.params?.subheader
+      ] as keyof $PropertyType<EnabledModules, 'modules'>;
+      if (enabledModules.modules[moduleName]) {
+        const item: DrawerItem = {
+          name: route.name,
+          key: route.key,
+          label: drawerDescriptors[route.key].options.drawerLabel,
+          subheader: undefined,
+          subheaderIcon: undefined,
+        };
+        if (!subheaders.hasOwnProperty(route.params.subheader)) {
+          item.subheader = route.params.subheader;
+          item.subheaderIcon = SUBHEADER_ICONS[route.params.subheader];
+          subheaders[route.params.subheader] = undefined;
+        }
 
-    items.push(item);
-  });
+        items.push(item);
+      }
+    });
+  }
   return items;
 };
 
 export const SUBHEADER_ICONS = {
   [SUBHEADER_LEAVE]: {name: 'briefcase'},
+};
+
+export const SUBHEADER_MODULE_MAP = {
+  [SUBHEADER_LEAVE]: 'leave',
 };

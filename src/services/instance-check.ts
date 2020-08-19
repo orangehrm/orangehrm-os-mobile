@@ -34,6 +34,7 @@ import {
   API_ENDPOINT_LEAVE_HOLIDAYS,
   API_ENDPOINT_LEAVE_WORK_SHIFT,
   API_ENDPOINT_LEAVE_WORK_WEEK,
+  API_ENDPOINT_ENABLED_MODULES,
   prepare,
 } from 'services/endpoints';
 
@@ -147,4 +148,22 @@ export const getOpenApiDefinitionPaths = (openApiDefinition: any) => {
     return paths;
   }
   throw new InstanceCheckError('Incompatible OpenAPI Definition.');
+};
+
+/**
+ * Get instance enabled modules
+ * @param instanceUrl
+ */
+export const getEnabledModules = (instanceUrl: string) => {
+  const enabledModulesEndpoint = instanceUrl + API_ENDPOINT_ENABLED_MODULES;
+
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  headers.append('Accept', 'application/json');
+
+  const requestOptions = {
+    method: 'GET',
+    headers: headers,
+  };
+  return fetch(enabledModulesEndpoint, requestOptions);
 };

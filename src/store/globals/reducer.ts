@@ -36,6 +36,7 @@ const initialState: GlobalsState = {
     open: false,
     message: '',
   },
+  snackMessages: [],
   loader: {
     open: false,
     count: 0,
@@ -50,17 +51,55 @@ const globalsReducer = (
 ): GlobalsState => {
   switch (action.type) {
     case SHOW_SNACK_MESSAGE:
+      const snackMessages = [...state.snackMessages];
+      const snack = {
+        message: action.message,
+        type: action.snackType ? action.snackType : TYPE_SUCCESS,
+      };
+
+      if (snackMessages.length > 0) {
+        if (
+          state.snackMessages[state.snackMessages.length - 1].message !==
+          action.message
+        ) {
+          snackMessages.push(snack);
+        }
+      } else {
+        snackMessages.push(snack);
+      }
+
+      if (snackMessages.length > 1) {
+        return {
+          ...state,
+          snackMessages,
+        };
+      }
       return {
         ...state,
+        snackMessages,
         snackMessage: {
           open: true,
-          message: action.message,
-          type: action.snackType ? action.snackType : TYPE_SUCCESS,
+          ...snack,
         },
       };
     case CLOSE_SNACK_MESSAGE:
+      /* eslint-disable @typescript-eslint/no-unused-vars */
+      const [snackMessage, ...restSnackMessages] = state.snackMessages;
+      /* eslint-enable @typescript-eslint/no-unused-vars */
+      if (restSnackMessages.length > 0) {
+        // Open snack message when one closed
+        return {
+          ...state,
+          snackMessages: restSnackMessages,
+          snackMessage: {
+            ...restSnackMessages[0],
+            open: true,
+          },
+        };
+      }
       return {
         ...state,
+        snackMessages: restSnackMessages,
         snackMessage: {
           ...initialState.snackMessage,
           open: false,

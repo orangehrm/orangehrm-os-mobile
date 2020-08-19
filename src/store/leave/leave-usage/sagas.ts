@@ -73,16 +73,17 @@ function* fetchMyLeaveEntitlements() {
     } else {
       if (response.getResponse().status === HTTP_NOT_FOUND) {
         yield put(fetchMyLeaveEntitlementsFinished([]));
+        yield showSnackMessage('No Leave Types with Leave Balance', TYPE_ERROR);
       } else {
         yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
+        yield showSnackMessage(
+          getMessageAlongWithResponseErrors(
+            response,
+            'Failed to Fetch Leave Details',
+          ),
+          TYPE_ERROR,
+        );
       }
-      yield showSnackMessage(
-        getMessageAlongWithResponseErrors(
-          response,
-          'Failed to Fetch Leave Details',
-        ),
-        TYPE_ERROR,
-      );
     }
   } catch (error) {
     yield showSnackMessage(
