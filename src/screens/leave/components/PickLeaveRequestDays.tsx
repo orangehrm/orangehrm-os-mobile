@@ -231,7 +231,11 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
 
           {isSingleDayRequest(fromDate, toDate) ? (
             <CardButton
-              style={[styles.cardButton, {height: theme.spacing * 12}]}
+              style={[
+                styles.cardButton,
+                {height: theme.spacing * 12},
+                styles.marginForShadow,
+              ]}
               onPress={this.onPressDuration}>
               <View style={[styles.cardButtonContent]}>
                 <View style={styles.buttonLeftView}>
@@ -251,7 +255,11 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
           {isMultipleDayRequest(fromDate, toDate) ? (
             <>
               <CardButton
-                style={[styles.cardButton, {height: theme.spacing * 12}]}
+                style={[
+                  styles.cardButton,
+                  {height: theme.spacing * 12},
+                  styles.marginForShadow,
+                ]}
                 onPress={this.onPressPartialDays}>
                 <View style={[styles.cardButtonContent]}>
                   <View style={styles.buttonLeftView}>

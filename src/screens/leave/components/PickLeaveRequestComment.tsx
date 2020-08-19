@@ -41,7 +41,11 @@ const PickLeaveRequestComment = (props: PickLeaveRequestCommentProps) => {
     <>
       <View>
         <CardButton
-          style={[styles.cardButton, {height: theme.spacing * 12}]}
+          style={[
+            styles.cardButton,
+            {height: theme.spacing * 12},
+            styles.marginForShadow,
+          ]}
           onPress={onPress}>
           <View style={[styles.cardButtonContent]}>
             <View style={styles.buttonLeftView}>
@@ -95,6 +99,13 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: {
         justifyContent: 'center',
+      },
+    }),
+  },
+  marginForShadow: {
+    ...Platform.select({
+      ios: {
+        marginBottom: 2,
       },
     }),
   },
