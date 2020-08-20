@@ -328,7 +328,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
         }
         footer={
           <>
-            {selectedSubordinate && entitlements?.length !== 0 ? (
+            {selectedSubordinate && leaveTypes?.length !== 0 ? (
               <>
                 {typingComment ? (
                   <>
