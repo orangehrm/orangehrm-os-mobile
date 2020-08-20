@@ -19,6 +19,7 @@
  */
 
 import {Leave, LeaveType, Entitlement} from 'store/leave/leave-usage/types';
+import {SubordinateEntitlement} from 'store/leave/assign-leave/types';
 import {
   SPECIFY_TIME,
   PARTIAL_OPTION_ALL,
@@ -227,54 +228,27 @@ export {
   isFromTimeLessThanToTime,
 };
 
-const EMPTY_LEAVE_BALANCE = {
-  entitled: 0,
-  used: 0,
-  scheduled: 0,
-  pending: 0,
-  notLinked: 0,
-  taken: 0,
-  adjustment: 0,
-  balance: 0,
-};
-
-const EMPTY_ENTITLEMENT = {
-  id: '',
-  validFrom: '',
-  validTo: '',
-  creditedDate: '',
-  leaveBalance: EMPTY_LEAVE_BALANCE,
-};
-
 /**
  * Return merged array of entitlements with zero leave balance
  * @param leaveTypes
  * @param entitlements
  */
 export const getEntitlementWithZeroBalanced = (
-  leaveTypes?: LeaveType[],
-  entitlements?: Entitlement[],
+  entitlements?: SubordinateEntitlement[],
 ): Entitlement[] | undefined => {
-  if (leaveTypes === undefined || entitlements === undefined) {
+  if (entitlements === undefined) {
     return entitlements;
   }
 
   const entitlementsArray: Entitlement[] = [];
-  leaveTypes.forEach((leaveType) => {
-    const entitlementExsits = entitlements.find(
-      /* eslint-disable eqeqeq */
-      (entitlement) => entitlement.leaveType.id == leaveType.id,
-      /* eslint-enable eqeqeq */
-    );
-    if (entitlementExsits === undefined) {
-      entitlementsArray.push({
-        ...EMPTY_ENTITLEMENT,
-        id: `${leaveType.id}-${leaveType.type}`,
-        leaveType: leaveType,
-      });
-    } else {
-      entitlementsArray.push(entitlementExsits);
+
+  entitlements.forEach((subordinateEntitlement) => {
+    if (subordinateEntitlement.id === undefined) {
+      subordinateEntitlement.id = `${subordinateEntitlement.leaveType.id}-${subordinateEntitlement.leaveType.type}`;
     }
+    entitlementsArray.push({
+      ...(subordinateEntitlement as Entitlement),
+    });
   });
   return entitlementsArray;
 };

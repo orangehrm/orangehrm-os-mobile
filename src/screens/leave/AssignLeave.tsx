@@ -42,7 +42,7 @@ import {
   selectSelectedSubordinate,
   selectWorkShift,
   selectWorkShiftFetched,
-  selectLeaveTypes,
+  selectErrorMessage,
 } from 'store/leave/assign-leave/selectors';
 import {
   selectFromDate,
@@ -66,7 +66,6 @@ import {
   pickAssignLeaveSingleDayDuration,
   pickAssignLeaveMultipleDayPartialOption,
   fetchWorkShift,
-  fetchLeaveTypes,
 } from 'store/leave/assign-leave/actions';
 import {selectPreviousRoute, selectCurrentRoute} from 'store/globals/selectors';
 import {
@@ -81,8 +80,7 @@ import PickLeaveRequestComment, {
 } from 'screens/leave/components/PickLeaveRequestComment';
 import PickSubordinate from 'screens/leave/components/PickSubordinate';
 import Divider from 'components/DefaultDivider';
-import Text from 'components/DefaultText';
-import Icon from 'components/DefaultIcon';
+import FullInfoView from 'screens/common/component/FullInfoView';
 import {
   ASSIGN_LEAVE,
   PICK_EMPLOYEE,
@@ -109,7 +107,6 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
       comment: '',
     };
     this.updateSubordinateList();
-    props.fetchLeaveTypes();
   }
 
   componentDidMount() {
@@ -235,10 +232,8 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
       partialOption,
       entitlements,
       selectedSubordinate,
-      leaveTypes,
     } = this.props;
     const selectedLeaveType = getEntitlementWithZeroBalanced(
-      leaveTypes,
       entitlements,
     )?.find((item) => item.id === selectedLeaveTypeId);
     if (fromDate && selectedLeaveType && selectedSubordinate) {
@@ -314,7 +309,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
       subordinates,
       selectedSubordinate,
       pickSubordinate,
-      leaveTypes,
+      errorMessage,
     } = this.props;
     const {typingComment, requestDaysError, comment} = this.state;
     return (
@@ -328,7 +323,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
         }
         footer={
           <>
-            {selectedSubordinate && leaveTypes?.length !== 0 ? (
+            {selectedSubordinate && !errorMessage ? (
               <>
                 {typingComment ? (
                   <>
@@ -378,34 +373,12 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
           />
           {selectedSubordinate ? (
             <>
-              {leaveTypes?.length === 0 ? (
-                <View
-                  style={[
-                    styles.noRecordsTextView,
-                    {
-                      padding: theme.spacing * 4,
-                    },
-                  ]}>
-                  <View style={{paddingVertical: theme.spacing * 2}}>
-                    <Icon
-                      name={'info-outline'}
-                      type={'MaterialIcons'}
-                      style={{fontSize: theme.typography.largeIconSize}}
-                    />
-                  </View>
-                  <Text style={styles.noRecordsText}>
-                    {
-                      'There Are No Leave Types Defined, Please Contact Your System Administrator.'
-                    }
-                  </Text>
-                </View>
+              {errorMessage ? (
+                <FullInfoView message={errorMessage} />
               ) : (
                 <>
                   <PickLeaveRequestType
-                    entitlement={getEntitlementWithZeroBalanced(
-                      leaveTypes,
-                      entitlements,
-                    )}
+                    entitlement={getEntitlementWithZeroBalanced(entitlements)}
                     selectedLeaveTypeId={selectedLeaveTypeId}
                     selectLeaveTypeAction={selectLeaveTypeAction}
                   />
@@ -486,7 +459,7 @@ const mapStateToProps = (state: RootState) => ({
   pickedLeavePartialOption: selectPickedLeavePartialOption(state),
   workShift: selectWorkShift(state),
   workShiftFetched: selectWorkShiftFetched(state),
-  leaveTypes: selectLeaveTypes(state),
+  errorMessage: selectErrorMessage(state),
 });
 
 const mapDispatchToProps = {
@@ -504,7 +477,6 @@ const mapDispatchToProps = {
   resetCommonLeave: resetCommonLeave,
   setCommonLeaveScreensState: setCommonLeaveScreensState,
   fetchWorkShift,
-  fetchLeaveTypes,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

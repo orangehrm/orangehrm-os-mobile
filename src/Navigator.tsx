@@ -40,6 +40,7 @@ import {
   selectMyInfoSuccess,
   selectIsCalledMyInfo,
   selectMyInfo,
+  selectEnabledModules,
 } from 'store/auth/selectors';
 import {USER_ROLE_ADMIN} from 'store/auth/types';
 import {selectInitialRoute} from 'store/globals/selectors';
@@ -55,6 +56,7 @@ import {
   MY_LEAVE_ENTITLEMENT_AND_USAGE,
   LEAVE_LIST,
   ASSIGN_LEAVE,
+  FULL_SCREEN_INFO,
   SUBHEADER_LEAVE,
 } from 'screens';
 
@@ -62,6 +64,7 @@ import ApplyLeave from 'screens/leave/navigators/ApplyLeaveNavigator';
 import MyLeaveUsage from 'screens/leave/navigators/MyLeaveUsageNavigator';
 import LeaveList from 'screens/leave/navigators/LeaveListNavigator';
 import AssignLeave from 'screens/leave/navigators/AssignLeaveNavigator';
+import FullScreenInfo from 'screens/common/FullScreenInfo';
 import DrawerContent from 'layouts/DrawerContent';
 import Overlay from 'components/DefaultOverlay';
 
@@ -77,6 +80,7 @@ const Navigator = (props: NavigatorProps) => {
     isCalledMyInfo,
     initialRoute,
     myInfo,
+    enabledModules,
   } = props;
   const dimensions = useWindowDimensions();
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -137,35 +141,47 @@ const Navigator = (props: NavigatorProps) => {
             drawerContent={(drawerContentProps: any) => (
               <DrawerContent {...drawerContentProps} />
             )}>
-            <Drawer.Screen
-              name={APPLY_LEAVE}
-              component={ApplyLeave}
-              options={{drawerLabel: 'Apply Leave'}}
-              initialParams={{subheader: SUBHEADER_LEAVE}}
-            />
-            <Drawer.Screen
-              name={MY_LEAVE_ENTITLEMENT_AND_USAGE}
-              component={MyLeaveUsage}
-              options={{drawerLabel: 'My Leave Usage'}}
-              initialParams={{subheader: SUBHEADER_LEAVE}}
-            />
-            {myInfo?.user.userRole === USER_ROLE_ADMIN ||
-            myInfo?.user.isSupervisor === true ? (
+            {enabledModules !== undefined &&
+            (!enabledModules.modules.leave ||
+              !enabledModules.meta.leave.isLeavePeriodDefined) ? (
+              <Drawer.Screen
+                name={FULL_SCREEN_INFO}
+                component={FullScreenInfo}
+                options={{drawerLabel: FULL_SCREEN_INFO}}
+              />
+            ) : (
               <>
                 <Drawer.Screen
-                  name={LEAVE_LIST}
-                  component={LeaveList}
-                  options={{drawerLabel: 'Leave List'}}
+                  name={APPLY_LEAVE}
+                  component={ApplyLeave}
+                  options={{drawerLabel: 'Apply Leave'}}
                   initialParams={{subheader: SUBHEADER_LEAVE}}
                 />
                 <Drawer.Screen
-                  name={ASSIGN_LEAVE}
-                  component={AssignLeave}
-                  options={{drawerLabel: 'Assign Leave'}}
+                  name={MY_LEAVE_ENTITLEMENT_AND_USAGE}
+                  component={MyLeaveUsage}
+                  options={{drawerLabel: 'My Leave Usage'}}
                   initialParams={{subheader: SUBHEADER_LEAVE}}
                 />
+                {myInfo?.user.userRole === USER_ROLE_ADMIN ||
+                myInfo?.user.isSupervisor === true ? (
+                  <>
+                    <Drawer.Screen
+                      name={LEAVE_LIST}
+                      component={LeaveList}
+                      options={{drawerLabel: 'Leave List'}}
+                      initialParams={{subheader: SUBHEADER_LEAVE}}
+                    />
+                    <Drawer.Screen
+                      name={ASSIGN_LEAVE}
+                      component={AssignLeave}
+                      options={{drawerLabel: 'Assign Leave'}}
+                      initialParams={{subheader: SUBHEADER_LEAVE}}
+                    />
+                  </>
+                ) : null}
               </>
-            ) : null}
+            )}
           </Drawer.Navigator>
         </KeyboardAvoidingView>
       );
@@ -207,6 +223,7 @@ const mapStateToProps = (state: RootState) => ({
   isCalledMyInfo: selectIsCalledMyInfo(state),
   initialRoute: selectInitialRoute(state),
   myInfo: selectMyInfo(state),
+  enabledModules: selectEnabledModules(state),
 });
 
 const mapDispatchToProps = {

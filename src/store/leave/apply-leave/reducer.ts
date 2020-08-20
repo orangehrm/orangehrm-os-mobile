@@ -29,6 +29,7 @@ import {
   RESET_APPLY_LEAVE,
   FETCH_WORK_SHIFT,
   FETCH_WORK_SHIFT_FINISHED,
+  SET_ERROR_MESSAGE,
 } from 'store/leave/apply-leave/types';
 import {
   FULL_DAY,
@@ -88,6 +89,11 @@ const applyLeaveReducer = (
         ...state,
         workShift: action.workShift,
         workShiftFetched: true,
+      };
+    case SET_ERROR_MESSAGE:
+      return {
+        ...state,
+        errorMessage: action.message,
       };
     case RESET_APPLY_LEAVE:
     case LOGOUT:

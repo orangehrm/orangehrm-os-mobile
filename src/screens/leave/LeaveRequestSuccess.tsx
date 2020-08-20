@@ -61,7 +61,14 @@ class LeaveRequestSuccess extends React.Component<LeaveRequestSuccessProps> {
           statusBarTranslucent
           visible={true}
           onRequestClose={this.onRequestClose}>
-          <View style={[{paddingBottom: theme.spacing * 5}, styles.rootView]}>
+          <View
+            style={[
+              {
+                paddingBottom: theme.spacing * 5,
+                paddingHorizontal: theme.spacing * 4,
+              },
+              styles.rootView,
+            ]}>
             <View style={styles.contentView}>
               <View style={{paddingVertical: theme.spacing * 6}}>
                 <Icon

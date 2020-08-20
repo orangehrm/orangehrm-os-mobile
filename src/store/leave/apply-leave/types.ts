@@ -34,6 +34,7 @@ export interface ApplyLeaveState {
   partialOption: MultipleDayPartialOption;
   workShift: WorkShift;
   workShiftFetched: boolean;
+  errorMessage?: string;
 }
 
 export const PICK_APPLY_LEAVE_FROM_DATE = 'APPLY_LEAVE_PICK_FROM_DATE';
@@ -50,6 +51,7 @@ export const RESET_APPLY_LEAVE = 'APPLY_LEAVE_RESET_APPLY_LEAVE';
 export const FETCH_WORK_SHIFT = 'APPLY_LEAVE_FETCH_WORK_SHIFT';
 export const FETCH_WORK_SHIFT_FINISHED =
   'APPLY_LEAVE_FETCH_WORK_SHIFT_FINISHED';
+export const SET_ERROR_MESSAGE = 'APPLY_LEAVE_SET_ERROR_MESSAGE';
 
 export interface PickFromDateAction {
   type: typeof PICK_APPLY_LEAVE_FROM_DATE;
@@ -99,6 +101,11 @@ export interface FetchWorkShiftFinishedAction {
   workShift: WorkShift;
 }
 
+export interface SetErrorMessageAction {
+  type: typeof SET_ERROR_MESSAGE;
+  message?: string;
+}
+
 export type ApplyLeaveActionTypes =
   | PickFromDateAction
   | PickToDateAction
@@ -109,4 +116,5 @@ export type ApplyLeaveActionTypes =
   | PickLeaveCommentAction
   | ResetApplyLeaveAction
   | FetchWorkShiftAction
-  | FetchWorkShiftFinishedAction;
+  | FetchWorkShiftFinishedAction
+  | SetErrorMessageAction;

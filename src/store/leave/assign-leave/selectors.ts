@@ -20,13 +20,17 @@
 
 import {RootState} from 'store';
 import {createSelector} from 'reselect';
-import {AssignLeaveState, Subordinate} from 'store/leave/assign-leave/types';
+import {
+  AssignLeaveState,
+  Subordinate,
+  SubordinateEntitlement,
+} from 'store/leave/assign-leave/types';
 import {
   SingleDayDuration,
   MultipleDayPartialOption,
   WorkShift,
 } from 'store/leave/common-screens/types';
-import {Entitlement, LeaveType} from 'store/leave/leave-usage/types';
+import {LeaveType} from 'store/leave/leave-usage/types';
 
 export const selectAssignLeave = (state: RootState) => state.assignLeave;
 
@@ -63,7 +67,7 @@ export const selectSubordinateLeaveComment = createSelector<
 export const selectSubordinateEntitlement = createSelector<
   RootState,
   AssignLeaveState,
-  Entitlement[] | undefined
+  SubordinateEntitlement[] | undefined
 >([selectAssignLeave], (assignLeave) => assignLeave.entitlement);
 
 export const selectSubordinateSelectedLeaveTypeId = createSelector<
@@ -101,3 +105,9 @@ export const selectLeaveTypes = createSelector<
   AssignLeaveState,
   LeaveType[] | undefined
 >([selectAssignLeave], (assignLeave) => assignLeave.leaveTypes);
+
+export const selectErrorMessage = createSelector<
+  RootState,
+  AssignLeaveState,
+  string | undefined
+>([selectAssignLeave], (assignLeave) => assignLeave.errorMessage);

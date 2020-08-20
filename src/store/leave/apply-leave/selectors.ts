@@ -70,3 +70,9 @@ export const selectWorkShiftFetched = createSelector<
   ApplyLeaveState,
   boolean
 >([selectApplyLeave], (applyLeave) => applyLeave.workShiftFetched);
+
+export const selectErrorMessage = createSelector<
+  RootState,
+  ApplyLeaveState,
+  string | undefined
+>([selectApplyLeave], (applyLeave) => applyLeave.errorMessage);

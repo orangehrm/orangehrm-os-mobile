@@ -38,7 +38,9 @@ import {
   fetchMyLeaveRequestsFinished,
   fetchMyLeaveDetailsFinished,
   fetchMyLeaveDetails as fetchMyLeaveDetailsAction,
+  setErrorMessage,
 } from 'store/leave/leave-usage/actions';
+import {setErrorMessage as setApplyLeaveErrorMessage} from 'store/leave/apply-leave/actions';
 import {
   assignColorsToLeaveTypes,
   assignColorToLeaveType,
@@ -64,6 +66,9 @@ function* fetchMyLeaveEntitlements() {
       apiGetCall,
       API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT,
     );
+    // clear error messages
+    yield put(setErrorMessage());
+    yield put(setApplyLeaveErrorMessage());
     if (response.data) {
       yield put(
         fetchMyLeaveEntitlementsFinished(
@@ -73,8 +78,18 @@ function* fetchMyLeaveEntitlements() {
     } else {
       if (response.getResponse().status === HTTP_NOT_FOUND) {
         yield put(fetchMyLeaveEntitlementsFinished([]));
-        yield showSnackMessage('No Leave Types with Leave Balance', TYPE_ERROR);
-      } else {
+        const message =
+          'There Are No Entitlement Added, Please Contact Your System Administrator.';
+        yield put(setErrorMessage(message));
+        yield put(setApplyLeaveErrorMessage(message));
+      } else if (response.error[0] === 'No Leave Types Defined.') {
+        const message =
+          'There Are No Leave Types Defined, Please Contact Your System Administrator.';
+        yield put(setErrorMessage(message));
+        yield put(setApplyLeaveErrorMessage(message));
+      } else if (
+        response.error[0] !== 'Leave Period Start Date Is Not Defined.'
+      ) {
         yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
         yield showSnackMessage(
           getMessageAlongWithResponseErrors(

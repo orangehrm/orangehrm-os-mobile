@@ -38,13 +38,18 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
     onRefresh,
     footer,
     scrollViewProps,
+    statusBarBackgroundColor,
   } = props;
 
   return (
     <>
       <StatusBar
         barStyle="dark-content"
-        backgroundColor={theme.palette.statusBarSecondary}
+        backgroundColor={
+          statusBarBackgroundColor
+            ? statusBarBackgroundColor
+            : theme.palette.statusBarSecondary
+        }
       />
       <SafeAreaView
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
@@ -75,6 +80,7 @@ interface MainLayoutProps
   refreshing?: boolean;
   footer?: React.ReactNode;
   scrollViewProps?: ScrollViewProps;
+  statusBarBackgroundColor?: string;
 }
 
 const styles = StyleSheet.create({
