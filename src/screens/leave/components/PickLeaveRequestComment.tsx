@@ -24,6 +24,7 @@ import {
   View,
   TouchableWithoutFeedback,
   TextInput as RNTextInput,
+  Platform,
 } from 'react-native';
 import useTheme from 'lib/hook/useTheme';
 import Text from 'components/DefaultText';
@@ -40,7 +41,11 @@ const PickLeaveRequestComment = (props: PickLeaveRequestCommentProps) => {
     <>
       <View>
         <CardButton
-          style={[styles.cardButton, {height: theme.spacing * 12}]}
+          style={[
+            styles.cardButton,
+            {height: theme.spacing * 12},
+            styles.marginForShadow,
+          ]}
           onPress={onPress}>
           <View style={[styles.cardButtonContent]}>
             <View style={styles.buttonLeftView}>
@@ -91,6 +96,18 @@ const styles = StyleSheet.create({
   },
   textView: {
     flex: 1,
+    ...Platform.select({
+      ios: {
+        justifyContent: 'center',
+      },
+    }),
+  },
+  marginForShadow: {
+    ...Platform.select({
+      ios: {
+        marginBottom: 2,
+      },
+    }),
   },
 });
 

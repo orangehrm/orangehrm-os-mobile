@@ -26,7 +26,7 @@ import {
   MultipleDayPartialOption,
   WorkShift,
 } from 'store/leave/common-screens/types';
-import {Entitlement} from 'store/leave/leave-usage/types';
+import {Entitlement, LeaveType} from 'store/leave/leave-usage/types';
 
 export const selectAssignLeave = (state: RootState) => state.assignLeave;
 
@@ -95,3 +95,9 @@ export const selectWorkShiftFetched = createSelector<
   AssignLeaveState,
   boolean
 >([selectAssignLeave], (assignLeave) => assignLeave.workShiftFetched);
+
+export const selectLeaveTypes = createSelector<
+  RootState,
+  AssignLeaveState,
+  LeaveType[] | undefined
+>([selectAssignLeave], (assignLeave) => assignLeave.leaveTypes);

@@ -38,7 +38,7 @@ function DefaultFooter(props: DefaultFooterProps) {
         {paddingTop: theme.spacing * 2, paddingBottom: theme.spacing * 2},
       ]}>
       <Text style={{fontSize, color: theme.typography.primaryColor}}>
-        OrangeHRM {version}
+        {'OrangeHRM Open Source'} {version}
       </Text>
       <Text style={{fontSize, color: theme.typography.primaryColor}}>
         © 2005 - {new Date().getFullYear()} {'OrangeHRM, Inc. '}

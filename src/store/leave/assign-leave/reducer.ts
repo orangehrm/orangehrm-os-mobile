@@ -34,6 +34,7 @@ import {
   SELECT_SUBORDINATE_LEAVE_TYPE,
   FETCH_WORK_SHIFT,
   FETCH_WORK_SHIFT_FINISHED,
+  FETCH_LEAVE_TYPES_FINISHED,
 } from 'store/leave/assign-leave/types';
 import {
   FULL_DAY,
@@ -115,6 +116,7 @@ const assignLeaveReducer = (
           ...initialState,
           subordinates: state.subordinates,
           selectedSubordinate: action.subordinate,
+          leaveTypes: state.leaveTypes,
         };
       }
       return state;
@@ -133,6 +135,11 @@ const assignLeaveReducer = (
         ...state,
         workShift: action.workShift,
         workShiftFetched: true,
+      };
+    case FETCH_LEAVE_TYPES_FINISHED:
+      return {
+        ...state,
+        leaveTypes: action.leaveTypes,
       };
     case RESET_ASSIGN_LEAVE:
     case LOGOUT:

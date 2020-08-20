@@ -19,6 +19,7 @@
  */
 
 import React from 'react';
+import {StyleSheet, View} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -34,6 +35,8 @@ import LeaveBalanceRow from 'screens/leave/components/LeaveBalanceRow';
 import LeaveUsageCard from 'screens/leave/components/LeaveUsageCard';
 import LeaveUsageActions from 'screens/leave/components/LeaveUsageActions';
 import Fab, {FabSpace} from 'components/DefaultFab';
+import Text from 'components/DefaultText';
+import Icon from 'components/DefaultIcon';
 import {APPLY_LEAVE, MY_LEAVE_ENTITLEMENT_AND_USAGE} from 'screens';
 import {navigate} from 'lib/helpers/navigation';
 import {selectCurrentRoute} from 'store/globals/selectors';
@@ -74,20 +77,45 @@ class MyLeaveUsage extends React.Component<MyLeaveUsageProps> {
       <MainLayout
         onRefresh={this.onRefresh}
         footer={
-          <Fab iconName={'plus'} primary onPress={this.onPressApplyLeave} />
+          entitlements?.length === 0 ? null : (
+            <Fab iconName={'plus'} primary onPress={this.onPressApplyLeave} />
+          )
         }>
-        <LeaveBalanceRow
-          entitlement={entitlements}
-          selectedLeaveTypeId={selectedLeaveTypeId}
-          selectLeaveTypeAction={selectLeaveTypeAction}
-          style={{
-            backgroundColor: theme.palette.backgroundSecondary,
-            marginBottom: theme.spacing * 2,
-          }}
-        />
-        <LeaveUsageCard />
-        <LeaveUsageActions />
-        <FabSpace />
+        {entitlements?.length === 0 ? (
+          <View
+            style={[
+              styles.noRecordsTextView,
+              {
+                padding: theme.spacing * 4,
+              },
+            ]}>
+            <View style={{paddingVertical: theme.spacing * 2}}>
+              <Icon
+                name={'info-outline'}
+                type={'MaterialIcons'}
+                style={{fontSize: theme.typography.largeIconSize}}
+              />
+            </View>
+            <Text style={styles.noRecordsText}>
+              {'No Leave Types with Leave Balance.'}
+            </Text>
+          </View>
+        ) : (
+          <>
+            <LeaveBalanceRow
+              entitlement={entitlements}
+              selectedLeaveTypeId={selectedLeaveTypeId}
+              selectLeaveTypeAction={selectLeaveTypeAction}
+              style={{
+                backgroundColor: theme.palette.backgroundSecondary,
+                marginBottom: theme.spacing * 2,
+              }}
+            />
+            <LeaveUsageCard />
+            <LeaveUsageActions />
+            <FabSpace />
+          </>
+        )}
       </MainLayout>
     );
   }
@@ -98,6 +126,17 @@ interface MyLeaveUsageProps
     ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
 }
+
+const styles = StyleSheet.create({
+  noRecordsTextView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noRecordsText: {
+    textAlign: 'center',
+  },
+});
 
 const mapStateToProps = (state: RootState) => ({
   entitlements: selectEntitlement(state),

@@ -34,6 +34,7 @@ import {
   WorkWeek,
   WORK_WEEK_FULL,
   WORK_WEEK_NON,
+  RECURRING_TRUE,
 } from 'store/leave/common-screens/types';
 
 const MAP = {
@@ -45,6 +46,9 @@ const MAP = {
   5: 'fri',
   6: 'sat',
 };
+
+const PAST_SCROLL_RANGE = 24;
+const FUTURE_SCROLL_RANGE = 24;
 
 const Calendar = (props: CalendarProps) => {
   const {
@@ -80,13 +84,27 @@ const Calendar = (props: CalendarProps) => {
             ? theme.palette.defaultDark
             : theme.palette.default,
       };
+      if (holiday.recurring === RECURRING_TRUE) {
+        for (let i = 0; i < PAST_SCROLL_RANGE / 12; i++) {
+          const holidayDate = new Date(holiday.date);
+          holidayDate.setFullYear(holidayDate.getFullYear() - (i + 1));
+          markedHolidaysObj[holidayDate.toISOString().slice(0, 10)] =
+            markedHolidaysObj[holiday.date];
+        }
+        for (let i = 0; i < FUTURE_SCROLL_RANGE / 12; i++) {
+          const holidayDate = new Date(holiday.date);
+          holidayDate.setFullYear(holidayDate.getFullYear() + i + 1);
+          markedHolidaysObj[holidayDate.toISOString().slice(0, 10)] =
+            markedHolidaysObj[holiday.date];
+        }
+      }
     });
 
     const today = new Date();
     const minDate = new Date();
     const maxDate = new Date();
-    minDate.setMonth(today.getMonth() - 50);
-    maxDate.setMonth(today.getMonth() + 50);
+    minDate.setMonth(today.getMonth() - PAST_SCROLL_RANGE);
+    maxDate.setMonth(today.getMonth() + FUTURE_SCROLL_RANGE);
 
     const markedNonWorkingDaysObj: {[key: string]: any} = {};
     const dates = getDatesWithinPeriod(minDate, maxDate);
@@ -223,8 +241,8 @@ const Calendar = (props: CalendarProps) => {
 
   return (
     <CalendarList
-      // pastScrollRange={50}
-      // futureScrollRange={50}
+      pastScrollRange={PAST_SCROLL_RANGE}
+      futureScrollRange={FUTURE_SCROLL_RANGE}
       scrollEnabled={true}
       current={currentDate}
       // minDate={undefined}

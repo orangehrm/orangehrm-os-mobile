@@ -28,7 +28,6 @@ import {
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import {
@@ -70,6 +69,8 @@ import {
 import {selectPreviousRoute, selectCurrentRoute} from 'store/globals/selectors';
 import {setCommonLeaveScreensState} from 'store/leave/common-screens/actions';
 import Button from 'components/DefaultButton';
+import Text from 'components/DefaultText';
+import Icon from 'components/DefaultIcon';
 import PickLeaveRequestType from 'screens/leave/components/PickLeaveRequestType';
 import PickLeaveRequestDays from 'screens/leave/components/PickLeaveRequestDays';
 import PickLeaveRequestComment, {
@@ -84,7 +85,6 @@ import {
 } from 'screens';
 import {isSingleDayRequest, isMultipleDayRequest} from 'lib/helpers/leave';
 import {LeaveRequest} from 'store/leave/common-screens/types';
-import {TYPE_ERROR} from 'store/globals/types';
 
 class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
   inputRef: RNTextInput | null;
@@ -121,8 +121,6 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       pickedLeavePartialOption,
       workShift,
       workShiftFetched,
-      entitlements,
-      showSnackMessage,
     } = this.props;
     if (
       prevProps.previousRoute !== previousRoute &&
@@ -162,10 +160,6 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
         !workShiftFetched
       ) {
         this.props.fetchWorkShift();
-      }
-
-      if (entitlements?.length === 0) {
-        showSnackMessage('No Leave Types with Leave Balance', TYPE_ERROR);
       }
     }
 
@@ -285,75 +279,97 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       <MainLayout
         onRefresh={this.onRefresh}
         footer={
-          <>
-            {typingComment ? (
-              <>
-                <Divider />
-                <PickLeaveRequestCommentFooter
-                  ref={(input) => {
-                    this.inputRef = input;
-                  }}
-                  value={comment}
-                  onChangeText={this.setLeaveComment}
-                  onPress={this.onPressCommentButton}
-                />
-              </>
-            ) : (
-              <View
-                style={{
-                  paddingHorizontal: theme.spacing * 12,
-                  paddingVertical: theme.spacing * 2,
-                  backgroundColor: theme.palette.background,
-                }}>
-                <Button
-                  title={'Apply'}
-                  primary
-                  fullWidth
-                  onPress={this.onPressApplyLeave}
-                />
-              </View>
-            )}
-          </>
+          entitlements?.length === 0 ? null : (
+            <>
+              {typingComment ? (
+                <>
+                  <Divider />
+                  <PickLeaveRequestCommentFooter
+                    ref={(input) => {
+                      this.inputRef = input;
+                    }}
+                    value={comment}
+                    onChangeText={this.setLeaveComment}
+                    onPress={this.onPressCommentButton}
+                  />
+                </>
+              ) : (
+                <View
+                  style={{
+                    paddingHorizontal: theme.spacing * 12,
+                    paddingVertical: theme.spacing * 2,
+                    backgroundColor: theme.palette.background,
+                  }}>
+                  <Button
+                    title={'Apply'}
+                    primary
+                    fullWidth
+                    onPress={this.onPressApplyLeave}
+                  />
+                </View>
+              )}
+            </>
+          )
         }>
-        <View
-          style={[
-            styles.mainView,
-            {
-              backgroundColor: theme.palette.backgroundSecondary,
-              paddingBottom: theme.spacing * 4,
-            },
-          ]}>
-          <PickLeaveRequestType
-            entitlement={entitlements}
-            selectedLeaveTypeId={selectedLeaveTypeId}
-            selectLeaveTypeAction={selectLeaveTypeAction}
-          />
-          <PickLeaveRequestDays
-            fromDate={fromDate}
-            toDate={toDate}
-            duration={duration}
-            partialOption={partialOption}
-            calendarScreenRoute={APPLY_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR}
-            durationScreenRoute={APPLY_LEAVE_PICK_LEAVE_REQUEST_DURATION}
-            partialDaysScreenRoute={APPLY_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS}
-            error={requestDaysError}
-          />
-          <View style={{paddingTop: theme.spacing * 2}}>
-            <PickLeaveRequestComment
-              onPress={this.toggleCommentInput}
-              comment={commentSaved}
-            />
+        {entitlements?.length === 0 ? (
+          <View
+            style={[
+              styles.noRecordsTextView,
+              {
+                padding: theme.spacing * 4,
+              },
+            ]}>
+            <View style={{paddingVertical: theme.spacing * 2}}>
+              <Icon
+                name={'info-outline'}
+                type={'MaterialIcons'}
+                style={{fontSize: theme.typography.largeIconSize}}
+              />
+            </View>
+            <Text style={styles.noRecordsText}>
+              {'No Leave Types with Leave Balance.'}
+            </Text>
           </View>
-        </View>
+        ) : (
+          <View
+            style={[
+              styles.mainView,
+              {
+                backgroundColor: theme.palette.backgroundSecondary,
+                paddingBottom: theme.spacing * 4,
+              },
+            ]}>
+            <PickLeaveRequestType
+              entitlement={entitlements}
+              selectedLeaveTypeId={selectedLeaveTypeId}
+              selectLeaveTypeAction={selectLeaveTypeAction}
+            />
+            <PickLeaveRequestDays
+              fromDate={fromDate}
+              toDate={toDate}
+              duration={duration}
+              partialOption={partialOption}
+              calendarScreenRoute={APPLY_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR}
+              durationScreenRoute={APPLY_LEAVE_PICK_LEAVE_REQUEST_DURATION}
+              partialDaysScreenRoute={
+                APPLY_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS
+              }
+              error={requestDaysError}
+            />
+            <View style={{paddingTop: theme.spacing * 2}}>
+              <PickLeaveRequestComment
+                onPress={this.toggleCommentInput}
+                comment={commentSaved}
+              />
+            </View>
+          </View>
+        )}
       </MainLayout>
     );
   }
 }
 
-interface ApplyLeaveProps
-  extends WithTheme,
-    WithGlobals,
-    ConnectedProps<typeof connector> {
+interface ApplyLeaveProps extends WithTheme, ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
 }
 
@@ -366,6 +382,14 @@ interface ApplyLeaveState {
 const styles = StyleSheet.create({
   mainView: {
     flex: 1,
+  },
+  noRecordsTextView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noRecordsText: {
+    textAlign: 'center',
   },
 });
 
@@ -408,8 +432,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 const ApplyLeaveWithTheme = withTheme<ApplyLeaveProps>()(ApplyLeave);
 
-const ApplyLeaveWithGlobals = withGlobals<ApplyLeaveProps>()(
-  ApplyLeaveWithTheme,
-);
-
-export default connector(ApplyLeaveWithGlobals);
+export default connector(ApplyLeaveWithTheme);

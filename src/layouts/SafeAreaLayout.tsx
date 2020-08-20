@@ -19,13 +19,7 @@
  */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-  KeyboardAvoidingView,
-  StyleSheet,
-  Platform,
-} from 'react-native';
+import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 const SafeAreaLayout = (
@@ -41,11 +35,7 @@ const SafeAreaLayout = (
       />
       <SafeAreaView
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-          style={styles.root}>
-          {children}
-        </KeyboardAvoidingView>
+        {children}
       </SafeAreaView>
     </>
   );
@@ -55,9 +45,6 @@ interface SafeAreaLayoutProps extends WithTheme {}
 
 const styles = StyleSheet.create({
   safeArea: {
-    flex: 1,
-  },
-  root: {
     flex: 1,
   },
 });

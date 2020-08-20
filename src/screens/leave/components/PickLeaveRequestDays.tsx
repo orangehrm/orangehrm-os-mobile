@@ -19,7 +19,12 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, TouchableWithoutFeedback} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableWithoutFeedback,
+  Platform,
+} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Text from 'components/DefaultText';
 import CardButton from 'screens/leave/components/CardButton';
@@ -161,7 +166,11 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
       <>
         <View>
           <CardButton
-            style={[styles.cardButton, {height: theme.spacing * 12}]}
+            style={[
+              styles.cardButton,
+              {height: theme.spacing * 12},
+              styles.marginForShadow,
+            ]}
             onPress={this.onPressRequestDays}>
             <View style={[styles.cardButtonContent]}>
               <View style={styles.buttonLeftView}>
@@ -222,7 +231,11 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
 
           {isSingleDayRequest(fromDate, toDate) ? (
             <CardButton
-              style={[styles.cardButton, {height: theme.spacing * 12}]}
+              style={[
+                styles.cardButton,
+                {height: theme.spacing * 12},
+                styles.marginForShadow,
+              ]}
               onPress={this.onPressDuration}>
               <View style={[styles.cardButtonContent]}>
                 <View style={styles.buttonLeftView}>
@@ -242,7 +255,11 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
           {isMultipleDayRequest(fromDate, toDate) ? (
             <>
               <CardButton
-                style={[styles.cardButton, {height: theme.spacing * 12}]}
+                style={[
+                  styles.cardButton,
+                  {height: theme.spacing * 12},
+                  styles.marginForShadow,
+                ]}
                 onPress={this.onPressPartialDays}>
                 <View style={[styles.cardButtonContent]}>
                   <View style={styles.buttonLeftView}>
@@ -325,6 +342,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  marginForShadow: {
+    ...Platform.select({
+      ios: {
+        marginBottom: 2,
+      },
+    }),
   },
 });
 

@@ -33,11 +33,14 @@ export const API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT =
 export const API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST =
   '/api/v1/subordinate/{id}/leave-request';
 export const API_ENDPOINT_EMPLOYEES = '/api/v1/employees';
-export const API_ENDPOINT_API_DEFINITION = '/api/v1/api-definition';
 export const API_ENDPOINT_LEAVE_HOLIDAYS = '/api/v1/leave/holidays';
 export const API_ENDPOINT_LEAVE_PERIODS = '/api/v1/leave/leave-periods';
 export const API_ENDPOINT_LEAVE_WORK_SHIFT = '/api/v1/leave/work-shift';
 export const API_ENDPOINT_LEAVE_WORK_WEEK = '/api/v1/leave/work-week';
+export const API_ENDPOINT_LEAVE_TYPES = '/api/v1/leave/leave-types';
+
+// public endpoints
+export const API_ENDPOINT_API_DEFINITION = '/api/v1/api-definition';
 export const API_ENDPOINT_ENABLED_MODULES = '/api/v1/enabled-modules';
 
 export const prepare = (
