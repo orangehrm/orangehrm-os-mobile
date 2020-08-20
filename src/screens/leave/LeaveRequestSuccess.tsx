@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {View, StyleSheet, Modal} from 'react-native';
+import {View, StyleSheet, Modal, Platform} from 'react-native';
 import {
   NavigationProp,
   ParamListBase,
@@ -37,10 +37,6 @@ import {selectInitialRoute} from 'store/globals/selectors';
 import {LeaveRequestSuccessRouteParams} from 'screens/leave/navigators';
 
 class LeaveRequestSuccess extends React.Component<LeaveRequestSuccessProps> {
-  constructor(props: LeaveRequestSuccessProps) {
-    super(props);
-  }
-
   onPressHome = () => {
     const {initialRoute, navigation} = this.props;
     navigation.dispatch(StackActions.pop());
@@ -54,60 +50,69 @@ class LeaveRequestSuccess extends React.Component<LeaveRequestSuccessProps> {
 
   render() {
     const {theme} = this.props;
+    const mainView = (
+      <View
+        style={[
+          {
+            paddingBottom: theme.spacing * 5,
+            paddingHorizontal: theme.spacing * 4,
+          },
+          styles.rootView,
+        ]}>
+        <View style={styles.contentView}>
+          <View style={{paddingVertical: theme.spacing * 6}}>
+            <Icon
+              name={'check-circle-outline'}
+              style={{
+                fontSize: theme.typography.largeIconSize,
+                color: theme.palette.secondary,
+              }}
+            />
+          </View>
+          <Text
+            style={{
+              color: theme.palette.secondary,
+              fontSize: theme.typography.headerFontSize,
+              paddingBottom: theme.spacing * 6,
+            }}>
+            {'Completed'}
+          </Text>
+          <Text style={styles.text}>
+            {'Leave Request Has Been Successfully Submitted.'}
+          </Text>
+        </View>
+        <View>
+          <IconButton
+            iconProps={{
+              name: 'home',
+              style: {
+                color: theme.typography.secondaryColor,
+                fontSize: theme.typography.largeIconSize,
+              },
+            }}
+            buttonProps={{
+              onPress: this.onPressHome,
+              style: {backgroundColor: theme.palette.primary},
+              rounded: true,
+              large: true,
+            }}
+          />
+        </View>
+      </View>
+    );
     return (
       <SafeAreaLayout>
-        <Modal
-          animationType="fade"
-          statusBarTranslucent
-          visible={true}
-          onRequestClose={this.onRequestClose}>
-          <View
-            style={[
-              {
-                paddingBottom: theme.spacing * 5,
-                paddingHorizontal: theme.spacing * 4,
-              },
-              styles.rootView,
-            ]}>
-            <View style={styles.contentView}>
-              <View style={{paddingVertical: theme.spacing * 6}}>
-                <Icon
-                  name={'check-circle-outline'}
-                  style={{
-                    fontSize: theme.typography.largeIconSize,
-                    color: theme.palette.secondary,
-                  }}
-                />
-              </View>
-              <Text
-                style={{
-                  color: theme.palette.secondary,
-                  fontSize: theme.typography.headerFontSize,
-                  paddingBottom: theme.spacing * 6,
-                }}>
-                {'Completed'}
-              </Text>
-              <Text>{'Leave Request Has Been Successfully Submitted.'}</Text>
-            </View>
-            <View>
-              <IconButton
-                iconProps={{
-                  name: 'home',
-                  style: {
-                    color: theme.typography.secondaryColor,
-                    fontSize: theme.typography.largeIconSize,
-                  },
-                }}
-                buttonProps={{
-                  onPress: this.onPressHome,
-                  style: {backgroundColor: theme.palette.primary},
-                  rounded: true,
-                  large: true,
-                }}
-              />
-            </View>
-          </View>
-        </Modal>
+        {Platform.OS === 'ios' ? (
+          mainView
+        ) : (
+          <Modal
+            animationType="fade"
+            statusBarTranslucent
+            visible={true}
+            onRequestClose={this.onRequestClose}>
+            {mainView}
+          </Modal>
+        )}
       </SafeAreaLayout>
     );
   }
@@ -129,6 +134,9 @@ const styles = StyleSheet.create({
   },
   contentView: {
     alignItems: 'center',
+  },
+  text: {
+    textAlign: 'center',
   },
 });
 

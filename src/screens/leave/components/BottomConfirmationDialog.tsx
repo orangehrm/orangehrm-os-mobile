@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, SafeAreaView} from 'react-native';
 import Text from 'components/DefaultText';
 import Button from 'components/DefaultButton';
 import BottomDialog from 'components/BottomDialog';
@@ -31,45 +31,47 @@ const BottomConfirmationDialog = (props: BottomConfirmationDialogProps) => {
 
   return (
     <BottomDialog isVisible={action !== undefined} onCancel={onResetAction}>
-      <View style={{padding: theme.spacing * 4}}>
-        <Text
-          style={{
-            fontSize: theme.typography.headerFontSize,
-            paddingBottom: theme.spacing * 3,
-          }}>
-          {'Confirmation required'}
-        </Text>
-        {action ? (
-          <Text>{`Do you want to ${action.toLowerCase()} the leave request?`}</Text>
-        ) : null}
-        <View
-          style={[
-            styles.row,
-            styles.confirmationButtonView,
-            {paddingTop: theme.spacing * 5},
-          ]}>
+      <SafeAreaView>
+        <View style={{padding: theme.spacing * 4}}>
+          <Text
+            style={{
+              fontSize: theme.typography.headerFontSize,
+              paddingBottom: theme.spacing * 3,
+            }}>
+            {'Confirmation required'}
+          </Text>
+          {action ? (
+            <Text>{`Do you want to ${action.toLowerCase()} the leave request?`}</Text>
+          ) : null}
           <View
             style={[
-              styles.confirmationButton,
-              {paddingHorizontal: theme.spacing},
+              styles.row,
+              styles.confirmationButtonView,
+              {paddingTop: theme.spacing * 5},
             ]}>
-            <Button
-              fullWidth
-              title={'No'}
-              bordered
-              primary
-              onPress={onResetAction}
-            />
-          </View>
-          <View
-            style={[
-              styles.confirmationButton,
-              {paddingHorizontal: theme.spacing},
-            ]}>
-            <Button fullWidth title={'Yes'} primary onPress={onPressAction} />
+            <View
+              style={[
+                styles.confirmationButton,
+                {paddingHorizontal: theme.spacing},
+              ]}>
+              <Button
+                fullWidth
+                title={'No'}
+                bordered
+                primary
+                onPress={onResetAction}
+              />
+            </View>
+            <View
+              style={[
+                styles.confirmationButton,
+                {paddingHorizontal: theme.spacing},
+              ]}>
+              <Button fullWidth title={'Yes'} primary onPress={onPressAction} />
+            </View>
           </View>
         </View>
-      </View>
+      </SafeAreaView>
     </BottomDialog>
   );
 };
