@@ -50,11 +50,11 @@ const Globals = () => {
   const theme = useTheme();
   useEffect(() => {
     if (!toastShow) {
-      if (snackMessage.open && snackMessage.type !== TYPE_ERROR) {
+      if (snackMessage.open) {
         setTimeout(() => {
           closeSnackMessage();
           setToastShow(false);
-        }, 3000);
+        }, 5000);
         setToastShow(true);
       }
     }
