@@ -42,6 +42,7 @@ import {
   selectApplyLeaveComment,
   selectWorkShift,
   selectWorkShiftFetched,
+  selectErrorMessage,
 } from 'store/leave/apply-leave/selectors';
 import {
   saveSingleDayLeaveRequest,
@@ -69,8 +70,7 @@ import {
 import {selectPreviousRoute, selectCurrentRoute} from 'store/globals/selectors';
 import {setCommonLeaveScreensState} from 'store/leave/common-screens/actions';
 import Button from 'components/DefaultButton';
-import Text from 'components/DefaultText';
-import Icon from 'components/DefaultIcon';
+import FullInfoView from 'screens/common/component/FullInfoView';
 import PickLeaveRequestType from 'screens/leave/components/PickLeaveRequestType';
 import PickLeaveRequestDays from 'screens/leave/components/PickLeaveRequestDays';
 import PickLeaveRequestComment, {
@@ -273,13 +273,14 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       duration,
       partialOption,
       comment: commentSaved,
+      errorMessage,
     } = this.props;
     const {typingComment, requestDaysError, comment} = this.state;
     return (
       <MainLayout
         onRefresh={this.onRefresh}
         footer={
-          entitlements?.length === 0 ? null : (
+          errorMessage ? null : (
             <>
               {typingComment ? (
                 <>
@@ -311,25 +312,8 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
             </>
           )
         }>
-        {entitlements?.length === 0 ? (
-          <View
-            style={[
-              styles.noRecordsTextView,
-              {
-                padding: theme.spacing * 4,
-              },
-            ]}>
-            <View style={{paddingVertical: theme.spacing * 2}}>
-              <Icon
-                name={'info-outline'}
-                type={'MaterialIcons'}
-                style={{fontSize: theme.typography.largeIconSize}}
-              />
-            </View>
-            <Text style={styles.noRecordsText}>
-              {'No Leave Types with Leave Balance.'}
-            </Text>
-          </View>
+        {errorMessage ? (
+          <FullInfoView message={errorMessage} />
         ) : (
           <View
             style={[
@@ -412,6 +396,7 @@ const mapStateToProps = (state: RootState) => ({
   pickedLeavePartialOption: selectPickedLeavePartialOption(state),
   workShift: selectWorkShift(state),
   workShiftFetched: selectWorkShiftFetched(state),
+  errorMessage: selectErrorMessage(state),
 });
 
 const mapDispatchToProps = {

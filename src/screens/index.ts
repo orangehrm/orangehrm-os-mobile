@@ -44,4 +44,6 @@ export const ASSIGN_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS =
 export const MY_LEAVE_DETAILS = 'MyLeaveDetails';
 export const LEAVE_REQUEST_SUCCESS = 'LeaveRequestSuccess';
 
+export const FULL_SCREEN_INFO = 'FullScreenInfo';
+
 export const SUBHEADER_LEAVE = 'Leave';

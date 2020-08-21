@@ -30,6 +30,7 @@ export interface LeaveUsageState {
   leaveRequest?: LeaveRequest[];
   selectedLeaveTypeId?: string;
   leaveRequestDetail?: EmployeeLeaveRequest;
+  errorMessage?: string;
 }
 
 export type NullableString = string | null;
@@ -48,6 +49,7 @@ export const FETCH_MY_LEAVE_DETAILS_FINISHED =
 export const FETCH_MY_LEAVE_DETAILS = 'LEAVE_USAGE_FETCH_MY_LEAVE_DETAILS';
 export const CHANGE_MY_LEAVE_REQUEST_STATUS =
   'LEAVE_USAGE_CHANGE_MY_LEAVE_REQUEST_STATUS';
+export const SET_ERROR_MESSAGE = 'LEAVE_USAGE_SET_ERROR_MESSAGE';
 
 export interface FetchMyLeaveEntitlementAction {
   type: typeof FETCH_MY_LEAVE_ENTITLEMENT;
@@ -95,6 +97,11 @@ export interface ChangeMyLeaveRequestStatusAction {
   action: EmployeeLeaveRequestActions;
 }
 
+export interface SetErrorMessageAction {
+  type: typeof SET_ERROR_MESSAGE;
+  message?: string;
+}
+
 export type LeaveUsageActionTypes =
   | FetchMyLeaveEntitlementAction
   | FetchMyLeaveEntitlementFinishedAction
@@ -104,7 +111,8 @@ export type LeaveUsageActionTypes =
   | ResetMyLeaveRequestAction
   | FetchMyLeaveRequestDetailsAction
   | FetchMyLeaveRequestDetailsFinishedAction
-  | ChangeMyLeaveRequestStatusAction;
+  | ChangeMyLeaveRequestStatusAction
+  | SetErrorMessageAction;
 
 export interface Entitlement {
   id: string;

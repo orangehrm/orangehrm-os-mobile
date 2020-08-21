@@ -29,6 +29,7 @@ import {
   RESET_APPLY_LEAVE,
   FETCH_WORK_SHIFT,
   FETCH_WORK_SHIFT_FINISHED,
+  SET_ERROR_MESSAGE,
   PickFromDateAction,
   PickToDateAction,
   ApplySingleDayLeaveRequestAction,
@@ -39,6 +40,7 @@ import {
   ResetApplyLeaveAction,
   FetchWorkShiftAction,
   FetchWorkShiftFinishedAction,
+  SetErrorMessageAction,
 } from 'store/leave/apply-leave/types';
 import {$PropertyType} from 'utility-types';
 
@@ -114,4 +116,9 @@ export const fetchWorkShiftFinished = (
 ): FetchWorkShiftFinishedAction => ({
   type: FETCH_WORK_SHIFT_FINISHED,
   workShift,
+});
+
+export const setErrorMessage = (message?: string): SetErrorMessageAction => ({
+  type: SET_ERROR_MESSAGE,
+  message,
 });

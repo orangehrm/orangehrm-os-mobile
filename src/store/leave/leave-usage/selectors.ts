@@ -51,4 +51,10 @@ export const selectLeaveRequestDetail = createSelector<
   RootState,
   LeaveUsageState,
   EmployeeLeaveRequest | undefined
->([selectLeaveUsage], (leaveList) => leaveList.leaveRequestDetail);
+>([selectLeaveUsage], (leaveUsage) => leaveUsage.leaveRequestDetail);
+
+export const selectErrorMessage = createSelector<
+  RootState,
+  LeaveUsageState,
+  string | undefined
+>([selectLeaveUsage], (leaveUsage) => leaveUsage.errorMessage);

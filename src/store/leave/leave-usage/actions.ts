@@ -28,6 +28,7 @@ import {
   FETCH_MY_LEAVE_DETAILS,
   FETCH_MY_LEAVE_DETAILS_FINISHED,
   CHANGE_MY_LEAVE_REQUEST_STATUS,
+  SET_ERROR_MESSAGE,
   FetchMyLeaveEntitlementAction,
   FetchMyLeaveEntitlementFinishedAction,
   SelectLeaveTypeAction,
@@ -39,6 +40,7 @@ import {
   FetchMyLeaveRequestDetailsAction,
   FetchMyLeaveRequestDetailsFinishedAction,
   ChangeMyLeaveRequestStatusAction,
+  SetErrorMessageAction,
 } from 'store/leave/leave-usage/types';
 import {$PropertyType} from 'utility-types';
 
@@ -108,4 +110,9 @@ export const fetchMyLeaveDetailsFinished = (
   type: FETCH_MY_LEAVE_DETAILS_FINISHED,
   payload,
   error,
+});
+
+export const setErrorMessage = (message?: string): SetErrorMessageAction => ({
+  type: SET_ERROR_MESSAGE,
+  message,
 });

@@ -139,7 +139,7 @@ class PickSubordinate extends React.Component<
                     onChangeText={(text: string) => {
                       this.setState({textValue: text});
                     }}
-                    multiline
+                    multiline={Platform.OS !== 'ios'}
                     style={{
                       ...Platform.select({
                         ios: {

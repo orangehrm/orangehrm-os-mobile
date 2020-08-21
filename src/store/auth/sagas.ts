@@ -18,7 +18,7 @@
  *
  */
 
-import {call, takeEvery, put, select} from 'redux-saga/effects';
+import {call, takeEvery, put} from 'redux-saga/effects';
 import {
   FETCH_TOKEN,
   LOGOUT,
@@ -27,6 +27,7 @@ import {
   FetchTokenAction,
   CheckInstanceAction,
   FetchEnabledModulesAction,
+  FETCH_ENABLED_MODULES,
 } from 'store/auth/types';
 import {authenticate} from 'services/authentication';
 import {
@@ -64,7 +65,6 @@ import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams} from 'store/storage/types';
 import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
 import {getMessageAlongWithGenericErrors} from 'services/api';
-import {selectInstanceExists} from 'store/auth/selectors';
 import {API_ENDPOINT_MY_INFO, prepare} from 'services/endpoints';
 import {AuthenticationError} from 'services/errors/authentication';
 import {InstanceCheckError} from 'services/errors/instance-check';
@@ -89,13 +89,19 @@ function* checkInstance(action?: CheckInstanceAction) {
 
       yield put(checkInstanceFinished());
     } else {
-      yield showSnackMessage('Invalid URL', TYPE_ERROR);
+      yield showSnackMessage(
+        'Invalid URL. Mobile App Is Supported With OrangeHRM Open Source 4.5 Version Onwards.',
+        TYPE_ERROR,
+      );
     }
   } catch (error) {
     if (action) {
       yield put(checkInstanceFinished(true));
       yield showSnackMessage(
-        getMessageAlongWithGenericErrors(error, 'Invalid URL'),
+        getMessageAlongWithGenericErrors(
+          error,
+          'Invalid URL. Mobile App Is Supported With OrangeHRM Open Source 4.5 Version Onwards.',
+        ),
         TYPE_ERROR,
       );
     } else {
@@ -108,6 +114,9 @@ function* checkInstance(action?: CheckInstanceAction) {
 
 function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
   try {
+    if (action) {
+      yield openLoader();
+    }
     const instanceUrl: string = yield selectInstanceUrl();
     const response: Response = yield call(getEnabledModules, instanceUrl);
 
@@ -121,11 +130,6 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
           yield* logout();
           throw new InstanceCheckError(
             'The Mobile App Is Not Enabled, Please Contact Your System Administrator.',
-          );
-        } else if (!responseData.data.modules.leave) {
-          yield showSnackMessage(
-            'Leave Module Is Disabled, Please Contact Your System Administrator',
-            TYPE_ERROR,
           );
         }
       } else {
@@ -146,16 +150,18 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
       TYPE_ERROR,
     );
     yield put(fetchEnabledModulesFinished(undefined, true));
+  } finally {
+    if (action) {
+      yield closeLoader();
+    }
   }
 }
 
 function* fetchAuthToken(action: FetchTokenAction) {
   try {
     yield openLoader();
-    const instanceExists = yield select(selectInstanceExists);
-    if (!instanceExists) {
-      yield* checkInstance();
-    }
+    yield* checkInstance();
+
     const authParams: AuthParams = yield selectAuthParams();
 
     if (authParams.instanceUrl !== null) {
@@ -243,5 +249,5 @@ export function* watchAuthActions() {
   yield takeEvery(LOGOUT, logout);
   yield takeEvery(FETCH_MY_INFO, fetchMyInfo);
   yield takeEvery(CHECK_INSTANCE, checkInstance);
-  yield takeEvery(CHECK_INSTANCE, checkInstance);
+  yield takeEvery(FETCH_ENABLED_MODULES, fetchEnabledModules);
 }

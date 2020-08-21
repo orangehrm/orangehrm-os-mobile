@@ -44,6 +44,7 @@ import {
   fetchSubordinatesFinished,
   fetchWorkShiftFinished,
   fetchLeaveTypesFinished,
+  setErrorMessage,
 } from 'store/leave/assign-leave/actions';
 import {resetLeaveList} from 'store/leave/leave-list/actions';
 import {
@@ -108,10 +109,14 @@ function* fetchSubordinateLeaveEntitlements(
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT, {
-        id: action.empNumber,
-      }),
+      prepare(
+        API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT,
+        {id: action.empNumber},
+        {combineLeaveTypes: true},
+      ),
     );
+    // clear error messages
+    yield put(setErrorMessage());
     if (response.data) {
       yield put(
         fetchSubordinateLeaveEntitlementsFinished(
@@ -120,6 +125,12 @@ function* fetchSubordinateLeaveEntitlements(
       );
     } else if (response.getResponse().status === HTTP_NOT_FOUND) {
       yield put(fetchSubordinateLeaveEntitlementsFinished([]));
+    } else if (response.error[0] === 'No Leave Types Defined.') {
+      yield put(
+        setErrorMessage(
+          'There Are No Leave Types Defined, Please Contact Your System Administrator.',
+        ),
+      );
     } else {
       yield put(fetchSubordinateLeaveEntitlementsFinished(undefined, true));
       yield showSnackMessage(

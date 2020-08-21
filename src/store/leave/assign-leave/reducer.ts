@@ -35,6 +35,7 @@ import {
   FETCH_WORK_SHIFT,
   FETCH_WORK_SHIFT_FINISHED,
   FETCH_LEAVE_TYPES_FINISHED,
+  SET_ERROR_MESSAGE,
 } from 'store/leave/assign-leave/types';
 import {
   FULL_DAY,
@@ -88,6 +89,7 @@ const assignLeaveReducer = (
       return {
         ...initialState,
         subordinates: state.subordinates,
+        leaveTypes: state.leaveTypes,
       };
     case FETCH_SUBORDINATE_LEAVE_ENTITLEMENT_FINISHED:
       if (action.error) {
@@ -140,6 +142,11 @@ const assignLeaveReducer = (
       return {
         ...state,
         leaveTypes: action.leaveTypes,
+      };
+    case SET_ERROR_MESSAGE:
+      return {
+        ...state,
+        errorMessage: action.message,
       };
     case RESET_ASSIGN_LEAVE:
     case LOGOUT:

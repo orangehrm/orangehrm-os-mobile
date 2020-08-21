@@ -28,6 +28,7 @@ import {
   FETCH_MY_LEAVE_DETAILS,
   FETCH_MY_LEAVE_DETAILS_FINISHED,
   CHANGE_MY_LEAVE_REQUEST_STATUS,
+  SET_ERROR_MESSAGE,
 } from 'store/leave/leave-usage/types';
 import {ACTION_TYPE_CHANGE_STATUS} from 'store/leave/leave-list/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
@@ -82,6 +83,11 @@ const leaveUsageReducer = (
       } else {
         return state;
       }
+    case SET_ERROR_MESSAGE:
+      return {
+        ...state,
+        errorMessage: action.message,
+      };
     case RESET_MY_LEAVE_REQUEST:
     case LOGOUT:
       return {

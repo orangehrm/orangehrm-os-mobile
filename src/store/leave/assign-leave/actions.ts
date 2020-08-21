@@ -38,6 +38,7 @@ import {
   FETCH_WORK_SHIFT_FINISHED,
   FETCH_LEAVE_TYPES,
   FETCH_LEAVE_TYPES_FINISHED,
+  SET_ERROR_MESSAGE,
   PickFromDateAction,
   PickToDateAction,
   AssignSingleDayLeaveRequestAction,
@@ -57,9 +58,9 @@ import {
   FetchWorkShiftFinishedAction,
   FetchLeaveTypesAction,
   FetchLeaveTypesFinishedAction,
+  SetErrorMessageAction,
 } from 'store/leave/assign-leave/types';
 import {$PropertyType} from 'utility-types';
-import {Entitlement} from 'store/leave/leave-usage/types';
 
 export const pickAssignLeaveFromDate = (date?: string): PickFromDateAction => ({
   type: PICK_ASSIGN_LEAVE_FROM_DATE,
@@ -140,7 +141,10 @@ export const fetchSubordinateLeaveEntitlements = (
 });
 
 export const fetchSubordinateLeaveEntitlementsFinished = (
-  payload?: Entitlement[],
+  payload?: $PropertyType<
+    FetchSubordinateLeaveEntitlementFinishedAction,
+    'payload'
+  >,
   error: boolean = false,
 ): FetchSubordinateLeaveEntitlementFinishedAction => ({
   type: FETCH_SUBORDINATE_LEAVE_ENTITLEMENT_FINISHED,
@@ -196,4 +200,9 @@ export const fetchLeaveTypesFinished = (
 ): FetchLeaveTypesFinishedAction => ({
   type: FETCH_LEAVE_TYPES_FINISHED,
   leaveTypes,
+});
+
+export const setErrorMessage = (message?: string): SetErrorMessageAction => ({
+  type: SET_ERROR_MESSAGE,
+  message,
 });
