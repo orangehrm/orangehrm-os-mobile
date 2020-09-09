@@ -27,7 +27,7 @@ export interface AuthState {
   isCalledMyInfo: boolean;
   isFinishedMyInfo: boolean;
   checkingInstance: boolean;
-  instanceExists: boolean;
+  instanceExists?: boolean;
   enabledModules?: EnabledModules;
 }
 
@@ -69,7 +69,7 @@ export interface CheckInstanceAction {
 
 export interface CheckInstanceFinishedAction {
   type: typeof CHECK_INSTANCE_FINISHED;
-  error: boolean;
+  error?: boolean;
 }
 
 export interface FetchEnabledModulesAction {

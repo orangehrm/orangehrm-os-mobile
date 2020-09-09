@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {Platform} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {
   NavigationProp,
   ParamListBase,
@@ -28,19 +28,21 @@ import {
 import FirstLayout from 'layouts/FirstLayout';
 import TextField from 'components/StandardTextField';
 import Button from 'components/DefaultButton';
+import Text from 'components/DefaultText';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import {setStatusBarColor} from 'store/theme/actions';
 import {setItem} from 'store/storage/actions';
 import {selectInstanceUrl} from 'store/storage/selectors';
 import {INSTANCE_URL} from 'services/storage';
-import {LOGIN} from 'screens';
+import {LOGIN, SELECT_INSTANCE_HELP} from 'screens';
 import {checkUrl, checkDomain} from 'lib/helpers/url';
 import {checkInstance} from 'store/auth/actions';
 import {
   selectInstanceExists,
   selectCheckingInstance,
 } from 'store/auth/selectors';
+import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 class SelectInstance extends React.Component<
   SelectInstanceProps,
@@ -109,7 +111,12 @@ class SelectInstance extends React.Component<
     }
   };
 
+  onPressGetHelp = () => {
+    this.props.navigation.dispatch(StackActions.push(SELECT_INSTANCE_HELP));
+  };
+
   render() {
+    const {theme, instanceExists} = this.props;
     const {instanceUrl, errorMessage} = this.state;
     return (
       <FirstLayout
@@ -136,12 +143,26 @@ class SelectInstance extends React.Component<
         actions={
           <Button title={'Continue'} onPress={this.handleOnPress} primary />
         }
+        more={
+          instanceExists === false ? (
+            <Text
+              style={[styles.helpText, {padding: theme.spacing * 4}]}
+              onPress={this.onPressGetHelp}>
+              {'Having trouble locating your instance?'}{' '}
+              <Text style={{color: theme.palette.secondary}}>
+                {'Get help with configuring URL'}
+              </Text>
+            </Text>
+          ) : undefined
+        }
       />
     );
   }
 }
 
-interface SelectInstanceProps extends ConnectedProps<typeof connector> {
+interface SelectInstanceProps
+  extends WithTheme,
+    ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
 }
 
@@ -149,6 +170,12 @@ interface SelectInstanceState {
   instanceUrl: string;
   errorMessage: string;
 }
+
+const styles = StyleSheet.create({
+  helpText: {
+    textAlign: 'center',
+  },
+});
 
 const mapStateToProps = (state: RootState) => ({
   instanceUrl: selectInstanceUrl(state),
@@ -164,4 +191,8 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-export default connector(SelectInstance);
+const SelectInstanceWithTheme = withTheme<SelectInstanceProps>()(
+  SelectInstance,
+);
+
+export default connector(SelectInstanceWithTheme);

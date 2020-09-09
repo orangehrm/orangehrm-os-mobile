@@ -45,7 +45,7 @@ export const selectIsCalledMyInfo = createSelector<
 export const selectInstanceExists = createSelector<
   RootState,
   AuthState,
-  boolean
+  boolean | undefined
 >([selectAuth], (auth) => auth.instanceExists);
 
 export const selectCheckingInstance = createSelector<

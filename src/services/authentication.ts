@@ -53,7 +53,7 @@ export const getNewAccessToken = (
   });
 };
 
-export const checkInstance = (instanceUrl: string) => {
+export const checkLegacyInstance = (instanceUrl: string) => {
   return authRequest(instanceUrl, {
     grant_type: GRANT_TYPE_PASSWORD,
     client_id: PUBLIC_MOBILE_CLIENT_ID,

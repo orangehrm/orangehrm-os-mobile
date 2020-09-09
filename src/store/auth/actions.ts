@@ -78,7 +78,7 @@ export const checkInstance = (): CheckInstanceAction => ({
 });
 
 export const checkInstanceFinished = (
-  error: boolean = false,
+  error?: boolean,
 ): CheckInstanceFinishedAction => ({
   type: CHECK_INSTANCE_FINISHED,
   error,

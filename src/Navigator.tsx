@@ -49,8 +49,10 @@ import useGlobals from 'lib/hook/useGlobals';
 
 import Login from 'screens/login/Login';
 import SelectInstance from 'screens/login/SelectInstance';
+import SelectInstanceHelp from 'screens/login/SelectInstanceHelp';
 import {
   SELECT_INSTANCE,
+  SELECT_INSTANCE_HELP,
   LOGIN,
   APPLY_LEAVE,
   MY_LEAVE_ENTITLEMENT_AND_USAGE,
@@ -197,6 +199,10 @@ const Navigator = (props: NavigatorProps) => {
           initialRouteName={initialRouteName}>
           <Stack.Screen name={SELECT_INSTANCE} component={SelectInstance} />
           <Stack.Screen name={LOGIN} component={Login} />
+          <Stack.Screen
+            name={SELECT_INSTANCE_HELP}
+            component={SelectInstanceHelp}
+          />
         </Stack.Navigator>
       );
     }
