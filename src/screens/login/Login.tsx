@@ -62,7 +62,7 @@ class Login extends React.Component<LoginProps, LoginState> {
 
   handleSelectInstanceOnClick = () => {
     const {navigation, resetInstanceCheckState} = this.props;
-    resetInstanceCheckState(true);
+    resetInstanceCheckState();
     navigation.dispatch(StackActions.replace(SELECT_INSTANCE));
   };
 
@@ -144,16 +144,18 @@ class Login extends React.Component<LoginProps, LoginState> {
               <View>
                 <Text>{'Your instance is'}</Text>
               </View>
-              <Button
-                title={instanceUrl}
-                onPress={this.handleSelectInstanceOnClick}
-                transparent
-                fullWidth
-                textProps={{
-                  style: {color: theme.palette.secondary},
-                  uppercase: false,
-                }}
-              />
+              <Text
+                style={[
+                  styles.instanceText,
+                  {
+                    color: theme.palette.secondary,
+                    paddingHorizontal: theme.spacing * 4,
+                    paddingVertical: theme.spacing * 2,
+                  },
+                ]}
+                onPress={this.handleSelectInstanceOnClick}>
+                {instanceUrl}
+              </Text>
             </View>
           </>
         }
@@ -179,6 +181,9 @@ interface LoginState {
 const styles = StyleSheet.create({
   selectInstance: {
     alignItems: 'center',
+  },
+  instanceText: {
+    textAlign: 'center',
   },
 });
 
