@@ -18,7 +18,8 @@
  *
  */
 
-import {call, takeEvery, put} from 'redux-saga/effects';
+import NetInfo, {NetInfoState} from '@react-native-community/netinfo';
+import {call, takeEvery, put, all} from 'redux-saga/effects';
 import {
   FETCH_TOKEN,
   LOGOUT,
@@ -29,7 +30,7 @@ import {
   FetchEnabledModulesAction,
   FETCH_ENABLED_MODULES,
 } from 'store/auth/types';
-import {authenticate} from 'services/authentication';
+import {authenticate, checkLegacyInstance} from 'services/authentication';
 import {
   checkInstance as checkInstanceRequest,
   checkInstanceCompatibility,
@@ -44,6 +45,7 @@ import {
   SCOPE,
   TOKEN_TYPE,
   EXPIRES_AT,
+  INSTANCE_URL,
 } from 'services/storage';
 import {
   openLoader,
@@ -55,6 +57,7 @@ import {
   storageSetMulti,
   selectAuthParams,
   selectInstanceUrl,
+  storageSetItem,
 } from 'store/saga-effects/storage';
 import {
   fetchMyInfoFinished,
@@ -69,13 +72,61 @@ import {API_ENDPOINT_MY_INFO, prepare} from 'services/endpoints';
 import {AuthenticationError} from 'services/errors/authentication';
 import {InstanceCheckError} from 'services/errors/instance-check';
 
+/**
+ * Check instance existence & compatibility
+ * @param action this param can be undefined when calling this generator from another generator
+ */
 function* checkInstance(action?: CheckInstanceAction) {
   try {
     yield openLoader();
-    const instanceUrl: string = yield selectInstanceUrl();
-    const response: Response = yield call(checkInstanceRequest, instanceUrl);
+    let instanceUrl: string = yield selectInstanceUrl();
+    let response: Response = yield call(checkInstanceRequest, instanceUrl);
+
+    // check instance in advanced
+    if (!response.ok) {
+      const urlPortions = [
+        '/symfony/web',
+        '/symfony/web/index.php',
+        '/index.php',
+      ];
+      const effects = urlPortions.map((urlPortion) => {
+        return call(checkInstanceRequestWithCatch, instanceUrl + urlPortion);
+      });
+      const responses: Response[] = yield all(effects);
+
+      for (let i = 0; i < responses.length; i++) {
+        if (responses[i]?.ok) {
+          response = responses[i];
+          instanceUrl = instanceUrl + urlPortions[i];
+          break;
+        }
+      }
+    }
+
+    // check instance is legacy
+    if (!response.ok) {
+      const urlPortions = [
+        '',
+        '/symfony/web',
+        '/symfony/web/index.php',
+        '/index.php',
+      ];
+      const effects = urlPortions.map((urlPortion) => {
+        return call(checkLegacyInstanceWithCatch, instanceUrl + urlPortion);
+      });
+      const responses: Response[] = yield all(effects);
+
+      for (let i = 0; i < responses.length; i++) {
+        if (responses[i]?.ok) {
+          throw new InstanceCheckError(
+            'Instance Not Supported. Mobile App Is Supported With OrangeHRM Open Source 4.5 Version Onwards.',
+          );
+        }
+      }
+    }
 
     if (response.ok) {
+      yield storageSetItem(INSTANCE_URL, instanceUrl);
       const data = yield call([response, response.json]);
 
       checkInstanceCompatibility(data);
@@ -87,29 +138,59 @@ function* checkInstance(action?: CheckInstanceAction) {
 
       yield* fetchEnabledModules();
 
-      yield put(checkInstanceFinished());
+      yield put(checkInstanceFinished(false));
     } else {
-      yield showSnackMessage(
-        'Invalid URL. Mobile App Is Supported With OrangeHRM Open Source 4.5 Version Onwards.',
-        TYPE_ERROR,
-      );
+      yield storageSetItem(INSTANCE_URL, null);
+      yield showSnackMessage('Invalid URL.', TYPE_ERROR);
+      yield put(checkInstanceFinished(true));
     }
   } catch (error) {
-    if (action) {
-      yield put(checkInstanceFinished(true));
-      yield showSnackMessage(
-        getMessageAlongWithGenericErrors(
-          error,
-          'Invalid URL. Mobile App Is Supported With OrangeHRM Open Source 4.5 Version Onwards.',
-        ),
-        TYPE_ERROR,
-      );
+    yield storageSetItem(INSTANCE_URL, null);
+    yield put(checkInstanceFinished(true));
+
+    const netState: NetInfoState = yield NetInfo.fetch();
+
+    if (netState?.isInternetReachable === false) {
+      if (action) {
+        yield showSnackMessage(
+          'Connection Error! Instance Cannot Be Reached.',
+          TYPE_ERROR,
+        );
+      } else {
+        throw new InstanceCheckError(
+          'Connection Error! Instance Cannot Be Reached.',
+        );
+      }
     } else {
-      throw error;
+      if (action) {
+        let message = 'Instance Cannot Be Reached.';
+        if (error instanceof InstanceCheckError) {
+          message = error.message;
+        }
+        yield showSnackMessage(message, TYPE_ERROR);
+      } else {
+        throw error;
+      }
     }
   } finally {
     yield closeLoader();
   }
+}
+
+/**
+ * Wrap checkInstanceRequest function to catch errors
+ * @param {string} instanceUrl
+ */
+function checkInstanceRequestWithCatch(instanceUrl: string) {
+  return checkInstanceRequest(instanceUrl).catch(() => {
+    return null;
+  });
+}
+
+function checkLegacyInstanceWithCatch(instanceUrl: string) {
+  return checkLegacyInstance(instanceUrl).catch(() => {
+    return null;
+  });
 }
 
 function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
