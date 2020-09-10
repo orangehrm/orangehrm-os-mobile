@@ -83,12 +83,12 @@ function* checkInstance(action?: CheckInstanceAction) {
     let response: Response = yield call(checkInstanceRequest, instanceUrl);
 
     // check instance in advanced
+    const urlPortions = [
+      '/symfony/web',
+      '/symfony/web/index.php',
+      '/index.php',
+    ];
     if (!response.ok) {
-      const urlPortions = [
-        '/symfony/web',
-        '/symfony/web/index.php',
-        '/index.php',
-      ];
       const effects = urlPortions.map((urlPortion) => {
         return call(checkInstanceRequestWithCatch, instanceUrl + urlPortion);
       });
@@ -105,12 +105,8 @@ function* checkInstance(action?: CheckInstanceAction) {
 
     // check instance is legacy
     if (!response.ok) {
-      const urlPortions = [
-        '',
-        '/symfony/web',
-        '/symfony/web/index.php',
-        '/index.php',
-      ];
+      // evaluate original URL without concat paths
+      urlPortions.unshift('');
       const effects = urlPortions.map((urlPortion) => {
         return call(checkLegacyInstanceWithCatch, instanceUrl + urlPortion);
       });
