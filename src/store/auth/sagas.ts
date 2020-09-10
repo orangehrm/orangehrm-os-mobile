@@ -119,7 +119,7 @@ function* checkInstance(action?: CheckInstanceAction) {
       for (let i = 0; i < responses.length; i++) {
         if (responses[i]?.ok) {
           throw new InstanceCheckError(
-            'Instance Not Supported. Mobile App Is Supported With OrangeHRM Open Source 4.5 Version Onwards.',
+            'OrangeHRM System Is Not Supported With Mobile App.',
           );
         }
       }
@@ -151,19 +151,15 @@ function* checkInstance(action?: CheckInstanceAction) {
     const netState: NetInfoState = yield NetInfo.fetch();
 
     if (netState?.isInternetReachable === false) {
+      const message = 'Connection Error! OrangeHRM System Is Not Accessible.';
       if (action) {
-        yield showSnackMessage(
-          'Connection Error! Instance Cannot Be Reached.',
-          TYPE_ERROR,
-        );
+        yield showSnackMessage(message, TYPE_ERROR);
       } else {
-        throw new InstanceCheckError(
-          'Connection Error! Instance Cannot Be Reached.',
-        );
+        throw new InstanceCheckError(message);
       }
     } else {
       if (action) {
-        let message = 'Instance Cannot Be Reached.';
+        let message = 'OrangeHRM System Is Not Accessible.';
         if (error instanceof InstanceCheckError) {
           message = error.message;
         }

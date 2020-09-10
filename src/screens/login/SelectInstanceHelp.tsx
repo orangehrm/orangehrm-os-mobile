@@ -85,7 +85,7 @@ class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
               <View style={styles.textView}>
                 <Text style={styles.justify}>
                   {
-                    'Sometimes, your instance URL may have a specific subpath. In this case, you will require to enter the complete URL.'
+                    "Incases where your instance URL contains subpaths, you'll need to enter the complete URL."
                   }
                 </Text>
                 <Text>{'(eg: https://example.orangehrm.com/internal/hr)'}</Text>
@@ -99,7 +99,7 @@ class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
               />
               <Text style={[styles.justify, styles.textView]}>
                 {
-                  'If your instance is hosted in a private network, make sure you are connected to that private network or via VPN to access the mobile app.'
+                  'If your instance is hosted in a private network, make sure you are connected to the VPN or in the same network to access the mobile app.'
                 }
               </Text>
             </View>
@@ -111,7 +111,7 @@ class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
               />
               <Text style={[styles.justify, styles.textView]}>
                 {
-                  'Your instance required to have valid SSL certificate to trust the URL to access the mobile app.'
+                  'The instance should be hosted in a server with a valid SSL certificate to trust the URL to access the mobile app.'
                 }
               </Text>
             </View>
@@ -120,7 +120,7 @@ class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
             <Text style={styles.bold}>{'Note:'}</Text>
             <Text style={styles.justify}>
               {
-                'The mobile app is supported with OrangeHRM Open Source web version 4.5 and onwards only. Please contact your system admin to verify your system supports the requirements or contact OrangeHRM support via support@orangehrm.com.'
+                'The mobile application is only supported with OrangeHRM Open Source Web version 4.5 onwards. Please contact your system administrator to verify if your system supports the minimum requirements or contact OrangeHRM support via ossupport@orangehrm.com.'
               }
             </Text>
           </View>
