@@ -27,6 +27,7 @@ import {
   CHECK_INSTANCE_FINISHED,
   FETCH_ENABLED_MODULES,
   FETCH_ENABLED_MODULES_FINISHED,
+  MY_INFO_FAILED,
   FetchTokenAction,
   LogoutAction,
   FetchMyInfoAction,
@@ -37,7 +38,9 @@ import {
   FetchEnabledModulesFinishedAction,
   FetchEnabledModulesAction,
   EnabledModules,
+  MyInfoFailedAction,
 } from 'store/auth/types';
+import {$PropertyType} from 'utility-types';
 
 export const fetchAuthToken = (
   username: string,
@@ -95,4 +98,11 @@ export const fetchEnabledModulesFinished = (
   type: FETCH_ENABLED_MODULES_FINISHED,
   payload,
   error,
+});
+
+export const myInfoFailed = (
+  state: $PropertyType<MyInfoFailedAction, 'state'>,
+): MyInfoFailedAction => ({
+  type: MY_INFO_FAILED,
+  state,
 });

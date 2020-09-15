@@ -60,11 +60,12 @@ import {
   fetchMyInfoFinished,
   checkInstanceFinished,
   fetchEnabledModulesFinished,
+  myInfoFailed,
 } from 'store/auth/actions';
 import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams} from 'store/storage/types';
 import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
-import {getMessageAlongWithGenericErrors} from 'services/api';
+import {getMessageAlongWithGenericErrors, isJsonParseError} from 'services/api';
 import {API_ENDPOINT_MY_INFO, prepare} from 'services/endpoints';
 import {AuthenticationError} from 'services/errors/authentication';
 import {InstanceCheckError} from 'services/errors/instance-check';
@@ -234,6 +235,9 @@ function* fetchMyInfo() {
       yield put(fetchMyInfoFinished(undefined, true));
     }
   } catch (error) {
+    if (isJsonParseError(error)) {
+      yield put(myInfoFailed(true));
+    }
     if (error instanceof InstanceCheckError) {
       yield showSnackMessage(
         getMessageAlongWithGenericErrors(error, 'Failed to Check Instance.'),

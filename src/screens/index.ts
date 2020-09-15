@@ -45,5 +45,6 @@ export const MY_LEAVE_DETAILS = 'MyLeaveDetails';
 export const LEAVE_REQUEST_SUCCESS = 'LeaveRequestSuccess';
 
 export const FULL_SCREEN_INFO = 'FullScreenInfo';
+export const NO_EMPLOYEE_INFO = 'NoEmployeeInfo';
 
 export const SUBHEADER_LEAVE = 'Leave';

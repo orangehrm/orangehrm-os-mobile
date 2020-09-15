@@ -18,6 +18,8 @@
  *
  */
 
+import {$PropertyType} from 'utility-types';
+
 export const USER_ROLE_ADMIN = 'Admin';
 export const USER_ROLE_ESS = 'ESS';
 
@@ -29,6 +31,7 @@ export interface AuthState {
   checkingInstance: boolean;
   instanceExists: boolean;
   enabledModules?: EnabledModules;
+  myInfoFailed?: boolean;
 }
 
 export const FETCH_TOKEN = 'AUTH_FETCH_TOKEN';
@@ -40,6 +43,7 @@ export const CHECK_INSTANCE_FINISHED = 'AUTH_CHECK_INSTANCE_FINISHED';
 export const FETCH_ENABLED_MODULES = 'AUTH_FETCH_ENABLED_MODULES';
 export const FETCH_ENABLED_MODULES_FINISHED =
   'AUTH_FETCH_ENABLED_MODULES_FINISHED';
+export const MY_INFO_FAILED = 'AUTH_MY_INFO_FAILED';
 
 export interface FetchTokenAction {
   type: typeof FETCH_TOKEN;
@@ -82,6 +86,11 @@ export interface FetchEnabledModulesFinishedAction {
   error: boolean;
 }
 
+export interface MyInfoFailedAction {
+  type: typeof MY_INFO_FAILED;
+  state: $PropertyType<AuthState, 'myInfoFailed'>;
+}
+
 export type AuthActionTypes =
   | FetchTokenAction
   | LogoutAction
@@ -90,7 +99,8 @@ export type AuthActionTypes =
   | CheckInstanceAction
   | CheckInstanceFinishedAction
   | FetchEnabledModulesAction
-  | FetchEnabledModulesFinishedAction;
+  | FetchEnabledModulesFinishedAction
+  | MyInfoFailedAction;
 
 export interface AuthSuccessResponse {
   access_token: string;
