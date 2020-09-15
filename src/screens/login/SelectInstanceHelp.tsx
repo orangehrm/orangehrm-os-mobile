@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, TouchableWithoutFeedback, Image} from 'react-native';
 import {
   NavigationProp,
   ParamListBase,
@@ -28,7 +28,6 @@ import {
 import MainLayout from 'layouts/MainLayout';
 import Text from 'components/DefaultText';
 import Icon from 'components/DefaultIcon';
-import IconButton from 'components/DefaultIconButton';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
@@ -38,30 +37,70 @@ class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
 
   render() {
     const {theme} = this.props;
+    const borderPadding = theme.spacing * 6;
     return (
       <MainLayout statusBarBackgroundColor={theme.palette.statusBar}>
-        <View style={{padding: theme.spacing * 6}}>
-          <View style={styles.closeIconView}>
-            <IconButton
-              iconProps={{
-                name: 'close',
-                style: styles.closeIconStyle,
-              }}
-              buttonProps={{onPress: this.onPressClose}}
-            />
+        <View style={{paddingTop: borderPadding}}>
+          <View
+            style={[styles.closeIconView, {paddingHorizontal: borderPadding}]}>
+            <TouchableWithoutFeedback onPress={this.onPressClose}>
+              <Icon
+                name={'close'}
+                style={[
+                  styles.closeIconStyle,
+                  {
+                    paddingVertical: theme.spacing * 4,
+                    paddingLeft: theme.spacing * 4,
+                  },
+                ]}
+              />
+            </TouchableWithoutFeedback>
           </View>
-          <Text
-            style={[
-              styles.bold,
-              {
-                fontSize: theme.typography.headerFontSize,
-                paddingBottom: theme.spacing * 6,
-              },
-            ]}>
-            {'Having trouble accessing your OrangeHRM system?'}
-          </Text>
 
-          <View>
+          <View style={[styles.headerView, {paddingBottom: theme.spacing * 6}]}>
+            <View
+              style={{
+                backgroundColor: theme.palette.secondary,
+                width: theme.spacing * 3,
+                borderBottomRightRadius: theme.borderRadius,
+                borderTopRightRadius: theme.borderRadius,
+              }}
+            />
+            <Text
+              style={[
+                styles.bold,
+                {
+                  fontSize: theme.typography.headerFontSize,
+                  paddingLeft: theme.spacing * 3,
+                  paddingRight: borderPadding,
+                  color: theme.palette.secondary,
+                },
+              ]}>
+              {'Having trouble accessing your OrangeHRM system?'}
+            </Text>
+          </View>
+
+          <View style={{paddingHorizontal: borderPadding}}>
+            <View style={[styles.row, {paddingBottom: theme.spacing * 4}]}>
+              <Icon
+                name={'help-circle'}
+                style={{paddingRight: theme.spacing * 2}}
+              />
+              <Text style={[styles.justify, styles.textView]}>
+                {
+                  'Refer to "How to Configure URL and Login" in Help & Support (accessible via the Web system) in order to find your system URL.'
+                }
+              </Text>
+            </View>
+
+            <View style={{paddingBottom: theme.spacing * 4}}>
+              <Image
+                source={require('images/help-config-url.png')}
+                style={styles.image}
+                resizeMode={'contain'}
+              />
+            </View>
+
             <View style={[styles.row, {paddingBottom: theme.spacing * 4}]}>
               <Icon
                 name={'link-variant'}
@@ -116,7 +155,13 @@ class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
               </Text>
             </View>
           </View>
-          <View style={{paddingTop: theme.spacing * 4}}>
+
+          <View
+            style={{
+              padding: borderPadding,
+              paddingTop: theme.spacing * 4,
+              backgroundColor: theme.palette.backgroundSecondary,
+            }}>
             <Text style={styles.bold}>{'Note:'}</Text>
             <Text style={styles.justify}>
               {
@@ -154,6 +199,13 @@ const styles = StyleSheet.create({
   },
   closeIconView: {
     flexDirection: 'row-reverse',
+  },
+  image: {
+    width: '100%',
+    height: 140,
+  },
+  headerView: {
+    flexDirection: 'row',
   },
 });
 

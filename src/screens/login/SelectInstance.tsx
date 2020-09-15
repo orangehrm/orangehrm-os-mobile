@@ -19,7 +19,12 @@
  */
 
 import React from 'react';
-import {Platform, StyleSheet} from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import {
   NavigationProp,
   ParamListBase,
@@ -36,7 +41,7 @@ import {setItem} from 'store/storage/actions';
 import {selectInstanceUrl} from 'store/storage/selectors';
 import {INSTANCE_URL} from 'services/storage';
 import {LOGIN, SELECT_INSTANCE_HELP} from 'screens';
-import {checkUrl, checkDomain} from 'lib/helpers/url';
+import {checkUrl} from 'lib/helpers/url';
 import {checkInstance} from 'store/auth/actions';
 import {
   selectInstanceExists,
@@ -51,7 +56,7 @@ class SelectInstance extends React.Component<
   constructor(props: SelectInstanceProps) {
     super(props);
     this.state = {
-      instanceUrl: '',
+      instanceUrl: 'https://',
       errorMessage: '',
     };
   }
@@ -84,12 +89,10 @@ class SelectInstance extends React.Component<
       this.setState({errorMessage: 'Required'});
       return;
     }
-    if (errorMessage === '') {
+    this.handleOnChange(instanceUrl);
+    const isUrl = checkUrl(instanceUrl);
+    if (errorMessage === '' && isUrl) {
       const {storageSetItem} = this.props;
-      const isDomain = checkDomain(instanceUrl);
-      if (isDomain) {
-        instanceUrl = `https://${instanceUrl}`;
-      }
       storageSetItem(INSTANCE_URL, instanceUrl);
 
       this.props.checkInstance();
@@ -103,8 +106,7 @@ class SelectInstance extends React.Component<
       return;
     }
     const isUrl = checkUrl(text);
-    const isDomain = checkDomain(text);
-    if (!isUrl && !isDomain) {
+    if (!isUrl) {
       this.setState({errorMessage: 'Invalid URL Format'});
     } else {
       this.setState({errorMessage: ''});
@@ -143,16 +145,25 @@ class SelectInstance extends React.Component<
         actions={
           <Button title={'Continue'} onPress={this.handleOnPress} primary />
         }
-        more={
+        belowCard={
           instanceExists === false ? (
-            <Text
-              style={[styles.helpText, {padding: theme.spacing * 4}]}
-              onPress={this.onPressGetHelp}>
-              {'Having trouble locating your instance?'}{' '}
-              <Text style={{color: theme.palette.secondary}}>
-                {'Get help with configuring URL'}
-              </Text>
-            </Text>
+            <TouchableWithoutFeedback onPress={this.onPressGetHelp}>
+              <View style={{paddingHorizontal: theme.spacing * 4}}>
+                <Text style={[styles.helpText]}>
+                  {'Having trouble locating your instance?'}
+                </Text>
+                <Text
+                  style={[
+                    styles.helpText,
+                    {
+                      color: theme.palette.secondary,
+                      fontSize: theme.typography.fontSize * 1.2,
+                    },
+                  ]}>
+                  {'Get help with configuring URL'}
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
           ) : undefined
         }
       />

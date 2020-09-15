@@ -83,37 +83,50 @@ function* checkInstance(action?: CheckInstanceAction) {
     let response: Response = yield call(checkInstanceRequest, instanceUrl);
 
     // check instance in advanced
-    const urlPortions = [
-      '/symfony/web',
-      '/symfony/web/index.php',
-      '/index.php',
-    ];
-    if (!response.ok) {
-      const effects = urlPortions.map((urlPortion) => {
-        return call(checkInstanceRequestWithCatch, instanceUrl + urlPortion);
+    let urls = getAbsoluteUrlsForChecking(instanceUrl);
+
+    // if user enter web system login screen url
+    if (
+      (!response.ok || !isJsonResponse(response)) &&
+      instanceUrl.includes('/index.php')
+    ) {
+      const splitedInstanceUrl = instanceUrl.split('/index.php')[0];
+      const res: Response = yield call(
+        checkInstanceRequestWithCatch,
+        splitedInstanceUrl,
+      );
+      if (res.ok && isJsonResponse(res)) {
+        response = res;
+        instanceUrl = splitedInstanceUrl;
+      }
+    }
+
+    if (!response.ok || !isJsonResponse(response)) {
+      const effects = urls.map((url) => {
+        return call(checkInstanceRequestWithCatch, url);
       });
       const responses: Response[] = yield all(effects);
 
       for (let i = 0; i < responses.length; i++) {
-        if (responses[i]?.ok) {
+        if (responses[i]?.ok && isJsonResponse(responses[i])) {
           response = responses[i];
-          instanceUrl = instanceUrl + urlPortions[i];
+          instanceUrl = urls[i];
           break;
         }
       }
     }
 
     // check instance is legacy
-    if (!response.ok) {
+    if (!response.ok || !isJsonResponse(response)) {
       // evaluate original URL without concat paths
-      urlPortions.unshift('');
-      const effects = urlPortions.map((urlPortion) => {
-        return call(checkLegacyInstanceWithCatch, instanceUrl + urlPortion);
+      urls.unshift(instanceUrl);
+      const effects = urls.map((url) => {
+        return call(checkLegacyInstanceWithCatch, url);
       });
       const responses: Response[] = yield all(effects);
 
       for (let i = 0; i < responses.length; i++) {
-        if (responses[i]?.ok) {
+        if (responses[i]?.ok && isJsonResponse(responses[i])) {
           throw new InstanceCheckError(
             'OrangeHRM System Is Not Supported With Mobile App.',
           );
@@ -121,7 +134,7 @@ function* checkInstance(action?: CheckInstanceAction) {
       }
     }
 
-    if (response.ok) {
+    if (response.ok && isJsonResponse(response)) {
       yield storageSetItem(INSTANCE_URL, instanceUrl);
       const data = yield call([response, response.json]);
 
@@ -183,6 +196,18 @@ function checkLegacyInstanceWithCatch(instanceUrl: string) {
   return checkLegacyInstance(instanceUrl).catch(() => {
     return null;
   });
+}
+
+function isJsonResponse(response: Response) {
+  return response?.headers.get('Content-Type') === 'application/json';
+}
+
+function getAbsoluteUrlsForChecking(instanceUrl: string) {
+  return [
+    instanceUrl + '/symfony/web',
+    instanceUrl + '/symfony/web/index.php',
+    instanceUrl + '/index.php',
+  ];
 }
 
 function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
