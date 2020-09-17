@@ -1,6 +1,6 @@
 {
   "name": "orangehrm-opensource",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -13,6 +13,7 @@
   "dependencies": {
     "@react-native-community/async-storage": "~1.11.0",
     "@react-native-community/masked-view": "~0.1.10",
+    "@react-native-community/netinfo": "^5.9.6",
     "@react-native-community/slider": "^3.0.3",
     "@react-navigation/drawer": "~5.9.0",
     "@react-navigation/native": "~5.7.3",

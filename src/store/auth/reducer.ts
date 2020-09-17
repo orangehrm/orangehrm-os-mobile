@@ -35,7 +35,6 @@ const initialState: AuthState = {
   isCalledMyInfo: false,
   isFinishedMyInfo: false,
   checkingInstance: false,
-  instanceExists: false,
 };
 
 const authReducer = (
@@ -61,13 +60,13 @@ const authReducer = (
       return {
         ...state,
         checkingInstance: true,
-        instanceExists: false,
+        instanceExists: initialState.instanceExists,
       };
     case CHECK_INSTANCE_FINISHED:
       return {
         ...state,
         checkingInstance: false,
-        instanceExists: !action.error,
+        instanceExists: action.error === undefined ? undefined : !action.error,
       };
     case FETCH_ENABLED_MODULES_FINISHED:
       return {

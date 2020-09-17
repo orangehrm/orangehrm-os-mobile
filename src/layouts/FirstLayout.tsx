@@ -38,7 +38,7 @@ import Text from 'components/DefaultText';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 const FirstLayout = (props: FirstLayoutProps) => {
-  const {header, content, actions, more, theme} = props;
+  const {header, content, actions, more, theme, belowCard} = props;
   return (
     <>
       <StatusBar
@@ -92,6 +92,7 @@ const FirstLayout = (props: FirstLayoutProps) => {
                     </View>
                   </CardActions>
                 </Card>
+                {belowCard === undefined ? null : <View>{belowCard}</View>}
               </View>
               {more === undefined ? null : <View>{more}</View>}
               <View>
@@ -110,6 +111,7 @@ interface FirstLayoutProps extends WithTheme {
   content: React.ReactNode;
   actions: React.ReactNode;
   more?: React.ReactNode;
+  belowCard?: React.ReactNode;
 }
 
 const styles = StyleSheet.create({

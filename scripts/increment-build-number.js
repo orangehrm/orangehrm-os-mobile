@@ -18,7 +18,6 @@
  *
  */
 
-const version = require('../package.json').version;
 const fs = require('fs');
 const path = require('path');
 const gradlePropertiesPath = path.join(
@@ -34,22 +33,17 @@ fs.readFile(gradlePropertiesPath, 'utf8', (error, gradleProperties) => {
     /* eslint-enable no-console */
   }
 
-  let updatedGradleProperties = gradleProperties.replace(
-    /ORANGEHRM_VERSION_NAME=.+\n/g,
-    `ORANGEHRM_VERSION_NAME=${version}\n`,
-  );
+  const regex = /ORANGEHRM_VERSION_CODE=.+\n/g;
+  const versionCodeMatchs = gradleProperties.match(regex);
+  let versionCodeStr = versionCodeMatchs[0];
+  versionCodeStr = versionCodeStr.replace(/\n/g, '');
+  versionCodeStr = versionCodeStr.replace('ORANGEHRM_VERSION_CODE=', '');
+  const versionCode = parseInt(versionCodeStr, 10);
 
-  const debug = process.argv[2];
-  if (debug) {
-    // The greatest value Google Play allows for versionCode is 2100000000.
-    // https://developer.android.com/studio/publish/versioning
-    const uniqueVersionCode =
-      parseInt(Date.now().toString().slice(0, -3), 10) - 1595397950;
-    updatedGradleProperties = updatedGradleProperties.replace(
-      /ORANGEHRM_VERSION_CODE=.+\n/g,
-      `ORANGEHRM_VERSION_CODE=${uniqueVersionCode}\n`,
-    );
-  }
+  let updatedGradleProperties = gradleProperties.replace(
+    regex,
+    `ORANGEHRM_VERSION_CODE=${versionCode + 1}\n`,
+  );
 
   fs.writeFile(gradlePropertiesPath, updatedGradleProperties, 'utf8', (err) => {
     if (err) {
@@ -59,7 +53,9 @@ fs.readFile(gradlePropertiesPath, 'utf8', (error, gradleProperties) => {
     }
 
     /* eslint-disable no-console */
-    console.log(`Successfully synced Android version name to ${version}`);
+    console.log(
+      `Successfully increment Android build number to ${versionCode + 1}`,
+    );
     /* eslint-enable no-console */
   });
 });
@@ -77,9 +73,16 @@ fs.readFile(projectpbxprojPath, 'utf8', (error, projectpbxproj) => {
     /* eslint-enable no-console */
   }
 
+  const regex = /CURRENT_PROJECT_VERSION = .+\n/g;
+  const versionCodeMatchs = projectpbxproj.match(regex);
+  let versionCodeStr = versionCodeMatchs[0];
+  versionCodeStr = versionCodeStr.replace(/;\n/g, '');
+  versionCodeStr = versionCodeStr.replace('CURRENT_PROJECT_VERSION = ', '');
+  const versionCode = parseInt(versionCodeStr, 10);
+
   let projectpbxprojUpdated = projectpbxproj.replace(
-    /MARKETING_VERSION = .+\n/g,
-    `MARKETING_VERSION = ${version};\n`,
+    regex,
+    `CURRENT_PROJECT_VERSION = ${versionCode + 1};\n`,
   );
 
   fs.writeFile(projectpbxprojPath, projectpbxprojUpdated, 'utf8', (err) => {
@@ -90,7 +93,9 @@ fs.readFile(projectpbxprojPath, 'utf8', (error, projectpbxproj) => {
     }
 
     /* eslint-disable no-console */
-    console.log(`Successfully synced iOS version name to ${version}`);
+    console.log(
+      `Successfully increment iOS build number to ${versionCode + 1}`,
+    );
     /* eslint-enable no-console */
   });
 });
