@@ -49,10 +49,7 @@ export const getMessageAlongWithGenericErrors = (
   if (error instanceof Object && !Array.isArray(error)) {
     if (error.message === 'Network request failed') {
       return 'Connection Error! Operation Couldn’t Be Completed.';
-    } else if (
-      typeof error.message === 'string' &&
-      error.message.startsWith('JSON Parse error:')
-    ) {
+    } else if (isJsonParseError(error)) {
       return 'Route Not Found. Please Contact Your System Administrator.';
     } else if (
       error instanceof AuthenticationError ||
@@ -91,4 +88,15 @@ export const getMessageAlongWithResponseErrors = (
     }
   }
   return defaultMessage;
+};
+
+/**
+ * Check whether given error is JSON parse error
+ * @param error
+ */
+export const isJsonParseError = (error: any) => {
+  return (
+    typeof error.message === 'string' &&
+    error.message.startsWith('JSON Parse error:')
+  );
 };

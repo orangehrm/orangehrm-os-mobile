@@ -41,6 +41,7 @@ import {
   selectIsCalledMyInfo,
   selectMyInfo,
   selectEnabledModules,
+  selectMyInfoFailed,
 } from 'store/auth/selectors';
 import {USER_ROLE_ADMIN} from 'store/auth/types';
 import {selectInitialRoute} from 'store/globals/selectors';
@@ -57,6 +58,7 @@ import {
   LEAVE_LIST,
   ASSIGN_LEAVE,
   FULL_SCREEN_INFO,
+  NO_EMPLOYEE_INFO,
   SUBHEADER_LEAVE,
 } from 'screens';
 
@@ -65,6 +67,7 @@ import MyLeaveUsage from 'screens/leave/navigators/MyLeaveUsageNavigator';
 import LeaveList from 'screens/leave/navigators/LeaveListNavigator';
 import AssignLeave from 'screens/leave/navigators/AssignLeaveNavigator';
 import FullScreenInfo from 'screens/common/FullScreenInfo';
+import NoEmployeeInfo from 'screens/common/NoEmployeeInfo';
 import DrawerContent from 'layouts/DrawerContent';
 import Overlay from 'components/DefaultOverlay';
 
@@ -81,6 +84,7 @@ const Navigator = (props: NavigatorProps) => {
     initialRoute,
     myInfo,
     enabledModules,
+    myInfoFailed,
   } = props;
   const dimensions = useWindowDimensions();
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -130,61 +134,73 @@ const Navigator = (props: NavigatorProps) => {
     if (instanceUrl !== null && loggedInUsername !== null) {
       // TODO: Handle large screens
       const isLargeScreen = dimensions.width >= 768;
-      view = (
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-          style={styles.root}>
-          <Drawer.Navigator
-            initialRouteName={initialRoute}
-            openByDefault={false}
-            drawerType={isLargeScreen ? 'permanent' : 'front'}
-            drawerContent={(drawerContentProps: any) => (
-              <DrawerContent {...drawerContentProps} />
-            )}>
-            {enabledModules !== undefined &&
-            (!enabledModules.modules.leave ||
-              !enabledModules.meta.leave.isLeavePeriodDefined) ? (
-              <Drawer.Screen
-                name={FULL_SCREEN_INFO}
-                component={FullScreenInfo}
-                options={{drawerLabel: FULL_SCREEN_INFO}}
-              />
-            ) : (
-              <>
+      if (myInfoSuccess || myInfoFailed) {
+        view = (
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            style={styles.root}>
+            <Drawer.Navigator
+              initialRouteName={initialRoute}
+              openByDefault={false}
+              drawerType={isLargeScreen ? 'permanent' : 'front'}
+              drawerContent={(drawerContentProps: any) => (
+                <DrawerContent {...drawerContentProps} />
+              )}>
+              {enabledModules !== undefined &&
+              (!enabledModules.modules.leave ||
+                !enabledModules.meta.leave.isLeavePeriodDefined) ? (
                 <Drawer.Screen
-                  name={APPLY_LEAVE}
-                  component={ApplyLeave}
-                  options={{drawerLabel: 'Apply Leave'}}
-                  initialParams={{subheader: SUBHEADER_LEAVE}}
+                  name={FULL_SCREEN_INFO}
+                  component={FullScreenInfo}
                 />
-                <Drawer.Screen
-                  name={MY_LEAVE_ENTITLEMENT_AND_USAGE}
-                  component={MyLeaveUsage}
-                  options={{drawerLabel: 'My Leave Usage'}}
-                  initialParams={{subheader: SUBHEADER_LEAVE}}
-                />
-                {myInfo?.user.userRole === USER_ROLE_ADMIN ||
-                myInfo?.user.isSupervisor === true ? (
-                  <>
+              ) : (
+                <>
+                  {myInfoFailed === true ? (
                     <Drawer.Screen
-                      name={LEAVE_LIST}
-                      component={LeaveList}
-                      options={{drawerLabel: 'Leave List'}}
-                      initialParams={{subheader: SUBHEADER_LEAVE}}
+                      name={NO_EMPLOYEE_INFO}
+                      component={NoEmployeeInfo}
                     />
-                    <Drawer.Screen
-                      name={ASSIGN_LEAVE}
-                      component={AssignLeave}
-                      options={{drawerLabel: 'Assign Leave'}}
-                      initialParams={{subheader: SUBHEADER_LEAVE}}
-                    />
-                  </>
-                ) : null}
-              </>
-            )}
-          </Drawer.Navigator>
-        </KeyboardAvoidingView>
-      );
+                  ) : (
+                    <>
+                      <Drawer.Screen
+                        name={APPLY_LEAVE}
+                        component={ApplyLeave}
+                        options={{drawerLabel: 'Apply Leave'}}
+                        initialParams={{subheader: SUBHEADER_LEAVE}}
+                      />
+                      <Drawer.Screen
+                        name={MY_LEAVE_ENTITLEMENT_AND_USAGE}
+                        component={MyLeaveUsage}
+                        options={{drawerLabel: 'My Leave Usage'}}
+                        initialParams={{subheader: SUBHEADER_LEAVE}}
+                      />
+                      {myInfo?.user.userRole === USER_ROLE_ADMIN ||
+                      myInfo?.user.isSupervisor === true ? (
+                        <>
+                          <Drawer.Screen
+                            name={LEAVE_LIST}
+                            component={LeaveList}
+                            options={{drawerLabel: 'Leave List'}}
+                            initialParams={{subheader: SUBHEADER_LEAVE}}
+                          />
+                          <Drawer.Screen
+                            name={ASSIGN_LEAVE}
+                            component={AssignLeave}
+                            options={{drawerLabel: 'Assign Leave'}}
+                            initialParams={{subheader: SUBHEADER_LEAVE}}
+                          />
+                        </>
+                      ) : null}
+                    </>
+                  )}
+                </>
+              )}
+            </Drawer.Navigator>
+          </KeyboardAvoidingView>
+        );
+      } else {
+        view = <Overlay modalProps={{visible: true}} />;
+      }
     } else {
       let initialRouteName = LOGIN;
       if (instanceUrl === null) {
@@ -224,6 +240,7 @@ const mapStateToProps = (state: RootState) => ({
   initialRoute: selectInitialRoute(state),
   myInfo: selectMyInfo(state),
   enabledModules: selectEnabledModules(state),
+  myInfoFailed: selectMyInfoFailed(state),
 });
 
 const mapDispatchToProps = {
