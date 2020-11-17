@@ -62,12 +62,15 @@ import {
   FULL_SCREEN_INFO,
   NO_EMPLOYEE_INFO,
   SUBHEADER_LEAVE,
+  SUBHEADER_TIME,
+  PUNCH,
 } from 'screens';
 
 import ApplyLeave from 'screens/leave/navigators/ApplyLeaveNavigator';
 import MyLeaveUsage from 'screens/leave/navigators/MyLeaveUsageNavigator';
 import LeaveList from 'screens/leave/navigators/LeaveListNavigator';
 import AssignLeave from 'screens/leave/navigators/AssignLeaveNavigator';
+import Punch from 'screens/time/navigators/PunchNavigator';
 import FullScreenInfo from 'screens/common/FullScreenInfo';
 import NoEmployeeInfo from 'screens/common/NoEmployeeInfo';
 import DrawerContent from 'layouts/DrawerContent';
@@ -193,6 +196,12 @@ const Navigator = (props: NavigatorProps) => {
                           />
                         </>
                       ) : null}
+                      <Drawer.Screen
+                          name={PUNCH}
+                          component={Punch}
+                          options={{drawerLabel: 'Punch In/Out'}}
+                          initialParams={{subheader: SUBHEADER_TIME}}
+                      />
                     </>
                   )}
                 </>
