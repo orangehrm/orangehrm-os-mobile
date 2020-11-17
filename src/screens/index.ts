@@ -36,6 +36,8 @@ export const LEAVE_DETAILS = 'LeaveDetails';
 export const LEAVE_DAYS = 'LeaveDays';
 export const LEAVE_COMMENTS = 'LeaveComments';
 export const ASSIGN_LEAVE = 'AssignLeave';
+export const PUNCH = 'Punch';
+
 export const ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR =
   'AssignLeavePickLeaveRequestDaysCalendar';
 export const ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DURATION =
@@ -49,3 +51,4 @@ export const FULL_SCREEN_INFO = 'FullScreenInfo';
 export const NO_EMPLOYEE_INFO = 'NoEmployeeInfo';
 
 export const SUBHEADER_LEAVE = 'Leave';
+export const SUBHEADER_TIME = 'Time';
