@@ -38,63 +38,63 @@ import Divider from 'components/DefaultDivider';
 import {fetchPunchStatus} from 'store/time/attendance/actions';
 import {selectPunchStatus} from 'store/time/attendance/selectors';
 import Icon from 'components/DefaultIcon';
-
+import {AndroidEvent} from '@react-native-community/datetimepicker/src/index';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const EditPunchInOutDateTimeCard = (props: EditPunchInOutDateTimeCardProps) => {
-    const {theme, punchStatus} = props;
-    let datetime=punchStatus?.currentUtcDateTime.split(" ",2);
-    let nowTime = new Date();
-    year = nowTime.getFullYear();
-    month = nowTime.getMonth();
-    date1 = nowTime.getDate();
-    hour = nowTime.getHours();
-    minutes = nowTime.getMinutes();
-    
-    if(Array.isArray(datetime)){
-        if(datetime.length==2){
-            let fullDate :string[] = datetime[0].split("-",3);
-            let time :string[] = datetime[1].split(":",2);
-            var year = parseInt(fullDate[0],10);
-            var month = parseInt(fullDate[1],10);
-            var date1 =parseInt(fullDate[2],10);
-            var hour =parseInt(time[0],10);
-            var minutes = parseInt(time[1],10);
-        }
-    }
-    if(Array.isArray(datetime)){
-      var [date, setDate] = useState(new Date(Date.UTC(year, month-1, date1, hour, minutes, 0)));
-    } else {
-      var [date, setDate] = useState(new Date(year, month-1, date1, hour, minutes, 0));
-    }
-    const [mode, setMode] = useState('date');
-    const [show, setShow] = useState(false);
-    const [dateDisplay ,setDisplayDate] = useState(date.toDateString());
-    const [timeDisplay ,setDisplayTime] = useState(date.toLocaleString([], { hour: 'numeric', minute: 'numeric', hour12: true }));
+class EditPunchInOutDateTimeCard extends React.Component<EditPunchInOutDateTimeCardProps,EditPunchInOutDateTimeCardState> {
+  constructor(props: EditPunchInOutDateTimeCardProps) {
+    super(props);
+    this.state = {
+      show : false,
+      mode : DATE,
+    };
+  }
 
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
-        setShow(Platform.OS === 'ios');
-        setDate(currentDate);
-        if(mode=='date'){
-          setDisplayDate(selectedDate.toDateString());
-        } else if(mode=='time'){
-          setDisplayTime(selectedDate.toLocaleString([], { hour: 'numeric', minute: 'numeric', hour12: true }));
-        }
-    };
-    const showMode = (currentMode :string) => {
-        setShow(true);
-        setMode(currentMode);
-    };
+  onChange = (event: AndroidEvent , selectedDate? : Date ) => {
+    this.setState({
+      show : false,
+    }, () => {
+      if(selectedDate)
+      this.props.updateDateTime(selectedDate); 
+    });
+  };
+  
+  formatTime = (time: string) => {
+    let hourMinute = time.substring(0,5).split(':',2)
+    let ampm = "AM";
+    let hour = hourMinute[0];
+    if(parseInt(hourMinute[0])>12){ hour = (parseInt(hourMinute[0]) -12).toString(); ampm = "PM"}
+    return hour.toString()+":"+hourMinute[1]+" "+ ampm;
+  }
 
-    const showDatepicker = () => {
-        showMode('date');
-    };
+  showDatepicker = () => {
+    this.setState({show : true, mode : DATE});
+  };
 
-    const showTimepicker = () => {
-        showMode('time');
-    };
+  showTimepicker = () => {
+    this.setState({show : true, mode : TIME});
+  };
+
+  render() {
+      const {
+        theme,
+        punchCurrentDateTime,
+      } = this.props;
+      const {
+        mode, show,
+      } = this.state;
+
+      let date;
+      if (punchCurrentDateTime === undefined){
+        date = new Date();
+      } else{
+        date = punchCurrentDateTime;
+      }
+      const dateDisplay = date.toDateString();
+      // const timeDisplay1 = date.toLocaleString([], { hour: 'numeric', minute: 'numeric', hour12: true });
+      const timeDisplay = this.formatTime(date.toTimeString());
+
     return (   
       <>
         <View
@@ -114,12 +114,12 @@ const EditPunchInOutDateTimeCard = (props: EditPunchInOutDateTimeCardProps) => {
                 paddingHorizontal: theme.spacing * 3,
               }}>
               <TouchableOpacity
-                    style={{flexDirection: 'row', justifyContent: 'center', marginTop: 10, marginBottom: 10}}
+                    style={{flexDirection: 'row', justifyContent: 'center', marginTop: theme.spacing, marginBottom: theme.spacing*4}}
                     onPress={() => {
-                        showDatepicker()
+                        this.showDatepicker()
                     }}>
-                    <View style={{flex: 1, flexDirection: 'row', paddingLeft: 10}}>
-                        <View style={{padding: 3, paddingRight: 10}}>
+                    <View style={{flex: 1, flexDirection: 'row', paddingLeft: theme.spacing * 3}}>
+                        <View style={{padding: theme.spacing, paddingRight: theme.spacing * 3}}>
                             <Icon name={'calendar-blank'} fontSize={20}/>
                         </View>
                         <View style={{}}>
@@ -129,10 +129,10 @@ const EditPunchInOutDateTimeCard = (props: EditPunchInOutDateTimeCardProps) => {
                         </View>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
-                        <View style={{flex: 1, alignItems: 'flex-end', paddingRight: 5}}>                
+                        <View style={{flex: 1, alignItems: 'flex-end', paddingRight: theme.spacing}}>                
                             <Text style={{color: theme.palette.secondary, fontSize: 18}}>
                                 {dateDisplay}</Text>
-                            </View>
+                        </View>
                         <View style={{alignItems: 'flex-end'}}>
                             <Icon name={'chevron-right'} fontSize={20}/>
                         </View>
@@ -140,9 +140,9 @@ const EditPunchInOutDateTimeCard = (props: EditPunchInOutDateTimeCardProps) => {
                 </TouchableOpacity>
               <Divider />
               <TouchableOpacity
-                    style={{flexDirection: 'row', justifyContent: 'center', marginTop: 1, marginBottom: 1}}
+                    style={{flexDirection: 'row', justifyContent: 'center', marginTop: theme.spacing *4, marginBottom: theme.spacing / 4}}
                     onPress={() => {
-                        showTimepicker()
+                        this.showTimepicker()
                     }}>
                     <View style={{flex: 1, flexDirection: 'row', paddingLeft: theme.spacing * 3}}>
                         <View style={{padding: theme.spacing, paddingRight:theme.spacing * 3}}>
@@ -158,7 +158,7 @@ const EditPunchInOutDateTimeCard = (props: EditPunchInOutDateTimeCardProps) => {
                         <View style={{flex: 1, alignItems: 'flex-end', paddingRight: theme.spacing}}>               
                             <Text style={{color: theme.palette.secondary, fontSize: 18}}>
                                 {timeDisplay}</Text>
-                            </View>
+                        </View>
                         <View style={{alignItems: 'flex-end'}}>
                             <Icon name={'chevron-right'} fontSize={20}/>
                         </View>
@@ -170,19 +170,17 @@ const EditPunchInOutDateTimeCard = (props: EditPunchInOutDateTimeCardProps) => {
                   {paddingVertical: theme.spacing * 2},
                 ]}>
               </View>
-              {show? (
+              {this.state.show? (
                 <>
                  <View>
-                 {/* {show && ( */}
                     <DateTimePicker
                     testID="dateTimePicker"
                     value={date}
                     mode={mode}
-                    is24Hour={true}
+                    is24Hour={false}
                     display="default"
-                    onChange={onChange}
+                    onChange={this.onChange}
                     />
-                   {/* )} */}
                  </View>
                 </>
                ):null}
@@ -196,40 +194,39 @@ const EditPunchInOutDateTimeCard = (props: EditPunchInOutDateTimeCardProps) => {
       </>
     ); 
   }
-// }
+}
 
-interface EditPunchInOutDateTimeCardProps
-  extends WithTheme,
-    ConnectedProps<typeof connector>,
-    Pick<ViewProps, 'style'> {}
+interface EditPunchInOutDateTimeCardProps extends WithTheme {
+  punchCurrentDateTime?: Date;
+  updateDateTime : (date: Date) => void; 
+}
+
+interface EditPunchInOutDateTimeCardState {
+  show : boolean;
+  mode : typeof TIME | typeof DATE;
+}
 
 const styles = StyleSheet.create({
   validPeriodText: {
     alignItems: 'center',
   },
-  totalEntitlementView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  chipView: {
-    alignItems: 'center',
-  },
 });
 
 const mapStateToProps = (state: RootState) => ({
-  punchStatus: selectPunchStatus(state),
+  
 });
 
 const mapDispatchToProps = {
   fetchPunchStatus,
 };
-  
-
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 const EditPunchInOutDateTimeCardCardWithTheme = withTheme<EditPunchInOutDateTimeCardProps>()(
     EditPunchInOutDateTimeCard,
 );
+
+const DATE = 'date';
+const TIME = 'time';
 
 export default connector(EditPunchInOutDateTimeCardCardWithTheme);

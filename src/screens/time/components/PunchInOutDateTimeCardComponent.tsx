@@ -43,34 +43,25 @@ import Icon from 'components/DefaultIcon';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const PunchInOutDateTimeCard = (props: PunchInOutDateTimeCardProps) => {
-    const {theme, punchStatus} = props;
-    let datetime=punchStatus?.currentUtcDateTime.split(" ",2);
-    let nowTime = new Date();
-    year = nowTime.getFullYear();
-    month = nowTime.getMonth();
-    date1 = nowTime.getDate();
-    hour = nowTime.getHours();
-    minutes = nowTime.getMinutes();
+    const {theme, punchCurrentDateTime} = props;
     
-    if(Array.isArray(datetime)){
-        if(datetime.length==2){
-            let fullDate :string[] = datetime[0].split("-",3);
-            let time :string[] = datetime[1].split(":",2);
-            var year = parseInt(fullDate[0],10);
-            var month = parseInt(fullDate[1],10);
-            var date1 =parseInt(fullDate[2],10);
-            var hour =parseInt(time[0],10);
-            var minutes = parseInt(time[1],10);
-        }
-    }
-    if(Array.isArray(datetime)){
-      var [date, setDate] = useState(new Date(Date.UTC(year, month-1, date1, hour, minutes, 0)));
+    let date;
+    if (punchCurrentDateTime === undefined){
+      date = new Date();
     } else {
-      var [date, setDate] = useState(new Date(year, month-1, date1, hour, minutes, 0));
+      date = punchCurrentDateTime;
+    } 
+    const formatTime = (time: string) => {
+      let hourMinute = time.substring(0,5).split(':',2)
+      let ampm = "AM";
+      let hour = hourMinute[0];
+      if(parseInt(hourMinute[0])>12){ hour = (parseInt(hourMinute[0]) -12).toString(); ampm = "PM"}
+      return hour.toString()+":"+hourMinute[1]+ ampm;
     }
+  
     const dateDisplay  = date.toDateString();
-    const timeDisplay = date.toLocaleString([], { hour: 'numeric', minute: 'numeric', hour12: true });
-
+    // const timeDisplay = date.toLocaleString([], { hour: 'numeric', minute: 'numeric', hour12: true });
+    const timeDisplay = formatTime(date.toTimeString());
     return (   
       <>
         <View
@@ -130,10 +121,9 @@ const PunchInOutDateTimeCard = (props: PunchInOutDateTimeCardProps) => {
   }
 // }
 
-interface PunchInOutDateTimeCardProps
-  extends WithTheme,
-    ConnectedProps<typeof connector>,
-    Pick<ViewProps, 'style'> {}
+interface PunchInOutDateTimeCardProps extends WithTheme {
+  punchCurrentDateTime?: Date;
+}
 
 const styles = StyleSheet.create({
   validPeriodText: {
@@ -149,7 +139,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: RootState) => ({
-  punchStatus: selectPunchStatus(state),
+  
 });
 
 const mapDispatchToProps = {

@@ -19,31 +19,48 @@
  */
 
 export interface PunchStatus {
-    punchTime: string,
-    punchNote: string,
-    PunchTimeZoneOffset: string,
-    dateTimeEditable: string,
-    currentUtcDateTime: string,
-    punchState: string
-} 
+  punchTime: string;
+  punchNote: string;
+  PunchTimeZoneOffset: string;
+  dateTimeEditable: boolean;
+  currentUtcDateTime: string;
+  punchState: string;
+}
 
-export interface PunchStatusState{
-    punchStatus ?: PunchStatus,
+export interface PunchStatusState {
+  punchStatus?: PunchStatus;
+  punchCurrentDateTime?: Date;
+  punchNoteSaved?: string;
 }
 
 export const FETCH_PUNCH_STATUS = 'PUNCH_STATUS_FETCH_PUNCH_STATUS';
-export const FETCH_PUNCH_STATUS_FINISHED = 'PUNCH_STATUS_FETCH_PUNCH_STATUS_FINISHED';
+export const FETCH_PUNCH_STATUS_FINISHED =
+  'PUNCH_STATUS_FETCH_PUNCH_STATUS_FINISHED';
+export const CHANGE_PUNCH_CURRENT_DATE_TIME = 'PUNCH_CURRENT_DATE_TIME_CHANGE_PUNCH_CURRENT_DATE_TIME';
+
+export const PICK_PUNCH_NOTE = 'ATTENDANCE_PICK_PUNCH_NOTE';
 
 export interface FetchPunchStatusAction {
-    type: typeof FETCH_PUNCH_STATUS;
-}
- 
-export interface FetchPunchStatusFinishedAction {
-    type: typeof FETCH_PUNCH_STATUS_FINISHED;
-    payload?: PunchStatus;
-    error: boolean;
+  type: typeof FETCH_PUNCH_STATUS;
 }
 
+export interface FetchPunchStatusFinishedAction {
+  type: typeof FETCH_PUNCH_STATUS_FINISHED;
+  payload?: PunchStatus;
+  error: boolean;
+}
+
+export interface changePunchCurrentDateTimeAction {
+    type: typeof CHANGE_PUNCH_CURRENT_DATE_TIME;
+    punchCurrentDateTime?: Date;
+}
+
+export interface setPunchNoteAction {
+  type: typeof PICK_PUNCH_NOTE;
+  noteSaved: string;
+}
 export type PunchStatusActionTypes =
   | FetchPunchStatusAction
-  | FetchPunchStatusFinishedAction;
+  | FetchPunchStatusFinishedAction
+  | changePunchCurrentDateTimeAction
+  | setPunchNoteAction;
