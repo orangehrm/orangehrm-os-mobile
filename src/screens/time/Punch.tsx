@@ -19,100 +19,197 @@
  */
 
 import React from 'react';
-import {View, StyleSheet, Platform, Alert} from 'react-native';
+import {View, StyleSheet, Platform, Alert,Keyboard, TextInput as RNTextInput} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
-import {fetchPunchStatus} from 'store/time/attendance/actions';
-import {selectPunchStatus} from 'store/time/attendance/selectors';
+import {fetchPunchStatus, changePunchCurrentDateTime, setPunchNote} from 'store/time/attendance/actions';
+import {selectPunchStatus, selectPunchCurrentDateTime, selectSavedPunchNote } from 'store/time/attendance/selectors';
 import Text from 'components/DefaultText';
-
+import Divider from 'components/DefaultDivider';
 import {navigate} from 'lib/helpers/navigation';
 import CardButton from 'screens/leave/components/CardButton';
 import Icon from 'components/DefaultIcon';
 import EditPunchInOutDateTimeCard from 'screens/time/components/EditPunchInOutDateTimeCardComponent';
 import PunchInOutDateTimeCard from 'screens/time/components/PunchInOutDateTimeCardComponent';
+import NoteComponent from 'screens/time/components/NoteComponentPrev';
+import PickNote , {PickNoteFooter}  from 'screens/time/components/NoteComponent';
+import Card from 'components/DefaultCard';
+import CardContent from 'components/DefaultCardContent';
+import CardActions from 'components/DefaultCardActions';
 
-class Punch extends React.Component<PunchProps> {
+class Punch extends React.Component<PunchProps, PunchState> {
+  inputRef: RNTextInput | null;
   constructor(props: PunchProps) {
     super(props);
+    this.inputRef = null;
+    this.state = {
+      typingNote: true,
+      note: '',
+    };
     props.fetchPunchStatus();
+  }
+  componentDidMount() {
+    Keyboard.addListener('keyboardDidHide', this.hideCommentInput);
+  }
+
+  componentWillUnmount() {
+    Keyboard.removeListener('keyboardDidHide', this.hideCommentInput);
   }
 
   onRefresh = () => {
     this.props.fetchPunchStatus();
   };
 
-  render() {
-    const {theme ,punchStatus} = this.props;
-    return (
-      <MainLayout onRefresh = {this.onRefresh}> 
-        <View style={{marginLeft: 10,marginTop: 20}}>
-            <Text>{"PUNCH IN SCREEN"}</Text>
+  updateDateTime = (datetime : Date) => {
+    this.props.changePunchCurrentDateTime(datetime);
+  }
 
-            <EditPunchInOutDateTimeCard />
-            <PunchInOutDateTimeCard />
-            <Text>{punchStatus?.punchTime}</Text>
-            <Text>{punchStatus?.punchNote}</Text>
-            <Text>{punchStatus?.PunchTimeZoneOffset}</Text>
-            <Text>{punchStatus?.punchState}</Text>
-            <Text>{punchStatus?.dateTimeEditable}</Text>
-            <Text>{punchStatus?.currentUtcDateTime}</Text>
+  setNote = (text: string) => {
+    this.setState({
+      note: text,
+    });
+  };
+  toggleCommentInput = () => {
+    if (this.state.typingNote === true) {
+      this.hideCommentInput();
+    } else {
+      this.showCommentInput();
+    }
+  };
+
+  onPressSubmitButton = () => {
+    const {setPunchNote} = this.props;
+    const {note} = this.state;
+    setPunchNote(note);
+    this.hideCommentInput();
+  }
+
+  showCommentInput = () => {
+    this.setState({typingNote: true});
+  };
+
+  hideCommentInput = () => {
+    this.setState({typingNote: false});
+  };
+  setLeaveComment = (text: string) => {
+    this.setState({
+      note: text,
+    });
+  };
+
+
+  render() {
+    const {theme ,punchStatus,punchCurrentDateTime, savedNote} = this.props;
+    const {note} = this.state;
+    const editable = true;
+    return (
+      <MainLayout onRefresh = {this.onRefresh}
+      footer={              
+      <View>
+        {this.state.typingNote ? (
+          <>
+            <Divider />
+            <PickNoteFooter
+              ref={(input) => {
+                this.inputRef = input;
+              }}
+              value={note}
+              onChangeText={this.setLeaveComment}
+              onPress={this.onPressSubmitButton}
+            />
+          </>
+        ): null}
+      </View>}> 
+      
+        <View style={{marginLeft: theme.spacing ,marginTop: theme.spacing * 5}}>
+            
+            {editable? (
+              <>
+              <EditPunchInOutDateTimeCard punchCurrentDateTime = {punchCurrentDateTime} updateDateTime = {this.updateDateTime} />
+              </>
+            ): <PunchInOutDateTimeCard punchCurrentDateTime = {punchCurrentDateTime}/> }
         </View>
+              <View
+                style={{
+                  paddingHorizontal: theme.spacing * 5,
+                  paddingBottom: theme.spacing * 4,
+                }}>
+                <Card
+                  fullWidth
+                  style={{
+                    borderRadius: theme.borderRadius * 2,
+                  }}
+                  >
+                  <CardContent
+                    style={{
+                      paddingTop: theme.spacing * 4,
+                      paddingHorizontal: theme.spacing * 3,
+                    }}>
+                      <View 
+                        style={[
+                          styles.mainView,
+                          {
+                            paddingBottom: theme.spacing * 4,
+                          },
+                        ]}>
+                        <View style={{paddingTop: theme.spacing * 2}}>
+                          <PickNote 
+                            onPress={this.toggleCommentInput}
+                            note={savedNote}
+                          />
+                        </View>
+                      </View>
+
+                  </CardContent>
+                  <CardActions>
+                    
+                  </CardActions>
+                </Card>
+              </View>
       </MainLayout>
     );
   }
 }
+const styles = StyleSheet.create({
+  mainView: {
+    flex: 1,
+  },
+  noRecordsTextView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noRecordsText: {
+    textAlign: 'center',
+  },
+});
 
 interface PunchProps extends WithTheme,
     ConnectedProps<typeof connector> {
    navigation: NavigationProp<ParamListBase>;
 }
 
-const styles = StyleSheet.create({
-  mainView: {
-    flex: 1,
-  },
-  detailsView: {
-    marginTop: 1,
-    marginLeft: 10,
-  },
-  detailsViewBlock: {
-    marginTop: 15,
-    marginLeft: 10,
-  },
-  detailsViewLabel: {
-    marginLeft: 10,
-  },
-  marginForShadow: {
-    ...Platform.select({
-      ios: {
-        marginBottom: 2,
-      },
-    }),
-  },
-  cardButton: {
-    borderRadius: 0,
-  },
-  buttonLeftView: {
-    flexDirection: 'row',
-  },
-  cardButtonContent: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'stretch',
-  },
-});
+interface PunchState {
+  // date: string | undefined;
+  // time: string |undefined;
+  note: string;
+  typingNote: boolean;
+
+}
 
 const mapStateToProps = (state: RootState) => ({
   punchStatus: selectPunchStatus(state),
+  punchCurrentDateTime: selectPunchCurrentDateTime(state),
+  savedNote: selectSavedPunchNote(state),
 });
 
 const mapDispatchToProps = {
   fetchPunchStatus,
+  changePunchCurrentDateTime,
+  setPunchNote,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

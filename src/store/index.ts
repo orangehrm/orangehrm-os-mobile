@@ -28,7 +28,7 @@ import applyLeaveReducer from './leave/apply-leave/reducer';
 import leaveListReducer from './leave/leave-list/reducer';
 import assignLeaveReducer from './leave/assign-leave/reducer';
 import leaveCommonReducer from './leave/common-screens/reducer';
-import punchStatusReducer from './time/attendance/reducer';
+import attendanceReducer from './time/attendance/reducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -40,7 +40,7 @@ const rootReducer = combineReducers({
   leaveList: leaveListReducer,
   assignLeave: assignLeaveReducer,
   leaveCommon: leaveCommonReducer,
-  punchStatus: punchStatusReducer
+  attendance: attendanceReducer,
 });
 
 export default rootReducer;
