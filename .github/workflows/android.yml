@@ -21,7 +21,7 @@ jobs:
       - name: Install npm dependencies
         run: yarn install
       - name: Parse Git short hash
-        run: echo "::set-env name=git_short_hash::$(git rev-parse --short $GITHUB_SHA)"
+        run: echo "git_short_hash=$(git rev-parse --short $GITHUB_SHA)" >> $GITHUB_ENV
       - name: Get OrangeHRM version from package.json
         run: echo "::set-env name=orangehrm_version::$(node -p "require('./package.json').version")"
       - name: Update package.json version
