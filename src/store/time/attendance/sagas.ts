@@ -5,10 +5,77 @@ import {
     closeLoader,
     showSnackMessage,
 } from 'store/saga-effects/globals';
-import { FETCH_PUNCH_STATUS, FETCH_PUNCH_STATUS_FINISHED } from './types';
-import { fetchPunchStatusFinished } from './actions';
-import { API_ENDPOINT_PUNCH_STATUS } from 'services/endpoints'
+import { FETCH_PUNCH_STATUS, FETCH_PUNCH_STATUS_FINISHED,PUNCH_IN_REQUEST,PUNCH_OUT_REQUEST, PunchInRequestAction,PunchOutRequestAction} from './types';
+import { fetchPunchStatusFinished, resetPunchState} from './actions';
+import { API_ENDPOINT_PUNCH_STATUS,API_ENDPOINT_PUNCH_IN_REQUEST, API_ENDPOINT_PUNCH_OUT_REQUEST } from 'services/endpoints'
+import {PunchInRequestSuccessParam,PunchOutRequestSuccessParam} from 'screens/time/navigators';
+import {navigate} from 'lib/helpers/navigation';
+import {PUNCH_IN_REQUEST_SUCCESS} from 'screens';
+import {PUNCH_OUT_REQUEST_SUCCESS} from 'screens';
+import {
+    getMessageAlongWithGenericErrors,
+    getMessageAlongWithResponseErrors,
+} from 'services/api';
+import {TYPE_ERROR} from 'store/globals/types';
 
+function* savePunchInRequest(
+  action: PunchInRequestAction,
+) {
+  try {
+    yield openLoader();
+    const response = yield apiCall(
+      apiPostCall,
+      API_ENDPOINT_PUNCH_IN_REQUEST,
+      action.payload,
+    );
+    if (response.success) {
+      yield put(resetPunchState());
+      navigate<PunchInRequestSuccessParam>(PUNCH_IN_REQUEST_SUCCESS,response);
+    } else {
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(response, 'Failed to Save Punch Record A'),
+        TYPE_ERROR,
+      );
+    }
+  } catch (error) {
+    yield showSnackMessage(
+    
+      getMessageAlongWithGenericErrors(error, 'Failed to Save Punch Record B'),
+      TYPE_ERROR,
+    );
+  } finally {
+    yield closeLoader();
+  }
+}
+
+function* savePunchOutRequest(
+  action: PunchOutRequestAction,
+) {
+  try {
+    yield openLoader();
+    const response = yield apiCall(
+      apiPostCall,
+      API_ENDPOINT_PUNCH_OUT_REQUEST,
+      action.payload,
+    );
+    if (response.success) {
+      yield put(resetPunchState());
+      navigate<PunchOutRequestSuccessParam>(PUNCH_OUT_REQUEST_SUCCESS,response);
+    } else {
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(response, 'Failed to Save Punch Record'),
+        TYPE_ERROR,
+      );
+    }
+  } catch (error) {
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Save Punch Record'),
+      TYPE_ERROR,
+    );
+  } finally {
+    yield closeLoader();
+  }
+}
 function* fetchPunchStatus() {
     try {
         yield openLoader();
@@ -26,4 +93,6 @@ function* fetchPunchStatus() {
 
 export function* watchPunchStatusActions() {
     yield takeEvery(FETCH_PUNCH_STATUS, fetchPunchStatus);
+    yield takeEvery(PUNCH_IN_REQUEST, savePunchInRequest);
+    yield takeEvery(PUNCH_OUT_REQUEST, savePunchOutRequest);
 }
