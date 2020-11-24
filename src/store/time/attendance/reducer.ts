@@ -1,4 +1,4 @@
-import { FETCH_PUNCH_STATUS_FINISHED,CHANGE_PUNCH_CURRENT_DATE_TIME, PICK_PUNCH_NOTE, PunchStatusState, PunchStatusActionTypes } from './types';
+import { FETCH_PUNCH_STATUS_FINISHED,CHANGE_PUNCH_CURRENT_DATE_TIME, PICK_PUNCH_NOTE, PunchStatusState, PunchStatusActionTypes, RESET_PUNCH_STATE } from './types';
 
 const initialState: PunchStatusState = {};
 
@@ -23,7 +23,6 @@ const attendanceReducer = (
         let minutes = parseInt(time[1],10);
 
         let date = new Date(Date.UTC(year, month-1, date1, hour, minutes, 0));
-        // console.log("in reducer start-up");
         return {
           ...state,
           punchStatus: action.payload,
@@ -44,7 +43,10 @@ const attendanceReducer = (
         ...state,
         punchNoteSaved: action.noteSaved,
       }
-
+    case RESET_PUNCH_STATE:
+      return {
+        ...initialState,
+      };
 
     default:
       return state;

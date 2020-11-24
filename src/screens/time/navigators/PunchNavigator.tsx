@@ -23,6 +23,11 @@ import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Punch from 'screens/time/Punch';
+import PunchInRequestSuccess from 'screens/time/PunchInRequestSuccess';
+import PunchOutRequestSuccess from 'screens/time/PunchOutRequestSuccess';
+import {RootState} from 'store';
+import {connect, ConnectedProps} from 'react-redux';
+import { selectPunchStatus} from 'store/time/attendance/selectors';
 // import PickLeaveRequestDaysCalendar from 'screens/leave/PickLeaveRequestDaysCalendar';
 // import PickLeaveRequestDuration from 'screens/leave/PickLeaveRequestDuration';
 // import PickLeaveRequestPartialDays from 'screens/leave/PickLeaveRequestPartialDays';
@@ -30,6 +35,8 @@ import Punch from 'screens/time/Punch';
 // import LeaveRequestSuccess from 'screens/leave/LeaveRequestSuccess';
 import {
   PUNCH,
+  PUNCH_IN_REQUEST_SUCCESS,
+  PUNCH_OUT_REQUEST_SUCCESS,
 } from 'screens';
 import HeaderMenuIcon from 'components/HeaderMenuIcon';
 import HeaderBackIcon from 'components/HeaderBackIcon';
@@ -39,7 +46,8 @@ const Stack = createStackNavigator();
 
 class PunchNavigator extends React.Component<PunchNavigatorProps> {
   render() {
-    const {theme, navigation} = this.props;
+    const PUNCHED_IN = "PUNCHED IN";
+    const {theme, navigation, punchStatus} = this.props;
     const header = getHeaderStyle(theme);
     const headerMenuIcon = {
       headerLeft: () => <HeaderMenuIcon navigation={navigation} />,
@@ -59,8 +67,22 @@ class PunchNavigator extends React.Component<PunchNavigatorProps> {
           name={PUNCH}
           component={Punch}
           options={{
-            title: 'Punch In-Out',
+            title: punchStatus?.punchState==PUNCHED_IN? 'Punch Out':'Punch In',
             ...headerMenuIcon,
+          }}
+        />
+        <Stack.Screen
+          name={PUNCH_IN_REQUEST_SUCCESS}
+          component={PunchInRequestSuccess}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name={PUNCH_OUT_REQUEST_SUCCESS}
+          component={PunchOutRequestSuccess}
+          options={{
+            headerShown: false,
           }}
         />
       </Stack.Navigator>
@@ -68,8 +90,16 @@ class PunchNavigator extends React.Component<PunchNavigatorProps> {
   }
 }
 
-interface PunchNavigatorProps extends WithTheme {
+interface PunchNavigatorProps extends WithTheme, ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
 }
 
-export default withTheme<PunchNavigatorProps>()(PunchNavigator);
+const mapStateToProps = (state: RootState) => ({
+  punchStatus: selectPunchStatus(state),
+});
+
+const connector = connect(mapStateToProps);
+
+const PunchNavigatorTheme = withTheme<PunchNavigatorProps>()(PunchNavigator);
+
+export default connector(PunchNavigatorTheme);

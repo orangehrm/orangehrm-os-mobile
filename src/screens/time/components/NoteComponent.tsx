@@ -34,6 +34,7 @@ import IconButton, {IconButtonProps} from 'components/DefaultIconButton';
 import TextInput, {TextInputProps} from 'components/DefaultTextInput';
 import {$PropertyType} from 'utility-types';
 import Divider from 'components/DefaultDivider';
+import { color } from 'react-native-reanimated';
 
 const PickNote = (props: PickNoteProps) => {
   const {onPress, note} = props;
@@ -44,23 +45,24 @@ const PickNote = (props: PickNoteProps) => {
         <TouchableWithoutFeedback
           style={[
             styles.cardButton,
-            {height: theme.spacing * 12, paddingBottom: theme.spacing * 215155},
             styles.marginForShadow,
           ]}
           onPress={onPress}>
           <View style={[styles.cardButtonContent]}>
             <View style={styles.buttonLeftView}>
               <Icon name={'comment-text'} style={{paddingLeft: theme.spacing *3}} />
-              <Text style={{paddingTop: theme.spacing * 0.5, paddingLeft: theme.spacing * 3}}>{'Add Note'}</Text>
+              <Text style={{paddingTop: theme.spacing * 0.5,paddingBottom: theme.spacing * 5, paddingLeft: theme.spacing * 3}}>{'Add Note'}</Text>
             </View>
           </View>
         </TouchableWithoutFeedback>
         {note && note !== '' ? (
           <>
             <Divider />
+            <Divider />
             <TouchableWithoutFeedback onPress={onPress}>
               <View
                 style={{
+                  paddingTop: theme.spacing * 7,
                   paddingRight: theme.spacing * 3,
                   paddingLeft: theme.spacing * 3,
                   paddingVertical: theme.spacing * 4,
@@ -153,13 +155,13 @@ export const PickNoteFooter = React.forwardRef<
       <View style={styles.textView}>
         <PickNoteInput
           ref={ref}
-          autoFocus={autoFocus}
+          autoFocus={true}
           onChangeText={onChangeText}
           value={comment}
         />
       </View>
       <View style={{paddingTop: theme.spacing * 0.5}}>
-        <IconButton iconProps={{name: 'send'}} buttonProps={buttonProps} />
+        <IconButton iconProps={{name: 'send' , color:'red'}} buttonProps={buttonProps} />
       </View>
     </View>
   );

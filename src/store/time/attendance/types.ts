@@ -40,6 +40,10 @@ export const CHANGE_PUNCH_CURRENT_DATE_TIME = 'PUNCH_CURRENT_DATE_TIME_CHANGE_PU
 
 export const PICK_PUNCH_NOTE = 'ATTENDANCE_PICK_PUNCH_NOTE';
 
+export const PUNCH_IN_REQUEST = 'ATTENDANCE_SAVE_PUNCH_IN_REQUEST';
+export const PUNCH_OUT_REQUEST = 'ATTENDANCE_SAVE_PUNCH_OUT_REQUEST';
+export const RESET_PUNCH_STATE = 'PUNCH_STATE_RESET_PUNCH_STATE';
+
 export interface FetchPunchStatusAction {
   type: typeof FETCH_PUNCH_STATUS;
 }
@@ -59,8 +63,33 @@ export interface setPunchNoteAction {
   type: typeof PICK_PUNCH_NOTE;
   noteSaved: string;
 }
+
+export interface PunchRequest{
+  timezone: string;
+  note: string | undefined;
+  datetime: string;
+}  
+
+export interface PunchInRequestAction {
+  type: typeof PUNCH_IN_REQUEST;
+  payload: PunchRequest;
+}
+ 
+export interface PunchOutRequestAction {
+  type: typeof PUNCH_OUT_REQUEST;
+  payload: PunchRequest;
+}
+
+export interface ResetPunchStateAction {
+  type: typeof RESET_PUNCH_STATE;
+}
+
+
 export type PunchStatusActionTypes =
   | FetchPunchStatusAction
   | FetchPunchStatusFinishedAction
   | changePunchCurrentDateTimeAction
-  | setPunchNoteAction;
+  | setPunchNoteAction
+  | PunchInRequestAction
+  | PunchOutRequestAction
+  | ResetPunchStateAction;
