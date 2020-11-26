@@ -37,7 +37,12 @@ import {
   savePunchInRequest,
   savePunchOutRequest,
 } from 'store/time/attendance/actions';
-import {PunchRequest} from 'store/time/attendance/types';
+import {
+  PunchRequest,
+  PUNCHED_IN,
+  PUNCHED_OUT,
+  INITIAL,
+} from 'store/time/attendance/types';
 import {
   selectPunchStatus,
   selectPunchCurrentDateTime,
@@ -52,6 +57,17 @@ import PunchInOutDateTimeCard from 'screens/time/components/PunchInOutDateTimeCa
 import PickNote, {PickNoteFooter} from 'screens/time/components/NoteComponent';
 import Card from 'components/DefaultCard';
 import CardContent from 'components/DefaultCardContent';
+import {
+  calculateDurationUsingSavedFormat,
+  getDateSaveFormatFromDateObject,
+  formatLastRecordDetails,
+  getCurrentTimeZoneOffset,
+  NEGATIVE_DURATION,
+} from 'lib/helpers/attendance';
+import {TYPE_WARN} from 'store/globals/types';
+import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
+import {selectCurrentRoute} from 'store/globals/selectors';
+import {PUNCH} from 'screens/index';
 
 class Punch extends React.Component<PunchProps, PunchState> {
   inputRef: RNTextInput | null;
@@ -59,24 +75,53 @@ class Punch extends React.Component<PunchProps, PunchState> {
   constructor(props: PunchProps) {
     super(props);
     this.inputRef = null;
+    this.timeInterval = null;
     this.state = {
       typingNote: false,
       note: '',
+      duration: '00:00',
     };
     props.fetchPunchStatus();
   }
 
-  componentDidMount() {
-    if (!this.props.punchStatus?.dateTimeEditable) {
-      this.timeInterval = setInterval(this.onRefresh, 30000);
+  componentDidUpdate(prevProps: PunchProps) {
+    if (
+      prevProps.currentRoute !== this.props.currentRoute ||
+      prevProps.punchStatus?.dateTimeEditable !==
+        this.props.punchStatus?.dateTimeEditable
+    ) {
+      if (this.props.punchStatus?.dateTimeEditable === undefined) {
+      }
+      if (
+        this.props.currentRoute === PUNCH &&
+        this.timeInterval === null &&
+        this.props.punchStatus?.dateTimeEditable === false
+      ) {
+        this.timeInterval = setInterval(this.onRefresh, 2000);
+      } else {
+        clearInterval(this.timeInterval);
+        this.timeInterval = null;
+      }
     }
+    if (prevProps.punchCurrentDateTime !== this.props.punchCurrentDateTime) {
+      if (
+        this.props.punchStatus?.punchTime &&
+        this.props.punchCurrentDateTime
+      ) {
+        let duration = this.calculateDuration(
+          this.props.punchStatus?.punchTime,
+          getDateSaveFormatFromDateObject(this.props.punchCurrentDateTime),
+        );
+        this.setState({duration: duration});
+      }
+    }
+  }
+
+  componentDidMount() {
     Keyboard.addListener('keyboardDidHide', this.hideCommentInput);
   }
 
   componentWillUnmount() {
-    if (this.timeInterval) {
-      clearInterval(this.timeInterval);
-    }
     Keyboard.removeListener('keyboardDidHide', this.hideCommentInput);
   }
 
@@ -101,7 +146,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
     }
   };
 
-  onPressSubmitButton = () => {
+  onPressNote = () => {
     const {setPunchNote} = this.props;
     const {note} = this.state;
     setPunchNote(note);
@@ -121,126 +166,48 @@ class Punch extends React.Component<PunchProps, PunchState> {
     });
   };
 
-  setTwoDigits = (number: string) => {
-    return number.length < 2 ? '0' + number : number;
-  };
-
-  calculateDuration = (datetime1?: string, datetime2?: Date) => {
-    if (datetime1 && datetime2) {
-      let datetime2String = this.getDateSaveFormatFromDateObject(datetime2);
-
-      let [date1, time1] = datetime1.split(' ', 2);
-      let [date2, time2] = datetime2String.split(' ', 2);
-
-      let dt1 = new Date(date1 + 'T' + time1);
-      let dt2 = new Date(date2 + 'T' + time2);
-
-      let minutes = (dt2.getTime() - dt1.getTime()) / (1000 * 60);
-      let durationHours = this.setTwoDigits(
-        ((minutes - (minutes % 60)) / 60).toString(),
-      );
-      let durationMinutes = this.setTwoDigits((minutes % 60).toString());
-      return durationHours + ':' + durationMinutes;
-    } else return '00:00';
-  };
-
-  formatTime = (hour: string, minute: string) => {
-    let ampm = 'AM';
-    if (parseInt(hour) > 12) {
-      hour = (parseInt(hour) - 12).toString();
-      ampm = 'PM';
-    }
-    return hour + ':' + minute + ' ' + ampm;
-  };
-
-  formatLastRecordDetails = (datetime?: string, timezoneOffset?: string) => {
-    if (datetime && timezoneOffset) {
-      let punchDate = this.getDateObjectFromSaveFormat(datetime);
-      let showDate = punchDate.toDateString();
-      let showTime = this.formatTime(
-        punchDate.getHours().toString(),
-        punchDate.getMinutes().toString(),
-      );
-
-      let timezone;
-      if (parseFloat(timezoneOffset) > 0) {
-        timezone =
-          '+' + (Math.round(parseFloat(timezoneOffset) * 10) / 10).toString();
-      } else
-        timezone = (
-          Math.round(parseFloat(timezoneOffset) * 10) / 10
-        ).toString();
-      return showTime + ' ' + showDate + ' (GMT' + timezone + ')';
-    } else return null;
-  };
-
-  getDateObjectFromSaveFormat = (dateString: string) => {
-    let dateTime = dateString.split(' ', 2);
-    let [fullDate, time] = [
-      dateTime[0].split('-', 3),
-      dateTime[1].split(':', 2),
-    ];
-    let [year, month, date] = [
-      parseInt(fullDate[0]),
-      parseInt(fullDate[1]),
-      parseInt(fullDate[2]),
-    ];
-    let [hour, minute] = [parseInt(time[0]), parseInt(time[1])];
-    return new Date(year, month - 1, date, hour, minute, 0);
-  };
-
-  getDateSaveFormatFromDateObject = (date: Date) => {
-    return (
-      this.setTwoDigits(date.getFullYear().toString()) +
-      '-' +
-      this.setTwoDigits((date.getMonth() + 1).toString()) +
-      '-' +
-      this.setTwoDigits(date.getDate().toString()) +
-      ' ' +
-      this.setTwoDigits(date.getHours().toString()) +
-      ':' +
-      this.setTwoDigits(date.getMinutes().toString())
-    );
-  };
   onPressPunchButton = () => {
     const {punchCurrentDateTime, savedNote} = this.props;
-    const PUNCHED_IN = 'PUNCHED IN';
-    const PUNCHED_OUT = 'PUNCHED OUT';
-    const INITIAL = 'INITIAL';
     if (punchCurrentDateTime !== undefined) {
-      // let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       let punchRequest: PunchRequest = {
-        timezone: 'Asia/Colombo',
+        timezoneOffset: getCurrentTimeZoneOffset(),
         note: savedNote ? savedNote : undefined,
-        datetime: '2021-12-14 14:26',
+        datetime: getDateSaveFormatFromDateObject(punchCurrentDateTime),
       };
-      if (this.props.punchStatus?.punchState == PUNCHED_IN) {
+      if (this.props.punchStatus?.punchState === PUNCHED_IN) {
         this.props.savePunchOutRequest({
           ...punchRequest,
         });
-      } else if (this.props.punchStatus?.punchState == PUNCHED_OUT) {
+      } else if (this.props.punchStatus?.punchState === PUNCHED_OUT) {
         this.props.savePunchInRequest({
           ...punchRequest,
         });
-      } else if (this.props.punchStatus?.punchState == INITIAL) {
+      } else if (this.props.punchStatus?.punchState === INITIAL) {
         this.props.savePunchInRequest({
           ...punchRequest,
         });
       }
+      this.setState({note: ''});
     }
+  };
+
+  calculateDuration = (datetime1: string, datetime2: string) => {
+    let duration = calculateDurationUsingSavedFormat(datetime1, datetime2);
+    if (duration === NEGATIVE_DURATION) {
+      this.props.showSnackMessage(
+        'Punch Out Time Should Be Later Than Punch In Time',
+        TYPE_WARN,
+      );
+    }
+    return duration;
   };
 
   render() {
     const {theme, punchStatus, punchCurrentDateTime, savedNote} = this.props;
-    const duration = this.calculateDuration(
-      '2020-11-22 13:00',
-      punchCurrentDateTime,
-    );
     const {note} = this.state;
-    const editable = true;
-    const PUNCHED_IN = 'PUNCHED IN';
-    const PUNCHED_OUT = 'PUNCHED OUT';
-    const lastRecordDetails = this.formatLastRecordDetails(
+    const editable = punchStatus?.dateTimeEditable;
+
+    const lastRecordDetails = formatLastRecordDetails(
       punchStatus?.punchTime,
       punchStatus?.PunchTimeZoneOffset,
     );
@@ -259,7 +226,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
                   }}
                   value={note}
                   onChangeText={this.setLeaveComment}
-                  onPress={this.onPressSubmitButton}
+                  onPress={this.onPressNote}
                 />
               </>
             ) : (
@@ -271,7 +238,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
                 }}>
                 <Button
                   title={
-                    punchStatus?.punchState == PUNCHED_IN
+                    punchStatus?.punchState === PUNCHED_IN
                       ? 'Punch Out'
                       : 'Punch In'
                   }
@@ -314,73 +281,70 @@ class Punch extends React.Component<PunchProps, PunchState> {
                 paddingTop: theme.spacing * 2,
                 paddingHorizontal: theme.spacing * 3,
               }}>
-              {punchStatus?.punchState == PUNCHED_IN ? (
+              {punchStatus?.punchState === PUNCHED_IN &&
+              this.state.duration !== NEGATIVE_DURATION ? (
                 <>
                   <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      marginHorizontal: 20,
-                      paddingTop: theme.spacing * 4,
-                    }}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}>
-                      <View style={{marginRight: 6}}>
+                    style={[
+                      {
+                        paddingTop: theme.spacing * 4,
+                      },
+                      styles.durationMainView,
+                    ]}>
+                    <View style={[styles.durationText]}>
+                      <View style={{marginRight: theme.spacing * 1.5}}>
                         <View
-                          style={{
-                            width: 30,
-                            height: 30,
-                            alignItems: 'center',
-                            backgroundColor: theme.palette.secondary,
-                            borderRadius: 28,
-                          }}>
+                          style={[
+                            styles.briefcaseIcon,
+                            {
+                              backgroundColor: theme.palette.secondary,
+                              borderRadius: theme.spacing * 7,
+                            },
+                          ]}>
                           <Icon
                             name={'briefcase'}
                             fontSize={18}
-                            style={{color: 'white', padding: 4}}
+                            style={[
+                              styles.colorWhite,
+                              {padding: theme.spacing},
+                            ]}
                           />
                         </View>
                       </View>
                       <Text
-                        style={{
-                          color: theme.palette.secondary,
-                          fontSize: 20,
-                          fontWeight: 'bold',
-                        }}>
+                        style={[
+                          styles.textBold,
+                          {
+                            color: theme.palette.secondary,
+                            fontSize: theme.spacing * 5,
+                          },
+                        ]}>
                         {'Duration'}
                       </Text>
                     </View>
-
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        margin: 5,
-                      }}>
-                      <View style={{paddingLeft: 5}}>
+                    <View style={[styles.hoursView]}>
+                      <View style={{paddingLeft: theme.spacing * 1.25}}>
                         <Text
-                          style={{
-                            color: theme.palette.secondary,
-                            fontSize: 22,
-                            fontWeight: 'bold',
-                          }}>
-                          {duration}
+                          style={[
+                            styles.textBold,
+                            {
+                              color: theme.palette.secondary,
+                              fontSize: theme.spacing * 5,
+                            },
+                          ]}>
+                          {this.state.duration}
                         </Text>
                       </View>
                       <View>
                         <Text
-                          style={{
-                            color: theme.palette.secondary,
-                            marginTop: 6,
-                            fontSize: 16,
-                            fontWeight: 'bold',
-                          }}>
+                          style={[
+                            styles.textBold,
+                            {
+                              color: theme.palette.secondary,
+                              marginTop: theme.spacing,
+                              fontSize: theme.spacing * 4,
+                            },
+                          ]}>
                           {' Hours'}
                         </Text>
                       </View>
@@ -389,36 +353,37 @@ class Punch extends React.Component<PunchProps, PunchState> {
                 </>
               ) : null}
 
-              <View style={{paddingBottom: theme.spacing * 3}}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginHorizontal: 10,
-                    marginVertical: 10,
-                    backgroundColor: '#f2f3f5',
-                    padding: 3,
-                    borderRadius: 15,
-                  }}>
-                  <View style={{paddingLeft: 5}}>
-                    <View style={{flex: 2, flexDirection: 'column'}}>
-                      {punchStatus?.punchState == PUNCHED_OUT ? (
-                        <Text>{'Last Punch Out' + ' : '}</Text>
-                      ) : null}
-                      {punchStatus?.punchState == PUNCHED_IN ? (
-                        <Text>{'Punched In at' + ' : '}</Text>
-                      ) : null}
+              {punchStatus?.punchState !== INITIAL ? (
+                <>
+                  <View style={{paddingBottom: theme.spacing * 3}}>
+                    <View
+                      style={[
+                        styles.lastRecordDetailsMainView,
+                        {
+                          marginHorizontal: theme.spacing * 2.5,
+                          marginVertical: theme.spacing * 2.5,
+                          padding: theme.spacing * 0.75,
+                          borderRadius: theme.spacing * 4,
+                        },
+                      ]}>
+                      <View style={{paddingLeft: theme.spacing * 1.25}}>
+                        <View style={[styles.lastPunchText]}>
+                          {punchStatus?.punchState === PUNCHED_OUT ? (
+                            <Text>{'Last Punch Out' + ' : '}</Text>
+                          ) : null}
+                          {punchStatus?.punchState === PUNCHED_IN ? (
+                            <Text>{'Punched In at' + ' : '}</Text>
+                          ) : null}
+                        </View>
+                      </View>
+                      <View style={[styles.flexFour]}>
+                        <Text>{lastRecordDetails}</Text>
+                      </View>
                     </View>
                   </View>
-                  <View style={{flex: 4}}>
-                    <Text>{lastRecordDetails}</Text>
-                  </View>
-                </View>
-              </View>
-
-              <Divider />
-
+                  <Divider />
+                </>
+              ) : null}
               <View
                 style={[
                   styles.mainView,
@@ -452,21 +417,88 @@ const styles = StyleSheet.create({
   noRecordsText: {
     textAlign: 'center',
   },
+  durationMainView: {
+    flex: 2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 20,
+  },
+
+  durationText: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
+  briefcaseIcon: {
+    width: 30,
+    height: 30,
+    alignItems: 'center',
+  },
+
+  textBold: {
+    fontWeight: 'bold',
+  },
+
+  lastRecordDetailsMainView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f2f3f5',
+  },
+
+  lastPunchText: {
+    flex: 2,
+    flexDirection: 'column',
+  },
+
+  colorWhite: {
+    color: 'white',
+  },
+
+  flexFour: {
+    flex: 4,
+  },
+  flexTwo: {
+    flex: 2,
+  },
+  flexThree: {
+    flex: 3,
+  },
+  centerItems: {
+    alignItems: 'center',
+  },
+
+  rowFlexDirection: {
+    flexDirection: 'row',
+  },
+  hoursView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 5,
+  },
 });
 
-interface PunchProps extends WithTheme, ConnectedProps<typeof connector> {
+interface PunchProps
+  extends WithTheme,
+    WithGlobals,
+    ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
 }
 
 interface PunchState {
   note: string;
   typingNote: boolean;
+  duration: string;
 }
 
 const mapStateToProps = (state: RootState) => ({
   punchStatus: selectPunchStatus(state),
   punchCurrentDateTime: selectPunchCurrentDateTime(state),
   savedNote: selectSavedPunchNote(state),
+  currentRoute: selectCurrentRoute(state),
 });
 
 const mapDispatchToProps = {
@@ -481,4 +513,5 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 const PunchWithTheme = withTheme<PunchProps>()(Punch);
 
-export default connector(PunchWithTheme);
+const PunchWithGlobals = withGlobals<PunchProps>()(PunchWithTheme);
+export default connector(PunchWithGlobals);

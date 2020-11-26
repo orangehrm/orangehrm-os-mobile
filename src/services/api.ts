@@ -23,6 +23,8 @@ import {AuthenticationError} from 'services/errors/authentication';
 import {InstanceCheckError} from 'services/errors/instance-check';
 
 export const HTTP_NOT_FOUND = 404;
+export const HTTP_ACCEPTED = 202;
+export const HTTP_SUCCESS = 200;
 
 /**
  * Compare given ISO date with now.
@@ -73,6 +75,8 @@ export const getMessageAlongWithResponseErrors = (
   if (response instanceof Object && !Array.isArray(response)) {
     if (parseInt(response.error?.status, 10) === HTTP_NOT_FOUND) {
       return 'No Records Found.';
+    } else if (parseInt(response.error?.status, 10) === HTTP_ACCEPTED) {
+      return response.error.text;
     } else if (Array.isArray(response.error)) {
       if (
         [

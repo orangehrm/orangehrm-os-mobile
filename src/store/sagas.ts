@@ -28,7 +28,6 @@ import {watchAssignLeaveActions} from 'store/leave/assign-leave/sagas';
 import {watchCommonScreensActions} from 'store/leave/common-screens/sagas';
 import {watchPunchStatusActions} from 'store/time/attendance/sagas';
 
-
 export default function* rootSaga() {
   yield all([
     call(loadAsyncStorage),

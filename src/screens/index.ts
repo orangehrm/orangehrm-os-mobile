@@ -46,8 +46,7 @@ export const ASSIGN_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS =
   'AssignLeavePickLeaveRequestPartialDays';
 export const MY_LEAVE_DETAILS = 'MyLeaveDetails';
 export const LEAVE_REQUEST_SUCCESS = 'LeaveRequestSuccess';
-export const PUNCH_IN_REQUEST_SUCCESS = 'PunchInRequestSuccess';
-export const PUNCH_OUT_REQUEST_SUCCESS = 'PunchOutRequestSuccess';
+export const PUNCH_REQUEST_SUCCESS = 'PunchRequestSuccess';
 export const FULL_SCREEN_INFO = 'FullScreenInfo';
 export const NO_EMPLOYEE_INFO = 'NoEmployeeInfo';
 
