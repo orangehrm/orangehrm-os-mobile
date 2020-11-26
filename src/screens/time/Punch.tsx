@@ -97,7 +97,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
         this.timeInterval === null &&
         this.props.punchStatus?.dateTimeEditable === false
       ) {
-        this.timeInterval = setInterval(this.onRefresh, 2000);
+        this.timeInterval = setInterval(this.onRefresh, 30000);
       } else {
         clearInterval(this.timeInterval);
         this.timeInterval = null;
