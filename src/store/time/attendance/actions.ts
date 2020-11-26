@@ -13,7 +13,7 @@ import {
   PunchOutRequestAction,
   ResetPunchStateAction,
   PunchStatus,
-  RESET_PUNCH_STATE
+  RESET_PUNCH_STATE,
 } from './types';
 import {$PropertyType} from 'utility-types';
 

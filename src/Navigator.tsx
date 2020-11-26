@@ -197,10 +197,10 @@ const Navigator = (props: NavigatorProps) => {
                         </>
                       ) : null}
                       <Drawer.Screen
-                          name={PUNCH}
-                          component={Punch}
-                          options={{drawerLabel: 'Punch In/Out'}}
-                          initialParams={{subheader: SUBHEADER_TIME}}
+                        name={PUNCH}
+                        component={Punch}
+                        options={{drawerLabel: 'Punch In/Out'}}
+                        initialParams={{subheader: SUBHEADER_TIME}}
                       />
                     </>
                   )}

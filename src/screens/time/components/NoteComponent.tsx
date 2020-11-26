@@ -28,13 +28,11 @@ import {
 } from 'react-native';
 import useTheme from 'lib/hook/useTheme';
 import Text from 'components/DefaultText';
-import CardButton from 'screens/leave/components/CardButton';
 import Icon from 'components/DefaultIcon';
 import IconButton, {IconButtonProps} from 'components/DefaultIconButton';
 import TextInput, {TextInputProps} from 'components/DefaultTextInput';
 import {$PropertyType} from 'utility-types';
 import Divider from 'components/DefaultDivider';
-import { color } from 'react-native-reanimated';
 
 const PickNote = (props: PickNoteProps) => {
   const {onPress, note} = props;
@@ -43,26 +41,32 @@ const PickNote = (props: PickNoteProps) => {
     <>
       <View>
         <TouchableWithoutFeedback
-          style={[
-            styles.cardButton,
-            styles.marginForShadow,
-          ]}
+          style={[styles.cardButton, styles.marginForShadow]}
           onPress={onPress}>
           <View style={[styles.cardButtonContent]}>
             <View style={styles.buttonLeftView}>
-              <Icon name={'comment-text'} style={{paddingLeft: theme.spacing *3}} />
-              <Text style={{paddingTop: theme.spacing * 0.5,paddingBottom: theme.spacing * 5, paddingLeft: theme.spacing * 3}}>{'Add Note'}</Text>
+              <Icon
+                name={'comment-text'}
+                style={{paddingLeft: theme.spacing * 3}}
+              />
+              <Text
+                style={{
+                  paddingTop: theme.spacing * 0.5,
+                  paddingBottom: theme.spacing * 1,
+                  paddingLeft: theme.spacing * 3,
+                }}>
+                {'Add Note'}
+              </Text>
             </View>
           </View>
         </TouchableWithoutFeedback>
         {note && note !== '' ? (
           <>
             <Divider />
-            <Divider />
             <TouchableWithoutFeedback onPress={onPress}>
               <View
                 style={{
-                  paddingTop: theme.spacing * 7,
+                  paddingTop: theme.spacing * 1,
                   paddingRight: theme.spacing * 3,
                   paddingLeft: theme.spacing * 3,
                   paddingVertical: theme.spacing * 4,
@@ -86,7 +90,7 @@ interface PickNoteProps {
 const styles = StyleSheet.create({
   buttonLeftView: {
     flexDirection: 'row',
-    paddingBottom: 16
+    paddingBottom: 16,
   },
   cardButtonContent: {
     flex: 1,
@@ -141,7 +145,7 @@ export const PickNoteFooter = React.forwardRef<
   RNTextInput,
   PickNoteFooterProps
 >((props, ref) => {
-  const {value: comment, onChangeText, autoFocus, ...buttonProps} = props;
+  const {value: comment, onChangeText, ...buttonProps} = props;
   const theme = useTheme();
   return (
     <View
@@ -161,7 +165,10 @@ export const PickNoteFooter = React.forwardRef<
         />
       </View>
       <View style={{paddingTop: theme.spacing * 0.5}}>
-        <IconButton iconProps={{name: 'send' , color:'red'}} buttonProps={buttonProps} />
+        <IconButton
+          iconProps={{name: 'send', color: 'red'}}
+          buttonProps={buttonProps}
+        />
       </View>
     </View>
   );
@@ -169,4 +176,6 @@ export const PickNoteFooter = React.forwardRef<
 
 export interface PickNoteFooterProps
   extends Pick<TextInputProps, 'onChangeText' | 'value' | 'autoFocus'>,
-    NonNullable<$PropertyType<IconButtonProps, 'buttonProps'>> {}
+    NonNullable<$PropertyType<IconButtonProps, 'buttonProps'>> {
+  onPress;
+}
