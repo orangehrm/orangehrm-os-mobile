@@ -19,7 +19,14 @@
  */
 
 import moment from 'moment';
-
+import {LEAVE_TYPE_COLORS} from './leave';
+import {
+  GraphRecordsObject,
+  GraphDataPoint,
+  WorkSummaryObject,
+  LeaveTypeGraphData,
+} from 'store/time/my-attendance/types';
+import {MutableKeys} from 'utility-types';
 /**
  *
  * @param dateString  // input format '2020-12-25 13:26'
@@ -78,10 +85,23 @@ const calculateDurationUsingSavedFormat = (
     let dt1 = getDateObjectFromSaveFormat(datetime1);
     let dt2 = getDateObjectFromSaveFormat(datetime2);
 
-    let minutes = (dt2.getTime() - dt1.getTime()) / (1000 * 60);
+    let minutes = Math.round((dt2.getTime() - dt1.getTime()) / (1000 * 60));
     if (minutes < 0) {
       return NEGATIVE_DURATION;
     }
+    let durationHours = setTwoDigits(
+      ((minutes - (minutes % 60)) / 60).toString(),
+    );
+    let durationMinutes = setTwoDigits((minutes % 60).toString());
+    return durationHours + ':' + durationMinutes;
+  } else {
+    return '00:00';
+  }
+};
+
+const getDurationFromHours = (hours?: number) => {
+  if (hours) {
+    let minutes = Math.round(hours * 60);
     let durationHours = setTwoDigits(
       ((minutes - (minutes % 60)) / 60).toString(),
     );
@@ -116,11 +136,93 @@ const formatLastRecordDetails = (
   }
 };
 
+const convertDateObjectToStringFormat = (
+  dateObject: moment.Moment,
+  format: string,
+) => {
+  return dateObject.format(format);
+};
+
 /**
  *
  */
 const getCurrentTimeZoneOffset = () => {
   return moment().utcOffset() / 60;
+};
+
+const dayMapper = {
+  sunday: 'Su',
+  monday: 'Mo',
+  tuesday: 'Tu',
+  wednesday: 'We',
+  thursday: 'Th',
+  friday: 'Fr',
+  saturday: 'Sa',
+};
+
+const getLeaveColourById = (id: string) => {
+  return LEAVE_TYPE_COLORS[parseInt(id, 10) % LEAVE_TYPE_COLORS.length];
+};
+
+const calculateWorkData = (graphRecordsInputData: GraphRecordsObject) => {
+  const workGraphData: GraphDataPoint[] = [];
+  let days = Object.keys(graphRecordsInputData.workSummary);
+  days.forEach((day) => {
+    const key = <MutableKeys<WorkSummaryObject>>day;
+    let hours = graphRecordsInputData.workSummary[key].workHours;
+    let data: GraphDataPoint = {
+      x: dayMapper[key],
+      y: hours,
+    };
+    workGraphData.push(data);
+  });
+  return workGraphData;
+};
+
+const calculateGraphData = (leaveTypesInputData: GraphRecordsObject) => {
+  const leaveGraphData: LeaveTypeGraphData[] = [];
+
+  let leaveTypeIds: string[] = [];
+  leaveTypesInputData.totalLeaveTypeHours.forEach((leave) => {
+    leaveTypeIds.push(leave.typeId);
+  });
+  leaveTypeIds.forEach((id) => {
+    let leaveTypeGraphData: LeaveTypeGraphData;
+    let data: GraphDataPoint[] = [];
+    let colour: string = getLeaveColourById(id);
+
+    let days = Object.keys(leaveTypesInputData.workSummary);
+
+    days.forEach((day) => {
+      const key = <MutableKeys<WorkSummaryObject>>day;
+
+      let filteredLeaves = leaveTypesInputData.workSummary[key].leave.filter(
+        (leave) => {
+          return leave.typeId === id;
+        },
+      );
+      let singleData: GraphDataPoint;
+      if (filteredLeaves.length === 0) {
+        singleData = {
+          x: dayMapper[key],
+          y: 0,
+        };
+      } else {
+        singleData = {
+          x: dayMapper[key],
+          y: filteredLeaves[0].hours,
+        };
+      }
+      data.push(singleData);
+    });
+    leaveTypeGraphData = {
+      id: id,
+      colour: colour,
+      data: data,
+    };
+    leaveGraphData.push(leaveTypeGraphData);
+  });
+  return leaveGraphData;
 };
 
 export {
@@ -130,4 +232,9 @@ export {
   formatLastRecordDetails,
   getCurrentTimeZoneOffset,
   NEGATIVE_DURATION,
+  convertDateObjectToStringFormat,
+  getDurationFromHours,
+  calculateGraphData,
+  calculateWorkData,
+  getLeaveColourById,
 };

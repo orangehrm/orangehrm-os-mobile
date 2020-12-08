@@ -64,6 +64,7 @@ import {
   SUBHEADER_LEAVE,
   SUBHEADER_TIME,
   PUNCH,
+  ATTENDANCE_SUMMARY,
 } from 'screens';
 
 import ApplyLeave from 'screens/leave/navigators/ApplyLeaveNavigator';
@@ -71,6 +72,7 @@ import MyLeaveUsage from 'screens/leave/navigators/MyLeaveUsageNavigator';
 import LeaveList from 'screens/leave/navigators/LeaveListNavigator';
 import AssignLeave from 'screens/leave/navigators/AssignLeaveNavigator';
 import Punch from 'screens/time/navigators/PunchNavigator';
+import AttendanceSummary from 'screens/time/navigators/AttendanceSummaryNavigator';
 import FullScreenInfo from 'screens/common/FullScreenInfo';
 import NoEmployeeInfo from 'screens/common/NoEmployeeInfo';
 import DrawerContent from 'layouts/DrawerContent';
@@ -200,6 +202,12 @@ const Navigator = (props: NavigatorProps) => {
                         name={PUNCH}
                         component={Punch}
                         options={{drawerLabel: 'Punch In/Out'}}
+                        initialParams={{subheader: SUBHEADER_TIME}}
+                      />
+                      <Drawer.Screen
+                        name={ATTENDANCE_SUMMARY}
+                        component={AttendanceSummary}
+                        options={{drawerLabel: 'My Attendance'}}
                         initialParams={{subheader: SUBHEADER_TIME}}
                       />
                     </>
