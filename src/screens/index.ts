@@ -37,7 +37,8 @@ export const LEAVE_DAYS = 'LeaveDays';
 export const LEAVE_COMMENTS = 'LeaveComments';
 export const ASSIGN_LEAVE = 'AssignLeave';
 export const PUNCH = 'Punch';
-
+export const ATTENDANCE_SUMMARY = 'AttendanceSummary';
+export const ATTENDANCE_DETAILS = 'Attendancedetails';
 export const ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR =
   'AssignLeavePickLeaveRequestDaysCalendar';
 export const ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DURATION =
