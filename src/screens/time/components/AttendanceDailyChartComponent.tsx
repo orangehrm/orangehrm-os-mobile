@@ -47,17 +47,12 @@ const AttendanceDailyChartComponent = (
               tickLabelComponent={
                 <VictoryLabel
                   text={(datum) => {
-                    let maxYPoint = 8;
                     console.log(datum.ticks);
                     let tickValue = datum.ticks[datum.index];
                     if (Number.isInteger(tickValue)) {
                       return tickValue + ' Hrs';
                     } else {
-                      if (maxYPoint < 1 && maxYPoint > 0) {
-                        return tickValue + ' Hrs';
-                      } else {
-                        return '';
-                      }
+                      return '';
                     }
                   }}
                 />
@@ -186,7 +181,6 @@ interface AttendanceDailyChartComponentProps {
   graphLeaveData: LeaveTypeGraphData[];
   graphWorkData: GraphDataPoint[];
   dateOfMonth: string[];
-  updateSelectedDateCallBack: (selectedDate: string) => void;
 }
 
 export default AttendanceDailyChartComponent;

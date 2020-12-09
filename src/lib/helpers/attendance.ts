@@ -143,9 +143,6 @@ const convertDateObjectToStringFormat = (
   return dateObject.format(format);
 };
 
-/**
- *
- */
 const getCurrentTimeZoneOffset = () => {
   return moment().utcOffset() / 60;
 };
@@ -172,7 +169,7 @@ const calculateWorkData = (graphRecordsInputData: GraphRecordsObject) => {
     let hours = graphRecordsInputData.workSummary[key].workHours;
     let data: GraphDataPoint = {
       x: dayMapper[key],
-      y: hours,
+      y: parseFloat(hours),
     };
     workGraphData.push(data);
   });
@@ -210,7 +207,7 @@ const calculateGraphData = (leaveTypesInputData: GraphRecordsObject) => {
       } else {
         singleData = {
           x: dayMapper[key],
-          y: filteredLeaves[0].hours,
+          y: parseFloat(filteredLeaves[0].hours),
         };
       }
       data.push(singleData);
