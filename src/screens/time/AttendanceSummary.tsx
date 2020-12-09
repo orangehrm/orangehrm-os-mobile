@@ -69,10 +69,10 @@ class AttendanceSummary extends React.Component<
       endDayIndex: 6,
       weekStartDate: moment().weekday(0),
       weekEndDate: moment().weekday(6),
-      dateOfMonth: [],
       singleLeaveTypeData: [],
+      dateOfMonth: this.calculateDateOfMonth(0, 6),
+      graphWorkData: startGraphWorkData,
       graphLeaveData: [],
-      graphWorkData: [],
     };
 
     this.fetchData(this.state.weekStartDate, this.state.weekEndDate);
@@ -110,7 +110,9 @@ class AttendanceSummary extends React.Component<
         typeId: leaveTypesInputData[i].typeId,
         type: leaveTypesInputData[i].type,
         colour: getLeaveColourById(leaveTypesInputData[i].typeId),
-        duration: getDurationFromHours(leaveTypesInputData[i].hours),
+        duration: getDurationFromHours(
+          parseFloat(leaveTypesInputData[i].hours),
+        ),
       };
       result.push(graphLeaveType);
     }
@@ -163,6 +165,8 @@ class AttendanceSummary extends React.Component<
         weekStartDate: moment().day(countStart),
         weekEndDate: moment().day(countEnd),
         dateOfMonth: this.calculateDateOfMonth(countStart, countEnd),
+        graphWorkData: startGraphWorkData,
+        graphLeaveData: [],
       },
       () => {
         this.fetchData(this.state.weekStartDate, this.state.weekEndDate);
@@ -181,6 +185,8 @@ class AttendanceSummary extends React.Component<
           weekStartDate: moment().day(countStart),
           weekEndDate: moment().day(countEnd),
           dateOfMonth: this.calculateDateOfMonth(countStart, countEnd),
+          graphWorkData: startGraphWorkData,
+          graphLeaveData: [],
         },
         () => {
           this.fetchData(this.state.weekStartDate, this.state.weekEndDate);
@@ -309,6 +315,16 @@ const styles = StyleSheet.create({
     margin: 5,
   },
 });
+
+const startGraphWorkData = [
+  {x: 'Su', y: 0},
+  {x: 'Mo', y: 0},
+  {x: 'Tu', y: 0},
+  {x: 'We', y: 0},
+  {x: 'Th', y: 0},
+  {x: 'Fr', y: 0},
+  {x: 'Sa', y: 0},
+];
 
 interface AttendanceSummaryProps
   extends WithTheme,

@@ -112,11 +112,11 @@ export interface MyAttendanceState {
 export interface SingleLeave {
   typeId: string;
   type: string;
-  hours: number;
+  hours: string;
 }
 
 export interface WorkSummarySingleDay {
-  workHours: number;
+  workHours: string;
   leave: SingleLeave[];
 }
 

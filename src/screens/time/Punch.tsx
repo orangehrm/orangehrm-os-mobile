@@ -85,6 +85,9 @@ class Punch extends React.Component<PunchProps, PunchState> {
   }
 
   componentDidUpdate(prevProps: PunchProps) {
+    if (this.props.currentRoute === PUNCH && prevProps.currentRoute !== PUNCH) {
+      this.onRefresh();
+    }
     if (
       prevProps.currentRoute !== this.props.currentRoute ||
       prevProps.punchStatus?.dateTimeEditable !==

@@ -76,6 +76,9 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
+          pendingApproval: 'true',
+          scheduled: 'true',
+          taken: 'true',
         },
       ),
     );
@@ -115,6 +118,9 @@ function* fetchAttendanceGraphRecords(
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
+          pendingApproval: 'true',
+          scheduled: 'true',
+          taken: 'true',
         },
       ),
     );
