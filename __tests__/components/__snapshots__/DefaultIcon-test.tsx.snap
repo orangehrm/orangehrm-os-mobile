@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/DefaultIcon test DefaultIcon component 1`] = `
+<Text
+  allowFontScaling={false}
+  style={
+    Array [
+      Object {
+        "color": undefined,
+        "fontSize": 12,
+      },
+      Array [
+        Object {
+          "color": "#000",
+          "fontSize": 30,
+        },
+        Object {
+          "color": "#000",
+          "fontSize": 30,
+        },
+        Object {
+          "color": "#818181",
+          "fontSize": 20,
+        },
+        undefined,
+      ],
+      Object {
+        "fontFamily": "Material Design Icons",
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      },
+      Object {},
+    ]
+  }
+  type="MaterialCommunityIcons"
+>
+  󰐕
+</Text>
+`;
