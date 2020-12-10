@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/ProfilePicture test ProfilePicture component 1`] = `
+<View>
+  <View
+    accessibilityIgnoresInvertColors={true}
+    style={Object {}}
+  >
+    <Image
+      source={
+        Object {
+          "testUri": "../../../src/images/default-photo.png",
+        }
+      }
+      style={
+        Array [
+          Object {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          },
+          Object {
+            "height": undefined,
+            "width": undefined,
+          },
+          Object {
+            "opacity": 0.5,
+            "resizeMode": "cover",
+          },
+        ]
+      }
+    />
+    <View>
+      <View
+        style={
+          Object {
+            "elevation": 4,
+          }
+        }
+      >
+        <Image
+          large={true}
+          source={
+            Object {
+              "testUri": "../../../src/images/default-photo.png",
+            }
+          }
+          style={
+            Array [
+              Object {
+                "borderRadius": 40,
+                "height": 80,
+                "width": 80,
+              },
+              Object {
+                "margin": 16,
+              },
+            ]
+          }
+        />
+      </View>
+      <View
+        style={
+          Object {
+            "marginBottom": 16,
+            "marginLeft": 16,
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#818181",
+              },
+              undefined,
+              Array [
+                Object {
+                  "fontWeight": "bold",
+                },
+                Object {
+                  "color": "#000000",
+                },
+              ],
+            ]
+          }
+        >
+          Employee Name
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

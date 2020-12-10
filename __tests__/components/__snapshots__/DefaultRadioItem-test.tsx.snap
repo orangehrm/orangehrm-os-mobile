@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/DefaultRadioItem test DefaultRadioItem component 1`] = `
+<View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      Object {
+        "flex": 1,
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+      },
+      undefined,
+      undefined,
+    ]
+  }
+>
+  <Text
+    style={
+      Array [
+        Object {
+          "color": "#818181",
+        },
+        undefined,
+        undefined,
+      ]
+    }
+  >
+    Test Item
+  </Text>
+  <View
+    accessible={true}
+    focusable={false}
+    forwardedRef={[Function]}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+  >
+    <Text
+      allowFontScaling={false}
+      style={
+        Array [
+          Object {
+            "color": undefined,
+            "fontSize": 12,
+          },
+          Object {
+            "color": "#f88400",
+            "fontSize": 25,
+            "height": 20,
+            "lineHeight": 25,
+          },
+          Object {
+            "fontFamily": "Ionicons",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          Object {},
+        ]
+      }
+    >
+      
+    </Text>
+  </View>
+</View>
+`;

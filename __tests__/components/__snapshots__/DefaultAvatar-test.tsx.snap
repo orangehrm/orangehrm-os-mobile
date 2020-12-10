@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/DefaultAvatar test avatar component 1`] = `
+<Image
+  source={
+    Object {
+      "testUri": "../../../src/images/default-photo.png",
+    }
+  }
+  style={
+    Object {
+      "borderRadius": 28,
+      "height": 56,
+      "width": 56,
+    }
+  }
+/>
+`;
+
+exports[`components/DefaultAvatar test large avatar component 1`] = `
+<Image
+  large={true}
+  source={
+    Object {
+      "testUri": "../../../src/images/default-photo.png",
+    }
+  }
+  style={
+    Object {
+      "borderRadius": 40,
+      "height": 80,
+      "width": 80,
+    }
+  }
+/>
+`;
+
+exports[`components/DefaultAvatar test small avatar component 1`] = `
+<Image
+  small={true}
+  source={
+    Object {
+      "testUri": "../../../src/images/default-photo.png",
+    }
+  }
+  style={
+    Object {
+      "borderRadius": 18,
+      "height": 36,
+      "width": 36,
+    }
+  }
+/>
+`;

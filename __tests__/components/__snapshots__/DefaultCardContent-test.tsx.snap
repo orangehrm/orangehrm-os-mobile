@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/DefaultCardContent test DefaultCardContent component 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "width": "100%",
+      },
+      Object {
+        "borderRadius": 4,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "orange",
+      }
+    }
+  />
+</View>
+`;

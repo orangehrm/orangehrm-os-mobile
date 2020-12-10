@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/DefaultText test DefaultText component 1`] = `
+<Text
+  style={
+    Array [
+      Object {
+        "color": "#818181",
+      },
+      undefined,
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
