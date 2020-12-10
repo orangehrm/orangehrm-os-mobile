@@ -22,6 +22,7 @@ import {
   checkInstanceCompatibility,
   checkRemovedEndpoints,
   checkDeprecatedEndpoints,
+  isApiCompatible,
 } from 'services/instance-check';
 
 const DUMMY_OPEN_API_DEFINITION = {
@@ -103,5 +104,17 @@ describe('services/instance-check', () => {
   test('checkDeprecatedEndpoints::check without deprecated enpoints', () => {
     const result = checkDeprecatedEndpoints({...DUMMY_OPEN_API_DEFINITION});
     expect(result).toBeFalsy();
+  });
+
+  test('isApiCompatible::check incompatible', () => {
+    const result = isApiCompatible('1.1.0', '1.2.0');
+    expect(result).toBeFalsy();
+  });
+
+  test('isApiCompatible::check compatible', () => {
+    let result = isApiCompatible('1.2.0', '1.2.0');
+    expect(result).toBeTruthy();
+    result = isApiCompatible('1.3.0', '1.2.0');
+    expect(result).toBeTruthy();
   });
 });

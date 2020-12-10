@@ -27,6 +27,8 @@ import storage, {
   EXPIRES_AT,
   SCOPE,
   TOKEN_TYPE,
+  INSTANCE_API_VERSION,
+  INSTANCE_API_PATHS,
 } from 'services/storage';
 import {storageSetMulti, storageChangeLoaded} from 'store/saga-effects/storage';
 import {
@@ -48,6 +50,8 @@ export function* loadAsyncStorage() {
       EXPIRES_AT,
       SCOPE,
       TOKEN_TYPE,
+      INSTANCE_API_VERSION,
+      INSTANCE_API_PATHS,
     ];
     const keyValuePairs = yield call(storage.multiGet, keys);
     // update redux store

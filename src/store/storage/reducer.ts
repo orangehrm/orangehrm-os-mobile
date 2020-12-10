@@ -34,6 +34,8 @@ import {
   EXPIRES_AT,
   SCOPE,
   TOKEN_TYPE,
+  INSTANCE_API_VERSION,
+  INSTANCE_API_PATHS,
 } from 'services/storage';
 
 const initialState: StorageState = {
@@ -44,6 +46,8 @@ const initialState: StorageState = {
   [EXPIRES_AT]: null,
   [SCOPE]: null,
   [TOKEN_TYPE]: null,
+  [INSTANCE_API_VERSION]: null,
+  [INSTANCE_API_PATHS]: null,
   loaded: false,
   fetchingAccessTokenLock: false,
 };

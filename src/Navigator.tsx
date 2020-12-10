@@ -47,6 +47,7 @@ import {USER_ROLE_ADMIN} from 'store/auth/types';
 import {selectInitialRoute} from 'store/globals/selectors';
 import {navigationRef, getNavigation} from 'lib/helpers/navigation';
 import useGlobals from 'lib/hook/useGlobals';
+import useApiDetails from 'lib/hook/useApiDetails';
 
 import Login from 'screens/login/Login';
 import SelectInstance from 'screens/login/SelectInstance';
@@ -66,6 +67,7 @@ import {
   PUNCH,
   ATTENDANCE_SUMMARY,
 } from 'screens';
+import {ORANGEHRM_API_1$2$0} from 'services/instance-check';
 
 import ApplyLeave from 'screens/leave/navigators/ApplyLeaveNavigator';
 import MyLeaveUsage from 'screens/leave/navigators/MyLeaveUsageNavigator';
@@ -73,7 +75,7 @@ import LeaveList from 'screens/leave/navigators/LeaveListNavigator';
 import AssignLeave from 'screens/leave/navigators/AssignLeaveNavigator';
 import Punch from 'screens/time/navigators/PunchNavigator';
 import AttendanceSummary from 'screens/time/navigators/AttendanceSummaryNavigator';
-import FullScreenInfo from 'screens/common/FullScreenInfo';
+import FullScreenInfo from 'screens/common/navigators/FullScreenInfoNavigator';
 import NoEmployeeInfo from 'screens/common/NoEmployeeInfo';
 import DrawerContent from 'layouts/DrawerContent';
 import Overlay from 'components/DefaultOverlay';
@@ -96,6 +98,7 @@ const Navigator = (props: NavigatorProps) => {
   const dimensions = useWindowDimensions();
   const [isSubscribed, setIsSubscribed] = useState(false);
   const {changeCurrentRoute} = useGlobals();
+  const {isApiCompatible} = useApiDetails();
 
   const onRouteChange = () => {
     const currentRoute = getNavigation()?.getCurrentRoute()?.name;
@@ -153,21 +156,16 @@ const Navigator = (props: NavigatorProps) => {
               drawerContent={(drawerContentProps: any) => (
                 <DrawerContent {...drawerContentProps} />
               )}>
-              {enabledModules !== undefined &&
-              (!enabledModules.modules.leave ||
-                !enabledModules.meta.leave.isLeavePeriodDefined) ? (
+              {myInfoFailed === true ? (
                 <Drawer.Screen
-                  name={FULL_SCREEN_INFO}
-                  component={FullScreenInfo}
+                  name={NO_EMPLOYEE_INFO}
+                  component={NoEmployeeInfo}
                 />
               ) : (
                 <>
-                  {myInfoFailed === true ? (
-                    <Drawer.Screen
-                      name={NO_EMPLOYEE_INFO}
-                      component={NoEmployeeInfo}
-                    />
-                  ) : (
+                  {enabledModules !== undefined &&
+                  enabledModules.modules.leave &&
+                  enabledModules.meta.leave.isLeavePeriodDefined ? (
                     <>
                       <Drawer.Screen
                         name={APPLY_LEAVE}
@@ -198,6 +196,14 @@ const Navigator = (props: NavigatorProps) => {
                           />
                         </>
                       ) : null}
+                    </>
+                  ) : null}
+
+                  {isApiCompatible(ORANGEHRM_API_1$2$0) &&
+                  enabledModules !== undefined &&
+                  enabledModules.modules.time &&
+                  enabledModules.meta.time.isTimesheetPeriodDefined ? (
+                    <>
                       <Drawer.Screen
                         name={PUNCH}
                         component={Punch}
@@ -211,7 +217,13 @@ const Navigator = (props: NavigatorProps) => {
                         initialParams={{subheader: SUBHEADER_TIME}}
                       />
                     </>
-                  )}
+                  ) : null}
+
+                  {/* fallback info page */}
+                  <Drawer.Screen
+                    name={FULL_SCREEN_INFO}
+                    component={FullScreenInfo}
+                  />
                 </>
               )}
             </Drawer.Navigator>

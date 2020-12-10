@@ -29,6 +29,7 @@ import {
   CheckInstanceAction,
   FetchEnabledModulesAction,
   FETCH_ENABLED_MODULES,
+  FETCH_NEW_TOKEN_FINISHED,
 } from 'store/auth/types';
 import {authenticate, checkLegacyInstance} from 'services/authentication';
 import {
@@ -37,6 +38,8 @@ import {
   checkRemovedEndpoints,
   checkDeprecatedEndpoints,
   getEnabledModules,
+  getOpenApiDefinition,
+  getOpenApiDefinitionPaths,
 } from 'services/instance-check';
 import {
   USERNAME,
@@ -46,6 +49,8 @@ import {
   TOKEN_TYPE,
   EXPIRES_AT,
   INSTANCE_URL,
+  INSTANCE_API_VERSION,
+  INSTANCE_API_PATHS,
 } from 'services/storage';
 import {
   openLoader,
@@ -348,10 +353,41 @@ function* fetchMyInfo() {
   }
 }
 
+function* fetchApiDefinition() {
+  try {
+    const instanceUrl: string = yield selectInstanceUrl();
+    const response: Response = yield call(getOpenApiDefinition, instanceUrl);
+    const apiDefinition = yield call([response, response.json]);
+
+    checkInstanceCompatibility(apiDefinition);
+    checkRemovedEndpoints(apiDefinition);
+    const usingDeprecatedEndpoints = checkDeprecatedEndpoints(apiDefinition);
+    if (usingDeprecatedEndpoints) {
+      yield showSnackMessage('Please Update the Application.', TYPE_WARN);
+    }
+
+    const apiVersion = apiDefinition?.info?.version;
+    const apiPaths = Object.keys(getOpenApiDefinitionPaths(apiDefinition));
+    yield storageSetMulti({
+      [INSTANCE_API_VERSION]: apiVersion ? apiVersion : null,
+      [INSTANCE_API_PATHS]: apiPaths ? JSON.stringify(apiPaths) : null,
+    });
+  } catch (error) {
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(
+        error,
+        'Failed to Fetch API Definition.',
+      ),
+      TYPE_ERROR,
+    );
+  }
+}
+
 export function* watchAuthActions() {
   yield takeEvery(FETCH_TOKEN, fetchAuthToken);
   yield takeEvery(LOGOUT, logout);
   yield takeEvery(FETCH_MY_INFO, fetchMyInfo);
   yield takeEvery(CHECK_INSTANCE, checkInstance);
   yield takeEvery(FETCH_ENABLED_MODULES, fetchEnabledModules);
+  yield takeEvery(FETCH_NEW_TOKEN_FINISHED, fetchApiDefinition);
 }
