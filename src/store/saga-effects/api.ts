@@ -36,7 +36,7 @@ import {
 } from 'store/storage/types';
 import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams} from 'store/storage/types';
-import {logout} from 'store/auth/actions';
+import {logout, fetchNewAuthTokenFinished} from 'store/auth/actions';
 import {AuthenticationError} from 'services/errors/authentication';
 
 export function* apiCall<Fn extends (...args: any[]) => any>(
@@ -82,6 +82,7 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
           [SCOPE]: data.scope,
           [EXPIRES_AT]: getExpiredAt(data.expires_in),
         });
+        yield put(fetchNewAuthTokenFinished());
       } else {
         if (data.error === 'authentication_failed') {
           // employee not assigned, terminated, disabled

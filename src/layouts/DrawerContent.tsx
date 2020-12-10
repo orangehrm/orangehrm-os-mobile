@@ -120,7 +120,6 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
                 <View style={{marginLeft: theme.spacing * 4}}>
                   <DrawerItem
                     label={drawerItem.label}
-                    labelStyle={{color: theme.typography.primaryColor}}
                     onPress={() => {
                       drawerContentProps.navigation.closeDrawer();
                       drawerContentProps.navigation.dispatch(

@@ -22,6 +22,9 @@ import {EndpointError} from 'services/errors/endpoints';
 
 export const API_ENDPOINT_AUTH_ISSUE_TOKEN = '/oauth/issueToken';
 export const API_ENDPOINT_MY_INFO = '/api/v1/myinfo';
+export const API_ENDPOINT_EMPLOYEES = '/api/v1/employees';
+
+// leave
 export const API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT =
   '/api/v1/leave/my-leave-entitlement';
 export const API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST =
@@ -32,18 +35,20 @@ export const API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT =
   '/api/v1/subordinate/{id}/leave-entitlement';
 export const API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST =
   '/api/v1/subordinate/{id}/leave-request';
-export const API_ENDPOINT_EMPLOYEES = '/api/v1/employees';
 export const API_ENDPOINT_LEAVE_HOLIDAYS = '/api/v1/leave/holidays';
 export const API_ENDPOINT_LEAVE_PERIODS = '/api/v1/leave/leave-periods';
 export const API_ENDPOINT_LEAVE_WORK_SHIFT = '/api/v1/leave/work-shift';
 export const API_ENDPOINT_LEAVE_WORK_WEEK = '/api/v1/leave/work-week';
 export const API_ENDPOINT_LEAVE_TYPES = '/api/v1/leave/leave-types';
+
+// attendance
 export const API_ENDPOINT_PUNCH_STATUS = '/api/v1/attendance/punch-status';
 export const API_ENDPOINT_PUNCH_IN_REQUEST = '/api/v1/attendance/punch-in';
 export const API_ENDPOINT_PUNCH_OUT_REQUEST = '/api/v1/attendance/punch-out';
 export const API_ENDPOINT_ATTENDANCE = '/api/v1/attendance-period';
 export const API_ENDPOINT_LEAVE = '/api/v1/leave-period';
 export const API_ENDPOINT_ATTENDANCE_GRAPH = '/api/v1/graph';
+
 // public endpoints
 export const API_ENDPOINT_API_DEFINITION = '/api/v1/api-definition';
 export const API_ENDPOINT_ENABLED_MODULES = '/api/v1/enabled-modules';

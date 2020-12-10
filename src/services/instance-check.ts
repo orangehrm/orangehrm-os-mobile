@@ -57,7 +57,10 @@ export const REQUIRED_ENDPOINTS = {
   [API_ENDPOINT_LEAVE_TYPES]: [HTTP_METHOD_GET],
 };
 
-export const REQUIRED_MINIMUM_ORANGEHRM_API_VER = '1.1.0';
+export const ORANGEHRM_API_1$1$0 = '1.1.0';
+export const ORANGEHRM_API_1$2$0 = '1.2.0';
+
+export const REQUIRED_MINIMUM_ORANGEHRM_API_VER = ORANGEHRM_API_1$1$0;
 
 export const checkInstance = (instanceUrl: string) => {
   return getOpenApiDefinition(instanceUrl);
@@ -168,4 +171,15 @@ export const getEnabledModules = (instanceUrl: string) => {
     headers: headers,
   };
   return fetch(enabledModulesEndpoint, requestOptions);
+};
+
+/**
+ * @param currentVersion Connected OrangeHRM instance API version
+ * @param requiredMinimumVersion Required minimum OrangeHRM API version to function a feature
+ */
+export const isApiCompatible = (
+  currentVersion: string,
+  requiredMinimumVersion: string,
+): boolean => {
+  return gte(currentVersion, requiredMinimumVersion);
 };

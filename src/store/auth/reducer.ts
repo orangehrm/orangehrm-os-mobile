@@ -47,6 +47,7 @@ const authReducer = (
         ...state,
         myInfo: action.payload,
         myInfoSuccess: !action.error,
+        myInfoFailed: action.error,
         isFinishedMyInfo: true,
       };
     case FETCH_MY_INFO:
