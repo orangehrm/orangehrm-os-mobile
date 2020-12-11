@@ -19,7 +19,7 @@
  */
 
 import NetInfo, {NetInfoState} from '@react-native-community/netinfo';
-import {call, takeEvery, put, all} from 'redux-saga/effects';
+import {call, takeEvery, put, all, select} from 'redux-saga/effects';
 import {
   FETCH_TOKEN,
   LOGOUT,
@@ -30,6 +30,8 @@ import {
   FetchEnabledModulesAction,
   FETCH_ENABLED_MODULES,
   FETCH_NEW_TOKEN_FINISHED,
+  FetchMyInfoAction,
+  FetchNewTokenFinishedAction,
 } from 'store/auth/types';
 import {authenticate, checkLegacyInstance} from 'services/authentication';
 import {
@@ -69,9 +71,11 @@ import {
   checkInstanceFinished,
   fetchEnabledModulesFinished,
   myInfoFailed,
+  fetchNewAuthTokenFinished,
 } from 'store/auth/actions';
 import {getExpiredAt} from 'store/auth/helper';
-import {AuthParams} from 'store/storage/types';
+import {AuthParams, ApiDetails} from 'store/storage/types';
+import {selectApiDetails} from 'store/storage/selectors';
 import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
 import {getMessageAlongWithGenericErrors, isJsonParseError} from 'services/api';
 import {API_ENDPOINT_MY_INFO, prepare} from 'services/endpoints';
@@ -294,6 +298,7 @@ function* fetchAuthToken(action: FetchTokenAction) {
           [SCOPE]: data.scope,
           [EXPIRES_AT]: getExpiredAt(data.expires_in),
         });
+        yield put(fetchNewAuthTokenFinished());
       }
     } else {
       yield showSnackMessage('Instance URL is empty.', TYPE_ERROR);
@@ -353,8 +358,21 @@ function* fetchMyInfo() {
   }
 }
 
-function* fetchApiDefinition() {
+function* fetchApiDefinition(
+  action: FetchMyInfoAction | FetchNewTokenFinishedAction,
+) {
   try {
+    // only continue generator if `INSTANCE_API_VERSION` key not available in storage
+    if (action.type === FETCH_MY_INFO) {
+      const apiDetails: ApiDetails = yield select(selectApiDetails);
+      if (
+        apiDetails[INSTANCE_API_VERSION] !== null ||
+        apiDetails[INSTANCE_API_VERSION] !== undefined
+      ) {
+        return;
+      }
+    }
+
     const instanceUrl: string = yield selectInstanceUrl();
     const response: Response = yield call(getOpenApiDefinition, instanceUrl);
     const apiDefinition = yield call([response, response.json]);
@@ -390,4 +408,5 @@ export function* watchAuthActions() {
   yield takeEvery(CHECK_INSTANCE, checkInstance);
   yield takeEvery(FETCH_ENABLED_MODULES, fetchEnabledModules);
   yield takeEvery(FETCH_NEW_TOKEN_FINISHED, fetchApiDefinition);
+  yield takeEvery(FETCH_MY_INFO, fetchApiDefinition);
 }
