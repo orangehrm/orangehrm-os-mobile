@@ -25,5 +25,6 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   rules: {
     'no-console': 1, // warn for console logs
+    'lines-between-class-members': ['error', 'always'],
   },
 };
