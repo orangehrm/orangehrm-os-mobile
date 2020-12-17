@@ -45,9 +45,9 @@ export const API_ENDPOINT_LEAVE_TYPES = '/api/v1/leave/leave-types';
 export const API_ENDPOINT_PUNCH_STATUS = '/api/v1/attendance/punch-status';
 export const API_ENDPOINT_PUNCH_IN_REQUEST = '/api/v1/attendance/punch-in';
 export const API_ENDPOINT_PUNCH_OUT_REQUEST = '/api/v1/attendance/punch-out';
-export const API_ENDPOINT_ATTENDANCE = '/api/v1/attendance-period';
-export const API_ENDPOINT_LEAVE = '/api/v1/leave-period';
-export const API_ENDPOINT_ATTENDANCE_GRAPH = '/api/v1/graph';
+export const API_ENDPOINT_ATTENDANCE = '/api/v1/attendance/records';
+export const API_ENDPOINT_LEAVE = '/api/v1/leave/leaves';
+export const API_ENDPOINT_ATTENDANCE_GRAPH = '/api/v1/attendance/summary';
 
 // public endpoints
 export const API_ENDPOINT_API_DEFINITION = '/api/v1/api-definition';
