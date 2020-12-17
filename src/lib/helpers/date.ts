@@ -18,6 +18,8 @@
  *
  */
 
+export const DEFAULT_DATE_FORMAT = 'ddd, DD MMM YYYY';
+
 /**
  * Return array of dates for given period
  * @param {Date} startDate

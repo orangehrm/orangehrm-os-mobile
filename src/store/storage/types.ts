@@ -28,6 +28,7 @@ import {
   TOKEN_TYPE,
   INSTANCE_API_VERSION,
   INSTANCE_API_PATHS,
+  DATE_FORMAT,
 } from 'services/storage';
 
 export interface StorageState {
@@ -40,6 +41,7 @@ export interface StorageState {
   [TOKEN_TYPE]: NullableString;
   [INSTANCE_API_VERSION]: NullableString;
   [INSTANCE_API_PATHS]: NullableString;
+  [DATE_FORMAT]: NullableString;
   loaded?: boolean;
   error?: any;
   fetchingAccessTokenLock: boolean;

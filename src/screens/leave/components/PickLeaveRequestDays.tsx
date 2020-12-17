@@ -29,6 +29,7 @@ import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Text from 'components/DefaultText';
 import CardButton from 'screens/leave/components/CardButton';
 import Icon from 'components/DefaultIcon';
+import Date from 'components/FormatedDate';
 import {navigate} from 'lib/helpers/navigation';
 import {isSingleDayRequest, isMultipleDayRequest} from 'lib/helpers/leave';
 import {
@@ -209,9 +210,9 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
                     },
                   ]}>
                   <Text>{'From:'}</Text>
-                  <Text style={{color: theme.palette.secondary}}>
+                  <Date style={{color: theme.palette.secondary}}>
                     {fromDate}
-                  </Text>
+                  </Date>
                 </View>
                 <View
                   style={[
@@ -221,9 +222,9 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
                     },
                   ]}>
                   <Text>{'To:'}</Text>
-                  <Text style={{color: theme.palette.secondary}}>
+                  <Date style={{color: theme.palette.secondary}}>
                     {isSingleDayRequest(fromDate, toDate) ? fromDate : toDate}
-                  </Text>
+                  </Date>
                 </View>
               </View>
             </TouchableWithoutFeedback>

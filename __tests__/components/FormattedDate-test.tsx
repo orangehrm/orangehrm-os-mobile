@@ -21,40 +21,50 @@
 import 'react-native';
 import React from 'react';
 import Text from 'components/DefaultText';
+import Date from 'components/FormatedDate';
 import {Provider} from 'react-redux';
 import configureStore from 'store/configureStore';
 import {render} from 'react-native-testing-library';
 const mockStore = configureStore();
 
-describe('components/DefaultText', () => {
-  test('test DefaultText component', () => {
+describe('components/FormatedDate', () => {
+  test('test FormatedDate component', () => {
     const node = render(
       <Provider store={mockStore}>
-        <Text>{'Test'}</Text>
+        <Date>{'2020-12-20'}</Date>
       </Provider>,
     ).toJSON();
     expect(node).toMatchSnapshot();
   });
 
-  test('test DefaultText component: check bold', () => {
+  test('test FormatedDate component: check undefined', () => {
     const node = render(
       <Provider store={mockStore}>
-        <Text bold>{'Test'}</Text>
+        <Date>{undefined}</Date>
       </Provider>,
     ).toJSON();
     expect(node).toMatchSnapshot();
   });
 
-  test('test DefaultText component: check nested', () => {
+  test('test FormatedDate component: check string', () => {
+    const node = render(
+      <Provider store={mockStore}>
+        <Date>{'Test'}</Date>
+      </Provider>,
+    ).toJSON();
+    expect(node).toMatchSnapshot();
+  });
+
+  test('test FormatedDate component: check nested', () => {
     const node = render(
       <Provider store={mockStore}>
         <Text style={{color: 'orange'}}>
-          {'Test'}
-          <Text nested>{'Test'}</Text>
+          <Date>{'2020-12-20'}</Date>
         </Text>
         <Text style={{color: 'orange'}}>
-          {'Test'}
-          <Text>{'Test'}</Text>
+          <Date nested>{'2020-12-20'}</Date>
+          {' to '}
+          <Date nested>{'2020-12-21'}</Date>
         </Text>
       </Provider>,
     ).toJSON();

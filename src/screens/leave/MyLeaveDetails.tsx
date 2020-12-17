@@ -36,6 +36,7 @@ import {
 } from 'store/leave/leave-usage/actions';
 import Text from 'components/DefaultText';
 import Chip from 'components/DefaultChip';
+import Date from 'components/FormatedDate';
 import Avatar from 'components/DefaultAvatar';
 import Button from 'components/DefaultButton';
 import Divider from 'components/DefaultDivider';
@@ -115,10 +116,6 @@ class MyLeaveDetails extends React.Component<
     const {theme, leaveRequestDetail} = this.props;
     const {action} = this.state;
     const leaveTypeColor = leaveRequestDetail?.leaveType.color;
-    const leaveDates =
-      leaveRequestDetail?.fromDate === leaveRequestDetail?.toDate
-        ? leaveRequestDetail?.fromDate
-        : leaveRequestDetail?.fromDate + ' to ' + leaveRequestDetail?.toDate;
     return (
       <MainLayout
         onRefresh={this.onRefresh}
@@ -191,7 +188,14 @@ class MyLeaveDetails extends React.Component<
                     color: theme.palette.secondary,
                     paddingBottom: theme.spacing,
                   }}>
-                  {leaveDates}
+                  <Date nested>{leaveRequestDetail?.fromDate}</Date>
+                  {leaveRequestDetail?.fromDate !==
+                  leaveRequestDetail?.toDate ? (
+                    <>
+                      {' to '}
+                      <Date nested>{leaveRequestDetail?.toDate}</Date>
+                    </>
+                  ) : null}
                 </Text>
                 <View style={styles.chipView}>
                   <Chip

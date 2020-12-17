@@ -28,6 +28,7 @@ import {
   EXPIRES_AT,
   INSTANCE_API_VERSION,
   INSTANCE_API_PATHS,
+  DATE_FORMAT,
 } from 'services/storage';
 import {
   NullableString,
@@ -85,3 +86,9 @@ export const selectApiDetails = createSelector<
     [INSTANCE_API_PATHS]: paths ? JSON.parse(paths) : null,
   };
 });
+
+export const selectDateFormat = createSelector<
+  RootState,
+  StorageState,
+  NullableString
+>([selectStorage], (storage) => storage[DATE_FORMAT]);
