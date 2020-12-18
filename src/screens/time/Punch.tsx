@@ -58,7 +58,7 @@ import PickNote, {PickNoteFooter} from 'screens/time/components/NoteComponent';
 import Card from 'components/DefaultCard';
 import CardContent from 'components/DefaultCardContent';
 import {
-  calculateDurationUsingSavedFormat,
+  calculateDurationBasedOnTimezone,
   getDateSaveFormatFromDateObject,
   formatLastRecordDetails,
   getCurrentTimeZoneOffset,
@@ -114,6 +114,8 @@ class Punch extends React.Component<PunchProps, PunchState> {
         let duration = this.calculateDuration(
           this.props.punchStatus?.punchTime,
           getDateSaveFormatFromDateObject(this.props.punchCurrentDateTime),
+          parseFloat(this.props.punchStatus.PunchTimeZoneOffset),
+          getCurrentTimeZoneOffset(),
         );
         this.setState({duration: duration});
       }
@@ -194,8 +196,18 @@ class Punch extends React.Component<PunchProps, PunchState> {
     }
   };
 
-  calculateDuration = (datetime1: string, datetime2: string) => {
-    let duration = calculateDurationUsingSavedFormat(datetime1, datetime2);
+  calculateDuration = (
+    punchInDatetime: string,
+    punchOutDatetime: string,
+    punchInTimeZoneOffset: number,
+    punchOutTimeZoneOffset: number,
+  ) => {
+    const duration = calculateDurationBasedOnTimezone(
+      punchInDatetime,
+      punchOutDatetime,
+      punchInTimeZoneOffset,
+      punchOutTimeZoneOffset,
+    );
     if (duration === NEGATIVE_DURATION) {
       this.props.showSnackMessage(
         'Punch Out Time Should Be Later Than Punch In Time',

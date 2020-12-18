@@ -44,55 +44,63 @@ const setTwoDigits = (number: string) => {
 };
 
 /**
- *
- * @param date
+ * Format given date object to YYYY-MM-DD HH:mm format
+ * @param {Date} date
+ * @returns {String} YYYY-MM-DD HH:mm formated string
  */
 const getDateSaveFormatFromDateObject = (date: Date) => {
-  return (
-    setTwoDigits(date.getFullYear().toString()) +
-    '-' +
-    setTwoDigits((date.getMonth() + 1).toString()) +
-    '-' +
-    setTwoDigits(date.getDate().toString()) +
-    ' ' +
-    setTwoDigits(date.getHours().toString()) +
-    ':' +
-    setTwoDigits(date.getMinutes().toString())
-  );
+  return moment(date).format('YYYY-MM-DD HH:mm');
 };
 
 /**
- *
- * @param str
+ * @param {String} dateString YYYY-MM-DD HH:mm formated string
+ * @return {Date}
  */
-const getDateObjectFromSaveFormat = (str: string) => {
-  let datetime = str.split(' ', 2);
-  return new Date(datetime[0] + 'T' + datetime[1]);
+const getDateObjectFromSaveFormat = (dateString: string) => {
+  return moment(dateString).toDate();
 };
 
 const NEGATIVE_DURATION = 'NEGATIVE_DURATION';
 
 /**
  *
- * @param datetime1
- * @param datetime2
+ * @param {String} punchInDatetime e.g. 2020-12-21 02:15:00, 2020-12-21 17:14
+ * @param {String} punchOutDatetime e.g. 2020-12-21 03:15:00, 2020-12-21 20:14
+ * @param {Number} punchInTimeZoneOffset e.g. -2, -11, 4, 5.5
+ * @param {Number} punchOutTimeZoneOffset
+ * @return {String} HH:mm formatted string
  */
-const calculateDurationUsingSavedFormat = (
-  datetime1?: string,
-  datetime2?: string,
+const calculateDurationBasedOnTimezone = (
+  punchInDatetime?: string,
+  punchOutDatetime?: string,
+  punchInTimeZoneOffset?: number,
+  punchOutTimeZoneOffset?: number,
 ) => {
-  if (datetime1 && datetime2) {
-    let dt1 = getDateObjectFromSaveFormat(datetime1);
-    let dt2 = getDateObjectFromSaveFormat(datetime2);
+  if (punchInDatetime && punchOutDatetime) {
+    const punchInDateObj = getDateObjectFromSaveFormat(punchInDatetime);
+    const punchOutDateObj = getDateObjectFromSaveFormat(punchOutDatetime);
+    let punchOutTime = punchOutDateObj.getTime();
+    let punchInTime = punchInDateObj.getTime();
 
-    let minutes = Math.round((dt2.getTime() - dt1.getTime()) / (1000 * 60));
+    if (punchInTimeZoneOffset) {
+      punchInTime = moment(punchInDatetime)
+        .utcOffset(punchInTimeZoneOffset * 60, true)
+        .unix();
+    }
+    if (punchOutTimeZoneOffset) {
+      punchOutTime = moment(punchOutDatetime)
+        .utcOffset(punchOutTimeZoneOffset * 60, true)
+        .unix();
+    }
+
+    const minutes = Math.round((punchOutTime - punchInTime) / 60);
     if (minutes < 0) {
       return NEGATIVE_DURATION;
     }
-    let durationHours = setTwoDigits(
+    const durationHours = setTwoDigits(
       ((minutes - (minutes % 60)) / 60).toString(),
     );
-    let durationMinutes = setTwoDigits((minutes % 60).toString());
+    const durationMinutes = setTwoDigits((minutes % 60).toString());
     return durationHours + ':' + durationMinutes;
   } else {
     return '00:00';
@@ -143,6 +151,9 @@ const convertDateObjectToStringFormat = (
   return dateObject.format(format);
 };
 
+/**
+ * @returns {Number} e.g. -2, -11, 4, 5.5
+ */
 const getCurrentTimeZoneOffset = () => {
   return moment().utcOffset() / 60;
 };
@@ -224,7 +235,7 @@ const calculateGraphData = (leaveTypesInputData: GraphRecordsObject) => {
 
 export {
   getDateObjectFromSaveFormat,
-  calculateDurationUsingSavedFormat,
+  calculateDurationBasedOnTimezone,
   getDateSaveFormatFromDateObject,
   formatLastRecordDetails,
   getCurrentTimeZoneOffset,
