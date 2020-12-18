@@ -67,7 +67,7 @@ export const getDrawerItems = (
 
 export const SUBHEADER_ICONS = {
   [SUBHEADER_LEAVE]: {name: 'briefcase'},
-  [SUBHEADER_TIME]: {name: 'timer'},
+  [SUBHEADER_TIME]: {name: 'clock'},
 };
 
 export const SUBHEADER_MODULE_MAP = {

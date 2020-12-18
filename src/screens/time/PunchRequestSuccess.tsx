@@ -37,6 +37,7 @@ import {
   savePunchInRequest,
   savePunchOutRequest,
 } from 'store/time/attendance/actions';
+import {PUNCH_IN, PUNCH_OUT, PunchAction} from 'store/time/attendance/types';
 import {PunchRequestSuccessParam} from 'screens/time/navigators/index';
 import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
@@ -44,7 +45,7 @@ import Icon from 'components/DefaultIcon';
 import {PunchRequestSuccessRouteParams} from 'screens/time/navigators';
 import IconButton from 'components/DefaultIconButton';
 import {
-  calculateDurationUsingSavedFormat,
+  calculateDurationBasedOnTimezone,
   formatLastRecordDetails,
 } from 'lib/helpers/attendance';
 import {selectInitialRoute} from 'store/globals/selectors';
@@ -59,10 +60,9 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
     navigation.dispatch(StackActions.pop());
     navigation.dispatch(DrawerActions.jumpTo(initialRoute));
   };
+
   render() {
-    let PUNCH_IN = 'PUNCH_IN';
-    let PUNCH_OUT = 'PUNCH_OUT';
-    let ACTION: typeof PUNCH_IN | typeof PUNCH_OUT;
+    let punchAction: PunchAction;
     const {theme, route} = this.props;
 
     const {
@@ -81,9 +81,9 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
     let punchTimeZone = timezoneOffset;
     let punchDateTime = datetime;
     if (datetime !== undefined) {
-      ACTION = PUNCH_IN;
+      punchAction = PUNCH_IN;
     } else {
-      ACTION = PUNCH_OUT;
+      punchAction = PUNCH_OUT;
       punchNote = punchInNote;
       punchTimeZone = punchInTimeZoneOffset;
       punchDateTime = punchInDateTime;
@@ -143,21 +143,13 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                 ]}>
                 <View>
                   <View style={{marginTop: theme.spacing * 5}}>
-                    <View
-                      style={[
-                        styles.clockColour,
-                        {
-                          borderRadius: theme.spacing * 7,
-                        },
-                      ]}>
-                      <Icon
-                        name={'check-circle-outline'}
-                        style={[
-                          styles.checkColour,
-                          {fontSize: theme.spacing * 10},
-                        ]}
-                      />
-                    </View>
+                    <Icon
+                      name={'check-circle-outline'}
+                      style={{
+                        fontSize: theme.typography.extraLargeIconSize,
+                        color: theme.palette.success,
+                      }}
+                    />
                   </View>
                 </View>
                 <View style={{padding: theme.spacing * 5}}>
@@ -165,17 +157,17 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                     style={[
                       styles.successfullMessage,
                       {
-                        fontSize: theme.spacing * 6,
-                        lineHeight: theme.spacing * 7.5,
+                        fontSize: theme.typography.headerFontSize,
+                        lineHeight: theme.spacing * 8,
                       },
                     ]}>
-                    {ACTION === PUNCH_OUT
+                    {punchAction === PUNCH_OUT
                       ? 'You Have Successfully Punched Out from the System'
                       : 'You Have Successfully Punched in to the System'}
                   </Text>
                 </View>
               </View>
-              {ACTION === PUNCH_OUT ? (
+              {punchAction === PUNCH_OUT ? (
                 <>
                   <View
                     style={[
@@ -183,7 +175,7 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                       {
                         paddingRight: theme.spacing * 5,
                         paddingLeft: theme.spacing * 5,
-                        paddingBottom: theme.spacing * 2.5,
+                        paddingBottom: theme.spacing * 3,
                       },
                     ]}>
                     <View style={styles.centerItems}>
@@ -194,17 +186,14 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                         ]}>
                         <Icon
                           name={'timelapse'}
-                          style={{fontSize: theme.spacing * 6}}
-                          color={'grey'}
+                          style={{fontSize: theme.typography.headerIconSize}}
                         />
                         <Text
-                          style={[
-                            styles.textBold,
-                            {
-                              fontSize: theme.spacing * 4.5,
-                              paddingLeft: theme.spacing * 2.5,
-                            },
-                          ]}>
+                          bold
+                          style={{
+                            fontSize: theme.typography.subHeaderFontSize,
+                            paddingLeft: theme.spacing * 3,
+                          }}>
                           {'Duration'}
                         </Text>
                       </View>
@@ -212,28 +201,26 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                         style={[styles.centerItems, styles.rowFlexDirection]}>
                         <View>
                           <Text
-                            style={[
-                              styles.textBold,
-                              {
-                                fontSize: theme.spacing * 12.5,
-                                color: theme.palette.secondary,
-                              },
-                            ]}>
-                            {calculateDurationUsingSavedFormat(
+                            bold
+                            style={{
+                              fontSize: theme.typography.headerFontSize * 2.5,
+                              color: theme.palette.secondary,
+                            }}>
+                            {calculateDurationBasedOnTimezone(
                               punchInDateTime,
                               punchOutDateTime,
+                              parseFloat(punchInTimeZoneOffset),
+                              parseFloat(punchOutTimeZoneOffset),
                             )}
                           </Text>
                         </View>
                         <View style={{marginBottom: theme.spacing * -5}}>
                           <Text
-                            style={[
-                              styles.textBold,
-                              {
-                                fontSize: theme.spacing * 4,
-                                color: theme.palette.secondary,
-                              },
-                            ]}>
+                            bold
+                            style={{
+                              fontSize: theme.typography.subHeaderFontSize,
+                              color: theme.palette.secondary,
+                            }}>
                             {' Hours'}
                           </Text>
                         </View>
@@ -251,25 +238,22 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                 <Divider />
                 <View
                   style={{
-                    paddingTop: theme.spacing * 2.5,
-                    padding: theme.spacing * 2.5,
+                    padding: theme.spacing * 2,
                   }}>
                   <View
                     style={[
                       styles.flexOne,
                       {
-                        paddingLeft: theme.spacing * 3.75,
-                        paddingBottom: theme.spacing * 2.5,
+                        paddingLeft: theme.spacing * 4,
+                        paddingBottom: theme.spacing * 3,
                       },
                     ]}>
                     <Text
-                      style={[
-                        styles.textBold,
-                        {
-                          color: theme.palette.secondary,
-                          fontSize: theme.typography.fontSize * 1.25,
-                        },
-                      ]}>
+                      bold
+                      style={{
+                        color: theme.palette.secondary,
+                        fontSize: theme.typography.subHeaderFontSize,
+                      }}>
                       {'Punch In'}
                     </Text>
                   </View>
@@ -277,19 +261,15 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                     <View
                       style={[
                         styles.flexOne,
-                        {paddingLeft: theme.spacing * 3.75},
+                        {paddingLeft: theme.spacing * 4},
                       ]}>
                       <Icon
                         name={'clock'}
-                        style={{fontSize: theme.typography.iconSize * 1.2}}
-                        color={'grey'}
+                        style={{fontSize: theme.typography.headerIconSize}}
                       />
                     </View>
-                    <View style={{flex: theme.spacing * 1.5}}>
-                      <Text
-                        style={{
-                          fontSize: theme.spacing * 4,
-                        }}>
+                    <View style={styles.flexSix}>
+                      <Text>
                         {formatLastRecordDetails(
                           punchDateTime,
                           punchTimeZone.toString(),
@@ -302,7 +282,7 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                       style={[
                         styles.rowFlexDirection,
                         {
-                          paddingTop: theme.spacing * 1.25,
+                          paddingTop: theme.spacing * 2,
                         },
                       ]}>
                       <View
@@ -310,51 +290,41 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                           styles.flexOne,
                           styles.alignItemsFlexStart,
                           {
-                            paddingLeft: theme.spacing * 3.75,
+                            paddingLeft: theme.spacing * 4,
                           },
                         ]}>
                         <Icon
                           name={'message-reply-text'}
-                          style={{fontSize: theme.typography.iconSize * 1.2}}
-                          color={'grey'}
+                          style={{fontSize: theme.typography.headerIconSize}}
                         />
                       </View>
                       <View style={styles.flexSix}>
-                        <Text
-                          numberOfLines={2}
-                          style={{
-                            fontSize: theme.spacing * 4,
-                          }}>
-                          {punchNote}
-                        </Text>
+                        <Text numberOfLines={2}>{punchNote}</Text>
                       </View>
                     </View>
                   ) : null}
                 </View>
-                {ACTION === PUNCH_OUT ? (
+                {punchAction === PUNCH_OUT ? (
                   <>
                     <Divider />
                     <View
                       style={{
-                        paddingTop: theme.spacing * 2.5,
-                        padding: theme.spacing * 3.75,
+                        padding: theme.spacing * 2,
                       }}>
                       <View
                         style={[
                           styles.flexOne,
                           {
-                            paddingLeft: theme.spacing * 3.75,
-                            paddingBottom: theme.spacing * 2.5,
+                            paddingLeft: theme.spacing * 4,
+                            paddingBottom: theme.spacing * 3,
                           },
                         ]}>
                         <Text
-                          style={[
-                            styles.textBold,
-                            {
-                              color: theme.palette.secondary,
-                              fontSize: theme.typography.fontSize * 1.25,
-                            },
-                          ]}>
+                          bold
+                          style={{
+                            color: theme.palette.secondary,
+                            fontSize: theme.typography.subHeaderFontSize,
+                          }}>
                           {'Punch Out'}
                         </Text>
                       </View>
@@ -362,19 +332,15 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                         <View
                           style={[
                             styles.flexOne,
-                            {paddingLeft: theme.spacing * 3.75},
+                            {paddingLeft: theme.spacing * 4},
                           ]}>
                           <Icon
                             name={'clock'}
-                            style={{fontSize: theme.typography.iconSize * 1.2}}
-                            color={'grey'}
+                            style={{fontSize: theme.typography.headerIconSize}}
                           />
                         </View>
                         <View style={styles.flexSix}>
-                          <Text
-                            style={{
-                              fontSize: theme.spacing * 4,
-                            }}>
+                          <Text>
                             {formatLastRecordDetails(
                               punchOutDateTime,
                               punchOutTimeZoneOffset.toString(),
@@ -386,32 +352,25 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                         <View
                           style={[
                             styles.rowFlexDirection,
-                            {paddingTop: theme.spacing * 1.25},
+                            {paddingTop: theme.spacing * 2},
                           ]}>
                           <View
                             style={[
                               styles.alignItemsFlexStart,
                               {
-                                paddingLeft: theme.spacing * 3.75,
+                                paddingLeft: theme.spacing * 4,
                                 flex: theme.spacing * 0.25,
                               },
                             ]}>
                             <Icon
                               name={'message-reply-text'}
                               style={{
-                                fontSize: theme.typography.iconSize * 1.2,
+                                fontSize: theme.typography.headerIconSize,
                               }}
-                              color={'grey'}
                             />
                           </View>
                           <View style={styles.flexSix}>
-                            <Text
-                              numberOfLines={2}
-                              style={{
-                                fontSize: theme.spacing * 4,
-                              }}>
-                              {punchOutNote}
-                            </Text>
+                            <Text numberOfLines={2}>{punchOutNote}</Text>
                           </View>
                         </View>
                       ) : null}
@@ -428,20 +387,7 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
   }
 }
 const styles = StyleSheet.create({
-  mainView: {
-    flex: 1,
-  },
-  noRecordsTextView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  noRecordsText: {
-    textAlign: 'center',
-  },
-
   footerView: {
-    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -449,44 +395,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontStyle: 'italic',
   },
-  textBold: {
-    fontWeight: 'bold',
-  },
-
   centerItems: {
     alignItems: 'center',
   },
-
   rowFlexDirection: {
     flexDirection: 'row',
   },
-
-  clockColour: {
-    backgroundColor: '#ffffff',
-  },
-
   alignItemsFlexStart: {
     alignItems: 'flex-start',
   },
-
-  checkColour: {
-    color: 'green',
-  },
-
-  flexFour: {
-    flex: 4,
-  },
-  flexTwo: {
-    flex: 2,
-  },
-  flexThree: {
-    flex: 3,
-  },
   flexOne: {
     flex: 1,
-  },
-  flexFive: {
-    flex: 5,
   },
   flexSix: {
     flex: 6,

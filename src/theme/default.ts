@@ -36,6 +36,7 @@ const defaultTheme: Theme = {
   },
   typography: {
     fontSize: 14,
+    subHeaderFontSize: 18,
     headerFontSize: 20,
     smallFontSize: 12,
     tinyFontSize: 10,
@@ -46,6 +47,7 @@ const defaultTheme: Theme = {
     iconSize: 20,
     largeIconSize: 32,
     headerIconSize: 24,
+    extraLargeIconSize: 40,
   },
   borderRadius: 4,
   spacing: 4,
@@ -69,6 +71,7 @@ export interface Palette {
 
 export interface Typography {
   fontSize: number;
+  subHeaderFontSize: number;
   headerFontSize: number;
   smallFontSize: number;
   tinyFontSize: number;
@@ -79,6 +82,7 @@ export interface Typography {
   iconSize: number;
   largeIconSize: number;
   headerIconSize: number;
+  extraLargeIconSize: number;
 }
 
 export interface Theme {
