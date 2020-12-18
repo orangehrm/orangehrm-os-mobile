@@ -23,8 +23,8 @@ import {getDateFromString} from 'lib/helpers/time';
 
 describe('lib/helpers/time', () => {
   test('getDateFromString::check date object from time string', () => {
-    let date1 = getDateFromString('11:15');
-    let date2 = getDateFromString('12:30');
+    const date1 = getDateFromString('11:15');
+    const date2 = getDateFromString('12:30');
 
     expect(date1.getHours()).toBe(date2.getHours() - 1);
     expect(date1.getMinutes()).toBe(date2.getMinutes() - 15);

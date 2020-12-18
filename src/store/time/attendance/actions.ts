@@ -7,8 +7,8 @@ import {
   PUNCH_OUT_REQUEST,
   FetchPunchStatusAction,
   FetchPunchStatusFinishedAction,
-  changePunchCurrentDateTimeAction,
-  setPunchNoteAction,
+  ChangePunchCurrentDateTimeAction,
+  SetPunchNoteAction,
   PunchInRequestAction,
   PunchOutRequestAction,
   ResetPunchStateAction,
@@ -17,7 +17,7 @@ import {
 } from './types';
 import {$PropertyType} from 'utility-types';
 
-export const setPunchNote = (note: string): setPunchNoteAction => ({
+export const setPunchNote = (note: string): SetPunchNoteAction => ({
   type: PICK_PUNCH_NOTE,
   noteSaved: note,
 });
@@ -37,7 +37,7 @@ export const fetchPunchStatusFinished = (
 
 export const changePunchCurrentDateTime = (
   datetime?: Date,
-): changePunchCurrentDateTimeAction => ({
+): ChangePunchCurrentDateTimeAction => ({
   type: CHANGE_PUNCH_CURRENT_DATE_TIME,
   punchCurrentDateTime: datetime,
 });

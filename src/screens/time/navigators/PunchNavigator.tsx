@@ -27,6 +27,7 @@ import PunchRequestSuccess from 'screens/time/PunchRequestSuccess';
 import {RootState} from 'store';
 import {connect, ConnectedProps} from 'react-redux';
 import {selectPunchStatus} from 'store/time/attendance/selectors';
+import {PUNCHED_IN} from 'store/time/attendance/types';
 import {PUNCH, PUNCH_REQUEST_SUCCESS} from 'screens';
 import HeaderMenuIcon from 'components/HeaderMenuIcon';
 import HeaderBackIcon from 'components/HeaderBackIcon';
@@ -36,7 +37,6 @@ const Stack = createStackNavigator();
 
 class PunchNavigator extends React.Component<PunchNavigatorProps> {
   render() {
-    const PUNCHED_IN = 'PUNCHED IN';
     const {theme, navigation, punchStatus} = this.props;
     const header = getHeaderStyle(theme);
     const headerMenuIcon = {

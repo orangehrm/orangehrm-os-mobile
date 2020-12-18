@@ -349,12 +349,6 @@ const styles = StyleSheet.create({
   leaveBalanceView: {
     justifyContent: 'space-evenly',
   },
-  confirmationButtonView: {
-    justifyContent: 'space-evenly',
-  },
-  confirmationButton: {
-    flex: 0.5,
-  },
 });
 
 const mapStateToProps = (state: RootState) => ({

@@ -84,7 +84,7 @@ class SelectInstance extends React.Component<
   };
 
   handleOnPress = () => {
-    let {instanceUrl, errorMessage} = this.state;
+    const {instanceUrl, errorMessage} = this.state;
     if (instanceUrl === '') {
       this.setState({errorMessage: 'Required'});
       return;

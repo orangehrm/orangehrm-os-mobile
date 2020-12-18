@@ -36,14 +36,17 @@ export interface PunchStatusState {
 export const PUNCHED_IN = 'PUNCHED IN';
 export const PUNCHED_OUT = 'PUNCHED OUT';
 export const INITIAL = 'INITIAL';
+
+export const PUNCH_IN = 'PUNCH_IN';
+export const PUNCH_OUT = 'PUNCH_OUT';
+export type PunchAction = typeof PUNCH_IN | typeof PUNCH_OUT;
+
 export const FETCH_PUNCH_STATUS = 'PUNCH_STATUS_FETCH_PUNCH_STATUS';
 export const FETCH_PUNCH_STATUS_FINISHED =
   'PUNCH_STATUS_FETCH_PUNCH_STATUS_FINISHED';
 export const CHANGE_PUNCH_CURRENT_DATE_TIME =
   'PUNCH_CURRENT_DATE_TIME_CHANGE_PUNCH_CURRENT_DATE_TIME';
-
 export const PICK_PUNCH_NOTE = 'ATTENDANCE_PICK_PUNCH_NOTE';
-
 export const PUNCH_IN_REQUEST = 'ATTENDANCE_SAVE_PUNCH_IN_REQUEST';
 export const PUNCH_OUT_REQUEST = 'ATTENDANCE_SAVE_PUNCH_OUT_REQUEST';
 export const RESET_PUNCH_STATE = 'PUNCH_STATE_RESET_PUNCH_STATE';
@@ -58,12 +61,12 @@ export interface FetchPunchStatusFinishedAction {
   error: boolean;
 }
 
-export interface changePunchCurrentDateTimeAction {
+export interface ChangePunchCurrentDateTimeAction {
   type: typeof CHANGE_PUNCH_CURRENT_DATE_TIME;
   punchCurrentDateTime?: Date;
 }
 
-export interface setPunchNoteAction {
+export interface SetPunchNoteAction {
   type: typeof PICK_PUNCH_NOTE;
   noteSaved: string;
 }
@@ -91,8 +94,8 @@ export interface ResetPunchStateAction {
 export type PunchStatusActionTypes =
   | FetchPunchStatusAction
   | FetchPunchStatusFinishedAction
-  | changePunchCurrentDateTimeAction
-  | setPunchNoteAction
+  | ChangePunchCurrentDateTimeAction
+  | SetPunchNoteAction
   | PunchInRequestAction
   | PunchOutRequestAction
   | ResetPunchStateAction;
