@@ -25,8 +25,13 @@ import {
   GraphDataPoint,
   WorkSummaryObject,
   LeaveTypeGraphData,
+  DaySelectorSingleDay,
+  AttendanceObject,
+  LeaveObject,
+  Holiday,
 } from 'store/time/my-attendance/types';
 import {MutableKeys} from 'utility-types';
+import {WorkWeek} from 'store/leave/common-screens/types';
 /**
  *
  * @param dateString  // input format '2020-12-25 13:26'
@@ -101,19 +106,6 @@ const calculateDurationBasedOnTimezone = (
       ((minutes - (minutes % 60)) / 60).toString(),
     );
     const durationMinutes = setTwoDigits((minutes % 60).toString());
-    return durationHours + ':' + durationMinutes;
-  } else {
-    return '00:00';
-  }
-};
-
-const getDurationFromHours = (hours?: number) => {
-  if (hours) {
-    let minutes = Math.round(hours * 60);
-    let durationHours = setTwoDigits(
-      ((minutes - (minutes % 60)) / 60).toString(),
-    );
-    let durationMinutes = setTwoDigits((minutes % 60).toString());
     return durationHours + ':' + durationMinutes;
   } else {
     return '00:00';
@@ -233,6 +225,121 @@ const calculateGraphData = (leaveTypesInputData: GraphRecordsObject) => {
   return leaveGraphData;
 };
 
+const calculateDateSelectorData = (
+  workSummaryObject?: WorkSummaryObject,
+  startDayIndex?: number,
+) => {
+  if (workSummaryObject !== undefined && startDayIndex !== undefined) {
+    let selectedWeek: DaySelectorSingleDay[] = [];
+    for (let index = startDayIndex; index < startDayIndex + 7; index++) {
+      let date = moment().weekday(index);
+      let day = date.format('dddd').toLocaleLowerCase();
+      const key = <MutableKeys<WorkSummaryObject>>day;
+      let hours = workSummaryObject[key].workHours;
+      let daySelectorSingleDay: DaySelectorSingleDay = {
+        date: date,
+        duration: getDurationFromHours(parseFloat(hours)),
+      };
+      selectedWeek.push(daySelectorSingleDay);
+    }
+    return selectedWeek;
+  } else {
+    return [];
+  }
+};
+
+const getAttendanceRecordsOfTheSelectedDate = (
+  attendanceObjects?: AttendanceObject[],
+  selectedDay?: moment.Moment,
+) => {
+  if (attendanceObjects !== undefined && selectedDay !== undefined) {
+    let selectedAttendanceObjects: AttendanceObject[] = [];
+    attendanceObjects.forEach((attendanceObject) => {
+      if (
+        selectedDay.format('YYYY-MM-DD') ===
+        attendanceObject.punchInUserTime.split(' ', 2)[0]
+      ) {
+        selectedAttendanceObjects.push(attendanceObject);
+      }
+    });
+    return selectedAttendanceObjects;
+  } else {
+    return [];
+  }
+};
+
+const getLeaveRecordsOfTheSelectedDate = (
+  LeaveObjects?: LeaveObject[],
+  selectedDay?: moment.Moment,
+) => {
+  if (LeaveObjects !== undefined && selectedDay !== undefined) {
+    let selectedLeaveObjects: LeaveObject[] = [];
+    LeaveObjects.forEach((LeaveObject) => {
+      if (selectedDay.format('YYYY-MM-DD') === LeaveObject.date) {
+        selectedLeaveObjects.push(LeaveObject);
+      }
+    });
+    return selectedLeaveObjects;
+  } else {
+    return [];
+  }
+};
+
+const getHolidayRecordsOfTheSelectedDate = (
+  holidays?: Holiday[],
+  selectedDay?: moment.Moment,
+) => {
+  if (holidays !== undefined && selectedDay !== undefined) {
+    let selectedHolidays: Holiday[] = [];
+    holidays.forEach((holiday) => {
+      if (selectedDay.format('YYYY-MM-DD') === holiday.date) {
+        selectedHolidays.push(holiday);
+      }
+    });
+    return selectedHolidays;
+  } else {
+    return [];
+  }
+};
+
+const getWorkWeekResultOfTheSelectedDate = (
+  workweek?: WorkWeek,
+  selectedDay?: moment.Moment,
+) => {
+  if (workweek !== undefined && selectedDay !== undefined) {
+    let days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    let hours;
+    days.forEach((day) => {
+      if (selectedDay.format('ddd').toLocaleLowerCase() === day) {
+        const key = <MutableKeys<WorkWeek>>day;
+        hours = workweek[key];
+      }
+    });
+    return hours;
+  } else {
+    return '-1';
+  }
+};
+const convertDateObjectToStringFormat = (
+  dateObject: moment.Moment,
+  format: string,
+) => {
+  return dateObject.format(format);
+};
+
+const getDurationFromHours = (hours?: number) => {
+  if (hours) {
+    let minutes = Math.round(hours * 60);
+    let durationHours = setTwoDigits(
+      ((minutes - (minutes % 60)) / 60).toString(),
+    );
+    let durationMinutes = setTwoDigits((minutes % 60).toString());
+    return durationHours + ':' + durationMinutes;
+  } else {
+    return '00:00';
+  }
+};
+
 export {
   getDateObjectFromSaveFormat,
   calculateDurationBasedOnTimezone,
@@ -245,4 +352,10 @@ export {
   calculateGraphData,
   calculateWorkData,
   getLeaveColourById,
+  getAttendanceRecordsOfTheSelectedDate,
+  getLeaveRecordsOfTheSelectedDate,
+  calculateDateSelectorData,
+  getHolidayRecordsOfTheSelectedDate,
+  getUTCMomentObjectFromString,
+  getWorkWeekResultOfTheSelectedDate,
 };

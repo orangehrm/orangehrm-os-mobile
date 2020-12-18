@@ -66,6 +66,7 @@ import {
   SUBHEADER_TIME,
   PUNCH,
   ATTENDANCE_SUMMARY,
+  ATTENDANCE_LIST,
 } from 'screens';
 import {ORANGEHRM_API_1$2$0} from 'services/instance-check';
 
@@ -75,6 +76,7 @@ import LeaveList from 'screens/leave/navigators/LeaveListNavigator';
 import AssignLeave from 'screens/leave/navigators/AssignLeaveNavigator';
 import Punch from 'screens/time/navigators/PunchNavigator';
 import AttendanceSummary from 'screens/time/navigators/AttendanceSummaryNavigator';
+import AttendanceList from 'screens/time/navigators/AttendanceListNavigator';
 import FullScreenInfo from 'screens/common/navigators/FullScreenInfoNavigator';
 import NoEmployeeInfo from 'screens/common/NoEmployeeInfo';
 import DrawerContent from 'layouts/DrawerContent';
@@ -214,6 +216,12 @@ const Navigator = (props: NavigatorProps) => {
                         name={ATTENDANCE_SUMMARY}
                         component={AttendanceSummary}
                         options={{drawerLabel: 'My Attendance'}}
+                        initialParams={{subheader: SUBHEADER_TIME}}
+                      />
+                      <Drawer.Screen
+                        name={ATTENDANCE_LIST}
+                        component={AttendanceList}
+                        options={{drawerLabel: 'Employee Attendance Records'}}
                         initialParams={{subheader: SUBHEADER_TIME}}
                       />
                     </>

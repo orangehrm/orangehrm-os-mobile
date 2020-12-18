@@ -5,9 +5,10 @@ import {
   FETCH_LEAVE_RECORDS_FINISHED,
   FETCH_ATTENDANCE_GRAPH_RECORDS,
   FETCH_ATTENDANCE_GRAPH_RECORDS_FINISHED,
-  // FETCH_EMPLOYEE_DETAILS_FINISHED,
-  // FETCH_WORK_WEEK_FINISHED,
-  // FETCH_HOLIDAY_FINISHED,
+  FETCH_HOLIDAYS_FINISHED,
+  FETCH_WORK_WEEK_FINISHED,
+  FETCH_EMPLOYEE_ATTENDANCE_LIST,
+  FETCH_EMPLOYEE_ATTENDANCE_LIST_FINISHED,
   MyAttendanceState,
   AttendanceActionTypes,
 } from './types';
@@ -57,6 +58,29 @@ const myAttendanceReducer = (
       return {
         ...state,
         graphObject: action.payload,
+      };
+    case FETCH_HOLIDAYS_FINISHED:
+      return {
+        ...state,
+        holidays: action.payload,
+      };
+    case FETCH_WORK_WEEK_FINISHED:
+      return {
+        ...state,
+        workWeek: action.payload,
+      };
+    case FETCH_EMPLOYEE_ATTENDANCE_LIST:
+      return {
+        ...state,
+        employeeList: initialState.employeeList,
+      };
+    case FETCH_EMPLOYEE_ATTENDANCE_LIST_FINISHED:
+      if (action.error) {
+        return state;
+      }
+      return {
+        ...state,
+        employeeList: action.payload,
       };
     default:
       return state;
