@@ -234,20 +234,6 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'right',
   },
-  textInput: {
-    ...Platform.select({
-      ios: {
-        shadowOpacity: 0.5,
-        shadowRadius: 1,
-        shadowColor: 'black',
-        shadowOffset: {height: 0.5, width: 0},
-        elevation: 2,
-        alignItems: 'center',
-        // To show the shaddow
-        marginBottom: 2,
-      },
-    }),
-  },
 });
 
 export default withTheme<PickEmployeeProps>()(PickEmployee);

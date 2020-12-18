@@ -26,5 +26,7 @@ module.exports = {
   rules: {
     'no-console': 1, // warn for console logs
     'lines-between-class-members': ['error', 'always'],
+    'prefer-const': ['error'],
+    'react-native/no-unused-styles': 2,
   },
 };

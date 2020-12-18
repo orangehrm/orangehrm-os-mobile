@@ -77,7 +77,7 @@ fs.readFile(projectpbxprojPath, 'utf8', (error, projectpbxproj) => {
     /* eslint-enable no-console */
   }
 
-  let projectpbxprojUpdated = projectpbxproj.replace(
+  const projectpbxprojUpdated = projectpbxproj.replace(
     /MARKETING_VERSION = .+\n/g,
     `MARKETING_VERSION = ${version};\n`,
   );

@@ -237,7 +237,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
       entitlements,
     )?.find((item) => item.id === selectedLeaveTypeId);
     if (fromDate && selectedLeaveType && selectedSubordinate) {
-      let leaveRequest: LeaveRequest = {
+      const leaveRequest: LeaveRequest = {
         fromDate: fromDate,
         toDate: toDate ? toDate : fromDate,
         type: selectedLeaveType?.leaveType.id,
@@ -427,14 +427,6 @@ interface AssignLeaveState {
 const styles = StyleSheet.create({
   mainView: {
     flex: 1,
-  },
-  noRecordsTextView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  noRecordsText: {
-    textAlign: 'center',
   },
 });
 
