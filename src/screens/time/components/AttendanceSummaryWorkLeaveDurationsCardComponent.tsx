@@ -41,6 +41,33 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
         backgroundColor: theme.palette.backgroundSecondary,
       }}>
       <View
+        style={{
+          flexDirection: 'row',
+          paddingBottom: 10,
+        }}>
+        <View style={{flexDirection: 'column', justifyContent: 'center'}}>
+          {/* <EmployeeProfilePictureComponent
+            empNumber={props.employeeId}
+            size={50}
+          /> */}
+        </View>
+        <View
+          style={{
+            marginLeft: 20,
+            width: '80%',
+          }}>
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: 'bold',
+            }}>
+            {'Kaveesha Silva'}
+          </Text>
+          <Text>{'Software Engineer'}</Text>
+        </View>
+      </View>
+
+      <View
         style={[
           styles.overflowHidden,
           styles.backgroundColorWhite,

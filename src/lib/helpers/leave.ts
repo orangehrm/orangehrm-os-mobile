@@ -30,7 +30,7 @@ import {
 } from 'store/leave/common-screens/types';
 import {getDateFromString} from 'lib/helpers/time';
 
-const LEAVE_TYPE_COLORS = [
+export const LEAVE_TYPE_COLORS = [
   '#445abf',
   '#4ece68',
   '#c15cb8',
