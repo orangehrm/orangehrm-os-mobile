@@ -1,4 +1,10 @@
-import {PUNCH_REQUEST_SUCCESS, ATTENDANCE_DETAILS} from 'screens';
+import {
+  PUNCH_REQUEST_SUCCESS,
+  ATTENDANCE_DETAILS,
+  ATTENDANCE_SUMMARY,
+  EMPLOYEE_ATTENDANCE_SUMMARY,
+} from 'screens';
+import {SingleEmployeeAttendance} from 'store/time/my-attendance/types';
 import {RouteProp} from '@react-navigation/native';
 
 export interface PunchRequestSuccessParam {
@@ -26,6 +32,7 @@ export type PunchRequestSuccessRouteParams = RouteProp<
 
 export interface AttendanceDetailsScreenParam {
   startDayIndex: number;
+  employeeAttendance?: SingleEmployeeAttendance;
 }
 
 export type AttendanceDetailsScreenParamList = {
@@ -35,4 +42,26 @@ export type AttendanceDetailsScreenParamList = {
 export type AttendanceDetailsScreenRouteParams = RouteProp<
   AttendanceDetailsScreenParamList,
   typeof ATTENDANCE_DETAILS
+>;
+
+export interface AttendanceSummaryScreenParams {
+  employeeAttendance?: SingleEmployeeAttendance;
+}
+
+export type AttendanceSummaryScreenParamList = {
+  [ATTENDANCE_SUMMARY]: AttendanceSummaryScreenParams;
+};
+
+export type AttendanceSummaryScreenRouteParams = RouteProp<
+  AttendanceSummaryScreenParamList,
+  typeof ATTENDANCE_SUMMARY
+>;
+
+export type EmployeeAttendanceSummaryScreenParamList = {
+  [EMPLOYEE_ATTENDANCE_SUMMARY]: AttendanceSummaryScreenParams;
+};
+
+export type EmployeeAttendanceSummaryScreenRouteParams = RouteProp<
+  EmployeeAttendanceSummaryScreenParamList,
+  typeof EMPLOYEE_ATTENDANCE_SUMMARY
 >;

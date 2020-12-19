@@ -56,7 +56,12 @@ import {selectCurrentRoute} from 'store/globals/selectors';
 import moment from 'moment';
 import {getDurationFromHours} from 'lib/helpers/attendance';
 import {navigate} from 'lib/helpers/navigation';
-import {ATTENDANCE_DETAILS} from 'screens';
+import {ATTENDANCE_DETAILS, EMPLOYEE_ATTENDANCE_DETAILS} from 'screens';
+import {
+  AttendanceDetailsScreenParam,
+  AttendanceSummaryScreenRouteParams,
+  EmployeeAttendanceSummaryScreenRouteParams,
+} from 'screens/time/navigators';
 
 class AttendanceSummary extends React.Component<
   AttendanceSummaryProps,
@@ -74,11 +79,22 @@ class AttendanceSummary extends React.Component<
       graphWorkData: startGraphWorkData,
       graphLeaveData: [],
     };
+  }
 
+  componentDidMount() {
     this.fetchData(this.state.weekStartDate, this.state.weekEndDate);
   }
+
   onPressDetails = () => {
-    navigate(ATTENDANCE_DETAILS);
+    const {params: {employeeAttendance} = {}} = this.props.route;
+    let route = ATTENDANCE_DETAILS;
+    if (employeeAttendance !== undefined) {
+      route = EMPLOYEE_ATTENDANCE_DETAILS;
+    }
+    navigate<AttendanceDetailsScreenParam>(route, {
+      startDayIndex: this.state.startDayIndex,
+      employeeAttendance,
+    });
   };
   componentDidUpdate = (prevProps: AttendanceSummaryProps) => {
     if (
@@ -129,11 +145,13 @@ class AttendanceSummary extends React.Component<
     return dateOfMonth;
   };
 
-  fetchData = (
-    weekStartDate: moment.Moment,
-    weekEndDate: moment.Moment,
-    empNumber?: number,
-  ) => {
+  fetchData = (weekStartDate: moment.Moment, weekEndDate: moment.Moment) => {
+    const {params: {employeeAttendance} = {}} = this.props.route;
+    let empNumber = undefined;
+    if (employeeAttendance !== undefined) {
+      empNumber = parseInt(employeeAttendance.employeeId, 10);
+    }
+
     let startDate = convertDateObjectToStringFormat(
       weekStartDate,
       'YYYY-MM-DD',
@@ -331,6 +349,9 @@ interface AttendanceSummaryProps
     WithGlobals,
     ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
+  route:
+    | AttendanceSummaryScreenRouteParams
+    | EmployeeAttendanceSummaryScreenRouteParams;
 }
 
 interface AttendanceSummaryState {

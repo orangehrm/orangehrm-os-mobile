@@ -39,17 +39,17 @@ export const API_ENDPOINT_LEAVE_HOLIDAYS = '/api/v1/leave/holidays';
 export const API_ENDPOINT_LEAVE_PERIODS = '/api/v1/leave/leave-periods';
 export const API_ENDPOINT_LEAVE_WORK_SHIFT = '/api/v1/leave/work-shift';
 export const API_ENDPOINT_LEAVE_WORK_WEEK = '/api/v1/leave/work-week';
-export const API_ENDPOINT_ATTENDANCE_LIST =
-  '/api/v1/attendance/attendance-list';
 export const API_ENDPOINT_LEAVE_TYPES = '/api/v1/leave/leave-types';
+export const API_ENDPOINT_LEAVE = '/api/v1/leave/leaves';
 
 // attendance
 export const API_ENDPOINT_PUNCH_STATUS = '/api/v1/attendance/punch-status';
 export const API_ENDPOINT_PUNCH_IN_REQUEST = '/api/v1/attendance/punch-in';
 export const API_ENDPOINT_PUNCH_OUT_REQUEST = '/api/v1/attendance/punch-out';
 export const API_ENDPOINT_ATTENDANCE = '/api/v1/attendance/records';
-export const API_ENDPOINT_LEAVE = '/api/v1/leave/leaves';
 export const API_ENDPOINT_ATTENDANCE_GRAPH = '/api/v1/attendance/summary';
+export const API_ENDPOINT_ATTENDANCE_LIST =
+  '/api/v1/attendance/attendance-list';
 
 // public endpoints
 export const API_ENDPOINT_API_DEFINITION = '/api/v1/api-definition';

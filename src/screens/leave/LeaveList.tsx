@@ -38,8 +38,7 @@ import {selectCurrentRoute} from 'store/globals/selectors';
 import {LeaveDetailsParam} from 'screens/leave/navigators/LeaveListNavigator';
 
 class LeaveList extends React.Component<LeaveListProps> {
-  constructor(props: LeaveListProps) {
-    super(props);
+  componentDidMount() {
     this.updateLeaveList();
   }
 

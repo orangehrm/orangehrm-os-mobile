@@ -106,10 +106,10 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
       requestDaysError: '',
       comment: '',
     };
-    this.updateSubordinateList();
   }
 
   componentDidMount() {
+    this.updateSubordinateList();
     Keyboard.addListener('keyboardDidHide', this.onKeyboardHide);
   }
 

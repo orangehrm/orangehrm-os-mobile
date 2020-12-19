@@ -39,8 +39,7 @@ import {MyLeaveDetailsParam} from 'screens/leave/navigators/MyLeaveUsageNavigato
 import {selectCurrentRoute} from 'store/globals/selectors';
 
 class MyLeave extends React.Component<MyLeaveProps> {
-  constructor(props: MyLeaveProps) {
-    super(props);
+  componentDidMount() {
     if (this.props.leaveRequests === undefined) {
       this.props.fetchMyLeaveRequests();
     }

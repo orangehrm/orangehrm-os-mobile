@@ -320,12 +320,6 @@ const getWorkWeekResultOfTheSelectedDate = (
     return '-1';
   }
 };
-const convertDateObjectToStringFormat = (
-  dateObject: moment.Moment,
-  format: string,
-) => {
-  return dateObject.format(format);
-};
 
 const getDurationFromHours = (hours?: number) => {
   if (hours) {

@@ -97,10 +97,10 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       requestDaysError: '',
       comment: '',
     };
-    this.updateEntitlements();
   }
 
   componentDidMount() {
+    this.updateEntitlements();
     Keyboard.addListener('keyboardDidHide', this.hideCommentInput);
   }
 

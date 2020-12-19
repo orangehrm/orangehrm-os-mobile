@@ -62,15 +62,19 @@ class LeaveDetails extends React.Component<
 > {
   constructor(props: LeaveDetailsProps) {
     super(props);
-    const {leaveRequest} = props.route.params;
-    if (
-      props.employeeLeaveRequest?.leaveRequestId !== leaveRequest.leaveRequestId
-    ) {
-      this.props.fetchEmployeeLeaveRequest(leaveRequest.leaveRequestId);
-    }
     this.state = {
       action: undefined,
     };
+  }
+
+  componentDidMount() {
+    const {leaveRequest} = this.props.route.params;
+    if (
+      this.props.employeeLeaveRequest?.leaveRequestId !==
+      leaveRequest.leaveRequestId
+    ) {
+      this.props.fetchEmployeeLeaveRequest(leaveRequest.leaveRequestId);
+    }
   }
 
   onRefresh = () => {
@@ -268,9 +272,11 @@ class LeaveDetails extends React.Component<
           </View>
           <View style={[styles.row, styles.leaveBalanceView]}>
             <View>
-              {employeeLeaveRequest?.leaveBreakdown.split(',').map((text) => (
-                <Text>{text.trim()}</Text>
-              ))}
+              {employeeLeaveRequest?.leaveBreakdown
+                .split(',')
+                .map((text, index) => (
+                  <Text key={index}>{text.trim()}</Text>
+                ))}
             </View>
             <Text style={[{fontSize: theme.typography.smallFontSize}]}>
               {'Days Available: '}

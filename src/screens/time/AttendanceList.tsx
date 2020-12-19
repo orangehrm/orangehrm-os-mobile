@@ -19,45 +19,24 @@
  */
 
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {FlatList, View, RefreshControl, StyleSheet} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
-import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import Divider from 'components/DefaultDivider';
-import {
-  fetchAttendanceRecords,
-  fetchLeaveRecords,
-  fetchAttendanceGraphRecords,
-  fetchHolidays,
-  fetchEmployeeAttendanceList,
-} from 'store/time/my-attendance/actions';
-import {} from 'store/time/my-attendance/types';
-import {
-  selectAttendanceRecords,
-  selectLeaveRecords,
-  selectAttendanceGraphRecords,
-  selectHolidays,
-  selectEmployeeAttendanceList,
-} from 'store/time/my-attendance/selectors';
-import {fetchWorkWeek} from 'store/leave/common-screens/actions';
-import {selectWorkWeek} from 'store/leave/common-screens/selectors';
-import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
-import {selectCurrentRoute} from 'store/globals/selectors';
+import {fetchEmployeeAttendanceList} from 'store/time/my-attendance/actions';
+import {selectEmployeeAttendanceList} from 'store/time/my-attendance/selectors';
 import moment from 'moment';
-import {Text} from 'react-native-svg';
-import {AttendanceDetailsScreenRouteParams} from 'screens/time/navigators/index';
-import AttendanceTimelineComponent from 'screens/time/components/AttendanceTimelineComponent';
-import AttendanceDetailedHeaderComponent from 'screens/time/components/AttendanceDetailedHeaderComponent';
-import AttendanceDetailedViewDurationEmployeeDetailsCardComponent from 'screens/time/components/AttendanceDetailedViewDurationEmployeeDetailsCardComponent';
-import {
-  calculateDateSelectorData,
-  getAttendanceRecordsOfTheSelectedDate,
-  getLeaveRecordsOfTheSelectedDate,
-  getHolidayRecordsOfTheSelectedDate,
-  getWorkWeekResultOfTheSelectedDate,
-} from 'lib/helpers/attendance';
+import Text from 'components/DefaultText';
+import Icon from 'components/DefaultIcon';
+import SafeAreaLayout from 'layouts/SafeAreaLayout';
+import AttendanceListItem from 'screens/time/components/AttendanceListItem';
+import {SingleEmployeeAttendance} from 'store/time/my-attendance/types';
+import {EMPLOYEE_ATTENDANCE_SUMMARY} from 'screens';
+import {navigate} from 'lib/helpers/navigation';
+import {AttendanceSummaryScreenParams} from 'screens/time/navigators';
+
 class AttendanceList extends React.Component<
   AttendanceListProps,
   AttendanceListState
@@ -69,40 +48,101 @@ class AttendanceList extends React.Component<
     };
   }
 
-  onRefresh = () => {};
+  componentDidMount() {
+    this.onRefresh();
+  }
+
+  onRefresh = () => {
+    this.props.fetchEmployeeAttendanceList();
+  };
+
   selectDate = (day: moment.Moment) => {
     this.setState({
       selectedDate: day,
     });
   };
 
-  componentDidUpdate = (prevProps: AttendanceListProps) => {};
+  onPressLeave = (item: SingleEmployeeAttendance) => () => {
+    navigate<AttendanceSummaryScreenParams>(EMPLOYEE_ATTENDANCE_SUMMARY, {
+      employeeAttendance: item,
+    });
+  };
 
   render() {
-    console.log(this.props.employeeList);
-    const {theme} = this.props;
+    const {theme, employeeList} = this.props;
     return (
-      <MainLayout onRefresh={this.onRefresh}>
-        <View>
-          <Text>{'Attendance List Screen'}</Text>
-        </View>
-      </MainLayout>
+      <SafeAreaLayout>
+        <FlatList
+          data={employeeList}
+          renderItem={({item}) => (
+            <>
+              <AttendanceListItem
+                employeeAttendance={item}
+                onPress={this.onPressLeave(item)}
+              />
+            </>
+          )}
+          keyExtractor={(item) => item.leaveRequestId}
+          ItemSeparatorComponent={() => {
+            return (
+              <View style={{paddingHorizontal: theme.spacing}}>
+                <Divider />
+              </View>
+            );
+          }}
+          ListFooterComponent={
+            employeeList === undefined || employeeList?.length === 0 ? null : (
+              <View
+                style={{
+                  paddingHorizontal: theme.spacing,
+                  paddingBottom: theme.spacing * 4,
+                }}>
+                <Divider />
+              </View>
+            )
+          }
+          refreshControl={
+            <RefreshControl refreshing={false} onRefresh={this.onRefresh} />
+          }
+          contentContainerStyle={styles.contentContainer}
+          ListEmptyComponent={
+            employeeList !== undefined ? (
+              <View style={styles.emptyContentView}>
+                <Icon
+                  name={'info-outline'}
+                  type={'MaterialIcons'}
+                  style={{
+                    fontSize: theme.typography.largeIconSize,
+                    paddingBottom: theme.spacing * 2,
+                    marginTop: -theme.spacing * 2,
+                  }}
+                />
+                <Text>{'No Records Found.'}</Text>
+              </View>
+            ) : null
+          }
+        />
+      </SafeAreaLayout>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  rowFlexDirection: {
-    flexDirection: 'row',
+  contentContainer: {
+    flexGrow: 1,
+  },
+  emptyContentView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'column',
   },
 });
 
 interface AttendanceListProps
   extends WithTheme,
-    WithGlobals,
     ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
-  // route: AttendanceListScreenRouteParams;
 }
 
 interface AttendanceListState {
@@ -123,7 +163,4 @@ const AttendanceListWithTheme = withTheme<AttendanceListProps>()(
   AttendanceList,
 );
 
-const AttendanceListWithGlobals = withGlobals<AttendanceListProps>()(
-  AttendanceListWithTheme,
-);
-export default connector(AttendanceListWithGlobals);
+export default connector(AttendanceListWithTheme);

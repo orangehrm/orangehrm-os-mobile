@@ -41,8 +41,7 @@ import {navigate} from 'lib/helpers/navigation';
 import {selectCurrentRoute} from 'store/globals/selectors';
 
 class MyLeaveUsage extends React.Component<MyLeaveUsageProps> {
-  constructor(props: MyLeaveUsageProps) {
-    super(props);
+  componentDidMount() {
     this.props.fetchMyLeaveEntitlements();
   }
 

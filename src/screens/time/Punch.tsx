@@ -81,7 +81,6 @@ class Punch extends React.Component<PunchProps, PunchState> {
       note: '',
       duration: '00:00',
     };
-    props.fetchPunchStatus();
   }
 
   componentDidUpdate(prevProps: PunchProps) {
@@ -123,6 +122,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
   }
 
   componentDidMount() {
+    this.props.fetchPunchStatus();
     Keyboard.addListener('keyboardDidHide', this.hideCommentInput);
   }
 

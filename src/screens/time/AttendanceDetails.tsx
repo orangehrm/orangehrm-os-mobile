@@ -68,6 +68,10 @@ class AttendanceDetails extends React.Component<
     this.state = {
       selectedDate: undefined,
     };
+  }
+
+  componentDidMount() {
+    const {employeeAttendance} = this.props.route.params;
     let attendanceRequest: AttendanceRequest = {
       fromDate: moment()
         .weekday(this.props.route.params.startDayIndex)
@@ -75,11 +79,16 @@ class AttendanceDetails extends React.Component<
       toDate: moment()
         .weekday(this.props.route.params.startDayIndex + 6)
         .format('YYYY-MM-DD'),
+      empNumber: employeeAttendance
+        ? parseInt(employeeAttendance.employeeId, 10)
+        : undefined,
     };
     this.props.fetchHolidays(attendanceRequest);
     this.props.fetchWorkWeek();
     this.props.fetchAttendanceRecords(attendanceRequest);
     this.props.fetchLeaveRecords(attendanceRequest);
+
+    this.setDefaultDate();
   }
 
   onRefresh = () => {};
@@ -99,15 +108,17 @@ class AttendanceDetails extends React.Component<
     }
   };
 
-  render() {
-    const {attendanceRecords, leaveRecords, workweek, holidays} = this.props;
-    const startDayIndex = this.props.route.params.startDayIndex;
+  setDefaultDate = () => {
+    const {startDayIndex} = this.props.route.params;
     if (this.state.selectedDate === undefined) {
       this.setState({
         selectedDate: moment().weekday(startDayIndex),
       });
     }
+  };
 
+  render() {
+    const {attendanceRecords, leaveRecords, workweek, holidays} = this.props;
     const {selectedDate} = this.state;
     const selectedAttendanceRecords = getAttendanceRecordsOfTheSelectedDate(
       attendanceRecords,

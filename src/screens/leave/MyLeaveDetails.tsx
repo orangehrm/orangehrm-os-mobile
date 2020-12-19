@@ -60,13 +60,16 @@ class MyLeaveDetails extends React.Component<
 > {
   constructor(props: MyLeaveDetailsProps) {
     super(props);
-    const {leaveRequest} = props.route.params;
-    if (props.leaveRequestDetail?.leaveRequestId !== leaveRequest.id) {
-      this.props.fetchMyLeaveDetails(leaveRequest.id);
-    }
     this.state = {
       action: undefined,
     };
+  }
+
+  componentDidMount() {
+    const {leaveRequest} = this.props.route.params;
+    if (this.props.leaveRequestDetail?.leaveRequestId !== leaveRequest.id) {
+      this.props.fetchMyLeaveDetails(leaveRequest.id);
+    }
   }
 
   onRefresh = () => {

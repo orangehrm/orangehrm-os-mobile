@@ -49,7 +49,13 @@ function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
       prepare(
         API_ENDPOINT_ATTENDANCE,
         {},
-        {fromDate: action.payload.fromDate, toDate: action.payload.toDate},
+        {
+          fromDate: action.payload.fromDate,
+          toDate: action.payload.toDate,
+          ...(action.payload.empNumber && {
+            empNumber: action.payload.empNumber,
+          }),
+        },
       ),
     );
 
@@ -94,13 +100,15 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
           pendingApproval: 'true',
           scheduled: 'true',
           taken: 'true',
+          ...(action.payload.empNumber && {
+            empNumber: action.payload.empNumber,
+          }),
         },
       ),
     );
     if (response.data) {
       yield put(fetchLeaveRecordsFinished(response.data));
     } else {
-      console.log('place1');
       if (response.getResponse().status === HTTP_NOT_FOUND) {
         yield put(fetchLeaveRecordsFinished([]));
       } else {
@@ -142,6 +150,9 @@ function* fetchAttendanceGraphRecords(
           pendingApproval: 'true',
           scheduled: 'true',
           taken: 'true',
+          ...(action.payload.empNumber && {
+            empNumber: action.payload.empNumber,
+          }),
         },
       ),
     );
