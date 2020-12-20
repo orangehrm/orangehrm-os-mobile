@@ -23,6 +23,7 @@ import {StyleSheet, View} from 'react-native';
 import useTheme from 'lib/hook/useTheme';
 import Text from 'components/DefaultText';
 import IconButton from 'components/DefaultIconButton';
+import {convertDateObjectToStringFormat} from 'lib/helpers/attendance';
 
 const DatePeriodComponent = (props: DatePeriodComponentProps) => {
   const theme = useTheme();
@@ -73,8 +74,15 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
                   paddingVertical: theme.spacing,
                 },
               ]}>
-              {props.startDate.format('ddd, DD MMM YYYY')} {'to'}{' '}
-              {props.endDate.format('ddd, DD MMM YYYY')}
+              {convertDateObjectToStringFormat(
+                props.startDate,
+                'ddd, DD MMM YYYY',
+              )}{' '}
+              {'to'}{' '}
+              {convertDateObjectToStringFormat(
+                props.endDate,
+                'ddd, DD MMM YYYY',
+              )}
             </Text>
           </View>
           <IconButton

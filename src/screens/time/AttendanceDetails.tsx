@@ -59,6 +59,8 @@ import {
   getLeaveRecordsOfTheSelectedDate,
   getHolidayRecordsOfTheSelectedDate,
   getWorkWeekResultOfTheSelectedDate,
+  convertDateObjectToStringFormat,
+  getWeekDayFromIndex,
 } from 'lib/helpers/attendance';
 class AttendanceDetails extends React.Component<
   AttendanceDetailsProps,
@@ -74,12 +76,14 @@ class AttendanceDetails extends React.Component<
   componentDidMount() {
     const {employeeAttendance} = this.props.route.params;
     const attendanceRequest: AttendanceRequest = {
-      fromDate: moment()
-        .weekday(this.props.route.params.startDayIndex)
-        .format('YYYY-MM-DD'),
-      toDate: moment()
-        .weekday(this.props.route.params.startDayIndex + 6)
-        .format('YYYY-MM-DD'),
+      fromDate: convertDateObjectToStringFormat(
+        getWeekDayFromIndex(this.props.route.params.startDayIndex),
+        'YYYY-MM-DD',
+      ),
+      toDate: convertDateObjectToStringFormat(
+        getWeekDayFromIndex(this.props.route.params.startDayIndex + 6),
+        'YYYY-MM-DD',
+      ),
       empNumber: employeeAttendance
         ? parseInt(employeeAttendance.employeeId, 10)
         : undefined,
@@ -103,7 +107,9 @@ class AttendanceDetails extends React.Component<
   componentDidUpdate = () => {
     if (this.state.selectedDate === undefined) {
       this.setState({
-        selectedDate: moment().weekday(this.props.route.params.startDayIndex),
+        selectedDate: getWeekDayFromIndex(
+          this.props.route.params.startDayIndex,
+        ),
       });
     }
   };
@@ -112,7 +118,7 @@ class AttendanceDetails extends React.Component<
     const {startDayIndex} = this.props.route.params;
     if (this.state.selectedDate === undefined) {
       this.setState({
-        selectedDate: moment().weekday(startDayIndex),
+        selectedDate: getWeekDayFromIndex(startDayIndex),
       });
     }
   };
@@ -144,7 +150,11 @@ class AttendanceDetails extends React.Component<
     );
     let duration: string = '00:00';
     dateSelectorData.forEach((singleDay) => {
-      if (singleDay.date.format('ddd') === selectedDate?.format('ddd')) {
+      if (
+        selectedDate !== undefined &&
+        convertDateObjectToStringFormat(singleDay.date, 'ddd') ===
+          convertDateObjectToStringFormat(selectedDate, 'ddd')
+      ) {
         duration = singleDay.duration;
       }
     });
@@ -163,8 +173,11 @@ class AttendanceDetails extends React.Component<
               return (
                 <AttendanceDetailedHeaderComponent
                   isActive={
-                    singleDate.date.format('ddd') ===
-                    this.state.selectedDate?.format('ddd')
+                    convertDateObjectToStringFormat(singleDate.date, 'ddd') ===
+                    convertDateObjectToStringFormat(
+                      this.state.selectedDate,
+                      'ddd',
+                    )
                   }
                   day={singleDate.date}
                   selectDate={this.selectDate}
@@ -176,7 +189,12 @@ class AttendanceDetails extends React.Component<
           <View style={{paddingTop: theme.spacing * 4}}>
             <AttendanceDetailedViewDurationEmployeeDetailsCardComponent
               date={
-                selectedDate ? selectedDate.format('ddd, DD MMM YYYY') : '--'
+                selectedDate
+                  ? convertDateObjectToStringFormat(
+                      selectedDate,
+                      'ddd, DD MMM YYYY',
+                    )
+                  : '--'
               }
               duration={duration}
               holidays={selectedHolidays}

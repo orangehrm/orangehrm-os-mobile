@@ -59,6 +59,7 @@ import moment from 'moment';
 import {
   getDurationFromHours,
   calculateDateOfMonth,
+  getWeekDayFromIndex,
 } from 'lib/helpers/attendance';
 import {navigate} from 'lib/helpers/navigation';
 import {ATTENDANCE_DETAILS, EMPLOYEE_ATTENDANCE_DETAILS} from 'screens';
@@ -77,8 +78,8 @@ class AttendanceSummary extends React.Component<
     this.state = {
       startDayIndex: 0,
       endDayIndex: 6,
-      weekStartDate: moment().weekday(0),
-      weekEndDate: moment().weekday(6),
+      weekStartDate: getWeekDayFromIndex(0),
+      weekEndDate: getWeekDayFromIndex(6),
       singleLeaveTypeData: [],
       dateOfMonth: calculateDateOfMonth(0, 6),
       graphWorkData: startGraphWorkData,
@@ -177,8 +178,8 @@ class AttendanceSummary extends React.Component<
       {
         startDayIndex: countStart,
         endDayIndex: countEnd,
-        weekStartDate: moment().day(countStart),
-        weekEndDate: moment().day(countEnd),
+        weekStartDate: getWeekDayFromIndex(countStart),
+        weekEndDate: getWeekDayFromIndex(countEnd),
         dateOfMonth: calculateDateOfMonth(countStart, countEnd),
         graphWorkData: startGraphWorkData,
         graphLeaveData: [],
@@ -197,8 +198,8 @@ class AttendanceSummary extends React.Component<
         {
           startDayIndex: countStart,
           endDayIndex: countEnd,
-          weekStartDate: moment().day(countStart),
-          weekEndDate: moment().day(countEnd),
+          weekStartDate: getWeekDayFromIndex(countStart),
+          weekEndDate: getWeekDayFromIndex(countEnd),
           dateOfMonth: calculateDateOfMonth(countStart, countEnd),
           graphWorkData: startGraphWorkData,
           graphLeaveData: [],

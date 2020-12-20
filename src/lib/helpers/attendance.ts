@@ -164,10 +164,14 @@ const formatLastRecordDetails = (
 };
 
 const convertDateObjectToStringFormat = (
-  dateObject: moment.Moment,
-  format: string,
+  dateObject?: moment.Moment,
+  format?: string,
 ) => {
-  return dateObject.format(format);
+  if (dateObject !== undefined && format !== undefined) {
+    return dateObject.format(format);
+  } else {
+    return ' -- ';
+  }
 };
 
 /**
@@ -384,6 +388,10 @@ const calculateDateOfMonth = (start: number, end: number) => {
   return dateOfMonth;
 };
 
+const getWeekDayFromIndex = (index: number) => {
+  return moment().weekday(index);
+};
+
 export {
   getDateObjectFromSaveFormat,
   calculateDurationBasedOnTimezone,
@@ -405,4 +413,5 @@ export {
   calculateDurationUsingSavedFormat,
   formatTime,
   calculateDateOfMonth,
+  getWeekDayFromIndex,
 };
