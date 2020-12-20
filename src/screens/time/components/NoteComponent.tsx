@@ -41,10 +41,14 @@ const PickNote = (props: PickNoteProps) => {
     <>
       <View>
         <TouchableWithoutFeedback
-          style={[styles.cardButton, styles.marginForShadow]}
+          style={[styles.marginForShadow]}
           onPress={onPress}>
           <View style={[styles.cardButtonContent]}>
-            <View style={styles.buttonLeftView}>
+            <View
+              style={[
+                styles.buttonLeftView,
+                {paddingBottom: theme.spacing * 4},
+              ]}>
               <Icon
                 name={'comment-text'}
                 style={{paddingLeft: theme.spacing * 3}}
@@ -90,16 +94,12 @@ interface PickNoteProps {
 const styles = StyleSheet.create({
   buttonLeftView: {
     flexDirection: 'row',
-    paddingBottom: 16,
   },
   cardButtonContent: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'stretch',
-  },
-  cardButton: {
-    borderRadius: 0,
   },
   footerView: {
     flexDirection: 'row',
@@ -177,5 +177,5 @@ export const PickNoteFooter = React.forwardRef<
 export interface PickNoteFooterProps
   extends Pick<TextInputProps, 'onChangeText' | 'value' | 'autoFocus'>,
     NonNullable<$PropertyType<IconButtonProps, 'buttonProps'>> {
-  onPress;
+  onPress: () => void;
 }

@@ -29,7 +29,7 @@ import Divider from 'components/DefaultDivider';
 import {fetchPunchStatus} from 'store/time/attendance/actions';
 import Icon from 'components/DefaultIcon';
 import {AndroidEvent} from '@react-native-community/datetimepicker/src/index';
-
+import {formatTime} from 'lib/helpers/attendance';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 class EditPunchInOutDateTimeCard extends React.Component<
@@ -57,17 +57,6 @@ class EditPunchInOutDateTimeCard extends React.Component<
     );
   };
 
-  formatTime = (time: string) => {
-    let hourMinute = time.substring(0, 5).split(':', 2);
-    let ampm: string = 'AM';
-    let hour: string = hourMinute[0];
-    if (parseInt(hourMinute[0]) > 12) {
-      hour = (parseInt(hourMinute[0]) - 12).toString();
-      ampm = 'PM';
-    }
-    return hour.toString() + ':' + hourMinute[1] + ' ' + ampm;
-  };
-
   showDatepicker = () => {
     this.setState({show: true, mode: DATE});
   };
@@ -87,7 +76,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
       date = punchCurrentDateTime;
     }
     const dateDisplay = date.toDateString();
-    const timeDisplay = this.formatTime(date.toTimeString());
+    const timeDisplay = formatTime(date);
 
     return (
       <>
@@ -133,7 +122,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
                     }}>
                     <Icon name={'calendar-blank'} fontSize={20} />
                   </View>
-                  <View style={{}}>
+                  <View>
                     <Text style={{fontSize: theme.spacing * 4.5}}>
                       {'Date'}
                     </Text>
@@ -189,7 +178,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
                     }}>
                     <Icon name={'clock-outline'} fontSize={20} />
                   </View>
-                  <View style={{}}>
+                  <View>
                     <Text style={{fontSize: theme.spacing * 4.5}}>
                       {'Time'}
                     </Text>
@@ -250,38 +239,20 @@ interface EditPunchInOutDateTimeCardState {
 }
 
 const styles = StyleSheet.create({
-  validPeriodText: {
-    alignItems: 'center',
-  },
-
   justifyContentCenter: {
     justifyContent: 'center',
   },
-
   alignItemsFlexEnd: {
     alignItems: 'flex-end',
   },
-
   rowFlexDirection: {
     flexDirection: 'row',
-  },
-  flexFour: {
-    flex: 4,
   },
   flexTwo: {
     flex: 2,
   },
-  flexThree: {
-    flex: 3,
-  },
   flexOne: {
     flex: 1,
-  },
-  flexFive: {
-    flex: 5,
-  },
-  flexSix: {
-    flex: 6,
   },
 });
 
@@ -293,9 +264,9 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const EditPunchInOutDateTimeCardCardWithTheme = withTheme<
-  EditPunchInOutDateTimeCardProps
->()(EditPunchInOutDateTimeCard);
+const EditPunchInOutDateTimeCardCardWithTheme = withTheme<EditPunchInOutDateTimeCardProps>()(
+  EditPunchInOutDateTimeCard,
+);
 
 const DATE = 'date';
 const TIME = 'time';

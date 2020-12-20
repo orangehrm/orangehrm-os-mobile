@@ -35,6 +35,8 @@ import {
 import {
   DaySelectorSingleDay,
   AttendanceRequest,
+  EMPLOYEE_ATTENDANCE,
+  MY_ATTENDANCE,
 } from 'store/time/my-attendance/types';
 import {
   selectAttendanceRecords,
@@ -47,7 +49,6 @@ import {selectWorkWeek} from 'store/leave/common-screens/selectors';
 import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
 import {selectCurrentRoute} from 'store/globals/selectors';
 import moment from 'moment';
-import {Text} from 'react-native-svg';
 import {AttendanceDetailsScreenRouteParams} from 'screens/time/navigators/index';
 import AttendanceTimelineComponent from 'screens/time/components/AttendanceTimelineComponent';
 import AttendanceDetailedHeaderComponent from 'screens/time/components/AttendanceDetailedHeaderComponent';
@@ -72,7 +73,7 @@ class AttendanceDetails extends React.Component<
 
   componentDidMount() {
     const {employeeAttendance} = this.props.route.params;
-    let attendanceRequest: AttendanceRequest = {
+    const attendanceRequest: AttendanceRequest = {
       fromDate: moment()
         .weekday(this.props.route.params.startDayIndex)
         .format('YYYY-MM-DD'),
@@ -92,15 +93,14 @@ class AttendanceDetails extends React.Component<
   }
 
   onRefresh = () => {};
+
   selectDate = (day: moment.Moment) => {
     this.setState({
       selectedDate: day,
     });
   };
 
-  componentDidUpdate = (prevProps: AttendanceDetailsProps) => {
-    if (prevProps.route !== this.props.route) {
-    }
+  componentDidUpdate = () => {
     if (this.state.selectedDate === undefined) {
       this.setState({
         selectedDate: moment().weekday(this.props.route.params.startDayIndex),
@@ -152,7 +152,6 @@ class AttendanceDetails extends React.Component<
     return (
       <MainLayout onRefresh={this.onRefresh}>
         <View>
-          <Text>{'Attendance Details Screen'}</Text>
           <View
             style={[
               styles.rowFlexDirection,
@@ -169,9 +168,8 @@ class AttendanceDetails extends React.Component<
                   }
                   day={singleDate.date}
                   selectDate={this.selectDate}
-                  hours={
-                    singleDate.duration
-                  }></AttendanceDetailedHeaderComponent>
+                  hours={singleDate.duration}
+                />
               );
             })}
           </View>
@@ -183,16 +181,20 @@ class AttendanceDetails extends React.Component<
               duration={duration}
               holidays={selectedHolidays}
               leaves={selectedLeaveRecords}
-              workweekResult={
-                selectedWorkWeekResult
-              }></AttendanceDetailedViewDurationEmployeeDetailsCardComponent>
+              workweekResult={selectedWorkWeekResult}
+              employeeName={this.props.route.params.employeeName}
+              mode={
+                this.props.route.params.employeeName !== undefined
+                  ? EMPLOYEE_ATTENDANCE
+                  : MY_ATTENDANCE
+              }
+            />
           </View>
           <Divider />
           <View>
             <AttendanceTimelineComponent
-              attendanceRecords={
-                selectedAttendanceRecords
-              }></AttendanceTimelineComponent>
+              attendanceRecords={selectedAttendanceRecords}
+            />
           </View>
         </View>
       </MainLayout>

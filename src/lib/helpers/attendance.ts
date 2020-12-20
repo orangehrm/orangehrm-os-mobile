@@ -69,6 +69,33 @@ const NEGATIVE_DURATION = 'NEGATIVE_DURATION';
 
 /**
  *
+ * @param datetime1
+ * @param datetime2
+ */
+const calculateDurationUsingSavedFormat = (
+  datetime1?: string,
+  datetime2?: string,
+) => {
+  if (datetime1 && datetime2) {
+    let dt1 = getDateObjectFromSaveFormat(datetime1);
+    let dt2 = getDateObjectFromSaveFormat(datetime2);
+
+    let minutes = Math.round((dt2.getTime() - dt1.getTime()) / (1000 * 60));
+    if (minutes < 0) {
+      return NEGATIVE_DURATION;
+    }
+    let durationHours = setTwoDigits(
+      ((minutes - (minutes % 60)) / 60).toString(),
+    );
+    let durationMinutes = setTwoDigits((minutes % 60).toString());
+    return durationHours + ':' + durationMinutes;
+  } else {
+    return '00:00';
+  }
+};
+
+/**
+ *
  * @param {String} punchInDatetime e.g. 2020-12-21 02:15:00, 2020-12-21 17:14
  * @param {String} punchOutDatetime e.g. 2020-12-21 03:15:00, 2020-12-21 20:14
  * @param {Number} punchInTimeZoneOffset e.g. -2, -11, 4, 5.5
@@ -334,6 +361,29 @@ const getDurationFromHours = (hours?: number) => {
   }
 };
 
+// to get time as 3:48 PM from JS Date object
+const formatTime = (datetime: Date) => {
+  let time = datetime.toTimeString();
+  let hourMinute = time.substring(0, 5).split(':', 2);
+  let ampm: string = 'AM';
+  let hour: string = hourMinute[0];
+  if (parseInt(hourMinute[0]) > 12) {
+    hour = (parseInt(hourMinute[0]) - 12).toString();
+    ampm = 'PM';
+  }
+  return hour.toString() + ':' + hourMinute[1] + ' ' + ampm;
+};
+
+const calculateDateOfMonth = (start: number, end: number) => {
+  let dateOfMonth = [];
+  for (let i = start; i <= end; i++) {
+    dateOfMonth.push(
+      convertDateObjectToStringFormat(moment().weekday(i), 'M/D'),
+    );
+  }
+  return dateOfMonth;
+};
+
 export {
   getDateObjectFromSaveFormat,
   calculateDurationBasedOnTimezone,
@@ -352,4 +402,7 @@ export {
   getHolidayRecordsOfTheSelectedDate,
   getUTCMomentObjectFromString,
   getWorkWeekResultOfTheSelectedDate,
+  calculateDurationUsingSavedFormat,
+  formatTime,
+  calculateDateOfMonth,
 };

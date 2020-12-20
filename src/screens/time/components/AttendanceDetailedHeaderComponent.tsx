@@ -1,5 +1,11 @@
 import React from 'react';
-import {Text, TouchableOpacity, View, Dimensions} from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  Dimensions,
+  StyleSheet,
+} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect} from 'react-redux';
 
@@ -22,22 +28,28 @@ class AttendanceDetailedHeaderComponent extends React.Component<
     return (
       <TouchableOpacity onPress={this.toggle} style={{}}>
         <View
-          style={{
-            width: width / 7,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+          style={[
+            styles.justifyContentCenter,
+            styles.alignItemsCenter,
+            {
+              width: width / 7,
+            },
+          ]}>
           <Text
             style={{
               fontSize: theme.spacing * 4.5,
               fontWeight: '700',
-              color: isActive ? theme.palette.secondary : 'gray',
+              color: isActive
+                ? theme.palette.secondary
+                : theme.typography.primaryColor,
             }}>
             {this.props.day.format('ddd')}
           </Text>
           <View
             style={{
-              backgroundColor: isActive ? theme.palette.secondary : '#eaeaea',
+              backgroundColor: isActive
+                ? theme.palette.secondary
+                : theme.palette.defaultDark,
               paddingLeft: theme.spacing * 2.5,
               paddingTop: theme.spacing * 2,
               paddingBottom: theme.spacing * 2,
@@ -48,7 +60,9 @@ class AttendanceDetailedHeaderComponent extends React.Component<
               style={{
                 fontSize: theme.spacing * 4.5,
                 fontWeight: '700',
-                color: isActive ? '#fff' : 'gray',
+                color: isActive
+                  ? theme.palette.background
+                  : theme.typography.primaryColor,
               }}>
               {this.props.day.format('DD')}
             </Text>
@@ -56,7 +70,9 @@ class AttendanceDetailedHeaderComponent extends React.Component<
           <Text
             style={{
               fontSize: theme.spacing * 4,
-              color: isActive ? theme.palette.secondary : 'gray',
+              color: isActive
+                ? theme.palette.secondary
+                : theme.typography.primaryColor,
             }}>
             {hours}
           </Text>
@@ -65,6 +81,14 @@ class AttendanceDetailedHeaderComponent extends React.Component<
     );
   }
 }
+const styles = StyleSheet.create({
+  justifyContentCenter: {
+    justifyContent: 'center',
+  },
+  alignItemsCenter: {
+    alignItems: 'center',
+  },
+});
 
 interface AttendanceDetailedHeaderComponentState {}
 interface AttendanceDetailedHeaderComponentProps extends WithTheme {

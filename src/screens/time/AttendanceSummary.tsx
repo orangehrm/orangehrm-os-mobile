@@ -36,6 +36,8 @@ import {
   SingleLeave,
   GraphDataPoint,
   LeaveTypeGraphData,
+  EMPLOYEE_ATTENDANCE,
+  MY_ATTENDANCE,
 } from 'store/time/my-attendance/types';
 import {
   selectAttendanceRecords,
@@ -54,7 +56,10 @@ import {
 import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
 import {selectCurrentRoute} from 'store/globals/selectors';
 import moment from 'moment';
-import {getDurationFromHours} from 'lib/helpers/attendance';
+import {
+  getDurationFromHours,
+  calculateDateOfMonth,
+} from 'lib/helpers/attendance';
 import {navigate} from 'lib/helpers/navigation';
 import {ATTENDANCE_DETAILS, EMPLOYEE_ATTENDANCE_DETAILS} from 'screens';
 import {
@@ -75,7 +80,7 @@ class AttendanceSummary extends React.Component<
       weekStartDate: moment().weekday(0),
       weekEndDate: moment().weekday(6),
       singleLeaveTypeData: [],
-      dateOfMonth: this.calculateDateOfMonth(0, 6),
+      dateOfMonth: calculateDateOfMonth(0, 6),
       graphWorkData: startGraphWorkData,
       graphLeaveData: [],
     };
@@ -94,8 +99,10 @@ class AttendanceSummary extends React.Component<
     navigate<AttendanceDetailsScreenParam>(route, {
       startDayIndex: this.state.startDayIndex,
       employeeAttendance,
+      employeeName: undefined,
     });
   };
+
   componentDidUpdate = (prevProps: AttendanceSummaryProps) => {
     if (
       this.props.graphRecords !== prevProps.graphRecords &&
@@ -104,11 +111,11 @@ class AttendanceSummary extends React.Component<
       this.calculateDetailsCardTotalLeaveTypesData(
         this.props.graphRecords?.totalLeaveTypeHours,
       );
-      let cardRresult = this.calculateDetailsCardTotalLeaveTypesData(
+      const cardRresult = this.calculateDetailsCardTotalLeaveTypesData(
         this.props.graphRecords?.totalLeaveTypeHours,
       );
-      let leaveResult = calculateGraphData(this.props.graphRecords);
-      let workResult = calculateWorkData(this.props.graphRecords);
+      const leaveResult = calculateGraphData(this.props.graphRecords);
+      const workResult = calculateWorkData(this.props.graphRecords);
       this.setState({
         graphLeaveData: leaveResult,
         singleLeaveTypeData: cardRresult,
@@ -120,9 +127,9 @@ class AttendanceSummary extends React.Component<
   calculateDetailsCardTotalLeaveTypesData = (
     leaveTypesInputData: SingleLeave[],
   ) => {
-    let result = [];
+    const result = [];
     for (let i = 0; i < leaveTypesInputData.length; i++) {
-      let graphLeaveType: GraphLeaveType = {
+      const graphLeaveType: GraphLeaveType = {
         typeId: leaveTypesInputData[i].typeId,
         type: leaveTypesInputData[i].type,
         colour: getLeaveColourById(leaveTypesInputData[i].typeId),
@@ -135,16 +142,6 @@ class AttendanceSummary extends React.Component<
     return result;
   };
 
-  calculateDateOfMonth = (start: number, end: number) => {
-    let dateOfMonth = [];
-    for (let i = start; i <= end; i++) {
-      dateOfMonth.push(
-        convertDateObjectToStringFormat(moment().weekday(i), 'M/D'),
-      );
-    }
-    return dateOfMonth;
-  };
-
   fetchData = (weekStartDate: moment.Moment, weekEndDate: moment.Moment) => {
     const {params: {employeeAttendance} = {}} = this.props.route;
     let empNumber = undefined;
@@ -152,11 +149,11 @@ class AttendanceSummary extends React.Component<
       empNumber = parseInt(employeeAttendance.employeeId, 10);
     }
 
-    let startDate = convertDateObjectToStringFormat(
+    const startDate = convertDateObjectToStringFormat(
       weekStartDate,
       'YYYY-MM-DD',
     );
-    let endDate = convertDateObjectToStringFormat(weekEndDate, 'YYYY-MM-DD');
+    const endDate = convertDateObjectToStringFormat(weekEndDate, 'YYYY-MM-DD');
     let attendanceRequest: AttendanceRequest;
     if (empNumber !== undefined) {
       attendanceRequest = {
@@ -173,8 +170,8 @@ class AttendanceSummary extends React.Component<
     this.props.fetchAttendanceGraphRecords(attendanceRequest);
   };
   goLeft = () => {
-    let countStart = this.state.startDayIndex - 7;
-    let countEnd = this.state.endDayIndex - 7;
+    const countStart = this.state.startDayIndex - 7;
+    const countEnd = this.state.endDayIndex - 7;
 
     this.setState(
       {
@@ -182,7 +179,7 @@ class AttendanceSummary extends React.Component<
         endDayIndex: countEnd,
         weekStartDate: moment().day(countStart),
         weekEndDate: moment().day(countEnd),
-        dateOfMonth: this.calculateDateOfMonth(countStart, countEnd),
+        dateOfMonth: calculateDateOfMonth(countStart, countEnd),
         graphWorkData: startGraphWorkData,
         graphLeaveData: [],
       },
@@ -193,8 +190,8 @@ class AttendanceSummary extends React.Component<
   };
 
   goRight = () => {
-    let countStart = this.state.startDayIndex + 7;
-    let countEnd = this.state.endDayIndex + 7;
+    const countStart = this.state.startDayIndex + 7;
+    const countEnd = this.state.endDayIndex + 7;
     if (countStart <= 1) {
       this.setState(
         {
@@ -202,7 +199,7 @@ class AttendanceSummary extends React.Component<
           endDayIndex: countEnd,
           weekStartDate: moment().day(countStart),
           weekEndDate: moment().day(countEnd),
-          dateOfMonth: this.calculateDateOfMonth(countStart, countEnd),
+          dateOfMonth: calculateDateOfMonth(countStart, countEnd),
           graphWorkData: startGraphWorkData,
           graphLeaveData: [],
         },
@@ -219,6 +216,7 @@ class AttendanceSummary extends React.Component<
 
   render() {
     const {theme, graphRecords} = this.props;
+    const empNumber = 1;
     return (
       <MainLayout onRefresh={this.onRefresh}>
         <View
@@ -243,94 +241,23 @@ class AttendanceSummary extends React.Component<
           )}
           onPressDetails={this.onPressDetails}
           totalWorkDuration={getDurationFromHours(graphRecords?.totalWorkHours)}
-          leaveData={
-            this.state.singleLeaveTypeData
-          }></AttendanceSummaryWorkLeaveDurationsCardComponent>
-
+          leaveData={this.state.singleLeaveTypeData}
+          empNumber={undefined}
+          employeeName={undefined}
+          mode={empNumber !== undefined ? EMPLOYEE_ATTENDANCE : MY_ATTENDANCE}
+        />
         <AttendanceDailyChartComponent
           graphLeaveData={this.state.graphLeaveData}
           graphWorkData={this.state.graphWorkData}
-          dateOfMonth={this.state.dateOfMonth}></AttendanceDailyChartComponent>
+          dateOfMonth={this.state.dateOfMonth}
+        />
       </MainLayout>
     );
   }
 }
 const styles = StyleSheet.create({
-  mainView: {
-    flex: 1,
-  },
-  noRecordsTextView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  noRecordsText: {
-    textAlign: 'center',
-  },
-  durationMainView: {
-    flex: 2,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginHorizontal: 20,
-  },
-
-  durationText: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-
-  briefcaseIcon: {
-    width: 30,
-    height: 30,
-    alignItems: 'center',
-  },
-
-  textBold: {
-    fontWeight: 'bold',
-  },
-
-  lastRecordDetailsMainView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f2f3f5',
-  },
-
-  lastPunchText: {
-    flex: 2,
-    flexDirection: 'column',
-  },
-
-  colorWhite: {
-    color: 'white',
-  },
-
-  flexFour: {
-    flex: 4,
-  },
-  flexTwo: {
-    flex: 2,
-  },
   flexOne: {
     flex: 1,
-  },
-  flexThree: {
-    flex: 3,
-  },
-  centerItems: {
-    alignItems: 'center',
-  },
-
-  rowFlexDirection: {
-    flexDirection: 'row',
-  },
-  hoursView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 5,
   },
 });
 

@@ -6,7 +6,7 @@ import {
   PunchStatusActionTypes,
   RESET_PUNCH_STATE,
 } from './types';
-import {getDateObjectFromSaveFormat} from '../../../lib/helpers/attendance';
+import {getDateObjectFromSaveFormat} from 'lib/helpers/attendance';
 
 const initialState: PunchStatusState = {};
 
@@ -20,13 +20,12 @@ const attendanceReducer = (
         return state;
       }
       if (action.payload?.currentUTCDateTime) {
-        let date = getDateObjectFromSaveFormat(
-          action.payload.currentUTCDateTime,
-        );
         return {
           ...state,
           punchStatus: action.payload,
-          punchCurrentDateTime: date,
+          punchCurrentDateTime: getDateObjectFromSaveFormat(
+            action.payload.currentUTCDateTime,
+          ),
         };
       }
       return {

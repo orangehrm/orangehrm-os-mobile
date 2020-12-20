@@ -22,15 +22,29 @@ const AttendanceDailyChartComponent = (
 
   let renderGraph = () => {
     return (
-      <CardContent
-        style={{
-          paddingTop: theme.spacing * 2,
-          paddingHorizontal: theme.spacing * 3,
-          backgroundColor: theme.palette.backgroundSecondary,
-        }}>
-        <View style={[styles.mainView]}>
-          <View style={[styles.dailyHoursView]}>
-            <Text style={[styles.dailyHoursText]}>{'Daily Hours'}</Text>
+      <View
+        style={[
+          styles.flexOne,
+          {
+            backgroundColor: theme.palette.backgroundSecondary,
+            padding: theme.spacing * 2.5,
+          },
+        ]}>
+        <CardContent
+          style={{
+            paddingTop: theme.spacing * 2,
+            paddingHorizontal: theme.spacing * 3,
+            backgroundColor: theme.palette.background,
+            borderRadius: theme.spacing * 5,
+          }}>
+          <View
+            style={{
+              paddingTop: theme.spacing * 2,
+              paddingLeft: theme.spacing * 2,
+            }}>
+            <Text style={{fontSize: theme.spacing * 3.75}}>
+              {'Daily Hours'}
+            </Text>
           </View>
           <VictoryChart domainPadding={15}>
             <VictoryAxis
@@ -89,8 +103,8 @@ const AttendanceDailyChartComponent = (
               })}
             </VictoryStack>
           </VictoryChart>
-        </View>
-      </CardContent>
+        </CardContent>
+      </View>
     );
   };
 
@@ -102,77 +116,8 @@ const AttendanceDailyChartComponent = (
 };
 
 const styles = StyleSheet.create({
-  mainView: {
-    backgroundColor: 'white',
-    borderRadius: 5,
-    marginHorizontal: 10,
-    marginTop: 10,
-    overflow: 'hidden',
-  },
-  noRecordsText: {
-    textAlign: 'center',
-  },
-  durationMainView: {
-    flex: 2,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginHorizontal: 20,
-  },
-
-  dailyHoursView: {
-    paddingTop: 8,
-    paddingLeft: 8,
-  },
-
-  dailyHoursText: {
-    fontSize: 15,
-  },
-
-  textBold: {
-    fontWeight: 'bold',
-  },
-
-  lastRecordDetailsMainView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f2f3f5',
-  },
-
-  lastPunchText: {
-    flex: 2,
-    flexDirection: 'column',
-  },
-
-  colorWhite: {
-    color: 'white',
-  },
-
-  flexFour: {
-    flex: 4,
-  },
-  flexTwo: {
-    flex: 2,
-  },
   flexOne: {
     flex: 1,
-  },
-  flexThree: {
-    flex: 3,
-  },
-  centerItems: {
-    alignItems: 'center',
-  },
-
-  rowFlexDirection: {
-    flexDirection: 'row',
-  },
-  hoursView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 5,
   },
 });
 
