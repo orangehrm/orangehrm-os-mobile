@@ -110,7 +110,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
         this.props.punchStatus?.punchTime &&
         this.props.punchCurrentDateTime
       ) {
-        let duration = this.calculateDuration(
+        const duration = this.calculateDuration(
           this.props.punchStatus?.punchTime,
           getDateSaveFormatFromDateObject(this.props.punchCurrentDateTime),
           parseFloat(this.props.punchStatus.PunchTimeZoneOffset),
@@ -174,7 +174,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
   onPressPunchButton = () => {
     const {punchCurrentDateTime, savedNote} = this.props;
     if (punchCurrentDateTime !== undefined) {
-      let punchRequest: PunchRequest = {
+      const punchRequest: PunchRequest = {
         timezoneOffset: getCurrentTimeZoneOffset(),
         note: savedNote ? savedNote : undefined,
         datetime: getDateSaveFormatFromDateObject(punchCurrentDateTime),
@@ -303,6 +303,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
                     style={[
                       {
                         paddingTop: theme.spacing * 4,
+                        marginHorizontal: theme.spacing * 5,
                       },
                       styles.durationMainView,
                     ]}>
@@ -314,14 +315,18 @@ class Punch extends React.Component<PunchProps, PunchState> {
                             {
                               backgroundColor: theme.palette.secondary,
                               borderRadius: theme.spacing * 7,
+                              width: theme.spacing * 7.5,
+                              height: theme.spacing * 7.5,
                             },
                           ]}>
                           <Icon
                             name={'briefcase'}
-                            fontSize={18}
+                            fontSize={theme.spacing * 4.5}
                             style={[
-                              styles.colorWhite,
-                              {padding: theme.spacing},
+                              {
+                                padding: theme.spacing,
+                                color: theme.typography.secondaryColor,
+                              },
                             ]}
                           />
                         </View>
@@ -337,7 +342,11 @@ class Punch extends React.Component<PunchProps, PunchState> {
                         {'Duration'}
                       </Text>
                     </View>
-                    <View style={[styles.hoursView]}>
+                    <View
+                      style={[
+                        styles.hoursView,
+                        {margin: theme.spacing * 1.25},
+                      ]}>
                       <View style={{paddingLeft: theme.spacing * 1.25}}>
                         <Text
                           style={[
@@ -379,6 +388,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
                           marginVertical: theme.spacing * 2.5,
                           padding: theme.spacing * 0.75,
                           borderRadius: theme.spacing * 4,
+                          backgroundColor: theme.palette.backgroundSecondary,
                         },
                       ]}>
                       <View style={{paddingLeft: theme.spacing * 1.25}}>
@@ -424,20 +434,11 @@ const styles = StyleSheet.create({
   mainView: {
     flex: 1,
   },
-  noRecordsTextView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  noRecordsText: {
-    textAlign: 'center',
-  },
   durationMainView: {
     flex: 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginHorizontal: 20,
   },
 
   durationText: {
@@ -447,8 +448,6 @@ const styles = StyleSheet.create({
   },
 
   briefcaseIcon: {
-    width: 30,
-    height: 30,
     alignItems: 'center',
   },
 
@@ -460,7 +459,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f2f3f5',
   },
 
   lastPunchText: {
@@ -475,24 +473,11 @@ const styles = StyleSheet.create({
   flexFour: {
     flex: 4,
   },
-  flexTwo: {
-    flex: 2,
-  },
-  flexThree: {
-    flex: 3,
-  },
-  centerItems: {
-    alignItems: 'center',
-  },
 
-  rowFlexDirection: {
-    flexDirection: 'row',
-  },
   hoursView: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 5,
   },
 });
 

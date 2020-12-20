@@ -3,20 +3,22 @@ import {Text, View, StyleSheet} from 'react-native';
 import Chip from 'components/DefaultChip';
 import {getLeaveColourById, getDurationFromHours} from 'lib/helpers/attendance';
 import {LEAVE_STATUS_MAP} from 'lib/helpers/leave';
-import {LeaveObject} from 'store/time/my-attendance/types';
+import {
+  LeaveObject,
+  mode,
+  EMPLOYEE_ATTENDANCE,
+  MY_ATTENDANCE,
+} from 'store/time/my-attendance/types';
 import {connect} from 'react-redux';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {
   WORK_WEEK_FULL,
   WORK_WEEK_NON,
   WORK_WEEK_HALF,
-  WorkWeek,
   Holiday,
 } from 'store/leave/common-screens/types';
 
-class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.Component<
-  AttendanceDetailedViewDurationEmployeeDetailsCardComponentProps
-> {
+class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.Component<AttendanceDetailedViewDurationEmployeeDetailsCardComponentProps> {
   constructor(
     props: AttendanceDetailedViewDurationEmployeeDetailsCardComponentProps,
   ) {
@@ -24,24 +26,66 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
   }
 
   render() {
-    const {theme} = this.props;
+    const {theme, date, employeeName, mode} = this.props;
     return (
       <View
         style={{
           marginVertical: theme.spacing * 2.5,
           marginHorizontal: theme.spacing * 5,
         }}>
-        <View>
-          <Text
+        {mode === EMPLOYEE_ATTENDANCE ? (
+          <View
             style={[
-              styles.textBold,
-              {
-                fontSize: theme.spacing * 4.5,
-                marginBottom: theme.spacing * 2.5,
-              },
+              styles.rowFlexDirection,
+              styles.flexOne,
+              {paddingBottom: theme.spacing * 2.5},
             ]}>
-            {this.props.date}
-          </Text>
+            <View
+              style={[
+                styles.flexOne,
+                {
+                  paddingRight: theme.spacing * 2.5,
+                },
+              ]}
+            />
+
+            <View style={styles.flexFour}>
+              <Text
+                style={[
+                  styles.textBold,
+                  {
+                    fontSize: theme.spacing * 4.5,
+                  },
+                ]}>
+                {employeeName}
+              </Text>
+              <View>
+                <Text
+                  style={[
+                    styles.flexSix,
+                    {
+                      fontSize: theme.spacing * 3.75,
+                    },
+                  ]}>
+                  {date}
+                </Text>
+              </View>
+            </View>
+          </View>
+        ) : null}
+        <View>
+          {mode === MY_ATTENDANCE ? (
+            <Text
+              style={[
+                styles.textBold,
+                {
+                  fontSize: theme.spacing * 4.5,
+                  marginBottom: theme.spacing * 2.5,
+                },
+              ]}>
+              {this.props.date}
+            </Text>
+          ) : null}
           {this.props.workweekResult !== '-1' &&
           this.props.workweekResult !== WORK_WEEK_FULL ? (
             <>
@@ -50,9 +94,8 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
                   fullWidth={false}
                   style={[
                     styles.alignSelfFlexStart,
-                    styles.holidayBorderColour,
                     {
-                      borderRadius: theme.spacing * 3.75,
+                      borderColor: theme.palette.backgroundSecondary,
                       paddingLeft: theme.spacing * 2.5,
                       paddingRight: theme.spacing * 2.5,
                       marginBottom: theme.spacing * 1.25,
@@ -74,9 +117,8 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
                 fullWidth={false}
                 style={[
                   styles.alignSelfFlexStart,
-                  styles.holidayBorderColour,
                   {
-                    borderRadius: theme.spacing * 3.75,
+                    borderColor: theme.palette.backgroundSecondary,
                     paddingLeft: theme.spacing * 2.5,
                     paddingRight: theme.spacing * 2.5,
                     marginBottom: theme.spacing * 1.25,
@@ -101,13 +143,12 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
                     backgroundColor: getLeaveColourById(
                       leave.leaveType.id.toString(),
                     ),
-                    borderRadius: theme.spacing * 2.5,
                     paddingLeft: theme.spacing * 2.5,
                     paddingRight: theme.spacing * 2.5,
                     marginBottom: theme.spacing * 1.25,
                   },
                 ]}>
-                <Text style={[styles.leaveColor]}>
+                <Text style={{color: theme.palette.background}}>
                   {leave.leaveType.type}
                   {' - '}
                   {LEAVE_STATUS_MAP[leave.status]}
@@ -154,89 +195,23 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  mainView: {
-    backgroundColor: 'white',
-    borderRadius: 5,
-    marginHorizontal: 10,
-    marginTop: 10,
-    overflow: 'hidden',
-  },
   textBold: {
     fontWeight: 'bold',
-  },
-
-  lastRecordDetailsMainView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f2f3f5',
-  },
-
-  lastPunchText: {
-    flex: 2,
-    flexDirection: 'column',
-  },
-
-  colorWhite: {
-    color: 'white',
-  },
-
-  flexFour: {
-    flex: 4,
-  },
-  flexTwo: {
-    flex: 2,
   },
   flexOne: {
     flex: 1,
   },
-  flexThree: {
-    flex: 3,
+  flexFour: {
+    flex: 4,
   },
-  centerItems: {
-    alignItems: 'center',
+  flexSix: {
+    flex: 6,
   },
-
   rowFlexDirection: {
     flexDirection: 'row',
   },
-  columnFlexDirection: {
-    flexDirection: 'column',
-  },
-  positionAbsolute: {
-    position: 'absolute',
-  },
-  alignItemsCenter: {
-    alignItems: 'center',
-  },
   alignSelfFlexStart: {
     alignSelf: 'flex-start',
-  },
-  backgroundColorWhite: {
-    backgroundColor: 'white',
-  },
-  hoursView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 5,
-  },
-  borderLeftColorWhite: {
-    borderLeftColor: 'white',
-  },
-
-  holidayBorderColour: {
-    borderColor: '#acacac',
-  },
-  leaveColor: {
-    color: '#fff',
   },
 });
 
@@ -247,15 +222,14 @@ interface AttendanceDetailedViewDurationEmployeeDetailsCardComponentProps
   holidays: Holiday[];
   leaves: LeaveObject[];
   workweekResult?: string;
+  employeeName?: string;
+  mode: mode;
 }
-const mapStateToProps = () => ({});
 
-const mapDispatchToProps = {};
+const connector = connect(null, null);
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-const AttendanceSummaryWithTheme = withTheme<
-  AttendanceDetailedViewDurationEmployeeDetailsCardComponentProps
->()(AttendanceDetailedViewDurationEmployeeDetailsCardComponent);
+const AttendanceSummaryWithTheme = withTheme<AttendanceDetailedViewDurationEmployeeDetailsCardComponentProps>()(
+  AttendanceDetailedViewDurationEmployeeDetailsCardComponent,
+);
 
 export default connector(AttendanceSummaryWithTheme);

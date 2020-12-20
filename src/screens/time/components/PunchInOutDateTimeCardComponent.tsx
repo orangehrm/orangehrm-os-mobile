@@ -26,6 +26,7 @@ import Card from 'components/DefaultCard';
 import CardContent from 'components/DefaultCardContent';
 import Text from 'components/DefaultText';
 import {fetchPunchStatus} from 'store/time/attendance/actions';
+import {formatTime} from 'lib/helpers/attendance';
 
 const PunchInOutDateTimeCard = (props: PunchInOutDateTimeCardProps) => {
   const {theme, punchCurrentDateTime} = props;
@@ -36,19 +37,9 @@ const PunchInOutDateTimeCard = (props: PunchInOutDateTimeCardProps) => {
   } else {
     date = punchCurrentDateTime;
   }
-  const formatTime = (time: string) => {
-    let hourMinute = time.substring(0, 5).split(':', 2);
-    let ampm: string = 'AM';
-    let hour: string = hourMinute[0];
-    if (parseInt(hourMinute[0]) > 12) {
-      hour = (parseInt(hourMinute[0]) - 12).toString();
-      ampm = 'PM';
-    }
-    return hour.toString() + ':' + hourMinute[1] + ampm;
-  };
 
   const dateDisplay = date.toDateString();
-  const timeDisplay = formatTime(date.toTimeString());
+  const timeDisplay = formatTime(date);
   return (
     <>
       <View
@@ -147,17 +138,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = () => ({});
-
 const mapDispatchToProps = {
   fetchPunchStatus,
 };
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(null, mapDispatchToProps);
 
-const PunchInOutDateTimeCardWithTheme = withTheme<
-  PunchInOutDateTimeCardProps
->()(PunchInOutDateTimeCard);
+const PunchInOutDateTimeCardWithTheme = withTheme<PunchInOutDateTimeCardProps>()(
+  PunchInOutDateTimeCard,
+);
 
 export default connector(PunchInOutDateTimeCardWithTheme);
 10;

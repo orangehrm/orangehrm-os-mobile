@@ -42,6 +42,11 @@ export interface GraphLeaveType {
   colour: string;
 }
 
+export const MY_ATTENDANCE = 'myAttendance';
+export const EMPLOYEE_ATTENDANCE = 'employeeAttendance';
+
+export type mode = typeof MY_ATTENDANCE | typeof EMPLOYEE_ATTENDANCE;
+
 export interface Holiday {
   id: string;
   recurring: typeof RECURRING_TRUE | typeof RECURRING_FALSE;

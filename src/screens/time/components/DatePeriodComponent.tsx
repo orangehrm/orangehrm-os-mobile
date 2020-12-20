@@ -35,10 +35,11 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
           {
             paddingHorizontal: theme.spacing * 5,
             paddingVertical: theme.spacing * 2.5,
+            backgroundColor: theme.palette.background,
           },
         ]}>
-        <View style={{}}>
-          <Text style={[styles.textBold, {}]}>{'Date Period'}</Text>
+        <View>
+          <Text style={[styles.textBold]}>{'Date Period'}</Text>
         </View>
         <View
           style={[
@@ -50,17 +51,17 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
           ]}>
           <View>
             <IconButton
-              iconProps={{name: 'chevron-left', color: 'red'}}
+              iconProps={{name: 'chevron-left'}}
               buttonProps={{onPress: onPressLeft}}
             />
           </View>
 
           <View
             style={[
-              styles.datePeroidView,
               {
                 paddingHorizontal: theme.spacing * 2.5,
                 borderRadius: theme.spacing * 2.5,
+                backgroundColor: theme.palette.backgroundSecondary,
               },
             ]}>
             <Text
@@ -79,7 +80,11 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
           <IconButton
             iconProps={{
               name: 'chevron-right',
-              style: {color: rightActive ? 'black' : 'white'},
+              style: {
+                color: rightActive
+                  ? theme.typography.darkColor
+                  : theme.typography.secondaryColor,
+              },
             }}
             buttonProps={{onPress: onPressRight, disabled: !rightActive}}
           />
@@ -91,83 +96,20 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
 const styles = StyleSheet.create({
   mainView: {
     alignItems: 'center',
-    backgroundColor: '#fff',
   },
-  noRecordsTextView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+
   noRecordsText: {
     textAlign: 'center',
-  },
-  durationMainView: {
-    flex: 2,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginHorizontal: 20,
-  },
-
-  durationText: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-
-  briefcaseIcon: {
-    width: 30,
-    height: 30,
-    alignItems: 'center',
   },
 
   textBold: {
     fontWeight: 'bold',
   },
-
-  lastRecordDetailsMainView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f2f3f5',
-  },
-
-  lastPunchText: {
-    flex: 2,
-    flexDirection: 'column',
-  },
-
-  colorWhite: {
-    color: 'white',
-  },
-
-  flexFour: {
-    flex: 4,
-  },
-  flexTwo: {
-    flex: 2,
-  },
   flexOne: {
     flex: 1,
   },
-  flexThree: {
-    flex: 3,
-  },
-  centerItems: {
-    alignItems: 'center',
-  },
-
   rowFlexDirection: {
     flexDirection: 'row',
-  },
-  hoursView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 5,
-  },
-  datePeroidView: {
-    backgroundColor: '#f2f3f5',
   },
   justifyContentSpaceBetween: {
     justifyContent: 'space-between',

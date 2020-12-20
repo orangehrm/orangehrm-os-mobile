@@ -33,6 +33,7 @@ export type PunchRequestSuccessRouteParams = RouteProp<
 export interface AttendanceDetailsScreenParam {
   startDayIndex: number;
   employeeAttendance?: SingleEmployeeAttendance;
+  employeeName?: string;
 }
 
 export type AttendanceDetailsScreenParamList = {

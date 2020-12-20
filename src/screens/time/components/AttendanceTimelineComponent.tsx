@@ -13,9 +13,7 @@ import {
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect} from 'react-redux';
 
-class AttendanceTimelineComponent extends React.Component<
-  AttendanceTimelineComponentProps
-> {
+class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComponentProps> {
   constructor(props: AttendanceTimelineComponentProps) {
     super(props);
   }
@@ -40,13 +38,11 @@ class AttendanceTimelineComponent extends React.Component<
           return attendanceRecord.state === PUNCHED_OUT ? (
             <>
               <View>
-                <View
-                  style={[styles.container, {marginTop: theme.spacing * 5}]}>
+                <View style={[styles.flexOne, {marginTop: theme.spacing * 5}]}>
                   <View style={[styles.rowFlexDirection]}>
                     <View
                       style={[
                         styles.flexOne,
-                        styles.backgroundColorWhite,
                         styles.columnFlexDirection,
                         {
                           marginLeft: theme.spacing * 4,
@@ -85,11 +81,11 @@ class AttendanceTimelineComponent extends React.Component<
                     </View>
                     <View
                       style={[
-                        styles.backgroundColorWhite,
                         styles.flexThree,
                         {
                           borderLeftWidth: defaultLineWidth,
                           borderLeftColor: theme.palette.secondary,
+                          backgroundColor: theme.palette.background,
                         },
                       ]}>
                       <View style={[styles.rowFlexDirection]}>
@@ -107,17 +103,21 @@ class AttendanceTimelineComponent extends React.Component<
                         />
                         <View
                           style={[
-                            styles.detail,
                             {
                               marginLeft: theme.spacing * 2.5,
                               marginBottom: theme.spacing * 5,
+                              paddingBottom: theme.spacing * 2.5,
                             },
                           ]}>
                           <View>
                             <View>
                               <View style={{marginLeft: theme.spacing * 1}}>
                                 <View style={{marginLeft: theme.spacing * 0.5}}>
-                                  <Text style={[styles.title]}>
+                                  <Text
+                                    style={[
+                                      styles.title,
+                                      {fontSize: theme.spacing * 3.5},
+                                    ]}>
                                     {'Punched In'}
                                   </Text>
                                 </View>
@@ -168,18 +168,26 @@ class AttendanceTimelineComponent extends React.Component<
                             marginLeft: theme.spacing * 4,
                             marginTop: theme.spacing * -1.5,
                           }}>
-                          <Text style={[styles.title]}>{'Punched Out'}</Text>
+                          <Text
+                            style={[
+                              styles.title,
+                              {fontSize: theme.spacing * 3.5},
+                            ]}>
+                            {'Punched Out'}
+                          </Text>
                         </View>
                       </View>
                     </View>
                   </View>
                   <View style={[styles.rowFlexDirection]}>
-                    <View style={[styles.flexOne]}></View>
+                    <View style={[styles.flexOne]} />
                     <View
                       style={[
-                        styles.detail,
                         styles.flexThree,
-                        {marginLeft: theme.spacing * 8},
+                        {
+                          marginLeft: theme.spacing * 8,
+                          paddingBottom: theme.spacing * 2.5,
+                        },
                       ]}>
                       <View>
                         <View>
@@ -245,16 +253,15 @@ class AttendanceTimelineComponent extends React.Component<
           ) : (
             <>
               <View>
-                <View
-                  style={[styles.container, {marginTop: theme.spacing * 5}]}>
+                <View style={[styles.flexOne, {marginTop: theme.spacing * 5}]}>
                   <View style={[styles.rowFlexDirection]}>
                     <View
                       style={[
                         styles.flexOne,
                         styles.columnFlexDirection,
-                        styles.backgroundColorWhite,
                         {
                           marginLeft: theme.spacing * 4,
+                          backgroundColor: theme.palette.background,
                         },
                       ]}>
                       <View
@@ -267,11 +274,11 @@ class AttendanceTimelineComponent extends React.Component<
                     </View>
                     <View
                       style={[
-                        styles.backgroundColorWhite,
                         styles.borderLeftColorWhite,
                         styles.flexThree,
                         {
                           borderLeftWidth: defaultLineWidth,
+                          backgroundColor: theme.palette.background,
                         },
                       ]}>
                       <View style={[styles.rowFlexDirection]}>
@@ -289,17 +296,22 @@ class AttendanceTimelineComponent extends React.Component<
                         />
                         <View
                           style={[
-                            styles.detail,
                             {
                               marginLeft: theme.spacing * 2.5,
                               marginBottom: theme.spacing * 5,
+
+                              paddingBottom: theme.spacing * 2.5,
                             },
                           ]}>
                           <View>
                             <View>
                               <View style={{marginLeft: theme.spacing * 1}}>
                                 <View style={{marginLeft: theme.spacing * 0.5}}>
-                                  <Text style={[styles.title]}>
+                                  <Text
+                                    style={[
+                                      styles.title,
+                                      {fontSize: theme.spacing * 3.5},
+                                    ]}>
                                     {'Punched In'}
                                   </Text>
                                 </View>
@@ -353,61 +365,20 @@ const defaultCircleSize = 16;
 const defaultLineWidth = 4;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   title: {
-    fontSize: 14,
     fontWeight: 'bold',
   },
-  detail: {paddingBottom: 10},
 
   dotStyle: {
     height: defaultCircleSize,
     width: defaultCircleSize,
     borderRadius: defaultCircleSize / 2,
   },
-  mainView: {
-    backgroundColor: 'white',
-    borderRadius: 5,
-    marginHorizontal: 10,
-    marginTop: 10,
-    overflow: 'hidden',
-  },
-  textBold: {
-    fontWeight: 'bold',
-  },
-
-  lastRecordDetailsMainView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f2f3f5',
-  },
-
-  lastPunchText: {
-    flex: 2,
-    flexDirection: 'column',
-  },
-
-  colorWhite: {
-    color: 'white',
-  },
-
-  flexFour: {
-    flex: 4,
-  },
-  flexTwo: {
-    flex: 2,
-  },
   flexOne: {
     flex: 1,
   },
   flexThree: {
     flex: 3,
-  },
-  centerItems: {
-    alignItems: 'center',
   },
 
   rowFlexDirection: {
@@ -421,15 +392,6 @@ const styles = StyleSheet.create({
   },
   alignItemsCenter: {
     alignItems: 'center',
-  },
-  backgroundColorWhite: {
-    backgroundColor: 'white',
-  },
-  hoursView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 5,
   },
   borderLeftColorWhite: {
     borderLeftColor: 'white',
@@ -445,8 +407,8 @@ const mapDispatchToProps = {};
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const AttendanceTimelineComponentWithTheme = withTheme<
-  AttendanceTimelineComponentProps
->()(AttendanceTimelineComponent);
+const AttendanceTimelineComponentWithTheme = withTheme<AttendanceTimelineComponentProps>()(
+  AttendanceTimelineComponent,
+);
 
 export default connector(AttendanceTimelineComponentWithTheme);
