@@ -96,7 +96,9 @@ class AttendanceDetails extends React.Component<
     this.setDefaultDate();
   }
 
-  onRefresh = () => {};
+  onRefresh = () => {
+    this.componentDidMount();
+  };
 
   selectDate = (day: moment.Moment) => {
     this.setState({

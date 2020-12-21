@@ -37,13 +37,15 @@ class AttendanceDetailedHeaderComponent extends React.Component<
             },
           ]}>
           <Text
-            style={{
-              fontSize: theme.spacing * 4.5,
-              fontWeight: '700',
-              color: isActive
-                ? theme.palette.secondary
-                : theme.typography.primaryColor,
-            }}>
+            style={[
+              styles.fontWeightBold,
+              {
+                fontSize: theme.spacing * 4.5,
+                color: isActive
+                  ? theme.palette.secondary
+                  : theme.typography.primaryColor,
+              },
+            ]}>
             {convertDateObjectToStringFormat(this.props.day, 'ddd')}
           </Text>
           <View
@@ -58,13 +60,15 @@ class AttendanceDetailedHeaderComponent extends React.Component<
               borderRadius: theme.spacing * 25,
             }}>
             <Text
-              style={{
-                fontSize: theme.spacing * 4.5,
-                fontWeight: '700',
-                color: isActive
-                  ? theme.palette.background
-                  : theme.typography.primaryColor,
-              }}>
+              style={[
+                styles.fontWeightBold,
+                {
+                  fontSize: theme.spacing * 4.5,
+                  color: isActive
+                    ? theme.palette.background
+                    : theme.typography.primaryColor,
+                },
+              ]}>
               {convertDateObjectToStringFormat(this.props.day, 'DD')}
             </Text>
           </View>
@@ -88,6 +92,9 @@ const styles = StyleSheet.create({
   },
   alignItemsCenter: {
     alignItems: 'center',
+  },
+  fontWeightBold: {
+    fontWeight: '700',
   },
 });
 

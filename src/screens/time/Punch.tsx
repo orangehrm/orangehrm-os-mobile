@@ -465,11 +465,6 @@ const styles = StyleSheet.create({
     flex: 2,
     flexDirection: 'column',
   },
-
-  colorWhite: {
-    color: 'white',
-  },
-
   flexFour: {
     flex: 4,
   },

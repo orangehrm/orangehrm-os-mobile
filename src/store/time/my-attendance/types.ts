@@ -267,8 +267,8 @@ export interface SingleEmployeeAttendance {
 export interface EmployeeAttendanceListRequest {
   fromDate: string;
   toDate: string;
-  empNumber: string;
-  pastEmployee: boolean;
+  empNumber?: string;
+  pastEmployee?: boolean;
 }
 
 export interface FetchEmployeeAttendanceListAction {

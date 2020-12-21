@@ -36,6 +36,13 @@ import {SingleEmployeeAttendance} from 'store/time/my-attendance/types';
 import {EMPLOYEE_ATTENDANCE_SUMMARY} from 'screens';
 import {navigate} from 'lib/helpers/navigation';
 import {AttendanceSummaryScreenParams} from 'screens/time/navigators';
+import {
+  getDurationFromHours,
+  calculateDateOfMonth,
+  convertDateObjectToStringFormat,
+  getWeekDayFromIndex,
+} from 'lib/helpers/attendance';
+import DatePeriodComponent from 'screens/time/components/DatePeriodComponent';
 
 class AttendanceList extends React.Component<
   AttendanceListProps,
@@ -45,6 +52,10 @@ class AttendanceList extends React.Component<
     super(props);
     this.state = {
       selectedDate: undefined,
+      startDayIndex: 0,
+      endDayIndex: 6,
+      weekStartDate: getWeekDayFromIndex(0),
+      weekEndDate: getWeekDayFromIndex(6),
     };
   }
 
@@ -53,7 +64,16 @@ class AttendanceList extends React.Component<
   }
 
   onRefresh = () => {
-    this.props.fetchEmployeeAttendanceList();
+    this.props.fetchEmployeeAttendanceList({
+      fromDate: convertDateObjectToStringFormat(
+        this.state.weekStartDate,
+        'YYYY-MM-DD',
+      ),
+      toDate: convertDateObjectToStringFormat(
+        this.state.weekEndDate,
+        'YYYY-MM-DD',
+      ),
+    });
   };
 
   selectDate = (day: moment.Moment) => {
@@ -65,13 +85,84 @@ class AttendanceList extends React.Component<
   onPressLeave = (item: SingleEmployeeAttendance) => () => {
     navigate<AttendanceSummaryScreenParams>(EMPLOYEE_ATTENDANCE_SUMMARY, {
       employeeAttendance: item,
+      startDayIndex: this.state.startDayIndex,
+      endDayIndex: this.state.endDayIndex,
     });
+  };
+
+  goLeft = () => {
+    const countStart = this.state.startDayIndex - 7;
+    const countEnd = this.state.endDayIndex - 7;
+
+    this.setState(
+      {
+        startDayIndex: countStart,
+        endDayIndex: countEnd,
+        weekStartDate: getWeekDayFromIndex(countStart),
+        weekEndDate: getWeekDayFromIndex(countEnd),
+      },
+      () => {
+        this.props.fetchEmployeeAttendanceList({
+          fromDate: convertDateObjectToStringFormat(
+            this.state.weekStartDate,
+            'YYYY-MM-DD',
+          ),
+          toDate: convertDateObjectToStringFormat(
+            this.state.weekEndDate,
+            'YYYY-MM-DD',
+          ),
+        });
+      },
+    );
+  };
+
+  goRight = () => {
+    const countStart = this.state.startDayIndex + 7;
+    const countEnd = this.state.endDayIndex + 7;
+    if (countStart <= 1) {
+      this.setState(
+        {
+          startDayIndex: countStart,
+          endDayIndex: countEnd,
+          weekStartDate: getWeekDayFromIndex(countStart),
+          weekEndDate: getWeekDayFromIndex(countEnd),
+        },
+        () => {
+          this.props.fetchEmployeeAttendanceList({
+            fromDate: convertDateObjectToStringFormat(
+              this.state.weekStartDate,
+              'YYYY-MM-DD',
+            ),
+            toDate: convertDateObjectToStringFormat(
+              this.state.weekEndDate,
+              'YYYY-MM-DD',
+            ),
+          });
+        },
+      );
+    }
   };
 
   render() {
     const {theme, employeeList} = this.props;
     return (
       <SafeAreaLayout>
+        <View
+          style={[
+            styles.flexOne,
+            {backgroundColor: theme.palette.backgroundSecondary},
+          ]}>
+          <View>
+            <DatePeriodComponent
+              startDate={this.state.weekStartDate}
+              endDate={this.state.weekEndDate}
+              leftActive={true}
+              rightActive={this.state.startDayIndex !== 0}
+              onPressLeft={this.goLeft}
+              onPressRight={this.goRight}
+            />
+          </View>
+        </View>
         <FlatList
           data={employeeList}
           renderItem={({item}) => (
@@ -82,7 +173,7 @@ class AttendanceList extends React.Component<
               />
             </>
           )}
-          keyExtractor={(item) => item.leaveRequestId}
+          keyExtractor={(item) => item.employeeId}
           ItemSeparatorComponent={() => {
             return (
               <View style={{paddingHorizontal: theme.spacing}}>
@@ -137,6 +228,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
+  flexOne: {
+    flex: 1,
+  },
 });
 
 interface AttendanceListProps
@@ -147,6 +241,10 @@ interface AttendanceListProps
 
 interface AttendanceListState {
   selectedDate?: moment.Moment;
+  startDayIndex: number;
+  endDayIndex: number;
+  weekStartDate: moment.Moment;
+  weekEndDate: moment.Moment;
 }
 
 const mapStateToProps = (state: RootState) => ({

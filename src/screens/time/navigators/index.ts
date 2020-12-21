@@ -47,6 +47,8 @@ export type AttendanceDetailsScreenRouteParams = RouteProp<
 
 export interface AttendanceSummaryScreenParams {
   employeeAttendance?: SingleEmployeeAttendance;
+  startDayIndex: number;
+  endDayIndex: number;
 }
 
 export type AttendanceSummaryScreenParamList = {

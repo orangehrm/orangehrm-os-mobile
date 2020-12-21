@@ -17,6 +17,7 @@ import {
   WORK_WEEK_HALF,
   Holiday,
 } from 'store/leave/common-screens/types';
+import Avatar from 'components/DefaultAvatar';
 
 class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.Component<AttendanceDetailedViewDurationEmployeeDetailsCardComponentProps> {
   constructor(
@@ -46,8 +47,9 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
                 {
                   paddingRight: theme.spacing * 2.5,
                 },
-              ]}
-            />
+              ]}>
+              <Avatar name={employeeName} />
+            </View>
 
             <View style={styles.flexFour}>
               <Text

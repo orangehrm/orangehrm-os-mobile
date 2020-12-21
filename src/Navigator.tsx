@@ -218,12 +218,15 @@ const Navigator = (props: NavigatorProps) => {
                         options={{drawerLabel: 'My Attendance'}}
                         initialParams={{subheader: SUBHEADER_TIME}}
                       />
-                      <Drawer.Screen
-                        name={ATTENDANCE_LIST}
-                        component={AttendanceList}
-                        options={{drawerLabel: 'Employee Attendance Records'}}
-                        initialParams={{subheader: SUBHEADER_TIME}}
-                      />
+                      {myInfo?.user.userRole === USER_ROLE_ADMIN ||
+                      myInfo?.user.isSupervisor === true ? (
+                        <Drawer.Screen
+                          name={ATTENDANCE_LIST}
+                          component={AttendanceList}
+                          options={{drawerLabel: 'Employee Attendance Records'}}
+                          initialParams={{subheader: SUBHEADER_TIME}}
+                        />
+                      ) : null}
                     </>
                   ) : null}
 

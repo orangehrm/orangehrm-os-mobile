@@ -25,11 +25,11 @@ import Text from 'components/DefaultText';
 import Icon from 'components/DefaultIcon';
 import Divider from 'components/DefaultDivider';
 import CardContent from 'components/DefaultCardContent';
+import Avatar from 'components/DefaultAvatar';
 import {
   GraphLeaveType,
   mode,
   EMPLOYEE_ATTENDANCE,
-  MY_ATTENDANCE,
 } from 'store/time/my-attendance/types';
 import CardButton from 'screens/leave/components/CardButton';
 
@@ -72,7 +72,9 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                   paddingBottom: theme.spacing * 2.5,
                 },
               ]}>
-              <View style={styles.flexOne} />
+              <View style={styles.flexOne}>
+                <Avatar name={employeeName} />
+              </View>
               <View
                 style={[
                   styles.flexFour,
@@ -336,7 +338,7 @@ interface AttendanceSummaryWorkLeaveDurationsCardComponentProps {
   totalWorkDuration: string;
   leaveData: GraphLeaveType[];
   onPressDetails: () => void;
-  empNumber?: number;
+  empNumber?: string;
   employeeName?: string;
   mode: mode;
 }

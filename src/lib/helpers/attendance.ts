@@ -371,8 +371,8 @@ const formatTime = (datetime: Date) => {
   let hourMinute = time.substring(0, 5).split(':', 2);
   let ampm: string = 'AM';
   let hour: string = hourMinute[0];
-  if (parseInt(hourMinute[0]) > 12) {
-    hour = (parseInt(hourMinute[0]) - 12).toString();
+  if (parseInt(hourMinute[0], 10) > 12) {
+    hour = (parseInt(hourMinute[0], 10) - 12).toString();
     ampm = 'PM';
   }
   return hour.toString() + ':' + hourMinute[1] + ' ' + ampm;

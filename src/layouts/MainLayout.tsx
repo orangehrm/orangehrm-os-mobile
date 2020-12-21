@@ -37,6 +37,7 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
     refreshing,
     onRefresh,
     footer,
+    header,
     scrollViewProps,
     statusBarBackgroundColor,
   } = props;
@@ -53,6 +54,7 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
       />
       <SafeAreaView
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
+        {header === undefined ? null : header}
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           contentContainerStyle={styles.scrollView}
@@ -79,6 +81,7 @@ interface MainLayoutProps
     Pick<RefreshControlProps, 'onRefresh'> {
   refreshing?: boolean;
   footer?: React.ReactNode;
+  header?: React.ReactNode;
   scrollViewProps?: ScrollViewProps;
   statusBarBackgroundColor?: string;
 }

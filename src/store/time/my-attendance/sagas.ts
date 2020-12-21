@@ -10,6 +10,7 @@ import {
   FetchLeaveRecordsAction,
   FetchAttendanceGraphRecordsAction,
   FetchHolidaysAction,
+  FetchEmployeeAttendanceListAction,
   FETCH_ATTENDANCE_GRAPH_RECORDS,
   FETCH_LEAVE_RECORDS,
   FETCH_ATTENDANCE_RECORDS,
@@ -182,7 +183,6 @@ function* fetchAttendanceGraphRecords(
 function* fetchHolidays(action: FetchHolidaysAction) {
   try {
     yield openLoader();
-    // const response = yield apiCall(apiGetCall, API_ENDPOINT_LEAVE_HOLIDAYS);
     const response = yield apiCall(
       apiGetCall,
       prepare(
@@ -240,10 +240,22 @@ function* fetchWorkWeek() {
   }
 }
 
-function* fetchEmployeeAttendanceList() {
+function* fetchEmployeeAttendanceList(
+  action: FetchEmployeeAttendanceListAction,
+) {
   try {
     yield openLoader();
-    const response = yield apiCall(apiGetCall, API_ENDPOINT_ATTENDANCE_LIST);
+    const response = yield apiCall(
+      apiGetCall,
+      prepare(
+        API_ENDPOINT_ATTENDANCE_LIST,
+        {},
+        {
+          fromDate: action.payload.fromDate,
+          toDate: action.payload.toDate,
+        },
+      ),
+    );
     if (response.data) {
       yield put(fetchEmployeeAttendanceListFinished(response.data));
     } else {
