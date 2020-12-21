@@ -72,6 +72,7 @@ import {PUNCH} from 'screens/index';
 class Punch extends React.Component<PunchProps, PunchState> {
   inputRef: RNTextInput | null;
   timeInterval: any;
+
   constructor(props: PunchProps) {
     super(props);
     this.inputRef = null;
@@ -116,7 +117,9 @@ class Punch extends React.Component<PunchProps, PunchState> {
           parseFloat(this.props.punchStatus.PunchTimeZoneOffset),
           getCurrentTimeZoneOffset(),
         );
+        /* eslint-disable react/no-did-update-set-state */
         this.setState({duration: duration});
+        /* eslint-enable react/no-did-update-set-state */
       }
     }
   }
@@ -143,6 +146,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
       note: text,
     });
   };
+
   toggleCommentInput = () => {
     if (this.state.typingNote === true) {
       this.hideCommentInput();
@@ -152,9 +156,8 @@ class Punch extends React.Component<PunchProps, PunchState> {
   };
 
   onPressNote = () => {
-    const {setPunchNote} = this.props;
     const {note} = this.state;
-    setPunchNote(note);
+    this.props.setPunchNote(note);
     this.hideCommentInput();
   };
 
@@ -165,6 +168,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
   hideCommentInput = () => {
     this.setState({typingNote: false});
   };
+
   setLeaveComment = (text: string) => {
     this.setState({
       note: text,

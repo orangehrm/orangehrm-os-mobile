@@ -17,6 +17,7 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
   constructor(props: AttendanceTimelineComponentProps) {
     super(props);
   }
+
   render() {
     const {attendanceRecords, theme} = this.props;
     return (

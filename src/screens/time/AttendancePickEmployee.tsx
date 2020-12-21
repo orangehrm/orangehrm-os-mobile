@@ -36,9 +36,6 @@ import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
 import Avatar from 'components/DefaultAvatar';
 import TextInput, {TextInputProps} from 'components/DefaultTextInput';
-// import {
-//   PickEmployeeNavigationProp,
-// } from 'screens/leave/navigators';
 import {EmployeeObject} from 'store/time/my-attendance/types';
 import {getFirstAndLastNames} from 'lib/helpers/name';
 import {

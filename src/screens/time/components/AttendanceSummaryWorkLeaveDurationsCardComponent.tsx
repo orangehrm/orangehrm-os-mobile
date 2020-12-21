@@ -28,7 +28,7 @@ import CardContent from 'components/DefaultCardContent';
 import Avatar from 'components/DefaultAvatar';
 import {
   GraphLeaveType,
-  mode,
+  Mode,
   EMPLOYEE_ATTENDANCE,
 } from 'store/time/my-attendance/types';
 import CardButton from 'screens/leave/components/CardButton';
@@ -340,7 +340,7 @@ interface AttendanceSummaryWorkLeaveDurationsCardComponentProps {
   onPressDetails: () => void;
   empNumber?: string;
   employeeName?: string;
-  mode: mode;
+  mode: Mode;
 }
 
 export default AttendanceSummaryWorkLeaveDurationsCardComponent;

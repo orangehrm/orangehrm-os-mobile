@@ -24,7 +24,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import AttendanceDetails from 'screens/time/AttendanceDetails';
 import AttendanceSummary from 'screens/time/AttendanceSummary';
-import {connect, ConnectedProps} from 'react-redux';
 import {ATTENDANCE_SUMMARY, ATTENDANCE_DETAILS} from 'screens';
 import HeaderMenuIcon from 'components/HeaderMenuIcon';
 import HeaderBackIcon from 'components/HeaderBackIcon';
@@ -32,9 +31,7 @@ import {getHeaderStyle} from 'lib/helpers/header';
 
 const Stack = createStackNavigator();
 
-class AttendanceSummaryNavigator extends React.Component<
-  AttendanceSummaryNavigatorProps
-> {
+class AttendanceSummaryNavigator extends React.Component<AttendanceSummaryNavigatorProps> {
   render() {
     const {theme, navigation} = this.props;
     const header = getHeaderStyle(theme);
@@ -73,16 +70,12 @@ class AttendanceSummaryNavigator extends React.Component<
   }
 }
 
-interface AttendanceSummaryNavigatorProps
-  extends WithTheme,
-    ConnectedProps<typeof connector> {
+interface AttendanceSummaryNavigatorProps extends WithTheme {
   navigation: NavigationProp<ParamListBase>;
 }
 
-const connector = connect();
+const AttendanceSummaryNavigatorTheme = withTheme<AttendanceSummaryNavigatorProps>()(
+  AttendanceSummaryNavigator,
+);
 
-const AttendanceSummaryNavigatorTheme = withTheme<
-  AttendanceSummaryNavigatorProps
->()(AttendanceSummaryNavigator);
-
-export default connector(AttendanceSummaryNavigatorTheme);
+export default AttendanceSummaryNavigatorTheme;

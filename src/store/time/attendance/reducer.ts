@@ -7,12 +7,13 @@ import {
   RESET_PUNCH_STATE,
 } from './types';
 import {getDateObjectFromSaveFormat} from 'lib/helpers/attendance';
+import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
 const initialState: PunchStatusState = {};
 
 const attendanceReducer = (
   state = initialState,
-  action: PunchStatusActionTypes,
+  action: WithLogoutAction<PunchStatusActionTypes>,
 ): PunchStatusState => {
   switch (action.type) {
     case FETCH_PUNCH_STATUS_FINISHED:
@@ -46,7 +47,8 @@ const attendanceReducer = (
       return {
         ...initialState,
       };
-
+    case LOGOUT:
+      return initialState;
     default:
       return state;
   }

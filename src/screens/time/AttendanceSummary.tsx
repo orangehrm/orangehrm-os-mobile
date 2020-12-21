@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -75,10 +75,10 @@ class AttendanceSummary extends React.Component<
 > {
   constructor(props: AttendanceSummaryProps) {
     super(props);
-    let startDayIndex = this.props.route.params
+    const startDayIndex = this.props.route.params
       ? this.props.route.params.startDayIndex
       : 0;
-    let endDayIndex = this.props.route.params
+    const endDayIndex = this.props.route.params
       ? this.props.route.params.endDayIndex
       : 6;
     this.state = {
@@ -125,11 +125,13 @@ class AttendanceSummary extends React.Component<
       );
       const leaveResult = calculateGraphData(this.props.graphRecords);
       const workResult = calculateWorkData(this.props.graphRecords);
+      /* eslint-disable react/no-did-update-set-state */
       this.setState({
         graphLeaveData: leaveResult,
         singleLeaveTypeData: cardRresult,
         graphWorkData: workResult,
       });
+      /* eslint-enable react/no-did-update-set-state */
     }
   };
 

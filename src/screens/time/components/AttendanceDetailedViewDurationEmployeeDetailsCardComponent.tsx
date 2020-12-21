@@ -5,7 +5,7 @@ import {getLeaveColourById, getDurationFromHours} from 'lib/helpers/attendance';
 import {LEAVE_STATUS_MAP} from 'lib/helpers/leave';
 import {
   LeaveObject,
-  mode,
+  Mode,
   EMPLOYEE_ATTENDANCE,
   MY_ATTENDANCE,
 } from 'store/time/my-attendance/types';
@@ -225,7 +225,7 @@ interface AttendanceDetailedViewDurationEmployeeDetailsCardComponentProps
   leaves: LeaveObject[];
   workweekResult?: string;
   employeeName?: string;
-  mode: mode;
+  mode: Mode;
 }
 
 const connector = connect(null, null);

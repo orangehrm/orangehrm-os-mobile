@@ -20,7 +20,7 @@ const AttendanceDailyChartComponent = (
 ) => {
   const theme = useTheme();
 
-  let renderGraph = () => {
+  const renderGraph = () => {
     return (
       <View
         style={[
@@ -61,7 +61,7 @@ const AttendanceDailyChartComponent = (
               tickLabelComponent={
                 <VictoryLabel
                   text={(datum) => {
-                    let tickValue = datum.ticks[datum.index];
+                    const tickValue = datum.ticks[datum.index];
                     if (Number.isInteger(tickValue)) {
                       return tickValue + ' Hrs';
                     } else {
