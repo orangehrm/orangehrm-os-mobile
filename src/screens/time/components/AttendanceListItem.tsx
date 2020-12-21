@@ -41,12 +41,12 @@ class AttendanceListItem extends React.Component<AttendanceListItemProps> {
               styles.row,
               {
                 padding: theme.spacing * 3,
-                paddingBottom: theme.spacing * 4,
+                // paddingBottom: theme.spacing * 4,
               },
             ]}>
             <View
               style={{
-                paddingVertical: theme.spacing * 4,
+                // paddingVertical: theme.spacing,
                 paddingRight: theme.spacing * 4,
               }}>
               <Avatar name={employeeAttendance.employeeName} />
@@ -68,9 +68,10 @@ class AttendanceListItem extends React.Component<AttendanceListItemProps> {
                 <Text
                   style={{
                     color: theme.palette.secondary,
-                    paddingBottom: theme.spacing,
+                    paddingTop: theme.spacing,
                   }}>
                   {employeeAttendance.duration}
+                  {' Hours'}
                 </Text>
               </View>
             </View>

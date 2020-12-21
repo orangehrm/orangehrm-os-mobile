@@ -56,6 +56,7 @@ export const PUNCH_REQUEST_SUCCESS = 'PunchRequestSuccess';
 // attendance
 export const EMPLOYEE_ATTENDANCE_SUMMARY = 'EmployeeAttendanceSummary';
 export const EMPLOYEE_ATTENDANCE_DETAILS = 'EmployeeAttendanceDetails';
+export const ATTENDANCE_PICK_EMPLOYEE = 'AttendancePickEmployee';
 
 // info pages
 export const FULL_SCREEN_INFO = 'FullScreenInfo';

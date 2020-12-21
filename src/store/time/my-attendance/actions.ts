@@ -11,6 +11,9 @@ import {
   FETCH_WORK_WEEK_FINISHED,
   FETCH_EMPLOYEE_ATTENDANCE_LIST,
   FETCH_EMPLOYEE_ATTENDANCE_LIST_FINISHED,
+  FETCH_SUBORDINATES,
+  FETCH_SUBORDINATES_FINISHED,
+  PICK_SUBORDINATE,
   FetchAttendanceRecordsAction,
   FetchAttendanceRecordsFinishedAction,
   FetchLeaveRecordsAction,
@@ -23,6 +26,9 @@ import {
   FetchWorkWeekFinishedAction,
   FetchEmployeeAttendanceListAction,
   FetchEmployeeAttendanceListFinishedAction,
+  FetchSubordinatesAction,
+  FetchSubordinatesFinishedAction,
+  PickSubordinateAction,
   LeaveObject,
   AttendanceRequest,
   GraphRecordsObject,
@@ -122,4 +128,31 @@ export const fetchEmployeeAttendanceListFinished = (
   type: FETCH_EMPLOYEE_ATTENDANCE_LIST_FINISHED,
   payload,
   error,
+});
+
+/**
+ * Fetch subordinates for attendance list
+ */
+export const fetchSubordinates = (): FetchSubordinatesAction => ({
+  type: FETCH_SUBORDINATES,
+});
+
+export const fetchSubordinatesFinished = (
+  payload?: $PropertyType<FetchSubordinatesFinishedAction, 'payload'>,
+  error: boolean = false,
+): FetchSubordinatesFinishedAction => ({
+  type: FETCH_SUBORDINATES_FINISHED,
+  payload,
+  error,
+});
+
+/**
+ * Pick subordinate or reset selected
+ * @param subordinate
+ */
+export const pickSubordinate = (
+  subordinate?: $PropertyType<PickSubordinateAction, 'subordinate'>,
+): PickSubordinateAction => ({
+  type: PICK_SUBORDINATE,
+  subordinate,
 });

@@ -19,6 +19,7 @@
  */
 
 import {LeaveStatus} from 'store/leave/leave-usage/types';
+import {WorkWeek, Holiday} from 'store/leave/common-screens/types';
 
 export interface DaySelectorSingleDay {
   date: moment.Moment;
@@ -45,15 +46,8 @@ export interface GraphLeaveType {
 export const MY_ATTENDANCE = 'myAttendance';
 export const EMPLOYEE_ATTENDANCE = 'employeeAttendance';
 
-export type mode = typeof MY_ATTENDANCE | typeof EMPLOYEE_ATTENDANCE;
+export type Mode = typeof MY_ATTENDANCE | typeof EMPLOYEE_ATTENDANCE;
 
-export interface Holiday {
-  id: string;
-  recurring: typeof RECURRING_TRUE | typeof RECURRING_FALSE;
-  description: string;
-  date: string;
-  length: typeof WORK_WEEK_FULL | typeof WORK_WEEK_HALF;
-}
 export interface WorkWeekObject {
   id: string;
   operational_country_id: null;
@@ -123,6 +117,8 @@ export interface MyAttendanceState {
   holidays?: Holiday[];
   workWeek?: WorkWeek;
   employeeList?: SingleEmployeeAttendance[];
+  subordinates?: EmployeeObject[];
+  selectedSubordinate?: EmployeeObject;
 }
 
 export interface SingleLeave {
@@ -153,12 +149,6 @@ export interface GraphRecordsObject {
   workSummary: WorkSummaryObject;
 }
 
-export const RECURRING_TRUE = '1';
-export const RECURRING_FALSE = '0';
-export const WORK_WEEK_FULL = '0';
-export const WORK_WEEK_HALF = '4';
-export const WORK_WEEK_NON = '8';
-
 export const FETCH_ATTENDANCE_RECORDS =
   'ATTENDANCE_RECORDS_FETCH_ATTENDANCE_RECORDS';
 export const FETCH_LEAVE_RECORDS = 'LEAVE_RECORDS_FETCH_LEAVE_RECORDS';
@@ -182,6 +172,10 @@ export const FETCH_EMPLOYEE_ATTENDANCE_LIST =
   'ATTENDANCE_EMPLOYEE_ATTENDANCE_LIST';
 export const FETCH_EMPLOYEE_ATTENDANCE_LIST_FINISHED =
   'ATTENDANCE_EMPLOYEE_ATTENDANCE_LIST_FINISHED';
+export const FETCH_SUBORDINATES = 'ATTENDANCE_FETCH_SUBORDINATES';
+export const FETCH_SUBORDINATES_FINISHED =
+  'ATTENDANCE_FETCH_SUBORDINATES_FINISHED';
+export const PICK_SUBORDINATE = 'ATTENDANCE_PICK_SUBORDINATE';
 
 export interface FetchAttendanceRecordsAction {
   type: typeof FETCH_ATTENDANCE_RECORDS;
@@ -216,27 +210,6 @@ export interface FetchAttendanceGraphRecordsFinishedAction {
   error: boolean;
 }
 
-export interface WorkWeek {
-  mon: WorkWeekType;
-  tue: WorkWeekType;
-  wed: WorkWeekType;
-  thu: WorkWeekType;
-  fri: WorkWeekType;
-  sat: WorkWeekType;
-  sun: WorkWeekType;
-}
-
-export type WorkWeekType =
-  | typeof WORK_WEEK_FULL
-  | typeof WORK_WEEK_HALF
-  | typeof WORK_WEEK_NON;
-
-export interface WorkShift {
-  workShift: string;
-  startTime: string;
-  endTime: string;
-}
-
 export interface FetchHolidaysAction {
   type: typeof FETCH_HOLIDAYS;
   payload: AttendanceRequest;
@@ -258,9 +231,15 @@ export interface FetchWorkWeekFinishedAction {
   error: boolean;
 }
 
+type NullableString = string | null;
+
 export interface SingleEmployeeAttendance {
   employeeId: string;
   employeeName: string;
+  code: string;
+  jobTitle: NullableString;
+  unit: NullableString;
+  status: NullableString;
   duration: string;
 }
 
@@ -282,6 +261,21 @@ export interface FetchEmployeeAttendanceListFinishedAction {
   error: boolean;
 }
 
+export interface FetchSubordinatesAction {
+  type: typeof FETCH_SUBORDINATES;
+}
+
+export interface FetchSubordinatesFinishedAction {
+  type: typeof FETCH_SUBORDINATES_FINISHED;
+  payload?: EmployeeObject[];
+  error: boolean;
+}
+
+export interface PickSubordinateAction {
+  type: typeof PICK_SUBORDINATE;
+  subordinate?: EmployeeObject;
+}
+
 export type AttendanceActionTypes =
   | FetchAttendanceRecordsAction
   | FetchAttendanceRecordsFinishedAction
@@ -294,4 +288,7 @@ export type AttendanceActionTypes =
   | FetchHolidaysAction
   | FetchHolidaysFinishedAction
   | FetchEmployeeAttendanceListAction
-  | FetchEmployeeAttendanceListFinishedAction;
+  | FetchEmployeeAttendanceListFinishedAction
+  | FetchSubordinatesAction
+  | FetchSubordinatesFinishedAction
+  | PickSubordinateAction;

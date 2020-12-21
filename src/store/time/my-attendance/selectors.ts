@@ -6,10 +6,10 @@ import {
   LeaveObject,
   MyAttendanceState,
   GraphRecordsObject,
-  Holiday,
-  WorkWeek,
   SingleEmployeeAttendance,
+  EmployeeObject,
 } from './types';
+import {WorkWeek, Holiday} from 'store/leave/common-screens/types';
 
 export const selectMyAttendaceState = (state: RootState) => state.myAttendance;
 
@@ -48,3 +48,15 @@ export const selectEmployeeAttendanceList = createSelector<
   MyAttendanceState,
   SingleEmployeeAttendance[] | undefined
 >([selectMyAttendaceState], (myAttendance) => myAttendance.employeeList);
+
+export const selectSubordinates = createSelector<
+  RootState,
+  MyAttendanceState,
+  EmployeeObject[] | undefined
+>([selectMyAttendaceState], (myAttendance) => myAttendance.subordinates);
+
+export const selectPickedSubordinate = createSelector<
+  RootState,
+  MyAttendanceState,
+  EmployeeObject | undefined
+>([selectMyAttendaceState], (myAttendance) => myAttendance.selectedSubordinate);

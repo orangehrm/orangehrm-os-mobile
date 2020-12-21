@@ -19,32 +19,60 @@
  */
 
 import React from 'react';
+import {View, StyleSheet} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import {connect, ConnectedProps} from 'react-redux';
+import {RootState} from 'store';
 import AttendanceSummary from 'screens/time/AttendanceSummary';
 import AttendanceDetails from 'screens/time/AttendanceDetails';
 import AttendanceList from 'screens/time/AttendanceList';
+import AttendancePickEmployee from 'screens/time/AttendancePickEmployee';
 import {
   EMPLOYEE_ATTENDANCE_SUMMARY,
   EMPLOYEE_ATTENDANCE_DETAILS,
   ATTENDANCE_LIST,
+  ATTENDANCE_PICK_EMPLOYEE,
 } from 'screens';
 import HeaderMenuIcon from 'components/HeaderMenuIcon';
 import HeaderBackIcon from 'components/HeaderBackIcon';
+import HeaderIcon from 'components/HeaderIcon';
 import {getHeaderStyle} from 'lib/helpers/header';
+import {navigate} from 'lib/helpers/navigation';
+import {pickSubordinate} from 'store/time/my-attendance/actions';
+import {selectPickedSubordinate} from 'store/time/my-attendance/selectors';
 
 const Stack = createStackNavigator();
 
 class AttendanceListNavigator extends React.Component<AttendanceListNavigatorProps> {
+  onPressClose = () => {
+    this.props.pickSubordinate(undefined);
+  };
+
   render() {
-    const {theme, navigation} = this.props;
+    const {theme, navigation, pickedSubordinate} = this.props;
     const header = getHeaderStyle(theme);
     const headerMenuIcon = {
       headerLeft: () => <HeaderMenuIcon navigation={navigation} />,
     };
     const headerBackIcon = {
       headerLeft: () => <HeaderBackIcon navigation={navigation} />,
+    };
+    const headerSearchIcon = {
+      headerRight: () => (
+        <View style={styles.headerRight}>
+          {pickedSubordinate !== undefined ? (
+            <HeaderIcon name={'close'} onPress={this.onPressClose} />
+          ) : null}
+          <HeaderIcon
+            name={'magnify'}
+            onPress={() => {
+              navigate(ATTENDANCE_PICK_EMPLOYEE);
+            }}
+          />
+        </View>
+      ),
     };
     return (
       <Stack.Navigator
@@ -58,8 +86,9 @@ class AttendanceListNavigator extends React.Component<AttendanceListNavigatorPro
           name={ATTENDANCE_LIST}
           component={AttendanceList}
           options={{
-            title: 'Employee Attendance Records',
+            title: 'Employee Attendance',
             ...headerMenuIcon,
+            ...headerSearchIcon,
           }}
         />
         <Stack.Screen
@@ -78,17 +107,43 @@ class AttendanceListNavigator extends React.Component<AttendanceListNavigatorPro
             ...headerBackIcon,
           }}
         />
+        <Stack.Screen
+          name={ATTENDANCE_PICK_EMPLOYEE}
+          component={AttendancePickEmployee}
+          options={{
+            title: 'Select Employee',
+            ...headerBackIcon,
+          }}
+        />
       </Stack.Navigator>
     );
   }
 }
 
-interface AttendanceListNavigatorProps extends WithTheme {
+const styles = StyleSheet.create({
+  headerRight: {
+    flexDirection: 'row',
+  },
+});
+
+interface AttendanceListNavigatorProps
+  extends WithTheme,
+    ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
 }
+
+const mapStateToProps = (state: RootState) => ({
+  pickedSubordinate: selectPickedSubordinate(state),
+});
+
+const mapDispatchToProps = {
+  pickSubordinate,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 const AttendanceListNavigatorTheme = withTheme<AttendanceListNavigatorProps>()(
   AttendanceListNavigator,
 );
 
-export default AttendanceListNavigatorTheme;
+export default connector(AttendanceListNavigatorTheme);

@@ -17,6 +17,7 @@ import {
   FETCH_HOLIDAYS,
   FETCH_WORK_WEEK,
   FETCH_EMPLOYEE_ATTENDANCE_LIST,
+  FETCH_SUBORDINATES,
 } from './types';
 import {
   fetchAttendanceRecordsFinished,
@@ -25,6 +26,7 @@ import {
   fetchHolidaysFinished,
   fetchWorkWeekFinished,
   fetchEmployeeAttendanceListFinished,
+  fetchSubordinatesFinished,
 } from './actions';
 import {
   API_ENDPOINT_ATTENDANCE,
@@ -33,6 +35,7 @@ import {
   API_ENDPOINT_LEAVE_HOLIDAYS,
   API_ENDPOINT_LEAVE_WORK_WEEK,
   API_ENDPOINT_ATTENDANCE_LIST,
+  API_ENDPOINT_EMPLOYEES,
   prepare,
 } from 'services/endpoints';
 import {
@@ -98,9 +101,9 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
-          pendingApproval: 'true',
-          scheduled: 'true',
-          taken: 'true',
+          pendingApproval: true,
+          scheduled: true,
+          taken: true,
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
@@ -148,9 +151,9 @@ function* fetchAttendanceGraphRecords(
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
-          pendingApproval: 'true',
-          scheduled: 'true',
-          taken: 'true',
+          pendingApproval: true,
+          scheduled: true,
+          taken: true,
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
@@ -253,6 +256,13 @@ function* fetchEmployeeAttendanceList(
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
+          ...(action.payload.empNumber !== undefined && {
+            empNumber: action.payload.empNumber,
+          }),
+          ...(action.payload.pastEmployee !== undefined && {
+            empNumber: action.payload.pastEmployee,
+          }),
+          all: true,
         },
       ),
     );
@@ -280,6 +290,40 @@ function* fetchEmployeeAttendanceList(
   }
 }
 
+function* fetchAccessibleEmployees() {
+  try {
+    yield openLoader();
+    const queryParams = {
+      actionName: 'attendance_records',
+      properties: ['firstName', 'lastName', 'employeeId'],
+    };
+    const response = yield apiCall(
+      apiGetCall,
+      prepare(API_ENDPOINT_EMPLOYEES, {}, queryParams),
+    );
+    if (response.data) {
+      yield put(fetchSubordinatesFinished(response.data));
+    } else {
+      yield put(fetchSubordinatesFinished(undefined, true));
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Subordinates',
+        ),
+        TYPE_ERROR,
+      );
+    }
+  } catch (error) {
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Subordinates'),
+      TYPE_ERROR,
+    );
+    yield put(fetchSubordinatesFinished(undefined, true));
+  } finally {
+    yield closeLoader();
+  }
+}
+
 export function* watchMyAttendanceActions() {
   yield takeEvery(FETCH_LEAVE_RECORDS, fetchLeaveRecords);
   yield takeEvery(FETCH_ATTENDANCE_RECORDS, fetchAttendanceRecords);
@@ -287,4 +331,5 @@ export function* watchMyAttendanceActions() {
   yield takeEvery(FETCH_HOLIDAYS, fetchHolidays);
   yield takeEvery(FETCH_WORK_WEEK, fetchWorkWeek);
   yield takeEvery(FETCH_EMPLOYEE_ATTENDANCE_LIST, fetchEmployeeAttendanceList);
+  yield takeEvery(FETCH_SUBORDINATES, fetchAccessibleEmployees);
 }

@@ -9,15 +9,18 @@ import {
   FETCH_WORK_WEEK_FINISHED,
   FETCH_EMPLOYEE_ATTENDANCE_LIST,
   FETCH_EMPLOYEE_ATTENDANCE_LIST_FINISHED,
+  FETCH_SUBORDINATES_FINISHED,
+  PICK_SUBORDINATE,
   MyAttendanceState,
   AttendanceActionTypes,
 } from './types';
+import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
 const initialState: MyAttendanceState = {};
 
 const myAttendanceReducer = (
   state = initialState,
-  action: AttendanceActionTypes,
+  action: WithLogoutAction<AttendanceActionTypes>,
 ): MyAttendanceState => {
   switch (action.type) {
     case FETCH_ATTENDANCE_RECORDS:
@@ -82,6 +85,21 @@ const myAttendanceReducer = (
         ...state,
         employeeList: action.payload,
       };
+    case FETCH_SUBORDINATES_FINISHED:
+      if (action.error) {
+        return state;
+      }
+      return {
+        ...state,
+        subordinates: action.payload,
+      };
+    case PICK_SUBORDINATE:
+      return {
+        ...state,
+        selectedSubordinate: action.subordinate,
+      };
+    case LOGOUT:
+      return initialState;
     default:
       return state;
   }

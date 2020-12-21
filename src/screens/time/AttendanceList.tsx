@@ -26,7 +26,10 @@ import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import Divider from 'components/DefaultDivider';
 import {fetchEmployeeAttendanceList} from 'store/time/my-attendance/actions';
-import {selectEmployeeAttendanceList} from 'store/time/my-attendance/selectors';
+import {
+  selectEmployeeAttendanceList,
+  selectPickedSubordinate,
+} from 'store/time/my-attendance/selectors';
 import moment from 'moment';
 import Text from 'components/DefaultText';
 import Icon from 'components/DefaultIcon';
@@ -37,8 +40,6 @@ import {EMPLOYEE_ATTENDANCE_SUMMARY} from 'screens';
 import {navigate} from 'lib/helpers/navigation';
 import {AttendanceSummaryScreenParams} from 'screens/time/navigators';
 import {
-  getDurationFromHours,
-  calculateDateOfMonth,
   convertDateObjectToStringFormat,
   getWeekDayFromIndex,
 } from 'lib/helpers/attendance';
@@ -63,6 +64,12 @@ class AttendanceList extends React.Component<
     this.onRefresh();
   }
 
+  componentDidUpdate(prevProps: AttendanceListProps) {
+    if (prevProps.pickedSubordinate !== this.props.pickedSubordinate) {
+      this.onRefresh();
+    }
+  }
+
   onRefresh = () => {
     this.props.fetchEmployeeAttendanceList({
       fromDate: convertDateObjectToStringFormat(
@@ -73,6 +80,9 @@ class AttendanceList extends React.Component<
         this.state.weekEndDate,
         'YYYY-MM-DD',
       ),
+      ...(this.props.pickedSubordinate !== undefined && {
+        empNumber: this.props.pickedSubordinate.empNumber,
+      }),
     });
   };
 
@@ -148,20 +158,18 @@ class AttendanceList extends React.Component<
     return (
       <SafeAreaLayout>
         <View
-          style={[
-            styles.flexOne,
-            {backgroundColor: theme.palette.backgroundSecondary},
-          ]}>
-          <View>
-            <DatePeriodComponent
-              startDate={this.state.weekStartDate}
-              endDate={this.state.weekEndDate}
-              leftActive={true}
-              rightActive={this.state.startDayIndex !== 0}
-              onPressLeft={this.goLeft}
-              onPressRight={this.goRight}
-            />
-          </View>
+          style={{
+            backgroundColor: theme.palette.backgroundSecondary,
+            paddingBottom: theme.spacing * 2,
+          }}>
+          <DatePeriodComponent
+            startDate={this.state.weekStartDate}
+            endDate={this.state.weekEndDate}
+            leftActive={true}
+            rightActive={this.state.startDayIndex !== 0}
+            onPressLeft={this.goLeft}
+            onPressRight={this.goRight}
+          />
         </View>
         <FlatList
           data={employeeList}
@@ -228,9 +236,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
-  flexOne: {
-    flex: 1,
-  },
 });
 
 interface AttendanceListProps
@@ -249,6 +254,7 @@ interface AttendanceListState {
 
 const mapStateToProps = (state: RootState) => ({
   employeeList: selectEmployeeAttendanceList(state),
+  pickedSubordinate: selectPickedSubordinate(state),
 });
 
 const mapDispatchToProps = {
