@@ -180,6 +180,8 @@ class AttendanceSummary extends React.Component<
         endDayIndex: countEnd,
         weekStartDate: getWeekDayFromIndex(countStart),
         weekEndDate: getWeekDayFromIndex(countEnd),
+        weekStartDate: getWeekDayFromIndex(countStart),
+        weekEndDate: getWeekDayFromIndex(countEnd),
         dateOfMonth: calculateDateOfMonth(countStart, countEnd),
         graphWorkData: startGraphWorkData,
         graphLeaveData: [],
