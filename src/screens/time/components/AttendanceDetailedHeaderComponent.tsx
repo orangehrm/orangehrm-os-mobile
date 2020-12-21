@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect} from 'react-redux';
+import {convertDateObjectToStringFormat} from 'lib/helpers/attendance';
 
 class AttendanceDetailedHeaderComponent extends React.Component<
   AttendanceDetailedHeaderComponentProps,
@@ -43,7 +44,7 @@ class AttendanceDetailedHeaderComponent extends React.Component<
                 ? theme.palette.secondary
                 : theme.typography.primaryColor,
             }}>
-            {this.props.day.format('ddd')}
+            {convertDateObjectToStringFormat(this.props.day, 'ddd')}
           </Text>
           <View
             style={{
@@ -64,7 +65,7 @@ class AttendanceDetailedHeaderComponent extends React.Component<
                   ? theme.palette.background
                   : theme.typography.primaryColor,
               }}>
-              {this.props.day.format('DD')}
+              {convertDateObjectToStringFormat(this.props.day, 'DD')}
             </Text>
           </View>
           <Text
@@ -104,8 +105,8 @@ const mapDispatchToProps = {};
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const AttendanceDetailedHeaderWithTheme = withTheme<
-  AttendanceDetailedHeaderComponentProps
->()(AttendanceDetailedHeaderComponent);
+const AttendanceDetailedHeaderWithTheme = withTheme<AttendanceDetailedHeaderComponentProps>()(
+  AttendanceDetailedHeaderComponent,
+);
 
 export default connector(AttendanceDetailedHeaderWithTheme);
