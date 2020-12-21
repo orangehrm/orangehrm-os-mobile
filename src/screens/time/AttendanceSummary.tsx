@@ -145,7 +145,7 @@ class AttendanceSummary extends React.Component<
 
   fetchData = (weekStartDate: moment.Moment, weekEndDate: moment.Moment) => {
     const {params: {employeeAttendance} = {}} = this.props.route;
-    let empNumber = undefined;
+    let empNumber;
     if (employeeAttendance !== undefined) {
       empNumber = parseInt(employeeAttendance.employeeId, 10);
     }
@@ -170,6 +170,7 @@ class AttendanceSummary extends React.Component<
     }
     this.props.fetchAttendanceGraphRecords(attendanceRequest);
   };
+
   goLeft = () => {
     const countStart = this.state.startDayIndex - 7;
     const countEnd = this.state.endDayIndex - 7;

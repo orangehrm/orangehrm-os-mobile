@@ -29,9 +29,7 @@ import {getHeaderStyle} from 'lib/helpers/header';
 
 const Stack = createStackNavigator<FullScreenInfoNavigatorParamList>();
 
-class FullScreenInfoNavigator extends React.Component<
-  FullScreenInfoNavigatorProps
-> {
+class FullScreenInfoNavigator extends React.Component<FullScreenInfoNavigatorProps> {
   render() {
     const {theme, navigation} = this.props;
     const header = getHeaderStyle(theme);

@@ -111,9 +111,17 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
                   {paddingVertical: theme.spacing * 2},
                 ]}>
                 <Text>
-                  <Date>{selectedLeaveType?.validFrom ?? '- -'}</Date>
+                  {selectedLeaveType?.validFrom ? (
+                    <Date>{selectedLeaveType?.validFrom}</Date>
+                  ) : (
+                    <Text>{'- -'}</Text>
+                  )}
                   {' to '}
-                  <Date>{selectedLeaveType?.validTo ?? '- -'}</Date>
+                  {selectedLeaveType?.validTo ? (
+                    <Date>{selectedLeaveType?.validTo}</Date>
+                  ) : (
+                    <Text>{'- -'}</Text>
+                  )}
                 </Text>
               </View>
               <Divider />

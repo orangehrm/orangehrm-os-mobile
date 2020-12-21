@@ -34,10 +34,15 @@ import {DEFAULT_DATE_FORMAT} from 'lib/helpers/date';
  */
 const FormattedDate = (props: FormattedDateProps) => {
   const {children = null, dateFormat, ...restProps} = props;
-  const date = moment(children);
-  const formattedDate = date.isValid()
-    ? date.format(dateFormat ?? DEFAULT_DATE_FORMAT)
-    : children;
+
+  let formattedDate = children;
+  if (typeof children === 'string' || (children as any) instanceof String) {
+    const date = moment(children);
+    formattedDate = date.isValid()
+      ? date.format(dateFormat ?? DEFAULT_DATE_FORMAT)
+      : children;
+  }
+
   return <Text {...restProps}>{formattedDate}</Text>;
 };
 

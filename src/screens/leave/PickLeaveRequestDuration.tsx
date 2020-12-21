@@ -47,9 +47,7 @@ import {
 } from 'store/leave/common-screens/types';
 import {isFromTimeLessThanToTime} from 'lib/helpers/leave';
 
-class PickLeaveRequestDuration extends React.Component<
-  PickLeaveRequestDurationProps
-> {
+class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationProps> {
   componentDidMount() {
     this.props.setPickedState('pickedDuration', false);
   }
@@ -254,8 +252,8 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const PickLeaveRequestDurationWithTheme = withTheme<
-  PickLeaveRequestDurationProps
->()(PickLeaveRequestDuration);
+const PickLeaveRequestDurationWithTheme = withTheme<PickLeaveRequestDurationProps>()(
+  PickLeaveRequestDuration,
+);
 
 export default connector(PickLeaveRequestDurationWithTheme);

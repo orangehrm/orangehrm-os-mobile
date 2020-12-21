@@ -36,9 +36,7 @@ import {getHeaderStyle} from 'lib/helpers/header';
 
 const Stack = createStackNavigator();
 
-class AttendanceListNavigator extends React.Component<
-  AttendanceListNavigatorProps
-> {
+class AttendanceListNavigator extends React.Component<AttendanceListNavigatorProps> {
   render() {
     const {theme, navigation} = this.props;
     const header = getHeaderStyle(theme);

@@ -78,9 +78,9 @@ class FullScreenError extends React.Component<FullScreenErrorProps> {
   };
 
   getAppSupportedModulesExcept = (module: Modules) => {
-    const appSupportedModules = Object.values(SUBHEADER_MODULE_MAP) as Array<
-      Modules
-    >;
+    const appSupportedModules = Object.values(
+      SUBHEADER_MODULE_MAP,
+    ) as Array<Modules>;
 
     const index = appSupportedModules.indexOf(module);
     if (index > -1) {

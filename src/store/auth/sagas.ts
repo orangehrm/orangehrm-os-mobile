@@ -93,7 +93,7 @@ function* checkInstance(action?: CheckInstanceAction) {
     let response: Response = yield call(checkInstanceRequest, instanceUrl);
 
     // check instance in advanced
-    let urls = getAbsoluteUrlsForChecking(instanceUrl);
+    const urls = getAbsoluteUrlsForChecking(instanceUrl);
 
     // if user enter web system login screen url
     if (

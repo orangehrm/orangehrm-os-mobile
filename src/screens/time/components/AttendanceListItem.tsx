@@ -88,9 +88,6 @@ interface AttendanceListItemProps
 }
 
 const styles = StyleSheet.create({
-  chipView: {
-    alignItems: 'flex-start',
-  },
   empNameText: {
     fontWeight: 'bold',
   },
