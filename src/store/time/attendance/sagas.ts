@@ -324,7 +324,7 @@ function* fetchAccessibleEmployees() {
   }
 }
 
-export function* watchMyAttendanceActions() {
+export function* watchAttendanceActions() {
   yield takeEvery(FETCH_LEAVE_RECORDS, fetchLeaveRecords);
   yield takeEvery(FETCH_ATTENDANCE_RECORDS, fetchAttendanceRecords);
   yield takeEvery(FETCH_ATTENDANCE_GRAPH_RECORDS, fetchAttendanceGraphRecords);

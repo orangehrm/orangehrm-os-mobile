@@ -27,7 +27,7 @@ import {watchLeaveListActions} from 'store/leave/leave-list/sagas';
 import {watchAssignLeaveActions} from 'store/leave/assign-leave/sagas';
 import {watchCommonScreensActions} from 'store/leave/common-screens/sagas';
 import {watchPunchStatusActions} from 'store/time/punch/sagas';
-import {watchMyAttendanceActions} from 'store/time/attendance/sagas';
+import {watchAttendanceActions} from 'store/time/attendance/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -40,6 +40,6 @@ export default function* rootSaga() {
     call(watchAssignLeaveActions),
     call(watchCommonScreensActions),
     call(watchPunchStatusActions),
-    call(watchMyAttendanceActions),
+    call(watchAttendanceActions),
   ]);
 }
