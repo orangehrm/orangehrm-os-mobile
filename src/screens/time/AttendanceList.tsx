@@ -121,6 +121,9 @@ class AttendanceList extends React.Component<
             this.state.weekEndDate,
             'YYYY-MM-DD',
           ),
+          ...(this.props.pickedSubordinate !== undefined && {
+            empNumber: this.props.pickedSubordinate.empNumber,
+          }),
         });
       },
     );
@@ -147,6 +150,9 @@ class AttendanceList extends React.Component<
               this.state.weekEndDate,
               'YYYY-MM-DD',
             ),
+            ...(this.props.pickedSubordinate !== undefined && {
+              empNumber: this.props.pickedSubordinate.empNumber,
+            }),
           });
         },
       );

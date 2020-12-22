@@ -64,13 +64,14 @@ class AttendanceListNavigator extends React.Component<AttendanceListNavigatorPro
         <View style={styles.headerRight}>
           {pickedSubordinate !== undefined ? (
             <HeaderIcon name={'close'} onPress={this.onPressClose} />
-          ) : null}
-          <HeaderIcon
-            name={'magnify'}
-            onPress={() => {
-              navigate(ATTENDANCE_PICK_EMPLOYEE);
-            }}
-          />
+          ) : (
+            <HeaderIcon
+              name={'magnify'}
+              onPress={() => {
+                navigate(ATTENDANCE_PICK_EMPLOYEE);
+              }}
+            />
+          )}
         </View>
       ),
     };
