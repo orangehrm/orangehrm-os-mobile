@@ -68,10 +68,9 @@ class AttendanceDetails extends React.Component<
 > {
   constructor(props: AttendanceDetailsProps) {
     super(props);
+    const {params: {selectedDate} = {}} = this.props.route;
     this.state = {
-      selectedDate: this.props.route.params.selectedDate
-        ? this.props.route.params.selectedDate
-        : undefined,
+      selectedDate: selectedDate ? selectedDate : undefined,
     };
   }
 

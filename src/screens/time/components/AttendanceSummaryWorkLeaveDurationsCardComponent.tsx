@@ -257,7 +257,9 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
               text={'Attendance Details'}
               icon={'information'}
               rightIcon
-              onPress={props.onPressDetails}
+              onPress={() => {
+                props.onPressDetails(undefined);
+              }}
             />
           </View>
         </View>
@@ -302,7 +304,7 @@ interface AttendanceSummaryWorkLeaveDurationsCardComponentProps {
   totalLeaveDuration: string;
   totalWorkDuration: string;
   leaveData: GraphLeaveType[];
-  onPressDetails: () => void;
+  onPressDetails: (selectedDate?: moment.Moment) => void;
   empNumber?: string;
   employeeName?: string;
   jobTitle?: NullableString;
