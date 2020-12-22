@@ -19,6 +19,7 @@
  */
 
 const version = require('../package.json').version;
+const semver = require('semver');
 const fs = require('fs');
 const path = require('path');
 const gradlePropertiesPath = path.join(
@@ -77,9 +78,11 @@ fs.readFile(projectpbxprojPath, 'utf8', (error, projectpbxproj) => {
     /* eslint-enable no-console */
   }
 
+  // iOS does not support prerelease tags
+  const iOSVer = semver.coerce(version).version;
   const projectpbxprojUpdated = projectpbxproj.replace(
     /MARKETING_VERSION = .+\n/g,
-    `MARKETING_VERSION = ${version};\n`,
+    `MARKETING_VERSION = ${iOSVer};\n`,
   );
 
   fs.writeFile(projectpbxprojPath, projectpbxprojUpdated, 'utf8', (err) => {
@@ -90,7 +93,7 @@ fs.readFile(projectpbxprojPath, 'utf8', (error, projectpbxproj) => {
     }
 
     /* eslint-disable no-console */
-    console.log(`Successfully synced iOS version name to ${version}`);
+    console.log(`Successfully synced iOS version name to ${iOSVer}`);
     /* eslint-enable no-console */
   });
 });
