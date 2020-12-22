@@ -6,7 +6,7 @@ import Chip from 'components/DefaultChip';
 import Divider from 'components/DefaultDivider';
 import {PUNCHED_OUT} from 'store/time/attendance/types';
 import {
-  calculateDurationUsingSavedFormat,
+  calculateDurationBasedOnTimezone,
   getUTCMomentObjectFromString,
   convertDateObjectToStringFormat,
 } from 'lib/helpers/attendance';
@@ -14,10 +14,6 @@ import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect} from 'react-redux';
 
 class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComponentProps> {
-  constructor(props: AttendanceTimelineComponentProps) {
-    super(props);
-  }
-
   render() {
     const {attendanceRecords, theme} = this.props;
     return (
@@ -209,9 +205,15 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                                 marginTop: theme.spacing * 2.5,
                               }}>
                               <Text>
-                                {calculateDurationUsingSavedFormat(
+                                {calculateDurationBasedOnTimezone(
                                   attendanceRecord.punchInUserTime,
                                   attendanceRecord.punchOutUserTime,
+                                  parseFloat(
+                                    attendanceRecord.punchInTimeOffset,
+                                  ),
+                                  parseFloat(
+                                    attendanceRecord.punchOutTimeOffset,
+                                  ),
                                 )}
                                 {' Hours'}
                               </Text>
