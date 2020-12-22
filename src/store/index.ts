@@ -28,8 +28,8 @@ import applyLeaveReducer from './leave/apply-leave/reducer';
 import leaveListReducer from './leave/leave-list/reducer';
 import assignLeaveReducer from './leave/assign-leave/reducer';
 import leaveCommonReducer from './leave/common-screens/reducer';
-import attendanceReducer from './time/attendance/reducer';
-import myAttendanceReducer from './time/my-attendance/reducer';
+import attendanceReducer from './time/punch/reducer';
+import myAttendanceReducer from './time/attendance/reducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,

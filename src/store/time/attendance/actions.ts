@@ -1,61 +1,158 @@
 import {
-  FETCH_PUNCH_STATUS,
-  FETCH_PUNCH_STATUS_FINISHED,
-  CHANGE_PUNCH_CURRENT_DATE_TIME,
-  PICK_PUNCH_NOTE,
-  PUNCH_IN_REQUEST,
-  PUNCH_OUT_REQUEST,
-  FetchPunchStatusAction,
-  FetchPunchStatusFinishedAction,
-  ChangePunchCurrentDateTimeAction,
-  SetPunchNoteAction,
-  PunchInRequestAction,
-  PunchOutRequestAction,
-  ResetPunchStateAction,
-  PunchStatus,
-  RESET_PUNCH_STATE,
+  FETCH_ATTENDANCE_RECORDS,
+  FETCH_LEAVE_RECORDS,
+  FETCH_ATTENDANCE_GRAPH_RECORDS,
+  FETCH_ATTENDANCE_RECORDS_FINISHED,
+  FETCH_LEAVE_RECORDS_FINISHED,
+  FETCH_ATTENDANCE_GRAPH_RECORDS_FINISHED,
+  FETCH_HOLIDAYS,
+  FETCH_HOLIDAYS_FINISHED,
+  FETCH_WORK_WEEK,
+  FETCH_WORK_WEEK_FINISHED,
+  FETCH_EMPLOYEE_ATTENDANCE_LIST,
+  FETCH_EMPLOYEE_ATTENDANCE_LIST_FINISHED,
+  FETCH_SUBORDINATES,
+  FETCH_SUBORDINATES_FINISHED,
+  PICK_SUBORDINATE,
+  FetchAttendanceRecordsAction,
+  FetchAttendanceRecordsFinishedAction,
+  FetchLeaveRecordsAction,
+  FetchLeaveRecordsFinishedAction,
+  FetchAttendanceGraphRecordsAction,
+  FetchAttendanceGraphRecordsFinishedAction,
+  FetchHolidaysAction,
+  FetchHolidaysFinishedAction,
+  FetchWorkWeekAction,
+  FetchWorkWeekFinishedAction,
+  FetchEmployeeAttendanceListAction,
+  FetchEmployeeAttendanceListFinishedAction,
+  FetchSubordinatesAction,
+  FetchSubordinatesFinishedAction,
+  PickSubordinateAction,
+  LeaveObject,
+  AttendanceRequest,
+  GraphRecordsObject,
+  SingleEmployeeAttendance,
 } from './types';
 import {$PropertyType} from 'utility-types';
+import {Holiday, WorkWeek} from 'store/leave/common-screens/types';
 
-export const setPunchNote = (note: string): SetPunchNoteAction => ({
-  type: PICK_PUNCH_NOTE,
-  noteSaved: note,
+export const fetchAttendanceRecords = (
+  payload: AttendanceRequest,
+): FetchAttendanceRecordsAction => ({
+  type: FETCH_ATTENDANCE_RECORDS,
+  payload,
 });
 
-export const fetchPunchStatus = (): FetchPunchStatusAction => ({
-  type: FETCH_PUNCH_STATUS,
-});
-
-export const fetchPunchStatusFinished = (
-  payload?: PunchStatus,
+export const fetchAttendanceRecordsFinished = (
+  payload?: $PropertyType<FetchAttendanceRecordsFinishedAction, 'payload'>,
   error: boolean = false,
-): FetchPunchStatusFinishedAction => ({
-  type: FETCH_PUNCH_STATUS_FINISHED,
+): FetchAttendanceRecordsFinishedAction => ({
+  type: FETCH_ATTENDANCE_RECORDS_FINISHED,
   payload,
   error,
 });
 
-export const changePunchCurrentDateTime = (
-  datetime?: Date,
-): ChangePunchCurrentDateTimeAction => ({
-  type: CHANGE_PUNCH_CURRENT_DATE_TIME,
-  punchCurrentDateTime: datetime,
-});
-
-export const savePunchInRequest = (
-  payload: $PropertyType<PunchInRequestAction, 'payload'>,
-): PunchInRequestAction => ({
-  type: PUNCH_IN_REQUEST,
+export const fetchLeaveRecords = (
+  payload: $PropertyType<FetchLeaveRecordsAction, 'payload'>,
+): FetchLeaveRecordsAction => ({
+  type: FETCH_LEAVE_RECORDS,
   payload,
 });
 
-export const savePunchOutRequest = (
-  payload: $PropertyType<PunchOutRequestAction, 'payload'>,
-): PunchOutRequestAction => ({
-  type: PUNCH_OUT_REQUEST,
+export const fetchLeaveRecordsFinished = (
+  payload?: LeaveObject[],
+  error: boolean = false,
+): FetchLeaveRecordsFinishedAction => ({
+  type: FETCH_LEAVE_RECORDS_FINISHED,
+  payload,
+  error,
+});
+
+export const fetchAttendanceGraphRecords = (
+  payload: $PropertyType<FetchAttendanceGraphRecordsAction, 'payload'>,
+): FetchAttendanceGraphRecordsAction => ({
+  type: FETCH_ATTENDANCE_GRAPH_RECORDS,
   payload,
 });
 
-export const resetPunchState = (): ResetPunchStateAction => ({
-  type: RESET_PUNCH_STATE,
+export const fetchAttendanceGraphRecordsFinished = (
+  payload?: GraphRecordsObject,
+  error: boolean = false,
+): FetchAttendanceGraphRecordsFinishedAction => ({
+  type: FETCH_ATTENDANCE_GRAPH_RECORDS_FINISHED,
+  payload,
+  error,
+});
+
+export const fetchHolidays = (
+  payload: $PropertyType<FetchHolidaysAction, 'payload'>,
+): FetchHolidaysAction => ({
+  type: FETCH_HOLIDAYS,
+  payload,
+});
+
+export const fetchHolidaysFinished = (
+  payload?: Holiday[],
+  error: boolean = false,
+): FetchHolidaysFinishedAction => ({
+  type: FETCH_HOLIDAYS_FINISHED,
+  payload,
+  error,
+});
+
+export const fetchWorkWeek = (): FetchWorkWeekAction => ({
+  type: FETCH_WORK_WEEK,
+});
+
+export const fetchWorkWeekFinished = (
+  payload?: WorkWeek,
+  error: boolean = false,
+): FetchWorkWeekFinishedAction => ({
+  type: FETCH_WORK_WEEK_FINISHED,
+  payload,
+  error,
+});
+
+export const fetchEmployeeAttendanceList = (
+  payload: $PropertyType<FetchEmployeeAttendanceListAction, 'payload'>,
+): FetchEmployeeAttendanceListAction => ({
+  type: FETCH_EMPLOYEE_ATTENDANCE_LIST,
+  payload,
+});
+
+export const fetchEmployeeAttendanceListFinished = (
+  payload?: SingleEmployeeAttendance[],
+  error: boolean = false,
+): FetchEmployeeAttendanceListFinishedAction => ({
+  type: FETCH_EMPLOYEE_ATTENDANCE_LIST_FINISHED,
+  payload,
+  error,
+});
+
+/**
+ * Fetch subordinates for attendance list
+ */
+export const fetchSubordinates = (): FetchSubordinatesAction => ({
+  type: FETCH_SUBORDINATES,
+});
+
+export const fetchSubordinatesFinished = (
+  payload?: $PropertyType<FetchSubordinatesFinishedAction, 'payload'>,
+  error: boolean = false,
+): FetchSubordinatesFinishedAction => ({
+  type: FETCH_SUBORDINATES_FINISHED,
+  payload,
+  error,
+});
+
+/**
+ * Pick subordinate or reset selected
+ * @param subordinate
+ */
+export const pickSubordinate = (
+  subordinate?: $PropertyType<PickSubordinateAction, 'subordinate'>,
+): PickSubordinateAction => ({
+  type: PICK_SUBORDINATE,
+  subordinate,
 });

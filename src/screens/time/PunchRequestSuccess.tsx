@@ -36,8 +36,8 @@ import {
   setPunchNote,
   savePunchInRequest,
   savePunchOutRequest,
-} from 'store/time/attendance/actions';
-import {PUNCH_IN, PUNCH_OUT, PunchAction} from 'store/time/attendance/types';
+} from 'store/time/punch/actions';
+import {PUNCH_IN, PUNCH_OUT, PunchAction} from 'store/time/punch/types';
 import {PunchRequestSuccessParam} from 'screens/time/navigators/index';
 import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';

@@ -29,7 +29,7 @@ import {
   fetchAttendanceRecords,
   fetchLeaveRecords,
   fetchAttendanceGraphRecords,
-} from 'store/time/my-attendance/actions';
+} from 'store/time/attendance/actions';
 import {
   AttendanceRequest,
   GraphLeaveType,
@@ -39,12 +39,12 @@ import {
   LeaveTypeGraphData,
   EMPLOYEE_ATTENDANCE,
   MY_ATTENDANCE,
-} from 'store/time/my-attendance/types';
+} from 'store/time/attendance/types';
 import {
   selectAttendanceRecords,
   selectLeaveRecords,
   selectAttendanceGraphRecords,
-} from 'store/time/my-attendance/selectors';
+} from 'store/time/attendance/selectors';
 import AttendanceDailyChartComponent from 'screens/time/components/AttendanceDailyChartComponent';
 import AttendanceSummaryWorkLeaveDurationsCardComponent from 'screens/time/components/AttendanceSummaryWorkLeaveDurationsCardComponent';
 import DatePeriodComponent from 'screens/time/components/DatePeriodComponent';

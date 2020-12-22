@@ -4,7 +4,7 @@ import {
   ATTENDANCE_SUMMARY,
   EMPLOYEE_ATTENDANCE_SUMMARY,
 } from 'screens';
-import {SingleEmployeeAttendance} from 'store/time/my-attendance/types';
+import {SingleEmployeeAttendance} from 'store/time/attendance/types';
 import {RouteProp} from '@react-navigation/native';
 
 export interface PunchRequestSuccessParam {

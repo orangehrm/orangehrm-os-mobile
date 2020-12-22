@@ -24,6 +24,7 @@ import {
   getDateObjectFromSaveFormat,
   calculateDurationBasedOnTimezone,
   NEGATIVE_DURATION,
+  formatLastRecordDetails,
 } from 'lib/helpers/attendance';
 
 describe('lib/helpers/attendance', () => {
@@ -85,5 +86,24 @@ describe('lib/helpers/attendance', () => {
       5.5,
     );
     expect(result).toBe(NEGATIVE_DURATION);
+  });
+  test('getDateSaveFormatFromDateObject::check get YYYY-MM-DD hh:mm datetime string from Date object', () => {
+    const date = new Date('2020-07-14T21:48');
+    const result = getDateSaveFormatFromDateObject(date);
+    expect(result).toBe('2020-07-14 21:48');
+  });
+
+  test('getDateObjectFromSaveFormat::check get Date object from YYYY-MM-DD hh:mm datetime string', () => {
+    const date = new Date('2020-07-14T21:48');
+    const dateString = '2020-07-14 21:48';
+    const result = getDateObjectFromSaveFormat(dateString);
+    expect(result).toStrictEqual(date);
+  });
+
+  test('formatLastRecordDetails::check get Time difference between YYYY-MM-DD hh:mm datetime strings', () => {
+    const dateString = '2020-07-14 21:48';
+    const timezoneOffset = '5.5';
+    const result = formatLastRecordDetails(dateString, timezoneOffset);
+    expect(result).toBe('July 14, 2020 9:48 PM (GMT+5.5)');
   });
 });

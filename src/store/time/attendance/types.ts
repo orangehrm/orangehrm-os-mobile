@@ -18,84 +18,294 @@
  *
  */
 
-export interface PunchStatus {
-  punchTime: string;
-  punchNote: string;
-  PunchTimeZoneOffset: string;
-  dateTimeEditable: boolean;
-  currentUTCDateTime: string;
-  punchState: string;
+import {LeaveStatus} from 'store/leave/leave-usage/types';
+import {WorkWeek, Holiday} from 'store/leave/common-screens/types';
+
+export interface DaySelectorSingleDay {
+  date: moment.Moment;
+  duration: string;
 }
 
-export interface PunchStatusState {
-  punchStatus?: PunchStatus;
-  punchCurrentDateTime?: Date;
-  punchNoteSaved?: string;
+export interface GraphDataPoint {
+  x: string;
+  y: number;
+}
+export interface GraphData {
+  day: string;
+  typeId: string;
+  data: GraphDataPoint[];
 }
 
-export const PUNCHED_IN = 'PUNCHED IN';
-export const PUNCHED_OUT = 'PUNCHED OUT';
-export const INITIAL = 'INITIAL';
-
-export const PUNCH_IN = 'PUNCH_IN';
-export const PUNCH_OUT = 'PUNCH_OUT';
-export type PunchAction = typeof PUNCH_IN | typeof PUNCH_OUT;
-
-export const FETCH_PUNCH_STATUS = 'PUNCH_STATUS_FETCH_PUNCH_STATUS';
-export const FETCH_PUNCH_STATUS_FINISHED =
-  'PUNCH_STATUS_FETCH_PUNCH_STATUS_FINISHED';
-export const CHANGE_PUNCH_CURRENT_DATE_TIME =
-  'PUNCH_CURRENT_DATE_TIME_CHANGE_PUNCH_CURRENT_DATE_TIME';
-export const PICK_PUNCH_NOTE = 'ATTENDANCE_PICK_PUNCH_NOTE';
-export const PUNCH_IN_REQUEST = 'ATTENDANCE_SAVE_PUNCH_IN_REQUEST';
-export const PUNCH_OUT_REQUEST = 'ATTENDANCE_SAVE_PUNCH_OUT_REQUEST';
-export const RESET_PUNCH_STATE = 'PUNCH_STATE_RESET_PUNCH_STATE';
-
-export interface FetchPunchStatusAction {
-  type: typeof FETCH_PUNCH_STATUS;
+export interface GraphLeaveType {
+  typeId: string;
+  type: string;
+  duration: string;
+  colour: string;
 }
 
-export interface FetchPunchStatusFinishedAction {
-  type: typeof FETCH_PUNCH_STATUS_FINISHED;
-  payload?: PunchStatus;
+export const MY_ATTENDANCE = 'myAttendance';
+export const EMPLOYEE_ATTENDANCE = 'employeeAttendance';
+
+export type Mode = typeof MY_ATTENDANCE | typeof EMPLOYEE_ATTENDANCE;
+
+export interface WorkWeekObject {
+  id: string;
+  operational_country_id: null;
+  mon: string;
+  tue: string;
+  wed: string;
+  thu: string;
+  fri: string;
+  sat: string;
+  sun: string;
+}
+
+export interface LeaveTypeGraphData {
+  id: string;
+  colour: string;
+  data: GraphDataPoint[];
+}
+
+export interface EmployeeObject {
+  empNumber: string;
+  lastName: string;
+  firstName: string;
+  employeeId: string;
+}
+export interface LeaveType {
+  id: number;
+  type: string;
+}
+
+export interface AttendanceRequest {
+  fromDate: string;
+  toDate: string;
+  empNumber?: number;
+}
+
+export interface LeaveObject {
+  id: string;
+  date: string;
+  lengthHours: string;
+  lengthDays: string;
+  leaveType: LeaveType;
+  startTime: string;
+  endTime: string;
+  status: LeaveStatus;
+}
+
+export interface AttendanceObject {
+  id: string;
+  punchInUtcTime: string;
+  punchInNote: string;
+  punchInUserTime: string;
+  punchInTimeOffset: string;
+  punchOutUtcTime: string;
+  punchOutNote: string;
+  punchOutTimeOffset: string;
+  punchOutUserTime: string;
+  state: string;
+}
+
+export interface MyAttendanceState {
+  attendanceObjects?: AttendanceObject[];
+  leaveObjects?: LeaveObject[];
+  graphObject?: GraphRecordsObject;
+  holidayObject?: Holiday;
+  workWeekObject?: WorkWeekObject;
+  employeeObject?: EmployeeObject;
+  holidays?: Holiday[];
+  workWeek?: WorkWeek;
+  employeeList?: SingleEmployeeAttendance[];
+  subordinates?: EmployeeObject[];
+  selectedSubordinate?: EmployeeObject;
+}
+
+export interface SingleLeave {
+  typeId: string;
+  type: string;
+  hours: string;
+}
+
+export interface WorkSummarySingleDay {
+  workHours: string;
+  leave: SingleLeave[];
+}
+
+export interface WorkSummaryObject {
+  sunday: WorkSummarySingleDay;
+  monday: WorkSummarySingleDay;
+  tuesday: WorkSummarySingleDay;
+  wednesday: WorkSummarySingleDay;
+  thursday: WorkSummarySingleDay;
+  friday: WorkSummarySingleDay;
+  saturday: WorkSummarySingleDay;
+}
+
+export interface GraphRecordsObject {
+  totalWorkHours: number;
+  totalLeaveHours: number;
+  totalLeaveTypeHours: SingleLeave[];
+  workSummary: WorkSummaryObject;
+}
+
+export const SHORT_SUNDAY = 'Su';
+export const SHORT_MONDAY = 'Mo';
+export const SHORT_TUESDAY = 'Tu';
+export const SHORT_WEDNESDAY = 'We';
+export const SHORT_THURSDAY = 'Th';
+export const SHORT_FRIDAY = 'Fr';
+export const SHORT_SATURDAY = 'Sa';
+
+export type ShortDay =
+  | typeof SHORT_SUNDAY
+  | typeof SHORT_MONDAY
+  | typeof SHORT_TUESDAY
+  | typeof SHORT_WEDNESDAY
+  | typeof SHORT_THURSDAY
+  | typeof SHORT_FRIDAY
+  | typeof SHORT_SATURDAY;
+
+export const FETCH_ATTENDANCE_RECORDS =
+  'ATTENDANCE_RECORDS_FETCH_ATTENDANCE_RECORDS';
+export const FETCH_LEAVE_RECORDS = 'LEAVE_RECORDS_FETCH_LEAVE_RECORDS';
+export const FETCH_ATTENDANCE_GRAPH_RECORDS =
+  'ATTENDANCE_GRAPH_FETCH_ATTENDANCE_GRAPH';
+
+export const FETCH_ATTENDANCE_RECORDS_FINISHED =
+  'ATTENDANCE_RECORDS_FETCH_ATTENDANCE_RECORDS_FINISHED';
+export const FETCH_LEAVE_RECORDS_FINISHED =
+  'LEAVE_RECORDS_FETCH_LEAVE_RECORDS_FINISHED';
+export const FETCH_ATTENDANCE_GRAPH_RECORDS_FINISHED =
+  'ATTENDANCE_GRAPH_FETCH_ATTENDANCE_GRAPH_FINISHED';
+
+export const FETCH_HOLIDAYS = 'LEAVE_ATTENDANCE_FETCH_HOLIDAYS';
+export const FETCH_HOLIDAYS_FINISHED =
+  'LEAVE_ATTENDANCE_FETCH_HOLIDAYS_FINISHED';
+export const FETCH_WORK_WEEK = 'LEAVE_ATTENDANCE_WORK_WEEK';
+export const FETCH_WORK_WEEK_FINISHED = 'LEAVE_ATTENDANCE_WORK_WEEK_FINISHED';
+
+export const FETCH_EMPLOYEE_ATTENDANCE_LIST =
+  'ATTENDANCE_EMPLOYEE_ATTENDANCE_LIST';
+export const FETCH_EMPLOYEE_ATTENDANCE_LIST_FINISHED =
+  'ATTENDANCE_EMPLOYEE_ATTENDANCE_LIST_FINISHED';
+export const FETCH_SUBORDINATES = 'ATTENDANCE_FETCH_SUBORDINATES';
+export const FETCH_SUBORDINATES_FINISHED =
+  'ATTENDANCE_FETCH_SUBORDINATES_FINISHED';
+export const PICK_SUBORDINATE = 'ATTENDANCE_PICK_SUBORDINATE';
+
+export interface FetchAttendanceRecordsAction {
+  type: typeof FETCH_ATTENDANCE_RECORDS;
+  payload: AttendanceRequest;
+}
+
+export interface FetchAttendanceRecordsFinishedAction {
+  type: typeof FETCH_ATTENDANCE_RECORDS_FINISHED;
+  payload?: AttendanceObject[];
   error: boolean;
 }
 
-export interface ChangePunchCurrentDateTimeAction {
-  type: typeof CHANGE_PUNCH_CURRENT_DATE_TIME;
-  punchCurrentDateTime?: Date;
+export interface FetchLeaveRecordsAction {
+  type: typeof FETCH_LEAVE_RECORDS;
+  payload: AttendanceRequest;
 }
 
-export interface SetPunchNoteAction {
-  type: typeof PICK_PUNCH_NOTE;
-  noteSaved: string;
+export interface FetchLeaveRecordsFinishedAction {
+  type: typeof FETCH_LEAVE_RECORDS_FINISHED;
+  payload?: LeaveObject[];
+  error: boolean;
 }
 
-export interface PunchRequest {
-  timezoneOffset: number;
-  note: string | undefined;
-  datetime: string;
+export interface FetchAttendanceGraphRecordsAction {
+  type: typeof FETCH_ATTENDANCE_GRAPH_RECORDS;
+  payload: AttendanceRequest;
 }
 
-export interface PunchInRequestAction {
-  type: typeof PUNCH_IN_REQUEST;
-  payload: PunchRequest;
+export interface FetchAttendanceGraphRecordsFinishedAction {
+  type: typeof FETCH_ATTENDANCE_GRAPH_RECORDS_FINISHED;
+  payload?: GraphRecordsObject;
+  error: boolean;
 }
 
-export interface PunchOutRequestAction {
-  type: typeof PUNCH_OUT_REQUEST;
-  payload: PunchRequest;
+export interface FetchHolidaysAction {
+  type: typeof FETCH_HOLIDAYS;
+  payload: AttendanceRequest;
 }
 
-export interface ResetPunchStateAction {
-  type: typeof RESET_PUNCH_STATE;
+export interface FetchHolidaysFinishedAction {
+  type: typeof FETCH_HOLIDAYS_FINISHED;
+  payload?: Holiday[];
+  error: boolean;
 }
 
-export type PunchStatusActionTypes =
-  | FetchPunchStatusAction
-  | FetchPunchStatusFinishedAction
-  | ChangePunchCurrentDateTimeAction
-  | SetPunchNoteAction
-  | PunchInRequestAction
-  | PunchOutRequestAction
-  | ResetPunchStateAction;
+export interface FetchWorkWeekAction {
+  type: typeof FETCH_WORK_WEEK;
+}
+
+export interface FetchWorkWeekFinishedAction {
+  type: typeof FETCH_WORK_WEEK_FINISHED;
+  payload?: WorkWeek;
+  error: boolean;
+}
+
+type NullableString = string | null;
+
+export interface SingleEmployeeAttendance {
+  employeeId: string;
+  employeeName: string;
+  code: string;
+  jobTitle: NullableString;
+  unit: NullableString;
+  status: NullableString;
+  duration: string;
+}
+
+export interface EmployeeAttendanceListRequest {
+  fromDate: string;
+  toDate: string;
+  empNumber?: string;
+  pastEmployee?: boolean;
+}
+
+export interface FetchEmployeeAttendanceListAction {
+  type: typeof FETCH_EMPLOYEE_ATTENDANCE_LIST;
+  payload: EmployeeAttendanceListRequest;
+}
+
+export interface FetchEmployeeAttendanceListFinishedAction {
+  type: typeof FETCH_EMPLOYEE_ATTENDANCE_LIST_FINISHED;
+  payload?: SingleEmployeeAttendance[];
+  error: boolean;
+}
+
+export interface FetchSubordinatesAction {
+  type: typeof FETCH_SUBORDINATES;
+}
+
+export interface FetchSubordinatesFinishedAction {
+  type: typeof FETCH_SUBORDINATES_FINISHED;
+  payload?: EmployeeObject[];
+  error: boolean;
+}
+
+export interface PickSubordinateAction {
+  type: typeof PICK_SUBORDINATE;
+  subordinate?: EmployeeObject;
+}
+
+export type AttendanceActionTypes =
+  | FetchAttendanceRecordsAction
+  | FetchAttendanceRecordsFinishedAction
+  | FetchLeaveRecordsAction
+  | FetchLeaveRecordsFinishedAction
+  | FetchAttendanceGraphRecordsAction
+  | FetchAttendanceGraphRecordsFinishedAction
+  | FetchWorkWeekAction
+  | FetchWorkWeekFinishedAction
+  | FetchHolidaysAction
+  | FetchHolidaysFinishedAction
+  | FetchEmployeeAttendanceListAction
+  | FetchEmployeeAttendanceListFinishedAction
+  | FetchSubordinatesAction
+  | FetchSubordinatesFinishedAction
+  | PickSubordinateAction;

@@ -26,7 +26,7 @@ import Card from 'components/DefaultCard';
 import CardContent from 'components/DefaultCardContent';
 import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
-import {fetchPunchStatus} from 'store/time/attendance/actions';
+import {fetchPunchStatus} from 'store/time/punch/actions';
 import Icon from 'components/DefaultIcon';
 import {AndroidEvent} from '@react-native-community/datetimepicker/src/index';
 import {formatTime} from 'lib/helpers/attendance';

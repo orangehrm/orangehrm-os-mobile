@@ -31,19 +31,19 @@ import {
   fetchLeaveRecords,
   fetchAttendanceGraphRecords,
   fetchHolidays,
-} from 'store/time/my-attendance/actions';
+} from 'store/time/attendance/actions';
 import {
   DaySelectorSingleDay,
   AttendanceRequest,
   EMPLOYEE_ATTENDANCE,
   MY_ATTENDANCE,
-} from 'store/time/my-attendance/types';
+} from 'store/time/attendance/types';
 import {
   selectAttendanceRecords,
   selectLeaveRecords,
   selectAttendanceGraphRecords,
   selectHolidays,
-} from 'store/time/my-attendance/selectors';
+} from 'store/time/attendance/selectors';
 import {fetchWorkWeek} from 'store/leave/common-screens/actions';
 import {selectWorkWeek} from 'store/leave/common-screens/selectors';
 import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';

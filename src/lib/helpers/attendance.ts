@@ -28,7 +28,7 @@ import {
   DaySelectorSingleDay,
   AttendanceObject,
   LeaveObject,
-} from 'store/time/my-attendance/types';
+} from 'store/time/attendance/types';
 import {MutableKeys} from 'utility-types';
 import {WorkWeek, Holiday} from 'store/leave/common-screens/types';
 /**
@@ -61,7 +61,8 @@ const getDateSaveFormatFromDateObject = (date: Date) => {
  * @return {Date}
  */
 const getDateObjectFromSaveFormat = (dateString: string) => {
-  return moment(dateString).toDate();
+  const datetime = dateString.split(' ', 2);
+  return new Date(datetime[0] + 'T' + datetime[1]);
 };
 
 const NEGATIVE_DURATION = 'NEGATIVE_DURATION';

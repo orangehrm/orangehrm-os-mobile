@@ -13,7 +13,7 @@ import {
   GraphDataPoint,
   LeaveTypeGraphData,
   ShortDay,
-} from 'store/time/my-attendance/types';
+} from 'store/time/attendance/types';
 import useTheme from 'lib/hook/useTheme';
 import CardContent from 'components/DefaultCardContent';
 import {$PropertyType} from 'utility-types';

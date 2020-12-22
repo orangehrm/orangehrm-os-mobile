@@ -231,7 +231,7 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
               >
                 OrangeHRM Open Source
                  
-                2.0.0-alpha2
+                1.0.1
               </Text>
               <Text
                 style={
@@ -503,7 +503,7 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
               >
                 OrangeHRM Open Source
                  
-                2.0.0-alpha2
+                1.0.1
               </Text>
               <Text
                 style={
@@ -775,7 +775,7 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
               >
                 OrangeHRM Open Source
                  
-                2.0.0-alpha2
+                1.0.1
               </Text>
               <Text
                 style={

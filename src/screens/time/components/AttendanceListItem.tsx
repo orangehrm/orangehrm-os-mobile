@@ -28,7 +28,7 @@ import {
 import Text from 'components/DefaultText';
 import Avatar from 'components/DefaultAvatar';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {SingleEmployeeAttendance} from 'store/time/my-attendance/types';
+import {SingleEmployeeAttendance} from 'store/time/attendance/types';
 
 class AttendanceListItem extends React.Component<AttendanceListItemProps> {
   render() {

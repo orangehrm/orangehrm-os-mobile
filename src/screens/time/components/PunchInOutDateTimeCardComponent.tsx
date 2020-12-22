@@ -25,7 +25,7 @@ import {connect} from 'react-redux';
 import Card from 'components/DefaultCard';
 import CardContent from 'components/DefaultCardContent';
 import Text from 'components/DefaultText';
-import {fetchPunchStatus} from 'store/time/attendance/actions';
+import {fetchPunchStatus} from 'store/time/punch/actions';
 import {formatTime} from 'lib/helpers/attendance';
 
 const PunchInOutDateTimeCard = (props: PunchInOutDateTimeCardProps) => {

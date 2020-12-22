@@ -8,7 +8,7 @@ import {
   Mode,
   EMPLOYEE_ATTENDANCE,
   MY_ATTENDANCE,
-} from 'store/time/my-attendance/types';
+} from 'store/time/attendance/types';
 import {connect} from 'react-redux';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {

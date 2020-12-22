@@ -1,24 +1,62 @@
 import {RootState} from 'store';
 import {createSelector} from 'reselect';
 
-import {PunchStatus, PunchStatusState} from './types';
+import {
+  AttendanceObject,
+  LeaveObject,
+  MyAttendanceState,
+  GraphRecordsObject,
+  SingleEmployeeAttendance,
+  EmployeeObject,
+} from './types';
+import {WorkWeek, Holiday} from 'store/leave/common-screens/types';
 
-export const selectAttendaceState = (state: RootState) => state.attendance;
+export const selectMyAttendaceState = (state: RootState) => state.myAttendance;
 
-export const selectPunchStatus = createSelector<
+export const selectAttendanceRecords = createSelector<
   RootState,
-  PunchStatusState,
-  PunchStatus | undefined
->([selectAttendaceState], (attendance) => attendance.punchStatus);
+  MyAttendanceState,
+  AttendanceObject[] | undefined
+>([selectMyAttendaceState], (myAttendance) => myAttendance.attendanceObjects);
 
-export const selectPunchCurrentDateTime = createSelector<
+export const selectLeaveRecords = createSelector<
   RootState,
-  PunchStatusState,
-  Date | undefined
->([selectAttendaceState], (attendance) => attendance.punchCurrentDateTime);
+  MyAttendanceState,
+  LeaveObject[] | undefined
+>([selectMyAttendaceState], (myAttendance) => myAttendance.leaveObjects);
 
-export const selectSavedPunchNote = createSelector<
+export const selectAttendanceGraphRecords = createSelector<
   RootState,
-  PunchStatusState,
-  string | undefined
->([selectAttendaceState], (attendance) => attendance.punchNoteSaved);
+  MyAttendanceState,
+  GraphRecordsObject | undefined
+>([selectMyAttendaceState], (myAttendance) => myAttendance.graphObject);
+
+export const selectHolidays = createSelector<
+  RootState,
+  MyAttendanceState,
+  Holiday[] | undefined
+>([selectMyAttendaceState], (myAttendance) => myAttendance.holidays);
+
+export const selectWorkWeek = createSelector<
+  RootState,
+  MyAttendanceState,
+  WorkWeek | undefined
+>([selectMyAttendaceState], (myAttendance) => myAttendance.workWeek);
+
+export const selectEmployeeAttendanceList = createSelector<
+  RootState,
+  MyAttendanceState,
+  SingleEmployeeAttendance[] | undefined
+>([selectMyAttendaceState], (myAttendance) => myAttendance.employeeList);
+
+export const selectSubordinates = createSelector<
+  RootState,
+  MyAttendanceState,
+  EmployeeObject[] | undefined
+>([selectMyAttendaceState], (myAttendance) => myAttendance.subordinates);
+
+export const selectPickedSubordinate = createSelector<
+  RootState,
+  MyAttendanceState,
+  EmployeeObject | undefined
+>([selectMyAttendaceState], (myAttendance) => myAttendance.selectedSubordinate);

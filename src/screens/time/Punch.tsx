@@ -36,18 +36,18 @@ import {
   setPunchNote,
   savePunchInRequest,
   savePunchOutRequest,
-} from 'store/time/attendance/actions';
+} from 'store/time/punch/actions';
 import {
   PunchRequest,
   PUNCHED_IN,
   PUNCHED_OUT,
   INITIAL,
-} from 'store/time/attendance/types';
+} from 'store/time/punch/types';
 import {
   selectPunchStatus,
   selectPunchCurrentDateTime,
   selectSavedPunchNote,
-} from 'store/time/attendance/selectors';
+} from 'store/time/punch/selectors';
 import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
 import Button from 'components/DefaultButton';

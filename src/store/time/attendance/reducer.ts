@@ -1,51 +1,102 @@
 import {
-  FETCH_PUNCH_STATUS_FINISHED,
-  CHANGE_PUNCH_CURRENT_DATE_TIME,
-  PICK_PUNCH_NOTE,
-  PunchStatusState,
-  PunchStatusActionTypes,
-  RESET_PUNCH_STATE,
+  FETCH_ATTENDANCE_RECORDS,
+  FETCH_ATTENDANCE_RECORDS_FINISHED,
+  FETCH_LEAVE_RECORDS,
+  FETCH_LEAVE_RECORDS_FINISHED,
+  FETCH_ATTENDANCE_GRAPH_RECORDS,
+  FETCH_ATTENDANCE_GRAPH_RECORDS_FINISHED,
+  FETCH_HOLIDAYS_FINISHED,
+  FETCH_WORK_WEEK_FINISHED,
+  FETCH_EMPLOYEE_ATTENDANCE_LIST,
+  FETCH_EMPLOYEE_ATTENDANCE_LIST_FINISHED,
+  FETCH_SUBORDINATES_FINISHED,
+  PICK_SUBORDINATE,
+  MyAttendanceState,
+  AttendanceActionTypes,
 } from './types';
-import {getDateObjectFromSaveFormat} from 'lib/helpers/attendance';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
-const initialState: PunchStatusState = {};
+const initialState: MyAttendanceState = {};
 
-const attendanceReducer = (
+const myAttendanceReducer = (
   state = initialState,
-  action: WithLogoutAction<PunchStatusActionTypes>,
-): PunchStatusState => {
+  action: WithLogoutAction<AttendanceActionTypes>,
+): MyAttendanceState => {
   switch (action.type) {
-    case FETCH_PUNCH_STATUS_FINISHED:
+    case FETCH_ATTENDANCE_RECORDS:
+      return {
+        ...state,
+        attendanceObjects: initialState.attendanceObjects,
+      };
+    case FETCH_ATTENDANCE_RECORDS_FINISHED:
       if (action.error) {
         return state;
       }
-      if (action.payload?.currentUTCDateTime) {
-        return {
-          ...state,
-          punchStatus: action.payload,
-          punchCurrentDateTime: getDateObjectFromSaveFormat(
-            action.payload.currentUTCDateTime,
-          ),
-        };
+      return {
+        ...state,
+        attendanceObjects: action.payload,
+      };
+    case FETCH_LEAVE_RECORDS:
+      return {
+        ...state,
+        attendanceObjects: initialState.attendanceObjects,
+      };
+    case FETCH_LEAVE_RECORDS_FINISHED:
+      if (action.error) {
+        return state;
       }
       return {
         ...state,
-        punchStatus: action.payload,
+        leaveObjects: action.payload,
       };
-    case CHANGE_PUNCH_CURRENT_DATE_TIME:
+    case FETCH_ATTENDANCE_GRAPH_RECORDS:
       return {
         ...state,
-        punchCurrentDateTime: action.punchCurrentDateTime,
+        graphObject: initialState.graphObject,
       };
-    case PICK_PUNCH_NOTE:
+    case FETCH_ATTENDANCE_GRAPH_RECORDS_FINISHED:
+      if (action.error) {
+        return state;
+      }
       return {
         ...state,
-        punchNoteSaved: action.noteSaved,
+        graphObject: action.payload,
       };
-    case RESET_PUNCH_STATE:
+    case FETCH_HOLIDAYS_FINISHED:
       return {
-        ...initialState,
+        ...state,
+        holidays: action.payload,
+      };
+    case FETCH_WORK_WEEK_FINISHED:
+      return {
+        ...state,
+        workWeek: action.payload,
+      };
+    case FETCH_EMPLOYEE_ATTENDANCE_LIST:
+      return {
+        ...state,
+        employeeList: initialState.employeeList,
+      };
+    case FETCH_EMPLOYEE_ATTENDANCE_LIST_FINISHED:
+      if (action.error) {
+        return state;
+      }
+      return {
+        ...state,
+        employeeList: action.payload,
+      };
+    case FETCH_SUBORDINATES_FINISHED:
+      if (action.error) {
+        return state;
+      }
+      return {
+        ...state,
+        subordinates: action.payload,
+      };
+    case PICK_SUBORDINATE:
+      return {
+        ...state,
+        selectedSubordinate: action.subordinate,
       };
     case LOGOUT:
       return initialState;
@@ -54,4 +105,4 @@ const attendanceReducer = (
   }
 };
 
-export default attendanceReducer;
+export default myAttendanceReducer;

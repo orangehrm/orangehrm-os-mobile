@@ -40,8 +40,8 @@ import HeaderBackIcon from 'components/HeaderBackIcon';
 import HeaderIcon from 'components/HeaderIcon';
 import {getHeaderStyle} from 'lib/helpers/header';
 import {navigate} from 'lib/helpers/navigation';
-import {pickSubordinate} from 'store/time/my-attendance/actions';
-import {selectPickedSubordinate} from 'store/time/my-attendance/selectors';
+import {pickSubordinate} from 'store/time/attendance/actions';
+import {selectPickedSubordinate} from 'store/time/attendance/selectors';
 
 const Stack = createStackNavigator();
 

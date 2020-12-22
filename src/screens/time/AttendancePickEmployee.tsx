@@ -36,13 +36,13 @@ import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
 import Avatar from 'components/DefaultAvatar';
 import TextInput, {TextInputProps} from 'components/DefaultTextInput';
-import {EmployeeObject} from 'store/time/my-attendance/types';
+import {EmployeeObject} from 'store/time/attendance/types';
 import {getFirstAndLastNames} from 'lib/helpers/name';
 import {
   fetchSubordinates,
   pickSubordinate,
-} from 'store/time/my-attendance/actions';
-import {selectSubordinates} from 'store/time/my-attendance/selectors';
+} from 'store/time/attendance/actions';
+import {selectSubordinates} from 'store/time/attendance/selectors';
 
 class AttendancePickEmployee extends React.Component<
   AttendancePickEmployeeProps,

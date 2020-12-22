@@ -27,6 +27,14 @@ import configureStore from 'store/configureStore';
 import {render} from 'react-native-testing-library';
 const mockStore = configureStore();
 
+jest.mock(
+  '../../package.json',
+  () => ({
+    version: '1.0.1',
+  }),
+  {virtual: true},
+);
+
 describe('layout/FirstLayout', () => {
   test('test FirstLayout layout', () => {
     const node = render(

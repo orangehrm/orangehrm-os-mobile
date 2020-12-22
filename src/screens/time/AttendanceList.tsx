@@ -25,17 +25,17 @@ import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import Divider from 'components/DefaultDivider';
-import {fetchEmployeeAttendanceList} from 'store/time/my-attendance/actions';
+import {fetchEmployeeAttendanceList} from 'store/time/attendance/actions';
 import {
   selectEmployeeAttendanceList,
   selectPickedSubordinate,
-} from 'store/time/my-attendance/selectors';
+} from 'store/time/attendance/selectors';
 import moment from 'moment';
 import Text from 'components/DefaultText';
 import Icon from 'components/DefaultIcon';
 import SafeAreaLayout from 'layouts/SafeAreaLayout';
 import AttendanceListItem from 'screens/time/components/AttendanceListItem';
-import {SingleEmployeeAttendance} from 'store/time/my-attendance/types';
+import {SingleEmployeeAttendance} from 'store/time/attendance/types';
 import {EMPLOYEE_ATTENDANCE_SUMMARY} from 'screens';
 import {navigate} from 'lib/helpers/navigation';
 import {AttendanceSummaryScreenParams} from 'screens/time/navigators';

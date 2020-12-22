@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {AttendanceObject} from 'store/time/my-attendance/types';
+import {AttendanceObject} from 'store/time/attendance/types';
 import Icon from 'components/DefaultIcon';
 import Chip from 'components/DefaultChip';
 import Divider from 'components/DefaultDivider';
-import {PUNCHED_OUT} from 'store/time/attendance/types';
+import {PUNCHED_OUT} from 'store/time/punch/types';
 import {
   calculateDurationBasedOnTimezone,
   getUTCMomentObjectFromString,

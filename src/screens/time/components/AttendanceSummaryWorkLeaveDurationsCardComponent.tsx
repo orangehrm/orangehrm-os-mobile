@@ -30,7 +30,7 @@ import {
   GraphLeaveType,
   Mode,
   EMPLOYEE_ATTENDANCE,
-} from 'store/time/my-attendance/types';
+} from 'store/time/attendance/types';
 import FlatButton from 'screens/leave/components/FlatButton';
 import {NullableString} from 'store/leave/leave-usage/types';
 
