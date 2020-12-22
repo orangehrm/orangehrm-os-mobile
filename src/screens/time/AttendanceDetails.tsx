@@ -177,6 +177,7 @@ class AttendanceDetails extends React.Component<
             {dateSelectorData.map((singleDate: DaySelectorSingleDay, key) => {
               return (
                 <AttendanceDetailedHeaderComponent
+                  key={key}
                   isActive={
                     convertDateObjectToStringFormat(singleDate.date, 'ddd') ===
                     convertDateObjectToStringFormat(

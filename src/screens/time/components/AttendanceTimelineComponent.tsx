@@ -33,330 +33,322 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
         ) : null}
         {attendanceRecords.map((attendanceRecord, key) => {
           return attendanceRecord.state === PUNCHED_OUT ? (
-            <>
-              <View>
-                <View style={[styles.flexOne, {marginTop: theme.spacing * 5}]}>
-                  <View style={[styles.rowFlexDirection]}>
+            <View key={key}>
+              <View style={[styles.flexOne, {marginTop: theme.spacing * 5}]}>
+                <View style={[styles.rowFlexDirection]}>
+                  <View
+                    style={[
+                      styles.flexOne,
+                      styles.columnFlexDirection,
+                      {
+                        marginLeft: theme.spacing * 4,
+                      },
+                    ]}>
                     <View
                       style={[
-                        styles.flexOne,
-                        styles.columnFlexDirection,
+                        styles.positionAbsolute,
+                        {top: theme.spacing * 0},
+                      ]}>
+                      <Text>
+                        {convertDateObjectToStringFormat(
+                          getUTCMomentObjectFromString(
+                            attendanceRecord.punchInUserTime,
+                          ),
+                          'hh:mm A',
+                        )}
+                      </Text>
+                    </View>
+                    <View
+                      style={[
+                        styles.positionAbsolute,
                         {
-                          marginLeft: theme.spacing * 4,
+                          bottom: theme.spacing * 0,
                         },
                       ]}>
+                      <Text>
+                        {convertDateObjectToStringFormat(
+                          getUTCMomentObjectFromString(
+                            attendanceRecord.punchOutUserTime,
+                          ),
+                          'hh:mm A',
+                        )}
+                      </Text>
+                    </View>
+                  </View>
+                  <View
+                    style={[
+                      styles.flexThree,
+                      {
+                        borderLeftWidth: defaultLineWidth,
+                        borderLeftColor: theme.palette.secondary,
+                        backgroundColor: theme.palette.background,
+                      },
+                    ]}>
+                    <View style={[styles.rowFlexDirection]}>
                       <View
                         style={[
-                          styles.positionAbsolute,
-                          {top: theme.spacing * 0},
-                        ]}>
-                        <Text>
-                          {convertDateObjectToStringFormat(
-                            getUTCMomentObjectFromString(
-                              attendanceRecord.punchInUserTime,
-                            ),
-                            'hh:mm A',
-                          )}
-                        </Text>
-                      </View>
-                      <View
-                        style={[
-                          styles.positionAbsolute,
+                          styles.dotStyle,
                           {
-                            bottom: theme.spacing * 0,
+                            marginLeft: -(
+                              defaultCircleSize / 2 +
+                              defaultLineWidth / 2
+                            ),
+                            backgroundColor: theme.palette.secondary,
+                          },
+                        ]}
+                      />
+                      <View
+                        style={[
+                          {
+                            marginLeft: theme.spacing * 2.5,
+                            marginBottom: theme.spacing * 5,
+                            paddingBottom: theme.spacing * 2.5,
                           },
                         ]}>
-                        <Text>
-                          {convertDateObjectToStringFormat(
-                            getUTCMomentObjectFromString(
-                              attendanceRecord.punchOutUserTime,
+                        <View>
+                          <View>
+                            <View style={{marginLeft: theme.spacing * 1}}>
+                              <View style={{marginLeft: theme.spacing * 0.5}}>
+                                <Text
+                                  style={[
+                                    styles.title,
+                                    {fontSize: theme.spacing * 3.5},
+                                  ]}>
+                                  {'Punched In'}
+                                </Text>
+                              </View>
+                            </View>
+                            {attendanceRecord.punchInNote !== null &&
+                            attendanceRecord.punchInNote.length > 0 ? (
+                              <>
+                                <View
+                                  style={[
+                                    styles.rowFlexDirection,
+                                    {
+                                      paddingTop: theme.spacing * 1,
+                                    },
+                                  ]}>
+                                  <Icon
+                                    name={'android-messages'}
+                                    fontSize={theme.spacing * 5}
+                                  />
+                                  <Text
+                                    style={{
+                                      paddingLeft: theme.spacing * 2.5,
+                                      marginRight: theme.spacing * 5,
+                                    }}>
+                                    {attendanceRecord.punchInNote}
+                                  </Text>
+                                </View>
+                              </>
+                            ) : null}
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                    <View style={[styles.rowFlexDirection]}>
+                      <View
+                        style={[
+                          styles.dotStyle,
+                          {
+                            marginLeft: -(
+                              defaultCircleSize / 2 +
+                              defaultLineWidth / 2
                             ),
-                            'hh:mm A',
-                          )}
+                            backgroundColor: theme.palette.secondary,
+                          },
+                        ]}
+                      />
+                      <View
+                        style={{
+                          marginLeft: theme.spacing * 4,
+                          marginTop: theme.spacing * -1.5,
+                        }}>
+                        <Text
+                          style={[
+                            styles.title,
+                            {fontSize: theme.spacing * 3.5},
+                          ]}>
+                          {'Punched Out'}
                         </Text>
                       </View>
                     </View>
-                    <View
-                      style={[
-                        styles.flexThree,
-                        {
-                          borderLeftWidth: defaultLineWidth,
-                          borderLeftColor: theme.palette.secondary,
-                          backgroundColor: theme.palette.background,
-                        },
-                      ]}>
-                      <View style={[styles.rowFlexDirection]}>
+                  </View>
+                </View>
+                <View style={[styles.rowFlexDirection]}>
+                  <View style={[styles.flexOne]} />
+                  <View
+                    style={[
+                      styles.flexThree,
+                      {
+                        marginLeft: theme.spacing * 8,
+                        paddingBottom: theme.spacing * 2.5,
+                      },
+                    ]}>
+                    <View>
+                      <View>
                         <View
                           style={[
-                            styles.dotStyle,
+                            styles.alignItemsCenter,
                             {
-                              marginLeft: -(
-                                defaultCircleSize / 2 +
-                                defaultLineWidth / 2
-                              ),
-                              backgroundColor: theme.palette.secondary,
-                            },
-                          ]}
-                        />
-                        <View
-                          style={[
-                            {
-                              marginLeft: theme.spacing * 2.5,
-                              marginBottom: theme.spacing * 5,
-                              paddingBottom: theme.spacing * 2.5,
+                              marginLeft: theme.spacing * 1,
+                              width: theme.spacing * 30,
                             },
                           ]}>
-                          <View>
-                            <View>
-                              <View style={{marginLeft: theme.spacing * 1}}>
-                                <View style={{marginLeft: theme.spacing * 0.5}}>
-                                  <Text
-                                    style={[
-                                      styles.title,
-                                      {fontSize: theme.spacing * 3.5},
-                                    ]}>
-                                    {'Punched In'}
-                                  </Text>
-                                </View>
-                              </View>
-                              {attendanceRecord.punchInNote !== null &&
-                              attendanceRecord.punchInNote.length > 0 ? (
-                                <>
-                                  <View
-                                    style={[
-                                      styles.rowFlexDirection,
-                                      {
-                                        paddingTop: theme.spacing * 1,
-                                      },
-                                    ]}>
-                                    <Icon
-                                      name={'android-messages'}
-                                      fontSize={theme.spacing * 5}
-                                    />
-                                    <Text
-                                      style={{
-                                        paddingLeft: theme.spacing * 2.5,
-                                        marginRight: theme.spacing * 5,
-                                      }}>
-                                      {attendanceRecord.punchInNote}
-                                    </Text>
-                                  </View>
-                                </>
-                              ) : null}
-                            </View>
-                          </View>
-                        </View>
-                      </View>
-                      <View style={[styles.rowFlexDirection]}>
-                        <View
-                          style={[
-                            styles.dotStyle,
-                            {
-                              marginLeft: -(
-                                defaultCircleSize / 2 +
-                                defaultLineWidth / 2
-                              ),
+                          <Chip
+                            style={{
                               backgroundColor: theme.palette.secondary,
-                            },
-                          ]}
-                        />
-                        <View
-                          style={{
-                            marginLeft: theme.spacing * 4,
-                            marginTop: theme.spacing * -1.5,
-                          }}>
-                          <Text
-                            style={[
-                              styles.title,
-                              {fontSize: theme.spacing * 3.5},
-                            ]}>
-                            {'Punched Out'}
-                          </Text>
+                              paddingLeft: theme.spacing * 2.5,
+                              paddingRight: theme.spacing * 2.5,
+                              marginBottom: theme.spacing * 1.25,
+                              marginTop: theme.spacing * 2.5,
+                            }}>
+                            <Text>
+                              {calculateDurationBasedOnTimezone(
+                                attendanceRecord.punchInUserTime,
+                                attendanceRecord.punchOutUserTime,
+                                parseFloat(attendanceRecord.punchInTimeOffset),
+                                parseFloat(attendanceRecord.punchOutTimeOffset),
+                              )}
+                              {' Hours'}
+                            </Text>
+                          </Chip>
                         </View>
-                      </View>
-                    </View>
-                  </View>
-                  <View style={[styles.rowFlexDirection]}>
-                    <View style={[styles.flexOne]} />
-                    <View
-                      style={[
-                        styles.flexThree,
-                        {
-                          marginLeft: theme.spacing * 8,
-                          paddingBottom: theme.spacing * 2.5,
-                        },
-                      ]}>
-                      <View>
-                        <View>
-                          <View
-                            style={[
-                              styles.alignItemsCenter,
-                              {
-                                marginLeft: theme.spacing * 1,
-                                width: theme.spacing * 30,
-                              },
-                            ]}>
-                            <Chip
-                              style={{
-                                backgroundColor: theme.palette.secondary,
-                                paddingLeft: theme.spacing * 2.5,
-                                paddingRight: theme.spacing * 2.5,
-                                marginBottom: theme.spacing * 1.25,
-                                marginTop: theme.spacing * 2.5,
-                              }}>
-                              <Text>
-                                {calculateDurationBasedOnTimezone(
-                                  attendanceRecord.punchInUserTime,
-                                  attendanceRecord.punchOutUserTime,
-                                  parseFloat(
-                                    attendanceRecord.punchInTimeOffset,
-                                  ),
-                                  parseFloat(
-                                    attendanceRecord.punchOutTimeOffset,
-                                  ),
-                                )}
-                                {' Hours'}
+                        {attendanceRecord.punchOutNote !== null &&
+                        attendanceRecord.punchOutNote.length > 0 ? (
+                          <>
+                            <View
+                              style={[
+                                styles.rowFlexDirection,
+                                {
+                                  paddingTop: theme.spacing * 1,
+                                },
+                              ]}>
+                              <Icon
+                                name={'android-messages'}
+                                fontSize={theme.spacing * 5}
+                              />
+                              <Text
+                                style={{
+                                  paddingLeft: theme.spacing * 2.5,
+                                  marginRight: theme.spacing * 5,
+                                }}>
+                                {attendanceRecord.punchOutNote}
                               </Text>
-                            </Chip>
-                          </View>
-                          {attendanceRecord.punchOutNote !== null &&
-                          attendanceRecord.punchOutNote.length > 0 ? (
-                            <>
-                              <View
-                                style={[
-                                  styles.rowFlexDirection,
-                                  {
-                                    paddingTop: theme.spacing * 1,
-                                  },
-                                ]}>
-                                <Icon
-                                  name={'android-messages'}
-                                  fontSize={theme.spacing * 5}
-                                />
-                                <Text
-                                  style={{
-                                    paddingLeft: theme.spacing * 2.5,
-                                    marginRight: theme.spacing * 5,
-                                  }}>
-                                  {attendanceRecord.punchOutNote}
-                                </Text>
-                              </View>
-                            </>
-                          ) : null}
-                        </View>
+                            </View>
+                          </>
+                        ) : null}
                       </View>
                     </View>
                   </View>
-                </View>
-                <View style={{marginTop: theme.spacing * 4}}>
-                  <Divider />
                 </View>
               </View>
-            </>
+              <View style={{marginTop: theme.spacing * 4}}>
+                <Divider />
+              </View>
+            </View>
           ) : (
-            <>
-              <View>
-                <View style={[styles.flexOne, {marginTop: theme.spacing * 5}]}>
-                  <View style={[styles.rowFlexDirection]}>
+            <View key={key}>
+              <View style={[styles.flexOne, {marginTop: theme.spacing * 5}]}>
+                <View style={[styles.rowFlexDirection]}>
+                  <View
+                    style={[
+                      styles.flexOne,
+                      styles.columnFlexDirection,
+                      {
+                        marginLeft: theme.spacing * 4,
+                        backgroundColor: theme.palette.background,
+                      },
+                    ]}>
                     <View
                       style={[
-                        styles.flexOne,
-                        styles.columnFlexDirection,
-                        {
-                          marginLeft: theme.spacing * 4,
-                          backgroundColor: theme.palette.background,
-                        },
+                        styles.positionAbsolute,
+                        {top: theme.spacing * 0},
                       ]}>
+                      <Text>{'06:30 AM'}</Text>
+                    </View>
+                  </View>
+                  <View
+                    style={[
+                      styles.borderLeftColorWhite,
+                      styles.flexThree,
+                      {
+                        borderLeftWidth: defaultLineWidth,
+                        backgroundColor: theme.palette.background,
+                      },
+                    ]}>
+                    <View style={[styles.rowFlexDirection]}>
                       <View
                         style={[
-                          styles.positionAbsolute,
-                          {top: theme.spacing * 0},
-                        ]}>
-                        <Text>{'06:30 AM'}</Text>
-                      </View>
-                    </View>
-                    <View
-                      style={[
-                        styles.borderLeftColorWhite,
-                        styles.flexThree,
-                        {
-                          borderLeftWidth: defaultLineWidth,
-                          backgroundColor: theme.palette.background,
-                        },
-                      ]}>
-                      <View style={[styles.rowFlexDirection]}>
-                        <View
-                          style={[
-                            styles.dotStyle,
-                            {
-                              marginLeft: -(
-                                defaultCircleSize / 2 +
-                                defaultLineWidth / 2
-                              ),
-                              backgroundColor: theme.palette.secondary,
-                            },
-                          ]}
-                        />
-                        <View
-                          style={[
-                            {
-                              marginLeft: theme.spacing * 2.5,
-                              marginBottom: theme.spacing * 5,
+                          styles.dotStyle,
+                          {
+                            marginLeft: -(
+                              defaultCircleSize / 2 +
+                              defaultLineWidth / 2
+                            ),
+                            backgroundColor: theme.palette.secondary,
+                          },
+                        ]}
+                      />
+                      <View
+                        style={[
+                          {
+                            marginLeft: theme.spacing * 2.5,
+                            marginBottom: theme.spacing * 5,
 
-                              paddingBottom: theme.spacing * 2.5,
-                            },
-                          ]}>
+                            paddingBottom: theme.spacing * 2.5,
+                          },
+                        ]}>
+                        <View>
                           <View>
-                            <View>
-                              <View style={{marginLeft: theme.spacing * 1}}>
-                                <View style={{marginLeft: theme.spacing * 0.5}}>
+                            <View style={{marginLeft: theme.spacing * 1}}>
+                              <View style={{marginLeft: theme.spacing * 0.5}}>
+                                <Text
+                                  style={[
+                                    styles.title,
+                                    {fontSize: theme.spacing * 3.5},
+                                  ]}>
+                                  {'Punched In'}
+                                </Text>
+                              </View>
+                            </View>
+                            {attendanceRecord.punchInNote !== null &&
+                            attendanceRecord.punchInNote.length > 0 ? (
+                              <>
+                                <View
+                                  style={[
+                                    styles.rowFlexDirection,
+                                    {
+                                      paddingTop: theme.spacing * 1,
+                                    },
+                                  ]}>
+                                  <Icon
+                                    name={'android-messages'}
+                                    fontSize={theme.spacing * 5}
+                                  />
                                   <Text
-                                    style={[
-                                      styles.title,
-                                      {fontSize: theme.spacing * 3.5},
-                                    ]}>
-                                    {'Punched In'}
+                                    style={{
+                                      paddingLeft: theme.spacing * 2.5,
+                                      marginRight: theme.spacing * 5,
+                                    }}>
+                                    {attendanceRecord.punchInNote}
                                   </Text>
                                 </View>
-                              </View>
-                              {attendanceRecord.punchInNote !== null &&
-                              attendanceRecord.punchInNote.length > 0 ? (
-                                <>
-                                  <View
-                                    style={[
-                                      styles.rowFlexDirection,
-                                      {
-                                        paddingTop: theme.spacing * 1,
-                                      },
-                                    ]}>
-                                    <Icon
-                                      name={'android-messages'}
-                                      fontSize={theme.spacing * 5}
-                                    />
-                                    <Text
-                                      style={{
-                                        paddingLeft: theme.spacing * 2.5,
-                                        marginRight: theme.spacing * 5,
-                                      }}>
-                                      {attendanceRecord.punchInNote}
-                                    </Text>
-                                  </View>
-                                </>
-                              ) : null}
-                            </View>
+                              </>
+                            ) : null}
                           </View>
                         </View>
                       </View>
                     </View>
                   </View>
+                </View>
 
-                  {/* <Divider /> */}
-                </View>
-                <View style={{marginTop: theme.spacing * 4}}>
-                  <Divider />
-                </View>
+                {/* <Divider /> */}
               </View>
-            </>
+              <View style={{marginTop: theme.spacing * 4}}>
+                <Divider />
+              </View>
+            </View>
           );
         })}
       </View>

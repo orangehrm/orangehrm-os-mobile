@@ -28,10 +28,9 @@ import {
   DaySelectorSingleDay,
   AttendanceObject,
   LeaveObject,
-  Holiday,
 } from 'store/time/my-attendance/types';
 import {MutableKeys} from 'utility-types';
-import {WorkWeek} from 'store/leave/common-screens/types';
+import {WorkWeek, Holiday} from 'store/leave/common-screens/types';
 /**
  *
  * @param dateString  // input format '2020-12-25 13:26'
@@ -122,7 +121,9 @@ const formatLastRecordDetails = (
   timezoneOffset?: string,
 ) => {
   if (datetime && timezoneOffset) {
-    let displayDatetime = getUTCMomentObjectFromString(datetime).format('LLL');
+    const displayDatetime = getUTCMomentObjectFromString(datetime).format(
+      'LLL',
+    );
     let timezone;
     if (parseFloat(timezoneOffset) > 0) {
       timezone =
@@ -170,11 +171,11 @@ const getLeaveColourById = (id: string) => {
 
 const calculateWorkData = (graphRecordsInputData: GraphRecordsObject) => {
   const workGraphData: GraphDataPoint[] = [];
-  let days = Object.keys(graphRecordsInputData.workSummary);
+  const days = Object.keys(graphRecordsInputData.workSummary);
   days.forEach((day) => {
     const key = <MutableKeys<WorkSummaryObject>>day;
-    let hours = graphRecordsInputData.workSummary[key].workHours;
-    let data: GraphDataPoint = {
+    const hours = graphRecordsInputData.workSummary[key].workHours;
+    const data: GraphDataPoint = {
       x: dayMapper[key],
       y: parseFloat(hours),
     };
@@ -186,21 +187,20 @@ const calculateWorkData = (graphRecordsInputData: GraphRecordsObject) => {
 const calculateGraphData = (leaveTypesInputData: GraphRecordsObject) => {
   const leaveGraphData: LeaveTypeGraphData[] = [];
 
-  let leaveTypeIds: string[] = [];
+  const leaveTypeIds: string[] = [];
   leaveTypesInputData.totalLeaveTypeHours.forEach((leave) => {
     leaveTypeIds.push(leave.typeId);
   });
   leaveTypeIds.forEach((id) => {
-    let leaveTypeGraphData: LeaveTypeGraphData;
-    let data: GraphDataPoint[] = [];
-    let colour: string = getLeaveColourById(id);
+    const data: GraphDataPoint[] = [];
+    const colour: string = getLeaveColourById(id);
 
-    let days = Object.keys(leaveTypesInputData.workSummary);
+    const days = Object.keys(leaveTypesInputData.workSummary);
 
     days.forEach((day) => {
       const key = <MutableKeys<WorkSummaryObject>>day;
 
-      let filteredLeaves = leaveTypesInputData.workSummary[key].leave.filter(
+      const filteredLeaves = leaveTypesInputData.workSummary[key].leave.filter(
         (leave) => {
           return leave.typeId === id;
         },
@@ -219,7 +219,7 @@ const calculateGraphData = (leaveTypesInputData: GraphRecordsObject) => {
       }
       data.push(singleData);
     });
-    leaveTypeGraphData = {
+    const leaveTypeGraphData: LeaveTypeGraphData = {
       id: id,
       colour: colour,
       data: data,
@@ -234,13 +234,13 @@ const calculateDateSelectorData = (
   startDayIndex?: number,
 ) => {
   if (workSummaryObject !== undefined && startDayIndex !== undefined) {
-    let selectedWeek: DaySelectorSingleDay[] = [];
+    const selectedWeek: DaySelectorSingleDay[] = [];
     for (let index = startDayIndex; index < startDayIndex + 7; index++) {
-      let date = moment().weekday(index);
-      let day = date.format('dddd').toLocaleLowerCase();
+      const date = moment().weekday(index);
+      const day = date.format('dddd').toLocaleLowerCase();
       const key = <MutableKeys<WorkSummaryObject>>day;
-      let hours = workSummaryObject[key].workHours;
-      let daySelectorSingleDay: DaySelectorSingleDay = {
+      const hours = workSummaryObject[key].workHours;
+      const daySelectorSingleDay: DaySelectorSingleDay = {
         date: date,
         duration: getDurationFromHours(parseFloat(hours)),
       };
@@ -257,7 +257,7 @@ const getAttendanceRecordsOfTheSelectedDate = (
   selectedDay?: moment.Moment,
 ) => {
   if (attendanceObjects !== undefined && selectedDay !== undefined) {
-    let selectedAttendanceObjects: AttendanceObject[] = [];
+    const selectedAttendanceObjects: AttendanceObject[] = [];
     attendanceObjects.forEach((attendanceObject) => {
       if (
         selectedDay.format('YYYY-MM-DD') ===
@@ -273,14 +273,14 @@ const getAttendanceRecordsOfTheSelectedDate = (
 };
 
 const getLeaveRecordsOfTheSelectedDate = (
-  LeaveObjects?: LeaveObject[],
+  leaveObjects?: LeaveObject[],
   selectedDay?: moment.Moment,
 ) => {
-  if (LeaveObjects !== undefined && selectedDay !== undefined) {
-    let selectedLeaveObjects: LeaveObject[] = [];
-    LeaveObjects.forEach((LeaveObject) => {
-      if (selectedDay.format('YYYY-MM-DD') === LeaveObject.date) {
-        selectedLeaveObjects.push(LeaveObject);
+  if (leaveObjects !== undefined && selectedDay !== undefined) {
+    const selectedLeaveObjects: LeaveObject[] = [];
+    leaveObjects.forEach((leaveObject) => {
+      if (selectedDay.format('YYYY-MM-DD') === leaveObject.date) {
+        selectedLeaveObjects.push(leaveObject);
       }
     });
     return selectedLeaveObjects;
@@ -294,7 +294,7 @@ const getHolidayRecordsOfTheSelectedDate = (
   selectedDay?: moment.Moment,
 ) => {
   if (holidays !== undefined && selectedDay !== undefined) {
-    let selectedHolidays: Holiday[] = [];
+    const selectedHolidays: Holiday[] = [];
     holidays.forEach((holiday) => {
       if (selectedDay.format('YYYY-MM-DD') === holiday.date) {
         selectedHolidays.push(holiday);
@@ -311,7 +311,7 @@ const getWorkWeekResultOfTheSelectedDate = (
   selectedDay?: moment.Moment,
 ) => {
   if (workweek !== undefined && selectedDay !== undefined) {
-    let days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
     let hours;
     days.forEach((day) => {
       if (selectedDay.format('ddd').toLocaleLowerCase() === day) {
@@ -327,11 +327,11 @@ const getWorkWeekResultOfTheSelectedDate = (
 
 const getDurationFromHours = (hours?: number) => {
   if (hours) {
-    let minutes = Math.round(hours * 60);
-    let durationHours = setTwoDigits(
+    const minutes = Math.round(hours * 60);
+    const durationHours = setTwoDigits(
       ((minutes - (minutes % 60)) / 60).toString(),
     );
-    let durationMinutes = setTwoDigits((minutes % 60).toString());
+    const durationMinutes = setTwoDigits((minutes % 60).toString());
     return durationHours + ':' + durationMinutes;
   } else {
     return '00:00';
@@ -340,8 +340,8 @@ const getDurationFromHours = (hours?: number) => {
 
 // to get time as 3:48 PM from JS Date object
 const formatTime = (datetime: Date) => {
-  let time = datetime.toTimeString();
-  let hourMinute = time.substring(0, 5).split(':', 2);
+  const time = datetime.toTimeString();
+  const hourMinute = time.substring(0, 5).split(':', 2);
   let ampm: string = 'AM';
   let hour: string = hourMinute[0];
   if (parseInt(hourMinute[0], 10) > 12) {
@@ -352,7 +352,7 @@ const formatTime = (datetime: Date) => {
 };
 
 const calculateDateOfMonth = (start: number, end: number) => {
-  let dateOfMonth = [];
+  const dateOfMonth = [];
   for (let i = start; i <= end; i++) {
     dateOfMonth.push(
       convertDateObjectToStringFormat(moment().weekday(i), 'M/D'),
