@@ -53,15 +53,13 @@ import {
   calculateGraphData,
   calculateWorkData,
   getLeaveColourById,
-} from 'lib/helpers/attendance';
-import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
-import {selectCurrentRoute} from 'store/globals/selectors';
-import moment from 'moment';
-import {
   getDurationFromHours,
   calculateDateOfMonth,
   getWeekDayFromIndex,
 } from 'lib/helpers/attendance';
+import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
+import {selectCurrentRoute} from 'store/globals/selectors';
+import moment from 'moment';
 import {navigate} from 'lib/helpers/navigation';
 import {ATTENDANCE_DETAILS, EMPLOYEE_ATTENDANCE_DETAILS} from 'screens';
 import {
@@ -98,7 +96,7 @@ class AttendanceSummary extends React.Component<
     this.fetchData(this.state.weekStartDate, this.state.weekEndDate);
   }
 
-  onPressDetails = () => {
+  onPressDetails = (selectedDate?: moment.Moment) => {
     const {params: {employeeAttendance} = {}} = this.props.route;
     let route = ATTENDANCE_DETAILS;
     if (employeeAttendance !== undefined) {
@@ -110,6 +108,7 @@ class AttendanceSummary extends React.Component<
       employeeName: this.props.route.params?.employeeAttendance
         ? this.props.route.params.employeeAttendance.employeeName
         : undefined,
+      selectedDate: selectedDate,
     });
   };
 
@@ -227,16 +226,19 @@ class AttendanceSummary extends React.Component<
     this.fetchData(this.state.weekStartDate, this.state.weekEndDate);
   };
 
-  onPressBar = (day: ShortDay) => {
+  onPressBar = (selectedDay: ShortDay) => {
     // TODO:: navigate to detail screen depend on
-    this.setState(
-      {
-        startDayIndex: this.state.startDayIndex, //derive from `day`,
-      },
-      () => {
-        this.onPressDetails();
-      },
-    );
+    let selectedDayObj: moment.Moment | undefined = undefined;
+    let startDayIndex = this.state.startDayIndex;
+    for (let i = startDayIndex; i < startDayIndex + 7; i++) {
+      if (
+        convertDateObjectToStringFormat(getWeekDayFromIndex(i), 'dd') ===
+        selectedDay
+      ) {
+        selectedDayObj = getWeekDayFromIndex(i);
+      }
+    }
+    this.onPressDetails(selectedDayObj);
   };
 
   render() {
@@ -246,6 +248,9 @@ class AttendanceSummary extends React.Component<
       : undefined;
     const employeeName = this.props.route.params
       ? this.props.route.params.employeeAttendance?.employeeName
+      : undefined;
+    const employeeJobTitle = this.props.route.params
+      ? this.props.route.params.employeeAttendance?.jobTitle
       : undefined;
     return (
       <MainLayout
@@ -273,6 +278,7 @@ class AttendanceSummary extends React.Component<
           leaveData={this.state.singleLeaveTypeData}
           empNumber={empNumber}
           employeeName={employeeName}
+          jobTitle={employeeJobTitle}
           mode={empNumber !== undefined ? EMPLOYEE_ATTENDANCE : MY_ATTENDANCE}
         />
         <AttendanceDailyChartComponent

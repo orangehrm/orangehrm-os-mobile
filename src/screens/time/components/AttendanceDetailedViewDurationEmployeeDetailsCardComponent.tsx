@@ -114,7 +114,7 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
             </>
           ) : null}
           <View>
-            {this.props.holidays.map((holiday) => (
+            {this.props.holidays.map((holiday, key) => (
               <Chip
                 fullWidth={false}
                 style={[
@@ -137,7 +137,7 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
             ))}
           </View>
           <View>
-            {this.props.leaves.map((leave) => (
+            {this.props.leaves.map((leave, key) => (
               <Chip
                 style={[
                   styles.alignSelfFlexStart,

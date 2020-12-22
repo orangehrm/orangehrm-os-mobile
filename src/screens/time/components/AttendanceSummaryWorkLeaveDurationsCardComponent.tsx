@@ -32,12 +32,19 @@ import {
   EMPLOYEE_ATTENDANCE,
 } from 'store/time/my-attendance/types';
 import FlatButton from 'screens/leave/components/FlatButton';
+import {NullableString} from 'store/leave/leave-usage/types';
 
 const AttendanceSummaryWorkLeaveDurationsCardComponent = (
   props: AttendanceSummaryWorkLeaveDurationsCardComponentProps,
 ) => {
   const theme = useTheme();
-  const {totalLeaveDuration, totalWorkDuration, mode, employeeName} = props;
+  const {
+    totalLeaveDuration,
+    totalWorkDuration,
+    mode,
+    employeeName,
+    jobTitle,
+  } = props;
   return (
     <View
       style={[
@@ -89,7 +96,7 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                   }}>
                   {employeeName}
                 </Text>
-                <Text>{'Software Engineer'}</Text>
+                <Text>{jobTitle}</Text>
               </View>
             </View>
           ) : null}
@@ -298,6 +305,7 @@ interface AttendanceSummaryWorkLeaveDurationsCardComponentProps {
   onPressDetails: () => void;
   empNumber?: string;
   employeeName?: string;
+  jobTitle?: NullableString;
   mode: Mode;
 }
 

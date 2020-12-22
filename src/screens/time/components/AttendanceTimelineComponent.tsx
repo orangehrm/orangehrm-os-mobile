@@ -35,7 +35,7 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
             </View>
           </>
         ) : null}
-        {attendanceRecords.map((attendanceRecord) => {
+        {attendanceRecords.map((attendanceRecord, key) => {
           return attendanceRecord.state === PUNCHED_OUT ? (
             <>
               <View>

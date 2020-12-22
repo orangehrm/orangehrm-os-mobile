@@ -34,6 +34,7 @@ export interface AttendanceDetailsScreenParam {
   startDayIndex: number;
   employeeAttendance?: SingleEmployeeAttendance;
   employeeName?: string;
+  selectedDate?: moment.Moment;
 }
 
 export type AttendanceDetailsScreenParamList = {

@@ -357,9 +357,9 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                           <View
                             style={[
                               styles.alignItemsFlexStart,
+                              styles.flexOne,
                               {
                                 paddingLeft: theme.spacing * 4,
-                                flex: theme.spacing * 0.25,
                               },
                             ]}>
                             <Icon

@@ -69,7 +69,9 @@ class AttendanceDetails extends React.Component<
   constructor(props: AttendanceDetailsProps) {
     super(props);
     this.state = {
-      selectedDate: undefined,
+      selectedDate: this.props.route.params.selectedDate
+        ? this.props.route.params.selectedDate
+        : undefined,
     };
   }
 
@@ -173,7 +175,7 @@ class AttendanceDetails extends React.Component<
                 backgroundColor: theme.palette.backgroundSecondary,
               },
             ]}>
-            {dateSelectorData.map((singleDate: DaySelectorSingleDay) => {
+            {dateSelectorData.map((singleDate: DaySelectorSingleDay, key) => {
               return (
                 <AttendanceDetailedHeaderComponent
                   isActive={
