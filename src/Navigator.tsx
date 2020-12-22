@@ -223,7 +223,7 @@ const Navigator = (props: NavigatorProps) => {
                         <Drawer.Screen
                           name={ATTENDANCE_LIST}
                           component={AttendanceList}
-                          options={{drawerLabel: 'Employee Attendance Records'}}
+                          options={{drawerLabel: 'Employee Attendance'}}
                           initialParams={{subheader: SUBHEADER_TIME}}
                         />
                       ) : null}

@@ -36,51 +36,61 @@ class AttendanceDetailedHeaderComponent extends React.Component<
               width: width / 7,
             },
           ]}>
-          <Text
-            style={[
-              styles.fontWeightBold,
-              {
-                fontSize: theme.spacing * 4.5,
-                color: isActive
-                  ? theme.palette.secondary
-                  : theme.typography.primaryColor,
-              },
-            ]}>
-            {convertDateObjectToStringFormat(this.props.day, 'ddd')}
-          </Text>
-          <View
-            style={{
-              backgroundColor: isActive
-                ? theme.palette.secondary
-                : theme.palette.defaultDark,
-              paddingLeft: theme.spacing * 2.5,
-              paddingTop: theme.spacing * 2,
-              paddingBottom: theme.spacing * 2,
-              paddingRight: theme.spacing * 2.5,
-              borderRadius: theme.spacing * 25,
-            }}>
+          <View style={{paddingTop: theme.spacing * 2}}>
             <Text
               style={[
                 styles.fontWeightBold,
                 {
                   fontSize: theme.spacing * 4.5,
                   color: isActive
-                    ? theme.palette.background
+                    ? theme.palette.secondary
                     : theme.typography.primaryColor,
                 },
               ]}>
-              {convertDateObjectToStringFormat(this.props.day, 'DD')}
+              {convertDateObjectToStringFormat(this.props.day, 'ddd')}
             </Text>
           </View>
-          <Text
+          <View
             style={{
-              fontSize: theme.spacing * 4,
-              color: isActive
-                ? theme.palette.secondary
-                : theme.typography.primaryColor,
+              paddingTop: theme.spacing * 2,
+              paddingBottom: theme.spacing * 2,
             }}>
-            {hours}
-          </Text>
+            <View
+              style={{
+                backgroundColor: isActive
+                  ? theme.palette.secondary
+                  : theme.palette.defaultDark,
+                paddingLeft: theme.spacing * 2.5,
+                paddingTop: theme.spacing * 2,
+                paddingBottom: theme.spacing * 2,
+                paddingRight: theme.spacing * 2.5,
+                borderRadius: theme.spacing * 25,
+              }}>
+              <Text
+                style={[
+                  styles.fontWeightBold,
+                  {
+                    fontSize: theme.spacing * 4.5,
+                    color: isActive
+                      ? theme.palette.background
+                      : theme.typography.primaryColor,
+                  },
+                ]}>
+                {convertDateObjectToStringFormat(this.props.day, 'DD')}
+              </Text>
+            </View>
+          </View>
+          <View style={{paddingBottom: theme.spacing * 2}}>
+            <Text
+              style={{
+                fontSize: theme.spacing * 4,
+                color: isActive
+                  ? theme.palette.secondary
+                  : theme.typography.primaryColor,
+              }}>
+              {hours}
+            </Text>
+          </View>
         </View>
       </TouchableOpacity>
     );
