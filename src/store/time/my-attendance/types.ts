@@ -149,6 +149,23 @@ export interface GraphRecordsObject {
   workSummary: WorkSummaryObject;
 }
 
+export const SHORT_SUNDAY = 'Su';
+export const SHORT_MONDAY = 'Mo';
+export const SHORT_TUESDAY = 'Tu';
+export const SHORT_WEDNESDAY = 'We';
+export const SHORT_THURSDAY = 'Th';
+export const SHORT_FRIDAY = 'Fr';
+export const SHORT_SATURDAY = 'Sa';
+
+export type ShortDay =
+  | typeof SHORT_SUNDAY
+  | typeof SHORT_MONDAY
+  | typeof SHORT_TUESDAY
+  | typeof SHORT_WEDNESDAY
+  | typeof SHORT_THURSDAY
+  | typeof SHORT_FRIDAY
+  | typeof SHORT_SATURDAY;
+
 export const FETCH_ATTENDANCE_RECORDS =
   'ATTENDANCE_RECORDS_FETCH_ATTENDANCE_RECORDS';
 export const FETCH_LEAVE_RECORDS = 'LEAVE_RECORDS_FETCH_LEAVE_RECORDS';

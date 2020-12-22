@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, Platform} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import useTheme from 'lib/hook/useTheme';
 import Text from 'components/DefaultText';
 import Icon from 'components/DefaultIcon';
@@ -31,7 +31,7 @@ import {
   Mode,
   EMPLOYEE_ATTENDANCE,
 } from 'store/time/my-attendance/types';
-import CardButton from 'screens/leave/components/CardButton';
+import FlatButton from 'screens/leave/components/FlatButton';
 
 const AttendanceSummaryWorkLeaveDurationsCardComponent = (
   props: AttendanceSummaryWorkLeaveDurationsCardComponentProps,
@@ -83,12 +83,10 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                   },
                 ]}>
                 <Text
-                  style={[
-                    styles.textBold,
-                    {
-                      fontSize: theme.spacing * 4.5,
-                    },
-                  ]}>
+                  bold
+                  style={{
+                    fontSize: theme.spacing * 4.5,
+                  }}>
                   {employeeName}
                 </Text>
                 <Text>{'Software Engineer'}</Text>
@@ -106,13 +104,11 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
               <View style={styles.flexNine}>
                 <Text
                   numberOfLines={2}
-                  style={[
-                    styles.textBold,
-                    {
-                      fontSize: theme.spacing * 4,
-                      color: theme.palette.secondary,
-                    },
-                  ]}>
+                  bold
+                  style={{
+                    fontSize: theme.spacing * 4,
+                    color: theme.palette.secondary,
+                  }}>
                   {'Total Work Duration'}
                 </Text>
               </View>
@@ -120,20 +116,17 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                 <View style={[styles.flexTwo]}>
                   <Text
                     numberOfLines={2}
-                    style={[
-                      styles.textBold,
-                      {
-                        fontSize: theme.spacing * 4,
-                        color: theme.palette.secondary,
-                      },
-                    ]}>
+                    bold
+                    style={{
+                      fontSize: theme.spacing * 4,
+                      color: theme.palette.secondary,
+                    }}>
                     {totalWorkDuration}
                   </Text>
                 </View>
                 <View
                   style={[styles.flexTwo, {paddingTop: theme.spacing * 0.5}]}>
-                  <Text
-                    style={[styles.textBold, {color: theme.palette.secondary}]}>
+                  <Text bold style={{color: theme.palette.secondary}}>
                     {'Hours'}
                   </Text>
                 </View>
@@ -150,13 +143,11 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
               <View style={[styles.flexNine, styles.rowFlexDirection]}>
                 <Text
                   numberOfLines={2}
-                  style={[
-                    styles.textBold,
-                    {
-                      fontSize: theme.spacing * 4,
-                      color: theme.typography.primaryColor,
-                    },
-                  ]}>
+                  bold
+                  style={{
+                    fontSize: theme.spacing * 4,
+                    color: theme.typography.primaryColor,
+                  }}>
                   {'Total Leave Duration'}
                 </Text>
               </View>
@@ -164,23 +155,17 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                 <View style={[styles.flexTwo]}>
                   <Text
                     numberOfLines={2}
-                    style={[
-                      styles.textBold,
-                      {
-                        fontSize: theme.spacing * 4,
-                        color: theme.typography.primaryColor,
-                      },
-                    ]}>
+                    bold
+                    style={{
+                      fontSize: theme.spacing * 4,
+                      color: theme.typography.primaryColor,
+                    }}>
                     {totalLeaveDuration}
                   </Text>
                 </View>
                 <View
                   style={[styles.flexTwo, {paddingTop: theme.spacing * 0.5}]}>
-                  <Text
-                    style={[
-                      styles.textBold,
-                      {color: theme.typography.primaryColor},
-                    ]}>
+                  <Text bold style={{color: theme.typography.primaryColor}}>
                     {'Hours'}
                   </Text>
                 </View>
@@ -189,9 +174,10 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
 
             {props.leaveData?.length > 0 ? (
               <View style={{paddingTop: theme.spacing * 2.5}}>
-                {props.leaveData.map((leave) => {
+                {props.leaveData.map((leave, index) => {
                   return (
                     <View
+                      key={index}
                       style={{
                         paddingLeft: theme.spacing * 2.5,
                       }}>
@@ -260,19 +246,12 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
 
           <Divider />
           <View>
-            <CardButton
-              style={[{height: theme.spacing * 12}, styles.marginForShadow]}
-              onPress={props.onPressDetails}>
-              <View style={[styles.cardButtonContent]}>
-                <View style={styles.buttonLeftView}>
-                  <Icon name={'information'} />
-                  <Text style={{paddingTop: theme.spacing * 0.5}}>
-                    {'Attendance Details'}
-                  </Text>
-                </View>
-                <Icon name={'chevron-right'} />
-              </View>
-            </CardButton>
+            <FlatButton
+              text={'Attendance Details'}
+              icon={'information'}
+              rightIcon
+              onPress={props.onPressDetails}
+            />
           </View>
         </View>
       </CardContent>
@@ -280,10 +259,6 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
   );
 };
 const styles = StyleSheet.create({
-  textBold: {
-    fontWeight: 'bold',
-  },
-
   flexFour: {
     flex: 4,
   },
@@ -311,25 +286,8 @@ const styles = StyleSheet.create({
   totalLeaveTypeText: {
     fontWeight: '500',
   },
-  marginForShadow: {
-    ...Platform.select({
-      ios: {
-        marginBottom: 2,
-      },
-    }),
-  },
   overflowHidden: {
     overflow: 'hidden',
-  },
-  cardButtonContent: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'stretch',
-  },
-
-  buttonLeftView: {
-    flexDirection: 'row',
   },
 });
 

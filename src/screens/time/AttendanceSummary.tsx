@@ -35,6 +35,7 @@ import {
   GraphLeaveType,
   SingleLeave,
   GraphDataPoint,
+  ShortDay,
   LeaveTypeGraphData,
   EMPLOYEE_ATTENDANCE,
   MY_ATTENDANCE,
@@ -226,6 +227,18 @@ class AttendanceSummary extends React.Component<
     this.fetchData(this.state.weekStartDate, this.state.weekEndDate);
   };
 
+  onPressBar = (day: ShortDay) => {
+    // TODO:: navigate to detail screen depend on
+    this.setState(
+      {
+        startDayIndex: this.state.startDayIndex, //derive from `day`,
+      },
+      () => {
+        this.onPressDetails();
+      },
+    );
+  };
+
   render() {
     const {theme, graphRecords} = this.props;
     const empNumber = this.props.route.params
@@ -266,6 +279,7 @@ class AttendanceSummary extends React.Component<
           graphLeaveData={this.state.graphLeaveData}
           graphWorkData={this.state.graphWorkData}
           dateOfMonth={this.state.dateOfMonth}
+          onPressBar={this.onPressBar}
         />
       </MainLayout>
     );
