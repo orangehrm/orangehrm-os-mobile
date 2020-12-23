@@ -18,6 +18,7 @@ import {
   Holiday,
 } from 'store/leave/common-screens/types';
 import Avatar from 'components/DefaultAvatar';
+import FormattedDate from 'components/FormatedDate';
 
 class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.Component<AttendanceDetailedViewDurationEmployeeDetailsCardComponentProps> {
   constructor(
@@ -62,7 +63,7 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
                 {employeeName}
               </Text>
               <View>
-                <Text
+                <FormattedDate
                   style={[
                     styles.flexSix,
                     {
@@ -70,14 +71,14 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
                     },
                   ]}>
                   {date}
-                </Text>
+                </FormattedDate>
               </View>
             </View>
           </View>
         ) : null}
         <View>
           {mode === MY_ATTENDANCE ? (
-            <Text
+            <FormattedDate
               style={[
                 styles.textBold,
                 {
@@ -86,7 +87,7 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
                 },
               ]}>
               {this.props.date}
-            </Text>
+            </FormattedDate>
           ) : null}
           {this.props.workweekResult !== '-1' &&
           this.props.workweekResult !== WORK_WEEK_FULL ? (

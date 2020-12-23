@@ -21,7 +21,7 @@
 import 'react-native';
 import {
   getDateSaveFormatFromDateObject,
-  getDateObjectFromSaveFormat,
+  getUTCDateObjectFromSaveFormat,
   calculateDurationBasedOnTimezone,
   NEGATIVE_DURATION,
   formatLastRecordDetails,
@@ -40,17 +40,17 @@ describe('lib/helpers/attendance', () => {
     expect(result).toBe(strDate);
   });
 
-  test('getDateObjectFromSaveFormat', () => {
+  test('getUTCDateObjectFromSaveFormat', () => {
     let strDate = '2020-07-14 10:35';
-    let result = getDateObjectFromSaveFormat(strDate);
+    let result = getUTCDateObjectFromSaveFormat(strDate);
     expect(result).toStrictEqual(new Date(strDate));
 
     strDate = '2020-07-14 23:35:00';
-    result = getDateObjectFromSaveFormat(strDate);
+    result = getUTCDateObjectFromSaveFormat(strDate);
     expect(result).toStrictEqual(new Date(strDate));
 
     strDate = '2020-07-14 24:35';
-    result = getDateObjectFromSaveFormat(strDate);
+    result = getUTCDateObjectFromSaveFormat(strDate);
     expect(result.toString()).toBe('Invalid Date');
   });
 
@@ -93,10 +93,10 @@ describe('lib/helpers/attendance', () => {
     expect(result).toBe('2020-07-14 21:48');
   });
 
-  test('getDateObjectFromSaveFormat::check get Date object from YYYY-MM-DD hh:mm datetime string', () => {
+  test('getUTCDateObjectFromSaveFormat::check get Date object from YYYY-MM-DD hh:mm datetime string', () => {
     const date = new Date('2020-07-14T21:48');
     const dateString = '2020-07-14 21:48';
-    const result = getDateObjectFromSaveFormat(dateString);
+    const result = getUTCDateObjectFromSaveFormat(dateString);
     expect(result).toStrictEqual(date);
   });
 

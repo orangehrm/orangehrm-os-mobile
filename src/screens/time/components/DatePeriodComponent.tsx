@@ -24,6 +24,7 @@ import useTheme from 'lib/hook/useTheme';
 import Text from 'components/DefaultText';
 import IconButton from 'components/DefaultIconButton';
 import {convertDateObjectToStringFormat} from 'lib/helpers/attendance';
+import FormattedDate from 'components/FormatedDate';
 
 const DatePeriodComponent = (props: DatePeriodComponentProps) => {
   const theme = useTheme();
@@ -74,15 +75,19 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
                   paddingVertical: theme.spacing,
                 },
               ]}>
-              {convertDateObjectToStringFormat(
-                props.startDate,
-                'ddd, DD MMM YYYY',
-              )}{' '}
+              <FormattedDate style={{color: theme.palette.secondary}}>
+                {convertDateObjectToStringFormat(
+                  props.startDate,
+                  'ddd, DD MMM YYYY',
+                )}
+              </FormattedDate>{' '}
               {'to'}{' '}
-              {convertDateObjectToStringFormat(
-                props.endDate,
-                'ddd, DD MMM YYYY',
-              )}
+              <FormattedDate style={{color: theme.palette.secondary}}>
+                {convertDateObjectToStringFormat(
+                  props.endDate,
+                  'ddd, DD MMM YYYY',
+                )}
+              </FormattedDate>
             </Text>
           </View>
           <IconButton

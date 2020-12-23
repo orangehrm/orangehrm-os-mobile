@@ -63,11 +63,15 @@ import {
   formatLastRecordDetails,
   getCurrentTimeZoneOffset,
   NEGATIVE_DURATION,
+  getLocalDateObjectFromSaveFormat,
+  formatTime,
+  formatTimezoneOffset,
 } from 'lib/helpers/attendance';
 import {TYPE_WARN} from 'store/globals/types';
 import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
 import {selectCurrentRoute} from 'store/globals/selectors';
 import {PUNCH} from 'screens/index';
+import FormattedDate from 'components/FormatedDate';
 
 class Punch extends React.Component<PunchProps, PunchState> {
   inputRef: RNTextInput | null;
@@ -406,7 +410,26 @@ class Punch extends React.Component<PunchProps, PunchState> {
                         </View>
                       </View>
                       <View style={[styles.flexFour]}>
-                        <Text>{lastRecordDetails}</Text>
+                        <View style={{flexDirection: 'row'}}>
+                          <Text>
+                            {punchStatus?.punchTime
+                              ? formatTime(
+                                  getLocalDateObjectFromSaveFormat(
+                                    punchStatus?.punchTime,
+                                  ),
+                                )
+                              : null}
+                            {'    '}
+                          </Text>
+                          <FormattedDate>
+                            {punchStatus?.punchTime}
+                          </FormattedDate>
+                        </View>
+                        <Text>
+                          {formatTimezoneOffset(
+                            punchStatus?.PunchTimeZoneOffset,
+                          )}
+                        </Text>
                       </View>
                     </View>
                   </View>

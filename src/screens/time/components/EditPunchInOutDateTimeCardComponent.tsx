@@ -31,6 +31,7 @@ import Icon from 'components/DefaultIcon';
 import {AndroidEvent} from '@react-native-community/datetimepicker/src/index';
 import {formatTime} from 'lib/helpers/attendance';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import FormattedDate from 'components/FormatedDate';
 
 class EditPunchInOutDateTimeCard extends React.Component<
   EditPunchInOutDateTimeCardProps,
@@ -137,13 +138,13 @@ class EditPunchInOutDateTimeCard extends React.Component<
                         paddingRight: theme.spacing,
                       },
                     ]}>
-                    <Text
+                    <FormattedDate
                       style={{
                         color: theme.palette.secondary,
                         fontSize: theme.spacing * 4.5,
                       }}>
                       {dateDisplay}
-                    </Text>
+                    </FormattedDate>
                   </View>
                   <View style={[styles.alignItemsFlexEnd]}>
                     <Icon name={'chevron-right'} fontSize={theme.spacing * 5} />

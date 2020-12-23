@@ -60,9 +60,17 @@ const getDateSaveFormatFromDateObject = (date: Date) => {
  * @param {String} dateString YYYY-MM-DD HH:mm formated string
  * @return {Date}
  */
-const getDateObjectFromSaveFormat = (dateString: string) => {
+const getUTCDateObjectFromSaveFormat = (dateString: string) => {
   const datetime = dateString.split(' ', 2);
   return new Date(datetime[0] + 'T' + datetime[1]);
+};
+
+/**
+ * @param {String} dateString YYYY-MM-DD HH:mm formated string
+ * @return {Date}
+ */
+const getLocalDateObjectFromSaveFormat = (dateString: string) => {
+  return moment(dateString).toDate();
 };
 
 const NEGATIVE_DURATION = 'NEGATIVE_DURATION';
@@ -82,8 +90,8 @@ const calculateDurationBasedOnTimezone = (
   punchOutTimeZoneOffset?: number,
 ) => {
   if (punchInDatetime && punchOutDatetime) {
-    const punchInDateObj = getDateObjectFromSaveFormat(punchInDatetime);
-    const punchOutDateObj = getDateObjectFromSaveFormat(punchOutDatetime);
+    const punchInDateObj = getLocalDateObjectFromSaveFormat(punchInDatetime);
+    const punchOutDateObj = getLocalDateObjectFromSaveFormat(punchOutDatetime);
     let punchOutTime = punchOutDateObj.getTime();
     let punchInTime = punchInDateObj.getTime();
 
@@ -133,6 +141,25 @@ const formatLastRecordDetails = (
       timezone = (Math.round(parseFloat(timezoneOffset) * 10) / 10).toString();
     }
     return displayDatetime + ' (GMT' + timezone + ')';
+  } else {
+    return null;
+  }
+};
+
+/**
+ *
+ * @param timezoneOffset
+ */
+const formatTimezoneOffset = (timezoneOffset?: string) => {
+  if (timezoneOffset) {
+    let timezone;
+    if (parseFloat(timezoneOffset) > 0) {
+      timezone =
+        '+' + (Math.round(parseFloat(timezoneOffset) * 10) / 10).toString();
+    } else {
+      timezone = (Math.round(parseFloat(timezoneOffset) * 10) / 10).toString();
+    }
+    return ' (GMT ' + timezone + ')';
   } else {
     return null;
   }
@@ -363,11 +390,34 @@ const calculateDateOfMonth = (start: number, end: number) => {
 };
 
 const getWeekDayFromIndex = (index: number) => {
-  return moment().weekday(index);
+  return moment().isoWeekday(index);
+};
+
+const getWeekdayOrder = (startDay: string, format: string) => {
+  const weekdays = [
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+  ];
+  let result: string[] = [];
+  let startIndex = weekdays.findIndex((day) => {
+    return day === startDay;
+  });
+  console.log(startIndex);
+  for (let i = startIndex; i < startIndex + 7; i++) {
+    result.push(
+      convertDateObjectToStringFormat(getWeekDayFromIndex(i), format),
+    );
+  }
+  return result;
 };
 
 export {
-  getDateObjectFromSaveFormat,
+  getUTCDateObjectFromSaveFormat,
   calculateDurationBasedOnTimezone,
   getDateSaveFormatFromDateObject,
   formatLastRecordDetails,
@@ -387,4 +437,7 @@ export {
   formatTime,
   calculateDateOfMonth,
   getWeekDayFromIndex,
+  getWeekdayOrder,
+  formatTimezoneOffset,
+  getLocalDateObjectFromSaveFormat,
 };

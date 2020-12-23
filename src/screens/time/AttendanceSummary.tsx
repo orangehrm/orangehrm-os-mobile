@@ -56,6 +56,7 @@ import {
   getDurationFromHours,
   calculateDateOfMonth,
   getWeekDayFromIndex,
+  getWeekdayOrder,
 } from 'lib/helpers/attendance';
 import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
 import {selectCurrentRoute} from 'store/globals/selectors';

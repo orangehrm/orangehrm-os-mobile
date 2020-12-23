@@ -6,7 +6,7 @@ import {
   PunchStatusActionTypes,
   RESET_PUNCH_STATE,
 } from './types';
-import {getDateObjectFromSaveFormat} from 'lib/helpers/attendance';
+import {getUTCDateObjectFromSaveFormat} from 'lib/helpers/attendance';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
 const initialState: PunchStatusState = {};
@@ -24,7 +24,7 @@ const attendanceReducer = (
         return {
           ...state,
           punchStatus: action.payload,
-          punchCurrentDateTime: getDateObjectFromSaveFormat(
+          punchCurrentDateTime: getUTCDateObjectFromSaveFormat(
             action.payload.currentUTCDateTime,
           ),
         };

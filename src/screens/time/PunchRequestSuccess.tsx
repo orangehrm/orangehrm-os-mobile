@@ -47,8 +47,12 @@ import IconButton from 'components/DefaultIconButton';
 import {
   calculateDurationBasedOnTimezone,
   formatLastRecordDetails,
+  getLocalDateObjectFromSaveFormat,
+  formatTime,
+  formatTimezoneOffset,
 } from 'lib/helpers/attendance';
 import {selectInitialRoute} from 'store/globals/selectors';
+import FormattedDate from 'components/FormatedDate';
 
 class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
   constructor(props: PunchRequestSuccessProps) {
@@ -269,11 +273,26 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                       />
                     </View>
                     <View style={styles.flexSix}>
+                      {/* <FormattedDate>{punchDateTime}</FormattedDate>
                       <Text>
                         {formatLastRecordDetails(
                           punchDateTime,
                           punchTimeZone.toString(),
                         )}
+                      </Text> */}
+                      <View style={{flexDirection: 'row'}}>
+                        <Text>
+                          {punchDateTime
+                            ? formatTime(
+                                getLocalDateObjectFromSaveFormat(punchDateTime),
+                              )
+                            : null}
+                          {'    '}
+                        </Text>
+                        <FormattedDate>{punchDateTime}</FormattedDate>
+                      </View>
+                      <Text>
+                        {formatTimezoneOffset(punchTimeZone.toString())}
                       </Text>
                     </View>
                   </View>
@@ -340,9 +359,27 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                           />
                         </View>
                         <View style={styles.flexSix}>
-                          <Text>
+                          {/* <Text>
                             {formatLastRecordDetails(
                               punchOutDateTime,
+                              punchOutTimeZoneOffset.toString(),
+                            )}
+                          </Text> */}
+                          <View style={{flexDirection: 'row'}}>
+                            <Text>
+                              {punchOutDateTime
+                                ? formatTime(
+                                    getLocalDateObjectFromSaveFormat(
+                                      punchOutDateTime,
+                                    ),
+                                  )
+                                : null}
+                              {'    '}
+                            </Text>
+                            <FormattedDate>{punchOutDateTime}</FormattedDate>
+                          </View>
+                          <Text>
+                            {formatTimezoneOffset(
                               punchOutTimeZoneOffset.toString(),
                             )}
                           </Text>
