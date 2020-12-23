@@ -407,7 +407,6 @@ const getWeekdayOrder = (startDay: string, format: string) => {
   let startIndex = weekdays.findIndex((day) => {
     return day === startDay;
   });
-  console.log(startIndex);
   for (let i = startIndex; i < startIndex + 7; i++) {
     result.push(
       convertDateObjectToStringFormat(getWeekDayFromIndex(i), format),

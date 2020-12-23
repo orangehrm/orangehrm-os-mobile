@@ -273,13 +273,6 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                       />
                     </View>
                     <View style={styles.flexSix}>
-                      {/* <FormattedDate>{punchDateTime}</FormattedDate>
-                      <Text>
-                        {formatLastRecordDetails(
-                          punchDateTime,
-                          punchTimeZone.toString(),
-                        )}
-                      </Text> */}
                       <View style={{flexDirection: 'row'}}>
                         <Text>
                           {punchDateTime
@@ -290,10 +283,11 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                           {'    '}
                         </Text>
                         <FormattedDate>{punchDateTime}</FormattedDate>
+                        <Text>
+                          {' '}
+                          {formatTimezoneOffset(punchTimeZone.toString())}
+                        </Text>
                       </View>
-                      <Text>
-                        {formatTimezoneOffset(punchTimeZone.toString())}
-                      </Text>
                     </View>
                   </View>
                   {punchNote ? (
@@ -359,12 +353,6 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                           />
                         </View>
                         <View style={styles.flexSix}>
-                          {/* <Text>
-                            {formatLastRecordDetails(
-                              punchOutDateTime,
-                              punchOutTimeZoneOffset.toString(),
-                            )}
-                          </Text> */}
                           <View style={{flexDirection: 'row'}}>
                             <Text>
                               {punchOutDateTime
@@ -377,12 +365,13 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                               {'    '}
                             </Text>
                             <FormattedDate>{punchOutDateTime}</FormattedDate>
+                            <Text>
+                              {' '}
+                              {formatTimezoneOffset(
+                                punchOutTimeZoneOffset.toString(),
+                              )}
+                            </Text>
                           </View>
-                          <Text>
-                            {formatTimezoneOffset(
-                              punchOutTimeZoneOffset.toString(),
-                            )}
-                          </Text>
                         </View>
                       </View>
                       {punchOutNote ? (
