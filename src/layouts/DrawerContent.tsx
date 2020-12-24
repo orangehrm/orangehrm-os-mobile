@@ -119,7 +119,7 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
                 ) : null}
                 <View style={{marginLeft: theme.spacing * 7}}>
                   <DrawerItem
-                    style={{margin: theme.spacing * -1}}
+                    style={{marginVertical: theme.spacing * -1}}
                     label={drawerItem.label}
                     onPress={() => {
                       drawerContentProps.navigation.closeDrawer();
@@ -137,19 +137,19 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
               </Fragment>
             ))}
           </View>
-          <View>
-            <Divider />
-            <DrawerItem
-              label={'Logout'}
-              onPress={logoutOnPress}
-              icon={() => <Icon name={'logout'} />}
-              {...commonProps}
-            />
-            <Divider />
-            <Footer />
-          </View>
         </View>
       </DrawerContentScrollView>
+      <View>
+        <Divider />
+        <DrawerItem
+          label={'Logout'}
+          onPress={logoutOnPress}
+          icon={() => <Icon name={'logout'} />}
+          {...commonProps}
+        />
+        <Divider />
+        <Footer />
+      </View>
     </SafeAreaView>
   );
 };

@@ -1,14 +1,9 @@
 import React from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  View,
-  Dimensions,
-  StyleSheet,
-} from 'react-native';
+import {TouchableOpacity, View, Dimensions, StyleSheet} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect} from 'react-redux';
 import {convertDateObjectToStringFormat} from 'lib/helpers/attendance';
+import Text from 'components/DefaultText';
 
 class AttendanceDetailedHeaderComponent extends React.Component<
   AttendanceDetailedHeaderComponentProps,
@@ -38,46 +33,36 @@ class AttendanceDetailedHeaderComponent extends React.Component<
           ]}>
           <View style={{paddingTop: theme.spacing * 2}}>
             <Text
-              style={[
-                styles.fontWeightBold,
-                {
-                  fontSize: theme.spacing * 4.5,
-                  color: isActive
-                    ? theme.palette.secondary
-                    : theme.typography.primaryColor,
-                },
-              ]}>
+              bold
+              style={{
+                fontSize: theme.spacing * 4.5,
+                color: isActive
+                  ? theme.palette.secondary
+                  : theme.typography.primaryColor,
+              }}>
               {convertDateObjectToStringFormat(this.props.day, 'ddd')}
             </Text>
           </View>
           <View
             style={{
-              paddingTop: theme.spacing * 2,
-              paddingBottom: theme.spacing * 2,
+              backgroundColor: isActive
+                ? theme.palette.secondary
+                : theme.palette.backgroundSecondary,
+              paddingHorizontal: theme.spacing * 2.5,
+              paddingVertical: theme.spacing * 2,
+              borderRadius: theme.borderRadius * 25,
             }}>
-            <View
-              style={{
-                backgroundColor: isActive
-                  ? theme.palette.secondary
-                  : theme.palette.backgroundSecondary,
-                paddingLeft: theme.spacing * 2.5,
-                paddingTop: theme.spacing * 2,
-                paddingBottom: theme.spacing * 2,
-                paddingRight: theme.spacing * 2.5,
-                borderRadius: theme.spacing * 25,
-              }}>
-              <Text
-                style={[
-                  {
-                    fontSize: theme.spacing * 4.5,
-                    color: isActive
-                      ? theme.palette.background
-                      : theme.typography.primaryColor,
-                  },
-                ]}>
-                {convertDateObjectToStringFormat(this.props.day, 'DD')}
-              </Text>
-            </View>
+            <Text
+              style={[
+                {
+                  fontSize: theme.spacing * 4.5,
+                  color: isActive
+                    ? theme.palette.background
+                    : theme.typography.primaryColor,
+                },
+              ]}>
+              {convertDateObjectToStringFormat(this.props.day, 'DD')}
+            </Text>
           </View>
           <View style={{paddingBottom: theme.spacing * 2}}>
             <Text
@@ -101,9 +86,6 @@ const styles = StyleSheet.create({
   },
   alignItemsCenter: {
     alignItems: 'center',
-  },
-  fontWeightBold: {
-    fontWeight: '700',
   },
 });
 

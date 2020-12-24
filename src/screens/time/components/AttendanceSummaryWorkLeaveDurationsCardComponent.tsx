@@ -74,7 +74,8 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
               style={[
                 styles.rowFlexDirection,
                 {
-                  paddingBottom: theme.spacing * 2.5,
+                  paddingHorizontal: theme.spacing * 3,
+                  paddingBottom: theme.spacing * 3,
                 },
               ]}>
               <View style={styles.flexOne}>
@@ -84,13 +85,14 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                 style={[
                   styles.flexFour,
                   {
-                    marginLeft: theme.spacing * 5,
+                    marginLeft: theme.spacing,
                   },
                 ]}>
                 <Text
                   bold
                   style={{
-                    fontSize: theme.spacing * 4.5,
+                    fontSize: theme.typography.subHeaderFontSize,
+                    color: theme.typography.darkColor,
                   }}>
                   {employeeName}
                 </Text>
@@ -129,9 +131,10 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                   style={{
                     fontSize: theme.typography.fontSize,
                     color: theme.palette.secondary,
+                    // paddingLeft: theme.spacing,
                   }}
                   bold>
-                  {' Hours'}
+                  {'  Hours'}
                 </Text>
               </Text>
             </View>
@@ -162,76 +165,52 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                     fontSize: theme.typography.fontSize,
                   }}
                   bold>
-                  {' Hours'}
+                  {'  Hours'}
                 </Text>
               </Text>
             </View>
 
             {props.leaveData?.length > 0 ? (
-              <View style={{paddingTop: theme.spacing * 2.5}}>
+              <View
+                style={{
+                  paddingTop: theme.spacing * 3,
+                  paddingBottom: theme.spacing * 3,
+                }}>
                 {props.leaveData.map((leave, index) => {
                   return (
                     <View
                       key={index}
-                      style={{
-                        paddingLeft: theme.spacing * 2.5,
-                      }}>
-                      <View
-                        style={[
-                          styles.rowFlexDirection,
-                          styles.justifyContentSpaceBetween,
-                          {
-                            paddingVertical: theme.spacing * 2.5,
-                          },
-                        ]}>
-                        <View style={[styles.flexOne]}>
-                          <Icon
-                            name={'circle'}
-                            fontSize={theme.spacing * 3}
-                            style={[styles.flexOne, {color: leave.colour}]}
-                          />
-                        </View>
-                        <View style={[styles.flexEight]}>
-                          <Text
-                            style={{
-                              paddingLeft: theme.spacing * 2.5,
-                              fontSize: theme.spacing * 3.5,
+                      style={[
+                        styles.workDurationMain,
+                        {
+                          paddingTop: theme.spacing * 2,
+                        },
+                      ]}>
+                      <View style={styles.rowFlexDirection}>
+                        <Icon
+                          name={'circle'}
+                          fontSize={theme.spacing * 3}
+                          style={[{color: leave.colour}]}
+                        />
+                        <Text
+                          style={{
+                            paddingLeft: theme.spacing * 2.5,
+                            fontSize: theme.spacing * 3.5,
 
-                              color: leave.colour,
-                            }}>
-                            {leave.type}
-                          </Text>
-                        </View>
-
-                        <View
-                          style={[styles.rowFlexDirection, styles.flexFour]}>
-                          <View style={[styles.flexOne]}>
-                            <Text
-                              style={[
-                                styles.totalLeaveTypeText,
-                                {
-                                  fontSize: theme.spacing * 3.5,
-                                  color: theme.typography.darkColor,
-                                },
-                              ]}>
-                              {leave.duration}
-                            </Text>
-                          </View>
-                          <View style={[styles.flexOne]}>
-                            <Text
-                              style={[
-                                styles.totalLeaveTypeText,
-                                {
-                                  color: theme.typography.darkColor,
-                                  marginTop: theme.spacing * 0.125,
-                                  fontSize: theme.spacing * 3.5,
-                                },
-                              ]}>
-                              {' Hours'}
-                            </Text>
-                          </View>
-                        </View>
+                            color: leave.colour,
+                          }}>
+                          {leave.type}
+                        </Text>
                       </View>
+                      <Text numberOfLines={1}>
+                        {leave.duration}
+                        <Text
+                          style={{
+                            fontSize: theme.typography.fontSize,
+                          }}>
+                          {'  Hours'}
+                        </Text>
+                      </Text>
                     </View>
                   );
                 })}
@@ -240,7 +219,7 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
           </View>
 
           <Divider style={{marginHorizontal: theme.spacing * 2.5}} />
-          <View style={{paddingBottom: theme.spacing * 3.75}}>
+          <View style={{paddingBottom: theme.spacing}}>
             <FlatButton
               text={'Attendance Details'}
               icon={'information'}
@@ -262,17 +241,11 @@ const styles = StyleSheet.create({
   flexOne: {
     flex: 1,
   },
-  flexEight: {
-    flex: 8,
-  },
   rowFlexDirection: {
     flexDirection: 'row',
   },
   justifyContentSpaceBetween: {
     justifyContent: 'space-between',
-  },
-  totalLeaveTypeText: {
-    fontWeight: '500',
   },
   overflowHidden: {
     overflow: 'hidden',

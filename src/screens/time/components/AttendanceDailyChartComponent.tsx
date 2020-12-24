@@ -173,6 +173,7 @@ const AttendanceDailyChartComponent = (
           style={{
             paddingTop: theme.spacing * 2,
             backgroundColor: theme.palette.background,
+            borderRadius: theme.borderRadius * 2,
           }}>
           <View
             style={{
@@ -184,19 +185,7 @@ const AttendanceDailyChartComponent = (
             </Text>
           </View>
           {/* https://github.com/FormidableLabs/victory-native/issues/96 */}
-          {Platform.OS === 'ios' ? (
-            renderGraph()
-          ) : (
-            <View style={{backgroundColor: theme.palette.backgroundSecondary}}>
-              <Svg
-                height="100%"
-                preserveAspectRatio="xMinYMin slice"
-                width="100%"
-                viewBox="0 0 100 100">
-                {renderGraph()}
-              </Svg>
-            </View>
-          )}
+          {Platform.OS === 'ios' ? renderGraph() : <Svg>{renderGraph()}</Svg>}
         </CardContent>
       </Card>
     </View>

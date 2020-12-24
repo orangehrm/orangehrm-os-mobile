@@ -192,7 +192,7 @@ class AttendanceDetails extends React.Component<
               );
             })}
           </View>
-          <View style={{paddingTop: theme.spacing * 4}}>
+          <View style={{paddingTop: theme.spacing}}>
             <AttendanceDetailedViewDurationEmployeeDetailsCardComponent
               date={
                 selectedDate

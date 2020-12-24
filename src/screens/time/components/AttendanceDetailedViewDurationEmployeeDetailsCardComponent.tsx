@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import Chip from 'components/DefaultChip';
 import {getLeaveColourById, getDurationFromHours} from 'lib/helpers/attendance';
 import {LEAVE_STATUS_MAP} from 'lib/helpers/leave';
@@ -19,6 +19,7 @@ import {
 } from 'store/leave/common-screens/types';
 import Avatar from 'components/DefaultAvatar';
 import FormattedDate from 'components/FormatedDate';
+import Text from 'components/DefaultText';
 
 class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.Component<AttendanceDetailedViewDurationEmployeeDetailsCardComponentProps> {
   constructor(
@@ -54,12 +55,11 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
 
             <View style={styles.flexFour}>
               <Text
-                style={[
-                  styles.textBold,
-                  {
-                    fontSize: theme.spacing * 4.5,
-                  },
-                ]}>
+                bold
+                style={{
+                  fontSize: theme.typography.subHeaderFontSize,
+                  color: theme.typography.darkColor,
+                }}>
                 {employeeName}
               </Text>
               <View>
@@ -79,13 +79,11 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
         <View>
           {mode === MY_ATTENDANCE ? (
             <FormattedDate
-              style={[
-                styles.textBold,
-                {
-                  fontSize: theme.spacing * 4.5,
-                  marginBottom: theme.spacing * 2.5,
-                },
-              ]}>
+              bold
+              style={{
+                fontSize: theme.spacing * 4.5,
+                marginBottom: theme.spacing,
+              }}>
               {this.props.date}
             </FormattedDate>
           ) : null}
@@ -94,18 +92,15 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
             <>
               <View>
                 <Chip
-                  fullWidth={false}
                   style={[
                     styles.alignSelfFlexStart,
                     {
                       borderColor: theme.palette.backgroundSecondary,
-                      paddingLeft: theme.spacing * 2.5,
-                      paddingRight: theme.spacing * 2.5,
-                      marginBottom: theme.spacing * 1.25,
-                      borderWidth: theme.spacing * 0.5,
+                      paddingHorizontal: theme.spacing * 3,
+                      paddingVertical: theme.spacing,
                     },
                   ]}>
-                  <Text>
+                  <Text style={{color: theme.typography.darkColor}}>
                     {this.props.workweekResult === WORK_WEEK_NON
                       ? 'Non-Working Day'
                       : 'Half Day'}
@@ -122,14 +117,15 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
                 style={[
                   styles.alignSelfFlexStart,
                   {
-                    borderColor: theme.palette.backgroundSecondary,
-                    paddingLeft: theme.spacing * 2.5,
-                    paddingRight: theme.spacing * 2.5,
-                    marginBottom: theme.spacing * 1.25,
-                    borderWidth: theme.spacing * 0.5,
+                    borderColor: theme.palette.defaultDark,
+                    backgroundColor: theme.palette.background,
+                    paddingHorizontal: theme.spacing * 3,
+                    paddingVertical: theme.spacing,
+                    marginTop: theme.spacing,
+                    borderWidth: StyleSheet.hairlineWidth * 2,
                   },
                 ]}>
-                <Text>
+                <Text style={{color: theme.typography.darkColor}}>
                   {holiday.description}
                   {' - '}
                   {holiday.length === WORK_WEEK_HALF ? 'Half Day' : null}
@@ -148,9 +144,9 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
                     backgroundColor: getLeaveColourById(
                       leave.leaveType.id.toString(),
                     ),
-                    paddingLeft: theme.spacing * 2.5,
-                    paddingRight: theme.spacing * 2.5,
-                    marginBottom: theme.spacing * 1.25,
+                    paddingHorizontal: theme.spacing * 3,
+                    paddingVertical: theme.spacing,
+                    marginBottom: theme.spacing,
                   },
                 ]}>
                 <Text style={{color: theme.palette.background}}>
@@ -171,7 +167,7 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
             styles.rowFlexDirection,
             styles.flexOne,
             {
-              marginVertical: theme.spacing * 2.5,
+              marginTop: theme.spacing * 6,
             },
           ]}>
           <Text
@@ -183,13 +179,11 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
         </View>
         <View>
           <Text
-            style={[
-              styles.textBold,
-              {
-                fontSize: theme.spacing * 5.5,
-                color: theme.palette.secondary,
-              },
-            ]}>
+            bold
+            style={{
+              fontSize: theme.typography.headerFontSize,
+              color: theme.palette.secondary,
+            }}>
             {this.props.duration}
             {' Hours'}
           </Text>
@@ -200,9 +194,6 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
 }
 
 const styles = StyleSheet.create({
-  textBold: {
-    fontWeight: 'bold',
-  },
   flexOne: {
     flex: 1,
   },

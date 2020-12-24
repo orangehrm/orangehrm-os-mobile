@@ -227,7 +227,6 @@ class AttendanceSummary extends React.Component<
   };
 
   onPressBar = (selectedDay: ShortDay) => {
-    // TODO:: navigate to detail screen depend on
     let selectedDayObj: moment.Moment | undefined;
     const startDayIndex = this.state.startDayIndex;
     for (let i = startDayIndex; i < startDayIndex + 7; i++) {

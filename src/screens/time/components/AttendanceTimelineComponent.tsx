@@ -101,8 +101,7 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                         style={[
                           {
                             marginLeft: theme.spacing * 2.5,
-                            marginBottom: theme.spacing * 5,
-                            paddingBottom: theme.spacing * 2.5,
+                            paddingBottom: theme.spacing * 3,
                           },
                         ]}>
                         <View>
@@ -125,7 +124,8 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                                   style={[
                                     styles.rowFlexDirection,
                                     {
-                                      paddingTop: theme.spacing * 1,
+                                      paddingTop: theme.spacing,
+                                      paddingLeft: theme.spacing,
                                     },
                                   ]}>
                                   <Icon
@@ -149,7 +149,10 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                     <View
                       style={[
                         styles.rowFlexDirection,
-                        {paddingTop: theme.spacing * 8},
+                        attendanceRecord.punchInNote !== null &&
+                        attendanceRecord.punchInNote.length > 0
+                          ? undefined
+                          : {paddingTop: theme.spacing * 10},
                       ]}>
                       <View
                         style={[
@@ -195,19 +198,19 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                           style={[
                             styles.alignItemsCenter,
                             {
-                              marginLeft: theme.spacing * 1,
                               width: theme.spacing * 30,
                             },
                           ]}>
                           <Chip
                             style={{
                               backgroundColor: theme.palette.secondary,
-                              paddingLeft: theme.spacing * 2.5,
+                              paddingLeft: theme.spacing * 3,
                               paddingRight: theme.spacing * 2.5,
                               marginBottom: theme.spacing * 1.25,
-                              marginTop: theme.spacing * 2.5,
+                              marginTop: theme.spacing,
                             }}>
-                            <Text>
+                            <Text
+                              style={{color: theme.typography.secondaryColor}}>
                               {calculateDurationBasedOnTimezone(
                                 attendanceRecord.punchInUserTime,
                                 attendanceRecord.punchOutUserTime,
@@ -225,7 +228,8 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                               style={[
                                 styles.rowFlexDirection,
                                 {
-                                  paddingTop: theme.spacing * 1,
+                                  paddingTop: theme.spacing,
+                                  paddingLeft: theme.spacing * 2,
                                 },
                               ]}>
                               <Icon
@@ -236,6 +240,7 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                                 style={{
                                   paddingLeft: theme.spacing * 2.5,
                                   marginRight: theme.spacing * 15,
+                                  // textAlign: 'justify',
                                 }}>
                                 {attendanceRecord.punchOutNote}
                               </Text>
