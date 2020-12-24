@@ -25,6 +25,7 @@ import Text from 'components/DefaultText';
 import IconButton from 'components/DefaultIconButton';
 import {convertDateObjectToStringFormat} from 'lib/helpers/attendance';
 import FormattedDate from 'components/FormatedDate';
+import Chip from 'components/DefaultChip';
 
 const DatePeriodComponent = (props: DatePeriodComponentProps) => {
   const theme = useTheme();
@@ -58,12 +59,12 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
             />
           </View>
 
-          <View
+          <Chip
             style={[
+              styles.alignItemsCenter,
               {
-                paddingHorizontal: theme.spacing * 2.5,
-                borderRadius: theme.spacing * 2.5,
                 backgroundColor: theme.palette.backgroundSecondary,
+                padding: theme.spacing * 3,
               },
             ]}>
             <Text
@@ -71,8 +72,6 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
                 styles.textBold,
                 {
                   color: theme.palette.secondary,
-                  fontSize: theme.spacing * 4,
-                  paddingVertical: theme.spacing,
                 },
               ]}>
               <FormattedDate style={{color: theme.palette.secondary}}>
@@ -89,7 +88,7 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
                 )}
               </FormattedDate>
             </Text>
-          </View>
+          </Chip>
           <IconButton
             iconProps={{
               name: 'chevron-right',
@@ -126,6 +125,9 @@ const styles = StyleSheet.create({
   },
   justifyContentSpaceBetween: {
     justifyContent: 'space-between',
+  },
+  alignItemsCenter: {
+    alignItems: 'center',
   },
 });
 

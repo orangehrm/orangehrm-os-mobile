@@ -60,7 +60,6 @@ import CardContent from 'components/DefaultCardContent';
 import {
   calculateDurationBasedOnTimezone,
   getDateSaveFormatFromDateObject,
-  formatLastRecordDetails,
   getCurrentTimeZoneOffset,
   NEGATIVE_DURATION,
   getLocalDateObjectFromSaveFormat,
@@ -110,7 +109,10 @@ class Punch extends React.Component<PunchProps, PunchState> {
         this.timeInterval = null;
       }
     }
-    if (prevProps.punchCurrentDateTime !== this.props.punchCurrentDateTime) {
+    if (
+      prevProps.punchCurrentDateTime !== this.props.punchCurrentDateTime &&
+      this.props.punchStatus?.punchState === PUNCHED_IN
+    ) {
       if (
         this.props.punchStatus?.punchTime &&
         this.props.punchCurrentDateTime
@@ -229,12 +231,6 @@ class Punch extends React.Component<PunchProps, PunchState> {
     const {theme, punchStatus, punchCurrentDateTime, savedNote} = this.props;
     const {note} = this.state;
     const editable = punchStatus?.dateTimeEditable;
-
-    const lastRecordDetails = formatLastRecordDetails(
-      punchStatus?.punchTime,
-      punchStatus?.PunchTimeZoneOffset,
-    );
-
     return (
       <MainLayout
         onRefresh={this.onRefresh}
@@ -273,89 +269,84 @@ class Punch extends React.Component<PunchProps, PunchState> {
             )}
           </View>
         }>
-        <View style={{marginLeft: theme.spacing, marginTop: theme.spacing * 5}}>
-          {editable ? (
-            <>
-              <EditPunchInOutDateTimeCard
-                punchCurrentDateTime={punchCurrentDateTime}
-                updateDateTime={this.updateDateTime}
-              />
-            </>
-          ) : (
-            <PunchInOutDateTimeCard
-              punchCurrentDateTime={punchCurrentDateTime}
-            />
-          )}
-        </View>
         <View
-          style={{
-            paddingHorizontal: theme.spacing * 5,
-            paddingBottom: theme.spacing * 4,
-            paddingTop: theme.spacing * 3,
-            paddingLeft: theme.spacing * 6,
-          }}>
-          <Card
-            fullWidth
+          style={[
+            styles.flexOne,
+            {backgroundColor: theme.palette.backgroundSecondary},
+          ]}>
+          <View
             style={{
-              borderRadius: theme.borderRadius * 2,
+              marginLeft: theme.spacing,
+              marginTop: theme.spacing * 5,
             }}>
-            <CardContent
+            {editable ? (
+              <>
+                <EditPunchInOutDateTimeCard
+                  punchCurrentDateTime={punchCurrentDateTime}
+                  updateDateTime={this.updateDateTime}
+                />
+              </>
+            ) : (
+              <PunchInOutDateTimeCard
+                punchCurrentDateTime={punchCurrentDateTime}
+              />
+            )}
+          </View>
+          <View
+            style={{
+              paddingHorizontal: theme.spacing * 5,
+              paddingBottom: theme.spacing * 4,
+              paddingTop: theme.spacing * 3,
+              paddingLeft: theme.spacing * 6,
+            }}>
+            <Card
+              fullWidth
               style={{
-                paddingTop: theme.spacing * 2,
-                paddingHorizontal: theme.spacing * 3,
+                borderRadius: theme.borderRadius * 2,
               }}>
-              {punchStatus?.punchState === PUNCHED_IN &&
-              this.state.duration !== NEGATIVE_DURATION ? (
-                <>
-                  <View
-                    style={[
-                      {
-                        paddingTop: theme.spacing * 4,
-                        marginHorizontal: theme.spacing * 5,
-                      },
-                      styles.durationMainView,
-                    ]}>
-                    <View style={[styles.durationText]}>
-                      <View style={{marginRight: theme.spacing * 1.5}}>
-                        <View
-                          style={[
-                            styles.briefcaseIcon,
-                            {
-                              backgroundColor: theme.palette.secondary,
-                              borderRadius: theme.spacing * 7,
-                              width: theme.spacing * 7.5,
-                              height: theme.spacing * 7.5,
-                            },
-                          ]}>
-                          <Icon
-                            name={'briefcase'}
-                            fontSize={theme.spacing * 4.5}
-                            style={[
-                              {
-                                padding: theme.spacing,
-                                color: theme.typography.secondaryColor,
-                              },
-                            ]}
-                          />
-                        </View>
-                      </View>
-                      <Text
-                        style={[
-                          styles.textBold,
-                          {
-                            color: theme.palette.secondary,
-                            fontSize: theme.spacing * 5,
-                          },
-                        ]}>
-                        {'Duration'}
-                      </Text>
-                    </View>
+              <CardContent
+                style={{
+                  paddingTop: theme.spacing * 2,
+                  paddingHorizontal: theme.spacing * 3,
+                }}>
+                {punchStatus?.punchState === PUNCHED_IN &&
+                this.state.duration !== NEGATIVE_DURATION ? (
+                  <>
                     <View
                       style={[
-                        styles.hoursView,
-                        {margin: theme.spacing * 1.25},
+                        {
+                          paddingTop: theme.spacing * 4,
+                          marginHorizontal: theme.spacing * 5,
+                        },
+                        styles.durationMainView,
                       ]}>
-                      <View style={{paddingLeft: theme.spacing * 1.25}}>
+                      <View style={[styles.durationText]}>
+                        <View style={{marginRight: theme.spacing * 1.5}}>
+                          <View
+                            style={[
+                              styles.briefcaseIcon,
+                              styles.alignItemsCenter,
+                              {
+                                backgroundColor: theme.palette.secondary,
+                                borderRadius: theme.borderRadius * 7,
+                                width: theme.typography.headerFontSize * 1.5,
+                                height: theme.typography.headerFontSize * 1.5,
+                              },
+                            ]}>
+                            <Icon
+                              name={'briefcase'}
+                              style={[
+                                {
+                                  fontSize:
+                                    theme.typography.headerIconSize * 0.7,
+                                  padding: theme.spacing,
+                                  paddingTop: theme.spacing * 1.5,
+                                  color: theme.typography.secondaryColor,
+                                },
+                              ]}
+                            />
+                          </View>
+                        </View>
                         <Text
                           style={[
                             styles.textBold,
@@ -364,94 +355,112 @@ class Punch extends React.Component<PunchProps, PunchState> {
                               fontSize: theme.spacing * 5,
                             },
                           ]}>
-                          {this.state.duration}
+                          {'Duration'}
                         </Text>
                       </View>
-                      <View>
-                        <Text
-                          style={[
-                            styles.textBold,
-                            {
-                              color: theme.palette.secondary,
-                              marginTop: theme.spacing,
-                              fontSize: theme.spacing * 4,
-                            },
-                          ]}>
-                          {' Hours'}
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                </>
-              ) : null}
-
-              {punchStatus?.punchState !== INITIAL ? (
-                <>
-                  <View style={{paddingBottom: theme.spacing * 3}}>
-                    <View
-                      style={[
-                        styles.lastRecordDetailsMainView,
-                        {
-                          marginHorizontal: theme.spacing * 2.5,
-                          marginVertical: theme.spacing * 2.5,
-                          padding: theme.spacing * 0.75,
-                          borderRadius: theme.spacing * 4,
-                          backgroundColor: theme.palette.backgroundSecondary,
-                        },
-                      ]}>
-                      <View style={{paddingLeft: theme.spacing * 1.25}}>
-                        <View style={[styles.lastPunchText]}>
-                          {punchStatus?.punchState === PUNCHED_OUT ? (
-                            <Text>{'Last Punch Out' + ' : '}</Text>
-                          ) : null}
-                          {punchStatus?.punchState === PUNCHED_IN ? (
-                            <Text>{'Punched In at' + ' : '}</Text>
-                          ) : null}
-                        </View>
-                      </View>
-                      <View style={[styles.flexFour]}>
-                        <View style={{flexDirection: 'row'}}>
-                          <Text>
-                            {punchStatus?.punchTime
-                              ? formatTime(
-                                  getLocalDateObjectFromSaveFormat(
-                                    punchStatus?.punchTime,
-                                  ),
-                                )
-                              : null}
-                            {'    '}
+                      <View
+                        style={[
+                          styles.hoursView,
+                          {margin: theme.spacing * 1.25},
+                        ]}>
+                        <View style={{paddingLeft: theme.spacing * 1.25}}>
+                          <Text
+                            style={[
+                              styles.textBold,
+                              {
+                                color: theme.palette.secondary,
+                                fontSize: theme.spacing * 5,
+                              },
+                            ]}>
+                            {this.state.duration}
                           </Text>
-                          <FormattedDate>
-                            {punchStatus?.punchTime}
-                          </FormattedDate>
                         </View>
-                        <Text>
-                          {formatTimezoneOffset(
-                            punchStatus?.PunchTimeZoneOffset,
-                          )}
-                        </Text>
+                        <View>
+                          <Text
+                            style={[
+                              styles.textBold,
+                              {
+                                color: theme.palette.secondary,
+                                marginTop: theme.spacing,
+                                fontSize: theme.spacing * 4,
+                              },
+                            ]}>
+                            {' Hours'}
+                          </Text>
+                        </View>
                       </View>
                     </View>
+                  </>
+                ) : null}
+
+                {punchStatus?.punchState !== INITIAL ? (
+                  <>
+                    <View style={{paddingBottom: theme.spacing * 3}}>
+                      <View
+                        style={[
+                          styles.lastRecordDetailsMainView,
+                          {
+                            marginHorizontal: theme.spacing * 2.5,
+                            marginVertical: theme.spacing * 2.5,
+                            padding: theme.spacing * 0.75,
+                            borderRadius: theme.spacing * 4,
+                            backgroundColor: theme.palette.backgroundSecondary,
+                          },
+                        ]}>
+                        <View style={{paddingLeft: theme.spacing * 1.25}}>
+                          <View style={[styles.lastPunchText]}>
+                            {punchStatus?.punchState === PUNCHED_OUT ? (
+                              <Text>{'Last Punch Out' + ' : '}</Text>
+                            ) : null}
+                            {punchStatus?.punchState === PUNCHED_IN ? (
+                              <Text>{'Punched In at' + ' : '}</Text>
+                            ) : null}
+                          </View>
+                        </View>
+                        <View style={[styles.flexFour]}>
+                          <View style={[styles.rowFlexDirection]}>
+                            <Text>
+                              {punchStatus?.punchTime
+                                ? formatTime(
+                                    getLocalDateObjectFromSaveFormat(
+                                      punchStatus?.punchTime,
+                                    ),
+                                  )
+                                : null}
+                              {'    '}
+                            </Text>
+                            <FormattedDate>
+                              {punchStatus?.punchTime}
+                            </FormattedDate>
+                          </View>
+                          <Text>
+                            {formatTimezoneOffset(
+                              punchStatus?.PunchTimeZoneOffset,
+                            )}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                    <Divider />
+                  </>
+                ) : null}
+                <View
+                  style={[
+                    styles.mainView,
+                    {
+                      paddingBottom: theme.spacing * 0.5,
+                    },
+                  ]}>
+                  <View style={{paddingTop: theme.spacing * 5}}>
+                    <PickNote
+                      onPress={this.toggleCommentInput}
+                      note={savedNote}
+                    />
                   </View>
-                  <Divider />
-                </>
-              ) : null}
-              <View
-                style={[
-                  styles.mainView,
-                  {
-                    paddingBottom: theme.spacing * 0.5,
-                  },
-                ]}>
-                <View style={{paddingTop: theme.spacing * 5}}>
-                  <PickNote
-                    onPress={this.toggleCommentInput}
-                    note={savedNote}
-                  />
                 </View>
-              </View>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </View>
         </View>
       </MainLayout>
     );
@@ -481,7 +490,9 @@ const styles = StyleSheet.create({
   textBold: {
     fontWeight: 'bold',
   },
-
+  rowFlexDirection: {
+    flexDirection: 'row',
+  },
   lastRecordDetailsMainView: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -495,7 +506,12 @@ const styles = StyleSheet.create({
   flexFour: {
     flex: 4,
   },
-
+  flexOne: {
+    flex: 1,
+  },
+  alignItemsCenter: {
+    alignItems: 'center',
+  },
   hoursView: {
     flexDirection: 'row',
     justifyContent: 'center',

@@ -59,7 +59,7 @@ class AttendanceDetailedHeaderComponent extends React.Component<
               style={{
                 backgroundColor: isActive
                   ? theme.palette.secondary
-                  : theme.palette.defaultDark,
+                  : theme.palette.backgroundSecondary,
                 paddingLeft: theme.spacing * 2.5,
                 paddingTop: theme.spacing * 2,
                 paddingBottom: theme.spacing * 2,
@@ -68,7 +68,6 @@ class AttendanceDetailedHeaderComponent extends React.Component<
               }}>
               <Text
                 style={[
-                  styles.fontWeightBold,
                   {
                     fontSize: theme.spacing * 4.5,
                     color: isActive

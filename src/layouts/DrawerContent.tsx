@@ -46,7 +46,7 @@ import {
 } from 'store/auth/actions';
 import useTheme from 'lib/hook/useTheme';
 import {getDrawerItems} from 'services/drawer';
-import {SUBHEADER_LEAVE} from 'screens';
+import {SUBHEADER_LEAVE, SUBHEADER_TIME} from 'screens';
 
 const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   const {
@@ -112,13 +112,14 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
                       name={drawerItem.subheaderIcon?.name}
                       style={{margin: theme.spacing * 2}}
                     />
-                    <Text style={[styles.label, {margin: theme.spacing * 2.5}]}>
+                    <Text style={{margin: theme.spacing * 2.5}}>
                       {drawerItem.subheader}
                     </Text>
                   </View>
                 ) : null}
-                <View style={{marginLeft: theme.spacing * 4}}>
+                <View style={{marginLeft: theme.spacing * 7}}>
                   <DrawerItem
+                    style={{margin: theme.spacing * -1}}
                     label={drawerItem.label}
                     onPress={() => {
                       drawerContentProps.navigation.closeDrawer();
@@ -159,7 +160,7 @@ export type DrawerNavigationState = BaseDrawerNavigationState & {
     key: string;
     name: string;
     params: {
-      subheader: typeof SUBHEADER_LEAVE;
+      subheader: typeof SUBHEADER_LEAVE | typeof SUBHEADER_TIME;
       [key: string]: any;
     };
   }>;

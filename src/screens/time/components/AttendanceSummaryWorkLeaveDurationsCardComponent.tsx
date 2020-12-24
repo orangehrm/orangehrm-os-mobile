@@ -33,6 +33,7 @@ import {
 } from 'store/time/attendance/types';
 import FlatButton from 'screens/leave/components/FlatButton';
 import {NullableString} from 'store/leave/leave-usage/types';
+import Card from 'components/DefaultCard';
 
 const AttendanceSummaryWorkLeaveDurationsCardComponent = (
   props: AttendanceSummaryWorkLeaveDurationsCardComponentProps,
@@ -50,24 +51,21 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
       style={[
         styles.flexOne,
         {
-          backgroundColor: theme.palette.backgroundSecondary,
-          padding: theme.spacing * 2.5,
+          padding: theme.spacing * 3,
         },
       ]}>
-      <CardContent
+      <Card
         style={{
           paddingTop: theme.spacing * 2,
-          paddingHorizontal: theme.spacing * 3,
           backgroundColor: theme.palette.background,
-          borderRadius: theme.spacing * 5,
+          borderRadius: theme.borderRadius * 2,
         }}>
-        <View
+        <CardContent
           style={[
             styles.overflowHidden,
             {
               backgroundColor: theme.palette.background,
-              borderRadius: theme.spacing * 1.25,
-              marginHorizontal: theme.spacing * 2.5,
+              borderRadius: theme.borderRadius * 2,
               marginTop: theme.spacing * 2.5,
             },
           ]}>
@@ -102,81 +100,71 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
           ) : null}
 
           <View
-            style={{
-              paddingTop: theme.spacing * 4.5,
-              paddingHorizontal: theme.spacing * 3.75,
-              paddingBottom: theme.spacing * 2.5,
-            }}>
-            <View style={[styles.rowFlexDirection, styles.alignItemsCenter]}>
-              <View style={styles.flexNine}>
+            style={[
+              styles.justifyContentSpaceBetween,
+              {
+                paddingHorizontal: theme.spacing * 4,
+                paddingBottom: theme.spacing * 2.5,
+              },
+            ]}>
+            <View style={styles.workDurationMain}>
+              <Text
+                numberOfLines={2}
+                bold
+                style={{
+                  fontSize: theme.typography.subHeaderFontSize,
+                  color: theme.palette.secondary,
+                }}>
+                {'Total Work Duration'}
+              </Text>
+              <Text
+                numberOfLines={1}
+                bold
+                style={{
+                  fontSize: theme.typography.subHeaderFontSize,
+                  color: theme.palette.secondary,
+                }}>
+                {totalWorkDuration}
                 <Text
-                  numberOfLines={2}
-                  bold
                   style={{
-                    fontSize: theme.spacing * 4,
+                    fontSize: theme.typography.fontSize,
                     color: theme.palette.secondary,
-                  }}>
-                  {'Total Work Duration'}
+                  }}
+                  bold>
+                  {' Hours'}
                 </Text>
-              </View>
-              <View style={[styles.flexFour, styles.rowFlexDirection]}>
-                <View style={[styles.flexTwo]}>
-                  <Text
-                    numberOfLines={2}
-                    bold
-                    style={{
-                      fontSize: theme.spacing * 4,
-                      color: theme.palette.secondary,
-                    }}>
-                    {totalWorkDuration}
-                  </Text>
-                </View>
-                <View
-                  style={[styles.flexTwo, {paddingTop: theme.spacing * 0.5}]}>
-                  <Text bold style={{color: theme.palette.secondary}}>
-                    {'Hours'}
-                  </Text>
-                </View>
-              </View>
+              </Text>
             </View>
             <View
               style={[
-                styles.rowFlexDirection,
-                styles.alignItemsCenter,
+                styles.workDurationMain,
                 {
-                  marginTop: theme.spacing * 2.5,
+                  paddingTop: theme.spacing * 2,
                 },
               ]}>
-              <View style={[styles.flexNine, styles.rowFlexDirection]}>
+              <Text
+                numberOfLines={2}
+                bold
+                style={{
+                  fontSize: theme.typography.subHeaderFontSize,
+                }}>
+                {'Total Leave Duration'}
+              </Text>
+              <Text
+                numberOfLines={1}
+                bold
+                style={{
+                  fontSize: theme.typography.subHeaderFontSize,
+                }}>
+                {totalLeaveDuration}
                 <Text
-                  numberOfLines={2}
-                  bold
                   style={{
-                    fontSize: theme.spacing * 4,
-                    color: theme.typography.primaryColor,
-                  }}>
-                  {'Total Leave Duration'}
+                    fontSize: theme.typography.fontSize,
+                  }}
+                  bold>
+                  {' Hours'}
                 </Text>
-              </View>
-              <View style={[styles.rowFlexDirection, styles.flexFour]}>
-                <View style={[styles.flexTwo]}>
-                  <Text
-                    numberOfLines={2}
-                    bold
-                    style={{
-                      fontSize: theme.spacing * 4,
-                      color: theme.typography.primaryColor,
-                    }}>
-                    {totalLeaveDuration}
-                  </Text>
-                </View>
-                <View
-                  style={[styles.flexTwo, {paddingTop: theme.spacing * 0.5}]}>
-                  <Text bold style={{color: theme.typography.primaryColor}}>
-                    {'Hours'}
-                  </Text>
-                </View>
-              </View>
+              </Text>
             </View>
 
             {props.leaveData?.length > 0 ? (
@@ -251,8 +239,8 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
             ) : null}
           </View>
 
-          <Divider />
-          <View>
+          <Divider style={{marginHorizontal: theme.spacing * 2.5}} />
+          <View style={{paddingBottom: theme.spacing * 3.75}}>
             <FlatButton
               text={'Attendance Details'}
               icon={'information'}
@@ -262,8 +250,8 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
               }}
             />
           </View>
-        </View>
-      </CardContent>
+        </CardContent>
+      </Card>
     </View>
   );
 };
@@ -271,23 +259,14 @@ const styles = StyleSheet.create({
   flexFour: {
     flex: 4,
   },
-  flexTwo: {
-    flex: 2,
-  },
   flexOne: {
     flex: 1,
-  },
-  flexNine: {
-    flex: 9,
   },
   flexEight: {
     flex: 8,
   },
   rowFlexDirection: {
     flexDirection: 'row',
-  },
-  alignItemsCenter: {
-    alignItems: 'center',
   },
   justifyContentSpaceBetween: {
     justifyContent: 'space-between',
@@ -297,6 +276,11 @@ const styles = StyleSheet.create({
   },
   overflowHidden: {
     overflow: 'hidden',
+  },
+  workDurationMain: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 

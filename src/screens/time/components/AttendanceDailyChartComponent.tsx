@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Platform, Text, StyleSheet} from 'react-native';
+import {View, Platform, Text} from 'react-native';
 import {
   VictoryAxis,
   VictoryBar,
@@ -17,6 +17,7 @@ import {
 import useTheme from 'lib/hook/useTheme';
 import CardContent from 'components/DefaultCardContent';
 import {$PropertyType} from 'utility-types';
+import Card from 'components/DefaultCard';
 
 const AttendanceDailyChartComponent = (
   props: AttendanceDailyChartComponentProps,
@@ -44,18 +45,21 @@ const AttendanceDailyChartComponent = (
 
   const renderGraph = () => {
     return (
-      <View>
-        <VictoryChart domainPadding={15}>
+      <View style={{backgroundColor: theme.palette.background}}>
+        <VictoryChart domainPadding={theme.spacing * 3.75}>
           <VictoryAxis
             dependentAxis
             style={{
-              axis: {stroke: 'white'},
-              grid: {stroke: '#f2f3f5'},
+              axis: {stroke: theme.palette.background},
+              grid: {stroke: theme.palette.default},
               ticks: {
-                stroke: '#f2f3f5',
-                fontSize: 5,
+                stroke: theme.palette.default,
+                fontSize: theme.typography.fontSize,
               },
-              tickLabels: {fontSize: 10, padding: 5},
+              tickLabels: {
+                fontSize: theme.typography.tinyFontSize,
+                padding: theme.spacing,
+              },
             }}
             tickLabelComponent={
               <VictoryLabel
@@ -64,7 +68,44 @@ const AttendanceDailyChartComponent = (
                   if (Number.isInteger(tickValue)) {
                     return tickValue + ' Hrs';
                   } else {
-                    return '';
+                    const maxLeaveYPoint =
+                      props.graphLeaveData.length > 0
+                        ? props.graphLeaveData
+                            .map((singleType) => {
+                              const maxx = singleType.data
+                                .map((dataPoint) => {
+                                  return dataPoint.y;
+                                })
+                                .reduce(function (previous, current) {
+                                  return previous > current
+                                    ? previous
+                                    : current;
+                                });
+                              return maxx;
+                            })
+                            .reduce(function (previous, current) {
+                              return previous > current ? previous : current;
+                            })
+                        : 0;
+                    const maxWorkYPoint =
+                      props.graphWorkData.length > 0
+                        ? props.graphWorkData
+                            .map((dataPoint) => {
+                              return dataPoint.y;
+                            })
+                            .reduce(function (previous, current) {
+                              return previous > current ? previous : current;
+                            })
+                        : 0;
+                    const maxYPoint =
+                      maxWorkYPoint > maxLeaveYPoint
+                        ? maxWorkYPoint
+                        : maxLeaveYPoint;
+                    if (maxYPoint < 1 && maxYPoint > 0) {
+                      return tickValue + ' Hrs';
+                    } else {
+                      return '';
+                    }
                   }
                 }}
               />
@@ -72,17 +113,29 @@ const AttendanceDailyChartComponent = (
           />
           <VictoryAxis
             style={{
-              grid: {stroke: 'white'},
-              ticks: {stroke: '#f2f3f5', fontSize: 5},
-              tickLabels: {fontSize: 10, padding: 5},
+              grid: {stroke: theme.palette.background},
+              ticks: {
+                stroke: theme.palette.default,
+                fontSize: theme.typography.fontSize,
+              },
+              tickLabels: {
+                fontSize: theme.typography.tinyFontSize,
+                padding: theme.spacing * 1.5,
+              },
             }}
             tickFormat={['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']}
           />
           <VictoryAxis
             style={{
-              grid: {stroke: 'white'},
-              ticks: {stroke: '#f2f3f5', fontSize: 5},
-              tickLabels: {fontSize: 10, padding: 20},
+              grid: {stroke: theme.palette.background},
+              ticks: {
+                stroke: theme.palette.default,
+                fontSize: theme.typography.fontSize,
+              },
+              tickLabels: {
+                fontSize: theme.typography.tinyFontSize,
+                padding: theme.spacing * 5,
+              },
             }}
             tickFormat={props.dateOfMonth}
           />
@@ -110,44 +163,45 @@ const AttendanceDailyChartComponent = (
   };
 
   return (
-    <View>
-      <View
-        style={[
-          styles.flexOne,
-          {
-            backgroundColor: theme.palette.backgroundSecondary,
-            padding: theme.spacing * 2.5,
-          },
-        ]}>
+    <View style={{paddingHorizontal: theme.spacing * 3}}>
+      <Card
+        style={{
+          backgroundColor: theme.palette.background,
+          borderRadius: theme.borderRadius * 2,
+        }}>
         <CardContent
           style={{
             paddingTop: theme.spacing * 2,
-            paddingHorizontal: theme.spacing * 3,
             backgroundColor: theme.palette.background,
-            borderRadius: theme.spacing * 5,
           }}>
           <View
             style={{
               paddingTop: theme.spacing * 2,
-              paddingLeft: theme.spacing * 2,
+              paddingLeft: theme.spacing * 5,
             }}>
-            <Text style={{fontSize: theme.spacing * 3.75}}>
+            <Text style={{fontSize: theme.typography.subHeaderFontSize}}>
               {'Daily Hours'}
             </Text>
           </View>
           {/* https://github.com/FormidableLabs/victory-native/issues/96 */}
-          {Platform.OS === 'ios' ? renderGraph() : <Svg>{renderGraph()}</Svg>}
+          {Platform.OS === 'ios' ? (
+            renderGraph()
+          ) : (
+            <View style={{backgroundColor: theme.palette.backgroundSecondary}}>
+              <Svg
+                height="100%"
+                preserveAspectRatio="xMinYMin slice"
+                width="100%"
+                viewBox="0 0 100 100">
+                {renderGraph()}
+              </Svg>
+            </View>
+          )}
         </CardContent>
-      </View>
+      </Card>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  flexOne: {
-    flex: 1,
-  },
-});
 
 interface AttendanceDailyChartComponentProps {
   graphLeaveData: LeaveTypeGraphData[];

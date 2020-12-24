@@ -33,7 +33,7 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
         ) : null}
         {attendanceRecords.map((attendanceRecord, key) => {
           return attendanceRecord.state === PUNCHED_OUT ? (
-            <View key={key}>
+            <View key={key} style={{marginLeft: theme.spacing * 1.5}}>
               <View style={[styles.flexOne, {marginTop: theme.spacing * 5}]}>
                 <View style={[styles.rowFlexDirection]}>
                   <View
@@ -135,7 +135,7 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                                   <Text
                                     style={{
                                       paddingLeft: theme.spacing * 2.5,
-                                      marginRight: theme.spacing * 5,
+                                      marginRight: theme.spacing * 15,
                                     }}>
                                     {attendanceRecord.punchInNote}
                                   </Text>
@@ -146,7 +146,11 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                         </View>
                       </View>
                     </View>
-                    <View style={[styles.rowFlexDirection]}>
+                    <View
+                      style={[
+                        styles.rowFlexDirection,
+                        {paddingTop: theme.spacing * 8},
+                      ]}>
                       <View
                         style={[
                           styles.dotStyle,
@@ -231,7 +235,7 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                               <Text
                                 style={{
                                   paddingLeft: theme.spacing * 2.5,
-                                  marginRight: theme.spacing * 5,
+                                  marginRight: theme.spacing * 15,
                                 }}>
                                 {attendanceRecord.punchOutNote}
                               </Text>
@@ -265,7 +269,15 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                         styles.positionAbsolute,
                         {top: theme.spacing * 0},
                       ]}>
-                      <Text>{'06:30 AM'}</Text>
+                      <Text>
+                        {' '}
+                        {convertDateObjectToStringFormat(
+                          getUTCMomentObjectFromString(
+                            attendanceRecord.punchInUserTime,
+                          ),
+                          'hh:mm A',
+                        )}
+                      </Text>
                     </View>
                   </View>
                   <View
@@ -329,7 +341,7 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                                   <Text
                                     style={{
                                       paddingLeft: theme.spacing * 2.5,
-                                      marginRight: theme.spacing * 5,
+                                      marginRight: theme.spacing * 15,
                                     }}>
                                     {attendanceRecord.punchInNote}
                                   </Text>
@@ -357,7 +369,7 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
 }
 
 const defaultCircleSize = 16;
-const defaultLineWidth = 4;
+const defaultLineWidth = 2;
 
 const styles = StyleSheet.create({
   title: {

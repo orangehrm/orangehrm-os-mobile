@@ -62,5 +62,5 @@ export const ATTENDANCE_PICK_EMPLOYEE = 'AttendancePickEmployee';
 export const FULL_SCREEN_INFO = 'FullScreenInfo';
 export const NO_EMPLOYEE_INFO = 'NoEmployeeInfo';
 
-export const SUBHEADER_LEAVE = 'Leave';
-export const SUBHEADER_TIME = 'Time';
+export const SUBHEADER_LEAVE = 'LEAVE';
+export const SUBHEADER_TIME = 'TIME';

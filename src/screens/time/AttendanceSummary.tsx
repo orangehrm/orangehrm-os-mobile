@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {View} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -56,7 +56,6 @@ import {
   getDurationFromHours,
   calculateDateOfMonth,
   getWeekDayFromIndex,
-  getWeekdayOrder,
 } from 'lib/helpers/attendance';
 import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
 import {selectCurrentRoute} from 'store/globals/selectors';
@@ -270,28 +269,42 @@ class AttendanceSummary extends React.Component<
             </View>
           </View>
         }>
-        <AttendanceSummaryWorkLeaveDurationsCardComponent
-          totalLeaveDuration={getDurationFromHours(
-            graphRecords?.totalLeaveHours,
-          )}
-          onPressDetails={this.onPressDetails}
-          totalWorkDuration={getDurationFromHours(graphRecords?.totalWorkHours)}
-          leaveData={this.state.singleLeaveTypeData}
-          empNumber={empNumber}
-          employeeName={employeeName}
-          jobTitle={employeeJobTitle}
-          mode={empNumber !== undefined ? EMPLOYEE_ATTENDANCE : MY_ATTENDANCE}
-        />
-        <AttendanceDailyChartComponent
-          graphLeaveData={this.state.graphLeaveData}
-          graphWorkData={this.state.graphWorkData}
-          dateOfMonth={this.state.dateOfMonth}
-          onPressBar={this.onPressBar}
-        />
+        <View
+          style={[
+            styles.flexOne,
+            {backgroundColor: theme.palette.backgroundSecondary},
+          ]}>
+          <AttendanceSummaryWorkLeaveDurationsCardComponent
+            totalLeaveDuration={getDurationFromHours(
+              graphRecords?.totalLeaveHours,
+            )}
+            onPressDetails={this.onPressDetails}
+            totalWorkDuration={getDurationFromHours(
+              graphRecords?.totalWorkHours,
+            )}
+            leaveData={this.state.singleLeaveTypeData}
+            empNumber={empNumber}
+            employeeName={employeeName}
+            jobTitle={employeeJobTitle}
+            mode={empNumber !== undefined ? EMPLOYEE_ATTENDANCE : MY_ATTENDANCE}
+          />
+
+          <AttendanceDailyChartComponent
+            graphLeaveData={this.state.graphLeaveData}
+            graphWorkData={this.state.graphWorkData}
+            dateOfMonth={this.state.dateOfMonth}
+            onPressBar={this.onPressBar}
+          />
+        </View>
       </MainLayout>
     );
   }
 }
+const styles = StyleSheet.create({
+  flexOne: {
+    flex: 1,
+  },
+});
 
 const startGraphWorkData = [
   {x: 'Su', y: 0},

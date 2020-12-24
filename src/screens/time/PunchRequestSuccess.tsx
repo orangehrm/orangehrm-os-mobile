@@ -46,7 +46,6 @@ import {PunchRequestSuccessRouteParams} from 'screens/time/navigators';
 import IconButton from 'components/DefaultIconButton';
 import {
   calculateDurationBasedOnTimezone,
-  formatLastRecordDetails,
   getLocalDateObjectFromSaveFormat,
   formatTime,
   formatTimezoneOffset,
@@ -105,33 +104,23 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                 paddingTop: theme.spacing * 5,
               },
             ]}>
-            <View
-              style={[
-                styles.footerView,
-                {
-                  height: theme.spacing * 15,
-                  width: theme.spacing * 15,
-                  borderRadius: theme.spacing * 7,
-                },
-              ]}>
-              <View>
-                <IconButton
-                  iconProps={{
-                    name: 'home',
-                    style: {
-                      color: theme.typography.secondaryColor,
-                      fontSize: theme.typography.largeIconSize,
-                      paddingRight: theme.spacing * 0.25,
-                    },
-                  }}
-                  buttonProps={{
-                    onPress: this.onClickHomeButton,
-                    style: {backgroundColor: theme.palette.primary},
-                    rounded: true,
-                    large: true,
-                  }}
-                />
-              </View>
+            <View>
+              <IconButton
+                iconProps={{
+                  name: 'home',
+                  style: {
+                    color: theme.typography.secondaryColor,
+                    fontSize: theme.typography.largeIconSize,
+                    paddingRight: theme.spacing * 0.25,
+                  },
+                }}
+                buttonProps={{
+                  onPress: this.onClickHomeButton,
+                  style: {backgroundColor: theme.palette.primary},
+                  rounded: true,
+                  large: true,
+                }}
+              />
             </View>
           </View>
         }>
@@ -273,7 +262,7 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                       />
                     </View>
                     <View style={styles.flexSix}>
-                      <View style={{flexDirection: 'row'}}>
+                      <View style={[styles.rowFlexDirection]}>
                         <Text>
                           {punchDateTime
                             ? formatTime(
@@ -353,7 +342,7 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                           />
                         </View>
                         <View style={styles.flexSix}>
-                          <View style={{flexDirection: 'row'}}>
+                          <View style={[styles.rowFlexDirection]}>
                             <Text>
                               {punchOutDateTime
                                 ? formatTime(
@@ -413,10 +402,6 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
   }
 }
 const styles = StyleSheet.create({
-  footerView: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   successfullMessage: {
     textAlign: 'center',
     fontStyle: 'italic',

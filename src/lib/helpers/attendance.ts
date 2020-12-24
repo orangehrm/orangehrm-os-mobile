@@ -376,6 +376,9 @@ const formatTime = (datetime: Date) => {
     hour = (parseInt(hourMinute[0], 10) - 12).toString();
     ampm = 'PM';
   }
+  if (parseInt(hourMinute[0], 10) === 12) {
+    ampm = 'PM';
+  }
   return hour.toString() + ':' + hourMinute[1] + ' ' + ampm;
 };
 
@@ -403,8 +406,8 @@ const getWeekdayOrder = (startDay: string, format: string) => {
     'friday',
     'saturday',
   ];
-  let result: string[] = [];
-  let startIndex = weekdays.findIndex((day) => {
+  const result: string[] = [];
+  const startIndex = weekdays.findIndex((day) => {
     return day === startDay;
   });
   for (let i = startIndex; i < startIndex + 7; i++) {
