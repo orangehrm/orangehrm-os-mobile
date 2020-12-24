@@ -103,7 +103,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
         this.timeInterval === null &&
         this.props.punchStatus?.dateTimeEditable === false
       ) {
-        this.timeInterval = setInterval(this.onRefresh, 30000);
+        this.timeInterval = setInterval(this.onAutoReload, 30000);
       } else {
         clearInterval(this.timeInterval);
         this.timeInterval = null;
@@ -141,6 +141,10 @@ class Punch extends React.Component<PunchProps, PunchState> {
 
   onRefresh = () => {
     this.props.fetchPunchStatus();
+  };
+
+  onAutoReload = () => {
+    this.props.fetchPunchStatus(true);
   };
 
   updateDateTime = (datetime: Date) => {

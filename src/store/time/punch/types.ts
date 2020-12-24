@@ -53,6 +53,7 @@ export const RESET_PUNCH_STATE = 'PUNCH_STATE_RESET_PUNCH_STATE';
 
 export interface FetchPunchStatusAction {
   type: typeof FETCH_PUNCH_STATUS;
+  refresh?: boolean;
 }
 
 export interface FetchPunchStatusFinishedAction {

@@ -11,6 +11,7 @@ import {
   PUNCH_OUT_REQUEST,
   PunchInRequestAction,
   PunchOutRequestAction,
+  FetchPunchStatusAction,
 } from './types';
 import {fetchPunchStatusFinished, resetPunchState} from './actions';
 import {
@@ -27,6 +28,7 @@ import {
   HTTP_SUCCESS,
 } from 'services/api';
 import {TYPE_ERROR} from 'store/globals/types';
+import {act} from 'react-test-renderer';
 
 function* savePunchInRequest(action: PunchInRequestAction) {
   try {
@@ -67,6 +69,7 @@ function* savePunchOutRequest(action: PunchOutRequestAction) {
       API_ENDPOINT_PUNCH_OUT_REQUEST,
       action.payload,
     );
+    console.log(JSON.stringify(action.payload));
     if (response.getResponse().status === HTTP_SUCCESS) {
       yield put(resetPunchState());
       navigate<PunchRequestSuccessParam>(PUNCH_REQUEST_SUCCESS, response);
@@ -88,15 +91,19 @@ function* savePunchOutRequest(action: PunchOutRequestAction) {
     yield closeLoader();
   }
 }
-function* fetchPunchStatus() {
+function* fetchPunchStatus(action: FetchPunchStatusAction) {
   try {
-    yield openLoader();
+    if (!action.refresh) {
+      yield openLoader();
+    }
     const response = yield apiCall(apiGetCall, API_ENDPOINT_PUNCH_STATUS);
     yield put(fetchPunchStatusFinished(response.data));
   } catch (error) {
     yield put(fetchPunchStatusFinished(undefined, true));
   } finally {
-    yield closeLoader();
+    if (!action.refresh) {
+      yield closeLoader();
+    }
   }
 }
 

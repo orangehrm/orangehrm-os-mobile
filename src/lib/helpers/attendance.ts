@@ -392,6 +392,10 @@ const calculateDateOfMonth = (start: number, end: number) => {
   return dateOfMonth;
 };
 
+/**
+ *
+ * @param index
+ */
 const getWeekDayFromIndex = (index: number) => {
   return moment().isoWeekday(index);
 };

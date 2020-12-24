@@ -22,8 +22,11 @@ export const setPunchNote = (note: string): SetPunchNoteAction => ({
   noteSaved: note,
 });
 
-export const fetchPunchStatus = (): FetchPunchStatusAction => ({
+export const fetchPunchStatus = (
+  refresh?: boolean,
+): FetchPunchStatusAction => ({
   type: FETCH_PUNCH_STATUS,
+  refresh,
 });
 
 export const fetchPunchStatusFinished = (
