@@ -28,11 +28,13 @@ import {
   RefreshControl,
   Platform,
 } from 'react-native';
+import {connect, ConnectedProps} from 'react-redux';
+import {RootState} from 'store';
 import SafeAreaLayout from 'layouts/SafeAreaLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
-import FlatButton from 'screens/leave/components/FlatButton';
+import FlatButton from 'components/FlatButton';
 import Avatar from 'components/DefaultAvatar';
 import TextInput, {TextInputProps} from 'components/DefaultTextInput';
 import {
@@ -41,6 +43,7 @@ import {
 } from 'screens/leave/navigators';
 import {Employee} from 'screens/leave/navigators';
 import {getFirstAndLastNames} from 'lib/helpers/name';
+import {selectSubordinates} from 'store/leave/assign-leave/selectors';
 
 class PickEmployee extends React.Component<PickEmployeeProps> {
   inputRef: RNTextInput | null;
@@ -72,8 +75,8 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
   };
 
   render() {
-    const {theme, route, navigation} = this.props;
-    const {employees, textValue, setTextValue, onRefresh} = route.params;
+    const {theme, route, navigation, employees} = this.props;
+    const {textValue, setTextValue, onRefresh} = route.params;
 
     let filteredData;
     if (textValue !== '') {
@@ -200,7 +203,9 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
   }
 }
 
-interface PickEmployeeProps extends WithTheme {
+interface PickEmployeeProps
+  extends WithTheme,
+    ConnectedProps<typeof connector> {
   navigation: PickEmployeeNavigationProp;
   route: PickEmployeeRouteParams;
 }
@@ -236,7 +241,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withTheme<PickEmployeeProps>()(PickEmployee);
+const mapStateToProps = (state: RootState) => ({
+  employees: selectSubordinates(state),
+});
+
+const connector = connect(mapStateToProps);
+
+const PickEmployeeWithTheme = withTheme<PickEmployeeProps>()(PickEmployee);
+
+export default connector(PickEmployeeWithTheme);
 
 export const PickEmployeeTextInput = React.forwardRef<
   RNTextInput,

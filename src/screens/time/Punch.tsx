@@ -19,12 +19,7 @@
  */
 
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Keyboard,
-  TextInput as RNTextInput,
-} from 'react-native';
+import {StyleSheet, Keyboard, TextInput as RNTextInput} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -57,6 +52,7 @@ import PunchInOutDateTimeCard from 'screens/time/components/PunchInOutDateTimeCa
 import PickNote, {PickNoteFooter} from 'screens/time/components/NoteComponent';
 import Card from 'components/DefaultCard';
 import CardContent from 'components/DefaultCardContent';
+import View from 'components/HideableView';
 import {
   calculateDurationBasedOnTimezone,
   getDateSaveFormatFromDateObject,
@@ -274,6 +270,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
           </View>
         }>
         <View
+          isVisible={editable !== undefined}
           style={[
             styles.flexOne,
             {backgroundColor: theme.palette.backgroundSecondary},

@@ -110,7 +110,7 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
   return result;
 }
 
-export function* apiGetCall(endpoint: string) {
+export function* apiGetCall(endpoint: string, requiredRawResponse?: boolean) {
   const authParams: AuthParams = yield selectAuthParams();
 
   if (authParams.accessToken !== null && authParams.instanceUrl !== null) {
@@ -126,6 +126,10 @@ export function* apiGetCall(endpoint: string) {
     const url = authParams.instanceUrl + endpoint;
 
     const response: Response = yield call(fetch, url, requestOptions);
+
+    if (requiredRawResponse === true) {
+      return response;
+    }
     const data = yield call([response, response.json]);
     data.getResponse = () => {
       return response;

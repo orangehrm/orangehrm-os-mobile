@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/HideableView test HideableView component::default 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "orange",
+    }
+  }
+>
+  <View>
+    <View
+      style={
+        Object {
+          "backgroundColor": "orange",
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`components/HideableView test HideableView component::visible false 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "orange",
+    }
+  }
+/>
+`;
+
+exports[`components/HideableView test HideableView component::visible true 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "orange",
+    }
+  }
+>
+  <View>
+    <View
+      style={
+        Object {
+          "backgroundColor": "orange",
+        }
+      }
+    />
+  </View>
+</View>
+`;

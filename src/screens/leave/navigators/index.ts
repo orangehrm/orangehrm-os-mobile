@@ -43,7 +43,6 @@ export type CommonNavigatorParamList = {
 };
 
 export interface PickEmployeeParams {
-  employees?: Employee[];
   textValue: string;
   setTextValue: (text: string) => void;
   pickEmployee: (employee: Employee) => void;

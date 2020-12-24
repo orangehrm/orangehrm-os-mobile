@@ -335,14 +335,23 @@ function* fetchMyInfo() {
   try {
     yield* fetchEnabledModules();
 
-    const response = yield apiCall(
+    const rawResponse: Response = yield apiCall(
       apiGetCall,
       prepare(API_ENDPOINT_MY_INFO, {}, {withPhoto: true}),
+      true,
     );
-    if (response.data) {
-      yield put(fetchMyInfoFinished(response.data));
+
+    if (rawResponse.ok) {
+      const response = yield call([rawResponse, rawResponse.json]);
+      if (response.data.employee) {
+        yield put(fetchMyInfoFinished(response.data));
+      } else {
+        yield put(myInfoFailed(true));
+        yield put(fetchMyInfoFinished(undefined, true));
+      }
     } else {
-      yield put(fetchMyInfoFinished(undefined, true));
+      // TODO:: Handle error codes using `rawResponse`
+      yield put(myInfoFailed(true));
     }
   } catch (error) {
     if (isJsonParseError(error)) {
