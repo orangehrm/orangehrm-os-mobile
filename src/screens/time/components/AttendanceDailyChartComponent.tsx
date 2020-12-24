@@ -45,120 +45,116 @@ const AttendanceDailyChartComponent = (
 
   const renderGraph = () => {
     return (
-      <View style={{backgroundColor: theme.palette.background}}>
-        <VictoryChart domainPadding={theme.spacing * 3.75}>
-          <VictoryAxis
-            dependentAxis
-            style={{
-              axis: {stroke: theme.palette.background},
-              grid: {stroke: theme.palette.default},
-              ticks: {
-                stroke: theme.palette.default,
-                fontSize: theme.typography.fontSize,
-              },
-              tickLabels: {
-                fontSize: theme.typography.tinyFontSize,
-                padding: theme.spacing,
-              },
-            }}
-            tickLabelComponent={
-              <VictoryLabel
-                text={(datum) => {
-                  const tickValue = datum.ticks[datum.index];
-                  if (Number.isInteger(tickValue)) {
+      <VictoryChart>
+        <VictoryAxis
+          dependentAxis
+          style={{
+            axis: {stroke: theme.palette.background},
+            grid: {stroke: theme.palette.default},
+            ticks: {
+              stroke: theme.palette.default,
+              fontSize: theme.typography.fontSize,
+            },
+            tickLabels: {
+              fontSize: theme.typography.tinyFontSize,
+              padding: theme.spacing,
+            },
+          }}
+          tickLabelComponent={
+            <VictoryLabel
+              text={(datum) => {
+                const tickValue = datum.ticks[datum.index];
+                if (Number.isInteger(tickValue)) {
+                  return tickValue + ' Hrs';
+                } else {
+                  const maxLeaveYPoint =
+                    props.graphLeaveData.length > 0
+                      ? props.graphLeaveData
+                          .map((singleType) => {
+                            const maxx = singleType.data
+                              .map((dataPoint) => {
+                                return dataPoint.y;
+                              })
+                              .reduce(function (previous, current) {
+                                return previous > current ? previous : current;
+                              });
+                            return maxx;
+                          })
+                          .reduce(function (previous, current) {
+                            return previous > current ? previous : current;
+                          })
+                      : 0;
+                  const maxWorkYPoint =
+                    props.graphWorkData.length > 0
+                      ? props.graphWorkData
+                          .map((dataPoint) => {
+                            return dataPoint.y;
+                          })
+                          .reduce(function (previous, current) {
+                            return previous > current ? previous : current;
+                          })
+                      : 0;
+                  const maxYPoint =
+                    maxWorkYPoint > maxLeaveYPoint
+                      ? maxWorkYPoint
+                      : maxLeaveYPoint;
+                  if (maxYPoint < 1 && maxYPoint > 0) {
                     return tickValue + ' Hrs';
                   } else {
-                    const maxLeaveYPoint =
-                      props.graphLeaveData.length > 0
-                        ? props.graphLeaveData
-                            .map((singleType) => {
-                              const maxx = singleType.data
-                                .map((dataPoint) => {
-                                  return dataPoint.y;
-                                })
-                                .reduce(function (previous, current) {
-                                  return previous > current
-                                    ? previous
-                                    : current;
-                                });
-                              return maxx;
-                            })
-                            .reduce(function (previous, current) {
-                              return previous > current ? previous : current;
-                            })
-                        : 0;
-                    const maxWorkYPoint =
-                      props.graphWorkData.length > 0
-                        ? props.graphWorkData
-                            .map((dataPoint) => {
-                              return dataPoint.y;
-                            })
-                            .reduce(function (previous, current) {
-                              return previous > current ? previous : current;
-                            })
-                        : 0;
-                    const maxYPoint =
-                      maxWorkYPoint > maxLeaveYPoint
-                        ? maxWorkYPoint
-                        : maxLeaveYPoint;
-                    if (maxYPoint < 1 && maxYPoint > 0) {
-                      return tickValue + ' Hrs';
-                    } else {
-                      return '';
-                    }
+                    return '';
                   }
-                }}
-              />
-            }
-          />
-          <VictoryAxis
-            style={{
-              grid: {stroke: theme.palette.background},
-              ticks: {
-                stroke: theme.palette.default,
-                fontSize: theme.typography.fontSize,
-              },
-              tickLabels: {
-                fontSize: theme.typography.tinyFontSize,
-                padding: theme.spacing * 1.5,
-              },
-            }}
-            tickFormat={['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']}
-          />
-          <VictoryAxis
-            style={{
-              grid: {stroke: theme.palette.background},
-              ticks: {
-                stroke: theme.palette.default,
-                fontSize: theme.typography.fontSize,
-              },
-              tickLabels: {
-                fontSize: theme.typography.tinyFontSize,
-                padding: theme.spacing * 5,
-              },
-            }}
-            tickFormat={props.dateOfMonth}
-          />
-
-          <VictoryStack>
-            <VictoryBar
-              style={{data: {fill: theme.palette.secondary}}}
-              data={props.graphWorkData}
-              events={events}
+                }
+              }}
             />
-            {props.graphLeaveData.map((leaveTypeData, index) => {
-              return (
-                <VictoryBar
-                  key={index}
-                  style={{data: {fill: leaveTypeData.colour}}}
-                  data={leaveTypeData.data}
-                  events={events}
-                />
-              );
-            })}
-          </VictoryStack>
-        </VictoryChart>
-      </View>
+          }
+        />
+        <VictoryAxis
+          style={{
+            grid: {stroke: theme.palette.background},
+            ticks: {
+              stroke: theme.palette.default,
+              fontSize: theme.typography.fontSize,
+            },
+            tickLabels: {
+              fontSize: theme.typography.tinyFontSize,
+              padding: theme.spacing * 1.5,
+            },
+          }}
+          tickFormat={['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']}
+        />
+        <VictoryAxis
+          style={{
+            grid: {stroke: theme.palette.background},
+            ticks: {
+              stroke: theme.palette.default,
+              fontSize: theme.typography.fontSize,
+            },
+            tickLabels: {
+              fontSize: theme.typography.tinyFontSize,
+              padding: theme.spacing * 5,
+            },
+          }}
+          tickFormat={props.dateOfMonth}
+        />
+
+        <VictoryStack>
+          <VictoryBar
+            style={{data: {fill: theme.palette.secondary}}}
+            data={props.graphWorkData}
+            events={events}
+          />
+          {props.graphLeaveData.map((leaveTypeData, index) => {
+            return (
+              <VictoryBar
+                key={index}
+                style={{data: {fill: leaveTypeData.colour}}}
+                data={leaveTypeData.data}
+                events={events}
+              />
+            );
+          })}
+        </VictoryStack>
+      </VictoryChart>
     );
   };
 
