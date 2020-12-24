@@ -18,6 +18,7 @@ import useTheme from 'lib/hook/useTheme';
 import CardContent from 'components/DefaultCardContent';
 import {$PropertyType} from 'utility-types';
 import Card from 'components/DefaultCard';
+import {getWeekdayOrder} from 'lib/helpers/attendance';
 
 const AttendanceDailyChartComponent = (
   props: AttendanceDailyChartComponentProps,
@@ -123,7 +124,7 @@ const AttendanceDailyChartComponent = (
                 padding: theme.spacing * 1.5,
               },
             }}
-            tickFormat={['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']}
+            tickFormat={getWeekdayOrder(props.weekStartDayIndex, 'dd')}
           />
           <VictoryAxis
             style={{
@@ -197,6 +198,7 @@ interface AttendanceDailyChartComponentProps {
   graphWorkData: GraphDataPoint[];
   dateOfMonth: string[];
   onPressBar: (day: ShortDay) => void;
+  weekStartDayIndex: number;
 }
 
 export default AttendanceDailyChartComponent;

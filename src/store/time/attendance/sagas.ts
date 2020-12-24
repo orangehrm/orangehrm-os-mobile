@@ -11,6 +11,7 @@ import {
   FetchAttendanceGraphRecordsAction,
   FetchHolidaysAction,
   FetchEmployeeAttendanceListAction,
+  FetchAttendanceConfigurationAction,
   FETCH_ATTENDANCE_GRAPH_RECORDS,
   FETCH_LEAVE_RECORDS,
   FETCH_ATTENDANCE_RECORDS,
@@ -18,6 +19,8 @@ import {
   FETCH_WORK_WEEK,
   FETCH_EMPLOYEE_ATTENDANCE_LIST,
   FETCH_SUBORDINATES,
+  FETCH_ATTENDANCE_CONFIGURATION,
+  FETCH_ATTENDANCE_CONFIGURATION_FINISHED,
 } from './types';
 import {
   fetchAttendanceRecordsFinished,
@@ -27,6 +30,7 @@ import {
   fetchWorkWeekFinished,
   fetchEmployeeAttendanceListFinished,
   fetchSubordinatesFinished,
+  fetchAttendanceConfigurationFinished,
 } from './actions';
 import {
   API_ENDPOINT_ATTENDANCE,
@@ -36,6 +40,7 @@ import {
   API_ENDPOINT_LEAVE_WORK_WEEK,
   API_ENDPOINT_ATTENDANCE_LIST,
   API_ENDPOINT_EMPLOYEES,
+  API_ENDPOINT_ATTENDANCE_CONFIGURATION,
   prepare,
 } from 'services/endpoints';
 import {
@@ -149,8 +154,8 @@ function* fetchAttendanceGraphRecords(
         API_ENDPOINT_ATTENDANCE_GRAPH,
         {},
         {
-          fromDate: action.payload.fromDate,
-          toDate: action.payload.toDate,
+          fromDate: action.payload.fromDate + ' 00:00:00',
+          toDate: action.payload.toDate + ' 23:59:59',
           pendingApproval: true,
           scheduled: true,
           taken: true,
@@ -324,6 +329,40 @@ function* fetchAccessibleEmployees() {
   }
 }
 
+function* fetchAttendanceConfiguration(
+  action: FetchAttendanceConfigurationAction,
+) {
+  try {
+    yield openLoader();
+    const response = yield apiCall(
+      apiGetCall,
+      prepare(API_ENDPOINT_ATTENDANCE_CONFIGURATION),
+    );
+    if (response.data) {
+      console.log(response.data.startDate);
+      yield put(fetchAttendanceConfigurationFinished(response.data));
+    } else {
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Attendance Configuration.',
+        ),
+        TYPE_ERROR,
+      );
+    }
+  } catch (error) {
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(
+        error,
+        'Failed to Fetch Attendance Configuration.',
+      ),
+      TYPE_ERROR,
+    );
+  } finally {
+    yield closeLoader();
+  }
+}
+
 export function* watchAttendanceActions() {
   yield takeEvery(FETCH_LEAVE_RECORDS, fetchLeaveRecords);
   yield takeEvery(FETCH_ATTENDANCE_RECORDS, fetchAttendanceRecords);
@@ -331,5 +370,6 @@ export function* watchAttendanceActions() {
   yield takeEvery(FETCH_HOLIDAYS, fetchHolidays);
   yield takeEvery(FETCH_WORK_WEEK, fetchWorkWeek);
   yield takeEvery(FETCH_EMPLOYEE_ATTENDANCE_LIST, fetchEmployeeAttendanceList);
+  yield takeEvery(FETCH_ATTENDANCE_CONFIGURATION, fetchAttendanceConfiguration);
   yield takeEvery(FETCH_SUBORDINATES, fetchAccessibleEmployees);
 }

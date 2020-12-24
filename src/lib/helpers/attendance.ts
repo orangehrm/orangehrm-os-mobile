@@ -197,9 +197,16 @@ const getLeaveColourById = (id: string) => {
   return LEAVE_TYPE_COLORS[parseInt(id, 10) % LEAVE_TYPE_COLORS.length];
 };
 
-const calculateWorkData = (graphRecordsInputData: GraphRecordsObject) => {
+const calculateWorkData = (
+  graphRecordsInputData: GraphRecordsObject,
+  startDayIndex: number,
+) => {
   const workGraphData: GraphDataPoint[] = [];
-  const days = Object.keys(graphRecordsInputData.workSummary);
+  // const days = Object.keys(graphRecordsInputData.workSummary);
+  const daysInUppercase = getWeekdayOrder(startDayIndex, 'dddd');
+  const days = daysInUppercase.map((day: string) => {
+    return day.toLocaleLowerCase();
+  });
   days.forEach((day) => {
     const key = <MutableKeys<WorkSummaryObject>>day;
     const hours = graphRecordsInputData.workSummary[key].workHours;
@@ -207,12 +214,16 @@ const calculateWorkData = (graphRecordsInputData: GraphRecordsObject) => {
       x: dayMapper[key],
       y: parseFloat(hours),
     };
+    // console.log(data);
     workGraphData.push(data);
   });
   return workGraphData;
 };
 
-const calculateGraphData = (leaveTypesInputData: GraphRecordsObject) => {
+const calculateGraphData = (
+  leaveTypesInputData: GraphRecordsObject,
+  startDayIndex: number,
+) => {
   const leaveGraphData: LeaveTypeGraphData[] = [];
 
   const leaveTypeIds: string[] = [];
@@ -223,8 +234,11 @@ const calculateGraphData = (leaveTypesInputData: GraphRecordsObject) => {
     const data: GraphDataPoint[] = [];
     const colour: string = getLeaveColourById(id);
 
-    const days = Object.keys(leaveTypesInputData.workSummary);
-
+    // const days = Object.keys(leaveTypesInputData.workSummary);
+    const daysInUppercase = getWeekdayOrder(startDayIndex, 'dddd');
+    const days = daysInUppercase.map((day: string) => {
+      return day.toLocaleLowerCase();
+    });
     days.forEach((day) => {
       const key = <MutableKeys<WorkSummaryObject>>day;
 
@@ -264,8 +278,11 @@ const calculateDateSelectorData = (
   if (workSummaryObject !== undefined && startDayIndex !== undefined) {
     const selectedWeek: DaySelectorSingleDay[] = [];
     for (let index = startDayIndex; index < startDayIndex + 7; index++) {
-      const date = moment().weekday(index);
-      const day = date.format('dddd').toLocaleLowerCase();
+      const date = getWeekDayFromIndex(index);
+      const day = convertDateObjectToStringFormat(
+        date,
+        'dddd',
+      ).toLocaleLowerCase();
       const key = <MutableKeys<WorkSummaryObject>>day;
       const hours = workSummaryObject[key].workHours;
       const daySelectorSingleDay: DaySelectorSingleDay = {
@@ -400,21 +417,9 @@ const getWeekDayFromIndex = (index: number) => {
   return moment().isoWeekday(index);
 };
 
-const getWeekdayOrder = (startDay: string, format: string) => {
-  const weekdays = [
-    'sunday',
-    'monday',
-    'tuesday',
-    'wednesday',
-    'thursday',
-    'friday',
-    'saturday',
-  ];
+const getWeekdayOrder = (startDayIndex: number, format: string) => {
   const result: string[] = [];
-  const startIndex = weekdays.findIndex((day) => {
-    return day === startDay;
-  });
-  for (let i = startIndex; i < startIndex + 7; i++) {
+  for (let i = startDayIndex; i < startDayIndex + 7; i++) {
     result.push(
       convertDateObjectToStringFormat(getWeekDayFromIndex(i), format),
     );

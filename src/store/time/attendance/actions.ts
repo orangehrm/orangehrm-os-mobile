@@ -13,6 +13,8 @@ import {
   FETCH_EMPLOYEE_ATTENDANCE_LIST_FINISHED,
   FETCH_SUBORDINATES,
   FETCH_SUBORDINATES_FINISHED,
+  FETCH_ATTENDANCE_CONFIGURATION,
+  FETCH_ATTENDANCE_CONFIGURATION_FINISHED,
   PICK_SUBORDINATE,
   FetchAttendanceRecordsAction,
   FetchAttendanceRecordsFinishedAction,
@@ -28,6 +30,9 @@ import {
   FetchEmployeeAttendanceListFinishedAction,
   FetchSubordinatesAction,
   FetchSubordinatesFinishedAction,
+  FetchAttendanceConfigurationAction,
+  FetchAttendanceConfigurationFinishedAction,
+  AttendanceConfiguration,
   PickSubordinateAction,
   LeaveObject,
   AttendanceRequest,
@@ -114,7 +119,20 @@ export const fetchWorkWeekFinished = (
   error,
 });
 
-export const fetchEmployeeAttendanceList = (
+export const fetchAttendanceConfiguration = (): FetchAttendanceConfigurationAction => ({
+  type: FETCH_ATTENDANCE_CONFIGURATION,
+});
+
+export const fetchAttendanceConfigurationFinished = (
+  payload?: AttendanceConfiguration,
+  error: boolean = false,
+): FetchAttendanceConfigurationFinishedAction => ({
+  type: FETCH_ATTENDANCE_CONFIGURATION_FINISHED,
+  payload,
+  error,
+});
+
+export const fetchEmployeeAttendance = (
   payload: $PropertyType<FetchEmployeeAttendanceListAction, 'payload'>,
 ): FetchEmployeeAttendanceListAction => ({
   type: FETCH_EMPLOYEE_ATTENDANCE_LIST,
