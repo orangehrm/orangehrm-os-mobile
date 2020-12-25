@@ -131,7 +131,6 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                   style={{
                     fontSize: theme.typography.fontSize,
                     color: theme.palette.secondary,
-                    // paddingLeft: theme.spacing,
                   }}
                   bold>
                   {'  Hours'}

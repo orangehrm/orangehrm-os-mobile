@@ -1,0 +1,482 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/FlatButton test FlatButton component 1`] = `
+<View
+  accessible={true}
+  focusable={false}
+  forwardedRef={[Function]}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "alignSelf": "flex-start",
+      "backgroundColor": "#ffffff",
+      "borderBottomWidth": null,
+      "borderColor": "#007aff",
+      "borderLeftWidth": null,
+      "borderRadius": 0,
+      "borderRightWidth": null,
+      "borderTopWidth": null,
+      "borderWidth": undefined,
+      "elevation": 0,
+      "flex": 1,
+      "flexDirection": "row",
+      "height": 48,
+      "justifyContent": "space-between",
+      "opacity": 1,
+      "paddingBottom": 6,
+      "paddingTop": 6,
+      "shadowColor": "black",
+      "shadowOffset": Object {
+        "height": 0.5,
+        "width": 0,
+      },
+      "shadowOpacity": 0.5,
+      "shadowRadius": 1,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "stretch",
+          "flex": 1,
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": undefined,
+              "fontSize": 12,
+            },
+            Array [
+              Object {
+                "color": "#000",
+                "fontSize": 30,
+              },
+              Object {
+                "color": "#fff",
+                "fontSize": 24,
+                "marginLeft": 16,
+                "marginRight": 16,
+                "paddingTop": 2,
+              },
+              Object {
+                "color": "#818181",
+                "fontSize": 20,
+              },
+              undefined,
+            ],
+            Object {
+              "fontFamily": "Material Design Icons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+        type="MaterialCommunityIcons"
+      >
+        󰃭
+      </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#818181",
+            },
+            undefined,
+            Array [
+              Object {
+                "paddingTop": 2,
+              },
+              undefined,
+            ],
+          ]
+        }
+      >
+        Text
+      </Text>
+    </View>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#818181",
+          },
+          undefined,
+          Object {
+            "paddingTop": 2,
+          },
+        ]
+      }
+    />
+    <Text
+      allowFontScaling={false}
+      style={
+        Array [
+          Object {
+            "color": undefined,
+            "fontSize": 12,
+          },
+          Array [
+            Object {
+              "color": "#000",
+              "fontSize": 30,
+            },
+            Object {
+              "color": "#fff",
+              "fontSize": 24,
+              "marginLeft": 16,
+              "marginRight": 16,
+              "paddingTop": 2,
+            },
+            Object {
+              "color": "#818181",
+              "fontSize": 20,
+            },
+            undefined,
+          ],
+          Object {
+            "fontFamily": "Material Design Icons",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          Object {},
+        ]
+      }
+      type="MaterialCommunityIcons"
+    >
+      󰅂
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
+<View
+  accessible={true}
+  focusable={false}
+  forwardedRef={[Function]}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "alignSelf": "flex-start",
+      "backgroundColor": "#ffffff",
+      "borderBottomWidth": null,
+      "borderColor": "#007aff",
+      "borderLeftWidth": null,
+      "borderRadius": 0,
+      "borderRightWidth": null,
+      "borderTopWidth": null,
+      "borderWidth": undefined,
+      "elevation": 0,
+      "flex": 1,
+      "flexDirection": "row",
+      "height": 48,
+      "justifyContent": "space-between",
+      "opacity": 1,
+      "paddingBottom": 6,
+      "paddingTop": 6,
+      "shadowColor": "black",
+      "shadowOffset": Object {
+        "height": 0.5,
+        "width": 0,
+      },
+      "shadowOpacity": 0.5,
+      "shadowRadius": 1,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "stretch",
+          "flex": 1,
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": undefined,
+              "fontSize": 12,
+            },
+            Array [
+              Object {
+                "color": "#000",
+                "fontSize": 30,
+              },
+              Object {
+                "color": "#fff",
+                "fontSize": 24,
+                "marginLeft": 16,
+                "marginRight": 16,
+                "paddingTop": 2,
+              },
+              Object {
+                "color": "#818181",
+                "fontSize": 20,
+              },
+              undefined,
+            ],
+            Object {
+              "fontFamily": "Material Design Icons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+        type="MaterialCommunityIcons"
+      >
+        󰃭
+      </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#818181",
+            },
+            undefined,
+            Array [
+              Object {
+                "paddingTop": 2,
+              },
+              undefined,
+            ],
+          ]
+        }
+      >
+        Text
+      </Text>
+    </View>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#818181",
+          },
+          undefined,
+          Object {
+            "paddingTop": 2,
+          },
+        ]
+      }
+    />
+    <Text
+      allowFontScaling={false}
+      style={
+        Array [
+          Object {
+            "color": undefined,
+            "fontSize": 12,
+          },
+          Array [
+            Object {
+              "color": "#000",
+              "fontSize": 30,
+            },
+            Object {
+              "color": "#fff",
+              "fontSize": 24,
+              "marginLeft": 16,
+              "marginRight": 16,
+              "paddingTop": 2,
+            },
+            Object {
+              "color": "#818181",
+              "fontSize": 20,
+            },
+            undefined,
+          ],
+          Object {
+            "fontFamily": "Material Design Icons",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          Object {},
+        ]
+      }
+      type="MaterialCommunityIcons"
+    >
+      󰅂
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`components/FlatButton test FlatButton component::!rightIcon 1`] = `
+<View
+  accessible={true}
+  focusable={false}
+  forwardedRef={[Function]}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "alignSelf": "flex-start",
+      "backgroundColor": "#ffffff",
+      "borderBottomWidth": null,
+      "borderColor": "#007aff",
+      "borderLeftWidth": null,
+      "borderRadius": 0,
+      "borderRightWidth": null,
+      "borderTopWidth": null,
+      "borderWidth": undefined,
+      "elevation": 0,
+      "flex": 1,
+      "flexDirection": "row",
+      "height": 48,
+      "justifyContent": "space-between",
+      "opacity": 1,
+      "paddingBottom": 6,
+      "paddingTop": 6,
+      "shadowColor": "black",
+      "shadowOffset": Object {
+        "height": 0.5,
+        "width": 0,
+      },
+      "shadowOpacity": 0.5,
+      "shadowRadius": 1,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "stretch",
+          "flex": 1,
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": undefined,
+              "fontSize": 12,
+            },
+            Array [
+              Object {
+                "color": "#000",
+                "fontSize": 30,
+              },
+              Object {
+                "color": "#fff",
+                "fontSize": 24,
+                "marginLeft": 16,
+                "marginRight": 16,
+                "paddingTop": 2,
+              },
+              Object {
+                "color": "#818181",
+                "fontSize": 20,
+              },
+              undefined,
+            ],
+            Object {
+              "fontFamily": "Material Design Icons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+        type="MaterialCommunityIcons"
+      >
+        󰃭
+      </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#818181",
+            },
+            undefined,
+            Array [
+              Object {
+                "paddingTop": 2,
+              },
+              undefined,
+            ],
+          ]
+        }
+      >
+        Text
+      </Text>
+    </View>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#818181",
+          },
+          undefined,
+          Object {
+            "paddingTop": 2,
+          },
+        ]
+      }
+    />
+  </View>
+</View>
+`;

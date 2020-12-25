@@ -36,7 +36,6 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
         style={[
           styles.mainView,
           {
-            // paddingHorizontal: theme.spacing * 5,
             paddingVertical: theme.spacing * 2.5,
             backgroundColor: theme.palette.background,
           },
@@ -65,7 +64,6 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
               {
                 backgroundColor: theme.palette.backgroundSecondary,
                 paddingHorizontal: theme.spacing * 5,
-                // paddingVertical: theme.spacing,
                 padding: theme.spacing * 3,
               },
             ]}>
