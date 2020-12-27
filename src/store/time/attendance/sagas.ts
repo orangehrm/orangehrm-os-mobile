@@ -343,7 +343,6 @@ function* fetchAttendanceConfiguration(
       prepare(API_ENDPOINT_ATTENDANCE_CONFIGURATION),
     );
     if (response.data) {
-      console.log(response.data.startDate);
       yield put(fetchAttendanceConfigurationFinished(response.data));
     } else {
       yield showSnackMessage(

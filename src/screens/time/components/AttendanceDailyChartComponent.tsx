@@ -121,7 +121,7 @@ const AttendanceDailyChartComponent = (
               padding: theme.spacing * 1.5,
             },
           }}
-          tickFormat={['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']}
+          tickFormat={getWeekdayOrder(props.weekStartDayIndex, 'dd')}
         />
         <VictoryAxis
           style={{
