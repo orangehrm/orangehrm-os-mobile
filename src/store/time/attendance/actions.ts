@@ -132,7 +132,7 @@ export const fetchAttendanceConfigurationFinished = (
   error,
 });
 
-export const fetchEmployeeAttendance = (
+export const fetchEmployeeAttendanceList = (
   payload: $PropertyType<FetchEmployeeAttendanceListAction, 'payload'>,
 ): FetchEmployeeAttendanceListAction => ({
   type: FETCH_EMPLOYEE_ATTENDANCE_LIST,

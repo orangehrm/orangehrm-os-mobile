@@ -309,7 +309,7 @@ export interface FetchAttendanceConfigurationAction {
 
 export interface FetchAttendanceConfigurationFinishedAction {
   type: typeof FETCH_ATTENDANCE_CONFIGURATION_FINISHED;
-  payload: AttendanceConfiguration;
+  payload?: AttendanceConfiguration;
   error: boolean;
 }
 
