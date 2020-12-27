@@ -29,6 +29,7 @@ import {
   fetchAttendanceRecords,
   fetchLeaveRecords,
   fetchAttendanceGraphRecords,
+  fetchAttendanceConfiguration,
 } from 'store/time/attendance/actions';
 import {
   AttendanceRequest,
@@ -39,11 +40,15 @@ import {
   LeaveTypeGraphData,
   EMPLOYEE_ATTENDANCE,
   MY_ATTENDANCE,
+  AttendanceConfiguration,
 } from 'store/time/attendance/types';
 import {
   selectAttendanceRecords,
   selectLeaveRecords,
   selectAttendanceGraphRecords,
+  selectAttendanceConfiguration,
+  selectStartDay,
+  selectEndDay,
 } from 'store/time/attendance/selectors';
 import AttendanceDailyChartComponent from 'screens/time/components/AttendanceDailyChartComponent';
 import AttendanceSummaryWorkLeaveDurationsCardComponent from 'screens/time/components/AttendanceSummaryWorkLeaveDurationsCardComponent';
@@ -56,6 +61,7 @@ import {
   getDurationFromHours,
   calculateDateOfMonth,
   getWeekDayFromIndex,
+  getWeekdayOrder,
 } from 'lib/helpers/attendance';
 import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
 import {selectCurrentRoute} from 'store/globals/selectors';
@@ -74,26 +80,29 @@ class AttendanceSummary extends React.Component<
 > {
   constructor(props: AttendanceSummaryProps) {
     super(props);
-    const startDayIndex = this.props.route.params
-      ? this.props.route.params.startDayIndex
-      : 0;
-    const endDayIndex = this.props.route.params
-      ? this.props.route.params.endDayIndex
-      : 6;
     this.state = {
-      startDayIndex: startDayIndex,
-      endDayIndex: endDayIndex,
-      weekStartDate: getWeekDayFromIndex(startDayIndex),
-      weekEndDate: getWeekDayFromIndex(endDayIndex),
+      startDayIndex: props.weekStartDay,
       singleLeaveTypeData: [],
-      dateOfMonth: calculateDateOfMonth(startDayIndex, endDayIndex),
       graphWorkData: startGraphWorkData,
       graphLeaveData: [],
     };
   }
 
+  getWeekEndDayIndex = (
+    weekStartDayIndex: number = this.state.startDayIndex,
+  ) => {
+    return weekStartDayIndex + 6;
+  };
+
+  getWeekStartDate = (weekStartDayIndex: number = this.state.startDayIndex) => {
+    return getWeekDayFromIndex(weekStartDayIndex);
+  };
+
+  getWeekEndDate = (weekStartDayIndex: number = this.state.startDayIndex) => {
+    return getWeekDayFromIndex(this.getWeekEndDayIndex(weekStartDayIndex));
+  };
   componentDidMount() {
-    this.fetchData(this.state.weekStartDate, this.state.weekEndDate);
+    this.props.fetchAttendanceConfiguration();
   }
 
   onPressDetails = (selectedDate?: moment.Moment) => {
@@ -114,6 +123,25 @@ class AttendanceSummary extends React.Component<
 
   componentDidUpdate = (prevProps: AttendanceSummaryProps) => {
     if (
+      this.props.attendanceConfiguration !== prevProps.attendanceConfiguration
+    ) {
+      const configuredWeekStartDay = this.props.weekStartDay;
+      const startDayIndex = this.props.route.params
+        ? this.props.route.params.startDayIndex
+        : configuredWeekStartDay;
+      const endDayIndex = this.props.route.params
+        ? this.props.route.params.endDayIndex
+        : configuredWeekStartDay + 6;
+      this.setState(
+        {
+          startDayIndex: startDayIndex,
+        },
+        () => {
+          this.fetchData(this.getWeekStartDate(), this.getWeekEndDate());
+        },
+      );
+    }
+    if (
       this.props.graphRecords !== prevProps.graphRecords &&
       this.props.graphRecords
     ) {
@@ -123,8 +151,14 @@ class AttendanceSummary extends React.Component<
       const cardRresult = this.calculateDetailsCardTotalLeaveTypesData(
         this.props.graphRecords?.totalLeaveTypeHours,
       );
-      const leaveResult = calculateGraphData(this.props.graphRecords);
-      const workResult = calculateWorkData(this.props.graphRecords);
+      const leaveResult = calculateGraphData(
+        this.props.graphRecords,
+        this.state.startDayIndex,
+      );
+      const workResult = calculateWorkData(
+        this.props.graphRecords,
+        this.state.startDayIndex,
+      );
       /* eslint-disable react/no-did-update-set-state */
       this.setState({
         graphLeaveData: leaveResult,
@@ -183,47 +217,41 @@ class AttendanceSummary extends React.Component<
 
   goLeft = () => {
     const countStart = this.state.startDayIndex - 7;
-    const countEnd = this.state.endDayIndex - 7;
-
     this.setState(
       {
         startDayIndex: countStart,
-        endDayIndex: countEnd,
-        weekStartDate: getWeekDayFromIndex(countStart),
-        weekEndDate: getWeekDayFromIndex(countEnd),
-        dateOfMonth: calculateDateOfMonth(countStart, countEnd),
         graphWorkData: startGraphWorkData,
         graphLeaveData: [],
+        singleLeaveTypeData: [],
       },
       () => {
-        this.fetchData(this.state.weekStartDate, this.state.weekEndDate);
+        this.fetchData(this.getWeekStartDate(), this.getWeekEndDate());
       },
     );
   };
 
   goRight = () => {
     const countStart = this.state.startDayIndex + 7;
-    const countEnd = this.state.endDayIndex + 7;
-    if (countStart <= 1) {
+    if (
+      this.props.weekStartDay !== undefined &&
+      countStart <= this.props.weekStartDay
+    ) {
       this.setState(
         {
           startDayIndex: countStart,
-          endDayIndex: countEnd,
-          weekStartDate: getWeekDayFromIndex(countStart),
-          weekEndDate: getWeekDayFromIndex(countEnd),
-          dateOfMonth: calculateDateOfMonth(countStart, countEnd),
           graphWorkData: startGraphWorkData,
           graphLeaveData: [],
+          singleLeaveTypeData: [],
         },
         () => {
-          this.fetchData(this.state.weekStartDate, this.state.weekEndDate);
+          this.fetchData(this.getWeekStartDate(), this.getWeekEndDate());
         },
       );
     }
   };
 
   onRefresh = () => {
-    this.fetchData(this.state.weekStartDate, this.state.weekEndDate);
+    this.fetchData(this.getWeekStartDate(), this.getWeekEndDate());
   };
 
   onPressBar = (selectedDay: ShortDay) => {
@@ -241,7 +269,7 @@ class AttendanceSummary extends React.Component<
   };
 
   render() {
-    const {theme, graphRecords} = this.props;
+    const {theme, graphRecords, weekStartDay, weekEndDay} = this.props;
     const empNumber = this.props.route.params
       ? this.props.route.params.employeeAttendance?.employeeId
       : undefined;
@@ -251,6 +279,14 @@ class AttendanceSummary extends React.Component<
     const employeeJobTitle = this.props.route.params
       ? this.props.route.params.employeeAttendance?.jobTitle
       : undefined;
+
+    const dateOfMonth = calculateDateOfMonth(
+      this.state.startDayIndex,
+      this.getWeekEndDayIndex(),
+    );
+    const weekEndDayIndex = this.getWeekEndDayIndex();
+    const weekStartDate = this.getWeekStartDate();
+    const weekEndDate = this.getWeekEndDate();
     return (
       <MainLayout
         onRefresh={this.onRefresh}
@@ -258,10 +294,10 @@ class AttendanceSummary extends React.Component<
           <View style={[{backgroundColor: theme.palette.backgroundSecondary}]}>
             <View>
               <DatePeriodComponent
-                startDate={this.state.weekStartDate}
-                endDate={this.state.weekEndDate}
+                startDate={weekStartDate}
+                endDate={weekEndDate}
                 leftActive={true}
-                rightActive={this.state.startDayIndex !== 0}
+                rightActive={this.state.startDayIndex !== weekStartDay}
                 onPressLeft={this.goLeft}
                 onPressRight={this.goRight}
               />
@@ -291,8 +327,9 @@ class AttendanceSummary extends React.Component<
           <AttendanceDailyChartComponent
             graphLeaveData={this.state.graphLeaveData}
             graphWorkData={this.state.graphWorkData}
-            dateOfMonth={this.state.dateOfMonth}
+            dateOfMonth={dateOfMonth}
             onPressBar={this.onPressBar}
+            weekStartDayIndex={this.props.weekStartDay}
           />
         </View>
       </MainLayout>
@@ -327,10 +364,6 @@ interface AttendanceSummaryProps
 
 interface AttendanceSummaryState {
   startDayIndex: number;
-  endDayIndex: number;
-  weekStartDate: moment.Moment;
-  weekEndDate: moment.Moment;
-  dateOfMonth: string[];
   singleLeaveTypeData: GraphLeaveType[];
   graphLeaveData: LeaveTypeGraphData[];
   graphWorkData: GraphDataPoint[];
@@ -343,12 +376,16 @@ const mapStateToProps = (state: RootState) => ({
   leaveRecords: selectLeaveRecords(state),
   graphRecords: selectAttendanceGraphRecords(state),
   currentRoute: selectCurrentRoute(state),
+  attendanceConfiguration: selectAttendanceConfiguration(state),
+  weekStartDay: selectStartDay(state),
+  weekEndDay: selectEndDay(state),
 });
 
 const mapDispatchToProps = {
   fetchAttendanceRecords,
   fetchLeaveRecords,
   fetchAttendanceGraphRecords,
+  fetchAttendanceConfiguration,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

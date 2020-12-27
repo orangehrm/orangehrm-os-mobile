@@ -107,7 +107,7 @@ export interface AttendanceObject {
   state: string;
 }
 
-export interface MyAttendanceState {
+export interface AttendanceState {
   attendanceObjects?: AttendanceObject[];
   leaveObjects?: LeaveObject[];
   graphObject?: GraphRecordsObject;
@@ -119,6 +119,7 @@ export interface MyAttendanceState {
   employeeList?: SingleEmployeeAttendance[];
   subordinates?: EmployeeObject[];
   selectedSubordinate?: EmployeeObject;
+  attendanceConfiguration: AttendanceConfiguration;
 }
 
 export interface SingleLeave {
@@ -194,6 +195,11 @@ export const FETCH_SUBORDINATES_FINISHED =
   'ATTENDANCE_FETCH_SUBORDINATES_FINISHED';
 export const PICK_SUBORDINATE = 'ATTENDANCE_PICK_SUBORDINATE';
 
+export const FETCH_ATTENDANCE_CONFIGURATION =
+  'ATTENDANCE_ATTENDANCE_CONFIGURATION';
+export const FETCH_ATTENDANCE_CONFIGURATION_FINISHED =
+  'ATTENDANCE_ATTENDANCE_CONFIGURATION_FINISHED';
+
 export interface FetchAttendanceRecordsAction {
   type: typeof FETCH_ATTENDANCE_RECORDS;
   payload: AttendanceRequest;
@@ -260,6 +266,10 @@ export interface SingleEmployeeAttendance {
   duration: string;
 }
 
+export interface AttendanceConfiguration {
+  startDate: number;
+}
+
 export interface EmployeeAttendanceListRequest {
   fromDate: string;
   toDate: string;
@@ -293,6 +303,16 @@ export interface PickSubordinateAction {
   subordinate?: EmployeeObject;
 }
 
+export interface FetchAttendanceConfigurationAction {
+  type: typeof FETCH_ATTENDANCE_CONFIGURATION;
+}
+
+export interface FetchAttendanceConfigurationFinishedAction {
+  type: typeof FETCH_ATTENDANCE_CONFIGURATION_FINISHED;
+  payload: AttendanceConfiguration;
+  error: boolean;
+}
+
 export type AttendanceActionTypes =
   | FetchAttendanceRecordsAction
   | FetchAttendanceRecordsFinishedAction
@@ -308,4 +328,6 @@ export type AttendanceActionTypes =
   | FetchEmployeeAttendanceListFinishedAction
   | FetchSubordinatesAction
   | FetchSubordinatesFinishedAction
-  | PickSubordinateAction;
+  | PickSubordinateAction
+  | FetchAttendanceConfigurationAction
+  | FetchAttendanceConfigurationFinishedAction;
