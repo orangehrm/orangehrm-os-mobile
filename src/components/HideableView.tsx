@@ -18,16 +18,16 @@
  *
  */
 
-import {select} from 'redux-saga/effects';
-import {
-  selectEnabledModules as enabledModulesSelector,
-  selectMyInfo as selectMyInfoSelector,
-} from 'store/auth/selectors';
+import React from 'react';
+import {View, ViewProps} from 'react-native';
 
-export const selectEnabledModules = () => {
-  return select(enabledModulesSelector);
+const HideableView = (props: React.PropsWithChildren<HideableViewProps>) => {
+  const {isVisible = true, ...restProps} = props;
+  return <>{isVisible ? <View {...restProps} /> : null}</>;
 };
 
-export const selectMyInfo = () => {
-  return select(selectMyInfoSelector);
-};
+interface HideableViewProps extends ViewProps {
+  isVisible?: boolean;
+}
+
+export default HideableView;

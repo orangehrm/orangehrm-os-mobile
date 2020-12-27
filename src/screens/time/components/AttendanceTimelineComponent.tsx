@@ -237,11 +237,13 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                                 fontSize={theme.spacing * 5}
                               />
                               <Text
-                                style={{
-                                  paddingLeft: theme.spacing * 2.5,
-                                  marginRight: theme.spacing * 15,
-                                  // textAlign: 'justify',
-                                }}>
+                                style={[
+                                  styles.justify,
+                                  {
+                                    paddingLeft: theme.spacing * 2.5,
+                                    marginRight: theme.spacing * 15,
+                                  },
+                                ]}>
                                 {attendanceRecord.punchOutNote}
                               </Text>
                             </View>
@@ -359,8 +361,6 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                     </View>
                   </View>
                 </View>
-
-                {/* <Divider /> */}
               </View>
               <View style={{marginTop: theme.spacing * 4}}>
                 <Divider />
@@ -392,7 +392,9 @@ const styles = StyleSheet.create({
   flexThree: {
     flex: 3,
   },
-
+  justify: {
+    textAlign: 'justify',
+  },
   rowFlexDirection: {
     flexDirection: 'row',
   },

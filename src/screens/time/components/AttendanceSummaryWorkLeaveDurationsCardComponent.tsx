@@ -31,7 +31,7 @@ import {
   Mode,
   EMPLOYEE_ATTENDANCE,
 } from 'store/time/attendance/types';
-import FlatButton from 'screens/leave/components/FlatButton';
+import FlatButton from 'components/FlatButton';
 import {NullableString} from 'store/leave/leave-usage/types';
 import Card from 'components/DefaultCard';
 
@@ -131,7 +131,6 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                   style={{
                     fontSize: theme.typography.fontSize,
                     color: theme.palette.secondary,
-                    // paddingLeft: theme.spacing,
                   }}
                   bold>
                   {'  Hours'}

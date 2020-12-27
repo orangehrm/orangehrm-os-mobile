@@ -63,7 +63,7 @@ const PunchInOutDateTimeCard = (props: PunchInOutDateTimeCardProps) => {
                 styles.rowFlexDirection,
                 styles.justifyContentCenter,
                 {
-                  marginTop: theme.spacing * 0.25,
+                  paddingTop: theme.spacing * 4,
                 },
               ]}>
               <FormattedDate
@@ -75,31 +75,32 @@ const PunchInOutDateTimeCard = (props: PunchInOutDateTimeCardProps) => {
               </FormattedDate>
             </View>
             <View
-              style={[styles.rowFlexDirection, styles.justifyContentCenter]}>
+              style={[
+                styles.rowFlexDirection,
+                styles.justifyContentCenter,
+                {paddingBottom: theme.spacing * 6},
+              ]}>
               <Text
-                style={[
-                  styles.textBold,
-                  {
-                    color: theme.typography.primaryColor,
-                    fontSize: theme.spacing * 10,
-                  },
-                ]}>
+                bold
+                style={{
+                  color: theme.typography.primaryColor,
+                  fontSize: theme.typography.headerFontSize * 2,
+                }}>
                 {timeDisplay.substring(0, timeDisplay.length - 2)}
               </Text>
-              <Text
-                style={[
-                  styles.textBold,
-                  {
+              <View style={styles.amPmTextView}>
+                <Text
+                  bold
+                  style={{
                     color: theme.typography.primaryColor,
-                    fontSize: theme.spacing * 3,
-                    marginTop: theme.spacing * 6.25,
-                    marginBottom: theme.spacing * 2.5,
-                  },
-                ]}>
-                {timeDisplay
-                  .substring(timeDisplay.length - 2, timeDisplay.length)
-                  .toUpperCase()}
-              </Text>
+                    fontSize: theme.typography.subHeaderFontSize,
+                    marginBottom: theme.spacing,
+                  }}>
+                  {timeDisplay
+                    .substring(timeDisplay.length - 2, timeDisplay.length)
+                    .toUpperCase()}
+                </Text>
+              </View>
             </View>
           </CardContent>
         </Card>
@@ -134,8 +135,9 @@ const styles = StyleSheet.create({
   rowFlexDirection: {
     flexDirection: 'row',
   },
-  textBold: {
-    fontWeight: 'bold',
+  amPmTextView: {
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
 });
 

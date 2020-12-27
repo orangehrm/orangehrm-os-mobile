@@ -49,6 +49,8 @@ import {
   HTTP_NOT_FOUND,
 } from 'services/api';
 import {TYPE_ERROR} from 'store/globals/types';
+import {selectMyInfo} from 'store/saga-effects/auth';
+import {MyInfo, USER_ROLE_ADMIN} from 'store/auth/types';
 
 function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
   try {
@@ -253,6 +255,7 @@ function* fetchEmployeeAttendanceList(
 ) {
   try {
     yield openLoader();
+    const myInfo: MyInfo = yield selectMyInfo();
     const response = yield apiCall(
       apiGetCall,
       prepare(
@@ -268,6 +271,7 @@ function* fetchEmployeeAttendanceList(
             empNumber: action.payload.pastEmployee,
           }),
           all: true,
+          includeSelf: myInfo.user.userRole === USER_ROLE_ADMIN,
         },
       ),
     );

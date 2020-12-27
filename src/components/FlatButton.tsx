@@ -22,7 +22,7 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Text from 'components/DefaultText';
-import CardButton, {CardButtonProps} from 'screens/leave/components/CardButton';
+import CardButton, {CardButtonProps} from 'components/CardButton';
 import Icon from 'components/DefaultIcon';
 
 const FlatButton = (props: FlatButtonProps) => {

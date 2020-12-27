@@ -22,7 +22,7 @@ import React from 'react';
 import {StyleSheet, View, ViewProps} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Text from 'components/DefaultText';
-import CardButton from 'screens/leave/components/CardButton';
+import CardButton from 'components/CardButton';
 import Icon from 'components/DefaultIcon';
 import {MY_LEAVE} from 'screens';
 import {navigate} from 'lib/helpers/navigation';

@@ -29,7 +29,7 @@ import {
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Text from 'components/DefaultText';
-import FlatButton from 'screens/leave/components/FlatButton';
+import FlatButton from 'components/FlatButton';
 import {Subordinate} from 'store/leave/assign-leave/types';
 import {navigate} from 'lib/helpers/navigation';
 import {PICK_EMPLOYEE} from 'screens';
@@ -87,10 +87,9 @@ class PickSubordinate extends React.Component<
   };
 
   onFocus = () => {
-    const {subordinates, onRefreshSubordinate} = this.props;
+    const {onRefreshSubordinate} = this.props;
     const {textValue} = this.state;
     navigate<PickEmployeeParams>(PICK_EMPLOYEE, {
-      employees: subordinates,
       textValue,
       setTextValue: (text) => {
         this.setState({textValue: text});
