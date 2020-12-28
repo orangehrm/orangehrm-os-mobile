@@ -61,8 +61,8 @@ function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
         API_ENDPOINT_ATTENDANCE,
         {},
         {
-          fromDate: action.payload.fromDate,
-          toDate: action.payload.toDate,
+          fromDate: action.payload.fromDate + ' 00:00:00',
+          toDate: action.payload.toDate + ' 23:59:59',
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
@@ -262,8 +262,8 @@ function* fetchEmployeeAttendanceList(
         API_ENDPOINT_ATTENDANCE_LIST,
         {},
         {
-          fromDate: action.payload.fromDate,
-          toDate: action.payload.toDate,
+          fromDate: action.payload.fromDate + ' 00:00:00',
+          toDate: action.payload.toDate + ' 23:59:59',
           ...(action.payload.empNumber !== undefined && {
             empNumber: action.payload.empNumber,
           }),

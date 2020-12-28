@@ -29,6 +29,8 @@ import {fetchEmployeeAttendanceList} from 'store/time/attendance/actions';
 import {
   selectEmployeeAttendanceList,
   selectPickedSubordinate,
+  selectStartDay,
+  selectEndDay,
 } from 'store/time/attendance/selectors';
 import moment from 'moment';
 import Text from 'components/DefaultText';
@@ -53,12 +55,23 @@ class AttendanceList extends React.Component<
     super(props);
     this.state = {
       selectedDate: undefined,
-      startDayIndex: 0,
-      endDayIndex: 6,
-      weekStartDate: getWeekDayFromIndex(0),
-      weekEndDate: getWeekDayFromIndex(6),
+      startDayIndex: this.props.weekStartDay,
     };
   }
+
+  getWeekEndDayIndex = (
+    weekStartDayIndex: number = this.state.startDayIndex,
+  ) => {
+    return weekStartDayIndex + 6;
+  };
+
+  getWeekStartDate = (weekStartDayIndex: number = this.state.startDayIndex) => {
+    return getWeekDayFromIndex(weekStartDayIndex);
+  };
+
+  getWeekEndDate = (weekStartDayIndex: number = this.state.startDayIndex) => {
+    return getWeekDayFromIndex(this.getWeekEndDayIndex(weekStartDayIndex));
+  };
 
   componentDidMount() {
     this.onRefresh();
@@ -68,16 +81,27 @@ class AttendanceList extends React.Component<
     if (prevProps.pickedSubordinate !== this.props.pickedSubordinate) {
       this.onRefresh();
     }
+    if (this.props.weekStartDay !== prevProps.weekStartDay) {
+      const configuredWeekStartDay = this.props.weekStartDay;
+      this.setState(
+        {
+          startDayIndex: configuredWeekStartDay,
+        },
+        () => {
+          this.onRefresh();
+        },
+      );
+    }
   }
 
   onRefresh = () => {
     this.props.fetchEmployeeAttendanceList({
       fromDate: convertDateObjectToStringFormat(
-        this.state.weekStartDate,
+        this.getWeekStartDate(),
         'YYYY-MM-DD',
       ),
       toDate: convertDateObjectToStringFormat(
-        this.state.weekEndDate,
+        this.getWeekEndDate(),
         'YYYY-MM-DD',
       ),
       ...(this.props.pickedSubordinate !== undefined && {
@@ -96,29 +120,25 @@ class AttendanceList extends React.Component<
     navigate<AttendanceSummaryScreenParams>(EMPLOYEE_ATTENDANCE_SUMMARY, {
       employeeAttendance: item,
       startDayIndex: this.state.startDayIndex,
-      endDayIndex: this.state.endDayIndex,
+      endDayIndex: this.getWeekEndDayIndex(),
     });
   };
 
   goLeft = () => {
     const countStart = this.state.startDayIndex - 7;
-    const countEnd = this.state.endDayIndex - 7;
 
     this.setState(
       {
         startDayIndex: countStart,
-        endDayIndex: countEnd,
-        weekStartDate: getWeekDayFromIndex(countStart),
-        weekEndDate: getWeekDayFromIndex(countEnd),
       },
       () => {
         this.props.fetchEmployeeAttendanceList({
           fromDate: convertDateObjectToStringFormat(
-            this.state.weekStartDate,
+            this.getWeekStartDate(),
             'YYYY-MM-DD',
           ),
           toDate: convertDateObjectToStringFormat(
-            this.state.weekEndDate,
+            this.getWeekEndDate(),
             'YYYY-MM-DD',
           ),
           ...(this.props.pickedSubordinate !== undefined && {
@@ -131,23 +151,19 @@ class AttendanceList extends React.Component<
 
   goRight = () => {
     const countStart = this.state.startDayIndex + 7;
-    const countEnd = this.state.endDayIndex + 7;
-    if (countStart <= 1) {
+    if (countStart <= this.props.weekStartDay) {
       this.setState(
         {
           startDayIndex: countStart,
-          endDayIndex: countEnd,
-          weekStartDate: getWeekDayFromIndex(countStart),
-          weekEndDate: getWeekDayFromIndex(countEnd),
         },
         () => {
           this.props.fetchEmployeeAttendanceList({
             fromDate: convertDateObjectToStringFormat(
-              this.state.weekStartDate,
+              this.getWeekStartDate(),
               'YYYY-MM-DD',
             ),
             toDate: convertDateObjectToStringFormat(
-              this.state.weekEndDate,
+              this.getWeekEndDate(),
               'YYYY-MM-DD',
             ),
             ...(this.props.pickedSubordinate !== undefined && {
@@ -160,7 +176,7 @@ class AttendanceList extends React.Component<
   };
 
   render() {
-    const {theme, employeeList} = this.props;
+    const {theme, employeeList, weekStartDay} = this.props;
     return (
       <SafeAreaLayout>
         <View
@@ -169,10 +185,10 @@ class AttendanceList extends React.Component<
             paddingBottom: theme.spacing * 2,
           }}>
           <DatePeriodComponent
-            startDate={this.state.weekStartDate}
-            endDate={this.state.weekEndDate}
+            startDate={this.getWeekStartDate()}
+            endDate={this.getWeekEndDate()}
             leftActive={true}
-            rightActive={this.state.startDayIndex !== 0}
+            rightActive={this.state.startDayIndex !== weekStartDay}
             onPressLeft={this.goLeft}
             onPressRight={this.goRight}
           />
@@ -253,14 +269,13 @@ interface AttendanceListProps
 interface AttendanceListState {
   selectedDate?: moment.Moment;
   startDayIndex: number;
-  endDayIndex: number;
-  weekStartDate: moment.Moment;
-  weekEndDate: moment.Moment;
 }
 
 const mapStateToProps = (state: RootState) => ({
   employeeList: selectEmployeeAttendanceList(state),
   pickedSubordinate: selectPickedSubordinate(state),
+  weekStartDay: selectStartDay(state),
+  weekEndDay: selectEndDay(state),
 });
 
 const mapDispatchToProps = {
