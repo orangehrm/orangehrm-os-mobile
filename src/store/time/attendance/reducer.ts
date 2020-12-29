@@ -1,4 +1,5 @@
 import {
+  DEFAULT_START_DAY,
   FETCH_ATTENDANCE_RECORDS,
   FETCH_ATTENDANCE_RECORDS_FINISHED,
   FETCH_LEAVE_RECORDS,
@@ -15,12 +16,11 @@ import {
   PICK_SUBORDINATE,
   AttendanceState,
   AttendanceActionTypes,
-  AttendanceConfiguration,
 } from './types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
 const initialState: AttendanceState = {
-  attendanceConfiguration: {startDate: 1},
+  attendanceConfiguration: {startDate: DEFAULT_START_DAY},
 };
 
 const myAttendanceReducer = (

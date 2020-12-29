@@ -21,6 +21,8 @@
 import {LeaveStatus} from 'store/leave/leave-usage/types';
 import {WorkWeek, Holiday} from 'store/leave/common-screens/types';
 
+export const DEFAULT_START_DAY = 1;
+
 export interface DaySelectorSingleDay {
   date: moment.Moment;
   duration: string;
@@ -309,7 +311,7 @@ export interface FetchAttendanceConfigurationAction {
 
 export interface FetchAttendanceConfigurationFinishedAction {
   type: typeof FETCH_ATTENDANCE_CONFIGURATION_FINISHED;
-  payload?: AttendanceConfiguration;
+  payload: AttendanceConfiguration;
   error: boolean;
 }
 

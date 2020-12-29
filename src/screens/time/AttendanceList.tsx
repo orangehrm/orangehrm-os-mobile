@@ -25,12 +25,16 @@ import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import Divider from 'components/DefaultDivider';
-import {fetchEmployeeAttendanceList} from 'store/time/attendance/actions';
+import {
+  fetchEmployeeAttendanceList,
+  fetchAttendanceConfiguration,
+} from 'store/time/attendance/actions';
 import {
   selectEmployeeAttendanceList,
   selectPickedSubordinate,
   selectStartDay,
   selectEndDay,
+  selectAttendanceConfiguration,
 } from 'store/time/attendance/selectors';
 import moment from 'moment';
 import Text from 'components/DefaultText';
@@ -56,6 +60,8 @@ class AttendanceList extends React.Component<
     this.state = {
       selectedDate: undefined,
       startDayIndex: this.props.weekStartDay,
+      configFetched: false,
+      listFetched: false,
     };
   }
 
@@ -74,23 +80,32 @@ class AttendanceList extends React.Component<
   };
 
   componentDidMount() {
-    this.onRefresh();
+    this.props.fetchAttendanceConfiguration();
   }
 
   componentDidUpdate(prevProps: AttendanceListProps) {
     if (prevProps.pickedSubordinate !== this.props.pickedSubordinate) {
       this.onRefresh();
     }
-    if (this.props.weekStartDay !== prevProps.weekStartDay) {
-      const configuredWeekStartDay = this.props.weekStartDay;
-      this.setState(
-        {
-          startDayIndex: configuredWeekStartDay,
-        },
-        () => {
-          this.onRefresh();
-        },
-      );
+
+    if (this.state.configFetched && !this.state.listFetched) {
+      /* eslint-disable react/no-did-update-set-state */
+      this.setState({listFetched: true}, () => {
+        this.onRefresh();
+      });
+      /* eslint-enable react/no-did-update-set-state */
+    }
+
+    if (
+      this.props.attendanceConfiguration !== prevProps.attendanceConfiguration
+    ) {
+      // Update state when attendance configuration fetched
+      /* eslint-disable react/no-did-update-set-state */
+      this.setState({
+        configFetched: true,
+        startDayIndex: this.props.weekStartDay,
+      });
+      /* eslint-enable react/no-did-update-set-state */
     }
   }
 
@@ -269,6 +284,8 @@ interface AttendanceListProps
 interface AttendanceListState {
   selectedDate?: moment.Moment;
   startDayIndex: number;
+  configFetched: boolean;
+  listFetched: boolean;
 }
 
 const mapStateToProps = (state: RootState) => ({
@@ -276,10 +293,12 @@ const mapStateToProps = (state: RootState) => ({
   pickedSubordinate: selectPickedSubordinate(state),
   weekStartDay: selectStartDay(state),
   weekEndDay: selectEndDay(state),
+  attendanceConfiguration: selectAttendanceConfiguration(state),
 });
 
 const mapDispatchToProps = {
   fetchEmployeeAttendanceList,
+  fetchAttendanceConfiguration,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

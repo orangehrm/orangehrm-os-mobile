@@ -124,7 +124,7 @@ export const fetchAttendanceConfiguration = (): FetchAttendanceConfigurationActi
 });
 
 export const fetchAttendanceConfigurationFinished = (
-  payload?: AttendanceConfiguration,
+  payload: AttendanceConfiguration,
   error: boolean = false,
 ): FetchAttendanceConfigurationFinishedAction => ({
   type: FETCH_ATTENDANCE_CONFIGURATION_FINISHED,

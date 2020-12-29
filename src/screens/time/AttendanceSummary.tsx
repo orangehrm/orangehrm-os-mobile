@@ -40,7 +40,6 @@ import {
   LeaveTypeGraphData,
   EMPLOYEE_ATTENDANCE,
   MY_ATTENDANCE,
-  AttendanceConfiguration,
 } from 'store/time/attendance/types';
 import {
   selectAttendanceRecords,
@@ -85,6 +84,8 @@ class AttendanceSummary extends React.Component<
       singleLeaveTypeData: [],
       graphWorkData: startGraphWorkData,
       graphLeaveData: [],
+      configFetched: false,
+      resetted: true,
     };
   }
 
@@ -101,6 +102,7 @@ class AttendanceSummary extends React.Component<
   getWeekEndDate = (weekStartDayIndex: number = this.state.startDayIndex) => {
     return getWeekDayFromIndex(this.getWeekEndDayIndex(weekStartDayIndex));
   };
+
   componentDidMount() {
     this.props.fetchAttendanceConfiguration();
   }
@@ -122,25 +124,46 @@ class AttendanceSummary extends React.Component<
   };
 
   componentDidUpdate = (prevProps: AttendanceSummaryProps) => {
+    const {currentRoute, route, weekStartDay} = this.props;
+    // Since this screen using both `MyAttendanceSummary` and `EmployeeAttendanceSummary` screens,
+    // Have to check current route to identify instance
+    if (currentRoute === route.name) {
+      if (this.state.configFetched && this.state.resetted) {
+        // This block only call once config fetching finished
+        // Or screen changed to somewhere except attendance details screen
+
+        const startDayIndex = route.params
+          ? route.params.startDayIndex
+          : weekStartDay;
+
+        /* eslint-disable react/no-did-update-set-state */
+        this.setState({startDayIndex: startDayIndex, resetted: false}, () => {
+          this.fetchData(this.getWeekStartDate(), this.getWeekEndDate());
+        });
+        /* eslint-enable react/no-did-update-set-state */
+      }
+    } else if (
+      !this.state.resetted &&
+      !(
+        currentRoute === ATTENDANCE_DETAILS ||
+        currentRoute === EMPLOYEE_ATTENDANCE_DETAILS
+      )
+    ) {
+      // Move away from current screen
+      /* eslint-disable react/no-did-update-set-state */
+      this.setState({resetted: true});
+      /* eslint-enable react/no-did-update-set-state */
+    }
+
     if (
       this.props.attendanceConfiguration !== prevProps.attendanceConfiguration
     ) {
-      const configuredWeekStartDay = this.props.weekStartDay;
-      const startDayIndex = this.props.route.params
-        ? this.props.route.params.startDayIndex
-        : configuredWeekStartDay;
-      const endDayIndex = this.props.route.params
-        ? this.props.route.params.endDayIndex
-        : configuredWeekStartDay + 6;
-      this.setState(
-        {
-          startDayIndex: startDayIndex,
-        },
-        () => {
-          this.fetchData(this.getWeekStartDate(), this.getWeekEndDate());
-        },
-      );
+      // Update state when attendance configuration fetched
+      /* eslint-disable react/no-did-update-set-state */
+      this.setState({configFetched: true});
+      /* eslint-enable react/no-did-update-set-state */
     }
+
     if (
       this.props.graphRecords !== prevProps.graphRecords &&
       this.props.graphRecords
@@ -371,6 +394,8 @@ interface AttendanceSummaryState {
   graphWorkData: GraphDataPoint[];
   employeeName?: string;
   empNumber?: string;
+  configFetched: boolean;
+  resetted: boolean;
 }
 
 const mapStateToProps = (state: RootState) => ({
