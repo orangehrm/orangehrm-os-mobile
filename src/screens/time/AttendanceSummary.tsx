@@ -310,8 +310,6 @@ class AttendanceSummary extends React.Component<
     const weekEndDayIndex = this.getWeekEndDayIndex();
     const weekStartDate = this.getWeekStartDate();
     const weekEndDate = this.getWeekEndDate();
-    // console.log(this.state.startDayIndex);
-    console.log(this.props.weekStartDay);
     return (
       <MainLayout
         onRefresh={this.onRefresh}
