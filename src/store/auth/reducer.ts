@@ -78,6 +78,7 @@ const authReducer = (
       return {
         ...state,
         myInfoFailed: action.state,
+        myInfoError: action.error,
       };
     case LOGOUT:
       return {

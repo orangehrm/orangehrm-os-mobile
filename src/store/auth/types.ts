@@ -32,6 +32,7 @@ export interface AuthState {
   instanceExists?: boolean;
   enabledModules?: EnabledModules;
   myInfoFailed?: boolean;
+  myInfoError?: ErrorResponse;
 }
 
 export const FETCH_TOKEN = 'AUTH_FETCH_TOKEN';
@@ -90,6 +91,7 @@ export interface FetchEnabledModulesFinishedAction {
 export interface MyInfoFailedAction {
   type: typeof MY_INFO_FAILED;
   state: $PropertyType<AuthState, 'myInfoFailed'>;
+  error?: ErrorResponse;
 }
 
 export interface FetchNewTokenFinishedAction {
@@ -119,6 +121,11 @@ export interface AuthSuccessResponse {
 export interface AuthErrorResponse {
   error: string;
   error_description: string;
+}
+
+export interface ErrorResponse {
+  error?: string;
+  code: number;
 }
 
 export type NullableString = string | null;

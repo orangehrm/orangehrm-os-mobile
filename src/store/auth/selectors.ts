@@ -72,3 +72,9 @@ export const selectMyInfoFailed = createSelector<
   AuthState,
   $PropertyType<AuthState, 'myInfoFailed'>
 >([selectAuth], (auth) => auth.myInfoFailed);
+
+export const selectMyInfoError = createSelector<
+  RootState,
+  AuthState,
+  $PropertyType<AuthState, 'myInfoError'>
+>([selectAuth], (auth) => auth.myInfoError);

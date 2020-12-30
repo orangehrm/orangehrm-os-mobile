@@ -77,7 +77,12 @@ import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams, ApiDetails} from 'store/storage/types';
 import {selectApiDetails} from 'store/storage/selectors';
 import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
-import {getMessageAlongWithGenericErrors, isJsonParseError} from 'services/api';
+import {
+  getMessageAlongWithGenericErrors,
+  isJsonParseError,
+  ERROR_NO_ASSIGNED_EMPLOYEE,
+  ERROR_JSON_PARSE,
+} from 'services/api';
 import {API_ENDPOINT_MY_INFO, prepare} from 'services/endpoints';
 import {AuthenticationError} from 'services/errors/authentication';
 import {InstanceCheckError} from 'services/errors/instance-check';
@@ -342,21 +347,36 @@ function* fetchMyInfo() {
     );
 
     if (rawResponse.ok) {
-      const response = yield call([rawResponse, rawResponse.json]);
-      if (response.data.employee) {
-        yield put(fetchMyInfoFinished(response.data));
-      } else {
-        yield put(myInfoFailed(true));
-        yield put(fetchMyInfoFinished(undefined, true));
+      try {
+        const response = yield call([rawResponse, rawResponse.json]);
+        if (response.data.employee) {
+          yield put(fetchMyInfoFinished(response.data));
+        } else {
+          // No employee assign to logged in user
+          yield put(
+            myInfoFailed(true, {
+              error: ERROR_NO_ASSIGNED_EMPLOYEE,
+              code: rawResponse.status,
+            }),
+          );
+          yield put(fetchMyInfoFinished(undefined, true));
+        }
+      } catch (error) {
+        if (isJsonParseError(error)) {
+          yield put(
+            myInfoFailed(true, {
+              error: ERROR_JSON_PARSE,
+              code: rawResponse.status,
+            }),
+          );
+        } else {
+          throw error;
+        }
       }
     } else {
-      // TODO:: Handle error codes using `rawResponse`
-      yield put(myInfoFailed(true));
+      yield put(myInfoFailed(true, {code: rawResponse.status}));
     }
   } catch (error) {
-    if (isJsonParseError(error)) {
-      yield put(myInfoFailed(true));
-    }
     if (error instanceof InstanceCheckError) {
       yield showSnackMessage(
         getMessageAlongWithGenericErrors(error, 'Failed to Check Instance.'),

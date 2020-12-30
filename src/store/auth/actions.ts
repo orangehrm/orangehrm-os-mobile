@@ -104,9 +104,11 @@ export const fetchEnabledModulesFinished = (
 
 export const myInfoFailed = (
   state: $PropertyType<MyInfoFailedAction, 'state'>,
+  error?: $PropertyType<MyInfoFailedAction, 'error'>,
 ): MyInfoFailedAction => ({
   type: MY_INFO_FAILED,
   state,
+  error,
 });
 
 export const fetchNewAuthTokenFinished = (): FetchNewTokenFinishedAction => ({
