@@ -11,7 +11,6 @@ import {
   FetchAttendanceGraphRecordsAction,
   FetchHolidaysAction,
   FetchEmployeeAttendanceListAction,
-  FetchAttendanceConfigurationAction,
   FETCH_ATTENDANCE_GRAPH_RECORDS,
   FETCH_LEAVE_RECORDS,
   FETCH_ATTENDANCE_RECORDS,
@@ -20,7 +19,6 @@ import {
   FETCH_EMPLOYEE_ATTENDANCE_LIST,
   FETCH_SUBORDINATES,
   FETCH_ATTENDANCE_CONFIGURATION,
-  FETCH_ATTENDANCE_CONFIGURATION_FINISHED,
 } from './types';
 import {
   fetchAttendanceRecordsFinished,
@@ -333,9 +331,7 @@ function* fetchAccessibleEmployees() {
   }
 }
 
-function* fetchAttendanceConfiguration(
-  action: FetchAttendanceConfigurationAction,
-) {
+function* fetchAttendanceConfiguration() {
   try {
     yield openLoader();
     const response = yield apiCall(

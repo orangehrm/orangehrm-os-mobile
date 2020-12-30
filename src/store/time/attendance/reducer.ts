@@ -98,11 +98,6 @@ const myAttendanceReducer = (
         ...state,
         subordinates: action.payload,
       };
-    case FETCH_ATTENDANCE_CONFIGURATION:
-      return {
-        ...state,
-        attendanceConfiguration: initialState.attendanceConfiguration,
-      };
     case FETCH_ATTENDANCE_CONFIGURATION_FINISHED:
       if (action.error) {
         return state;

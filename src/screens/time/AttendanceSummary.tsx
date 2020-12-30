@@ -60,7 +60,6 @@ import {
   getDurationFromHours,
   calculateDateOfMonth,
   getWeekDayFromIndex,
-  getWeekdayOrder,
 } from 'lib/helpers/attendance';
 import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
 import {selectCurrentRoute} from 'store/globals/selectors';
@@ -292,7 +291,7 @@ class AttendanceSummary extends React.Component<
   };
 
   render() {
-    const {theme, graphRecords, weekStartDay, weekEndDay} = this.props;
+    const {theme, graphRecords, weekStartDay} = this.props;
     const empNumber = this.props.route.params
       ? this.props.route.params.employeeAttendance?.employeeId
       : undefined;
@@ -307,7 +306,6 @@ class AttendanceSummary extends React.Component<
       this.state.startDayIndex,
       this.getWeekEndDayIndex(),
     );
-    const weekEndDayIndex = this.getWeekEndDayIndex();
     const weekStartDate = this.getWeekStartDate();
     const weekEndDate = this.getWeekEndDate();
     return (

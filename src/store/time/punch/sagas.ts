@@ -28,7 +28,6 @@ import {
   HTTP_SUCCESS,
 } from 'services/api';
 import {TYPE_ERROR} from 'store/globals/types';
-import {act} from 'react-test-renderer';
 
 function* savePunchInRequest(action: PunchInRequestAction) {
   try {
@@ -69,7 +68,6 @@ function* savePunchOutRequest(action: PunchOutRequestAction) {
       API_ENDPOINT_PUNCH_OUT_REQUEST,
       action.payload,
     );
-    console.log(JSON.stringify(action.payload));
     if (response.getResponse().status === HTTP_SUCCESS) {
       yield put(resetPunchState());
       navigate<PunchRequestSuccessParam>(PUNCH_REQUEST_SUCCESS, response);
