@@ -39,10 +39,6 @@ export const LEAVE_DETAILS = 'LeaveDetails';
 export const LEAVE_DAYS = 'LeaveDays';
 export const LEAVE_COMMENTS = 'LeaveComments';
 export const ASSIGN_LEAVE = 'AssignLeave';
-export const PUNCH = 'Punch';
-export const ATTENDANCE_SUMMARY = 'AttendanceSummary';
-export const ATTENDANCE_DETAILS = 'AttendanceDetails';
-export const ATTENDANCE_LIST = 'AttendanceList';
 export const ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR =
   'AssignLeavePickLeaveRequestDaysCalendar';
 export const ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DURATION =
@@ -57,6 +53,10 @@ export const PUNCH_REQUEST_SUCCESS = 'PunchRequestSuccess';
 export const EMPLOYEE_ATTENDANCE_SUMMARY = 'EmployeeAttendanceSummary';
 export const EMPLOYEE_ATTENDANCE_DETAILS = 'EmployeeAttendanceDetails';
 export const ATTENDANCE_PICK_EMPLOYEE = 'AttendancePickEmployee';
+export const PUNCH = 'Punch';
+export const ATTENDANCE_SUMMARY = 'AttendanceSummary';
+export const ATTENDANCE_DETAILS = 'AttendanceDetails';
+export const ATTENDANCE_LIST = 'AttendanceList';
 
 // info pages
 export const FULL_SCREEN_INFO = 'FullScreenInfo';

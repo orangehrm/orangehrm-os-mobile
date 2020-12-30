@@ -404,7 +404,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
                             marginHorizontal: theme.spacing * 2.5,
                             marginVertical: theme.spacing * 2.5,
                             padding: theme.spacing * 0.75,
-                            borderRadius: theme.spacing * 4,
+                            borderRadius: theme.borderRadius * 4,
                             backgroundColor: theme.palette.backgroundSecondary,
                           },
                         ]}>
@@ -419,21 +419,19 @@ class Punch extends React.Component<PunchProps, PunchState> {
                           </View>
                         </View>
                         <View style={[styles.flexFour]}>
-                          <View style={[styles.rowFlexDirection]}>
-                            <Text>
-                              {punchStatus?.punchTime
-                                ? formatTime(
-                                    getLocalDateObjectFromSaveFormat(
-                                      punchStatus?.punchTime,
-                                    ),
-                                  )
-                                : null}
-                              {'    '}
-                            </Text>
+                          <Text>
+                            {punchStatus?.punchTime
+                              ? formatTime(
+                                  getLocalDateObjectFromSaveFormat(
+                                    punchStatus?.punchTime,
+                                  ),
+                                )
+                              : null}
+                            {'   '}
                             <FormattedDate>
                               {punchStatus?.punchTime}
                             </FormattedDate>
-                          </View>
+                          </Text>
                           <Text>
                             {formatTimezoneOffset(
                               punchStatus?.PunchTimeZoneOffset,
@@ -490,9 +488,6 @@ const styles = StyleSheet.create({
 
   textBold: {
     fontWeight: 'bold',
-  },
-  rowFlexDirection: {
-    flexDirection: 'row',
   },
   lastRecordDetailsMainView: {
     flexDirection: 'row',

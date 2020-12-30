@@ -152,4 +152,3 @@ const PunchInOutDateTimeCardWithTheme = withTheme<PunchInOutDateTimeCardProps>()
 );
 
 export default connector(PunchInOutDateTimeCardWithTheme);
-10;

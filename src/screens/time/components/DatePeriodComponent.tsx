@@ -17,7 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import useTheme from 'lib/hook/useTheme';
@@ -26,7 +25,6 @@ import IconButton from 'components/DefaultIconButton';
 import {convertDateObjectToStringFormat} from 'lib/helpers/attendance';
 import FormattedDate from 'components/FormatedDate';
 import Chip from 'components/DefaultChip';
-
 const DatePeriodComponent = (props: DatePeriodComponentProps) => {
   const theme = useTheme();
   const {onPressLeft, onPressRight, rightActive} = props;
@@ -53,11 +51,16 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
           ]}>
           <View>
             <IconButton
-              iconProps={{name: 'chevron-left'}}
+              iconProps={{
+                name: 'chevron-left',
+                style: {
+                  marginRight: theme.spacing * 0.5,
+                  fontSize: theme.typography.iconSize * 1.5,
+                },
+              }}
               buttonProps={{onPress: onPressLeft}}
             />
           </View>
-
           <Chip
             style={[
               styles.alignItemsCenter,
@@ -95,8 +98,10 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
               name: 'chevron-right',
               style: {
                 color: rightActive
-                  ? theme.typography.darkColor
+                  ? theme.typography.primaryColor
                   : theme.typography.secondaryColor,
+                marginLeft: theme.spacing * 0.5,
+                fontSize: theme.typography.iconSize * 1.5,
               },
             }}
             buttonProps={{onPress: onPressRight, disabled: !rightActive}}
@@ -110,11 +115,9 @@ const styles = StyleSheet.create({
   mainView: {
     alignItems: 'center',
   },
-
   noRecordsText: {
     textAlign: 'center',
   },
-
   textBold: {
     fontWeight: 'bold',
   },
@@ -131,7 +134,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
 interface DatePeriodComponentProps {
   onPressRight: () => void;
   onPressLeft: () => void;
