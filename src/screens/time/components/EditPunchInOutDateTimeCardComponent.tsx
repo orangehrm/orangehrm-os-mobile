@@ -121,7 +121,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
                       padding: theme.spacing,
                       paddingRight: theme.spacing * 3,
                     }}>
-                    <Icon name={'calendar-blank'} fontSize={20} />
+                    <Icon name={'calendar-blank'} />
                   </View>
                   <View>
                     <Text
@@ -148,7 +148,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
                     </FormattedDate>
                   </View>
                   <View style={[styles.alignItemsFlexEnd]}>
-                    <Icon name={'chevron-right'} fontSize={theme.spacing * 5} />
+                    <Icon name={'chevron-right'} />
                   </View>
                 </View>
               </TouchableOpacity>
@@ -178,7 +178,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
                       padding: theme.spacing,
                       paddingRight: theme.spacing * 3,
                     }}>
-                    <Icon name={'clock-outline'} fontSize={20} />
+                    <Icon name={'clock-outline'} />
                   </View>
                   <View>
                     <Text
@@ -205,7 +205,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
                     </Text>
                   </View>
                   <View style={[styles.alignItemsFlexEnd]}>
-                    <Icon name={'chevron-right'} fontSize={theme.spacing * 5} />
+                    <Icon name={'chevron-right'} />
                   </View>
                 </View>
               </TouchableOpacity>

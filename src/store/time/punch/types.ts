@@ -21,7 +21,7 @@
 export interface PunchStatus {
   punchTime: string;
   punchNote: string;
-  PunchTimeZoneOffset: string;
+  punchTimeZoneOffset: string;
   dateTimeEditable: boolean;
   currentUTCDateTime: string;
   punchState: string;

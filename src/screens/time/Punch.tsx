@@ -116,7 +116,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
         const duration = this.calculateDuration(
           this.props.punchStatus?.punchTime,
           getDateSaveFormatFromDateObject(this.props.punchCurrentDateTime),
-          parseFloat(this.props.punchStatus.PunchTimeZoneOffset),
+          parseFloat(this.props.punchStatus.punchTimeZoneOffset),
           getCurrentTimeZoneOffset(),
         );
         /* eslint-disable react/no-did-update-set-state */
@@ -430,7 +430,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
                           </Text>
                           <Text>
                             {formatTimezoneOffset(
-                              punchStatus?.PunchTimeZoneOffset,
+                              punchStatus?.punchTimeZoneOffset,
                             )}
                           </Text>
                         </View>
