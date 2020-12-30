@@ -353,7 +353,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
                             styles.textBold,
                             {
                               color: theme.palette.secondary,
-                              fontSize: theme.spacing * 5,
+                              fontSize: theme.typography.headerFontSize,
                             },
                           ]}>
                           {'Duration'}
@@ -370,23 +370,19 @@ class Punch extends React.Component<PunchProps, PunchState> {
                               styles.textBold,
                               {
                                 color: theme.palette.secondary,
-                                fontSize: theme.spacing * 5,
+                                fontSize: theme.typography.headerFontSize,
                               },
                             ]}>
                             {this.state.duration}
-                          </Text>
-                        </View>
-                        <View>
-                          <Text
-                            style={[
-                              styles.textBold,
-                              {
-                                color: theme.palette.secondary,
-                                marginTop: theme.spacing,
-                                fontSize: theme.spacing * 4,
-                              },
-                            ]}>
-                            {' Hours'}
+                            <Text
+                              style={[
+                                {
+                                  color: theme.palette.secondary,
+                                  fontSize: theme.typography.fontSize,
+                                },
+                              ]}>
+                              {' Hours'}
+                            </Text>
                           </Text>
                         </View>
                       </View>

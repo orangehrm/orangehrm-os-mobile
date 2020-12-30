@@ -124,7 +124,8 @@ class EditPunchInOutDateTimeCard extends React.Component<
                     <Icon name={'calendar-blank'} fontSize={20} />
                   </View>
                   <View>
-                    <Text style={{fontSize: theme.spacing * 4.5}}>
+                    <Text
+                      style={{fontSize: theme.typography.subHeaderFontSize}}>
                       {'Date'}
                     </Text>
                   </View>
@@ -141,7 +142,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
                     <FormattedDate
                       style={{
                         color: theme.palette.secondary,
-                        fontSize: theme.spacing * 4.5,
+                        fontSize: theme.typography.subHeaderFontSize,
                       }}>
                       {dateDisplay}
                     </FormattedDate>
@@ -180,7 +181,8 @@ class EditPunchInOutDateTimeCard extends React.Component<
                     <Icon name={'clock-outline'} fontSize={20} />
                   </View>
                   <View>
-                    <Text style={{fontSize: theme.spacing * 4.5}}>
+                    <Text
+                      style={{fontSize: theme.typography.subHeaderFontSize}}>
                       {'Time'}
                     </Text>
                   </View>
@@ -197,7 +199,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
                     <Text
                       style={{
                         color: theme.palette.secondary,
-                        fontSize: theme.spacing * 4.5,
+                        fontSize: theme.typography.subHeaderFontSize,
                       }}>
                       {timeDisplay}
                     </Text>

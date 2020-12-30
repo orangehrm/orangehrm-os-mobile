@@ -87,7 +87,7 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
                   style={[
                     styles.flexSix,
                     {
-                      fontSize: theme.spacing * 3.75,
+                      fontSize: theme.typography.fontSize,
                     },
                   ]}>
                   {date}
@@ -101,7 +101,7 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
             <FormattedDate
               bold
               style={{
-                fontSize: theme.spacing * 4.5,
+                fontSize: theme.typography.subHeaderFontSize,
                 marginBottom: theme.spacing,
               }}>
               {this.props.date}
@@ -192,7 +192,7 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
           ]}>
           <Text
             style={{
-              fontSize: theme.spacing * 4,
+              fontSize: theme.typography.subHeaderFontSize,
             }}>
             {'Total Duration'}
           </Text>

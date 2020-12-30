@@ -42,7 +42,7 @@ class AttendanceDetailedHeaderComponent extends React.Component<
   render() {
     const {isActive, hours, theme} = this.props;
     return (
-      <TouchableOpacity onPress={this.toggle} style={{}}>
+      <TouchableOpacity onPress={this.toggle}>
         <View
           style={[
             styles.justifyContentCenter,
@@ -55,7 +55,7 @@ class AttendanceDetailedHeaderComponent extends React.Component<
             <Text
               bold
               style={{
-                fontSize: theme.spacing * 4.5,
+                fontSize: theme.typography.subHeaderFontSize,
                 color: isActive
                   ? theme.palette.secondary
                   : theme.typography.primaryColor,
@@ -75,7 +75,7 @@ class AttendanceDetailedHeaderComponent extends React.Component<
             <Text
               style={[
                 {
-                  fontSize: theme.spacing * 4.5,
+                  fontSize: theme.typography.subHeaderFontSize,
                   color: isActive
                     ? theme.palette.background
                     : theme.typography.primaryColor,
@@ -87,7 +87,6 @@ class AttendanceDetailedHeaderComponent extends React.Component<
           <View style={{paddingBottom: theme.spacing * 2}}>
             <Text
               style={{
-                fontSize: theme.spacing * 4,
                 color: isActive
                   ? theme.palette.secondary
                   : theme.typography.primaryColor,

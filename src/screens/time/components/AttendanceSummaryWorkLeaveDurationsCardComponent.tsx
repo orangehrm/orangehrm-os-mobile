@@ -194,7 +194,7 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                         <Text
                           style={{
                             paddingLeft: theme.spacing * 2.5,
-                            fontSize: theme.spacing * 3.5,
+                            fontSize: theme.typography.fontSize,
 
                             color: leave.colour,
                           }}>

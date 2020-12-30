@@ -69,7 +69,7 @@ const PunchInOutDateTimeCard = (props: PunchInOutDateTimeCardProps) => {
               <FormattedDate
                 style={{
                   color: theme.typography.primaryColor,
-                  fontSize: theme.spacing * 5,
+                  fontSize: theme.typography.headerFontSize,
                 }}>
                 {dateDisplay}
               </FormattedDate>
@@ -87,20 +87,17 @@ const PunchInOutDateTimeCard = (props: PunchInOutDateTimeCardProps) => {
                   fontSize: theme.typography.headerFontSize * 2,
                 }}>
                 {timeDisplay.substring(0, timeDisplay.length - 2)}
-              </Text>
-              <View style={styles.amPmTextView}>
                 <Text
                   bold
                   style={{
                     color: theme.typography.primaryColor,
                     fontSize: theme.typography.subHeaderFontSize,
-                    marginBottom: theme.spacing,
                   }}>
                   {timeDisplay
                     .substring(timeDisplay.length - 2, timeDisplay.length)
                     .toUpperCase()}
                 </Text>
-              </View>
+              </Text>
             </View>
           </CardContent>
         </Card>
@@ -134,10 +131,6 @@ const styles = StyleSheet.create({
 
   rowFlexDirection: {
     flexDirection: 'row',
-  },
-  amPmTextView: {
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
   },
 });
 
