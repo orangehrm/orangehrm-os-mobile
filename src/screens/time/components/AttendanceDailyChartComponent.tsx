@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {View, Platform, Text} from 'react-native';
+import {View, Platform, Text, StyleSheet} from 'react-native';
 import {
   VictoryAxis,
   VictoryBar,
@@ -202,7 +202,13 @@ const AttendanceDailyChartComponent = (
             </Text>
           </View>
           {/* https://github.com/FormidableLabs/victory-native/issues/96 */}
-          {Platform.OS === 'ios' ? renderGraph() : <Svg>{renderGraph()}</Svg>}
+          {Platform.OS === 'ios' ? (
+            renderGraph()
+          ) : (
+            <View style={styles.flex}>
+              <Svg>{renderGraph()}</Svg>
+            </View>
+          )}
         </CardContent>
       </Card>
     </View>
@@ -216,5 +222,11 @@ interface AttendanceDailyChartComponentProps {
   onPressBar: (day: ShortDay) => void;
   weekStartDayIndex: number;
 }
+
+const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+  },
+});
 
 export default AttendanceDailyChartComponent;

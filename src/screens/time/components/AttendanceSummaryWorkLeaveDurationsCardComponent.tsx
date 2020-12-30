@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Platform} from 'react-native';
 import useTheme from 'lib/hook/useTheme';
 import Text from 'components/DefaultText';
 import Icon from 'components/DefaultIcon';
@@ -226,6 +226,11 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
               onPress={() => {
                 props.onPressDetails(undefined);
               }}
+              style={Platform.select({
+                ios: {
+                  shadowColor: theme.palette.background,
+                },
+              })}
             />
           </View>
         </CardContent>

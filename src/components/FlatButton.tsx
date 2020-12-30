@@ -33,6 +33,7 @@ const FlatButton = (props: FlatButtonProps) => {
     icon,
     rightIcon = true,
     elevation = false,
+    style,
     ...restProps
   } = props;
 
@@ -43,6 +44,7 @@ const FlatButton = (props: FlatButtonProps) => {
           styles.cardButton,
           elevation ? undefined : styles.cardButtonElevation,
           {height: theme.spacing * 12},
+          style,
         ]}
         {...restProps}>
         <View style={[styles.cardButtonContent]}>

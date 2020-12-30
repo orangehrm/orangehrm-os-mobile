@@ -330,28 +330,32 @@ class AttendanceSummary extends React.Component<
             styles.flexOne,
             {backgroundColor: theme.palette.backgroundSecondary},
           ]}>
-          <AttendanceSummaryWorkLeaveDurationsCardComponent
-            totalLeaveDuration={getDurationFromHours(
-              graphRecords?.totalLeaveHours,
-            )}
-            onPressDetails={this.onPressDetails}
-            totalWorkDuration={getDurationFromHours(
-              graphRecords?.totalWorkHours,
-            )}
-            leaveData={this.state.singleLeaveTypeData}
-            empNumber={empNumber}
-            employeeName={employeeName}
-            jobTitle={employeeJobTitle}
-            mode={empNumber !== undefined ? EMPLOYEE_ATTENDANCE : MY_ATTENDANCE}
-          />
+          <View>
+            <AttendanceSummaryWorkLeaveDurationsCardComponent
+              totalLeaveDuration={getDurationFromHours(
+                graphRecords?.totalLeaveHours,
+              )}
+              onPressDetails={this.onPressDetails}
+              totalWorkDuration={getDurationFromHours(
+                graphRecords?.totalWorkHours,
+              )}
+              leaveData={this.state.singleLeaveTypeData}
+              empNumber={empNumber}
+              employeeName={employeeName}
+              jobTitle={employeeJobTitle}
+              mode={
+                empNumber !== undefined ? EMPLOYEE_ATTENDANCE : MY_ATTENDANCE
+              }
+            />
 
-          <AttendanceDailyChartComponent
-            graphLeaveData={this.state.graphLeaveData}
-            graphWorkData={this.state.graphWorkData}
-            dateOfMonth={dateOfMonth}
-            onPressBar={this.onPressBar}
-            weekStartDayIndex={this.props.weekStartDay}
-          />
+            <AttendanceDailyChartComponent
+              graphLeaveData={this.state.graphLeaveData}
+              graphWorkData={this.state.graphWorkData}
+              dateOfMonth={dateOfMonth}
+              onPressBar={this.onPressBar}
+              weekStartDayIndex={this.props.weekStartDay}
+            />
+          </View>
         </View>
       </MainLayout>
     );

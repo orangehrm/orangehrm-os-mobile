@@ -45,7 +45,11 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                 styles.alignItemsCenter,
                 {marginTop: theme.spacing * 4.5},
               ]}>
-              <Text style={{fontSize: theme.typography.fontSize}}>
+              <Text
+                style={{
+                  fontSize: theme.typography.fontSize,
+                  paddingBottom: theme.spacing * 5,
+                }}>
                 {'No Punch In/Out records available'}
               </Text>
             </View>

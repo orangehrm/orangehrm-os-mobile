@@ -19,9 +19,14 @@
  */
 
 import React from 'react';
-import {TouchableOpacity, View, Dimensions, StyleSheet} from 'react-native';
+import {
+  TouchableOpacity,
+  View,
+  Dimensions,
+  StyleSheet,
+  ScaledSize,
+} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {connect} from 'react-redux';
 import {convertDateObjectToStringFormat} from 'lib/helpers/attendance';
 import Text from 'components/DefaultText';
 
@@ -31,6 +36,9 @@ class AttendanceDetailedHeaderComponent extends React.Component<
 > {
   constructor(props: AttendanceDetailedHeaderComponentProps) {
     super(props);
+    this.state = {
+      width: Dimensions.get('window').width,
+    };
   }
 
   toggle = () => {
@@ -39,8 +47,21 @@ class AttendanceDetailedHeaderComponent extends React.Component<
     }
   };
 
+  componentDidMount() {
+    Dimensions.addEventListener('change', this.onChange);
+  }
+
+  componentWillUnmount() {
+    Dimensions.removeEventListener('change', this.onChange);
+  }
+
+  onChange = ({window}: {window: ScaledSize}) => {
+    this.setState({width: window.width});
+  };
+
   render() {
     const {isActive, hours, theme} = this.props;
+    const {width} = this.state;
     return (
       <TouchableOpacity onPress={this.toggle}>
         <View
@@ -108,22 +129,19 @@ const styles = StyleSheet.create({
   },
 });
 
-interface AttendanceDetailedHeaderComponentState {}
+interface AttendanceDetailedHeaderComponentState {
+  width: number;
+}
+
 interface AttendanceDetailedHeaderComponentProps extends WithTheme {
   isActive: boolean;
   day: moment.Moment;
   selectDate: (day: moment.Moment) => void;
   hours: string;
 }
-const {width} = Dimensions.get('window');
-
-const mapStateToProps = () => ({});
-const mapDispatchToProps = {};
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
 
 const AttendanceDetailedHeaderWithTheme = withTheme<AttendanceDetailedHeaderComponentProps>()(
   AttendanceDetailedHeaderComponent,
 );
 
-export default connector(AttendanceDetailedHeaderWithTheme);
+export default AttendanceDetailedHeaderWithTheme;
