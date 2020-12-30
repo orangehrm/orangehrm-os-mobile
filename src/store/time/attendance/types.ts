@@ -122,6 +122,7 @@ export interface AttendanceState {
   subordinates?: EmployeeObject[];
   selectedSubordinate?: EmployeeObject;
   attendanceConfiguration: AttendanceConfiguration;
+  attendanceConfigurationFetched: boolean;
 }
 
 export interface SingleLeave {

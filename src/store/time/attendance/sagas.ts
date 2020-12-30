@@ -1,4 +1,4 @@
-import {takeEvery, put} from 'redux-saga/effects';
+import {takeEvery, put, select} from 'redux-saga/effects';
 import {apiCall, apiGetCall} from 'store/saga-effects/api';
 import {
   openLoader,
@@ -19,6 +19,7 @@ import {
   FETCH_EMPLOYEE_ATTENDANCE_LIST,
   FETCH_SUBORDINATES,
   FETCH_ATTENDANCE_CONFIGURATION,
+  AttendanceConfiguration,
 } from './types';
 import {
   fetchAttendanceRecordsFinished,
@@ -49,6 +50,10 @@ import {
 import {TYPE_ERROR} from 'store/globals/types';
 import {selectMyInfo} from 'store/saga-effects/auth';
 import {MyInfo, USER_ROLE_ADMIN} from 'store/auth/types';
+import {
+  selectAttendanceConfiguration,
+  selectAttendanceConfigurationFetched,
+} from 'store/time/attendance/selectors';
 
 function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
   try {
@@ -332,7 +337,21 @@ function* fetchAccessibleEmployees() {
 }
 
 function* fetchAttendanceConfiguration() {
+  let attendanceConfigFetched: boolean = false;
   try {
+    attendanceConfigFetched = yield select(
+      selectAttendanceConfigurationFetched,
+    );
+    // To avoid unnecessary API fetches to get api configurations
+    // Since the configurations does not change frequently
+    if (attendanceConfigFetched) {
+      const attendanceConfig: AttendanceConfiguration = yield select(
+        selectAttendanceConfiguration,
+      );
+      yield put(fetchAttendanceConfigurationFinished({...attendanceConfig}));
+      return;
+    }
+
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
@@ -358,7 +377,9 @@ function* fetchAttendanceConfiguration() {
       TYPE_ERROR,
     );
   } finally {
-    yield closeLoader();
+    if (!attendanceConfigFetched) {
+      yield closeLoader();
+    }
   }
 }
 

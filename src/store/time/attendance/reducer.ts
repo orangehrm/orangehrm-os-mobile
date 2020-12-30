@@ -10,7 +10,6 @@ import {
   FETCH_WORK_WEEK_FINISHED,
   FETCH_EMPLOYEE_ATTENDANCE_LIST,
   FETCH_EMPLOYEE_ATTENDANCE_LIST_FINISHED,
-  FETCH_ATTENDANCE_CONFIGURATION,
   FETCH_ATTENDANCE_CONFIGURATION_FINISHED,
   FETCH_SUBORDINATES_FINISHED,
   PICK_SUBORDINATE,
@@ -21,6 +20,7 @@ import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
 const initialState: AttendanceState = {
   attendanceConfiguration: {startDate: DEFAULT_START_DAY},
+  attendanceConfigurationFetched: false,
 };
 
 const myAttendanceReducer = (
@@ -105,6 +105,7 @@ const myAttendanceReducer = (
       return {
         ...state,
         attendanceConfiguration: action.payload,
+        attendanceConfigurationFetched: true,
       };
     case PICK_SUBORDINATE:
       return {

@@ -83,3 +83,12 @@ export const selectEndDay = createSelector<RootState, number, number>(
   [selectStartDay],
   (startDay) => startDay + 6,
 );
+
+export const selectAttendanceConfigurationFetched = createSelector<
+  RootState,
+  AttendanceState,
+  boolean
+>(
+  [selectAttendaceState],
+  (attendance) => attendance.attendanceConfigurationFetched,
+);
