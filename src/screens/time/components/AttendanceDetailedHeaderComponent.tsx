@@ -19,59 +19,23 @@
  */
 
 import React from 'react';
-import {
-  TouchableOpacity,
-  View,
-  Dimensions,
-  StyleSheet,
-  ScaledSize,
-} from 'react-native';
+import {TouchableOpacity, View, StyleSheet} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {convertDateObjectToStringFormat} from 'lib/helpers/attendance';
 import Text from 'components/DefaultText';
 
-class AttendanceDetailedHeaderComponent extends React.Component<
-  AttendanceDetailedHeaderComponentProps,
-  AttendanceDetailedHeaderComponentState
-> {
-  constructor(props: AttendanceDetailedHeaderComponentProps) {
-    super(props);
-    this.state = {
-      width: Dimensions.get('window').width,
-    };
-  }
-
+class AttendanceDetailedHeaderComponent extends React.Component<AttendanceDetailedHeaderComponentProps> {
   toggle = () => {
     if (this.props.isActive === false) {
       this.props.selectDate(this.props.day);
     }
   };
 
-  componentDidMount() {
-    Dimensions.addEventListener('change', this.onChange);
-  }
-
-  componentWillUnmount() {
-    Dimensions.removeEventListener('change', this.onChange);
-  }
-
-  onChange = ({window}: {window: ScaledSize}) => {
-    this.setState({width: window.width});
-  };
-
   render() {
     const {isActive, hours, theme} = this.props;
-    const {width} = this.state;
     return (
-      <TouchableOpacity onPress={this.toggle}>
-        <View
-          style={[
-            styles.justifyContentCenter,
-            styles.alignItemsCenter,
-            {
-              width: width / 7,
-            },
-          ]}>
+      <TouchableOpacity onPress={this.toggle} style={styles.flex}>
+        <View style={styles.alignItemsCenter}>
           <View style={{paddingTop: theme.spacing * 2}}>
             <Text
               bold
@@ -121,17 +85,13 @@ class AttendanceDetailedHeaderComponent extends React.Component<
   }
 }
 const styles = StyleSheet.create({
-  justifyContentCenter: {
-    justifyContent: 'center',
-  },
   alignItemsCenter: {
     alignItems: 'center',
   },
+  flex: {
+    flex: 1,
+  },
 });
-
-interface AttendanceDetailedHeaderComponentState {
-  width: number;
-}
 
 interface AttendanceDetailedHeaderComponentProps extends WithTheme {
   isActive: boolean;

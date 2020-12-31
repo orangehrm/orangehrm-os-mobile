@@ -169,7 +169,7 @@ class AttendanceDetails extends React.Component<
         <View>
           <View
             style={[
-              styles.rowFlexDirection,
+              styles.header,
               {
                 backgroundColor: theme.palette.backgroundSecondary,
               },
@@ -227,8 +227,9 @@ class AttendanceDetails extends React.Component<
 }
 
 const styles = StyleSheet.create({
-  rowFlexDirection: {
+  header: {
     flexDirection: 'row',
+    alignContent: 'space-between',
   },
 });
 
