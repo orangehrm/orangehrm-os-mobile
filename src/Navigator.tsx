@@ -48,6 +48,8 @@ import {selectInitialRoute} from 'store/globals/selectors';
 import {navigationRef, getNavigation} from 'lib/helpers/navigation';
 import useGlobals from 'lib/hook/useGlobals';
 import useApiDetails from 'lib/hook/useApiDetails';
+import {isLargeScreen as isLargeScreenByWidth} from 'lib/helpers/dimension';
+import {DEFAULT_FIXED_DRAWER_WIDTH} from 'services/drawer';
 
 import Login from 'screens/login/Login';
 import SelectInstance from 'screens/login/SelectInstance';
@@ -144,8 +146,7 @@ const Navigator = (props: NavigatorProps) => {
   let view = null;
   if (storageLoaded.loaded) {
     if (instanceUrl !== null && loggedInUsername !== null) {
-      // TODO: Handle large screens
-      const isLargeScreen = dimensions.width >= 768;
+      const isLargeScreen = isLargeScreenByWidth(dimensions.width);
       if (myInfoSuccess || myInfoFailed) {
         view = (
           <KeyboardAvoidingView
@@ -155,6 +156,9 @@ const Navigator = (props: NavigatorProps) => {
               initialRouteName={initialRoute}
               openByDefault={false}
               drawerType={isLargeScreen ? 'permanent' : 'front'}
+              drawerStyle={
+                isLargeScreen ? {width: DEFAULT_FIXED_DRAWER_WIDTH} : undefined
+              }
               drawerContent={(drawerContentProps: any) => (
                 <DrawerContent {...drawerContentProps} />
               )}>

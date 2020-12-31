@@ -248,7 +248,7 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
                 }
               >
                 © 2005 - 
-                2020
+                2021
                  
                 OrangeHRM, Inc. 
                 All Rights Reserved
@@ -520,7 +520,7 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
                 }
               >
                 © 2005 - 
-                2020
+                2021
                  
                 OrangeHRM, Inc. 
                 All Rights Reserved
@@ -792,7 +792,7 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
                 }
               >
                 © 2005 - 
-                2020
+                2021
                  
                 OrangeHRM, Inc. 
                 All Rights Reserved

@@ -45,6 +45,7 @@ import CardContent from 'components/DefaultCardContent';
 import {$PropertyType} from 'utility-types';
 import Card from 'components/DefaultCard';
 import {getWeekdayOrder} from 'lib/helpers/attendance';
+import {getViewportWidth} from 'lib/helpers/dimension';
 
 const AttendanceDailyChartComponent = (
   props: AttendanceDailyChartComponentProps,
@@ -71,10 +72,18 @@ const AttendanceDailyChartComponent = (
     },
   ];
 
+  const width = getViewportWidth(window.width);
+  const chartWidth =
+    width === window.width ? width : width - theme.spacing * 10;
+
   const renderGraph = () => {
     return (
       <View>
-        <VictoryChart domainPadding={15} width={window.width}>
+        <VictoryChart
+          domainPadding={
+            window.width < window.height ? theme.spacing * 5 : theme.spacing * 8
+          }
+          width={chartWidth}>
           <VictoryAxis
             dependentAxis
             style={{
