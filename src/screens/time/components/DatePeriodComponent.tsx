@@ -39,7 +39,7 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
           },
         ]}>
         <View>
-          <Text style={[styles.textBold]}>{'Date Period'}</Text>
+          <Text bold>{'Date Period'}</Text>
         </View>
         <View
           style={[
@@ -49,63 +49,64 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
               paddingVertical: theme.spacing * 2.5,
             },
           ]}>
-          <View>
+          <View style={styles.leftArrow}>
             <IconButton
               iconProps={{
                 name: 'chevron-left',
                 style: {
                   marginRight: theme.spacing * 0.5,
+                  marginLeft: theme.spacing,
                   fontSize: theme.typography.iconSize * 1.5,
                 },
               }}
               buttonProps={{onPress: onPressLeft}}
             />
           </View>
-          <Chip
-            style={[
-              styles.alignItemsCenter,
-              {
+          <View style={styles.chipView}>
+            <Chip
+              style={{
                 backgroundColor: theme.palette.backgroundSecondary,
                 paddingHorizontal: theme.spacing * 5,
                 padding: theme.spacing * 3,
-              },
-            ]}>
-            <Text
-              style={[
-                styles.textBold,
-                {
+              }}>
+              <Text
+                bold
+                style={{
                   color: theme.palette.secondary,
                   fontSize: theme.typography.fontSize,
+                }}>
+                <FormattedDate style={{color: theme.palette.secondary}}>
+                  {convertDateObjectToStringFormat(
+                    props.startDate,
+                    'ddd, DD MMM YYYY',
+                  )}
+                </FormattedDate>{' '}
+                {'to'}{' '}
+                <FormattedDate style={{color: theme.palette.secondary}}>
+                  {convertDateObjectToStringFormat(
+                    props.endDate,
+                    'ddd, DD MMM YYYY',
+                  )}
+                </FormattedDate>
+              </Text>
+            </Chip>
+          </View>
+          <View style={styles.rightArrow}>
+            <IconButton
+              iconProps={{
+                name: 'chevron-right',
+                style: {
+                  color: rightActive
+                    ? theme.typography.primaryColor
+                    : theme.typography.secondaryColor,
+                  marginLeft: theme.spacing * 0.5,
+                  marginRight: theme.spacing,
+                  fontSize: theme.typography.iconSize * 1.5,
                 },
-              ]}>
-              <FormattedDate style={{color: theme.palette.secondary}}>
-                {convertDateObjectToStringFormat(
-                  props.startDate,
-                  'ddd, DD MMM YYYY',
-                )}
-              </FormattedDate>{' '}
-              {'to'}{' '}
-              <FormattedDate style={{color: theme.palette.secondary}}>
-                {convertDateObjectToStringFormat(
-                  props.endDate,
-                  'ddd, DD MMM YYYY',
-                )}
-              </FormattedDate>
-            </Text>
-          </Chip>
-          <IconButton
-            iconProps={{
-              name: 'chevron-right',
-              style: {
-                color: rightActive
-                  ? theme.typography.primaryColor
-                  : theme.typography.secondaryColor,
-                marginLeft: theme.spacing * 0.5,
-                fontSize: theme.typography.iconSize * 1.5,
-              },
-            }}
-            buttonProps={{onPress: onPressRight, disabled: !rightActive}}
-          />
+              }}
+              buttonProps={{onPress: onPressRight, disabled: !rightActive}}
+            />
+          </View>
         </View>
       </View>
     </>
@@ -118,11 +119,12 @@ const styles = StyleSheet.create({
   noRecordsText: {
     textAlign: 'center',
   },
-  textBold: {
-    fontWeight: 'bold',
-  },
-  flexOne: {
+  rightArrow: {
     flex: 1,
+  },
+  leftArrow: {
+    flex: 1,
+    flexWrap: 'wrap-reverse',
   },
   rowFlexDirection: {
     flexDirection: 'row',
@@ -130,8 +132,9 @@ const styles = StyleSheet.create({
   justifyContentSpaceBetween: {
     justifyContent: 'space-between',
   },
-  alignItemsCenter: {
+  chipView: {
     alignItems: 'center',
+    flex: 6,
   },
 });
 interface DatePeriodComponentProps {

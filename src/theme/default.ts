@@ -35,7 +35,8 @@ const defaultTheme: Theme = {
     header: '#f88400',
   },
   typography: {
-    fontSize: 14,
+    fontSize: 14, // https://material-ui.com/customization/typography/#font-size
+    mediumFontSize: 16,
     subHeaderFontSize: 18,
     headerFontSize: 20,
     smallFontSize: 12,
@@ -71,6 +72,7 @@ export interface Palette {
 
 export interface Typography {
   fontSize: number;
+  mediumFontSize: number;
   subHeaderFontSize: number;
   headerFontSize: number;
   smallFontSize: number;

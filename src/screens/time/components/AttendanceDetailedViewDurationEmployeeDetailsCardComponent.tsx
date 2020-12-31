@@ -63,17 +63,12 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
               styles.flexOne,
               {paddingBottom: theme.spacing * 2.5},
             ]}>
-            <View
-              style={[
-                styles.flexOne,
-                {
-                  paddingRight: theme.spacing * 2.5,
-                },
-              ]}>
-              <Avatar name={employeeName} />
-            </View>
+            <Avatar name={employeeName} />
 
-            <View style={styles.flexFour}>
+            <View
+              style={{
+                paddingHorizontal: theme.spacing * 4,
+              }}>
               <Text
                 bold
                 style={{
@@ -216,9 +211,6 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
 const styles = StyleSheet.create({
   flexOne: {
     flex: 1,
-  },
-  flexFour: {
-    flex: 4,
   },
   flexSix: {
     flex: 6,

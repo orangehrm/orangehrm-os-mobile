@@ -78,16 +78,13 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                   paddingBottom: theme.spacing * 3,
                 },
               ]}>
-              <View style={styles.flexOne}>
+              <View>
                 <Avatar name={employeeName} />
               </View>
               <View
-                style={[
-                  styles.flexFour,
-                  {
-                    marginLeft: theme.spacing,
-                  },
-                ]}>
+                style={{
+                  paddingHorizontal: theme.spacing * 4,
+                }}>
                 <Text
                   bold
                   style={{
@@ -114,7 +111,7 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                 numberOfLines={2}
                 bold
                 style={{
-                  fontSize: theme.typography.subHeaderFontSize,
+                  fontSize: theme.typography.mediumFontSize,
                   color: theme.palette.secondary,
                 }}>
                 {'Total Work Duration'}
@@ -123,13 +120,13 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                 numberOfLines={1}
                 bold
                 style={{
-                  fontSize: theme.typography.subHeaderFontSize,
+                  fontSize: theme.typography.mediumFontSize,
                   color: theme.palette.secondary,
                 }}>
                 {totalWorkDuration}
                 <Text
                   style={{
-                    fontSize: theme.typography.fontSize,
+                    fontSize: theme.typography.smallFontSize,
                     color: theme.palette.secondary,
                   }}
                   bold>
@@ -148,7 +145,7 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                 numberOfLines={2}
                 bold
                 style={{
-                  fontSize: theme.typography.subHeaderFontSize,
+                  fontSize: theme.typography.mediumFontSize,
                 }}>
                 {'Total Leave Duration'}
               </Text>
@@ -156,12 +153,12 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                 numberOfLines={1}
                 bold
                 style={{
-                  fontSize: theme.typography.subHeaderFontSize,
+                  fontSize: theme.typography.mediumFontSize,
                 }}>
                 {totalLeaveDuration}
                 <Text
                   style={{
-                    fontSize: theme.typography.fontSize,
+                    fontSize: theme.typography.smallFontSize,
                   }}
                   bold>
                   {'  Hours'}
@@ -205,7 +202,7 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                         {leave.duration}
                         <Text
                           style={{
-                            fontSize: theme.typography.fontSize,
+                            fontSize: theme.typography.smallFontSize,
                           }}>
                           {'  Hours'}
                         </Text>
@@ -239,9 +236,6 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
   );
 };
 const styles = StyleSheet.create({
-  flexFour: {
-    flex: 4,
-  },
   flexOne: {
     flex: 1,
   },

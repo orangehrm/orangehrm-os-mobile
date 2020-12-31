@@ -328,7 +328,10 @@ class AttendanceSummary extends React.Component<
         <View
           style={[
             styles.flexOne,
-            {backgroundColor: theme.palette.backgroundSecondary},
+            {
+              backgroundColor: theme.palette.backgroundSecondary,
+              paddingBottom: theme.spacing * 4,
+            },
           ]}>
           <View>
             <AttendanceSummaryWorkLeaveDurationsCardComponent
