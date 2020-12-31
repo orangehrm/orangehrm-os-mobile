@@ -113,6 +113,7 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
                       borderColor: theme.palette.backgroundSecondary,
                       paddingHorizontal: theme.spacing * 3,
                       paddingVertical: theme.spacing,
+                      marginBottom: theme.spacing,
                     },
                   ]}>
                   <Text style={{color: theme.typography.darkColor}}>
@@ -136,7 +137,7 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
                     backgroundColor: theme.palette.background,
                     paddingHorizontal: theme.spacing * 3,
                     paddingVertical: theme.spacing,
-                    marginTop: theme.spacing,
+                    marginBottom: theme.spacing,
                     borderWidth: StyleSheet.hairlineWidth * 2,
                   },
                 ]}>

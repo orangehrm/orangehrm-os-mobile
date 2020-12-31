@@ -202,7 +202,8 @@ const AttendanceDailyChartComponent = (
             paddingTop: theme.spacing * 2,
             backgroundColor: theme.palette.background,
             borderRadius: theme.borderRadius * 2,
-            paddingHorizontal: theme.spacing * 3,
+            paddingLeft: theme.spacing * 3,
+            paddingRight: theme.spacing * 5,
           }}>
           <View
             style={{
