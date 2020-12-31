@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/FormatedDate test FormatedDate component 1`] = `
+exports[`components/FormattedDate test FormattedDate component 1`] = `
 <Text
   dispatch={[Function]}
   style={
@@ -17,7 +17,7 @@ exports[`components/FormatedDate test FormatedDate component 1`] = `
 </Text>
 `;
 
-exports[`components/FormatedDate test FormatedDate component: check nested 1`] = `
+exports[`components/FormattedDate test FormattedDate component: check nested 1`] = `
 Array [
   <Text
     style={
@@ -89,7 +89,7 @@ Array [
 ]
 `;
 
-exports[`components/FormatedDate test FormatedDate component: check string 1`] = `
+exports[`components/FormattedDate test FormattedDate component: check string 1`] = `
 <Text
   dispatch={[Function]}
   style={
@@ -106,7 +106,7 @@ exports[`components/FormatedDate test FormatedDate component: check string 1`] =
 </Text>
 `;
 
-exports[`components/FormatedDate test FormatedDate component: check undefined 1`] = `
+exports[`components/FormattedDate test FormattedDate component: check undefined 1`] = `
 <Text
   dispatch={[Function]}
   style={

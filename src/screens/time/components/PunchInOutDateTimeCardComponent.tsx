@@ -27,7 +27,7 @@ import CardContent from 'components/DefaultCardContent';
 import Text from 'components/DefaultText';
 import {fetchPunchStatus} from 'store/time/punch/actions';
 import {formatTime} from 'lib/helpers/attendance';
-import FormattedDate from 'components/FormatedDate';
+import FormattedDate from 'components/FormattedDate';
 
 const PunchInOutDateTimeCard = (props: PunchInOutDateTimeCardProps) => {
   const {theme, punchCurrentDateTime} = props;

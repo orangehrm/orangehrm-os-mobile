@@ -28,7 +28,7 @@ import {
 import Text from 'components/DefaultText';
 import Chip from 'components/DefaultChip';
 import Avatar from 'components/DefaultAvatar';
-import Date from 'components/FormatedDate';
+import FormattedDate from 'components/FormattedDate';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {LeaveListLeaveRequest} from 'store/leave/leave-list/types';
 import {LEAVE_TYPE_DELETED_YES} from 'store/leave/leave-usage/types';
@@ -100,11 +100,13 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
                     color: theme.palette.secondary,
                     paddingBottom: theme.spacing,
                   }}>
-                  <Date nested>{leaveRequest.fromDate}</Date>
+                  <FormattedDate nested>{leaveRequest.fromDate}</FormattedDate>
                   {leaveRequest.fromDate !== leaveRequest.toDate ? (
                     <>
                       {' to '}
-                      <Date nested>{leaveRequest.toDate}</Date>
+                      <FormattedDate nested>
+                        {leaveRequest.toDate}
+                      </FormattedDate>
                     </>
                   ) : null}
                 </Text>

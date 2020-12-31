@@ -36,7 +36,7 @@ import {
 } from 'store/leave/leave-usage/actions';
 import Text from 'components/DefaultText';
 import Chip from 'components/DefaultChip';
-import Date from 'components/FormatedDate';
+import FormattedDate from 'components/FormattedDate';
 import Avatar from 'components/DefaultAvatar';
 import Button from 'components/DefaultButton';
 import Divider from 'components/DefaultDivider';
@@ -191,12 +191,16 @@ class MyLeaveDetails extends React.Component<
                     color: theme.palette.secondary,
                     paddingBottom: theme.spacing,
                   }}>
-                  <Date nested>{leaveRequestDetail?.fromDate}</Date>
+                  <FormattedDate nested>
+                    {leaveRequestDetail?.fromDate}
+                  </FormattedDate>
                   {leaveRequestDetail?.fromDate !==
                   leaveRequestDetail?.toDate ? (
                     <>
                       {' to '}
-                      <Date nested>{leaveRequestDetail?.toDate}</Date>
+                      <FormattedDate nested>
+                        {leaveRequestDetail?.toDate}
+                      </FormattedDate>
                     </>
                   ) : null}
                 </Text>

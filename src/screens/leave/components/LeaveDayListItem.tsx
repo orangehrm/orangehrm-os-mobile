@@ -21,7 +21,7 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import Text from 'components/DefaultText';
-import Date from 'components/FormatedDate';
+import FormattedDate from 'components/FormattedDate';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {Leave} from 'store/leave/leave-usage/types';
 import {LEAVE_STATUS_MAP} from 'lib/helpers/leave';
@@ -44,7 +44,7 @@ class LeaveDayListItem extends React.Component<LeaveDayListItemProps> {
               paddingVertical: theme.spacing,
               paddingRight: theme.spacing * 4,
             }}>
-            <Date>{leave.date}</Date>
+            <FormattedDate>{leave.date}</FormattedDate>
           </View>
           <View style={styles.flex}>
             <Text style={[styles.statusText]}>

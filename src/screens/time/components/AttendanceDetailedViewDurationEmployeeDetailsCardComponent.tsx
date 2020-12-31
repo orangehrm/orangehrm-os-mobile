@@ -38,7 +38,7 @@ import {
   Holiday,
 } from 'store/leave/common-screens/types';
 import Avatar from 'components/DefaultAvatar';
-import FormattedDate from 'components/FormatedDate';
+import FormattedDate from 'components/FormattedDate';
 import Text from 'components/DefaultText';
 
 class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.Component<AttendanceDetailedViewDurationEmployeeDetailsCardComponentProps> {

@@ -21,50 +21,50 @@
 import 'react-native';
 import React from 'react';
 import Text from 'components/DefaultText';
-import Date from 'components/FormatedDate';
+import FormattedDate from 'components/FormattedDate';
 import {Provider} from 'react-redux';
 import configureStore from 'store/configureStore';
 import {render} from 'react-native-testing-library';
 const mockStore = configureStore();
 
-describe('components/FormatedDate', () => {
-  test('test FormatedDate component', () => {
+describe('components/FormattedDate', () => {
+  test('test FormattedDate component', () => {
     const node = render(
       <Provider store={mockStore}>
-        <Date>{'2020-12-20'}</Date>
+        <FormattedDate>{'2020-12-20'}</FormattedDate>
       </Provider>,
     ).toJSON();
     expect(node).toMatchSnapshot();
   });
 
-  test('test FormatedDate component: check undefined', () => {
+  test('test FormattedDate component: check undefined', () => {
     const node = render(
       <Provider store={mockStore}>
-        <Date>{undefined}</Date>
+        <FormattedDate>{undefined}</FormattedDate>
       </Provider>,
     ).toJSON();
     expect(node).toMatchSnapshot();
   });
 
-  test('test FormatedDate component: check string', () => {
+  test('test FormattedDate component: check string', () => {
     const node = render(
       <Provider store={mockStore}>
-        <Date>{'Test'}</Date>
+        <FormattedDate>{'Test'}</FormattedDate>
       </Provider>,
     ).toJSON();
     expect(node).toMatchSnapshot();
   });
 
-  test('test FormatedDate component: check nested', () => {
+  test('test FormattedDate component: check nested', () => {
     const node = render(
       <Provider store={mockStore}>
         <Text style={{color: 'orange'}}>
-          <Date>{'2020-12-20'}</Date>
+          <FormattedDate>{'2020-12-20'}</FormattedDate>
         </Text>
         <Text style={{color: 'orange'}}>
-          <Date nested>{'2020-12-20'}</Date>
+          <FormattedDate nested>{'2020-12-20'}</FormattedDate>
           {' to '}
-          <Date nested>{'2020-12-21'}</Date>
+          <FormattedDate nested>{'2020-12-21'}</FormattedDate>
         </Text>
       </Provider>,
     ).toJSON();

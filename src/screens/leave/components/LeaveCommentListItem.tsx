@@ -22,7 +22,7 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import Text from 'components/DefaultText';
 import Avatar from 'components/DefaultAvatar';
-import Date from 'components/FormatedDate';
+import FormattedDate from 'components/FormattedDate';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {LeaveComment} from 'store/leave/leave-usage/types';
 
@@ -47,13 +47,13 @@ class LeaveCommentListItem extends React.Component<LeaveCommentListItemProps> {
                 {paddingHorizontal: theme.spacing * 2},
               ]}>
               <Text style={[styles.empNameText]}>{leaveComment.user}</Text>
-              <Date
+              <FormattedDate
                 style={{
                   paddingTop: theme.spacing * 0.5,
                   fontSize: theme.typography.smallFontSize,
                 }}>
                 {leaveComment.date}
-              </Date>
+              </FormattedDate>
             </View>
             <View
               style={{

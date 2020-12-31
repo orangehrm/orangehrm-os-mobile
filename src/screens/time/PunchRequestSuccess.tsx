@@ -51,7 +51,7 @@ import {
   formatTimezoneOffset,
 } from 'lib/helpers/attendance';
 import {selectInitialRoute} from 'store/globals/selectors';
-import FormattedDate from 'components/FormatedDate';
+import FormattedDate from 'components/FormattedDate';
 
 class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
   constructor(props: PunchRequestSuccessProps) {

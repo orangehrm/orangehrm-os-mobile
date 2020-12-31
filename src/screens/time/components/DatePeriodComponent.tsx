@@ -23,7 +23,7 @@ import useTheme from 'lib/hook/useTheme';
 import Text from 'components/DefaultText';
 import IconButton from 'components/DefaultIconButton';
 import {convertDateObjectToStringFormat} from 'lib/helpers/attendance';
-import FormattedDate from 'components/FormatedDate';
+import FormattedDate from 'components/FormattedDate';
 import Chip from 'components/DefaultChip';
 const DatePeriodComponent = (props: DatePeriodComponentProps) => {
   const theme = useTheme();

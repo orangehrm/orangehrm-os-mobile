@@ -66,7 +66,7 @@ import {TYPE_WARN} from 'store/globals/types';
 import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
 import {selectCurrentRoute} from 'store/globals/selectors';
 import {PUNCH} from 'screens/index';
-import FormattedDate from 'components/FormatedDate';
+import FormattedDate from 'components/FormattedDate';
 
 class Punch extends React.Component<PunchProps, PunchState> {
   inputRef: RNTextInput | null;
