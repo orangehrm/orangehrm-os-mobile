@@ -31,16 +31,16 @@ import {
 import {getDateFromString} from 'lib/helpers/time';
 
 export const LEAVE_TYPE_COLORS = [
-  '#445abf',
-  '#4ece68',
-  '#c15cb8',
-  '#982727',
-  '#db1580',
-  '#037b20',
-  '#0288d9',
-  '#d76900',
-  '#732673',
-  '#405040',
+  '#445abf', //blue
+  '#4ece68', //green
+  '#c15cb8', //purple
+  '#982727', //red
+  '#db1580', //pink
+  '#037b20', //dark green
+  '#0288d9', //pacific blue
+  '#d76900', //dark orange
+  '#732673', //generic purple
+  '#405040', //very dark gray
 ];
 
 const LEAVE_STATUS_MAP = {

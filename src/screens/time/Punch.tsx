@@ -427,11 +427,11 @@ class Punch extends React.Component<PunchProps, PunchState> {
                             <FormattedDate>
                               {punchStatus?.punchTime}
                             </FormattedDate>
-                          </Text>
-                          <Text>
-                            {formatTimezoneOffset(
-                              punchStatus?.punchTimeZoneOffset,
-                            )}
+                            <Text>
+                              {formatTimezoneOffset(
+                                punchStatus?.punchTimeZoneOffset,
+                              )}
+                            </Text>
                           </Text>
                         </View>
                       </View>

@@ -159,7 +159,7 @@ const formatTimezoneOffset = (timezoneOffset?: string) => {
     } else {
       timezone = (Math.round(parseFloat(timezoneOffset) * 10) / 10).toString();
     }
-    return ' (GMT ' + timezone + ')';
+    return '  (GMT' + timezone + ')';
   } else {
     return null;
   }
@@ -202,7 +202,6 @@ const calculateWorkData = (
   startDayIndex: number,
 ) => {
   const workGraphData: GraphDataPoint[] = [];
-  // const days = Object.keys(graphRecordsInputData.workSummary);
   const daysInUppercase = getWeekdayOrder(startDayIndex, 'dddd');
   const days = daysInUppercase.map((day: string) => {
     return day.toLocaleLowerCase();
@@ -214,7 +213,6 @@ const calculateWorkData = (
       x: dayMapper[key],
       y: parseFloat(hours),
     };
-    // console.log(data);
     workGraphData.push(data);
   });
   return workGraphData;
@@ -233,8 +231,6 @@ const calculateGraphData = (
   leaveTypeIds.forEach((id) => {
     const data: GraphDataPoint[] = [];
     const colour: string = getLeaveColourById(id);
-
-    // const days = Object.keys(leaveTypesInputData.workSummary);
     const daysInUppercase = getWeekdayOrder(startDayIndex, 'dddd');
     const days = daysInUppercase.map((day: string) => {
       return day.toLocaleLowerCase();
@@ -387,23 +383,23 @@ const getDurationFromHours = (hours?: number) => {
 const formatTime = (datetime: Date) => {
   const time = datetime.toTimeString();
   const hourMinute = time.substring(0, 5).split(':', 2);
-  let ampm: string = 'AM';
+  let timePostFix: string = 'AM';
   let hour: string = hourMinute[0];
   if (parseInt(hourMinute[0], 10) > 12) {
     hour = (parseInt(hourMinute[0], 10) - 12).toString();
-    ampm = 'PM';
+    timePostFix = 'PM';
   }
   if (parseInt(hourMinute[0], 10) === 12) {
-    ampm = 'PM';
+    timePostFix = 'PM';
   }
-  return hour.toString() + ':' + hourMinute[1] + ' ' + ampm;
+  return hour.toString() + ':' + hourMinute[1] + ' ' + timePostFix;
 };
 
 const calculateDateOfMonth = (start: number, end: number) => {
   const dateOfMonth = [];
   for (let i = start; i <= end; i++) {
     dateOfMonth.push(
-      convertDateObjectToStringFormat(moment().weekday(i), 'M/D'),
+      convertDateObjectToStringFormat(getWeekDayFromIndex(i), 'M/D'),
     );
   }
   return dateOfMonth;

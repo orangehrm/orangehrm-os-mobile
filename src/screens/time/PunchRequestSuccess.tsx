@@ -225,8 +225,7 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
 
               <View
                 style={{
-                  paddingLeft: theme.spacing * 5,
-                  paddingRight: theme.spacing * 5,
+                  paddingHorizontal: theme.spacing * 5,
                 }}>
                 <Divider />
                 <View
@@ -262,21 +261,19 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                       />
                     </View>
                     <View style={styles.flexSix}>
-                      <View style={[styles.rowFlexDirection]}>
-                        <Text>
-                          {punchDateTime
-                            ? formatTime(
-                                getLocalDateObjectFromSaveFormat(punchDateTime),
-                              )
-                            : null}
-                          {'    '}
-                        </Text>
+                      <Text>
+                        {punchDateTime
+                          ? formatTime(
+                              getLocalDateObjectFromSaveFormat(punchDateTime),
+                            )
+                          : null}
+                        {'    '}
                         <FormattedDate>{punchDateTime}</FormattedDate>
                         <Text>
                           {' '}
                           {formatTimezoneOffset(punchTimeZone.toString())}
                         </Text>
-                      </View>
+                      </Text>
                     </View>
                   </View>
                   {punchNote ? (
@@ -342,17 +339,15 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                           />
                         </View>
                         <View style={styles.flexSix}>
-                          <View style={[styles.rowFlexDirection]}>
-                            <Text>
-                              {punchOutDateTime
-                                ? formatTime(
-                                    getLocalDateObjectFromSaveFormat(
-                                      punchOutDateTime,
-                                    ),
-                                  )
-                                : null}
-                              {'    '}
-                            </Text>
+                          <Text>
+                            {punchOutDateTime
+                              ? formatTime(
+                                  getLocalDateObjectFromSaveFormat(
+                                    punchOutDateTime,
+                                  ),
+                                )
+                              : null}
+                            {'    '}
                             <FormattedDate>{punchOutDateTime}</FormattedDate>
                             <Text>
                               {' '}
@@ -360,7 +355,7 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                                 punchOutTimeZoneOffset.toString(),
                               )}
                             </Text>
-                          </View>
+                          </Text>
                         </View>
                       </View>
                       {punchOutNote ? (
