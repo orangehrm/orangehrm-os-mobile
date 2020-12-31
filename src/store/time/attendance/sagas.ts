@@ -287,11 +287,12 @@ function* fetchEmployeeAttendanceList(
         {
           fromDate: action.payload.fromDate + ' 00:00:00',
           toDate: action.payload.toDate + ' 23:59:59',
+          pastEmployee: false,
           ...(action.payload.empNumber !== undefined && {
             empNumber: action.payload.empNumber,
           }),
           ...(action.payload.pastEmployee !== undefined && {
-            empNumber: action.payload.pastEmployee,
+            pastEmployee: action.payload.pastEmployee,
           }),
           all: true,
           includeSelf: myInfo.user.userRole === USER_ROLE_ADMIN,
