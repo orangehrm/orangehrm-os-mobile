@@ -35,6 +35,7 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
           styles.mainView,
           {
             paddingVertical: theme.spacing * 2.5,
+            paddingHorizontal: theme.spacing * 5,
             backgroundColor: theme.palette.background,
           },
         ]}>
@@ -66,7 +67,7 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
             <Chip
               style={{
                 backgroundColor: theme.palette.backgroundSecondary,
-                paddingHorizontal: theme.spacing * 5,
+                paddingHorizontal: theme.spacing * 3,
                 padding: theme.spacing * 3,
               }}>
               <Text
@@ -91,7 +92,7 @@ const DatePeriodComponent = (props: DatePeriodComponentProps) => {
               </Text>
             </Chip>
           </View>
-          <View style={styles.rightArrow}>
+          <View>
             <IconButton
               iconProps={{
                 name: 'chevron-right',
@@ -119,11 +120,7 @@ const styles = StyleSheet.create({
   noRecordsText: {
     textAlign: 'center',
   },
-  rightArrow: {
-    flex: 1,
-  },
   leftArrow: {
-    flex: 1,
     flexWrap: 'wrap-reverse',
   },
   rowFlexDirection: {
@@ -134,7 +131,6 @@ const styles = StyleSheet.create({
   },
   chipView: {
     alignItems: 'center',
-    flex: 6,
   },
 });
 interface DatePeriodComponentProps {

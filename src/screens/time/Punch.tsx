@@ -397,14 +397,13 @@ class Punch extends React.Component<PunchProps, PunchState> {
                         style={[
                           styles.lastRecordDetailsMainView,
                           {
-                            marginHorizontal: theme.spacing * 2.5,
-                            marginVertical: theme.spacing * 2.5,
-                            padding: theme.spacing * 0.75,
+                            marginVertical: theme.spacing * 3,
+                            paddingVertical: theme.spacing,
                             borderRadius: theme.borderRadius * 4,
                             backgroundColor: theme.palette.backgroundSecondary,
                           },
                         ]}>
-                        <View style={{paddingLeft: theme.spacing * 1.25}}>
+                        <View style={{paddingLeft: theme.spacing * 2}}>
                           <View style={[styles.lastPunchText]}>
                             {punchStatus?.punchState === PUNCHED_OUT ? (
                               <Text>{'Last Punch Out' + ' : '}</Text>
