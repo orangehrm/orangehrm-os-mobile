@@ -26,8 +26,16 @@ import {
   ACCESS_TOKEN,
   REFRESH_TOKEN,
   EXPIRES_AT,
+  INSTANCE_API_VERSION,
+  INSTANCE_API_PATHS,
+  DATE_FORMAT,
 } from 'services/storage';
-import {NullableString, StorageState, AuthParams} from 'store/storage/types';
+import {
+  NullableString,
+  StorageState,
+  AuthParams,
+  ApiDetails,
+} from 'store/storage/types';
 
 export const selectStorage = (state: RootState): StorageState => state.storage;
 
@@ -66,3 +74,21 @@ export const selectAuthParams = createSelector<
   [EXPIRES_AT]: storage[EXPIRES_AT],
   fetchingAccessTokenLock: storage.fetchingAccessTokenLock,
 }));
+
+export const selectApiDetails = createSelector<
+  RootState,
+  StorageState,
+  ApiDetails
+>([selectStorage], (storage) => {
+  const paths = storage[INSTANCE_API_PATHS];
+  return {
+    [INSTANCE_API_VERSION]: storage[INSTANCE_API_VERSION],
+    [INSTANCE_API_PATHS]: paths ? JSON.parse(paths) : null,
+  };
+});
+
+export const selectDateFormat = createSelector<
+  RootState,
+  StorageState,
+  NullableString
+>([selectStorage], (storage) => storage[DATE_FORMAT]);

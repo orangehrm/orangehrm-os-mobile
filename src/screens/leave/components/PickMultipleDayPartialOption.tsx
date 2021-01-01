@@ -30,9 +30,7 @@ import {
   DEFAULT_TO_TIME,
 } from 'store/leave/common-screens/types';
 
-class PickMultipleDayPartialOption extends React.Component<
-  PickMultipleDayPartialOptionProps
-> {
+class PickMultipleDayPartialOption extends React.Component<PickMultipleDayPartialOptionProps> {
   render() {
     const {
       theme,

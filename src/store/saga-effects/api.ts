@@ -36,7 +36,7 @@ import {
 } from 'store/storage/types';
 import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams} from 'store/storage/types';
-import {logout} from 'store/auth/actions';
+import {logout, fetchNewAuthTokenFinished} from 'store/auth/actions';
 import {AuthenticationError} from 'services/errors/authentication';
 
 export function* apiCall<Fn extends (...args: any[]) => any>(
@@ -82,6 +82,7 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
           [SCOPE]: data.scope,
           [EXPIRES_AT]: getExpiredAt(data.expires_in),
         });
+        yield put(fetchNewAuthTokenFinished());
       } else {
         if (data.error === 'authentication_failed') {
           // employee not assigned, terminated, disabled
@@ -109,7 +110,7 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
   return result;
 }
 
-export function* apiGetCall(endpoint: string) {
+export function* apiGetCall(endpoint: string, requiredRawResponse?: boolean) {
   const authParams: AuthParams = yield selectAuthParams();
 
   if (authParams.accessToken !== null && authParams.instanceUrl !== null) {
@@ -125,6 +126,10 @@ export function* apiGetCall(endpoint: string) {
     const url = authParams.instanceUrl + endpoint;
 
     const response: Response = yield call(fetch, url, requestOptions);
+
+    if (requiredRawResponse === true) {
+      return response;
+    }
     const data = yield call([response, response.json]);
     data.getResponse = () => {
       return response;

@@ -19,7 +19,7 @@
  */
 
 import NetInfo, {NetInfoState} from '@react-native-community/netinfo';
-import {call, takeEvery, put, all} from 'redux-saga/effects';
+import {call, takeEvery, put, all, select} from 'redux-saga/effects';
 import {
   FETCH_TOKEN,
   LOGOUT,
@@ -29,6 +29,9 @@ import {
   CheckInstanceAction,
   FetchEnabledModulesAction,
   FETCH_ENABLED_MODULES,
+  FETCH_NEW_TOKEN_FINISHED,
+  FetchMyInfoAction,
+  FetchNewTokenFinishedAction,
 } from 'store/auth/types';
 import {authenticate, checkLegacyInstance} from 'services/authentication';
 import {
@@ -37,6 +40,8 @@ import {
   checkRemovedEndpoints,
   checkDeprecatedEndpoints,
   getEnabledModules,
+  getOpenApiDefinition,
+  getOpenApiDefinitionPaths,
 } from 'services/instance-check';
 import {
   USERNAME,
@@ -46,6 +51,8 @@ import {
   TOKEN_TYPE,
   EXPIRES_AT,
   INSTANCE_URL,
+  INSTANCE_API_VERSION,
+  INSTANCE_API_PATHS,
 } from 'services/storage';
 import {
   openLoader,
@@ -64,11 +71,18 @@ import {
   checkInstanceFinished,
   fetchEnabledModulesFinished,
   myInfoFailed,
+  fetchNewAuthTokenFinished,
 } from 'store/auth/actions';
 import {getExpiredAt} from 'store/auth/helper';
-import {AuthParams} from 'store/storage/types';
+import {AuthParams, ApiDetails} from 'store/storage/types';
+import {selectApiDetails} from 'store/storage/selectors';
 import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
-import {getMessageAlongWithGenericErrors, isJsonParseError} from 'services/api';
+import {
+  getMessageAlongWithGenericErrors,
+  isJsonParseError,
+  ERROR_NO_ASSIGNED_EMPLOYEE,
+  ERROR_JSON_PARSE,
+} from 'services/api';
 import {API_ENDPOINT_MY_INFO, prepare} from 'services/endpoints';
 import {AuthenticationError} from 'services/errors/authentication';
 import {InstanceCheckError} from 'services/errors/instance-check';
@@ -84,7 +98,7 @@ function* checkInstance(action?: CheckInstanceAction) {
     let response: Response = yield call(checkInstanceRequest, instanceUrl);
 
     // check instance in advanced
-    let urls = getAbsoluteUrlsForChecking(instanceUrl);
+    const urls = getAbsoluteUrlsForChecking(instanceUrl);
 
     // if user enter web system login screen url
     if (
@@ -289,6 +303,7 @@ function* fetchAuthToken(action: FetchTokenAction) {
           [SCOPE]: data.scope,
           [EXPIRES_AT]: getExpiredAt(data.expires_in),
         });
+        yield put(fetchNewAuthTokenFinished());
       }
     } else {
       yield showSnackMessage('Instance URL is empty.', TYPE_ERROR);
@@ -325,19 +340,43 @@ function* fetchMyInfo() {
   try {
     yield* fetchEnabledModules();
 
-    const response = yield apiCall(
+    const rawResponse: Response = yield apiCall(
       apiGetCall,
       prepare(API_ENDPOINT_MY_INFO, {}, {withPhoto: true}),
+      true,
     );
-    if (response.data) {
-      yield put(fetchMyInfoFinished(response.data));
+
+    if (rawResponse.ok) {
+      try {
+        const response = yield call([rawResponse, rawResponse.json]);
+        if (response.data.employee) {
+          yield put(fetchMyInfoFinished(response.data));
+        } else {
+          // No employee assign to logged in user
+          yield put(
+            myInfoFailed(true, {
+              error: ERROR_NO_ASSIGNED_EMPLOYEE,
+              code: rawResponse.status,
+            }),
+          );
+          yield put(fetchMyInfoFinished(undefined, true));
+        }
+      } catch (error) {
+        if (isJsonParseError(error)) {
+          yield put(
+            myInfoFailed(true, {
+              error: ERROR_JSON_PARSE,
+              code: rawResponse.status,
+            }),
+          );
+        } else {
+          throw error;
+        }
+      }
     } else {
-      yield put(fetchMyInfoFinished(undefined, true));
+      yield put(myInfoFailed(true, {code: rawResponse.status}));
     }
   } catch (error) {
-    if (isJsonParseError(error)) {
-      yield put(myInfoFailed(true));
-    }
     if (error instanceof InstanceCheckError) {
       yield showSnackMessage(
         getMessageAlongWithGenericErrors(error, 'Failed to Check Instance.'),
@@ -348,10 +387,55 @@ function* fetchMyInfo() {
   }
 }
 
+function* fetchApiDefinition(
+  action: FetchMyInfoAction | FetchNewTokenFinishedAction,
+) {
+  try {
+    // only continue generator if `INSTANCE_API_VERSION` key not available in storage
+    if (action.type === FETCH_MY_INFO) {
+      const apiDetails: ApiDetails = yield select(selectApiDetails);
+      if (
+        apiDetails[INSTANCE_API_VERSION] !== null ||
+        apiDetails[INSTANCE_API_VERSION] !== undefined
+      ) {
+        return;
+      }
+    }
+
+    const instanceUrl: string = yield selectInstanceUrl();
+    const response: Response = yield call(getOpenApiDefinition, instanceUrl);
+    const apiDefinition = yield call([response, response.json]);
+
+    checkInstanceCompatibility(apiDefinition);
+    checkRemovedEndpoints(apiDefinition);
+    const usingDeprecatedEndpoints = checkDeprecatedEndpoints(apiDefinition);
+    if (usingDeprecatedEndpoints) {
+      yield showSnackMessage('Please Update the Application.', TYPE_WARN);
+    }
+
+    const apiVersion = apiDefinition?.info?.version;
+    const apiPaths = Object.keys(getOpenApiDefinitionPaths(apiDefinition));
+    yield storageSetMulti({
+      [INSTANCE_API_VERSION]: apiVersion ? apiVersion : null,
+      [INSTANCE_API_PATHS]: apiPaths ? JSON.stringify(apiPaths) : null,
+    });
+  } catch (error) {
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(
+        error,
+        'Failed to Fetch API Definition.',
+      ),
+      TYPE_ERROR,
+    );
+  }
+}
+
 export function* watchAuthActions() {
   yield takeEvery(FETCH_TOKEN, fetchAuthToken);
   yield takeEvery(LOGOUT, logout);
   yield takeEvery(FETCH_MY_INFO, fetchMyInfo);
   yield takeEvery(CHECK_INSTANCE, checkInstance);
   yield takeEvery(FETCH_ENABLED_MODULES, fetchEnabledModules);
+  yield takeEvery(FETCH_NEW_TOKEN_FINISHED, fetchApiDefinition);
+  yield takeEvery(FETCH_MY_INFO, fetchApiDefinition);
 }

@@ -28,6 +28,7 @@ import {
 import Text from 'components/DefaultText';
 import Chip from 'components/DefaultChip';
 import Avatar from 'components/DefaultAvatar';
+import FormattedDate from 'components/FormattedDate';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {LeaveListLeaveRequest} from 'store/leave/leave-list/types';
 import {LEAVE_TYPE_DELETED_YES} from 'store/leave/leave-usage/types';
@@ -36,10 +37,6 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
   render() {
     const {theme, leaveRequest, onPress} = this.props;
     const leaveTypeColor = leaveRequest.leaveType.color;
-    const leaveDates =
-      leaveRequest.fromDate === leaveRequest.toDate
-        ? leaveRequest.fromDate
-        : leaveRequest.fromDate + ' to ' + leaveRequest.toDate;
     return (
       <>
         <TouchableWithoutFeedback onPress={onPress}>
@@ -103,7 +100,15 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
                     color: theme.palette.secondary,
                     paddingBottom: theme.spacing,
                   }}>
-                  {leaveDates}
+                  <FormattedDate nested>{leaveRequest.fromDate}</FormattedDate>
+                  {leaveRequest.fromDate !== leaveRequest.toDate ? (
+                    <>
+                      {' to '}
+                      <FormattedDate nested>
+                        {leaveRequest.toDate}
+                      </FormattedDate>
+                    </>
+                  ) : null}
                 </Text>
                 <Text style={[{fontSize: theme.typography.smallFontSize}]}>
                   {leaveRequest.leaveBreakdown}

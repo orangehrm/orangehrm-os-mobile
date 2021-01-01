@@ -55,6 +55,7 @@ const leaveUsageReducer = (
       return {
         ...state,
         leaveRequest: action.payload?.slice(),
+        leaveRequestDetail: initialState.leaveRequestDetail,
       };
     case SELECT_LEAVE_TYPE:
       return {

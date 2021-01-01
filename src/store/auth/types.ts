@@ -18,7 +18,7 @@
  *
  */
 
-import {$PropertyType} from 'utility-types';
+import {$PropertyType, MutableKeys} from 'utility-types';
 
 export const USER_ROLE_ADMIN = 'Admin';
 export const USER_ROLE_ESS = 'ESS';
@@ -32,6 +32,7 @@ export interface AuthState {
   instanceExists?: boolean;
   enabledModules?: EnabledModules;
   myInfoFailed?: boolean;
+  myInfoError?: ErrorResponse;
 }
 
 export const FETCH_TOKEN = 'AUTH_FETCH_TOKEN';
@@ -44,6 +45,7 @@ export const FETCH_ENABLED_MODULES = 'AUTH_FETCH_ENABLED_MODULES';
 export const FETCH_ENABLED_MODULES_FINISHED =
   'AUTH_FETCH_ENABLED_MODULES_FINISHED';
 export const MY_INFO_FAILED = 'AUTH_MY_INFO_FAILED';
+export const FETCH_NEW_TOKEN_FINISHED = 'AUTH_FETCH_NEW_TOKEN_FINISHED';
 
 export interface FetchTokenAction {
   type: typeof FETCH_TOKEN;
@@ -89,6 +91,11 @@ export interface FetchEnabledModulesFinishedAction {
 export interface MyInfoFailedAction {
   type: typeof MY_INFO_FAILED;
   state: $PropertyType<AuthState, 'myInfoFailed'>;
+  error?: ErrorResponse;
+}
+
+export interface FetchNewTokenFinishedAction {
+  type: typeof FETCH_NEW_TOKEN_FINISHED;
 }
 
 export type AuthActionTypes =
@@ -100,7 +107,8 @@ export type AuthActionTypes =
   | CheckInstanceFinishedAction
   | FetchEnabledModulesAction
   | FetchEnabledModulesFinishedAction
-  | MyInfoFailedAction;
+  | MyInfoFailedAction
+  | FetchNewTokenFinishedAction;
 
 export interface AuthSuccessResponse {
   access_token: string;
@@ -113,6 +121,11 @@ export interface AuthSuccessResponse {
 export interface AuthErrorResponse {
   error: string;
   error_description: string;
+}
+
+export interface ErrorResponse {
+  error?: string;
+  code: number;
 }
 
 export type NullableString = string | null;
@@ -159,23 +172,35 @@ export interface Supervisor {
 
 export type AuthResponse = AuthSuccessResponse | AuthErrorResponse;
 
+export const MODULE_ADMIN = 'admin';
+export const MODULE_PIM = 'pim';
+export const MODULE_LEAVE = 'leave';
+export const MODULE_TIME = 'time';
+export const MODULE_RECRUITMENT = 'recruitment';
+export const MODULE_PERFORMANCE = 'performance';
+export const MODULE_DIRECTORY = 'directory';
+export const MODULE_MAINTENANCE = 'maintenance';
+export const MODULE_MOILE = 'mobile';
+
+export type Modules = MutableKeys<$PropertyType<EnabledModules, 'modules'>>;
+
 export interface EnabledModules {
   modules: {
-    admin: boolean;
-    pim: boolean;
-    leave: boolean;
-    time: boolean;
-    recruitment: boolean;
-    performance: boolean;
-    directory: boolean;
-    maintenance: boolean;
-    mobile: boolean;
+    [MODULE_ADMIN]: boolean;
+    [MODULE_PIM]: boolean;
+    [MODULE_LEAVE]: boolean;
+    [MODULE_TIME]: boolean;
+    [MODULE_RECRUITMENT]: boolean;
+    [MODULE_PERFORMANCE]: boolean;
+    [MODULE_DIRECTORY]: boolean;
+    [MODULE_MAINTENANCE]: boolean;
+    [MODULE_MOILE]: boolean;
   };
   meta: {
-    leave: {
+    [MODULE_LEAVE]: {
       isLeavePeriodDefined: boolean;
     };
-    time: {
+    [MODULE_TIME]: {
       isTimesheetPeriodDefined: boolean;
     };
   };

@@ -40,7 +40,7 @@ fs.readFile(gradlePropertiesPath, 'utf8', (error, gradleProperties) => {
   versionCodeStr = versionCodeStr.replace('ORANGEHRM_VERSION_CODE=', '');
   const versionCode = parseInt(versionCodeStr, 10);
 
-  let updatedGradleProperties = gradleProperties.replace(
+  const updatedGradleProperties = gradleProperties.replace(
     regex,
     `ORANGEHRM_VERSION_CODE=${versionCode + 1}\n`,
   );
@@ -80,7 +80,7 @@ fs.readFile(projectpbxprojPath, 'utf8', (error, projectpbxproj) => {
   versionCodeStr = versionCodeStr.replace('CURRENT_PROJECT_VERSION = ', '');
   const versionCode = parseInt(versionCodeStr, 10);
 
-  let projectpbxprojUpdated = projectpbxproj.replace(
+  const projectpbxprojUpdated = projectpbxproj.replace(
     regex,
     `CURRENT_PROJECT_VERSION = ${versionCode + 1};\n`,
   );

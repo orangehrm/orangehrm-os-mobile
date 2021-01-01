@@ -34,7 +34,11 @@ import {
   EXPIRES_AT,
   SCOPE,
   TOKEN_TYPE,
+  INSTANCE_API_VERSION,
+  INSTANCE_API_PATHS,
+  DATE_FORMAT,
 } from 'services/storage';
+import {DEFAULT_DATE_FORMAT} from 'lib/helpers/date';
 
 const initialState: StorageState = {
   [INSTANCE_URL]: null,
@@ -44,6 +48,9 @@ const initialState: StorageState = {
   [EXPIRES_AT]: null,
   [SCOPE]: null,
   [TOKEN_TYPE]: null,
+  [INSTANCE_API_VERSION]: null,
+  [INSTANCE_API_PATHS]: null,
+  [DATE_FORMAT]: DEFAULT_DATE_FORMAT,
   loaded: false,
   fetchingAccessTokenLock: false,
 };
@@ -59,9 +66,16 @@ const storageReducer = (
         [action.key]: action.value,
       };
     case SET_MULTI:
+      const keyValues = {...action.keyValuePairs};
+      if (
+        keyValues[DATE_FORMAT] === null ||
+        keyValues[DATE_FORMAT] === undefined
+      ) {
+        keyValues[DATE_FORMAT] = DEFAULT_DATE_FORMAT;
+      }
       return {
         ...state,
-        ...action.keyValuePairs,
+        ...keyValues,
       };
     case CHANGE_LOADED:
       return {

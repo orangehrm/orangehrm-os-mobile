@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/DefaultFooter test DefaultFooter component 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "justifyContent": "center",
+      },
+      Object {
+        "paddingBottom": 8,
+        "paddingTop": 8,
+      },
+    ]
+  }
+>
+  <Text
+    style={
+      Array [
+        Object {
+          "color": "#818181",
+        },
+        undefined,
+        Object {
+          "color": "#818181",
+          "fontSize": 8,
+        },
+      ]
+    }
+  >
+    OrangeHRM Open Source
+     
+    1.0.1
+  </Text>
+  <Text
+    style={
+      Array [
+        Object {
+          "color": "#818181",
+        },
+        undefined,
+        Object {
+          "color": "#818181",
+          "fontSize": 8,
+        },
+      ]
+    }
+  >
+    © 2005 - 
+    2021
+     
+    OrangeHRM, Inc. 
+    All Rights Reserved
+    .
+  </Text>
+</View>
+`;

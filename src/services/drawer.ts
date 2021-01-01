@@ -18,10 +18,10 @@
  *
  */
 
-import {SUBHEADER_LEAVE} from 'screens';
+import {SUBHEADER_LEAVE, SUBHEADER_TIME} from 'screens';
 import {DrawerNavigationState} from 'layouts/DrawerContent';
 import {DrawerDescriptorMap} from '@react-navigation/drawer/lib/typescript/src/types';
-import {EnabledModules} from 'store/auth/types';
+import {EnabledModules, MODULE_LEAVE, MODULE_TIME} from 'store/auth/types';
 import {$PropertyType} from 'utility-types';
 
 type DrawerItem = {
@@ -67,8 +67,12 @@ export const getDrawerItems = (
 
 export const SUBHEADER_ICONS = {
   [SUBHEADER_LEAVE]: {name: 'briefcase'},
+  [SUBHEADER_TIME]: {name: 'clock'},
 };
 
 export const SUBHEADER_MODULE_MAP = {
-  [SUBHEADER_LEAVE]: 'leave',
+  [SUBHEADER_LEAVE]: MODULE_LEAVE,
+  [SUBHEADER_TIME]: MODULE_TIME,
 };
+
+export const DEFAULT_FIXED_DRAWER_WIDTH = '32%';

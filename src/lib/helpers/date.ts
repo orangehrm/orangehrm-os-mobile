@@ -18,6 +18,8 @@
  *
  */
 
+export const DEFAULT_DATE_FORMAT = 'ddd, DD MMM YYYY';
+
 /**
  * Return array of dates for given period
  * @param {Date} startDate
@@ -30,7 +32,7 @@ const getDatesWithinPeriod = (startDate: Date, endDate: Date): Date[] => {
   }
 
   const dates = [];
-  let currentDate = new Date(startDate);
+  const currentDate = new Date(startDate);
   while (currentDate <= endDate) {
     dates.push(new Date(currentDate));
     currentDate.setDate(currentDate.getDate() + 1);

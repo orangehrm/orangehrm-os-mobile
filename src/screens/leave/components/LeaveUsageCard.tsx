@@ -35,6 +35,7 @@ import CardActions from 'components/DefaultCardActions';
 import Chip from 'components/DefaultChip';
 import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
+import FormattedDate from 'components/FormattedDate';
 
 class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
   /**
@@ -110,13 +111,19 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
                   {paddingVertical: theme.spacing * 2},
                 ]}>
                 <Text>
-                  {selectedLeaveType?.validFrom
-                    ? selectedLeaveType?.validFrom
-                    : '- -'}
+                  {selectedLeaveType?.validFrom ? (
+                    <FormattedDate>
+                      {selectedLeaveType?.validFrom}
+                    </FormattedDate>
+                  ) : (
+                    <Text>{'- -'}</Text>
+                  )}
                   {' to '}
-                  {selectedLeaveType?.validTo
-                    ? selectedLeaveType?.validTo
-                    : '- -'}
+                  {selectedLeaveType?.validTo ? (
+                    <FormattedDate>{selectedLeaveType?.validTo}</FormattedDate>
+                  ) : (
+                    <Text>{'- -'}</Text>
+                  )}
                 </Text>
               </View>
               <Divider />

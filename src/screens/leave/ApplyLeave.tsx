@@ -97,10 +97,10 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       requestDaysError: '',
       comment: '',
     };
-    this.updateEntitlements();
   }
 
   componentDidMount() {
+    this.updateEntitlements();
     Keyboard.addListener('keyboardDidHide', this.hideCommentInput);
   }
 
@@ -207,7 +207,7 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       (item) => item.id === selectedLeaveTypeId,
     );
     if (fromDate && selectedLeaveType) {
-      let leaveRequest: LeaveRequest = {
+      const leaveRequest: LeaveRequest = {
         fromDate: fromDate,
         toDate: toDate ? toDate : fromDate,
         type: selectedLeaveType?.leaveType.id,
@@ -366,14 +366,6 @@ interface ApplyLeaveState {
 const styles = StyleSheet.create({
   mainView: {
     flex: 1,
-  },
-  noRecordsTextView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  noRecordsText: {
-    textAlign: 'center',
   },
 });
 

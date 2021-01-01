@@ -42,17 +42,13 @@ import Button from 'components/DefaultButton';
 import Calendar from 'screens/leave/components/Calendar';
 
 class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
-  constructor(props: PickLeaveRequestDaysProps) {
-    super(props);
-    if (props.holidays === undefined) {
-      props.fetchHolidays();
-    }
-    if (props.workWeek === undefined) {
-      props.fetchWorkWeek();
-    }
-  }
-
   componentDidMount() {
+    if (this.props.holidays === undefined) {
+      this.props.fetchHolidays();
+    }
+    if (this.props.workWeek === undefined) {
+      this.props.fetchWorkWeek();
+    }
     this.props.setPickedState('pickedLeaveDates', false);
     Keyboard.dismiss();
   }

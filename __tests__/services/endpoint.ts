@@ -46,7 +46,7 @@ describe('services/endpoints', () => {
   });
 
   test('prepare::check with array of query params', () => {
-    let result = prepare(
+    const result = prepare(
       '/api/v1/leave/leave-request',
       {},
       {param1: 'param1_val', param2: ['param2_val1', 'param2_val2']},

@@ -46,7 +46,7 @@ import {
 } from 'store/auth/actions';
 import useTheme from 'lib/hook/useTheme';
 import {getDrawerItems} from 'services/drawer';
-import {SUBHEADER_LEAVE} from 'screens';
+import {SUBHEADER_LEAVE, SUBHEADER_TIME} from 'screens';
 
 const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   const {
@@ -112,15 +112,15 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
                       name={drawerItem.subheaderIcon?.name}
                       style={{margin: theme.spacing * 2}}
                     />
-                    <Text style={[styles.label, {margin: theme.spacing * 2.5}]}>
+                    <Text style={{margin: theme.spacing * 2.5}}>
                       {drawerItem.subheader}
                     </Text>
                   </View>
                 ) : null}
-                <View style={{marginLeft: theme.spacing * 4}}>
+                <View style={{marginLeft: theme.spacing * 7}}>
                   <DrawerItem
+                    style={{marginVertical: theme.spacing * -1}}
                     label={drawerItem.label}
-                    labelStyle={{color: theme.typography.primaryColor}}
                     onPress={() => {
                       drawerContentProps.navigation.closeDrawer();
                       drawerContentProps.navigation.dispatch(
@@ -137,19 +137,19 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
               </Fragment>
             ))}
           </View>
-          <View>
-            <Divider />
-            <DrawerItem
-              label={'Logout'}
-              onPress={logoutOnPress}
-              icon={() => <Icon name={'logout'} />}
-              {...commonProps}
-            />
-            <Divider />
-            <Footer />
-          </View>
         </View>
       </DrawerContentScrollView>
+      <View>
+        <Divider />
+        <DrawerItem
+          label={'Logout'}
+          onPress={logoutOnPress}
+          icon={() => <Icon name={'logout'} />}
+          {...commonProps}
+        />
+        <Divider />
+        <Footer />
+      </View>
     </SafeAreaView>
   );
 };
@@ -160,7 +160,7 @@ export type DrawerNavigationState = BaseDrawerNavigationState & {
     key: string;
     name: string;
     params: {
-      subheader: typeof SUBHEADER_LEAVE;
+      subheader: typeof SUBHEADER_LEAVE | typeof SUBHEADER_TIME;
       [key: string]: any;
     };
   }>;

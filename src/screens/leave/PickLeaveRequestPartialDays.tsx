@@ -51,9 +51,7 @@ import {
 } from 'store/leave/common-screens/types';
 import {isValidPartialOptionSpecifyTime} from 'lib/helpers/leave';
 
-class PickLeaveRequestPartialDays extends React.Component<
-  PickLeaveRequestPartialDaysProps
-> {
+class PickLeaveRequestPartialDays extends React.Component<PickLeaveRequestPartialDaysProps> {
   componentDidMount() {
     this.props.setPickedState('pickedPartialOption', false);
   }
@@ -237,8 +235,8 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const PickLeaveRequestPartialDaysWithTheme = withTheme<
-  PickLeaveRequestPartialDaysProps
->()(PickLeaveRequestPartialDays);
+const PickLeaveRequestPartialDaysWithTheme = withTheme<PickLeaveRequestPartialDaysProps>()(
+  PickLeaveRequestPartialDays,
+);
 
 export default connector(PickLeaveRequestPartialDaysWithTheme);

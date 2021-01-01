@@ -28,7 +28,7 @@ import {
 } from 'react-native';
 import useTheme from 'lib/hook/useTheme';
 import Text from 'components/DefaultText';
-import CardButton from 'screens/leave/components/CardButton';
+import CardButton from 'components/CardButton';
 import Icon from 'components/DefaultIcon';
 import IconButton, {IconButtonProps} from 'components/DefaultIconButton';
 import TextInput, {TextInputProps} from 'components/DefaultTextInput';

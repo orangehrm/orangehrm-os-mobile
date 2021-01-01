@@ -36,10 +36,11 @@ import {
 } from 'store/leave/leave-usage/actions';
 import Text from 'components/DefaultText';
 import Chip from 'components/DefaultChip';
+import FormattedDate from 'components/FormattedDate';
 import Avatar from 'components/DefaultAvatar';
 import Button from 'components/DefaultButton';
 import Divider from 'components/DefaultDivider';
-import FlatButton from 'screens/leave/components/FlatButton';
+import FlatButton from 'components/FlatButton';
 import LeaveCommentListItem from 'screens/leave/components/LeaveCommentListItem';
 import {MyLeaveUsageNavigatorParamList} from 'screens/leave/navigators/MyLeaveUsageNavigator';
 import BottomConfirmationDialog from 'screens/leave/components/BottomConfirmationDialog';
@@ -59,13 +60,16 @@ class MyLeaveDetails extends React.Component<
 > {
   constructor(props: MyLeaveDetailsProps) {
     super(props);
-    const {leaveRequest} = props.route.params;
-    if (props.leaveRequestDetail?.leaveRequestId !== leaveRequest.id) {
-      this.props.fetchMyLeaveDetails(leaveRequest.id);
-    }
     this.state = {
       action: undefined,
     };
+  }
+
+  componentDidMount() {
+    const {leaveRequest} = this.props.route.params;
+    if (this.props.leaveRequestDetail?.leaveRequestId !== leaveRequest.id) {
+      this.props.fetchMyLeaveDetails(leaveRequest.id);
+    }
   }
 
   onRefresh = () => {
@@ -115,10 +119,6 @@ class MyLeaveDetails extends React.Component<
     const {theme, leaveRequestDetail} = this.props;
     const {action} = this.state;
     const leaveTypeColor = leaveRequestDetail?.leaveType.color;
-    const leaveDates =
-      leaveRequestDetail?.fromDate === leaveRequestDetail?.toDate
-        ? leaveRequestDetail?.fromDate
-        : leaveRequestDetail?.fromDate + ' to ' + leaveRequestDetail?.toDate;
     return (
       <MainLayout
         onRefresh={this.onRefresh}
@@ -191,7 +191,18 @@ class MyLeaveDetails extends React.Component<
                     color: theme.palette.secondary,
                     paddingBottom: theme.spacing,
                   }}>
-                  {leaveDates}
+                  <FormattedDate nested>
+                    {leaveRequestDetail?.fromDate}
+                  </FormattedDate>
+                  {leaveRequestDetail?.fromDate !==
+                  leaveRequestDetail?.toDate ? (
+                    <>
+                      {' to '}
+                      <FormattedDate nested>
+                        {leaveRequestDetail?.toDate}
+                      </FormattedDate>
+                    </>
+                  ) : null}
                 </Text>
                 <View style={styles.chipView}>
                   <Chip

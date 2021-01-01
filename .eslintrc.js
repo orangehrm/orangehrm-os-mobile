@@ -25,6 +25,12 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   rules: {
     'no-console': 1, // warn for console logs
-    'lines-between-class-members': ['error', 'always'],
+    'lines-between-class-members': [
+      'error',
+      'always',
+      {exceptAfterSingleLine: true},
+    ],
+    'prefer-const': ['error'],
+    'react-native/no-unused-styles': 2,
   },
 };

@@ -19,8 +19,15 @@
  */
 
 import {select} from 'redux-saga/effects';
-import {selectEnabledModules as enabledModulesSelector} from 'store/auth/selectors';
+import {
+  selectEnabledModules as enabledModulesSelector,
+  selectMyInfo as selectMyInfoSelector,
+} from 'store/auth/selectors';
 
 export const selectEnabledModules = () => {
   return select(enabledModulesSelector);
+};
+
+export const selectMyInfo = () => {
+  return select(selectMyInfoSelector);
 };

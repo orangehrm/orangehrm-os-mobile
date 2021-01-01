@@ -22,12 +22,14 @@ import React from 'react';
 import {Text, TextProps, StyleSheet} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
-function DefaultText(props: React.PropsWithChildren<DefaultTextProps>) {
-  const {children, style, theme, bold, ...restProps} = props;
+function DefaultText(
+  props: React.PropsWithChildren<DefaultTextPropsWithTheme>,
+) {
+  const {children, style, theme, bold, nested, ...restProps} = props;
   return (
     <Text
       style={[
-        {color: theme.typography.primaryColor},
+        nested ? undefined : {color: theme.typography.primaryColor},
         bold ? styles.textBold : undefined,
         style,
       ]}
@@ -37,8 +39,11 @@ function DefaultText(props: React.PropsWithChildren<DefaultTextProps>) {
   );
 }
 
-interface DefaultTextProps extends TextProps, WithTheme {
+interface DefaultTextPropsWithTheme extends DefaultTextProps, WithTheme {}
+
+export interface DefaultTextProps extends TextProps {
   bold?: boolean;
+  nested?: boolean;
 }
 
 const styles = StyleSheet.create({
@@ -47,4 +52,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withTheme<DefaultTextProps>()(DefaultText);
+export default withTheme<DefaultTextPropsWithTheme>()(DefaultText);

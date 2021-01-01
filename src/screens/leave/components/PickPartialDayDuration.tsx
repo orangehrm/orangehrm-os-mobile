@@ -35,9 +35,7 @@ import {
   WorkShift,
 } from 'store/leave/common-screens/types';
 
-class PickPartialDayDuration extends React.Component<
-  PickPartialDayDurationProps
-> {
+class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps> {
   isStartDayHalfDayAfternoon = (partialOption?: MultipleDayPartialOption) => {
     return (
       (partialOption?.partialOption === PARTIAL_OPTION_ALL ||

@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/DefaultDivider test DefaultDivider component 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "height": 0.5,
+      },
+      Object {
+        "backgroundColor": "#818181",
+      },
+      undefined,
+    ]
+  }
+/>
+`;

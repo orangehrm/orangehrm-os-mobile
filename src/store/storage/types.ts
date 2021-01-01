@@ -26,6 +26,9 @@ import {
   EXPIRES_AT,
   SCOPE,
   TOKEN_TYPE,
+  INSTANCE_API_VERSION,
+  INSTANCE_API_PATHS,
+  DATE_FORMAT,
 } from 'services/storage';
 
 export interface StorageState {
@@ -36,6 +39,9 @@ export interface StorageState {
   [EXPIRES_AT]: NullableString;
   [SCOPE]: NullableString;
   [TOKEN_TYPE]: NullableString;
+  [INSTANCE_API_VERSION]: NullableString;
+  [INSTANCE_API_PATHS]: NullableString;
+  [DATE_FORMAT]: NullableString;
   loaded?: boolean;
   error?: any;
   fetchingAccessTokenLock: boolean;
@@ -77,6 +83,11 @@ export interface AuthParams {
   [REFRESH_TOKEN]: NullableString;
   [EXPIRES_AT]: NullableString;
   fetchingAccessTokenLock: boolean;
+}
+
+export interface ApiDetails {
+  [INSTANCE_API_VERSION]: NullableString;
+  [INSTANCE_API_PATHS]: Array<string> | null;
 }
 
 export type StorageActionTypes =

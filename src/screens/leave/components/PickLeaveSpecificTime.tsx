@@ -27,9 +27,7 @@ import LeaveSpecificTimeSlider from 'screens/leave/components/LeaveSpecificTimeS
 import {getTimeValuesForSlider} from 'lib/helpers/leave';
 import {getDateFromString} from 'lib/helpers/time';
 
-class PickLeaveSpecificTime extends React.Component<
-  PickLeaveSpecificTimeProps
-> {
+class PickLeaveSpecificTime extends React.Component<PickLeaveSpecificTimeProps> {
   isValidTimes = (fromTime: string, toTime: string) => {
     return getDateFromString(fromTime) < getDateFromString(toTime);
   };

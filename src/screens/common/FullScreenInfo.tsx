@@ -21,42 +21,106 @@
 import React from 'react';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
-import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import {selectEnabledModules} from 'store/auth/selectors';
 import {fetchEnabledModules} from 'store/auth/actions';
 import FullInfoView from 'screens/common/component/FullInfoView';
+import {Modules, MODULE_LEAVE, MODULE_TIME} from 'store/auth/types';
+import {SUBHEADER_MODULE_MAP} from 'services/drawer';
+import {getNavigation} from 'lib/helpers/navigation';
 
 class FullScreenError extends React.Component<FullScreenErrorProps> {
   onRefresh = () => {
     this.props.fetchEnabledModules();
   };
 
-  render() {
-    const {theme, enabledModules} = this.props;
-    let message =
-      'Unexpected Error Occurred, Please Contact Your System Administrator.';
-    if (!enabledModules?.modules.leave) {
-      message =
-        'Leave Module Is Disabled, Please Contact Your System Administrator.';
-    } else if (!enabledModules.meta.leave.isLeavePeriodDefined) {
-      message =
-        'Leave Period Is Not Defined, Please Contact Your System Administrator.';
+  componentDidUpdate(prevProps: FullScreenErrorProps) {
+    if (this.props.enabledModules !== prevProps.enabledModules) {
+      getNavigation()?.resetRoot();
     }
+  }
+
+  isDisableOnly = (module: Modules): boolean => {
+    const {enabledModules} = this.props;
+    if (enabledModules?.modules === undefined) {
+      return false;
+    }
+    if (enabledModules.modules[module]) {
+      return false;
+    }
+
+    const appSupportedModules = this.getAppSupportedModulesExcept(module);
+    for (let i = 0; i < appSupportedModules.length; i++) {
+      if (!enabledModules.modules[appSupportedModules[i]]) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  isEnabledOnly = (module: Modules): boolean => {
+    const {enabledModules} = this.props;
+    if (enabledModules?.modules === undefined) {
+      return false;
+    }
+    if (!enabledModules.modules[module]) {
+      return false;
+    }
+
+    const appSupportedModules = this.getAppSupportedModulesExcept(module);
+    for (let i = 0; i < appSupportedModules.length; i++) {
+      if (enabledModules.modules[appSupportedModules[i]]) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  getAppSupportedModulesExcept = (module: Modules) => {
+    const appSupportedModules = Object.values(
+      SUBHEADER_MODULE_MAP,
+    ) as Array<Modules>;
+
+    const index = appSupportedModules.indexOf(module);
+    if (index > -1) {
+      appSupportedModules.splice(index, 1);
+    }
+    return appSupportedModules;
+  };
+
+  render() {
+    const {enabledModules} = this.props;
+    let message = 'Unexpected Error Occurred';
+
+    if (!enabledModules?.modules.leave && !enabledModules?.modules.time) {
+      message = 'Leave and Time Modules Are Disabled';
+    } else if (this.isDisableOnly(MODULE_LEAVE)) {
+      message = 'Leave Module Is Disabled';
+    } else if (
+      enabledModules?.modules.leave &&
+      !enabledModules.meta.leave.isLeavePeriodDefined
+    ) {
+      message = 'Leave Period Is Not Defined';
+    } else if (this.isDisableOnly(MODULE_TIME)) {
+      message = 'Time Module Is Disabled';
+    } else if (
+      this.isEnabledOnly(MODULE_TIME) &&
+      !enabledModules.meta.time.isTimesheetPeriodDefined
+    ) {
+      message = 'Timesheet Period Is Not Defined';
+    }
+
+    message += ', Please Contact Your System Administrator.';
     return (
-      <MainLayout
-        onRefresh={this.onRefresh}
-        statusBarBackgroundColor={theme.palette.background}>
+      <MainLayout onRefresh={this.onRefresh}>
         <FullInfoView message={message} />
       </MainLayout>
     );
   }
 }
 
-interface FullScreenErrorProps
-  extends WithTheme,
-    ConnectedProps<typeof connector> {
+interface FullScreenErrorProps extends ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
 }
 
@@ -70,8 +134,4 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const LeaveCommentsWithTheme = withTheme<FullScreenErrorProps>()(
-  FullScreenError,
-);
-
-export default connector(LeaveCommentsWithTheme);
+export default connector(FullScreenError);

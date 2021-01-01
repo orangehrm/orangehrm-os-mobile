@@ -18,7 +18,7 @@
  *
  */
 
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const get = async (key: string): Promise<string | null | undefined> => {
   try {
@@ -65,20 +65,13 @@ export const multiGet = async (
 
 export default {get, set, multiGet};
 
-const INSTANCE_URL = 'instanceUrl';
-const USERNAME = 'username';
-const ACCESS_TOKEN = 'accessToken';
-const REFRESH_TOKEN = 'refreshToken';
-const EXPIRES_AT = 'expiresAt';
-const SCOPE = 'scope';
-const TOKEN_TYPE = 'tokenType';
-
-export {
-  INSTANCE_URL,
-  USERNAME,
-  ACCESS_TOKEN,
-  REFRESH_TOKEN,
-  EXPIRES_AT,
-  SCOPE,
-  TOKEN_TYPE,
-};
+export const INSTANCE_URL = 'instanceUrl';
+export const USERNAME = 'username';
+export const ACCESS_TOKEN = 'accessToken';
+export const REFRESH_TOKEN = 'refreshToken';
+export const EXPIRES_AT = 'expiresAt';
+export const SCOPE = 'scope';
+export const TOKEN_TYPE = 'tokenType';
+export const INSTANCE_API_VERSION = 'apiVersion';
+export const INSTANCE_API_PATHS = 'apiPaths';
+export const DATE_FORMAT = 'dateFormat';

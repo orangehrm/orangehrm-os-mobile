@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/DefaultTextInput test DefaultTextInput component 1`] = `
+<View>
+  <TextInput
+    allowFontScaling={true}
+    rejectResponderTermination={true}
+    style={
+      Array [
+        Object {
+          "color": "#818181",
+          "fontSize": 14,
+        },
+        undefined,
+      ]
+    }
+    underlineColorAndroid="transparent"
+    value="Test"
+  />
+</View>
+`;

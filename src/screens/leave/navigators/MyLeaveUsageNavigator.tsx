@@ -42,9 +42,7 @@ import {LeaveDaysParamList} from 'screens/leave/navigators';
 
 const Stack = createStackNavigator<MyLeaveUsageNavigatorParamList>();
 
-class MyLeaveUsageNavigator extends React.Component<
-  MyLeaveUsageNavigatorProps
-> {
+class MyLeaveUsageNavigator extends React.Component<MyLeaveUsageNavigatorProps> {
   render() {
     const {theme, navigation} = this.props;
     const header = getHeaderStyle(theme);

@@ -36,10 +36,11 @@ import {
 } from 'store/leave/leave-list/actions';
 import Text from 'components/DefaultText';
 import Chip from 'components/DefaultChip';
+import FormattedDate from 'components/FormattedDate';
 import Avatar from 'components/DefaultAvatar';
 import Button from 'components/DefaultButton';
 import Divider from 'components/DefaultDivider';
-import FlatButton from 'screens/leave/components/FlatButton';
+import FlatButton from 'components/FlatButton';
 import LeaveCommentListItem from 'screens/leave/components/LeaveCommentListItem';
 import BottomConfirmationDialog from 'screens/leave/components/BottomConfirmationDialog';
 import {LeaveListNavigatorParamList} from 'screens/leave/navigators/LeaveListNavigator';
@@ -61,15 +62,19 @@ class LeaveDetails extends React.Component<
 > {
   constructor(props: LeaveDetailsProps) {
     super(props);
-    const {leaveRequest} = props.route.params;
-    if (
-      props.employeeLeaveRequest?.leaveRequestId !== leaveRequest.leaveRequestId
-    ) {
-      this.props.fetchEmployeeLeaveRequest(leaveRequest.leaveRequestId);
-    }
     this.state = {
       action: undefined,
     };
+  }
+
+  componentDidMount() {
+    const {leaveRequest} = this.props.route.params;
+    if (
+      this.props.employeeLeaveRequest?.leaveRequestId !==
+      leaveRequest.leaveRequestId
+    ) {
+      this.props.fetchEmployeeLeaveRequest(leaveRequest.leaveRequestId);
+    }
   }
 
   onRefresh = () => {
@@ -125,12 +130,6 @@ class LeaveDetails extends React.Component<
     const {theme, employeeLeaveRequest} = this.props;
     const {action} = this.state;
     const leaveTypeColor = employeeLeaveRequest?.leaveType.color;
-    const leaveDates =
-      employeeLeaveRequest?.fromDate === employeeLeaveRequest?.toDate
-        ? employeeLeaveRequest?.fromDate
-        : employeeLeaveRequest?.fromDate +
-          ' to ' +
-          employeeLeaveRequest?.toDate;
     return (
       <MainLayout
         onRefresh={this.onRefresh}
@@ -230,7 +229,18 @@ class LeaveDetails extends React.Component<
                     color: theme.palette.secondary,
                     paddingBottom: theme.spacing,
                   }}>
-                  {leaveDates}
+                  <FormattedDate nested>
+                    {employeeLeaveRequest?.fromDate}
+                  </FormattedDate>
+                  {employeeLeaveRequest?.fromDate !==
+                  employeeLeaveRequest?.toDate ? (
+                    <>
+                      {' to '}
+                      <FormattedDate nested>
+                        {employeeLeaveRequest?.toDate}
+                      </FormattedDate>
+                    </>
+                  ) : null}
                 </Text>
                 <View style={styles.chipView}>
                   <Chip
@@ -266,9 +276,11 @@ class LeaveDetails extends React.Component<
           </View>
           <View style={[styles.row, styles.leaveBalanceView]}>
             <View>
-              {employeeLeaveRequest?.leaveBreakdown.split(',').map((text) => (
-                <Text>{text.trim()}</Text>
-              ))}
+              {employeeLeaveRequest?.leaveBreakdown
+                .split(',')
+                .map((text, index) => (
+                  <Text key={index}>{text.trim()}</Text>
+                ))}
             </View>
             <Text style={[{fontSize: theme.typography.smallFontSize}]}>
               {'Days Available: '}
@@ -346,12 +358,6 @@ const styles = StyleSheet.create({
   },
   leaveBalanceView: {
     justifyContent: 'space-evenly',
-  },
-  confirmationButtonView: {
-    justifyContent: 'space-evenly',
-  },
-  confirmationButton: {
-    flex: 0.5,
   },
 });
 
