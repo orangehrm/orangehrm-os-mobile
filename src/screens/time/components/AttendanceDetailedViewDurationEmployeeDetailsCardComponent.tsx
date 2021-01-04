@@ -66,9 +66,12 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
             <Avatar name={employeeName} />
 
             <View
-              style={{
-                paddingHorizontal: theme.spacing * 4,
-              }}>
+              style={[
+                styles.flexOne,
+                {
+                  paddingHorizontal: theme.spacing * 4,
+                },
+              ]}>
               <Text
                 bold
                 style={{
