@@ -18,8 +18,14 @@
  *
  */
 
-import React, {useCallback, Fragment} from 'react';
-import {StyleSheet, View, RefreshControl, SafeAreaView} from 'react-native';
+import React, {useCallback, Fragment, useEffect} from 'react';
+import {
+  StyleSheet,
+  View,
+  RefreshControl,
+  SafeAreaView,
+  Linking,
+} from 'react-native';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {DrawerActions} from '@react-navigation/native';
 import {
@@ -40,6 +46,9 @@ import {
   selectMyInfo,
   selectEnabledModules,
 } from 'store/auth/selectors';
+import {helpRequestForMobile} from 'store/help/types';
+import {selectHelp} from 'store/help/selectors';
+import {fetchHelp} from 'store/help/actions';
 import {
   fetchMyInfo as fetchMyInfoAction,
   logout as logoutAction,
@@ -55,6 +64,7 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
     fetchMyInfo,
     logout,
     enabledModules,
+    helpConfig,
     ...drawerContentProps
   } = props;
   const theme = useTheme();
@@ -85,6 +95,33 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   if (currentDrawerItem?.type !== 'route') {
     currentDrawerItem = history.pop();
   }
+
+  const onPressHelp = () => {
+    props.fetchHelp(helpRequestForMobile);
+  };
+
+  const navigateHelp = () => {
+    let url = helpConfig?.redirectUrls[0]?.url;
+    if (url === undefined) {
+      url = helpConfig?.defaultRedirectUrl;
+    }
+    if (url !== undefined) {
+      Linking.canOpenURL(url).then((supported) => {
+        if (supported) {
+          if (url !== undefined) {
+            Linking.openURL(url);
+          }
+        }
+      });
+    }
+  };
+  useEffect(() => {
+    if (helpConfig?.defaultRedirectUrl !== undefined) {
+      navigateHelp();
+    }
+    /* eslint-disable react-hooks/exhaustive-deps */
+  }, [helpConfig]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -140,6 +177,16 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
         </View>
       </DrawerContentScrollView>
       <View>
+        <Divider />
+        <Divider />
+        <DrawerItem
+          label={'Help'}
+          onPress={() => {
+            onPressHelp();
+          }}
+          icon={() => <Icon name={'help-circle'} />}
+          {...commonProps}
+        />
         <Divider />
         <DrawerItem
           label={'Logout'}
@@ -201,11 +248,13 @@ const mapStateToProps = (state: RootState) => ({
   myInfoFinished: selectMyInfoFinished(state),
   myInfo: selectMyInfo(state),
   enabledModules: selectEnabledModules(state),
+  helpConfig: selectHelp(state),
 });
 
 const mapDispatchToProps = {
   fetchMyInfo: fetchMyInfoAction,
   logout: logoutAction,
+  fetchHelp: fetchHelp,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
