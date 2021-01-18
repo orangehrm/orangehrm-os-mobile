@@ -178,7 +178,6 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
       </DrawerContentScrollView>
       <View>
         <Divider />
-        <Divider />
         <DrawerItem
           label={'Help'}
           onPress={() => {
