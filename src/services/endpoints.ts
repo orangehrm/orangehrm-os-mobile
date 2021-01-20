@@ -51,10 +51,14 @@ export const API_ENDPOINT_ATTENDANCE_GRAPH = '/api/v1/attendance/summary';
 export const API_ENDPOINT_ATTENDANCE_LIST =
   '/api/v1/attendance/attendance-list';
 export const API_ENDPOINT_ATTENDANCE_CONFIGURATION = '/api/v1/time/config';
+
+//help
+export const API_ENDPOINT_HELP_CONFIG = '/api/v1/help/config';
+
 // public endpoints
 export const API_ENDPOINT_API_DEFINITION = '/api/v1/api-definition';
 export const API_ENDPOINT_ENABLED_MODULES = '/api/v1/enabled-modules';
-export const API_ENDPOINT_HELP = '/api/v1/help/config';
+
 export const prepare = (
   endpoint: string,
   params: {[key: string]: string | number} = {},

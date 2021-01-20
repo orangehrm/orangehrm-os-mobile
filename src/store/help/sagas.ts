@@ -27,7 +27,7 @@ import {
 } from 'store/saga-effects/globals';
 import {FetchHelpAction, FETCH_HELP} from './types';
 import {fetchHelpFinished} from './actions';
-import {prepare, API_ENDPOINT_HELP} from 'services/endpoints';
+import {prepare, API_ENDPOINT_HELP_CONFIG} from 'services/endpoints';
 import {
   getMessageAlongWithGenericErrors,
   getMessageAlongWithResponseErrors,
@@ -40,7 +40,7 @@ function* fetchHelp(action: FetchHelpAction) {
     const response = yield apiCall(
       apiGetCall,
       prepare(
-        API_ENDPOINT_HELP,
+        API_ENDPOINT_HELP_CONFIG,
         {},
         {
           query: action.payload.query,
@@ -52,13 +52,19 @@ function* fetchHelp(action: FetchHelpAction) {
       yield put(fetchHelpFinished(response.data));
     } else {
       yield showSnackMessage(
-        getMessageAlongWithResponseErrors(response, 'Failed to Fetch Help'),
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Help Configurations',
+        ),
         TYPE_ERROR,
       );
     }
   } catch (error) {
     yield showSnackMessage(
-      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Help.'),
+      getMessageAlongWithGenericErrors(
+        error,
+        'Failed to Fetch Help Configurations.',
+      ),
       TYPE_ERROR,
     );
   } finally {
