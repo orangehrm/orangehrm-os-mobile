@@ -20,7 +20,7 @@
 
 export const helpRequestForMobile = {
   mode: 'category',
-  query: 'Admin',
+  query: 'Mobile',
 };
 
 export interface HelpRequest {
