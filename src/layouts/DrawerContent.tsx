@@ -179,18 +179,27 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
       <View>
         <Divider />
         <DrawerItem
+          style={{marginLeft: theme.spacing * 0}}
           label={'Help'}
           onPress={() => {
             onPressHelp();
           }}
-          icon={() => <Icon name={'help-circle'} />}
+          icon={() => (
+            <Icon
+              name={'help-circle'}
+              style={{marginRight: theme.spacing * -3.5}}
+            />
+          )}
           {...commonProps}
         />
         <Divider />
         <DrawerItem
+          style={{marginLeft: theme.spacing * 0}}
           label={'Logout'}
           onPress={logoutOnPress}
-          icon={() => <Icon name={'logout'} />}
+          icon={() => (
+            <Icon name={'logout'} style={{marginRight: theme.spacing * -3.5}} />
+          )}
           {...commonProps}
         />
         <Divider />
