@@ -59,6 +59,7 @@ export const REQUIRED_ENDPOINTS = {
 
 export const ORANGEHRM_API_1$1$0 = '1.1.0';
 export const ORANGEHRM_API_1$2$0 = '1.2.0';
+export const ORANGEHRM_API_1$3$0 = '1.3.0';
 
 export const REQUIRED_MINIMUM_ORANGEHRM_API_VER = ORANGEHRM_API_1$1$0;
 

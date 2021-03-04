@@ -19,7 +19,12 @@
  */
 
 import React from 'react';
-import {View, StyleSheet, TouchableWithoutFeedback, Image} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Linking,
+} from 'react-native';
 import {
   NavigationProp,
   ParamListBase,
@@ -29,10 +34,22 @@ import MainLayout from 'layouts/MainLayout';
 import Text from 'components/DefaultText';
 import Icon from 'components/DefaultIcon';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-
+import {Button} from 'native-base';
 class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
   onPressClose = () => {
     this.props.navigation.dispatch(StackActions.pop());
+  };
+
+  onPressLearnMore = () => {
+    const url =
+      'https://opensourcehelp.orangehrm.com/hc/en-us/articles/360020060020-How-to-Configure-URL-and-Login-to-the-app';
+    Linking.canOpenURL(url).then((supported) => {
+      if (supported) {
+        if (url !== undefined) {
+          Linking.openURL(url);
+        }
+      }
+    });
   };
 
   render() {
@@ -57,7 +74,7 @@ class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
             </TouchableWithoutFeedback>
           </View>
 
-          <View style={[styles.headerView, {paddingBottom: theme.spacing * 6}]}>
+          <View style={[styles.headerView, {paddingBottom: theme.spacing * 8}]}>
             <View
               style={{
                 backgroundColor: theme.palette.secondary,
@@ -81,93 +98,68 @@ class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
           </View>
 
           <View style={{paddingHorizontal: borderPadding}}>
-            <View style={[styles.row, {paddingBottom: theme.spacing * 4}]}>
-              <Icon
-                name={'help-circle'}
-                style={{paddingRight: theme.spacing * 2}}
-              />
-              <Text style={[styles.justify, styles.textView]}>
-                {
-                  'Refer to "How to Configure URL and Login" in Help & Support (accessible via the Web system) in order to find your system URL.'
-                }
-              </Text>
-            </View>
-
-            <View style={{paddingBottom: theme.spacing * 4}}>
-              <Image
-                source={require('images/help-config-url.png')}
-                style={styles.image}
-                resizeMode={'contain'}
-              />
-            </View>
-
-            <View style={[styles.row, {paddingBottom: theme.spacing * 4}]}>
-              <Icon
-                name={'link-variant'}
-                style={{paddingRight: theme.spacing * 2}}
-              />
+            <View style={[styles.row, {paddingBottom: theme.spacing * 5}]}>
               <View style={styles.textView}>
-                <Text style={styles.justify}>
+                <Text>
                   {
-                    'Make sure you enter the correct OrangeHRM system URL in the given format.'
+                    'Enter your OrangeHRM System URL to access your mobile login,'
                   }
                 </Text>
-                <Text>{'(eg: https://example.orangehrm.com)'}</Text>
               </View>
             </View>
-
-            <View style={[styles.row, {paddingBottom: theme.spacing * 4}]}>
-              <Icon
-                name={'link-variant'}
-                style={{paddingRight: theme.spacing * 2}}
-              />
+            <View style={[styles.row, {paddingBottom: theme.spacing * 5}]}>
               <View style={styles.textView}>
-                <Text style={styles.justify}>
+                <Text>
                   {
-                    "Incases where your instance URL contains subpaths, you'll need to enter the complete URL."
+                    'Contact your system administrator or click on "Learn More" if you are not sure of your OrangeHRM URL'
                   }
                 </Text>
-                <Text>{'(eg: https://example.orangehrm.com/internal/hr)'}</Text>
               </View>
             </View>
-
-            <View style={[styles.row, {paddingBottom: theme.spacing * 4}]}>
-              <Icon
-                name={'key-wireless'}
-                style={{paddingRight: theme.spacing * 2}}
-              />
-              <Text style={[styles.justify, styles.textView]}>
+            <View
+              style={[
+                styles.learnMoreContainer,
                 {
-                  'If your instance is hosted in a private network, make sure you are connected to the VPN or in the same network to access the mobile app.'
-                }
-              </Text>
+                  marginBottom: theme.spacing * 5,
+                },
+              ]}>
+              <Button
+                onPress={this.onPressLearnMore}
+                style={{
+                  backgroundColor: theme.palette.secondary,
+                  paddingHorizontal: theme.spacing * 4,
+                  height: theme.spacing * 8,
+                  borderRadius: theme.borderRadius * 4,
+                }}>
+                <Text
+                  style={{
+                    color: theme.palette.background,
+                    fontSize: theme.typography.fontSize,
+                  }}>
+                  {'Learn More'}
+                </Text>
+              </Button>
             </View>
-
+            <View style={[styles.row, {paddingBottom: theme.spacing * 5}]}>
+              <View style={styles.textView}>
+                <Text>
+                  {
+                    'The mobile application is only supported with OrangeHRM Open Source Web Version 4.5 Onwards.'
+                  }
+                </Text>
+              </View>
+            </View>
             <View style={[styles.row, {paddingBottom: theme.spacing * 4}]}>
-              <Icon
-                name={'shield-check'}
-                style={{paddingRight: theme.spacing * 2}}
-              />
-              <Text style={[styles.justify, styles.textView]}>
-                {
-                  'The instance should be hosted in a server with a valid SSL certificate to trust the URL to access the mobile app.'
-                }
-              </Text>
+              <View style={styles.textView}>
+                <Text>
+                  {'Please contact OrangeHRM support via; '}
+                  <Text style={{color: theme.palette.secondary}}>
+                    {'ossupport@orangehrm.com'}
+                  </Text>
+                  {' if you require further assistance'}
+                </Text>
+              </View>
             </View>
-          </View>
-
-          <View
-            style={{
-              padding: borderPadding,
-              paddingTop: theme.spacing * 4,
-              backgroundColor: theme.palette.backgroundSecondary,
-            }}>
-            <Text style={styles.bold}>{'Note:'}</Text>
-            <Text style={styles.justify}>
-              {
-                'The mobile application is only supported with OrangeHRM Open Source Web version 4.5 onwards. Please contact your system administrator to verify if your system supports the minimum requirements or contact OrangeHRM support via ossupport@orangehrm.com.'
-              }
-            </Text>
           </View>
         </View>
       </MainLayout>
@@ -187,9 +179,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
-  justify: {
-    textAlign: 'justify',
-  },
   bold: {
     fontWeight: 'bold',
   },
@@ -200,12 +189,11 @@ const styles = StyleSheet.create({
   closeIconView: {
     flexDirection: 'row-reverse',
   },
-  image: {
-    width: '100%',
-    height: 140,
-  },
   headerView: {
     flexDirection: 'row',
+  },
+  learnMoreContainer: {
+    alignItems: 'flex-start',
   },
 });
 
