@@ -181,7 +181,7 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
         </View>
       </DrawerContentScrollView>
       <View>
-        {isApiCompatible(ORANGEHRM_API_1$3$0) || true ? (
+        {isApiCompatible(ORANGEHRM_API_1$3$0) ? (
           <>
             <Divider />
             <DrawerItem

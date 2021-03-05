@@ -42,12 +42,9 @@ class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
   };
 
   onPressLearnMore = () => {
-    const url = SUPPORT_URL;
-    Linking.canOpenURL(url).then((supported) => {
+    Linking.canOpenURL(SUPPORT_URL).then((supported) => {
       if (supported) {
-        if (url !== undefined) {
-          Linking.openURL(url);
-        }
+        Linking.openURL(SUPPORT_URL);
       }
     });
   };
