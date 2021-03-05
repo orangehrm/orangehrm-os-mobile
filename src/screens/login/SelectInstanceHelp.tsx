@@ -35,7 +35,7 @@ import Text from 'components/DefaultText';
 import Icon from 'components/DefaultIcon';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {Button} from 'native-base';
-import {SUPPORT_URL} from 'services/help';
+import {SUPPORT_URL} from 'services/help'; // URL for the article "How to configure URL and Login to the app"
 class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
   onPressClose = () => {
     this.props.navigation.dispatch(StackActions.pop());
