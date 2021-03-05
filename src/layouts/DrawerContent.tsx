@@ -181,20 +181,17 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
         </View>
       </DrawerContentScrollView>
       <View>
-        {isApiCompatible(ORANGEHRM_API_1$3$0) ? (
+        {isApiCompatible(ORANGEHRM_API_1$3$0) || true ? (
           <>
             <Divider />
             <DrawerItem
-              style={{marginLeft: theme.spacing * 0}}
+              style={styles.drawerItem}
               label={'Help'}
               onPress={() => {
                 onPressHelp();
               }}
               icon={() => (
-                <Icon
-                  name={'help-circle'}
-                  style={{marginRight: theme.spacing * -3.5}}
-                />
+                <Icon name={'help-circle'} style={styles.draweItemIcon} />
               )}
               {...commonProps}
             />
@@ -202,12 +199,10 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
         ) : null}
         <Divider />
         <DrawerItem
-          style={{marginLeft: theme.spacing * 0}}
+          style={styles.drawerItem}
           label={'Logout'}
           onPress={logoutOnPress}
-          icon={() => (
-            <Icon name={'logout'} style={{marginRight: theme.spacing * -3.5}} />
-          )}
+          icon={() => <Icon name={'logout'} style={styles.draweItemIcon} />}
           {...commonProps}
         />
         <Divider />
@@ -257,6 +252,13 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
+  },
+
+  drawerItem: {
+    marginLeft: 0,
+  },
+  draweItemIcon: {
+    marginRight: -14,
   },
 });
 

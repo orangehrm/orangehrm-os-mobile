@@ -1,6 +1,6 @@
 {
   "name": "orangehrm-opensource",
-  "version": "2.1.0-alpha1",
+  "version": "2.1.0-alpha2",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
