@@ -34,8 +34,9 @@ import MainLayout from 'layouts/MainLayout';
 import Text from 'components/DefaultText';
 import Icon from 'components/DefaultIcon';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {Button} from 'native-base';
-import {SUPPORT_URL} from 'services/help'; // URL for the article "How to configure URL and Login to the app"
+import {Button} from 'native-base'; // Cannot use DefaultButton since title always UPPERCASE
+import {SUPPORT_URL} from 'services/help';
+import {SEND_MAIL_SUPPORT_EMAIL_URL} from 'services/help';
 class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
   onPressClose = () => {
     this.props.navigation.dispatch(StackActions.pop());
@@ -45,6 +46,14 @@ class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
     Linking.canOpenURL(SUPPORT_URL).then((supported) => {
       if (supported) {
         Linking.openURL(SUPPORT_URL);
+      }
+    });
+  };
+
+  onPressSupportEmail = () => {
+    Linking.canOpenURL(SEND_MAIL_SUPPORT_EMAIL_URL).then((supported) => {
+      if (supported) {
+        Linking.openURL(SEND_MAIL_SUPPORT_EMAIL_URL);
       }
     });
   };
@@ -150,7 +159,9 @@ class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
               <View style={styles.textView}>
                 <Text>
                   {'Please contact OrangeHRM support via; '}
-                  <Text style={{color: theme.palette.secondary}}>
+                  <Text
+                    style={{color: theme.palette.secondary}}
+                    onPress={this.onPressSupportEmail}>
                     {'ossupport@orangehrm.com'}
                   </Text>
                   {' if you require further assistance'}
