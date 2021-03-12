@@ -48,7 +48,7 @@ import {
 } from 'store/auth/selectors';
 import {helpRequestForMobile} from 'store/help/types';
 import {selectHelp} from 'store/help/selectors';
-import {fetchHelp} from 'store/help/actions';
+import {fetchConigHelp} from 'store/help/actions';
 import {
   fetchMyInfo as fetchMyInfoAction,
   logout as logoutAction,
@@ -187,9 +187,7 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
             <DrawerItem
               style={styles.drawerItem}
               label={'Help'}
-              onPress={() => {
-                onPressHelp();
-              }}
+              onPress={onPressHelp}
               icon={() => (
                 <Icon name={'help-circle'} style={styles.draweItemIcon} />
               )}
@@ -272,7 +270,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = {
   fetchMyInfo: fetchMyInfoAction,
   logout: logoutAction,
-  fetchHelp: fetchHelp,
+  fetchHelp: fetchConigHelp,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

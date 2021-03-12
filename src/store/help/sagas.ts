@@ -25,8 +25,8 @@ import {
   closeLoader,
   showSnackMessage,
 } from 'store/saga-effects/globals';
-import {FetchHelpAction, FETCH_HELP} from './types';
-import {fetchHelpFinished} from './actions';
+import {FetchHelpConfigAction, FETCH_HELP_CONFIG} from './types';
+import {fetchHelpConfigFinished} from './actions';
 import {prepare, API_ENDPOINT_HELP_CONFIG} from 'services/endpoints';
 import {
   getMessageAlongWithGenericErrors,
@@ -34,7 +34,7 @@ import {
 } from 'services/api';
 import {TYPE_ERROR} from 'store/globals/types';
 
-function* fetchHelp(action: FetchHelpAction) {
+function* fetchConfigHelp(action: FetchHelpConfigAction) {
   try {
     yield openLoader();
     const response = yield apiCall(
@@ -49,7 +49,7 @@ function* fetchHelp(action: FetchHelpAction) {
       ),
     );
     if (response.data) {
-      yield put(fetchHelpFinished(response.data));
+      yield put(fetchHelpConfigFinished(response.data));
     } else {
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(
@@ -72,6 +72,6 @@ function* fetchHelp(action: FetchHelpAction) {
   }
 }
 
-export function* watchHelpActions() {
-  yield takeEvery(FETCH_HELP, fetchHelp);
+export function* watchHelpConfigActions() {
+  yield takeEvery(FETCH_HELP_CONFIG, fetchConfigHelp);
 }

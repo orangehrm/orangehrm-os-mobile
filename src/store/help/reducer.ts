@@ -18,17 +18,21 @@
  *
  */
 
-import {FETCH_HELP_FINISHED, HelpState, HelpActionTypes} from './types';
+import {
+  FETCH_HELP_CONFIG_FINISHED,
+  HelpConfigState,
+  HelpConfigActionTypes,
+} from './types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
-const initialState: HelpState = {};
+const initialState: HelpConfigState = {};
 
-const helpReducer = (
+const helpConfigReducer = (
   state = initialState,
-  action: WithLogoutAction<HelpActionTypes>,
-): HelpState => {
+  action: WithLogoutAction<HelpConfigActionTypes>,
+): HelpConfigState => {
   switch (action.type) {
-    case FETCH_HELP_FINISHED:
+    case FETCH_HELP_CONFIG_FINISHED:
       return {
         ...state,
         help: action.payload,
@@ -40,4 +44,4 @@ const helpReducer = (
   }
 };
 
-export default helpReducer;
+export default helpConfigReducer;

@@ -21,12 +21,12 @@
 import {RootState} from 'store';
 import {createSelector} from 'reselect';
 
-import {HelpState, Help} from './types';
+import {HelpConfigState, HelpConfig} from './types';
 
-export const selectHelpState = (state: RootState) => state.help;
+export const selectHelpConfigState = (state: RootState) => state.help;
 
 export const selectHelp = createSelector<
   RootState,
-  HelpState,
-  Help | undefined
->([selectHelpState], (help) => help.help);
+  HelpConfigState,
+  HelpConfig | undefined
+>([selectHelpConfigState], (help) => help.help);

@@ -30,8 +30,8 @@ export interface HelpRequest {
   categories?: string[];
 }
 
-export interface HelpState {
-  help?: Help;
+export interface HelpConfigState {
+  help?: HelpConfig;
 }
 
 export interface ArticleObject {
@@ -39,23 +39,25 @@ export interface ArticleObject {
   url: string;
 }
 
-export interface Help {
+export interface HelpConfig {
   defaultRedirectUrl: string;
   redirectUrls: ArticleObject[];
 }
 
-export const FETCH_HELP = 'HELP_FETCH_HELP';
-export const FETCH_HELP_FINISHED = 'HELP_FETCH_HELP_FINISHED';
+export const FETCH_HELP_CONFIG = 'HELP_FETCH_HELP';
+export const FETCH_HELP_CONFIG_FINISHED = 'HELP_FETCH_HELP_FINISHED';
 
-export interface FetchHelpAction {
-  type: typeof FETCH_HELP;
+export interface FetchHelpConfigAction {
+  type: typeof FETCH_HELP_CONFIG;
   payload: HelpRequest;
 }
 
-export interface FetchHelpFinishedAction {
-  type: typeof FETCH_HELP_FINISHED;
-  payload?: Help;
+export interface FetchHelpConfigFinishedAction {
+  type: typeof FETCH_HELP_CONFIG_FINISHED;
+  payload?: HelpConfig;
   error: boolean;
 }
 
-export type HelpActionTypes = FetchHelpAction | FetchHelpFinishedAction;
+export type HelpConfigActionTypes =
+  | FetchHelpConfigAction
+  | FetchHelpConfigFinishedAction;

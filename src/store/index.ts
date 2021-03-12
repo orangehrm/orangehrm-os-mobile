@@ -30,7 +30,7 @@ import assignLeaveReducer from './leave/assign-leave/reducer';
 import leaveCommonReducer from './leave/common-screens/reducer';
 import punchReducer from './time/punch/reducer';
 import attendanceReducer from './time/attendance/reducer';
-import helpReducer from './help/reducer';
+import helpConfigReducer from './help/reducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -44,7 +44,7 @@ const rootReducer = combineReducers({
   leaveCommon: leaveCommonReducer,
   punch: punchReducer,
   attendance: attendanceReducer,
-  help: helpReducer,
+  help: helpConfigReducer,
 });
 
 export default rootReducer;

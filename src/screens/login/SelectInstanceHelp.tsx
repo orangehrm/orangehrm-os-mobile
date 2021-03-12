@@ -35,8 +35,7 @@ import Text from 'components/DefaultText';
 import Icon from 'components/DefaultIcon';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {Button} from 'native-base'; // Cannot use DefaultButton since title always UPPERCASE
-import {SUPPORT_URL} from 'services/help';
-import {SEND_MAIL_SUPPORT_EMAIL_URL} from 'services/help';
+import {SUPPORT_URL, SEND_MAIL_SUPPORT_EMAIL_URL} from 'services/help';
 class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
   onPressClose = () => {
     this.props.navigation.dispatch(StackActions.pop());

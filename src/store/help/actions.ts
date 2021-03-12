@@ -19,26 +19,26 @@
  */
 
 import {
-  Help,
-  FETCH_HELP,
-  FETCH_HELP_FINISHED,
-  FetchHelpAction,
-  FetchHelpFinishedAction,
+  HelpConfig,
+  FETCH_HELP_CONFIG,
+  FETCH_HELP_CONFIG_FINISHED,
+  FetchHelpConfigAction,
+  FetchHelpConfigFinishedAction,
 } from './types';
 import {$PropertyType} from 'utility-types';
 
-export const fetchHelp = (
-  payload: $PropertyType<FetchHelpAction, 'payload'>,
-): FetchHelpAction => ({
-  type: FETCH_HELP,
+export const fetchConigHelp = (
+  payload: $PropertyType<FetchHelpConfigAction, 'payload'>,
+): FetchHelpConfigAction => ({
+  type: FETCH_HELP_CONFIG,
   payload,
 });
 
-export const fetchHelpFinished = (
-  payload?: Help,
+export const fetchHelpConfigFinished = (
+  payload?: HelpConfig,
   error: boolean = false,
-): FetchHelpFinishedAction => ({
-  type: FETCH_HELP_FINISHED,
+): FetchHelpConfigFinishedAction => ({
+  type: FETCH_HELP_CONFIG_FINISHED,
   payload,
   error,
 });
