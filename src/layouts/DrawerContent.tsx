@@ -48,7 +48,7 @@ import {
 } from 'store/auth/selectors';
 import {helpRequestForMobile} from 'store/help/types';
 import {selectHelp} from 'store/help/selectors';
-import {fetchConigHelp} from 'store/help/actions';
+import {fetchConfigHelp} from 'store/help/actions';
 import {
   fetchMyInfo as fetchMyInfoAction,
   logout as logoutAction,
@@ -270,7 +270,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = {
   fetchMyInfo: fetchMyInfoAction,
   logout: logoutAction,
-  fetchHelp: fetchConigHelp,
+  fetchHelp: fetchConfigHelp,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

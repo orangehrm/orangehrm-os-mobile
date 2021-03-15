@@ -27,7 +27,7 @@ import {
 } from './types';
 import {$PropertyType} from 'utility-types';
 
-export const fetchConigHelp = (
+export const fetchConfigHelp = (
   payload: $PropertyType<FetchHelpConfigAction, 'payload'>,
 ): FetchHelpConfigAction => ({
   type: FETCH_HELP_CONFIG,
