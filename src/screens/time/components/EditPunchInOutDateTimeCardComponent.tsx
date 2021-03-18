@@ -32,6 +32,7 @@ import {AndroidEvent} from '@react-native-community/datetimepicker/src/index';
 import {formatTime} from 'lib/helpers/attendance';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import FormattedDate from 'components/FormattedDate';
+import {isAboveIOS14} from 'services/platform';
 
 class EditPunchInOutDateTimeCard extends React.Component<
   EditPunchInOutDateTimeCardProps,
@@ -42,6 +43,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
     this.state = {
       show: false,
       mode: DATE,
+      display: DISPLAY_DEFAULT,
     };
   }
 
@@ -59,16 +61,24 @@ class EditPunchInOutDateTimeCard extends React.Component<
   };
 
   showDatepicker = () => {
-    this.setState({show: true, mode: DATE});
+    this.setState({
+      show: true,
+      mode: DATE,
+      display: isAboveIOS14() ? DISPLAY_SPINNER : DISPLAY_DEFAULT,
+    });
   };
 
   showTimepicker = () => {
-    this.setState({show: true, mode: TIME});
+    this.setState({
+      show: true,
+      mode: TIME,
+      display: isAboveIOS14() ? DISPLAY_SPINNER : DISPLAY_DEFAULT,
+    });
   };
 
   render() {
     const {theme, punchCurrentDateTime} = this.props;
-    const {mode} = this.state;
+    const {mode, display} = this.state;
 
     let date;
     if (punchCurrentDateTime === undefined) {
@@ -217,7 +227,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
                       value={date}
                       mode={mode}
                       is24Hour={false}
-                      display="default"
+                      display={display}
                       onChange={this.onChange}
                     />
                   </View>
@@ -239,6 +249,7 @@ interface EditPunchInOutDateTimeCardProps extends WithTheme {
 interface EditPunchInOutDateTimeCardState {
   show: boolean;
   mode: typeof TIME | typeof DATE;
+  display: DateTimePickerDisplayOption;
 }
 
 const styles = StyleSheet.create({
@@ -273,5 +284,28 @@ const EditPunchInOutDateTimeCardCardWithTheme = withTheme<EditPunchInOutDateTime
 
 const DATE = 'date';
 const TIME = 'time';
+
+export const DISPLAY_DEFAULT = 'default';
+export const DISPLAY_SPINNER = 'spinner';
+export const DISPLAY_CLOCK = 'clock';
+export const DISPLAY_CALENDAR = 'calendar';
+export const DISPLAY_COMPACT = 'compact';
+export const DISPLAY_INLINE = 'inline';
+
+export type DateTimePickerAndroidDisplayOption =
+  | typeof DISPLAY_DEFAULT
+  | typeof DISPLAY_SPINNER
+  | typeof DISPLAY_CLOCK
+  | typeof DISPLAY_CALENDAR;
+
+export type DateTimePickerIOSDisplayOption =
+  | typeof DISPLAY_DEFAULT
+  | typeof DISPLAY_SPINNER
+  | typeof DISPLAY_COMPACT
+  | typeof DISPLAY_INLINE;
+
+export type DateTimePickerDisplayOption =
+  | DateTimePickerAndroidDisplayOption
+  | DateTimePickerIOSDisplayOption;
 
 export default connector(EditPunchInOutDateTimeCardCardWithTheme);
