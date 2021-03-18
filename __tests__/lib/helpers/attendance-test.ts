@@ -62,11 +62,11 @@ describe('lib/helpers/attendance', () => {
   test('getUTCDateObjectFromSaveFormat', () => {
     let strDate = '2020-07-14 10:35';
     let result = getUTCDateObjectFromSaveFormat(strDate);
-    expect(result).toStrictEqual(new Date(strDate));
+    expect(result).toStrictEqual(new Date('2020-07-14T10:35Z'));
 
     strDate = '2020-07-14 23:35:00';
     result = getUTCDateObjectFromSaveFormat(strDate);
-    expect(result).toStrictEqual(new Date(strDate));
+    expect(result).toStrictEqual(new Date('2020-07-14T23:35:00Z'));
 
     strDate = '2020-07-14 24:35';
     result = getUTCDateObjectFromSaveFormat(strDate);
