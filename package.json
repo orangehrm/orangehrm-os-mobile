@@ -1,6 +1,6 @@
 {
   "name": "orangehrm-opensource",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "~1.13.2",
-    "@react-native-community/datetimepicker": "~3.0.4",
+    "@react-native-community/datetimepicker": "^3.3.0",
     "@react-native-community/masked-view": "~0.1.10",
     "@react-native-community/netinfo": "~5.9.9",
     "@react-native-community/slider": "~3.0.3",

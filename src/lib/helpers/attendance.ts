@@ -62,7 +62,8 @@ const getDateSaveFormatFromDateObject = (date: Date) => {
  */
 const getUTCDateObjectFromSaveFormat = (dateString: string) => {
   const datetime = dateString.split(' ', 2);
-  return new Date(datetime[0] + 'T' + datetime[1]);
+  // https://github.com/facebook/react-native/issues/30245
+  return new Date(datetime[0] + 'T' + datetime[1] + 'Z');
 };
 
 /**
