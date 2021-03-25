@@ -25,6 +25,7 @@ import {
   Platform,
   StyleSheet,
 } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -222,6 +223,8 @@ const Navigator = (props: NavigatorProps) => {
         </Stack.Navigator>
       );
     }
+
+    SplashScreen.hide();
   } else {
     view = <Overlay modalProps={{visible: true}} />;
   }
