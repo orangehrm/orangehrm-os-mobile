@@ -48,7 +48,7 @@
     "@types/react-native": "0.70.0",
     "@types/react-native-calendars": "^1.20.8",
     "@types/react-redux": "^7.1.9",
-    "@types/react-test-renderer": "^16.9.2",
+    "@types/react-test-renderer": "18.0.0",
     "@types/redux": "^3.6.0",
     "@types/semver": "^7.3.4",
     "@typescript-eslint/eslint-plugin": "^2.27.0",
@@ -74,15 +74,13 @@
       "json",
       "node"
     ],
-    "testRegex": [
-      "./__tests__/.*.(tsx|ts)$"
-    ],
+    "testRegex": "./__tests__/.*.(tsx|ts)$",
     "setupFiles": [
       "./node_modules/react-native-gesture-handler/jestSetup.js",
       "./__tests__/setup.js"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|native-base|victory-.*|@react-navigation/.*|@codler/react-native-keyboard-aware-scroll-view|@react-native-community/picker)"
+      "<rootDir>/node_modules/(react-clone-referenced-element|@react-native-community|react-navigation|@react-navigation/.*|@unimodules/.*|native-base|react-native-code-push)"
     ]
   }
 }
