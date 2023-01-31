@@ -134,7 +134,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode "${ORANGEHRM_VERSION_CODE}".toInteger()
         versionName "${ORANGEHRM_VERSION_NAME}"
-         multiDexEnabled true
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -193,8 +193,8 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-     implementation 'com.android.support:multidex:1.0.3'
-     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 

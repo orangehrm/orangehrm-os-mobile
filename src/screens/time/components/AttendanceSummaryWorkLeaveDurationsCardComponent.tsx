@@ -186,7 +186,7 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                           fontSize={theme.spacing * 3}
                           style={[{color: leave.colour}]}
                         />
-                        <View style={{width: '70%'}}>
+                        <View style={styles.leaveTypeView}>
                           <Text
                             style={{
                               paddingLeft: theme.spacing * 2.5,
@@ -254,6 +254,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  leaveTypeView: {width: '70%'},
 });
 
 interface AttendanceSummaryWorkLeaveDurationsCardComponentProps {

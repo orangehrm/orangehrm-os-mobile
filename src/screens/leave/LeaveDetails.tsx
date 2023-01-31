@@ -209,7 +209,12 @@ class LeaveDetails extends React.Component<
             </View>
             <View>
               <View
-                style={{paddingHorizontal: theme.spacing * 2, width: '90%'}}>
+                style={[
+                  styles.empNameView,
+                  {
+                    paddingHorizontal: theme.spacing * 2,
+                  },
+                ]}>
                 <Text
                   style={[
                     styles.empNameText,
@@ -257,7 +262,7 @@ class LeaveDetails extends React.Component<
                         ? {backgroundColor: leaveTypeColor}
                         : undefined,
                     ]}>
-                    <View style={{width: '90%'}}>
+                    <View style={styles.empNameView}>
                       <Text
                         numberOfLines={1}
                         style={[
@@ -351,6 +356,9 @@ interface LeaveDetailsState {
 const styles = StyleSheet.create({
   chipView: {
     alignItems: 'flex-start',
+  },
+  empNameView: {
+    width: '90%',
   },
   empNameText: {
     fontWeight: 'bold',

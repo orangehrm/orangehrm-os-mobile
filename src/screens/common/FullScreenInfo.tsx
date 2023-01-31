@@ -42,9 +42,7 @@ class FullScreenError extends React.Component<FullScreenErrorProps> {
     ) {
       try {
         getNavigation()?.resetRoot();
-      } catch (e) {
-        console.log(e);
-      }
+      } catch (e) {}
     }
   }
 
