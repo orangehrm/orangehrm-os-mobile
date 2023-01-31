@@ -114,7 +114,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
   }
 
   componentWillUnmount() {
-    Keyboard.removeListener('keyboardDidHide', this.onKeyboardHide);
+    Keyboard.addListener('keyboardDidHide', this.onKeyboardHide).remove();
   }
 
   componentDidUpdate(prevProps: AssignLeaveProps, prevState: AssignLeaveState) {
@@ -465,7 +465,8 @@ const mapDispatchToProps = {
   pickAssignLeaveFromDate: pickAssignLeaveFromDate,
   pickAssignLeaveToDate: pickAssignLeaveToDate,
   pickAssignLeaveSingleDayDuration: pickAssignLeaveSingleDayDuration,
-  pickAssignLeaveMultipleDayPartialOption: pickAssignLeaveMultipleDayPartialOption,
+  pickAssignLeaveMultipleDayPartialOption:
+    pickAssignLeaveMultipleDayPartialOption,
   resetCommonLeave: resetCommonLeave,
   setCommonLeaveScreensState: setCommonLeaveScreensState,
   fetchWorkShift,

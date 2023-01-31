@@ -81,13 +81,13 @@ class AttendanceListNavigator extends React.Component<AttendanceListNavigatorPro
         screenOptions={{
           ...header,
           ...headerBackIcon,
-        }}
-        keyboardHandlingEnabled={false}>
+          keyboardHandlingEnabled: false,
+        }}>
         <Stack.Screen
           name={ATTENDANCE_LIST}
           component={AttendanceList}
           options={{
-            title: 'Employee Attendance',
+            title: 'Employee Attendance Records',
             ...headerMenuIcon,
             ...headerSearchIcon,
           }}
@@ -96,7 +96,7 @@ class AttendanceListNavigator extends React.Component<AttendanceListNavigatorPro
           name={EMPLOYEE_ATTENDANCE_SUMMARY}
           component={AttendanceSummary}
           options={{
-            title: 'Employee Attendance Summary',
+            title: 'Employee Attendance Records (Summary)',
             ...headerBackIcon,
           }}
         />
@@ -104,7 +104,7 @@ class AttendanceListNavigator extends React.Component<AttendanceListNavigatorPro
           name={EMPLOYEE_ATTENDANCE_DETAILS}
           component={AttendanceDetails}
           options={{
-            title: 'Employee Attendance Details',
+            title: 'Employee Attendance Records(Details)',
             ...headerBackIcon,
           }}
         />

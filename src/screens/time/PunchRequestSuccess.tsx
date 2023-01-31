@@ -440,8 +440,7 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const PunchRequestSuccessWithTheme = withTheme<PunchRequestSuccessProps>()(
-  PunchRequestSuccess,
-);
+const PunchRequestSuccessWithTheme =
+  withTheme<PunchRequestSuccessProps>()(PunchRequestSuccess);
 
 export default connector(PunchRequestSuccessWithTheme);

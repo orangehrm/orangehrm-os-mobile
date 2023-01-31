@@ -52,8 +52,8 @@ class LeaveListNavigator extends React.Component<LeaveListNavigatorProps> {
         screenOptions={{
           ...header,
           ...headerBackIcon,
-        }}
-        keyboardHandlingEnabled={false}>
+          keyboardHandlingEnabled: false,
+        }}>
         <Stack.Screen
           name={LEAVE_LIST}
           component={LeaveList}

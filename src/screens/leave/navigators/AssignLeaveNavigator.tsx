@@ -63,8 +63,8 @@ class AssignLeaveNavigator extends React.Component<AssignLeaveNavigatorProps> {
         screenOptions={{
           ...header,
           ...headerBackIcon,
-        }}
-        keyboardHandlingEnabled={false}>
+          keyboardHandlingEnabled: false,
+        }}>
         <Stack.Screen
           name={ASSIGN_LEAVE}
           component={AssignLeave}

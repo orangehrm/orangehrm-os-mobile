@@ -134,6 +134,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode "${ORANGEHRM_VERSION_CODE}".toInteger()
         versionName "${ORANGEHRM_VERSION_NAME}"
+         multiDexEnabled true
     }
     splits {
         abi {
@@ -166,7 +167,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -192,6 +193,8 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+     implementation 'com.android.support:multidex:1.0.3'
+     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
@@ -219,7 +222,7 @@ dependencies {
 // Run this once to be able to run the application with BUCK
 // puts all compile dependencies into folder libs for BUCK to use
 task copyDownloadableDepsToLibs(type: Copy) {
-    from configurations.compile
+    from configurations.implementation
     into 'libs'
 }
 

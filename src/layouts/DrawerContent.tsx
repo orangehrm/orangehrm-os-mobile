@@ -113,7 +113,7 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
       Linking.canOpenURL(url).then((supported) => {
         if (supported) {
           if (url !== undefined) {
-            Linking.openURL(url);
+            Linking.openURL(url).then((r) => console.log(r));
           }
         }
       });

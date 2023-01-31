@@ -140,8 +140,7 @@ const mapDispatchToProps = {
 
 const connector = connect(null, mapDispatchToProps);
 
-const PunchInOutDateTimeCardWithTheme = withTheme<PunchInOutDateTimeCardProps>()(
-  PunchInOutDateTimeCard,
-);
+const PunchInOutDateTimeCardWithTheme =
+  withTheme<PunchInOutDateTimeCardProps>()(PunchInOutDateTimeCard);
 
 export default connector(PunchInOutDateTimeCardWithTheme);

@@ -39,13 +39,8 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
   props: AttendanceSummaryWorkLeaveDurationsCardComponentProps,
 ) => {
   const theme = useTheme();
-  const {
-    totalLeaveDuration,
-    totalWorkDuration,
-    mode,
-    employeeName,
-    jobTitle,
-  } = props;
+  const {totalLeaveDuration, totalWorkDuration, mode, employeeName, jobTitle} =
+    props;
   return (
     <View
       style={[
@@ -191,15 +186,18 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                           fontSize={theme.spacing * 3}
                           style={[{color: leave.colour}]}
                         />
-                        <Text
-                          style={{
-                            paddingLeft: theme.spacing * 2.5,
-                            fontSize: theme.typography.fontSize,
+                        <View style={{width: '70%'}}>
+                          <Text
+                            style={{
+                              paddingLeft: theme.spacing * 2.5,
+                              fontSize: theme.typography.fontSize,
 
-                            color: leave.colour,
-                          }}>
-                          {leave.type}
-                        </Text>
+                              color: leave.colour,
+                            }}
+                            numberOfLines={1}>
+                            {leave.type}
+                          </Text>
+                        </View>
                       </View>
                       <Text numberOfLines={1}>
                         {leave.duration}

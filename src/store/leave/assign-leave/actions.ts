@@ -129,9 +129,10 @@ export const resetAssignLeave = (): ResetAssignLeaveAction => ({
   type: RESET_ASSIGN_LEAVE,
 });
 
-export const resetAssignLeaveWithoutSubordinates = (): ResetAssignLeaveWithoutSubordinateAction => ({
-  type: RESET_ASSIGN_LEAVE_WITHOUT_SUBORDINATE,
-});
+export const resetAssignLeaveWithoutSubordinates =
+  (): ResetAssignLeaveWithoutSubordinateAction => ({
+    type: RESET_ASSIGN_LEAVE_WITHOUT_SUBORDINATE,
+  });
 
 export const fetchSubordinateLeaveEntitlements = (
   empNumber: string,

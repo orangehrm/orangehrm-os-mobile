@@ -420,9 +420,8 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const AttendanceSummaryWithTheme = withTheme<AttendanceSummaryProps>()(
-  AttendanceSummary,
-);
+const AttendanceSummaryWithTheme =
+  withTheme<AttendanceSummaryProps>()(AttendanceSummary);
 
 const PunchWithGlobals = withGlobals<AttendanceSummaryProps>()(
   AttendanceSummaryWithTheme,

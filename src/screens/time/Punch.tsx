@@ -132,7 +132,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
   }
 
   componentWillUnmount() {
-    Keyboard.removeListener('keyboardDidHide', this.hideCommentInput);
+    Keyboard.addListener('keyboardDidHide', this.hideCommentInput).remove();
   }
 
   onRefresh = () => {
@@ -176,9 +176,16 @@ class Punch extends React.Component<PunchProps, PunchState> {
   };
 
   setLeaveComment = (text: string) => {
-    this.setState({
-      note: text,
-    });
+    if (text.length <= 250) {
+      this.setState({
+        note: text,
+      });
+    } else {
+      this.props.showSnackMessage(
+        'Should not exceed 250 characters',
+        TYPE_WARN,
+      );
+    }
   };
 
   onPressPunchButton = () => {

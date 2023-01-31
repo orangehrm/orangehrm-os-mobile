@@ -146,8 +146,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const connector = connect(mapStateToProps);
 
-const LeaveCommentsWithTheme = withTheme<LeaveRequestSuccessProps>()(
-  LeaveRequestSuccess,
-);
+const LeaveCommentsWithTheme =
+  withTheme<LeaveRequestSuccessProps>()(LeaveRequestSuccess);
 
 export default connector(LeaveCommentsWithTheme);

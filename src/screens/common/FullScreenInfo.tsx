@@ -36,8 +36,15 @@ class FullScreenError extends React.Component<FullScreenErrorProps> {
   };
 
   componentDidUpdate(prevProps: FullScreenErrorProps) {
-    if (this.props.enabledModules !== prevProps.enabledModules) {
-      getNavigation()?.resetRoot();
+    if (
+      JSON.stringify(this.props.enabledModules) !==
+      JSON.stringify(prevProps.enabledModules)
+    ) {
+      try {
+        getNavigation()?.resetRoot();
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 

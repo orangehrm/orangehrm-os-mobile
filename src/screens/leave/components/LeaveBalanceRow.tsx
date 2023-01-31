@@ -27,11 +27,8 @@ import {Entitlement} from 'store/leave/leave-usage/types';
 class LeaveBalanceRow extends React.Component<LeaveBalanceRowProps> {
   componentDidUpdate(prevProps: LeaveBalanceRowProps) {
     if (prevProps !== this.props) {
-      const {
-        entitlement,
-        selectedLeaveTypeId,
-        selectLeaveTypeAction,
-      } = this.props;
+      const {entitlement, selectedLeaveTypeId, selectLeaveTypeAction} =
+        this.props;
       if (selectedLeaveTypeId === undefined) {
         if (entitlement !== undefined && entitlement.length !== 0) {
           selectLeaveTypeAction(entitlement[0].id);
@@ -62,7 +59,7 @@ class LeaveBalanceRow extends React.Component<LeaveBalanceRowProps> {
           ]}>
           <FlatList
             horizontal
-            showsHorizontalScrollIndicator={false}
+            persistentScrollbar={true}
             data={entitlement}
             renderItem={({item}) => (
               <>

@@ -105,7 +105,7 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
   }
 
   componentWillUnmount() {
-    Keyboard.removeListener('keyboardDidHide', this.hideCommentInput);
+    Keyboard.addListener('keyboardDidHide', this.hideCommentInput).remove();
   }
 
   componentDidUpdate(prevProps: ApplyLeaveProps, prevState: ApplyLeaveState) {

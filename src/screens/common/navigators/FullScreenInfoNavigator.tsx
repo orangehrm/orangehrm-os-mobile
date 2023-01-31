@@ -43,8 +43,8 @@ class FullScreenInfoNavigator extends React.Component<FullScreenInfoNavigatorPro
         screenOptions={{
           ...header,
           ...headerMenuIcon,
-        }}
-        keyboardHandlingEnabled={false}>
+          keyboardHandlingEnabled: false,
+        }}>
         <Stack.Screen
           name={FULL_SCREEN_INFO}
           component={FullScreenInfo}

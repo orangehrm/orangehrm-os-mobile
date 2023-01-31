@@ -47,13 +47,13 @@ class AttendanceSummaryNavigator extends React.Component<AttendanceSummaryNaviga
         screenOptions={{
           ...header,
           ...headerBackIcon,
-        }}
-        keyboardHandlingEnabled={false}>
+          keyboardHandlingEnabled: false,
+        }}>
         <Stack.Screen
           name={ATTENDANCE_SUMMARY}
           component={AttendanceSummary}
           options={{
-            title: 'My Attendance Summary',
+            title: 'My Attendance Records (Summary)',
             ...headerMenuIcon,
           }}
         />
@@ -61,7 +61,7 @@ class AttendanceSummaryNavigator extends React.Component<AttendanceSummaryNaviga
           name={ATTENDANCE_DETAILS}
           component={AttendanceDetails}
           options={{
-            title: 'My Attendance Details',
+            title: 'My Attendance Records (Details)',
             ...headerBackIcon,
           }}
         />
@@ -74,8 +74,7 @@ interface AttendanceSummaryNavigatorProps extends WithTheme {
   navigation: NavigationProp<ParamListBase>;
 }
 
-const AttendanceSummaryNavigatorTheme = withTheme<AttendanceSummaryNavigatorProps>()(
-  AttendanceSummaryNavigator,
-);
+const AttendanceSummaryNavigatorTheme =
+  withTheme<AttendanceSummaryNavigatorProps>()(AttendanceSummaryNavigator);
 
 export default AttendanceSummaryNavigatorTheme;

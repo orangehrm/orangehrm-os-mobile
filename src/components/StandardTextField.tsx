@@ -27,15 +27,8 @@ import Text from 'components/DefaultText';
 function StandardTextField(
   props: React.PropsWithChildren<StandardTextFieldProps>,
 ) {
-  const {
-    label,
-    iconName,
-    style,
-    theme,
-    helperText,
-    itemProps,
-    ...restProps
-  } = props;
+  const {label, iconName, style, theme, helperText, itemProps, ...restProps} =
+    props;
   return (
     <View style={style}>
       <Item floatingLabel style={styles.item} {...itemProps}>

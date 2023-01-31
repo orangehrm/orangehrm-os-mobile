@@ -121,7 +121,8 @@ class LeaveDetails extends React.Component<
     if (employeeLeaveRequest) {
       navigate<LeaveCommentsParam>(LEAVE_COMMENTS, {
         employeeLeaveRequestSelector: selectEmployeeLeaveRequest,
-        changeEmployeeLeaveRequestStatusAction: changeEmployeeLeaveRequestStatus,
+        changeEmployeeLeaveRequestStatusAction:
+          changeEmployeeLeaveRequestStatus,
       });
     }
   };
@@ -207,7 +208,8 @@ class LeaveDetails extends React.Component<
               <Avatar name={employeeLeaveRequest?.employeeName} />
             </View>
             <View>
-              <View style={{paddingHorizontal: theme.spacing * 2}}>
+              <View
+                style={{paddingHorizontal: theme.spacing * 2, width: '90%'}}>
                 <Text
                   style={[
                     styles.empNameText,
@@ -215,7 +217,8 @@ class LeaveDetails extends React.Component<
                       color: theme.typography.darkColor,
                       fontSize: theme.typography.fontSize * 1.2,
                     },
-                  ]}>
+                  ]}
+                  numberOfLines={2}>
                   {employeeLeaveRequest?.employeeName}
                 </Text>
               </View>
@@ -254,21 +257,23 @@ class LeaveDetails extends React.Component<
                         ? {backgroundColor: leaveTypeColor}
                         : undefined,
                     ]}>
-                    <Text
-                      numberOfLines={1}
-                      style={[
-                        leaveTypeColor
-                          ? {color: theme.typography.lightColor}
-                          : {color: theme.typography.darkColor},
-                      ]}>
-                      {employeeLeaveRequest?.leaveType.type
-                        ? employeeLeaveRequest?.leaveType.type +
-                          (employeeLeaveRequest?.leaveType.deleted ===
-                          LEAVE_TYPE_DELETED_YES
-                            ? ' (Deleted)'
-                            : '')
-                        : '--'}
-                    </Text>
+                    <View style={{width: '90%'}}>
+                      <Text
+                        numberOfLines={1}
+                        style={[
+                          leaveTypeColor
+                            ? {color: theme.typography.lightColor}
+                            : {color: theme.typography.darkColor},
+                        ]}>
+                        {employeeLeaveRequest?.leaveType.type
+                          ? employeeLeaveRequest?.leaveType.type +
+                            (employeeLeaveRequest?.leaveType.deleted ===
+                            LEAVE_TYPE_DELETED_YES
+                              ? ' (Deleted)'
+                              : '')
+                          : '--'}
+                      </Text>
+                    </View>
                   </Chip>
                 </View>
               </View>

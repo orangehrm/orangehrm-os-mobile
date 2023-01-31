@@ -224,8 +224,7 @@ const AttendanceDailyChartComponent = (
             </Text>
           </View>
           <View style={styles.flex}>
-            {/* https://github.com/FormidableLabs/victory-native/issues/96 */}
-            {Platform.OS === 'ios' ? renderGraph() : <Svg>{renderGraph()}</Svg>}
+            {renderGraph()}
           </View>
         </CardContent>
       </Card>
