@@ -87,7 +87,7 @@ class AttendanceListNavigator extends React.Component<AttendanceListNavigatorPro
           name={ATTENDANCE_LIST}
           component={AttendanceList}
           options={{
-            title: 'Employee Attendance Records',
+            title: 'Employee Attendance',
             ...headerMenuIcon,
             ...headerSearchIcon,
           }}
@@ -96,7 +96,7 @@ class AttendanceListNavigator extends React.Component<AttendanceListNavigatorPro
           name={EMPLOYEE_ATTENDANCE_SUMMARY}
           component={AttendanceSummary}
           options={{
-            title: 'Employee Attendance Records (Summary)',
+            title: 'Employee Attendance Summary',
             ...headerBackIcon,
           }}
         />
@@ -104,7 +104,7 @@ class AttendanceListNavigator extends React.Component<AttendanceListNavigatorPro
           name={EMPLOYEE_ATTENDANCE_DETAILS}
           component={AttendanceDetails}
           options={{
-            title: 'Employee Attendance Records(Details)',
+            title: 'Employee Attendance Details',
             ...headerBackIcon,
           }}
         />

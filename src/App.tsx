@@ -21,7 +21,7 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import Navigator from './Navigator';
-import GlobalsNew from '/components/Globals';
+import GlobalsComponent from '/components/Globals';
 
 import {Provider} from 'react-redux';
 import configureStore from 'store/configureStore';
@@ -33,7 +33,7 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <Navigator />
-        <GlobalsNew />
+        <GlobalsComponent />
       </Provider>
     );
   }

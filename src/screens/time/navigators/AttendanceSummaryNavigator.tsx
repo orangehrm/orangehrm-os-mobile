@@ -53,7 +53,7 @@ class AttendanceSummaryNavigator extends React.Component<AttendanceSummaryNaviga
           name={ATTENDANCE_SUMMARY}
           component={AttendanceSummary}
           options={{
-            title: 'My Attendance Records (Summary)',
+            title: 'My Attendance Summary',
             ...headerMenuIcon,
           }}
         />
@@ -61,7 +61,7 @@ class AttendanceSummaryNavigator extends React.Component<AttendanceSummaryNaviga
           name={ATTENDANCE_DETAILS}
           component={AttendanceDetails}
           options={{
-            title: 'My Attendance Records (Details)',
+            title: 'My Attendance Details',
             ...headerBackIcon,
           }}
         />

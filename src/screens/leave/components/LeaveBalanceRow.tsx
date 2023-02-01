@@ -59,7 +59,7 @@ class LeaveBalanceRow extends React.Component<LeaveBalanceRowProps> {
           ]}>
           <FlatList
             horizontal
-            persistentScrollbar={true}
+            showsHorizontalScrollIndicator={false}
             data={entitlement}
             renderItem={({item}) => (
               <>

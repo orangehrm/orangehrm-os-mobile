@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/HeaderIcon test HeaderIcon component 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  forwardedRef={[Function]}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "alignSelf": "flex-start",
+      "backgroundColor": "transparent",
+      "borderBottomWidth": null,
+      "borderColor": "#007aff",
+      "borderLeftWidth": null,
+      "borderRadius": 5,
+      "borderRightWidth": null,
+      "borderTopWidth": null,
+      "borderWidth": undefined,
+      "elevation": 0,
+      "flexDirection": "row",
+      "height": 45,
+      "justifyContent": "space-between",
+      "opacity": 1,
+      "paddingBottom": 6,
+      "paddingTop": 6,
+      "shadowColor": null,
+      "shadowOffset": null,
+      "shadowOpacity": null,
+      "shadowRadius": null,
+    }
+  }
+>
+  <Text
+    allowFontScaling={false}
+    style={
+      Array [
+        Object {
+          "color": undefined,
+          "fontSize": 12,
+        },
+        Array [
+          Object {
+            "color": "#000",
+            "fontSize": 30,
+          },
+          Object {
+            "color": "#007aff",
+            "fontSize": 24,
+            "marginLeft": 16,
+            "marginRight": 16,
+            "paddingTop": 2,
+          },
+          Object {
+            "color": "#818181",
+            "fontSize": 20,
+          },
+          Object {
+            "color": "#ffffff",
+            "fontSize": 24,
+          },
+        ],
+        Object {
+          "fontFamily": "Material Design Icons",
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {},
+      ]
+    }
+    type="MaterialCommunityIcons"
+  >
+    󰅖
+  </Text>
+</View>
+`;

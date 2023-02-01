@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/DefaultSpinner test DefaultSpinner component 1`] = `
+<ActivityIndicator
+  color="#f88400"
+  size="large"
+/>
+`;

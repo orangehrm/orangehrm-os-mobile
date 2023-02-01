@@ -52,7 +52,6 @@ class LeaveBalanceCard extends React.Component<LeaveBalanceCardProps> {
                 borderRadius: theme.borderRadius * 2,
                 height: size,
                 width: size,
-                marginBottom: theme.spacing * 3,
               },
               selected ? {backgroundColor: selectedColor} : undefined,
             ]}>

@@ -18,10 +18,8 @@
  *
  */
 
-import {AppRegistry, LogBox} from 'react-native';
+import {AppRegistry} from 'react-native';
 import App from './src/App';
 import {name as appName} from './app.json';
-LogBox.ignoreLogs([
-  "Stack Navigator: 'headerMode=\"none\"' is deprecated. Use 'headerShown: false' in 'screenOptions' instead",
-]);
+
 AppRegistry.registerComponent(appName, () => App);

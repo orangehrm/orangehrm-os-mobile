@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test card component 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "elevation": 2,
+        "shadowColor": "black",
+        "shadowOffset": Object {
+          "height": 0.5,
+          "width": 0,
+        },
+        "shadowOpacity": 0.5,
+        "shadowRadius": 1,
+      },
+      undefined,
+      Object {
+        "backgroundColor": "#ffffff",
+        "borderRadius": 4,
+      },
+      undefined,
+    ]
+  }
+/>
+`;

@@ -72,7 +72,7 @@ import {
 } from 'screens';
 import {ORANGEHRM_API_1$2$0} from 'services/instance-check';
 
-import ApplyLeaveNav from 'screens/leave/navigators/ApplyLeaveNavigator';
+import ApplyLeave from 'screens/leave/navigators/ApplyLeaveNavigator';
 import MyLeaveUsage from 'screens/leave/navigators/MyLeaveUsageNavigator';
 import LeaveList from 'screens/leave/navigators/LeaveListNavigator';
 import AssignLeave from 'screens/leave/navigators/AssignLeaveNavigator';
@@ -154,6 +154,7 @@ const Navigator = (props: NavigatorProps) => {
             style={styles.root}>
             <Drawer.Navigator
               initialRouteName={initialRoute}
+              defaultStatus="closed"
               drawerType={isLargeScreen ? 'permanent' : 'front'}
               drawerStyle={
                 isLargeScreen ? {width: DEFAULT_FIXED_DRAWER_WIDTH} : undefined
@@ -174,7 +175,7 @@ const Navigator = (props: NavigatorProps) => {
                     <>
                       <Drawer.Screen
                         name={APPLY_LEAVE}
-                        component={ApplyLeaveNav}
+                        component={ApplyLeave}
                         options={{
                           drawerLabel: 'Apply Leave',
                           headerShown: false,

@@ -19,7 +19,12 @@
  */
 
 import React from 'react';
-import {StyleSheet, Keyboard, TextInput as RNTextInput} from 'react-native';
+import {
+  StyleSheet,
+  Keyboard,
+  TextInput as RNTextInput,
+  EmitterSubscription,
+} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -71,6 +76,7 @@ import FormattedDate from 'components/FormattedDate';
 class Punch extends React.Component<PunchProps, PunchState> {
   inputRef: RNTextInput | null;
   timeInterval: any;
+  keyboardHide: EmitterSubscription | undefined;
 
   constructor(props: PunchProps) {
     super(props);
@@ -128,11 +134,14 @@ class Punch extends React.Component<PunchProps, PunchState> {
 
   componentDidMount() {
     this.props.fetchPunchStatus();
-    Keyboard.addListener('keyboardDidHide', this.hideCommentInput);
+    this.keyboardHide = Keyboard.addListener(
+      'keyboardDidHide',
+      this.hideCommentInput,
+    );
   }
 
   componentWillUnmount() {
-    Keyboard.addListener('keyboardDidHide', this.hideCommentInput).remove();
+    this.keyboardHide?.remove();
   }
 
   onRefresh = () => {
@@ -176,16 +185,9 @@ class Punch extends React.Component<PunchProps, PunchState> {
   };
 
   setLeaveComment = (text: string) => {
-    if (text.length <= 250) {
-      this.setState({
-        note: text,
-      });
-    } else {
-      this.props.showSnackMessage(
-        'Should not exceed 250 characters',
-        TYPE_WARN,
-      );
-    }
+    this.setState({
+      note: text,
+    });
   };
 
   onPressPunchButton = () => {
