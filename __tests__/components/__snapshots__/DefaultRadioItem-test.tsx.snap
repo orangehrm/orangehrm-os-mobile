@@ -38,6 +38,7 @@ exports[`components/DefaultRadioItem test DefaultRadioItem component 1`] = `
   </Text>
   <View
     accessible={true}
+    collapsable={false}
     focusable={false}
     forwardedRef={[Function]}
     onClick={[Function]}

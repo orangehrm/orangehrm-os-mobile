@@ -49,6 +49,7 @@ const ProfilePicture = (props: ProfilePictureProps) => {
           </View>
           <View
             style={{
+              marginLeft: theme.spacing * 4,
               marginBottom: theme.spacing * 4,
             }}>
             {name === undefined ? null : (

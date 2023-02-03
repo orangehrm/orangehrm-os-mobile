@@ -4,6 +4,7 @@ exports[`components/StandardTextField test StandardTextField component 1`] = `
 <View>
   <View
     accessible={true}
+    collapsable={false}
     focusable={false}
     forwardedRef={[Function]}
     onClick={[Function]}
@@ -31,6 +32,7 @@ exports[`components/StandardTextField test StandardTextField component 1`] = `
     }
   >
     <View
+      collapsable={false}
       style={
         Object {
           "left": 0,
@@ -71,14 +73,12 @@ exports[`components/StandardTextField test StandardTextField component 1`] = `
       </Text>
     </View>
     <TextInput
-      allowFontScaling={true}
       editable={true}
       onBlur={[Function]}
       onChangeText={[Function]}
       onFocus={[Function]}
       placeholder={null}
       placeholderTextColor="#575757"
-      rejectResponderTermination={true}
       style={
         Object {
           "color": "#000",
@@ -103,6 +103,7 @@ exports[`components/StandardTextField test StandardTextField component with help
 <View>
   <View
     accessible={true}
+    collapsable={false}
     focusable={false}
     forwardedRef={[Function]}
     onClick={[Function]}
@@ -130,6 +131,7 @@ exports[`components/StandardTextField test StandardTextField component with help
     }
   >
     <View
+      collapsable={false}
       style={
         Object {
           "left": 0,
@@ -170,14 +172,12 @@ exports[`components/StandardTextField test StandardTextField component with help
       </Text>
     </View>
     <TextInput
-      allowFontScaling={true}
       editable={true}
       onBlur={[Function]}
       onChangeText={[Function]}
       onFocus={[Function]}
       placeholder={null}
       placeholderTextColor="#575757"
-      rejectResponderTermination={true}
       style={
         Object {
           "color": "#000",
@@ -220,6 +220,7 @@ exports[`components/StandardTextField test StandardTextField component with icon
 <View>
   <View
     accessible={true}
+    collapsable={false}
     focusable={false}
     forwardedRef={[Function]}
     onClick={[Function]}
@@ -247,6 +248,7 @@ exports[`components/StandardTextField test StandardTextField component with icon
     }
   >
     <View
+      collapsable={false}
       style={
         Object {
           "left": 0,
@@ -291,14 +293,12 @@ exports[`components/StandardTextField test StandardTextField component with icon
       </Text>
     </View>
     <TextInput
-      allowFontScaling={true}
       editable={true}
       onBlur={[Function]}
       onChangeText={[Function]}
       onFocus={[Function]}
       placeholder={null}
       placeholderTextColor="#575757"
-      rejectResponderTermination={true}
       style={
         Object {
           "color": "#000",

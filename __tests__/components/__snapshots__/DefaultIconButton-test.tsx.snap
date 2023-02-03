@@ -3,6 +3,7 @@
 exports[`components/DefaultIconButton test DefaultIconButton component 1`] = `
 <View
   accessible={true}
+  collapsable={false}
   focusable={false}
   forwardedRef={[Function]}
   onClick={[Function]}

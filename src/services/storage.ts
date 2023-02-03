@@ -75,3 +75,4 @@ export const TOKEN_TYPE = 'tokenType';
 export const INSTANCE_API_VERSION = 'apiVersion';
 export const INSTANCE_API_PATHS = 'apiPaths';
 export const DATE_FORMAT = 'dateFormat';
+export const WARNING_MODAL_STATUS = 'WarningRead';

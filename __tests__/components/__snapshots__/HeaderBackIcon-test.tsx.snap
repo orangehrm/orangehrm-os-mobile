@@ -3,6 +3,7 @@
 exports[`components/HeaderBackIcon test HeaderBackIcon component 1`] = `
 <View
   accessible={true}
+  collapsable={false}
   focusable={true}
   forwardedRef={[Function]}
   onClick={[Function]}

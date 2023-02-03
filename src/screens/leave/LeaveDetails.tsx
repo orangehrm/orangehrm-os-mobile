@@ -209,12 +209,9 @@ class LeaveDetails extends React.Component<
             </View>
             <View>
               <View
-                style={[
-                  styles.empNameView,
-                  {
-                    paddingHorizontal: theme.spacing * 2,
-                  },
-                ]}>
+                style={{
+                  paddingHorizontal: theme.spacing * 2,
+                }}>
                 <Text
                   style={[
                     styles.empNameText,
@@ -222,8 +219,7 @@ class LeaveDetails extends React.Component<
                       color: theme.typography.darkColor,
                       fontSize: theme.typography.fontSize * 1.2,
                     },
-                  ]}
-                  numberOfLines={2}>
+                  ]}>
                   {employeeLeaveRequest?.employeeName}
                 </Text>
               </View>
@@ -262,23 +258,21 @@ class LeaveDetails extends React.Component<
                         ? {backgroundColor: leaveTypeColor}
                         : undefined,
                     ]}>
-                    <View style={styles.empNameView}>
-                      <Text
-                        numberOfLines={1}
-                        style={[
-                          leaveTypeColor
-                            ? {color: theme.typography.lightColor}
-                            : {color: theme.typography.darkColor},
-                        ]}>
-                        {employeeLeaveRequest?.leaveType.type
-                          ? employeeLeaveRequest?.leaveType.type +
-                            (employeeLeaveRequest?.leaveType.deleted ===
-                            LEAVE_TYPE_DELETED_YES
-                              ? ' (Deleted)'
-                              : '')
-                          : '--'}
-                      </Text>
-                    </View>
+                    <Text
+                      numberOfLines={1}
+                      style={[
+                        leaveTypeColor
+                          ? {color: theme.typography.lightColor}
+                          : {color: theme.typography.darkColor},
+                      ]}>
+                      {employeeLeaveRequest?.leaveType.type
+                        ? employeeLeaveRequest?.leaveType.type +
+                          (employeeLeaveRequest?.leaveType.deleted ===
+                          LEAVE_TYPE_DELETED_YES
+                            ? ' (Deleted)'
+                            : '')
+                        : '--'}
+                    </Text>
                   </Chip>
                 </View>
               </View>
@@ -356,9 +350,6 @@ interface LeaveDetailsState {
 const styles = StyleSheet.create({
   chipView: {
     alignItems: 'flex-start',
-  },
-  empNameView: {
-    width: '90%',
   },
   empNameText: {
     fontWeight: 'bold',

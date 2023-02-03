@@ -192,8 +192,7 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
                             fontSize: theme.typography.fontSize,
 
                             color: leave.colour,
-                          }}
-                          numberOfLines={1}>
+                          }}>
                           {leave.type}
                         </Text>
                       </View>

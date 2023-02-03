@@ -3,6 +3,7 @@
 exports[`test button component with title 1`] = `
 <View
   accessible={true}
+  collapsable={false}
   focusable={false}
   forwardedRef={[Function]}
   onClick={[Function]}

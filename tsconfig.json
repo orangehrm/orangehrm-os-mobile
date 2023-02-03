@@ -68,6 +68,6 @@
     "resolveJsonModule": true,
   },
   "exclude": [
-    "src/**/*.test.ts"
+    "node_modules", "babel.config.js", "metro.config.js", "jest.config.js", "__mocks__"
   ]
 }

@@ -2,6 +2,7 @@
 
 exports[`components/DefaultFab test DefaultFab component 1`] = `
 <View
+  collapsable={false}
   style={
     Object {
       "alignItems": "center",
@@ -18,6 +19,7 @@ exports[`components/DefaultFab test DefaultFab component 1`] = `
 >
   <View
     accessible={true}
+    collapsable={false}
     focusable={true}
     onClick={[Function]}
     onResponderGrant={[Function]}
