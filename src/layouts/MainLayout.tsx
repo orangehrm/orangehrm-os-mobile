@@ -51,6 +51,7 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
   } = props;
 
   const [isVisible, setModelVisible] = useState(false);
+  const [option, setOption] = useState(false);
 
   useEffect(() => {
     if (myInfo?.user.userRole === USER_ROLE_ADMIN) {
@@ -64,6 +65,9 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
       setModelVisible(false);
     } else {
       setModelVisible(true);
+      setTimeout(() => {
+        setOption(true);
+      }, 1000);
     }
   };
 
@@ -97,7 +101,7 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
         </ScrollView>
         {footer === undefined ? null : footer}
       </SafeAreaView>
-      <WarningModule isVisible={isVisible} />
+      {option ? <WarningModule isVisible={isVisible} /> : undefined}
     </>
   );
 };

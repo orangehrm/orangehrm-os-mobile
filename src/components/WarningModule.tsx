@@ -30,7 +30,7 @@ import {connect} from 'react-redux';
 import {WARNING_MODAL_STATUS} from 'services/storage';
 
 const WarningModule = (props: React.PropsWithChildren<WarningModuleProps>) => {
-  const {isVisible, ...modalProps} = props;
+  const {theme, isVisible, ...modalProps} = props;
   const [isVisibleModule, setModelVisible] = useState(isVisible);
 
   useEffect(() => {
@@ -59,9 +59,9 @@ const WarningModule = (props: React.PropsWithChildren<WarningModuleProps>) => {
           <Text style={styles.title}>Stay Up-to-date</Text>
           <View style={styles.descriptionView}>
             <Text style={styles.descriptionText}>
-              OrangeHRM's open-source mobile application will no longer be
-              supported for versions 4.x. The April 2023 release will only
-              provide support for version 5.x of the mobile application.
+              Starting with the April 2023 release, this app will no longer
+              provide support for OrangeHRM Open Source 4x versions. Instead,
+              the updated app will only cater to 5.4 version and onwards.
             </Text>
           </View>
           <View style={styles.btnView}>
@@ -80,12 +80,12 @@ const WarningModule = (props: React.PropsWithChildren<WarningModuleProps>) => {
 const styles = StyleSheet.create({
   mainView: {
     width: '100%',
+    height: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
   },
   subView: {
     width: '85%',
-    height: '66%',
     backgroundColor: '#FFF',
     alignItems: 'center',
     borderRadius: 15,
@@ -94,11 +94,11 @@ const styles = StyleSheet.create({
   },
   descriptionView: {
     width: '90%',
+    height: 'auto',
     paddingLeft: 5,
     paddingRight: 5,
     paddingTop: 10,
-    paddingBottom: 5,
-    justifyContent: 'center',
+    paddingBottom: 60,
     alignItems: 'center',
   },
   descriptionText: {
@@ -117,10 +117,8 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
   btnView: {
-    position: 'absolute',
-    bottom: 0,
     width: '100%',
-    height: '18%',
+    height: 'auto',
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
     borderTopWidth: 1,
@@ -130,9 +128,10 @@ const styles = StyleSheet.create({
   },
   btnTextView: {
     width: '90%',
-    height: '90%',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   btnText: {
     fontWeight: 'bold',
