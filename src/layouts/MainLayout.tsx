@@ -60,8 +60,8 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
   });
 
   const checkWarningModuleStatus = async () => {
-    const option = await AsyncStorage.getItem('WarningRead');
-    if (option) {
+    const options = await AsyncStorage.getItem('WarningRead');
+    if (options) {
       setModelVisible(false);
     } else {
       setModelVisible(true);

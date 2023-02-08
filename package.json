@@ -75,7 +75,7 @@
       "json",
       "node"
     ],
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx)$",
     "setupFiles": [
       "./node_modules/react-native-gesture-handler/jestSetup.js",
       "./__tests__/setup.js"

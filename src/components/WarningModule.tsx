@@ -30,7 +30,7 @@ import {connect} from 'react-redux';
 import {WARNING_MODAL_STATUS} from 'services/storage';
 
 const WarningModule = (props: React.PropsWithChildren<WarningModuleProps>) => {
-  const {theme, isVisible, ...modalProps} = props;
+  const {isVisible, ...modalProps} = props;
   const [isVisibleModule, setModelVisible] = useState(isVisible);
 
   useEffect(() => {
