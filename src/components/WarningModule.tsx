@@ -52,8 +52,8 @@ const WarningModule = (props: React.PropsWithChildren<WarningModuleProps>) => {
       <View style={styles.mainView}>
         <View style={styles.subView}>
           <Icon
-            type="MaterialIcons"
-            name={'notification-important'}
+            type="Ionicons"
+            name={'notifications'}
             style={styles.iconStyle}
           />
           <Text style={styles.title}>Stay Up-to-date</Text>

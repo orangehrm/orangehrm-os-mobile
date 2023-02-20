@@ -65,9 +65,7 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
       setModelVisible(false);
     } else {
       setModelVisible(true);
-      setTimeout(() => {
-        setOption(true);
-      }, 1000);
+      setOption(true);
     }
   };
 
