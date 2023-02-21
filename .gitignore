@@ -1,6 +1,9 @@
 # OSX
 #
 .DS_Store
+# Visual Studio Code
+#
+.vscode/
 
 # Xcode
 #
@@ -21,6 +24,10 @@ DerivedData
 *.ipa
 *.xcuserstate
 ios/.xcode.env.local
+
+# BUCK
+buck-out/
+\.buckd/
 
 # Android/IntelliJ
 #
