@@ -4,8 +4,8 @@ exports[`components/SnackDialog test SnackDialog component 1`] = `
 <View
   pointerEvents="box-none"
   style={
-    Array [
-      Object {
+    [
+      {
         "backgroundColor": "black",
         "bottom": 0,
         "left": 0,
@@ -14,7 +14,7 @@ exports[`components/SnackDialog test SnackDialog component 1`] = `
         "right": 0,
         "top": 0,
       },
-      Object {
+      {
         "backgroundColor": "transparent",
         "opacity": 1,
         "zIndex": 2,
@@ -52,27 +52,27 @@ exports[`components/SnackDialog test SnackDialog component 1`] = `
     scrollTo={null}
     statusBarTranslucent={false}
     style={
-      Object {
+      {
         "flex": 1,
         "justifyContent": "flex-end",
         "left": 0,
         "margin": 37.5,
         "top": 0,
-        "transform": Array [
-          Object {
+        "transform": [
+          {
             "translateY": 1334,
           },
         ],
       }
     }
     supportedOrientations={
-      Array [
+      [
         "portrait",
         "landscape",
       ]
     }
     swipeDirection={
-      Array [
+      [
         "left",
         "right",
         "down",
@@ -83,7 +83,7 @@ exports[`components/SnackDialog test SnackDialog component 1`] = `
     <View
       onLayout={[Function]}
       style={
-        Object {
+        {
           "paddingBottom": 0,
         }
       }
@@ -91,8 +91,8 @@ exports[`components/SnackDialog test SnackDialog component 1`] = `
       <RCTSafeAreaView>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "backgroundColor": "#ffffff",
                 "borderRadius": 4,
               },
@@ -102,7 +102,7 @@ exports[`components/SnackDialog test SnackDialog component 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "backgroundColor": "orange",
               }
             }

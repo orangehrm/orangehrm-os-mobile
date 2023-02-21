@@ -3,11 +3,11 @@
 exports[`components/DefaultCardActions test DefaultCardActions component 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "width": "100%",
       },
-      Object {
+      {
         "borderBottomLeftRadius": 4,
         "borderBottomRightRadius": 4,
         "paddingBottom": 8,
@@ -18,7 +18,7 @@ exports[`components/DefaultCardActions test DefaultCardActions component 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "backgroundColor": "orange",
       }
     }

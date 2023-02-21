@@ -4,8 +4,8 @@ exports[`components/FormattedDate test FormattedDate component 1`] = `
 <Text
   dispatch={[Function]}
   style={
-    Array [
-      Object {
+    [
+      {
         "color": "#818181",
       },
       undefined,
@@ -18,15 +18,15 @@ exports[`components/FormattedDate test FormattedDate component 1`] = `
 `;
 
 exports[`components/FormattedDate test FormattedDate component: check nested 1`] = `
-Array [
+[
   <Text
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#818181",
         },
         undefined,
-        Object {
+        {
           "color": "orange",
         },
       ]
@@ -35,8 +35,8 @@ Array [
     <Text
       dispatch={[Function]}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#818181",
           },
           undefined,
@@ -49,12 +49,12 @@ Array [
   </Text>,
   <Text
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#818181",
         },
         undefined,
-        Object {
+        {
           "color": "orange",
         },
       ]
@@ -63,7 +63,7 @@ Array [
     <Text
       dispatch={[Function]}
       style={
-        Array [
+        [
           undefined,
           undefined,
           undefined,
@@ -76,7 +76,7 @@ Array [
     <Text
       dispatch={[Function]}
       style={
-        Array [
+        [
           undefined,
           undefined,
           undefined,
@@ -93,8 +93,8 @@ exports[`components/FormattedDate test FormattedDate component: check string 1`]
 <Text
   dispatch={[Function]}
   style={
-    Array [
-      Object {
+    [
+      {
         "color": "#818181",
       },
       undefined,
@@ -110,8 +110,8 @@ exports[`components/FormattedDate test FormattedDate component: check undefined 
 <Text
   dispatch={[Function]}
   style={
-    Array [
-      Object {
+    [
+      {
         "color": "#818181",
       },
       undefined,

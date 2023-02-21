@@ -2,6 +2,23 @@
 
 exports[`components/FlatButton test FlatButton component 1`] = `
 <View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
   accessible={true}
   collapsable={false}
   focusable={false}
@@ -14,7 +31,7 @@ exports[`components/FlatButton test FlatButton component 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Object {
+    {
       "alignItems": "center",
       "alignSelf": "flex-start",
       "backgroundColor": "#ffffff",
@@ -34,7 +51,7 @@ exports[`components/FlatButton test FlatButton component 1`] = `
       "paddingBottom": 6,
       "paddingTop": 6,
       "shadowColor": "black",
-      "shadowOffset": Object {
+      "shadowOffset": {
         "height": 0.5,
         "width": 0,
       },
@@ -45,8 +62,8 @@ exports[`components/FlatButton test FlatButton component 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "stretch",
           "flex": 1,
           "flexDirection": "row",
@@ -57,7 +74,7 @@ exports[`components/FlatButton test FlatButton component 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "flexDirection": "row",
         }
       }
@@ -65,35 +82,35 @@ exports[`components/FlatButton test FlatButton component 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": undefined,
               "fontSize": 12,
             },
-            Array [
-              Object {
+            [
+              {
                 "color": "#000",
                 "fontSize": 30,
               },
-              Object {
+              {
                 "color": "#fff",
                 "fontSize": 24,
                 "marginLeft": 16,
                 "marginRight": 16,
                 "paddingTop": 2,
               },
-              Object {
+              {
                 "color": "#818181",
                 "fontSize": 20,
               },
               undefined,
             ],
-            Object {
+            {
               "fontFamily": "Material Design Icons",
               "fontStyle": "normal",
               "fontWeight": "normal",
             },
-            Object {},
+            {},
           ]
         }
         type="MaterialCommunityIcons"
@@ -102,13 +119,13 @@ exports[`components/FlatButton test FlatButton component 1`] = `
       </Text>
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#818181",
             },
             undefined,
-            Array [
-              Object {
+            [
+              {
                 "paddingTop": 2,
               },
               undefined,
@@ -121,12 +138,12 @@ exports[`components/FlatButton test FlatButton component 1`] = `
     </View>
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#818181",
           },
           undefined,
-          Object {
+          {
             "paddingTop": 2,
           },
         ]
@@ -135,35 +152,35 @@ exports[`components/FlatButton test FlatButton component 1`] = `
     <Text
       allowFontScaling={false}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": undefined,
             "fontSize": 12,
           },
-          Array [
-            Object {
+          [
+            {
               "color": "#000",
               "fontSize": 30,
             },
-            Object {
+            {
               "color": "#fff",
               "fontSize": 24,
               "marginLeft": 16,
               "marginRight": 16,
               "paddingTop": 2,
             },
-            Object {
+            {
               "color": "#818181",
               "fontSize": 20,
             },
             undefined,
           ],
-          Object {
+          {
             "fontFamily": "Material Design Icons",
             "fontStyle": "normal",
             "fontWeight": "normal",
           },
-          Object {},
+          {},
         ]
       }
       type="MaterialCommunityIcons"
@@ -176,6 +193,23 @@ exports[`components/FlatButton test FlatButton component 1`] = `
 
 exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
 <View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
   accessible={true}
   collapsable={false}
   focusable={false}
@@ -188,7 +222,7 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Object {
+    {
       "alignItems": "center",
       "alignSelf": "flex-start",
       "backgroundColor": "#ffffff",
@@ -208,7 +242,7 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
       "paddingBottom": 6,
       "paddingTop": 6,
       "shadowColor": "black",
-      "shadowOffset": Object {
+      "shadowOffset": {
         "height": 0.5,
         "width": 0,
       },
@@ -219,8 +253,8 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "stretch",
           "flex": 1,
           "flexDirection": "row",
@@ -231,7 +265,7 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "flexDirection": "row",
         }
       }
@@ -239,35 +273,35 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": undefined,
               "fontSize": 12,
             },
-            Array [
-              Object {
+            [
+              {
                 "color": "#000",
                 "fontSize": 30,
               },
-              Object {
+              {
                 "color": "#fff",
                 "fontSize": 24,
                 "marginLeft": 16,
                 "marginRight": 16,
                 "paddingTop": 2,
               },
-              Object {
+              {
                 "color": "#818181",
                 "fontSize": 20,
               },
               undefined,
             ],
-            Object {
+            {
               "fontFamily": "Material Design Icons",
               "fontStyle": "normal",
               "fontWeight": "normal",
             },
-            Object {},
+            {},
           ]
         }
         type="MaterialCommunityIcons"
@@ -276,13 +310,13 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
       </Text>
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#818181",
             },
             undefined,
-            Array [
-              Object {
+            [
+              {
                 "paddingTop": 2,
               },
               undefined,
@@ -295,12 +329,12 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
     </View>
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#818181",
           },
           undefined,
-          Object {
+          {
             "paddingTop": 2,
           },
         ]
@@ -309,35 +343,35 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
     <Text
       allowFontScaling={false}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": undefined,
             "fontSize": 12,
           },
-          Array [
-            Object {
+          [
+            {
               "color": "#000",
               "fontSize": 30,
             },
-            Object {
+            {
               "color": "#fff",
               "fontSize": 24,
               "marginLeft": 16,
               "marginRight": 16,
               "paddingTop": 2,
             },
-            Object {
+            {
               "color": "#818181",
               "fontSize": 20,
             },
             undefined,
           ],
-          Object {
+          {
             "fontFamily": "Material Design Icons",
             "fontStyle": "normal",
             "fontWeight": "normal",
           },
-          Object {},
+          {},
         ]
       }
       type="MaterialCommunityIcons"
@@ -350,6 +384,23 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
 
 exports[`components/FlatButton test FlatButton component::!rightIcon 1`] = `
 <View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
   accessible={true}
   collapsable={false}
   focusable={false}
@@ -362,7 +413,7 @@ exports[`components/FlatButton test FlatButton component::!rightIcon 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Object {
+    {
       "alignItems": "center",
       "alignSelf": "flex-start",
       "backgroundColor": "#ffffff",
@@ -382,7 +433,7 @@ exports[`components/FlatButton test FlatButton component::!rightIcon 1`] = `
       "paddingBottom": 6,
       "paddingTop": 6,
       "shadowColor": "black",
-      "shadowOffset": Object {
+      "shadowOffset": {
         "height": 0.5,
         "width": 0,
       },
@@ -393,8 +444,8 @@ exports[`components/FlatButton test FlatButton component::!rightIcon 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "alignItems": "stretch",
           "flex": 1,
           "flexDirection": "row",
@@ -405,7 +456,7 @@ exports[`components/FlatButton test FlatButton component::!rightIcon 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "flexDirection": "row",
         }
       }
@@ -413,35 +464,35 @@ exports[`components/FlatButton test FlatButton component::!rightIcon 1`] = `
       <Text
         allowFontScaling={false}
         style={
-          Array [
-            Object {
+          [
+            {
               "color": undefined,
               "fontSize": 12,
             },
-            Array [
-              Object {
+            [
+              {
                 "color": "#000",
                 "fontSize": 30,
               },
-              Object {
+              {
                 "color": "#fff",
                 "fontSize": 24,
                 "marginLeft": 16,
                 "marginRight": 16,
                 "paddingTop": 2,
               },
-              Object {
+              {
                 "color": "#818181",
                 "fontSize": 20,
               },
               undefined,
             ],
-            Object {
+            {
               "fontFamily": "Material Design Icons",
               "fontStyle": "normal",
               "fontWeight": "normal",
             },
-            Object {},
+            {},
           ]
         }
         type="MaterialCommunityIcons"
@@ -450,13 +501,13 @@ exports[`components/FlatButton test FlatButton component::!rightIcon 1`] = `
       </Text>
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#818181",
             },
             undefined,
-            Array [
-              Object {
+            [
+              {
                 "paddingTop": 2,
               },
               undefined,
@@ -469,12 +520,12 @@ exports[`components/FlatButton test FlatButton component::!rightIcon 1`] = `
     </View>
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#818181",
           },
           undefined,
-          Object {
+          {
             "paddingTop": 2,
           },
         ]

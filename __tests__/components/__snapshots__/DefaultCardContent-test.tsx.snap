@@ -3,11 +3,11 @@
 exports[`components/DefaultCardContent test DefaultCardContent component 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "width": "100%",
       },
-      Object {
+      {
         "borderRadius": 4,
       },
       undefined,
@@ -16,7 +16,7 @@ exports[`components/DefaultCardContent test DefaultCardContent component 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "backgroundColor": "orange",
       }
     }

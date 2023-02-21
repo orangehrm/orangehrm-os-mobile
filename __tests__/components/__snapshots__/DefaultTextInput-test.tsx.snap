@@ -4,8 +4,8 @@ exports[`components/DefaultTextInput test DefaultTextInput component 1`] = `
 <View>
   <TextInput
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#818181",
           "fontSize": 14,
         },

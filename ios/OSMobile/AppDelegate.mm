@@ -6,7 +6,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  self.moduleName = @"OSMobile";
+  self.moduleName = @"OrangeHRM";
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 

@@ -3,6 +3,23 @@
 exports[`components/StandardTextField test StandardTextField component 1`] = `
 <View>
   <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
     accessible={true}
     collapsable={false}
     focusable={false}
@@ -15,7 +32,7 @@ exports[`components/StandardTextField test StandardTextField component 1`] = `
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Object {
+      {
         "alignItems": "center",
         "backgroundColor": "transparent",
         "borderBottomWidth": 1,
@@ -34,7 +51,7 @@ exports[`components/StandardTextField test StandardTextField component 1`] = `
     <View
       collapsable={false}
       style={
-        Object {
+        {
           "left": 0,
           "opacity": 1,
           "paddingBottom": undefined,
@@ -47,8 +64,8 @@ exports[`components/StandardTextField test StandardTextField component 1`] = `
     >
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#575757",
               "fontSize": 17,
               "paddingRight": 5,
@@ -60,8 +77,8 @@ exports[`components/StandardTextField test StandardTextField component 1`] = `
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "fontSize": 17,
               },
               undefined,
@@ -80,7 +97,7 @@ exports[`components/StandardTextField test StandardTextField component 1`] = `
       placeholder={null}
       placeholderTextColor="#575757"
       style={
-        Object {
+        {
           "color": "#000",
           "flex": 1,
           "fontSize": 17,
@@ -102,6 +119,23 @@ exports[`components/StandardTextField test StandardTextField component 1`] = `
 exports[`components/StandardTextField test StandardTextField component with helper text 1`] = `
 <View>
   <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
     accessible={true}
     collapsable={false}
     focusable={false}
@@ -114,7 +148,7 @@ exports[`components/StandardTextField test StandardTextField component with help
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Object {
+      {
         "alignItems": "center",
         "backgroundColor": "transparent",
         "borderBottomWidth": 1,
@@ -133,7 +167,7 @@ exports[`components/StandardTextField test StandardTextField component with help
     <View
       collapsable={false}
       style={
-        Object {
+        {
           "left": 0,
           "opacity": 1,
           "paddingBottom": undefined,
@@ -146,8 +180,8 @@ exports[`components/StandardTextField test StandardTextField component with help
     >
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#575757",
               "fontSize": 17,
               "paddingRight": 5,
@@ -159,8 +193,8 @@ exports[`components/StandardTextField test StandardTextField component with help
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "fontSize": 17,
               },
               undefined,
@@ -179,7 +213,7 @@ exports[`components/StandardTextField test StandardTextField component with help
       placeholder={null}
       placeholderTextColor="#575757"
       style={
-        Object {
+        {
           "color": "#000",
           "flex": 1,
           "fontSize": 17,
@@ -197,13 +231,13 @@ exports[`components/StandardTextField test StandardTextField component with help
   </View>
   <Text
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#818181",
         },
         undefined,
-        Array [
-          Object {
+        [
+          {
             "fontSize": 12,
           },
           undefined,
@@ -219,6 +253,23 @@ exports[`components/StandardTextField test StandardTextField component with help
 exports[`components/StandardTextField test StandardTextField component with icon 1`] = `
 <View>
   <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
     accessible={true}
     collapsable={false}
     focusable={false}
@@ -231,7 +282,7 @@ exports[`components/StandardTextField test StandardTextField component with icon
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Object {
+      {
         "alignItems": "center",
         "backgroundColor": "transparent",
         "borderBottomWidth": 1,
@@ -250,7 +301,7 @@ exports[`components/StandardTextField test StandardTextField component with icon
     <View
       collapsable={false}
       style={
-        Object {
+        {
           "left": 0,
           "opacity": 1,
           "paddingBottom": undefined,
@@ -263,14 +314,14 @@ exports[`components/StandardTextField test StandardTextField component with icon
     >
       <Text
         style={
-          Array [
-            Object {
+          [
+            {
               "color": "#575757",
               "fontSize": 17,
               "paddingRight": 5,
               "paddingTop": 5,
             },
-            Object {
+            {
               "paddingLeft": 32,
             },
           ]
@@ -278,11 +329,11 @@ exports[`components/StandardTextField test StandardTextField component with icon
       >
         <Text
           style={
-            Array [
-              Object {
+            [
+              {
                 "fontSize": 17,
               },
-              Object {
+              {
                 "paddingLeft": 32,
               },
             ]
@@ -300,7 +351,7 @@ exports[`components/StandardTextField test StandardTextField component with icon
       placeholder={null}
       placeholderTextColor="#575757"
       style={
-        Object {
+        {
           "color": "#000",
           "flex": 1,
           "fontSize": 17,
@@ -318,34 +369,34 @@ exports[`components/StandardTextField test StandardTextField component with icon
       active={true}
       allowFontScaling={false}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": undefined,
             "fontSize": 12,
           },
-          Array [
-            Object {
+          [
+            {
               "color": "#000",
               "fontSize": 30,
             },
-            Object {
+            {
               "color": "#000",
               "fontSize": 24,
               "paddingRight": 8,
               "paddingTop": 8,
               "top": 6,
             },
-            Object {
+            {
               "color": "#818181",
               "fontSize": 20,
             },
           ],
-          Object {
+          {
             "fontFamily": "Material Design Icons",
             "fontStyle": "normal",
             "fontWeight": "normal",
           },
-          Object {},
+          {},
         ]
       }
       type="MaterialCommunityIcons"

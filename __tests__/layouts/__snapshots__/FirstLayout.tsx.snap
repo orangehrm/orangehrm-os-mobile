@@ -3,11 +3,11 @@
 exports[`layout/FirstLayout test FirstLayout layout 1`] = `
 <RCTSafeAreaView
   style={
-    Array [
-      Object {
+    [
+      {
         "flex": 1,
       },
-      Object {
+      {
         "backgroundColor": "#ffffff",
       },
     ]
@@ -16,11 +16,11 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
   <View
     onLayout={[Function]}
     style={
-      Array [
-        Object {
+      [
+        {
           "flex": 1,
         },
-        Object {
+        {
           "paddingBottom": 0,
         },
       ]
@@ -28,7 +28,7 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
   >
     <RCTScrollView
       contentContainerStyle={
-        Object {
+        {
           "flexGrow": 1,
         }
       }
@@ -38,15 +38,15 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
       <View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "stretch",
                 "flex": 1,
                 "flexDirection": "column",
                 "justifyContent": "space-between",
                 "marginVertical": "2%",
               },
-              Object {
+              {
                 "marginHorizontal": 8,
               },
             ]
@@ -54,19 +54,19 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "alignItems": "center",
               }
             }
           >
             <Image
               source={
-                Object {
+                {
                   "testUri": "../../../src/images/orangehrm-logo-full.png",
                 }
               }
               style={
-                Object {
+                {
                   "aspectRatio": 2,
                   "height": undefined,
                   "resizeMode": "contain",
@@ -76,25 +76,25 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
             />
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "elevation": 2,
                     "shadowColor": "black",
-                    "shadowOffset": Object {
+                    "shadowOffset": {
                       "height": 0.5,
                       "width": 0,
                     },
                     "shadowOpacity": 0.5,
                     "shadowRadius": 1,
                   },
-                  Object {
+                  {
                     "width": "100%",
                   },
-                  Object {
+                  {
                     "backgroundColor": "#ffffff",
                     "borderRadius": 4,
                   },
-                  Object {
+                  {
                     "marginBottom": 16,
                   },
                 ]
@@ -102,17 +102,17 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
             >
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "elevation": 1,
                       "width": "100%",
                     },
-                    Object {
+                    {
                       "backgroundColor": "#f88400",
                       "padding": 16,
                       "paddingVertical": 16,
                     },
-                    Object {
+                    {
                       "borderTopLeftRadius": 4,
                       "borderTopRightRadius": 4,
                     },
@@ -121,12 +121,12 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
               >
                 <Text
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "color": "#818181",
                       },
                       undefined,
-                      Object {
+                      {
                         "color": "#ffffff",
                         "fontSize": 20,
                       },
@@ -138,14 +138,14 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
               </View>
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "width": "100%",
                     },
-                    Object {
+                    {
                       "borderRadius": 4,
                     },
-                    Object {
+                    {
                       "padding": 16,
                     },
                   ]
@@ -153,7 +153,7 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
               >
                 <View
                   style={
-                    Object {
+                    {
                       "backgroundColor": "orange",
                     }
                   }
@@ -161,11 +161,11 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
               </View>
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "width": "100%",
                     },
-                    Object {
+                    {
                       "borderBottomLeftRadius": 4,
                       "borderBottomRightRadius": 4,
                       "paddingBottom": 8,
@@ -176,12 +176,12 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
               >
                 <View
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "flex": 1,
                         "flexDirection": "row-reverse",
                       },
-                      Object {
+                      {
                         "paddingBottom": 8,
                         "paddingHorizontal": 16,
                       },
@@ -190,7 +190,7 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
                 >
                   <View
                     style={
-                      Object {
+                      {
                         "backgroundColor": "orange",
                       }
                     }
@@ -202,12 +202,12 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
           <View>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
                     "justifyContent": "center",
                   },
-                  Object {
+                  {
                     "paddingBottom": 8,
                     "paddingTop": 8,
                   },
@@ -216,12 +216,12 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
             >
               <Text
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "color": "#818181",
                     },
                     undefined,
-                    Object {
+                    {
                       "color": "#818181",
                       "fontSize": 8,
                     },
@@ -234,12 +234,12 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
               </Text>
               <Text
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "color": "#818181",
                     },
                     undefined,
-                    Object {
+                    {
                       "color": "#818181",
                       "fontSize": 8,
                     },
@@ -265,11 +265,11 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
 exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
 <RCTSafeAreaView
   style={
-    Array [
-      Object {
+    [
+      {
         "flex": 1,
       },
-      Object {
+      {
         "backgroundColor": "#ffffff",
       },
     ]
@@ -278,11 +278,11 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
   <View
     onLayout={[Function]}
     style={
-      Array [
-        Object {
+      [
+        {
           "flex": 1,
         },
-        Object {
+        {
           "paddingBottom": 0,
         },
       ]
@@ -290,7 +290,7 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
   >
     <RCTScrollView
       contentContainerStyle={
-        Object {
+        {
           "flexGrow": 1,
         }
       }
@@ -300,15 +300,15 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
       <View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "stretch",
                 "flex": 1,
                 "flexDirection": "column",
                 "justifyContent": "space-between",
                 "marginVertical": "2%",
               },
-              Object {
+              {
                 "marginHorizontal": 8,
               },
             ]
@@ -316,19 +316,19 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "alignItems": "center",
               }
             }
           >
             <Image
               source={
-                Object {
+                {
                   "testUri": "../../../src/images/orangehrm-logo-full.png",
                 }
               }
               style={
-                Object {
+                {
                   "aspectRatio": 2,
                   "height": undefined,
                   "resizeMode": "contain",
@@ -338,25 +338,25 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
             />
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "elevation": 2,
                     "shadowColor": "black",
-                    "shadowOffset": Object {
+                    "shadowOffset": {
                       "height": 0.5,
                       "width": 0,
                     },
                     "shadowOpacity": 0.5,
                     "shadowRadius": 1,
                   },
-                  Object {
+                  {
                     "width": "100%",
                   },
-                  Object {
+                  {
                     "backgroundColor": "#ffffff",
                     "borderRadius": 4,
                   },
-                  Object {
+                  {
                     "marginBottom": 16,
                   },
                 ]
@@ -364,17 +364,17 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
             >
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "elevation": 1,
                       "width": "100%",
                     },
-                    Object {
+                    {
                       "backgroundColor": "#f88400",
                       "padding": 16,
                       "paddingVertical": 16,
                     },
-                    Object {
+                    {
                       "borderTopLeftRadius": 4,
                       "borderTopRightRadius": 4,
                     },
@@ -383,12 +383,12 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
               >
                 <Text
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "color": "#818181",
                       },
                       undefined,
-                      Object {
+                      {
                         "color": "#ffffff",
                         "fontSize": 20,
                       },
@@ -400,14 +400,14 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
               </View>
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "width": "100%",
                     },
-                    Object {
+                    {
                       "borderRadius": 4,
                     },
-                    Object {
+                    {
                       "padding": 16,
                     },
                   ]
@@ -415,7 +415,7 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
               >
                 <View
                   style={
-                    Object {
+                    {
                       "backgroundColor": "orange",
                     }
                   }
@@ -423,11 +423,11 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
               </View>
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "width": "100%",
                     },
-                    Object {
+                    {
                       "borderBottomLeftRadius": 4,
                       "borderBottomRightRadius": 4,
                       "paddingBottom": 8,
@@ -438,12 +438,12 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
               >
                 <View
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "flex": 1,
                         "flexDirection": "row-reverse",
                       },
-                      Object {
+                      {
                         "paddingBottom": 8,
                         "paddingHorizontal": 16,
                       },
@@ -452,7 +452,7 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
                 >
                   <View
                     style={
-                      Object {
+                      {
                         "backgroundColor": "orange",
                       }
                     }
@@ -463,7 +463,7 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
             <View>
               <View
                 style={
-                  Object {
+                  {
                     "backgroundColor": "orange",
                   }
                 }
@@ -473,12 +473,12 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
           <View>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
                     "justifyContent": "center",
                   },
-                  Object {
+                  {
                     "paddingBottom": 8,
                     "paddingTop": 8,
                   },
@@ -487,12 +487,12 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
             >
               <Text
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "color": "#818181",
                     },
                     undefined,
-                    Object {
+                    {
                       "color": "#818181",
                       "fontSize": 8,
                     },
@@ -505,12 +505,12 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
               </Text>
               <Text
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "color": "#818181",
                     },
                     undefined,
-                    Object {
+                    {
                       "color": "#818181",
                       "fontSize": 8,
                     },
@@ -536,11 +536,11 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
 exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
 <RCTSafeAreaView
   style={
-    Array [
-      Object {
+    [
+      {
         "flex": 1,
       },
-      Object {
+      {
         "backgroundColor": "#ffffff",
       },
     ]
@@ -549,11 +549,11 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
   <View
     onLayout={[Function]}
     style={
-      Array [
-        Object {
+      [
+        {
           "flex": 1,
         },
-        Object {
+        {
           "paddingBottom": 0,
         },
       ]
@@ -561,7 +561,7 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
   >
     <RCTScrollView
       contentContainerStyle={
-        Object {
+        {
           "flexGrow": 1,
         }
       }
@@ -571,15 +571,15 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
       <View>
         <View
           style={
-            Array [
-              Object {
+            [
+              {
                 "alignItems": "stretch",
                 "flex": 1,
                 "flexDirection": "column",
                 "justifyContent": "space-between",
                 "marginVertical": "2%",
               },
-              Object {
+              {
                 "marginHorizontal": 8,
               },
             ]
@@ -587,19 +587,19 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
         >
           <View
             style={
-              Object {
+              {
                 "alignItems": "center",
               }
             }
           >
             <Image
               source={
-                Object {
+                {
                   "testUri": "../../../src/images/orangehrm-logo-full.png",
                 }
               }
               style={
-                Object {
+                {
                   "aspectRatio": 2,
                   "height": undefined,
                   "resizeMode": "contain",
@@ -609,25 +609,25 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
             />
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "elevation": 2,
                     "shadowColor": "black",
-                    "shadowOffset": Object {
+                    "shadowOffset": {
                       "height": 0.5,
                       "width": 0,
                     },
                     "shadowOpacity": 0.5,
                     "shadowRadius": 1,
                   },
-                  Object {
+                  {
                     "width": "100%",
                   },
-                  Object {
+                  {
                     "backgroundColor": "#ffffff",
                     "borderRadius": 4,
                   },
-                  Object {
+                  {
                     "marginBottom": 16,
                   },
                 ]
@@ -635,17 +635,17 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
             >
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "elevation": 1,
                       "width": "100%",
                     },
-                    Object {
+                    {
                       "backgroundColor": "#f88400",
                       "padding": 16,
                       "paddingVertical": 16,
                     },
-                    Object {
+                    {
                       "borderTopLeftRadius": 4,
                       "borderTopRightRadius": 4,
                     },
@@ -654,12 +654,12 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
               >
                 <Text
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "color": "#818181",
                       },
                       undefined,
-                      Object {
+                      {
                         "color": "#ffffff",
                         "fontSize": 20,
                       },
@@ -671,14 +671,14 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
               </View>
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "width": "100%",
                     },
-                    Object {
+                    {
                       "borderRadius": 4,
                     },
-                    Object {
+                    {
                       "padding": 16,
                     },
                   ]
@@ -686,7 +686,7 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
               >
                 <View
                   style={
-                    Object {
+                    {
                       "backgroundColor": "orange",
                     }
                   }
@@ -694,11 +694,11 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
               </View>
               <View
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "width": "100%",
                     },
-                    Object {
+                    {
                       "borderBottomLeftRadius": 4,
                       "borderBottomRightRadius": 4,
                       "paddingBottom": 8,
@@ -709,12 +709,12 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
               >
                 <View
                   style={
-                    Array [
-                      Object {
+                    [
+                      {
                         "flex": 1,
                         "flexDirection": "row-reverse",
                       },
-                      Object {
+                      {
                         "paddingBottom": 8,
                         "paddingHorizontal": 16,
                       },
@@ -723,7 +723,7 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
                 >
                   <View
                     style={
-                      Object {
+                      {
                         "backgroundColor": "orange",
                       }
                     }
@@ -735,7 +735,7 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
           <View>
             <View
               style={
-                Object {
+                {
                   "backgroundColor": "orange",
                 }
               }
@@ -744,12 +744,12 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
           <View>
             <View
               style={
-                Array [
-                  Object {
+                [
+                  {
                     "alignItems": "center",
                     "justifyContent": "center",
                   },
-                  Object {
+                  {
                     "paddingBottom": 8,
                     "paddingTop": 8,
                   },
@@ -758,12 +758,12 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
             >
               <Text
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "color": "#818181",
                     },
                     undefined,
-                    Object {
+                    {
                       "color": "#818181",
                       "fontSize": 8,
                     },
@@ -776,12 +776,12 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
               </Text>
               <Text
                 style={
-                  Array [
-                    Object {
+                  [
+                    {
                       "color": "#818181",
                     },
                     undefined,
-                    Object {
+                    {
                       "color": "#818181",
                       "fontSize": 8,
                     },

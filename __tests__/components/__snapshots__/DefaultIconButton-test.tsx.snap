@@ -2,6 +2,23 @@
 
 exports[`components/DefaultIconButton test DefaultIconButton component 1`] = `
 <View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
   accessible={true}
   collapsable={false}
   focusable={false}
@@ -14,7 +31,7 @@ exports[`components/DefaultIconButton test DefaultIconButton component 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Object {
+    {
       "alignItems": "center",
       "alignSelf": "flex-start",
       "backgroundColor": "transparent",
@@ -42,35 +59,35 @@ exports[`components/DefaultIconButton test DefaultIconButton component 1`] = `
   <Text
     allowFontScaling={false}
     style={
-      Array [
-        Object {
+      [
+        {
           "color": undefined,
           "fontSize": 12,
         },
-        Array [
-          Object {
+        [
+          {
             "color": "#000",
             "fontSize": 30,
           },
-          Object {
+          {
             "color": "#007aff",
             "fontSize": 24,
             "marginLeft": 16,
             "marginRight": 16,
             "paddingTop": 2,
           },
-          Object {
+          {
             "color": "#818181",
             "fontSize": 20,
           },
           undefined,
         ],
-        Object {
+        {
           "fontFamily": "Material Design Icons",
           "fontStyle": "normal",
           "fontWeight": "normal",
         },
-        Object {},
+        {},
       ]
     }
     type="MaterialCommunityIcons"

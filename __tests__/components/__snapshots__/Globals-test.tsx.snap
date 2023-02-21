@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/Globals test Globals component 1`] = `
-Array [
+[
   <View
     style={
-      Object {
+      {
         "alignItems": "center",
         "justifyContent": "center",
       }
@@ -37,13 +37,13 @@ Array [
     scrollTo={null}
     statusBarTranslucent={false}
     supportedOrientations={
-      Array [
+      [
         "portrait",
         "landscape",
       ]
     }
     swipeDirection={
-      Array [
+      [
         "left",
         "right",
         "down",
