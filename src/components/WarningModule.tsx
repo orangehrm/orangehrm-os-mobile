@@ -18,7 +18,7 @@
  *
  */
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import Modal, {ModalProps} from 'react-native-modal';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Icon} from 'native-base';
@@ -30,25 +30,14 @@ import {connect} from 'react-redux';
 import {WARNING_MODAL_STATUS} from 'services/storage';
 
 const WarningModule = (props: React.PropsWithChildren<WarningModuleProps>) => {
-  const {isVisible, ...modalProps} = props;
-  const [isVisibleModule, setModelVisible] = useState(isVisible);
-
-  useEffect(() => {
-    setModelVisible(isVisible);
-  }, [isVisible]);
+  const {isVisible, storageSetItem} = props;
 
   const onPressAcknowledge = () => {
-    const {storageSetItem} = props;
-    storageSetItem(WARNING_MODAL_STATUS, JSON.stringify('true'));
-    setModelVisible(false);
+    storageSetItem(WARNING_MODAL_STATUS, JSON.stringify('false'));
   };
 
   return (
-    <Modal
-      useNativeDriver={true}
-      isVisible={isVisibleModule}
-      backdropOpacity={0.25}
-      {...modalProps}>
+    <Modal useNativeDriver={true} isVisible={isVisible} backdropOpacity={0.25}>
       <View style={styles.mainView}>
         <View style={styles.subView}>
           <Icon

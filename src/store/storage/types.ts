@@ -29,6 +29,7 @@ import {
   INSTANCE_API_VERSION,
   INSTANCE_API_PATHS,
   DATE_FORMAT,
+  WARNING_MODAL_STATUS,
 } from 'services/storage';
 
 export interface StorageState {
@@ -42,6 +43,7 @@ export interface StorageState {
   [INSTANCE_API_VERSION]: NullableString;
   [INSTANCE_API_PATHS]: NullableString;
   [DATE_FORMAT]: NullableString;
+  [WARNING_MODAL_STATUS]: NullableString;
   loaded?: boolean;
   error?: any;
   fetchingAccessTokenLock: boolean;

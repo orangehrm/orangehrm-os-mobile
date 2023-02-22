@@ -18,7 +18,7 @@
  *
  */
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -30,12 +30,12 @@ import {
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import WarningModule from 'components/WarningModule';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {USER_ROLE_ADMIN} from 'store/auth/types';
 import {RootState} from 'store';
-import {selectMyInfo} from '../store/auth/selectors';
-import {fetchMyInfo} from '../store/auth/actions';
+import {selectMyInfo} from 'store/auth/selectors';
+import {fetchMyInfo} from 'store/auth/actions';
 import {connect} from 'react-redux';
+import {selectWarningModalStatus} from 'store/storage/selectors';
 
 const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
   const {
@@ -48,28 +48,8 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
     scrollViewProps,
     statusBarBackgroundColor,
     myInfo,
+    warningModalStatus,
   } = props;
-
-  const [isVisible, setModelVisible] = useState(false);
-  const [option, setOption] = useState(false);
-
-  useEffect(() => {
-    if (myInfo?.user.userRole === USER_ROLE_ADMIN) {
-      checkWarningModuleStatus();
-    }
-  });
-
-  const checkWarningModuleStatus = async () => {
-    const options = await AsyncStorage.getItem('WarningRead');
-    if (options) {
-      setModelVisible(false);
-    } else {
-      setModelVisible(true);
-      setTimeout(() => {
-        setOption(true);
-      }, 1000);
-    }
-  };
 
   return (
     <>
@@ -101,7 +81,11 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
         </ScrollView>
         {footer === undefined ? null : footer}
       </SafeAreaView>
-      {option ? <WarningModule isVisible={isVisible} /> : undefined}
+      <WarningModule
+        isVisible={
+          myInfo?.user.userRole === USER_ROLE_ADMIN && warningModalStatus
+        }
+      />
     </>
   );
 };
@@ -118,6 +102,7 @@ interface MainLayoutProps
 
 const mapStateToProps = (state: RootState) => ({
   myInfo: selectMyInfo(state),
+  warningModalStatus: selectWarningModalStatus(state),
 });
 
 const mapDispatchToProps = {
