@@ -25,7 +25,7 @@ import {Icon} from 'native-base';
 import Text from './DefaultText';
 import {setItem} from 'store/storage/actions';
 import {RootState} from 'store';
-import {selectMyInfo} from '../store/auth/selectors';
+import {selectMyInfo} from 'store/auth/selectors';
 import {connect} from 'react-redux';
 import {WARNING_MODAL_STATUS} from 'services/storage';
 
@@ -33,7 +33,7 @@ const WarningModule = (props: React.PropsWithChildren<WarningModuleProps>) => {
   const {isVisible, storageSetItem} = props;
 
   const onPressAcknowledge = () => {
-    storageSetItem(WARNING_MODAL_STATUS, JSON.stringify('false'));
+    storageSetItem(WARNING_MODAL_STATUS, 'true');
   };
 
   return (

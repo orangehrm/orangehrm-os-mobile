@@ -18,7 +18,7 @@
  *
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -27,6 +27,7 @@ import {
   StyleSheet,
   RefreshControlProps,
   ScrollViewProps,
+  InteractionManager,
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import WarningModule from 'components/WarningModule';
@@ -50,6 +51,15 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
     myInfo,
     warningModalStatus,
   } = props;
+
+  const [option, setOption] = useState(false);
+
+  useEffect(() => {
+    const interactionPromise = InteractionManager.runAfterInteractions(() =>
+      setOption(true),
+    );
+    return () => interactionPromise.cancel();
+  });
 
   return (
     <>
@@ -81,11 +91,13 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
         </ScrollView>
         {footer === undefined ? null : footer}
       </SafeAreaView>
-      <WarningModule
-        isVisible={
-          myInfo?.user.userRole === USER_ROLE_ADMIN && warningModalStatus
-        }
-      />
+      {option ? (
+        <WarningModule
+          isVisible={
+            myInfo?.user.userRole === USER_ROLE_ADMIN && !warningModalStatus
+          }
+        />
+      ) : undefined}
     </>
   );
 };
