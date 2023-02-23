@@ -20,7 +20,7 @@
 
 import React from 'react';
 import Modal, {ModalProps} from 'react-native-modal';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, SafeAreaView} from 'react-native';
 import {Icon} from 'native-base';
 import Text from './DefaultText';
 import {setItem} from 'store/storage/actions';
@@ -29,7 +29,7 @@ import {selectMyInfo} from 'store/auth/selectors';
 import {connect} from 'react-redux';
 import {WARNING_MODAL_STATUS} from 'services/storage';
 
-const WarningModule = (props: React.PropsWithChildren<WarningModuleProps>) => {
+const WarningModal = (props: React.PropsWithChildren<WarningModalProps>) => {
   const {isVisible, storageSetItem} = props;
 
   const onPressAcknowledge = () => {
@@ -37,31 +37,38 @@ const WarningModule = (props: React.PropsWithChildren<WarningModuleProps>) => {
   };
 
   return (
-    <Modal useNativeDriver={true} isVisible={isVisible} backdropOpacity={0.25}>
-      <View style={styles.mainView}>
-        <View style={styles.subView}>
-          <Icon
-            type="MaterialIcons"
-            name={'notification-important'}
-            style={styles.iconStyle}
-          />
-          <Text style={styles.title}>Stay Up-to-date</Text>
-          <View style={styles.descriptionView}>
-            <Text style={styles.descriptionText}>
-              Starting with the April 2023 release, this app will no longer
-              provide support for OrangeHRM Open Source 4x versions. Instead,
-              the updated app will only cater to 5.4 version and onwards.
-            </Text>
-          </View>
-          <View style={styles.btnView}>
-            <TouchableOpacity
-              onPress={onPressAcknowledge}
-              style={styles.btnTextView}>
-              <Text style={styles.btnText}>Acknowledge</Text>
-            </TouchableOpacity>
+    <Modal
+      useNativeDriver={false}
+      isVisible={isVisible}
+      backdropOpacity={0.25}
+      coverScreen={false}
+      hideModalContentWhileAnimating>
+      <SafeAreaView>
+        <View style={styles.mainView}>
+          <View style={styles.subView}>
+            <Icon
+              type="MaterialIcons"
+              name={'notification-important'}
+              style={styles.iconStyle}
+            />
+            <Text style={styles.title}>Stay Up-to-date</Text>
+            <View style={styles.descriptionView}>
+              <Text style={styles.descriptionText}>
+                Starting with the April 2023 release, this app will no longer
+                provide support for OrangeHRM Open Source 4x versions. Instead,
+                the updated app will only cater to 5.4 version and onwards.
+              </Text>
+            </View>
+            <View style={styles.btnView}>
+              <TouchableOpacity
+                onPress={onPressAcknowledge}
+                style={styles.btnTextView}>
+                <Text style={styles.btnText}>Acknowledge</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };
@@ -139,6 +146,6 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-export interface WarningModuleProps extends Partial<ModalProps> {}
+export interface WarningModalProps extends Partial<ModalProps> {}
 
-export default connector(WarningModule);
+export default connector(WarningModal);

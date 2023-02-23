@@ -18,7 +18,7 @@
  *
  */
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -27,11 +27,8 @@ import {
   StyleSheet,
   RefreshControlProps,
   ScrollViewProps,
-  InteractionManager,
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import WarningModule from 'components/WarningModule';
-import {USER_ROLE_ADMIN} from 'store/auth/types';
 import {RootState} from 'store';
 import {selectMyInfo} from 'store/auth/selectors';
 import {fetchMyInfo} from 'store/auth/actions';
@@ -48,18 +45,7 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
     header,
     scrollViewProps,
     statusBarBackgroundColor,
-    myInfo,
-    warningModalStatus,
   } = props;
-
-  const [option, setOption] = useState(false);
-
-  useEffect(() => {
-    const interactionPromise = InteractionManager.runAfterInteractions(() =>
-      setOption(true),
-    );
-    return () => interactionPromise.cancel();
-  });
 
   return (
     <>
@@ -91,13 +77,6 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
         </ScrollView>
         {footer === undefined ? null : footer}
       </SafeAreaView>
-      {option ? (
-        <WarningModule
-          isVisible={
-            myInfo?.user.userRole === USER_ROLE_ADMIN && !warningModalStatus
-          }
-        />
-      ) : undefined}
     </>
   );
 };
