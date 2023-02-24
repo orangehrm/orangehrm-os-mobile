@@ -139,9 +139,10 @@ export const fetchWorkWeekFinished = (
   error,
 });
 
-export const fetchAttendanceConfiguration = (): FetchAttendanceConfigurationAction => ({
-  type: FETCH_ATTENDANCE_CONFIGURATION,
-});
+export const fetchAttendanceConfiguration =
+  (): FetchAttendanceConfigurationAction => ({
+    type: FETCH_ATTENDANCE_CONFIGURATION,
+  });
 
 export const fetchAttendanceConfigurationFinished = (
   payload: AttendanceConfiguration,

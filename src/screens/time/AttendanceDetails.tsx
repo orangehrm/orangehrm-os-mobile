@@ -264,9 +264,8 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const AttendanceDetailsWithTheme = withTheme<AttendanceDetailsProps>()(
-  AttendanceDetails,
-);
+const AttendanceDetailsWithTheme =
+  withTheme<AttendanceDetailsProps>()(AttendanceDetails);
 
 const AttendanceDetailsWithGlobals = withGlobals<AttendanceDetailsProps>()(
   AttendanceDetailsWithTheme,

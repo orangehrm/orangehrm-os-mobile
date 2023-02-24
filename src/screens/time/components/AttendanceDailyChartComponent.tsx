@@ -19,13 +19,7 @@
  */
 
 import React from 'react';
-import {
-  View,
-  Platform,
-  Text,
-  StyleSheet,
-  useWindowDimensions,
-} from 'react-native';
+import {View, Text, StyleSheet, useWindowDimensions} from 'react-native';
 import {
   VictoryAxis,
   VictoryBar,
@@ -34,7 +28,6 @@ import {
   VictoryStack,
 } from 'victory-native';
 import {VictoryBarProps} from 'victory-bar';
-import Svg from 'react-native-svg';
 import {
   GraphDataPoint,
   LeaveTypeGraphData,
@@ -223,10 +216,7 @@ const AttendanceDailyChartComponent = (
               {'Daily Hours'}
             </Text>
           </View>
-          <View style={styles.flex}>
-            {/* https://github.com/FormidableLabs/victory-native/issues/96 */}
-            {Platform.OS === 'ios' ? renderGraph() : <Svg>{renderGraph()}</Svg>}
-          </View>
+          <View style={styles.flex}>{renderGraph()}</View>
         </CardContent>
       </Card>
     </View>

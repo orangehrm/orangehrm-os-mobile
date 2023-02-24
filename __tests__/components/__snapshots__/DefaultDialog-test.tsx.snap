@@ -3,16 +3,21 @@
 exports[`components/DefaultDialog test DefaultDialog component 1`] = `
 <Modal
   animationType="none"
+  deviceHeight={null}
+  deviceWidth={null}
   hardwareAccelerated={false}
   hideModalContentWhileAnimating={false}
+  onBackdropPress={[Function]}
   onModalHide={[Function]}
   onModalWillHide={[Function]}
   onModalWillShow={[Function]}
   onRequestClose={[Function]}
+  panResponderThreshold={4}
   scrollHorizontal={false}
   scrollOffset={0}
   scrollOffsetMax={0}
   scrollTo={null}
+  statusBarTranslucent={false}
   supportedOrientations={
     Array [
       "portrait",
@@ -25,6 +30,7 @@ exports[`components/DefaultDialog test DefaultDialog component 1`] = `
 >
   <View
     accessible={true}
+    collapsable={false}
     focusable={true}
     forwardedRef={[Function]}
     onClick={[Function]}
@@ -49,16 +55,22 @@ exports[`components/DefaultDialog test DefaultDialog component 1`] = `
     }
   />
   <View
+    collapsable={false}
+    deviceHeight={null}
+    deviceWidth={null}
     forwardedRef={[Function]}
     hideModalContentWhileAnimating={false}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
+    panResponderThreshold={4}
     pointerEvents="box-none"
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
     scrollTo={null}
+    statusBarTranslucent={false}
     style={
       Object {
         "flex": 1,

@@ -59,8 +59,8 @@ class MyLeaveUsageNavigator extends React.Component<MyLeaveUsageNavigatorProps> 
         screenOptions={{
           ...header,
           ...headerBackIcon,
-        }}
-        keyboardHandlingEnabled={false}>
+          keyboardHandlingEnabled: false,
+        }}>
         <Stack.Screen
           name={MY_LEAVE_ENTITLEMENT_AND_USAGE}
           component={MyLeaveEntitilementsAndUsage}

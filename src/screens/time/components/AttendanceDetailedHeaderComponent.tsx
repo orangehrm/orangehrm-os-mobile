@@ -100,8 +100,9 @@ interface AttendanceDetailedHeaderComponentProps extends WithTheme {
   hours: string;
 }
 
-const AttendanceDetailedHeaderWithTheme = withTheme<AttendanceDetailedHeaderComponentProps>()(
-  AttendanceDetailedHeaderComponent,
-);
+const AttendanceDetailedHeaderWithTheme =
+  withTheme<AttendanceDetailedHeaderComponentProps>()(
+    AttendanceDetailedHeaderComponent,
+  );
 
 export default AttendanceDetailedHeaderWithTheme;

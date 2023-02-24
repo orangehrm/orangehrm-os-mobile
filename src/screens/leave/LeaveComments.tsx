@@ -45,11 +45,8 @@ class LeaveComments extends React.Component<
 
   onPressComment = () => {
     const {comment} = this.state;
-    const {
-      employeeLeaveRequest,
-      changeEmployeeLeaveRequestStatus,
-      dispatch,
-    } = this.props;
+    const {employeeLeaveRequest, changeEmployeeLeaveRequestStatus, dispatch} =
+      this.props;
     if (comment !== '' && employeeLeaveRequest) {
       dispatch(
         changeEmployeeLeaveRequestStatus(employeeLeaveRequest.leaveRequestId, {
@@ -113,9 +110,8 @@ interface LeaveCommentsState {
 }
 
 const mapStateToProps = (state: RootState, ownProps: LeaveCommentsProps) => ({
-  employeeLeaveRequest: ownProps.route.params.employeeLeaveRequestSelector(
-    state,
-  ),
+  employeeLeaveRequest:
+    ownProps.route.params.employeeLeaveRequestSelector(state),
 });
 
 const mapDispatchToProps = (

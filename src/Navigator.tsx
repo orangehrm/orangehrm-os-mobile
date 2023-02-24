@@ -154,7 +154,7 @@ const Navigator = (props: NavigatorProps) => {
             style={styles.root}>
             <Drawer.Navigator
               initialRouteName={initialRoute}
-              openByDefault={false}
+              defaultStatus="closed"
               drawerType={isLargeScreen ? 'permanent' : 'front'}
               drawerStyle={
                 isLargeScreen ? {width: DEFAULT_FIXED_DRAWER_WIDTH} : undefined
@@ -176,13 +176,19 @@ const Navigator = (props: NavigatorProps) => {
                       <Drawer.Screen
                         name={APPLY_LEAVE}
                         component={ApplyLeave}
-                        options={{drawerLabel: 'Apply Leave'}}
+                        options={{
+                          drawerLabel: 'Apply Leave',
+                          headerShown: false,
+                        }}
                         initialParams={{subheader: SUBHEADER_LEAVE}}
                       />
                       <Drawer.Screen
                         name={MY_LEAVE_ENTITLEMENT_AND_USAGE}
                         component={MyLeaveUsage}
-                        options={{drawerLabel: 'My Leave Usage'}}
+                        options={{
+                          drawerLabel: 'My Leave Usage',
+                          headerShown: false,
+                        }}
                         initialParams={{subheader: SUBHEADER_LEAVE}}
                       />
                       {myInfo?.user.userRole === USER_ROLE_ADMIN ||
@@ -191,13 +197,19 @@ const Navigator = (props: NavigatorProps) => {
                           <Drawer.Screen
                             name={LEAVE_LIST}
                             component={LeaveList}
-                            options={{drawerLabel: 'Leave List'}}
+                            options={{
+                              drawerLabel: 'Leave List',
+                              headerShown: false,
+                            }}
                             initialParams={{subheader: SUBHEADER_LEAVE}}
                           />
                           <Drawer.Screen
                             name={ASSIGN_LEAVE}
                             component={AssignLeave}
-                            options={{drawerLabel: 'Assign Leave'}}
+                            options={{
+                              drawerLabel: 'Assign Leave',
+                              headerShown: false,
+                            }}
                             initialParams={{subheader: SUBHEADER_LEAVE}}
                           />
                         </>
@@ -213,13 +225,19 @@ const Navigator = (props: NavigatorProps) => {
                       <Drawer.Screen
                         name={PUNCH}
                         component={Punch}
-                        options={{drawerLabel: 'Punch In/Out'}}
+                        options={{
+                          drawerLabel: 'Punch In/Out',
+                          headerShown: false,
+                        }}
                         initialParams={{subheader: SUBHEADER_TIME}}
                       />
                       <Drawer.Screen
                         name={ATTENDANCE_SUMMARY}
                         component={AttendanceSummary}
-                        options={{drawerLabel: 'My Attendance'}}
+                        options={{
+                          drawerLabel: 'My Attendance',
+                          headerShown: false,
+                        }}
                         initialParams={{subheader: SUBHEADER_TIME}}
                       />
                       {myInfo?.user.userRole === USER_ROLE_ADMIN ||
@@ -227,7 +245,10 @@ const Navigator = (props: NavigatorProps) => {
                         <Drawer.Screen
                           name={ATTENDANCE_LIST}
                           component={AttendanceList}
-                          options={{drawerLabel: 'Employee Attendance'}}
+                          options={{
+                            drawerLabel: 'Employee Attendance',
+                            headerShown: false,
+                          }}
                           initialParams={{subheader: SUBHEADER_TIME}}
                         />
                       ) : null}
@@ -238,6 +259,7 @@ const Navigator = (props: NavigatorProps) => {
                   <Drawer.Screen
                     name={FULL_SCREEN_INFO}
                     component={FullScreenInfo}
+                    options={{headerShown: false}}
                   />
                 </>
               )}
@@ -255,7 +277,9 @@ const Navigator = (props: NavigatorProps) => {
 
       view = (
         <Stack.Navigator
-          headerMode={'none'}
+          screenOptions={{
+            headerShown: false,
+          }}
           initialRouteName={initialRouteName}>
           <Stack.Screen name={SELECT_INSTANCE} component={SelectInstance} />
           <Stack.Screen name={LOGIN} component={Login} />

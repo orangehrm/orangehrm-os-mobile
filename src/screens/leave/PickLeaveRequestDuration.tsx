@@ -103,29 +103,33 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
       : workShift.endTime;
   };
 
-  setFromTime = (
-    pickSingleDayDuration: typeof pickSingleDayDurationAction,
-    duration?: SingleDayDuration,
-  ) => (time: string) => {
-    if (duration?.singleType === SPECIFY_TIME) {
-      pickSingleDayDuration({
-        ...duration,
-        singleFromTime: time,
-      });
-    }
-  };
+  setFromTime =
+    (
+      pickSingleDayDuration: typeof pickSingleDayDurationAction,
+      duration?: SingleDayDuration,
+    ) =>
+    (time: string) => {
+      if (duration?.singleType === SPECIFY_TIME) {
+        pickSingleDayDuration({
+          ...duration,
+          singleFromTime: time,
+        });
+      }
+    };
 
-  setToTime = (
-    pickSingleDayDuration: typeof pickSingleDayDurationAction,
-    duration?: SingleDayDuration,
-  ) => (time: string) => {
-    if (duration?.singleType === SPECIFY_TIME) {
-      pickSingleDayDuration({
-        ...duration,
-        singleToTime: time,
-      });
-    }
-  };
+  setToTime =
+    (
+      pickSingleDayDuration: typeof pickSingleDayDurationAction,
+      duration?: SingleDayDuration,
+    ) =>
+    (time: string) => {
+      if (duration?.singleType === SPECIFY_TIME) {
+        pickSingleDayDuration({
+          ...duration,
+          singleToTime: time,
+        });
+      }
+    };
 
   render() {
     const {
@@ -252,8 +256,7 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const PickLeaveRequestDurationWithTheme = withTheme<PickLeaveRequestDurationProps>()(
-  PickLeaveRequestDuration,
-);
+const PickLeaveRequestDurationWithTheme =
+  withTheme<PickLeaveRequestDurationProps>()(PickLeaveRequestDuration);
 
 export default connector(PickLeaveRequestDurationWithTheme);

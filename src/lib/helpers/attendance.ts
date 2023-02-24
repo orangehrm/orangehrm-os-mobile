@@ -131,9 +131,8 @@ const formatLastRecordDetails = (
   timezoneOffset?: string,
 ) => {
   if (datetime && timezoneOffset) {
-    const displayDatetime = getUTCMomentObjectFromString(datetime).format(
-      'LLL',
-    );
+    const displayDatetime =
+      getUTCMomentObjectFromString(datetime).format('LLL');
     let timezone;
     if (parseFloat(timezoneOffset) > 0) {
       timezone =

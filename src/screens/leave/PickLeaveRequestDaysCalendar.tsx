@@ -135,8 +135,7 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const PickLeaveRequestDaysWithTheme = withTheme<PickLeaveRequestDaysProps>()(
-  PickLeaveRequestDays,
-);
+const PickLeaveRequestDaysWithTheme =
+  withTheme<PickLeaveRequestDaysProps>()(PickLeaveRequestDays);
 
 export default connector(PickLeaveRequestDaysWithTheme);

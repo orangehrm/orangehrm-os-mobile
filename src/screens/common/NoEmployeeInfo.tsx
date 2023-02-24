@@ -97,8 +97,7 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const NoEmployeeInfoWithTheme = withTheme<NoEmployeeInfoProps>()(
-  NoEmployeeInfo,
-);
+const NoEmployeeInfoWithTheme =
+  withTheme<NoEmployeeInfoProps>()(NoEmployeeInfo);
 
 export default connector(NoEmployeeInfoWithTheme);

@@ -3,6 +3,7 @@
 exports[`components/FlatButton test FlatButton component 1`] = `
 <View
   accessible={true}
+  collapsable={false}
   focusable={false}
   forwardedRef={[Function]}
   onClick={[Function]}
@@ -176,6 +177,7 @@ exports[`components/FlatButton test FlatButton component 1`] = `
 exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
 <View
   accessible={true}
+  collapsable={false}
   focusable={false}
   forwardedRef={[Function]}
   onClick={[Function]}
@@ -349,6 +351,7 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
 exports[`components/FlatButton test FlatButton component::!rightIcon 1`] = `
 <View
   accessible={true}
+  collapsable={false}
   focusable={false}
   forwardedRef={[Function]}
   onClick={[Function]}

@@ -240,8 +240,9 @@ interface AttendanceDetailedViewDurationEmployeeDetailsCardComponentProps
 
 const connector = connect(null, null);
 
-const AttendanceSummaryWithTheme = withTheme<AttendanceDetailedViewDurationEmployeeDetailsCardComponentProps>()(
-  AttendanceDetailedViewDurationEmployeeDetailsCardComponent,
-);
+const AttendanceSummaryWithTheme =
+  withTheme<AttendanceDetailedViewDurationEmployeeDetailsCardComponentProps>()(
+    AttendanceDetailedViewDurationEmployeeDetailsCardComponent,
+  );
 
 export default connector(AttendanceSummaryWithTheme);

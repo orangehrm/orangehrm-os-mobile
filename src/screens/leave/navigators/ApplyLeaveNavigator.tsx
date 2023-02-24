@@ -22,7 +22,7 @@ import React from 'react';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import ApplyLeave from 'screens/leave/ApplyLeave';
+import ApplyLeaveScreen from 'screens/leave/ApplyLeave';
 import PickLeaveRequestDaysCalendar from 'screens/leave/PickLeaveRequestDaysCalendar';
 import PickLeaveRequestDuration from 'screens/leave/PickLeaveRequestDuration';
 import PickLeaveRequestPartialDays from 'screens/leave/PickLeaveRequestPartialDays';
@@ -58,11 +58,11 @@ class ApplyLeaveNavigator extends React.Component<ApplyLeaveNavigatorProps> {
         screenOptions={{
           ...header,
           ...headerBackIcon,
-        }}
-        keyboardHandlingEnabled={false}>
+          keyboardHandlingEnabled: false,
+        }}>
         <Stack.Screen
           name={APPLY_LEAVE}
-          component={ApplyLeave}
+          component={ApplyLeaveScreen}
           options={{
             title: 'Apply Leave',
             ...headerMenuIcon,

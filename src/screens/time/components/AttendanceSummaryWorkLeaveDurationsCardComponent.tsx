@@ -39,13 +39,8 @@ const AttendanceSummaryWorkLeaveDurationsCardComponent = (
   props: AttendanceSummaryWorkLeaveDurationsCardComponentProps,
 ) => {
   const theme = useTheme();
-  const {
-    totalLeaveDuration,
-    totalWorkDuration,
-    mode,
-    employeeName,
-    jobTitle,
-  } = props;
+  const {totalLeaveDuration, totalWorkDuration, mode, employeeName, jobTitle} =
+    props;
   return (
     <View
       style={[

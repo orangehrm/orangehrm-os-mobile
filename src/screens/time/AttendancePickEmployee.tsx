@@ -251,9 +251,8 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const AttendancePickEmployeeWithTheme = withTheme<AttendancePickEmployeeProps>()(
-  AttendancePickEmployee,
-);
+const AttendancePickEmployeeWithTheme =
+  withTheme<AttendancePickEmployeeProps>()(AttendancePickEmployee);
 
 export default connector(AttendancePickEmployeeWithTheme);
 

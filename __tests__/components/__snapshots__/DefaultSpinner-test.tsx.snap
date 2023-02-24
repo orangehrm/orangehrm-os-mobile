@@ -2,9 +2,7 @@
 
 exports[`components/DefaultSpinner test DefaultSpinner component 1`] = `
 <ActivityIndicator
-  animating={true}
   color="#f88400"
-  hidesWhenStopped={true}
   size="large"
 />
 `;

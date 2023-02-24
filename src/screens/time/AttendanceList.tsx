@@ -305,8 +305,7 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const AttendanceListWithTheme = withTheme<AttendanceListProps>()(
-  AttendanceList,
-);
+const AttendanceListWithTheme =
+  withTheme<AttendanceListProps>()(AttendanceList);
 
 export default connector(AttendanceListWithTheme);

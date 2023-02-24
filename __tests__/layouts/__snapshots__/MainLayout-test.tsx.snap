@@ -2,7 +2,6 @@
 
 exports[`layout/MainLayout test MainLayout layout 1`] = `
 <RCTSafeAreaView
-  emulateUnlessSupported={true}
   style={
     Array [
       Object {
@@ -38,7 +37,6 @@ exports[`layout/MainLayout test MainLayout layout 1`] = `
 
 exports[`layout/MainLayout test MainLayout layout::footer 1`] = `
 <RCTSafeAreaView
-  emulateUnlessSupported={true}
   style={
     Array [
       Object {
@@ -81,7 +79,6 @@ exports[`layout/MainLayout test MainLayout layout::footer 1`] = `
 
 exports[`layout/MainLayout test MainLayout layout::statusBarBackgroundColor 1`] = `
 <RCTSafeAreaView
-  emulateUnlessSupported={true}
   style={
     Array [
       Object {

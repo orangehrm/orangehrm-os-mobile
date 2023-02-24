@@ -23,8 +23,12 @@ exports[`components/SnackDialog test SnackDialog component 1`] = `
   }
 >
   <View
+    collapsable={false}
+    deviceHeight={null}
+    deviceWidth={null}
     forwardedRef={[Function]}
     hideModalContentWhileAnimating={true}
+    onBackdropPress={[Function]}
     onModalHide={[Function]}
     onModalWillHide={[Function]}
     onModalWillShow={[Function]}
@@ -40,11 +44,13 @@ exports[`components/SnackDialog test SnackDialog component 1`] = `
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     onStartShouldSetResponderCapture={[Function]}
+    panResponderThreshold={4}
     pointerEvents="box-none"
     scrollHorizontal={false}
     scrollOffset={0}
     scrollOffsetMax={0}
     scrollTo={null}
+    statusBarTranslucent={false}
     style={
       Object {
         "flex": 1,
@@ -82,9 +88,7 @@ exports[`components/SnackDialog test SnackDialog component 1`] = `
         }
       }
     >
-      <RCTSafeAreaView
-        emulateUnlessSupported={true}
-      >
+      <RCTSafeAreaView>
         <View
           style={
             Array [

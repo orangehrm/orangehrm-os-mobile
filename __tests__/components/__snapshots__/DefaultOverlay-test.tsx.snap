@@ -44,9 +44,7 @@ exports[`components/DefaultOverlay test DefaultOverlay component 1`] = `
         }
       >
         <ActivityIndicator
-          animating={true}
           color="#f88400"
-          hidesWhenStopped={true}
           size="large"
         />
         <View

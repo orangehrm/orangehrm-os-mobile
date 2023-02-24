@@ -24,6 +24,7 @@ import {
   StyleSheet,
   Keyboard,
   TextInput as RNTextInput,
+  EmitterSubscription,
 } from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
@@ -88,6 +89,7 @@ import {LeaveRequest} from 'store/leave/common-screens/types';
 
 class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
   inputRef: RNTextInput | null;
+  keyboardHide: EmitterSubscription | undefined;
 
   constructor(props: ApplyLeaveProps) {
     super(props);
@@ -101,11 +103,14 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
 
   componentDidMount() {
     this.updateEntitlements();
-    Keyboard.addListener('keyboardDidHide', this.hideCommentInput);
+    this.keyboardHide = Keyboard.addListener(
+      'keyboardDidHide',
+      this.hideCommentInput,
+    );
   }
 
   componentWillUnmount() {
-    Keyboard.removeListener('keyboardDidHide', this.hideCommentInput);
+    this.keyboardHide?.remove();
   }
 
   componentDidUpdate(prevProps: ApplyLeaveProps, prevState: ApplyLeaveState) {

@@ -196,8 +196,7 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const LeaveUsageCardWithTheme = withTheme<LeaveUsageCardProps>()(
-  LeaveUsageCard,
-);
+const LeaveUsageCardWithTheme =
+  withTheme<LeaveUsageCardProps>()(LeaveUsageCard);
 
 export default connector(LeaveUsageCardWithTheme);

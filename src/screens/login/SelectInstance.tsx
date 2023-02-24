@@ -202,8 +202,7 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const SelectInstanceWithTheme = withTheme<SelectInstanceProps>()(
-  SelectInstance,
-);
+const SelectInstanceWithTheme =
+  withTheme<SelectInstanceProps>()(SelectInstance);
 
 export default connector(SelectInstanceWithTheme);

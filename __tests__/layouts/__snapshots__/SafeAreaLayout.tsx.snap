@@ -2,7 +2,6 @@
 
 exports[`layout/SafeAreaLayout test SafeAreaLayout layout 1`] = `
 <RCTSafeAreaView
-  emulateUnlessSupported={true}
   style={
     Array [
       Object {

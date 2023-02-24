@@ -81,8 +81,8 @@ class AttendanceListNavigator extends React.Component<AttendanceListNavigatorPro
         screenOptions={{
           ...header,
           ...headerBackIcon,
-        }}
-        keyboardHandlingEnabled={false}>
+          keyboardHandlingEnabled: false,
+        }}>
         <Stack.Screen
           name={ATTENDANCE_LIST}
           component={AttendanceList}

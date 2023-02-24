@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Platform, StyleSheet, TouchableOpacity, View} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect} from 'react-redux';
 import Card from 'components/DefaultCard';
@@ -32,7 +32,6 @@ import {AndroidEvent} from '@react-native-community/datetimepicker/src/index';
 import {formatTime} from 'lib/helpers/attendance';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import FormattedDate from 'components/FormattedDate';
-import {isAboveIOS14} from 'services/platform';
 
 class EditPunchInOutDateTimeCard extends React.Component<
   EditPunchInOutDateTimeCardProps,
@@ -64,7 +63,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
     this.setState({
       show: true,
       mode: DATE,
-      display: isAboveIOS14() ? DISPLAY_SPINNER : DISPLAY_DEFAULT,
+      display: Platform.OS === 'ios' ? DISPLAY_SPINNER : DISPLAY_DEFAULT,
     });
   };
 
@@ -72,7 +71,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
     this.setState({
       show: true,
       mode: TIME,
-      display: isAboveIOS14() ? DISPLAY_SPINNER : DISPLAY_DEFAULT,
+      display: Platform.OS === 'ios' ? DISPLAY_SPINNER : DISPLAY_DEFAULT,
     });
   };
 
@@ -278,9 +277,8 @@ const mapDispatchToProps = {
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const EditPunchInOutDateTimeCardCardWithTheme = withTheme<EditPunchInOutDateTimeCardProps>()(
-  EditPunchInOutDateTimeCard,
-);
+const EditPunchInOutDateTimeCardCardWithTheme =
+  withTheme<EditPunchInOutDateTimeCardProps>()(EditPunchInOutDateTimeCard);
 
 const DATE = 'date';
 const TIME = 'time';

@@ -445,8 +445,7 @@ const mapDispatchToProps = {};
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const AttendanceTimelineComponentWithTheme = withTheme<AttendanceTimelineComponentProps>()(
-  AttendanceTimelineComponent,
-);
+const AttendanceTimelineComponentWithTheme =
+  withTheme<AttendanceTimelineComponentProps>()(AttendanceTimelineComponent);
 
 export default connector(AttendanceTimelineComponentWithTheme);

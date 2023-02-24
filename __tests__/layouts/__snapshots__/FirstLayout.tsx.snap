@@ -2,7 +2,6 @@
 
 exports[`layout/FirstLayout test FirstLayout layout 1`] = `
 <RCTSafeAreaView
-  emulateUnlessSupported={true}
   style={
     Array [
       Object {
@@ -248,7 +247,7 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
                 }
               >
                 © 2005 - 
-                2021
+                2023
                  
                 OrangeHRM, Inc. 
                 All Rights Reserved
@@ -265,7 +264,6 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
 
 exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
 <RCTSafeAreaView
-  emulateUnlessSupported={true}
   style={
     Array [
       Object {
@@ -520,7 +518,7 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
                 }
               >
                 © 2005 - 
-                2021
+                2023
                  
                 OrangeHRM, Inc. 
                 All Rights Reserved
@@ -537,7 +535,6 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
 
 exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
 <RCTSafeAreaView
-  emulateUnlessSupported={true}
   style={
     Array [
       Object {
@@ -792,7 +789,7 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
                 }
               >
                 © 2005 - 
-                2021
+                2023
                  
                 OrangeHRM, Inc. 
                 All Rights Reserved

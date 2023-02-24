@@ -47,8 +47,8 @@ class AttendanceSummaryNavigator extends React.Component<AttendanceSummaryNaviga
         screenOptions={{
           ...header,
           ...headerBackIcon,
-        }}
-        keyboardHandlingEnabled={false}>
+          keyboardHandlingEnabled: false,
+        }}>
         <Stack.Screen
           name={ATTENDANCE_SUMMARY}
           component={AttendanceSummary}
@@ -74,8 +74,7 @@ interface AttendanceSummaryNavigatorProps extends WithTheme {
   navigation: NavigationProp<ParamListBase>;
 }
 
-const AttendanceSummaryNavigatorTheme = withTheme<AttendanceSummaryNavigatorProps>()(
-  AttendanceSummaryNavigator,
-);
+const AttendanceSummaryNavigatorTheme =
+  withTheme<AttendanceSummaryNavigatorProps>()(AttendanceSummaryNavigator);
 
 export default AttendanceSummaryNavigatorTheme;

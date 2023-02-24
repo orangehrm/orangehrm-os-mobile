@@ -24,6 +24,7 @@ import {
   StyleSheet,
   Keyboard,
   TextInput as RNTextInput,
+  EmitterSubscription,
 } from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
@@ -97,6 +98,7 @@ import {LeaveRequest} from 'store/leave/common-screens/types';
 
 class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
   inputRef: RNTextInput | null;
+  keyboardHide: EmitterSubscription | undefined;
 
   constructor(props: AssignLeaveProps) {
     super(props);
@@ -110,11 +112,14 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
 
   componentDidMount() {
     this.updateSubordinateList();
-    Keyboard.addListener('keyboardDidHide', this.onKeyboardHide);
+    this.keyboardHide = Keyboard.addListener(
+      'keyboardDidHide',
+      this.onKeyboardHide,
+    );
   }
 
   componentWillUnmount() {
-    Keyboard.removeListener('keyboardDidHide', this.onKeyboardHide);
+    this.keyboardHide?.remove();
   }
 
   componentDidUpdate(prevProps: AssignLeaveProps, prevState: AssignLeaveState) {
@@ -465,7 +470,8 @@ const mapDispatchToProps = {
   pickAssignLeaveFromDate: pickAssignLeaveFromDate,
   pickAssignLeaveToDate: pickAssignLeaveToDate,
   pickAssignLeaveSingleDayDuration: pickAssignLeaveSingleDayDuration,
-  pickAssignLeaveMultipleDayPartialOption: pickAssignLeaveMultipleDayPartialOption,
+  pickAssignLeaveMultipleDayPartialOption:
+    pickAssignLeaveMultipleDayPartialOption,
   resetCommonLeave: resetCommonLeave,
   setCommonLeaveScreensState: setCommonLeaveScreensState,
   fetchWorkShift,

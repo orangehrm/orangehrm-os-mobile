@@ -121,7 +121,8 @@ class LeaveDetails extends React.Component<
     if (employeeLeaveRequest) {
       navigate<LeaveCommentsParam>(LEAVE_COMMENTS, {
         employeeLeaveRequestSelector: selectEmployeeLeaveRequest,
-        changeEmployeeLeaveRequestStatusAction: changeEmployeeLeaveRequestStatus,
+        changeEmployeeLeaveRequestStatusAction:
+          changeEmployeeLeaveRequestStatus,
       });
     }
   };
@@ -207,7 +208,10 @@ class LeaveDetails extends React.Component<
               <Avatar name={employeeLeaveRequest?.employeeName} />
             </View>
             <View>
-              <View style={{paddingHorizontal: theme.spacing * 2}}>
+              <View
+                style={{
+                  paddingHorizontal: theme.spacing * 2,
+                }}>
                 <Text
                   style={[
                     styles.empNameText,

@@ -3,6 +3,7 @@
 exports[`components/CardButton test CardButton component 1`] = `
 <View
   accessible={true}
+  collapsable={false}
   focusable={false}
   forwardedRef={[Function]}
   onClick={[Function]}
@@ -55,6 +56,7 @@ exports[`components/CardButton test CardButton component 1`] = `
 exports[`components/CardButton test CardButton component::press 1`] = `
 <View
   accessible={true}
+  collapsable={false}
   focusable={true}
   forwardedRef={[Function]}
   onClick={[Function]}
