@@ -22,7 +22,12 @@ module.exports = {
   root: true,
   extends: '@react-native-community',
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint',"jest"],
+  plugins: [
+    "jest"
+  ],
+  env: {
+    "jest/globals": true
+  },
   rules: {
     'no-console': 1, // warn for console logs
     'lines-between-class-members': [
@@ -32,8 +37,6 @@ module.exports = {
     ],
     'prefer-const': ['error'],
     'react-native/no-unused-styles': 2,
+    "no-unused-vars": "off"
   },
-  env: {
-    "jest/globals": true
-  }
 };
