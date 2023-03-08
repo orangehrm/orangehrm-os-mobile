@@ -20,11 +20,12 @@
 
 import {LeaveStatus} from 'store/leave/leave-usage/types';
 import {WorkWeek, Holiday} from 'store/leave/common-screens/types';
+import {Moment} from 'moment';
 
 export const DEFAULT_START_DAY = 1;
 
 export interface DaySelectorSingleDay {
-  date: moment.Moment;
+  date: Moment;
   duration: string;
 }
 

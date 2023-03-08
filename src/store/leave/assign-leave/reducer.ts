@@ -107,7 +107,7 @@ const assignLeaveReducer = (
         ...state,
         subordinates: action.payload,
       };
-    case PICK_SUBORDINATE:
+    case PICK_SUBORDINATE: {
       const isSubordinateChanged =
         state.selectedSubordinate?.empNumber !== action.subordinate?.empNumber;
 
@@ -122,6 +122,7 @@ const assignLeaveReducer = (
         };
       }
       return state;
+    }
     case SELECT_SUBORDINATE_LEAVE_TYPE:
       return {
         ...state,

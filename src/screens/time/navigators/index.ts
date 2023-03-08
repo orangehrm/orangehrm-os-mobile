@@ -26,6 +26,7 @@ import {
 } from 'screens';
 import {SingleEmployeeAttendance} from 'store/time/attendance/types';
 import {RouteProp} from '@react-navigation/native';
+import {Moment} from 'moment';
 
 export interface PunchRequestSuccessParam {
   success: string;
@@ -54,7 +55,7 @@ export interface AttendanceDetailsScreenParam {
   startDayIndex: number;
   employeeAttendance?: SingleEmployeeAttendance;
   employeeName?: string;
-  selectedDate?: moment.Moment;
+  selectedDate?: Moment;
 }
 
 export type AttendanceDetailsScreenParamList = {

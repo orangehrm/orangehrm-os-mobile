@@ -18,7 +18,7 @@
  *
  */
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -29,13 +29,6 @@ import {
   ScrollViewProps,
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import WarningModule from 'components/WarningModule';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {USER_ROLE_ADMIN} from 'store/auth/types';
-import {RootState} from 'store';
-import {selectMyInfo} from '../store/auth/selectors';
-import {fetchMyInfo} from '../store/auth/actions';
-import {connect} from 'react-redux';
 
 const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
   const {
@@ -47,27 +40,7 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
     header,
     scrollViewProps,
     statusBarBackgroundColor,
-    myInfo,
   } = props;
-
-  const [isVisible, setModelVisible] = useState(false);
-  const [option, setOption] = useState(false);
-
-  useEffect(() => {
-    if (myInfo?.user.userRole === USER_ROLE_ADMIN) {
-      checkWarningModuleStatus();
-    }
-  });
-
-  const checkWarningModuleStatus = async () => {
-    const options = await AsyncStorage.getItem('WarningRead');
-    if (options) {
-      setModelVisible(false);
-    } else {
-      setModelVisible(true);
-      setOption(true);
-    }
-  };
 
   return (
     <>
@@ -99,7 +72,6 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
         </ScrollView>
         {footer === undefined ? null : footer}
       </SafeAreaView>
-      {option ? <WarningModule isVisible={isVisible} /> : undefined}
     </>
   );
 };
@@ -114,16 +86,6 @@ interface MainLayoutProps
   statusBarBackgroundColor?: string;
 }
 
-const mapStateToProps = (state: RootState) => ({
-  myInfo: selectMyInfo(state),
-});
-
-const mapDispatchToProps = {
-  fetchMyInfo: fetchMyInfo,
-};
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -133,4 +95,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connector(withTheme<MainLayoutProps>()(MainLayout));
+export default withTheme<MainLayoutProps>()(MainLayout);

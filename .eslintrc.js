@@ -20,14 +20,9 @@
 
 module.exports = {
   root: true,
-  extends: '@react-native-community',
+  extends: ['@react-native-community', 'eslint:recommended'],
   parser: '@typescript-eslint/parser',
-  plugins: [
-    "jest"
-  ],
-  env: {
-    "jest/globals": true
-  },
+  plugins: ['@typescript-eslint', 'jest'],
   rules: {
     'no-console': 1, // warn for console logs
     'lines-between-class-members': [
@@ -36,7 +31,13 @@ module.exports = {
       {exceptAfterSingleLine: true},
     ],
     'prefer-const': ['error'],
-    'react-native/no-unused-styles': 2,
-    "no-unused-vars": "off"
+    'react-native/no-unused-styles': 'error',
+    'react/no-unstable-nested-components': [
+      //https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/no-unstable-nested-components.md
+      'error',
+      {
+        allowAsProps: true,
+      },
+    ],
   },
 };
