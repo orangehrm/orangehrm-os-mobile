@@ -30,7 +30,6 @@ import storage, {
   INSTANCE_API_VERSION,
   INSTANCE_API_PATHS,
   DATE_FORMAT,
-  WARNING_MODAL_STATUS,
 } from 'services/storage';
 import {storageSetMulti, storageChangeLoaded} from 'store/saga-effects/storage';
 import {
@@ -55,7 +54,6 @@ export function* loadAsyncStorage() {
       INSTANCE_API_VERSION,
       INSTANCE_API_PATHS,
       DATE_FORMAT,
-      WARNING_MODAL_STATUS,
     ];
     const keyValuePairs = yield call(storage.multiGet, keys);
     // update redux store
@@ -69,6 +67,7 @@ export function* loadAsyncStorage() {
 function* setItemAsyncStorage(action: SetItemAction) {
   try {
     yield storage.set(action.key, action.value);
+    // eslint-disable-next-line no-empty
   } catch (error) {}
 }
 
@@ -85,6 +84,7 @@ function* setMultiAsyncStorage(action: SetMultiAction) {
         }),
       );
     }
+    // eslint-disable-next-line no-empty
   } catch (error) {}
 }
 

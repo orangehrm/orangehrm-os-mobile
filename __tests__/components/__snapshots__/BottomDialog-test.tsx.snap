@@ -19,7 +19,7 @@ exports[`components/BottomDialog test BottomDialog component 1`] = `
   scrollTo={null}
   statusBarTranslucent={false}
   supportedOrientations={
-    Array [
+    [
       "portrait",
       "landscape",
     ]
@@ -29,6 +29,15 @@ exports[`components/BottomDialog test BottomDialog component 1`] = `
   visible={true}
 >
   <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
     accessible={true}
     collapsable={false}
     focusable={true}
@@ -41,7 +50,7 @@ exports[`components/BottomDialog test BottomDialog component 1`] = `
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Object {
+      {
         "backgroundColor": "black",
         "bottom": 0,
         "height": 1334,
@@ -72,19 +81,19 @@ exports[`components/BottomDialog test BottomDialog component 1`] = `
     scrollTo={null}
     statusBarTranslucent={false}
     style={
-      Object {
+      {
         "flex": 1,
         "justifyContent": "flex-end",
         "margin": 0,
-        "transform": Array [
-          Object {
+        "transform": [
+          {
             "translateY": 1334,
           },
         ],
       }
     }
     supportedOrientations={
-      Array [
+      [
         "portrait",
         "landscape",
       ]
@@ -93,14 +102,14 @@ exports[`components/BottomDialog test BottomDialog component 1`] = `
   >
     <View
       style={
-        Object {
+        {
           "backgroundColor": "#ffffff",
         }
       }
     >
       <View
         style={
-          Object {
+          {
             "backgroundColor": "orange",
           }
         }

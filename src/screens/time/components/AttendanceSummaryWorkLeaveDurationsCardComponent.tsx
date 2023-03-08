@@ -20,6 +20,7 @@
 
 import React from 'react';
 import {StyleSheet, View, Platform} from 'react-native';
+import {Moment} from 'moment';
 import useTheme from 'lib/hook/useTheme';
 import Text from 'components/DefaultText';
 import Icon from 'components/DefaultIcon';
@@ -257,7 +258,7 @@ interface AttendanceSummaryWorkLeaveDurationsCardComponentProps {
   totalLeaveDuration: string;
   totalWorkDuration: string;
   leaveData: GraphLeaveType[];
-  onPressDetails: (selectedDate?: moment.Moment) => void;
+  onPressDetails: (selectedDate?: Moment) => void;
   empNumber?: string;
   employeeName?: string;
   jobTitle?: NullableString;

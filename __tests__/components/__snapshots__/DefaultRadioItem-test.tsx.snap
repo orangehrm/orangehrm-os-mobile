@@ -2,6 +2,15 @@
 
 exports[`components/DefaultRadioItem test DefaultRadioItem component 1`] = `
 <View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
   accessible={true}
   focusable={false}
   onClick={[Function]}
@@ -12,8 +21,8 @@ exports[`components/DefaultRadioItem test DefaultRadioItem component 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Array [
-      Object {
+    [
+      {
         "flex": 1,
         "flexDirection": "row",
         "justifyContent": "space-between",
@@ -25,8 +34,8 @@ exports[`components/DefaultRadioItem test DefaultRadioItem component 1`] = `
 >
   <Text
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#818181",
         },
         undefined,
@@ -37,6 +46,23 @@ exports[`components/DefaultRadioItem test DefaultRadioItem component 1`] = `
     Test Item
   </Text>
   <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
     accessible={true}
     collapsable={false}
     focusable={false}
@@ -49,7 +75,7 @@ exports[`components/DefaultRadioItem test DefaultRadioItem component 1`] = `
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Object {
+      {
         "opacity": 1,
       }
     }
@@ -57,23 +83,23 @@ exports[`components/DefaultRadioItem test DefaultRadioItem component 1`] = `
     <Text
       allowFontScaling={false}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": undefined,
             "fontSize": 12,
           },
-          Object {
+          {
             "color": "#f88400",
             "fontSize": 25,
             "height": 20,
             "lineHeight": 25,
           },
-          Object {
+          {
             "fontFamily": "Ionicons",
             "fontStyle": "normal",
             "fontWeight": "normal",
           },
-          Object {},
+          {},
         ]
       }
     >

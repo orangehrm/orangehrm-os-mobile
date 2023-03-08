@@ -50,7 +50,7 @@ const globalsReducer = (
   action: WithLogoutAction<GlobalsActionTypes>,
 ): GlobalsState => {
   switch (action.type) {
-    case SHOW_SNACK_MESSAGE:
+    case SHOW_SNACK_MESSAGE: {
       const snackMessages = [...state.snackMessages];
       const snack = {
         message: action.message,
@@ -82,10 +82,10 @@ const globalsReducer = (
           ...snack,
         },
       };
-    case CLOSE_SNACK_MESSAGE:
-      /* eslint-disable @typescript-eslint/no-unused-vars */
-      const [snackMessage, ...restSnackMessages] = state.snackMessages;
-      /* eslint-enable @typescript-eslint/no-unused-vars */
+    }
+    case CLOSE_SNACK_MESSAGE: {
+      // const [snackMessage, ...restSnackMessages] = state.snackMessages;
+      const [, ...restSnackMessages] = state.snackMessages;
       if (restSnackMessages.length > 0) {
         // Open snack message when one closed
         return {
@@ -105,6 +105,7 @@ const globalsReducer = (
           open: false,
         },
       };
+    }
     case OPEN_LOADER:
       return {
         ...state,

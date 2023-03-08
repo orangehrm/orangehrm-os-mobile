@@ -31,7 +31,7 @@ const gradlePropertiesPath = path.join(
 fs.readFile(gradlePropertiesPath, 'utf8', (error, gradleProperties) => {
   if (error) {
     /* eslint-disable no-console */
-    return console.eror(error);
+    return console.error(error);
     /* eslint-enable no-console */
   }
 
@@ -55,7 +55,7 @@ fs.readFile(gradlePropertiesPath, 'utf8', (error, gradleProperties) => {
   fs.writeFile(gradlePropertiesPath, updatedGradleProperties, 'utf8', (err) => {
     if (err) {
       /* eslint-disable no-console */
-      return console.eror(err);
+      return console.error(err);
       /* eslint-enable no-console */
     }
 
@@ -68,13 +68,13 @@ fs.readFile(gradlePropertiesPath, 'utf8', (error, gradleProperties) => {
 const projectpbxprojPath = path.join(
   __dirname,
   '..',
-  'ios/OrangeHRM.xcodeproj/project.pbxproj',
+  'ios/OSMobile.xcodeproj/project.pbxproj',
 );
 
 fs.readFile(projectpbxprojPath, 'utf8', (error, projectpbxproj) => {
   if (error) {
     /* eslint-disable no-console */
-    return console.eror(error);
+    return console.error(error);
     /* eslint-enable no-console */
   }
 
@@ -88,7 +88,7 @@ fs.readFile(projectpbxprojPath, 'utf8', (error, projectpbxproj) => {
   fs.writeFile(projectpbxprojPath, projectpbxprojUpdated, 'utf8', (err) => {
     if (err) {
       /* eslint-disable no-console */
-      return console.eror(err);
+      return console.error(err);
       /* eslint-enable no-console */
     }
 

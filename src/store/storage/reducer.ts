@@ -37,7 +37,6 @@ import {
   INSTANCE_API_VERSION,
   INSTANCE_API_PATHS,
   DATE_FORMAT,
-  WARNING_MODAL_STATUS,
 } from 'services/storage';
 import {DEFAULT_DATE_FORMAT} from 'lib/helpers/date';
 
@@ -52,7 +51,6 @@ const initialState: StorageState = {
   [INSTANCE_API_VERSION]: null,
   [INSTANCE_API_PATHS]: null,
   [DATE_FORMAT]: DEFAULT_DATE_FORMAT,
-  [WARNING_MODAL_STATUS]: null,
   loaded: false,
   fetchingAccessTokenLock: false,
 };
@@ -67,7 +65,7 @@ const storageReducer = (
         ...state,
         [action.key]: action.value,
       };
-    case SET_MULTI:
+    case SET_MULTI: {
       const keyValues = {...action.keyValuePairs};
       if (
         keyValues[DATE_FORMAT] === null ||
@@ -79,6 +77,7 @@ const storageReducer = (
         ...state,
         ...keyValues,
       };
+    }
     case CHANGE_LOADED:
       return {
         ...state,

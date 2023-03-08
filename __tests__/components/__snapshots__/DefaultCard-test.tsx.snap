@@ -3,11 +3,11 @@
 exports[`test card component 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "elevation": 2,
         "shadowColor": "black",
-        "shadowOffset": Object {
+        "shadowOffset": {
           "height": 0.5,
           "width": 0,
         },
@@ -15,7 +15,7 @@ exports[`test card component 1`] = `
         "shadowRadius": 1,
       },
       undefined,
-      Object {
+      {
         "backgroundColor": "#ffffff",
         "borderRadius": 4,
       },

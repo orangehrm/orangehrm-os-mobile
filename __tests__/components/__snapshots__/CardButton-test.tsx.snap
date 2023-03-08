@@ -2,6 +2,23 @@
 
 exports[`components/CardButton test CardButton component 1`] = `
 <View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
   accessible={true}
   collapsable={false}
   focusable={false}
@@ -14,7 +31,7 @@ exports[`components/CardButton test CardButton component 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Object {
+    {
       "alignItems": "center",
       "alignSelf": "flex-start",
       "backgroundColor": "#ffffff",
@@ -34,7 +51,7 @@ exports[`components/CardButton test CardButton component 1`] = `
       "paddingBottom": 6,
       "paddingTop": 6,
       "shadowColor": "black",
-      "shadowOffset": Object {
+      "shadowOffset": {
         "height": 0.5,
         "width": 0,
       },
@@ -45,7 +62,7 @@ exports[`components/CardButton test CardButton component 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "backgroundColor": "orange",
       }
     }
@@ -55,6 +72,23 @@ exports[`components/CardButton test CardButton component 1`] = `
 
 exports[`components/CardButton test CardButton component::press 1`] = `
 <View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
   accessible={true}
   collapsable={false}
   focusable={true}
@@ -67,7 +101,7 @@ exports[`components/CardButton test CardButton component::press 1`] = `
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
   style={
-    Object {
+    {
       "alignItems": "center",
       "alignSelf": "flex-start",
       "backgroundColor": "#ffffff",
@@ -87,7 +121,7 @@ exports[`components/CardButton test CardButton component::press 1`] = `
       "paddingBottom": 6,
       "paddingTop": 6,
       "shadowColor": "black",
-      "shadowOffset": Object {
+      "shadowOffset": {
         "height": 0.5,
         "width": 0,
       },
@@ -98,15 +132,15 @@ exports[`components/CardButton test CardButton component::press 1`] = `
 >
   <View
     style={
-      Object {
+      {
         "backgroundColor": "orange",
       }
     }
   >
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#818181",
           },
           undefined,

@@ -3,11 +3,11 @@
 exports[`layout/MainLayout test MainLayout layout 1`] = `
 <RCTSafeAreaView
   style={
-    Array [
-      Object {
+    [
+      {
         "flex": 1,
       },
-      Object {
+      {
         "backgroundColor": "#ffffff",
       },
     ]
@@ -15,7 +15,7 @@ exports[`layout/MainLayout test MainLayout layout 1`] = `
 >
   <RCTScrollView
     contentContainerStyle={
-      Object {
+      {
         "flexGrow": 1,
       }
     }
@@ -25,7 +25,7 @@ exports[`layout/MainLayout test MainLayout layout 1`] = `
     <View>
       <View
         style={
-          Object {
+          {
             "backgroundColor": "orange",
           }
         }
@@ -38,11 +38,11 @@ exports[`layout/MainLayout test MainLayout layout 1`] = `
 exports[`layout/MainLayout test MainLayout layout::footer 1`] = `
 <RCTSafeAreaView
   style={
-    Array [
-      Object {
+    [
+      {
         "flex": 1,
       },
-      Object {
+      {
         "backgroundColor": "#ffffff",
       },
     ]
@@ -50,7 +50,7 @@ exports[`layout/MainLayout test MainLayout layout::footer 1`] = `
 >
   <RCTScrollView
     contentContainerStyle={
-      Object {
+      {
         "flexGrow": 1,
       }
     }
@@ -60,7 +60,7 @@ exports[`layout/MainLayout test MainLayout layout::footer 1`] = `
     <View>
       <View
         style={
-          Object {
+          {
             "backgroundColor": "orange",
           }
         }
@@ -69,7 +69,7 @@ exports[`layout/MainLayout test MainLayout layout::footer 1`] = `
   </RCTScrollView>
   <View
     style={
-      Object {
+      {
         "backgroundColor": "orange",
       }
     }
@@ -80,11 +80,11 @@ exports[`layout/MainLayout test MainLayout layout::footer 1`] = `
 exports[`layout/MainLayout test MainLayout layout::statusBarBackgroundColor 1`] = `
 <RCTSafeAreaView
   style={
-    Array [
-      Object {
+    [
+      {
         "flex": 1,
       },
-      Object {
+      {
         "backgroundColor": "#ffffff",
       },
     ]
@@ -92,7 +92,7 @@ exports[`layout/MainLayout test MainLayout layout::statusBarBackgroundColor 1`] 
 >
   <RCTScrollView
     contentContainerStyle={
-      Object {
+      {
         "flexGrow": 1,
       }
     }
@@ -102,7 +102,7 @@ exports[`layout/MainLayout test MainLayout layout::statusBarBackgroundColor 1`] 
     <View>
       <View
         style={
-          Object {
+          {
             "backgroundColor": "orange",
           }
         }

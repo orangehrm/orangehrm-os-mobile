@@ -3,12 +3,12 @@
 exports[`components/DefaultFooter test DefaultFooter component 1`] = `
 <View
   style={
-    Array [
-      Object {
+    [
+      {
         "alignItems": "center",
         "justifyContent": "center",
       },
-      Object {
+      {
         "paddingBottom": 8,
         "paddingTop": 8,
       },
@@ -17,12 +17,12 @@ exports[`components/DefaultFooter test DefaultFooter component 1`] = `
 >
   <Text
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#818181",
         },
         undefined,
-        Object {
+        {
           "color": "#818181",
           "fontSize": 8,
         },
@@ -35,12 +35,12 @@ exports[`components/DefaultFooter test DefaultFooter component 1`] = `
   </Text>
   <Text
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#818181",
         },
         undefined,
-        Object {
+        {
           "color": "#818181",
           "fontSize": 8,
         },

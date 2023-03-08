@@ -25,6 +25,8 @@ import IconButton from 'components/DefaultIconButton';
 import {convertDateObjectToStringFormat} from 'lib/helpers/attendance';
 import FormattedDate from 'components/FormattedDate';
 import Chip from 'components/DefaultChip';
+import {Moment} from 'moment';
+
 const DatePeriodComponent = (props: DatePeriodComponentProps) => {
   const theme = useTheme();
   const {onPressLeft, onPressRight, rightActive} = props;
@@ -117,9 +119,6 @@ const styles = StyleSheet.create({
   mainView: {
     alignItems: 'center',
   },
-  noRecordsText: {
-    textAlign: 'center',
-  },
   leftArrow: {
     flexWrap: 'wrap-reverse',
   },
@@ -138,7 +137,7 @@ interface DatePeriodComponentProps {
   onPressLeft: () => void;
   rightActive: boolean;
   leftActive: boolean;
-  startDate: moment.Moment;
-  endDate: moment.Moment;
+  startDate: Moment;
+  endDate: Moment;
 }
 export default DatePeriodComponent;

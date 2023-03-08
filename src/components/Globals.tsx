@@ -33,12 +33,6 @@ import {
 import {$PropertyType} from 'utility-types';
 import useGlobals from 'lib/hook/useGlobals';
 import useTheme from 'lib/hook/useTheme';
-import WarningModule from './WarningModal';
-import {USER_ROLE_ADMIN} from '../store/auth/types';
-import {RootState} from 'store';
-import {selectMyInfo} from '../store/auth/selectors';
-import {selectWarningModalStatus} from '../store/storage/selectors';
-import {connect, ConnectedProps} from 'react-redux';
 
 const ICON_MAP = {
   [TYPE_SUCCESS]: {
@@ -50,10 +44,9 @@ const ICON_MAP = {
   [TYPE_WARN]: {name: 'alert-outline', type: 'MaterialCommunityIcons'},
 };
 
-const Globals = (props: React.PropsWithChildren<GlobalsProps>) => {
+const Globals = () => {
   const [toastShow, setToastShow] = useState(false);
   const {loader, snackMessage, closeSnackMessage} = useGlobals();
-  const {myInfo, warningModalStatus} = props;
   const theme = useTheme();
   useEffect(() => {
     if (!toastShow) {
@@ -114,16 +107,9 @@ const Globals = (props: React.PropsWithChildren<GlobalsProps>) => {
           </View>
         </TouchableOpacity>
       </SnackDialog>
-      <WarningModule
-        isVisible={
-          myInfo?.user.userRole === USER_ROLE_ADMIN && !warningModalStatus
-        }
-      />
     </>
   );
 };
-
-interface GlobalsProps extends ConnectedProps<typeof connector> {}
 
 const styles = StyleSheet.create({
   snackView: {
@@ -134,11 +120,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state: RootState) => ({
-  myInfo: selectMyInfo(state),
-  warningModalStatus: selectWarningModalStatus(state),
-});
-
-const connector = connect(mapStateToProps);
-
-export default connector(Globals);
+export default Globals;

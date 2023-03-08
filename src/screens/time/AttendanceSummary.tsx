@@ -135,11 +135,9 @@ class AttendanceSummary extends React.Component<
           ? route.params.startDayIndex
           : weekStartDay;
 
-        /* eslint-disable react/no-did-update-set-state */
         this.setState({startDayIndex: startDayIndex, resetted: false}, () => {
           this.fetchData(this.getWeekStartDate(), this.getWeekEndDate());
         });
-        /* eslint-enable react/no-did-update-set-state */
       }
     } else if (
       !this.state.resetted &&
@@ -149,18 +147,14 @@ class AttendanceSummary extends React.Component<
       )
     ) {
       // Move away from current screen
-      /* eslint-disable react/no-did-update-set-state */
       this.setState({resetted: true});
-      /* eslint-enable react/no-did-update-set-state */
     }
 
     if (
       this.props.attendanceConfiguration !== prevProps.attendanceConfiguration
     ) {
       // Update state when attendance configuration fetched
-      /* eslint-disable react/no-did-update-set-state */
       this.setState({configFetched: true});
-      /* eslint-enable react/no-did-update-set-state */
     }
 
     if (
@@ -181,13 +175,11 @@ class AttendanceSummary extends React.Component<
         this.props.graphRecords,
         this.state.startDayIndex,
       );
-      /* eslint-disable react/no-did-update-set-state */
       this.setState({
         graphLeaveData: leaveResult,
         singleLeaveTypeData: cardRresult,
         graphWorkData: workResult,
       });
-      /* eslint-enable react/no-did-update-set-state */
     }
   };
 

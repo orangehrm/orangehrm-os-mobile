@@ -4,7 +4,7 @@ exports[`components/DefaultFab test DefaultFab component 1`] = `
 <View
   collapsable={false}
   style={
-    Object {
+    {
       "alignItems": "center",
       "bottom": 16,
       "flexDirection": "column",
@@ -18,6 +18,23 @@ exports[`components/DefaultFab test DefaultFab component 1`] = `
   }
 >
   <View
+    accessibilityState={
+      {
+        "busy": undefined,
+        "checked": undefined,
+        "disabled": undefined,
+        "expanded": undefined,
+        "selected": undefined,
+      }
+    }
+    accessibilityValue={
+      {
+        "max": undefined,
+        "min": undefined,
+        "now": undefined,
+        "text": undefined,
+      }
+    }
     accessible={true}
     collapsable={false}
     focusable={true}
@@ -29,7 +46,7 @@ exports[`components/DefaultFab test DefaultFab component 1`] = `
     onResponderTerminationRequest={[Function]}
     onStartShouldSetResponder={[Function]}
     style={
-      Object {
+      {
         "alignItems": "center",
         "backgroundColor": "#e0e0e0",
         "borderRadius": 28,
@@ -40,7 +57,7 @@ exports[`components/DefaultFab test DefaultFab component 1`] = `
         "opacity": 1,
         "position": "absolute",
         "shadowColor": "#000",
-        "shadowOffset": Object {
+        "shadowOffset": {
           "height": 2,
           "width": 0,
         },
@@ -53,36 +70,36 @@ exports[`components/DefaultFab test DefaultFab component 1`] = `
     <Text
       allowFontScaling={false}
       style={
-        Array [
-          Object {
+        [
+          {
             "color": undefined,
             "fontSize": 12,
           },
-          Array [
-            Object {
+          [
+            {
               "color": "#000",
               "fontSize": 30,
             },
-            Object {
+            {
               "color": "#000",
               "fontSize": 30,
             },
-            Object {
+            {
               "color": "#818181",
               "fontSize": 20,
             },
-            Object {
+            {
               "color": "#fff",
               "fontSize": 24,
               "lineHeight": 27,
             },
           ],
-          Object {
+          {
             "fontFamily": "Material Design Icons",
             "fontStyle": "normal",
             "fontWeight": "normal",
           },
-          Object {},
+          {},
         ]
       }
       type="MaterialCommunityIcons"

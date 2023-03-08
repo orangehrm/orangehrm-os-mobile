@@ -3,8 +3,8 @@
 exports[`components/DefaultText test DefaultText component 1`] = `
 <Text
   style={
-    Array [
-      Object {
+    [
+      {
         "color": "#818181",
       },
       undefined,
@@ -19,11 +19,11 @@ exports[`components/DefaultText test DefaultText component 1`] = `
 exports[`components/DefaultText test DefaultText component: check bold 1`] = `
 <Text
   style={
-    Array [
-      Object {
+    [
+      {
         "color": "#818181",
       },
-      Object {
+      {
         "fontWeight": "bold",
       },
       undefined,
@@ -35,15 +35,15 @@ exports[`components/DefaultText test DefaultText component: check bold 1`] = `
 `;
 
 exports[`components/DefaultText test DefaultText component: check nested 1`] = `
-Array [
+[
   <Text
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#818181",
         },
         undefined,
-        Object {
+        {
           "color": "orange",
         },
       ]
@@ -52,7 +52,7 @@ Array [
     Test
     <Text
       style={
-        Array [
+        [
           undefined,
           undefined,
           undefined,
@@ -64,12 +64,12 @@ Array [
   </Text>,
   <Text
     style={
-      Array [
-        Object {
+      [
+        {
           "color": "#818181",
         },
         undefined,
-        Object {
+        {
           "color": "orange",
         },
       ]
@@ -78,8 +78,8 @@ Array [
     Test
     <Text
       style={
-        Array [
-          Object {
+        [
+          {
             "color": "#818181",
           },
           undefined,

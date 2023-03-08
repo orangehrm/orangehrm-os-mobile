@@ -109,13 +109,11 @@ class AttendanceDetails extends React.Component<
 
   componentDidUpdate = () => {
     if (this.state.selectedDate === undefined) {
-      /* eslint-disable react/no-did-update-set-state */
       this.setState({
         selectedDate: getWeekDayFromIndex(
           this.props.route.params.startDayIndex,
         ),
       });
-      /* eslint-enable react/no-did-update-set-state */
     }
   };
 
