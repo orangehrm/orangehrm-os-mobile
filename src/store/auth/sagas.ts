@@ -53,6 +53,7 @@ import {
   INSTANCE_URL,
   INSTANCE_API_VERSION,
   INSTANCE_API_PATHS,
+  WARNING_MODAL_STATUS,
 } from 'services/storage';
 import {
   openLoader,
@@ -335,6 +336,7 @@ function* logout() {
       [TOKEN_TYPE]: null,
       [SCOPE]: null,
       [EXPIRES_AT]: null,
+      [WARNING_MODAL_STATUS]: null,
     });
   } catch (error) {
     yield showSnackMessage('Failed to Perform Action.', TYPE_ERROR);
