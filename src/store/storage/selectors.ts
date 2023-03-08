@@ -29,7 +29,6 @@ import {
   INSTANCE_API_VERSION,
   INSTANCE_API_PATHS,
   DATE_FORMAT,
-  WARNING_MODAL_STATUS,
 } from 'services/storage';
 import {
   NullableString,
@@ -93,9 +92,3 @@ export const selectDateFormat = createSelector<
   StorageState,
   NullableString
 >([selectStorage], (storage) => storage[DATE_FORMAT]);
-
-export const selectWarningModalStatus = createSelector<
-  RootState,
-  StorageState,
-  Boolean
->([selectStorage], (storage) => storage[WARNING_MODAL_STATUS] === 'true');

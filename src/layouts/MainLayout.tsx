@@ -29,11 +29,6 @@ import {
   ScrollViewProps,
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {RootState} from 'store';
-import {selectMyInfo} from 'store/auth/selectors';
-import {fetchMyInfo} from 'store/auth/actions';
-import {connect} from 'react-redux';
-import {selectWarningModalStatus} from 'store/storage/selectors';
 
 const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
   const {
@@ -91,17 +86,6 @@ interface MainLayoutProps
   statusBarBackgroundColor?: string;
 }
 
-const mapStateToProps = (state: RootState) => ({
-  myInfo: selectMyInfo(state),
-  warningModalStatus: selectWarningModalStatus(state),
-});
-
-const mapDispatchToProps = {
-  fetchMyInfo: fetchMyInfo,
-};
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -111,4 +95,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connector(withTheme<MainLayoutProps>()(MainLayout));
+export default withTheme<MainLayoutProps>()(MainLayout);
