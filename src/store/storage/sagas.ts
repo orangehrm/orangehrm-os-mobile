@@ -67,6 +67,7 @@ export function* loadAsyncStorage() {
 function* setItemAsyncStorage(action: SetItemAction) {
   try {
     yield storage.set(action.key, action.value);
+    // eslint-disable-next-line no-empty
   } catch (error) {}
 }
 
@@ -83,6 +84,7 @@ function* setMultiAsyncStorage(action: SetMultiAction) {
         }),
       );
     }
+    // eslint-disable-next-line no-empty
   } catch (error) {}
 }
 

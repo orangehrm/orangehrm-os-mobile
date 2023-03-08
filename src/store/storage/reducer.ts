@@ -65,7 +65,7 @@ const storageReducer = (
         ...state,
         [action.key]: action.value,
       };
-    case SET_MULTI:
+    case SET_MULTI: {
       const keyValues = {...action.keyValuePairs};
       if (
         keyValues[DATE_FORMAT] === null ||
@@ -77,6 +77,7 @@ const storageReducer = (
         ...state,
         ...keyValues,
       };
+    }
     case CHANGE_LOADED:
       return {
         ...state,

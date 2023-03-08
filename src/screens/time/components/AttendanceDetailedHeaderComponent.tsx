@@ -20,6 +20,7 @@
 
 import React from 'react';
 import {TouchableOpacity, View, StyleSheet} from 'react-native';
+import {Moment} from 'moment';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {convertDateObjectToStringFormat} from 'lib/helpers/attendance';
 import Text from 'components/DefaultText';
@@ -95,8 +96,8 @@ const styles = StyleSheet.create({
 
 interface AttendanceDetailedHeaderComponentProps extends WithTheme {
   isActive: boolean;
-  day: moment.Moment;
-  selectDate: (day: moment.Moment) => void;
+  day: Moment;
+  selectDate: (day: Moment) => void;
   hours: string;
 }
 

@@ -111,24 +111,9 @@ interface PunchInOutDateTimeCardProps extends WithTheme {
 }
 
 const styles = StyleSheet.create({
-  validPeriodText: {
-    alignItems: 'center',
-  },
-  totalEntitlementView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  chipView: {
-    alignItems: 'center',
-  },
   justifyContentCenter: {
     justifyContent: 'center',
   },
-
-  alignItemsFlexEnd: {
-    alignItems: 'flex-end',
-  },
-
   rowFlexDirection: {
     flexDirection: 'row',
   },

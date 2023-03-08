@@ -64,6 +64,7 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
 
   if (isAccessTokenExpired(authParams.expiresAt)) {
     if (authParams.refreshToken !== null && authParams.instanceUrl !== null) {
+      // eslint-disable-next-line no-undef
       const response: Response = yield call(
         getNewAccessToken,
         authParams.instanceUrl,
@@ -125,6 +126,7 @@ export function* apiGetCall(endpoint: string, requiredRawResponse?: boolean) {
     };
     const url = authParams.instanceUrl + endpoint;
 
+    // eslint-disable-next-line no-undef
     const response: Response = yield call(fetch, url, requestOptions);
 
     if (requiredRawResponse === true) {
@@ -157,6 +159,7 @@ export function* apiPostCall(endpoint: string, body: object) {
     };
     const url = authParams.instanceUrl + endpoint;
 
+    // eslint-disable-next-line no-undef
     const response: Response = yield call(fetch, url, requestOptions);
     const data = yield call([response, response.json]);
     data.getResponse = () => {

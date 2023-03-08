@@ -89,25 +89,21 @@ class AttendanceList extends React.Component<
     }
 
     if (this.state.configFetched && !this.state.listFetched) {
-      /* eslint-disable react/no-did-update-set-state */
       this.setState(
         {listFetched: true, startDayIndex: this.props.weekStartDay},
         () => {
           this.onRefresh();
         },
       );
-      /* eslint-enable react/no-did-update-set-state */
     }
 
     if (
       this.props.attendanceConfiguration !== prevProps.attendanceConfiguration
     ) {
       // Update state when attendance configuration fetched
-      /* eslint-disable react/no-did-update-set-state */
       this.setState({
         configFetched: true,
       });
-      /* eslint-enable react/no-did-update-set-state */
     }
   }
 

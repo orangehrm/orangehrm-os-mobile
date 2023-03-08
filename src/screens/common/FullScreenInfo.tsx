@@ -42,6 +42,7 @@ class FullScreenError extends React.Component<FullScreenErrorProps> {
     ) {
       try {
         getNavigation()?.resetRoot();
+        // eslint-disable-next-line no-empty
       } catch (e) {}
     }
   }

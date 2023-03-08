@@ -108,7 +108,10 @@ export const checkRemovedEndpoints = (openApiDefinition: any): void => {
   Object.keys(REQUIRED_ENDPOINTS).forEach((key) => {
     const path = <MutableKeys<typeof REQUIRED_ENDPOINTS>>key;
     REQUIRED_ENDPOINTS[path].forEach((operation) => {
-      const exist = paths[path]?.hasOwnProperty(operation);
+      const exist = Object.prototype.hasOwnProperty.call(
+        paths[path],
+        operation,
+      );
 
       if (!exist) {
         throw new InstanceCheckError('Please Update the Application.');

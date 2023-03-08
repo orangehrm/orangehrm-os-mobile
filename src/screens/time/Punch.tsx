@@ -98,8 +98,6 @@ class Punch extends React.Component<PunchProps, PunchState> {
       prevProps.punchStatus?.dateTimeEditable !==
         this.props.punchStatus?.dateTimeEditable
     ) {
-      if (this.props.punchStatus?.dateTimeEditable === undefined) {
-      }
       if (
         this.props.currentRoute === PUNCH &&
         this.timeInterval === null &&
@@ -125,9 +123,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
           parseFloat(this.props.punchStatus.punchTimeZoneOffset),
           getCurrentTimeZoneOffset(),
         );
-        /* eslint-disable react/no-did-update-set-state */
         this.setState({duration: duration});
-        /* eslint-enable react/no-did-update-set-state */
       }
     }
   }

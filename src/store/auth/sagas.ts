@@ -95,6 +95,7 @@ function* checkInstance(action?: CheckInstanceAction) {
   try {
     yield openLoader();
     let instanceUrl: string = yield selectInstanceUrl();
+    // eslint-disable-next-line no-undef
     let response: Response = yield call(checkInstanceRequest, instanceUrl);
 
     // check instance in advanced
@@ -107,6 +108,7 @@ function* checkInstance(action?: CheckInstanceAction) {
     ) {
       const splitedInstanceUrl =
         instanceUrl.split('/index.php')[0] + '/index.php';
+      // eslint-disable-next-line no-undef
       const res: Response = yield call(
         checkInstanceRequestWithCatch,
         splitedInstanceUrl,
@@ -121,6 +123,7 @@ function* checkInstance(action?: CheckInstanceAction) {
       const effects = urls.map((url) => {
         return call(checkInstanceRequestWithCatch, url);
       });
+      // eslint-disable-next-line no-undef
       const responses: Response[] = yield all(effects);
 
       for (let i = 0; i < responses.length; i++) {
@@ -139,6 +142,7 @@ function* checkInstance(action?: CheckInstanceAction) {
       const effects = urls.map((url) => {
         return call(checkLegacyInstanceWithCatch, url);
       });
+      // eslint-disable-next-line no-undef
       const responses: Response[] = yield all(effects);
 
       for (let i = 0; i < responses.length; i++) {
@@ -215,6 +219,7 @@ function checkLegacyInstanceWithCatch(instanceUrl: string) {
   });
 }
 
+// eslint-disable-next-line no-undef
 function isJsonResponse(response: Response) {
   return response?.headers.get('Content-Type') === 'application/json';
 }
@@ -233,6 +238,7 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
       yield openLoader();
     }
     const instanceUrl: string = yield selectInstanceUrl();
+    // eslint-disable-next-line no-undef
     const response: Response = yield call(getEnabledModules, instanceUrl);
 
     if (response.ok) {
@@ -280,6 +286,7 @@ function* fetchAuthToken(action: FetchTokenAction) {
     const authParams: AuthParams = yield selectAuthParams();
 
     if (authParams.instanceUrl !== null) {
+      // eslint-disable-next-line no-undef
       const response: Response = yield call(
         authenticate,
         authParams.instanceUrl,
@@ -340,6 +347,7 @@ function* fetchMyInfo() {
   try {
     yield* fetchEnabledModules();
 
+    // eslint-disable-next-line no-undef
     const rawResponse: Response = yield apiCall(
       apiGetCall,
       prepare(API_ENDPOINT_MY_INFO, {}, {withPhoto: true}),
@@ -403,6 +411,7 @@ function* fetchApiDefinition(
     }
 
     const instanceUrl: string = yield selectInstanceUrl();
+    // eslint-disable-next-line no-undef
     const response: Response = yield call(getOpenApiDefinition, instanceUrl);
     const apiDefinition = yield call([response, response.json]);
 
