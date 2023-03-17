@@ -62,7 +62,7 @@ react {
  * use App Bundles (https://developer.android.com/guide/app-bundle/)
  * and want to have separate APKs to upload to the Play Store.
  */
-def enableSeparateBuildPerCPUArchitecture = false
+def enableSeparateBuildPerCPUArchitecture = true
 
 /**
  * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
@@ -113,7 +113,7 @@ android {
         abi {
             reset()
             enable enableSeparateBuildPerCPUArchitecture
-            universalApk false  // If true, also generate a universal APK
+            universalApk true  // If true, also generate a universal APK
             include (*reactNativeArchitectures())
         }
     }
@@ -123,6 +123,14 @@ android {
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
+        }
+        release {
+            if (project.hasProperty('ORANGEHRM_UPLOAD_STORE_FILE')) {
+                storeFile file(ORANGEHRM_UPLOAD_STORE_FILE)
+                storePassword ORANGEHRM_UPLOAD_STORE_PASSWORD
+                keyAlias ORANGEHRM_UPLOAD_KEY_ALIAS
+                keyPassword ORANGEHRM_UPLOAD_KEY_PASSWORD
+            }
         }
     }
     buildTypes {
@@ -148,7 +156,7 @@ android {
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
-                        defaultConfig.versionCode * 1000 + versionCodes.get(abi)
+                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
 
         }
