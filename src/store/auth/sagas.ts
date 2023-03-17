@@ -32,8 +32,9 @@ import {
   FETCH_NEW_TOKEN_FINISHED,
   FetchMyInfoAction,
   FetchNewTokenFinishedAction,
+  FETCH_API_VERSION,
 } from 'store/auth/types';
-import {authenticate, checkLegacyInstance} from 'services/authentication';
+import { checkLegacyInstance } from 'services/authentication';
 import {
   checkInstance as checkInstanceRequest,
   checkInstanceCompatibility,
@@ -83,10 +84,15 @@ import {
   ERROR_NO_ASSIGNED_EMPLOYEE,
   ERROR_JSON_PARSE,
 } from 'services/api';
-import {API_ENDPOINT_MY_INFO, prepare} from 'services/endpoints';
-import {AuthenticationError} from 'services/errors/authentication';
-import {InstanceCheckError} from 'services/errors/instance-check';
-
+import { API_ENDPOINT_MY_INFO, API_ENDPOINT_API_VERSION, prepare } from 'services/endpoints';
+import { AuthenticationError } from 'services/errors/authentication';
+import { InstanceCheckError } from 'services/errors/instance-check';
+import { useState, useCallback } from 'react';
+import { revoke, refresh, authorize } from 'react-native-app-auth';
+import { duration } from 'moment';
+import {navigate} from 'lib/helpers/navigation';
+import {LEAVE_REQUEST_SUCCESS} from 'screens';
+import {LeaveRequestSuccessParam} from 'screens/leave/navigators';
 /**
  * Check instance existence & compatibility
  * @param action this param can be undefined when calling this generator from another generator
@@ -94,86 +100,147 @@ import {InstanceCheckError} from 'services/errors/instance-check';
 function* checkInstance(action?: CheckInstanceAction) {
   try {
     yield openLoader();
+    yield* fetchApiVersion();
+    
     let instanceUrl: string = yield selectInstanceUrl();
     // eslint-disable-next-line no-undef
-    let response: Response = yield call(checkInstanceRequest, instanceUrl);
+    const apiDetails: ApiDetails = yield select(selectApiDetails);
 
-    // check instance in advanced
-    const urls = getAbsoluteUrlsForChecking(instanceUrl);
-
-    // if user enter web system login screen url
     if (
-      (!response.ok || !isJsonResponse(response)) &&
-      instanceUrl.includes('/index.php')
+      apiDetails[INSTANCE_API_VERSION] !== null ||
+      apiDetails[INSTANCE_API_VERSION] !== undefined
     ) {
-      const splitedInstanceUrl =
-        instanceUrl.split('/index.php')[0] + '/index.php';
-      // eslint-disable-next-line no-undef
-      const res: Response = yield call(
-        checkInstanceRequestWithCatch,
-        splitedInstanceUrl,
-      );
-      if (res.ok && isJsonResponse(res)) {
-        response = res;
-        instanceUrl = splitedInstanceUrl;
-      }
-    }
+      const OAUTH_ISSUER = instanceUrl + '/web/index.php';
+      const OAUTH_CLIENT_ID = 'orangehrm_mobile_app';
+      const OAUTH_CALLBACK_URL = 'com.orangehrm.opensource://oauthredirect';
 
-    if (!response.ok || !isJsonResponse(response)) {
-      const effects = urls.map((url) => {
-        return call(checkInstanceRequestWithCatch, url);
-      });
-      // eslint-disable-next-line no-undef
-      const responses: Response[] = yield all(effects);
+      const config = {
+        serviceConfiguration: {
+          authorizationEndpoint: OAUTH_ISSUER + '/oauth2/authorize',
+          tokenEndpoint: OAUTH_ISSUER + '/oauth2/token',
+        },
+        clientId: OAUTH_CLIENT_ID,
+        redirectUrl: OAUTH_CALLBACK_URL,
+        additionalParameters: {},
+        usePKCE: true,
+        useNonce: false,
+        additionalHeaders: { Accept: 'application/json' },
+        connectionTimeoutSeconds: 5,
+        iosPrefersEphemeralSession: true,
+      };
 
-      for (let i = 0; i < responses.length; i++) {
-        if (responses[i]?.ok && isJsonResponse(responses[i])) {
-          response = responses[i];
-          instanceUrl = urls[i];
-          break;
+      try {
+        const authState = yield call(
+          authorize,
+          config,
+        );
+
+        //todo: handle error
+        if (authState) {
+          yield storageSetItem(ACCESS_TOKEN, authState.accessToken);
+          yield storageSetItem(REFRESH_TOKEN, authState.refreshToken);
+          yield storageSetItem(TOKEN_TYPE, authState.tokenType);
+          yield storageSetItem(SCOPE, authState.scope);
+
+          const expiresAt = new Date(authState.accessTokenExpirationDate);
+          yield storageSetItem(EXPIRES_AT, expiresAt.getTime().toString());
         }
+
+        yield storageSetMulti({
+          [USERNAME]: 'admin', //TODO
+          [ACCESS_TOKEN]: authState.accessToken,
+          [REFRESH_TOKEN]: authState.refreshToken,
+          [TOKEN_TYPE]: authState.tokenType,
+          [SCOPE]: authState.scope,
+          // [EXPIRES_AT]: getExpiredAt(authState.accessTokenExpirationDate),
+        });
+
+        yield put(checkInstanceFinished(false));
+        yield put(fetchNewAuthTokenFinished());
+        yield* fetchMyInfo();
+      } catch (error) {
+        yield showSnackMessage('Failed to log in ' + error.message, TYPE_ERROR);
       }
     }
 
-    // check instance is legacy
-    if (!response.ok || !isJsonResponse(response)) {
-      // evaluate original URL without concat paths
-      urls.unshift(instanceUrl);
-      const effects = urls.map((url) => {
-        return call(checkLegacyInstanceWithCatch, url);
-      });
-      // eslint-disable-next-line no-undef
-      const responses: Response[] = yield all(effects);
+    // let response: Response = yield call(checkInstanceRequest, instanceUrl);
 
-      for (let i = 0; i < responses.length; i++) {
-        // `/oauth/issueToken` endpoint content-type is `text/html`. Don't check isJsonResponse(response)
-        if (responses[i]?.ok) {
-          throw new InstanceCheckError(
-            'OrangeHRM System Is Not Supported With Mobile App.',
-          );
-        }
-      }
-    }
+    // // check instance in advanced
+    // const urls = getAbsoluteUrlsForChecking(instanceUrl);
 
-    if (response.ok && isJsonResponse(response)) {
-      yield storageSetItem(INSTANCE_URL, instanceUrl);
-      const data = yield call([response, response.json]);
+    // // if user enter web system login screen url
+    // if (
+    //   (!response.ok || !isJsonResponse(response)) &&
+    //   instanceUrl.includes('/index.php')
+    // ) {
+    //   const splitedInstanceUrl =
+    //     instanceUrl.split('/index.php')[0] + '/index.php';
+    //   // eslint-disable-next-line no-undef
+    //   const res: Response = yield call(
+    //     checkInstanceRequestWithCatch,
+    //     splitedInstanceUrl,
+    //   );
+    //   if (res.ok && isJsonResponse(res)) {
+    //     response = res;
+    //     instanceUrl = splitedInstanceUrl;
+    //   }
+    // }
 
-      checkInstanceCompatibility(data);
-      checkRemovedEndpoints(data);
-      const usingDeprecatedEndpoints = checkDeprecatedEndpoints(data);
-      if (usingDeprecatedEndpoints) {
-        yield showSnackMessage('Please Update the Application.', TYPE_WARN);
-      }
+    // if (!response.ok || !isJsonResponse(response)) {
+    //   const effects = urls.map((url) => {
+    //     return call(checkInstanceRequestWithCatch, url);
+    //   });
+    //   // eslint-disable-next-line no-undef
+    //   const responses: Response[] = yield all(effects);
 
-      yield* fetchEnabledModules();
+    //   for (let i = 0; i < responses.length; i++) {
+    //     if (responses[i]?.ok && isJsonResponse(responses[i])) {
+    //       response = responses[i];
+    //       instanceUrl = urls[i];
+    //       break;
+    //     }
+    //   }
+    // }
 
-      yield put(checkInstanceFinished(false));
-    } else {
-      yield storageSetItem(INSTANCE_URL, null);
-      yield showSnackMessage('Invalid URL.', TYPE_ERROR);
-      yield put(checkInstanceFinished(true));
-    }
+    // // check instance is legacy
+    // if (!response.ok || !isJsonResponse(response)) {
+    //   // evaluate original URL without concat paths
+    //   urls.unshift(instanceUrl);
+    //   const effects = urls.map((url) => {
+    //     return call(checkLegacyInstanceWithCatch, url);
+    //   });
+    //   // eslint-disable-next-line no-undef
+    //   const responses: Response[] = yield all(effects);
+
+    //   for (let i = 0; i < responses.length; i++) {
+    //     // `/oauth/issueToken` endpoint content-type is `text/html`. Don't check isJsonResponse(response)
+    //     if (responses[i]?.ok) {
+    //       throw new InstanceCheckError(
+    //         'OrangeHRM System Is Not Supported With Mobile App.',
+    //       );
+    //     }
+    //   }
+    // }
+
+    // if (response.ok && isJsonResponse(response)) {
+    //   yield storageSetItem(INSTANCE_URL, instanceUrl);
+    //   const data = yield call([response, response.json]);
+
+    //   checkInstanceCompatibility(data);
+    //   checkRemovedEndpoints(data);
+    //   const usingDeprecatedEndpoints = checkDeprecatedEndpoints(data);
+    //   if (usingDeprecatedEndpoints) {
+    //     yield showSnackMessage('Please Update the Application.', TYPE_WARN);
+    //   }
+
+    //   yield* fetchEnabledModules();
+
+    //   yield put(checkInstanceFinished(false));
+    // } else {
+    //   yield storageSetItem(INSTANCE_URL, null);
+    //   yield showSnackMessage('Invalid URL.', TYPE_ERROR);
+    //   yield put(checkInstanceFinished(true));
+    // }
   } catch (error) {
     yield storageSetItem(INSTANCE_URL, null);
     yield put(checkInstanceFinished(true));
@@ -237,28 +304,58 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
     if (action) {
       yield openLoader();
     }
-    const instanceUrl: string = yield selectInstanceUrl();
+    // const instanceUrl: string = yield selectInstanceUrl();
     // eslint-disable-next-line no-undef
-    const response: Response = yield call(getEnabledModules, instanceUrl);
+    // const response: Response = yield call(getEnabledModules, instanceUrl);
 
-    if (response.ok) {
-      const responseData = yield call([response, response.json]);
 
-      if (responseData.data) {
-        yield put(fetchEnabledModulesFinished(responseData.data));
-        if (!responseData.data.modules.mobile) {
-          // Logout in case loggedin user
-          yield* logout();
-          throw new InstanceCheckError(
-            'The Mobile App Is Not Enabled, Please Contact Your System Administrator.',
-          );
+    //get enable modules , leave peroid defined , time period defined from API
+    const responseData = {
+      data: {
+        modules: {
+          admin: true,
+          pim: true,
+          leave: true,
+          time: true,
+          recruitment: true,
+          performance: true,
+          dashboard: true,
+          directory: true,
+          maintenance: true,
+          mobile: true,
+        },
+        meta: {
+          leave: {
+            isLeavePeriodDefined: true,
+          },
+          time: {
+            isTimePeriodDefined: true,
+          }
         }
-      } else {
-        throw new InstanceCheckError('Failed to Load Enabled Modules.');
       }
-    } else {
-      throw new InstanceCheckError('Failed to Load Enabled Modules.');
     }
+
+    yield put(fetchEnabledModulesFinished(responseData.data));
+    return;
+
+    // if (response.ok) {
+    //   const responseData = yield call([response, response.json]);
+
+    //   if (responseData.data) {
+    //     yield put(fetchEnabledModulesFinished(responseData.data));
+    //     if (!responseData.data.modules.mobile) {
+    //       // Logout in case loggedin user
+    //       yield* logout();
+    //       throw new InstanceCheckError(
+    //         'The Mobile App Is Not Enabled, Please Contact Your System Administrator.',
+    //       );
+    //     }
+    //   } else {
+    //     throw new InstanceCheckError('Failed to Load Enabled Modules.');
+    //   }
+    // } else {
+    //   throw new InstanceCheckError('Failed to Load Enabled Modules.');
+    // }
   } catch (error) {
     if (error instanceof InstanceCheckError && action === undefined) {
       throw error;
@@ -287,31 +384,30 @@ function* fetchAuthToken(action: FetchTokenAction) {
 
     if (authParams.instanceUrl !== null) {
       // eslint-disable-next-line no-undef
-      const response: Response = yield call(
-        authenticate,
-        authParams.instanceUrl,
-        action.username,
-        action.password,
-      );
+      // const response: Response = yield call(
+      //   authenticate,
+      //   authParams.instanceUrl,
+      //   action.username,
+      //   action.password,
+      // );
 
-      const data = yield call([response, response.json]);
-      if (data.error) {
-        if (data.error === 'authentication_failed') {
-          throw new AuthenticationError(data.error_description);
-        } else {
-          throw new AuthenticationError('Invalid Credentials.');
-        }
-      } else {
-        yield storageSetMulti({
-          [USERNAME]: action.username,
-          [ACCESS_TOKEN]: data.access_token,
-          [REFRESH_TOKEN]: data.refresh_token,
-          [TOKEN_TYPE]: data.token_type,
-          [SCOPE]: data.scope,
-          [EXPIRES_AT]: getExpiredAt(data.expires_in),
-        });
-        yield put(fetchNewAuthTokenFinished());
-      }
+      // const data = yield call([response, response.json]);
+      // if (data.error) {
+      //   if (data.error === 'authentication_failed') {
+      //     throw new AuthenticationError(data.error_description);
+      //   } else {
+      //     throw new AuthenticationError('Invalid Credentials.');
+      //   }
+      // } else {
+        // yield storageSetMulti({
+        //   [ACCESS_TOKEN]: data.access_token,
+        //   [REFRESH_TOKEN]: data.refresh_token,
+        //   [TOKEN_TYPE]: data.token_type,
+        //   [SCOPE]: data.scope,
+        //   [EXPIRES_AT]: getExpiredAt(data.expires_in),
+        // });
+        yield put(fetchNewAuthTokenFinished()); //change flow
+      // }
     } else {
       yield showSnackMessage('Instance URL is empty.', TYPE_ERROR);
     }
@@ -348,42 +444,74 @@ function* fetchMyInfo() {
     yield* fetchEnabledModules();
 
     // eslint-disable-next-line no-undef
-    const rawResponse: Response = yield apiCall(
-      apiGetCall,
-      prepare(API_ENDPOINT_MY_INFO, {}, {withPhoto: true}),
-      true,
-    );
+    // const rawResponse: Response = yield apiCall(
+    //   apiGetCall,
+    //   prepare(API_ENDPOINT_MY_INFO, {}, { withPhoto: true }),
+    //   true,
+    // );
 
-    if (rawResponse.ok) {
-      try {
-        const response = yield call([rawResponse, rawResponse.json]);
-        if (response.data.employee) {
-          yield put(fetchMyInfoFinished(response.data));
-        } else {
-          // No employee assign to logged in user
-          yield put(
-            myInfoFailed(true, {
-              error: ERROR_NO_ASSIGNED_EMPLOYEE,
-              code: rawResponse.status,
-            }),
-          );
-          yield put(fetchMyInfoFinished(undefined, true));
-        }
-      } catch (error) {
-        if (isJsonParseError(error)) {
-          yield put(
-            myInfoFailed(true, {
-              error: ERROR_JSON_PARSE,
-              code: rawResponse.status,
-            }),
-          );
-        } else {
-          throw error;
+    //get my info from API api/v2/pim/my-info
+    const response = {
+      data: {
+        employee: {
+          firstName: 'John',
+          lastName: 'Doe',
+          fullName: 'John Doe',
+          employeeId: '123',
+          code: '',
+          jobTitle: 'Software Engineer',
+          unit: null,
+          supervisor: null,
+        },
+        employeePhoto: null,
+        user: {
+          userName: 'john.doe',
+          userRole: 'Admin',
+          isSupervisor: false,
+          isProjectAdmin: false,
+          isManager: false,
+          isDirector: false,
+          isAcceptor: false,
+          isOfferer: false,
+          isHiringManager: false,
+          isInterviewer: false,
         }
       }
-    } else {
-      yield put(myInfoFailed(true, {code: rawResponse.status}));
     }
+
+    yield put(fetchMyInfoFinished(response.data));
+
+    return;
+    // if (rawResponse.ok) {
+    //   try {
+    //     const response = yield call([rawResponse, rawResponse.json]);
+    //     if (response.data.employee) {
+    //       yield put(fetchMyInfoFinished(response.data));
+    //     } else {
+    //       // No employee assign to logged in user
+    //       yield put(
+    //         myInfoFailed(true, {
+    //           error: ERROR_NO_ASSIGNED_EMPLOYEE,
+    //           code: rawResponse.status,
+    //         }),
+    //       );
+    //       yield put(fetchMyInfoFinished(undefined, true));
+    //     }
+    //   } catch (error) {
+    //     if (isJsonParseError(error)) {
+    //       yield put(
+    //         myInfoFailed(true, {
+    //           error: ERROR_JSON_PARSE,
+    //           code: rawResponse.status,
+    //         }),
+    //       );
+    //     } else {
+    //       throw error;
+    //     }
+    //   }
+    // } else {
+    //   yield put(myInfoFailed(true, {code: rawResponse.status}));
+    // }
   } catch (error) {
     if (error instanceof InstanceCheckError) {
       yield showSnackMessage(
@@ -439,6 +567,34 @@ function* fetchApiDefinition(
   }
 }
 
+function* fetchApiVersion() {
+  console.log('fetchApiVersion');
+  try {
+    // eslint-disable-next-line no-undef
+
+    const VERSION_API = '/web/index.php' + API_ENDPOINT_API_VERSION;
+    const response = yield apiCall(
+      apiGetCall,
+      prepare(VERSION_API),
+      false,
+    );
+
+    console.log('response', response);
+    //Check API Version - only available in OHRM5X
+    if (response.data.version) {
+      yield storageSetItem(INSTANCE_API_VERSION, response.data.version);
+    } else {
+      yield storageSetItem(INSTANCE_API_VERSION, null);
+      yield showSnackMessage('Please Update the Application.', TYPE_ERROR);
+    }
+  } catch (error) {
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch API Version.'),
+      TYPE_ERROR,
+    );
+  }
+}
+
 export function* watchAuthActions() {
   yield takeEvery(FETCH_TOKEN, fetchAuthToken);
   yield takeEvery(LOGOUT, logout);
@@ -447,4 +603,5 @@ export function* watchAuthActions() {
   yield takeEvery(FETCH_ENABLED_MODULES, fetchEnabledModules);
   yield takeEvery(FETCH_NEW_TOKEN_FINISHED, fetchApiDefinition);
   yield takeEvery(FETCH_MY_INFO, fetchApiDefinition);
+  yield takeEvery(FETCH_API_VERSION, fetchApiVersion);
 }

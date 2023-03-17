@@ -169,3 +169,58 @@ export function* apiPostCall(endpoint: string, body: object) {
   }
   throw new Error("Couldn't call with empty instanceUrl or accessToken.");
 }
+
+export function* apiPutCall(endpoint: string, body: object) {
+  const authParams: AuthParams = yield selectAuthParams();
+
+  if (authParams.accessToken !== null && authParams.instanceUrl !== null) {
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${authParams.accessToken}`);
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+
+    const bodyKeys = Object.keys(body);
+
+    const requestOptions = {
+      method: 'PUT',
+      headers: headers,
+      body: bodyKeys.length === 0 ? undefined : JSON.stringify(body),
+    };
+    const url = authParams.instanceUrl + endpoint;
+
+    // eslint-disable-next-line no-undef
+    const response: Response = yield call(fetch, url, requestOptions);
+    const data = yield call([response, response.json]);
+    data.getResponse = () => {
+      return response;
+    };
+    return data;
+  }
+  throw new Error("Couldn't call with empty instanceUrl or accessToken.");
+}
+
+export function* apiDeleteCall(endpoint: string) {
+  const authParams: AuthParams = yield selectAuthParams();
+
+  if (authParams.accessToken !== null && authParams.instanceUrl !== null) {
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${authParams.accessToken}`);
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+
+    const requestOptions = {
+      method: 'DELETE',
+      headers: headers,
+    };
+    const url = authParams.instanceUrl + endpoint;
+
+    // eslint-disable-next-line no-undef
+    const response: Response = yield call(fetch, url, requestOptions);
+    const data = yield call([response, response.json]);
+    data.getResponse = () => {
+      return response;
+    };
+    return data;
+  }
+  throw new Error("Couldn't call with empty instanceUrl or accessToken.");
+}

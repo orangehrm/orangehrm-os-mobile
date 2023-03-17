@@ -56,7 +56,7 @@ class Login extends React.Component<LoginProps, LoginState> {
       this.setUsernameError(this.state.username);
       this.setPasswordError(this.state.password);
     } else {
-      this.props.fetchAuthToken(this.state.username, this.state.password);
+      this.props.fetchAuthToken(this.state.username, this.state.password); //get auth token
     }
   };
 

@@ -55,11 +55,19 @@ import {
 } from 'services/api';
 
 function* fetchLeaveList() {
+  //need to change this
   try {
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_LIST, {}, {pendingApproval: true}),
+      prepare(API_ENDPOINT_LEAVE_LIST_NEW, {},
+        {
+          fromDate: action.payload.fromDate,
+          toDate: action.payload.toDate,
+          pendingApproval: true,
+          scheduled: true,
+          taken: true,
+        }),
     );
     if (response.data) {
       yield put(
