@@ -42,6 +42,7 @@ import {
   selectMyInfo,
   selectEnabledModules,
   selectMyInfoFailed,
+  selectIsAuthenticated,
 } from 'store/auth/selectors';
 import {USER_ROLE_ADMIN} from 'store/auth/types';
 import {selectInitialRoute} from 'store/globals/selectors';
@@ -98,6 +99,7 @@ const Navigator = (props: NavigatorProps) => {
     myInfo,
     enabledModules,
     myInfoFailed,
+    isAuthenticated,
   } = props;
   const dimensions = useWindowDimensions();
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -146,6 +148,7 @@ const Navigator = (props: NavigatorProps) => {
   let view = null;
   if (storageLoaded.loaded) {
     if (instanceUrl !== null && loggedInUsername !== null) {
+      console.log('authState',isAuthenticated)
       const isLargeScreen = isLargeScreenByWidth(dimensions.width);
       if (myInfoSuccess || myInfoFailed) {
         view = (
@@ -315,6 +318,7 @@ const mapStateToProps = (state: RootState) => ({
   myInfo: selectMyInfo(state),
   enabledModules: selectEnabledModules(state),
   myInfoFailed: selectMyInfoFailed(state),
+  isAuthenticated: selectIsAuthenticated(state),
 });
 
 const mapDispatchToProps = {

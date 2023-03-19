@@ -79,4 +79,8 @@ export const selectMyInfoError = createSelector<
   $PropertyType<AuthState, 'myInfoError'>
 >([selectAuth], (auth) => auth.myInfoError);
 
-//todo - isAuthnenticated selector
+export const selectIsAuthenticated = createSelector<
+  RootState,
+  AuthState,
+  boolean
+>([selectAuth], (auth) => auth.isAuthenticated);
