@@ -19,7 +19,7 @@
  */
 
 import NetInfo, {NetInfoState} from '@react-native-community/netinfo';
-import {call, takeEvery, put, all, select} from 'redux-saga/effects';
+import {call, takeEvery, put, select} from 'redux-saga/effects';
 import {
   FETCH_TOKEN,
   LOGOUT,
@@ -34,7 +34,6 @@ import {
   FetchNewTokenFinishedAction,
   FETCH_API_VERSION,
 } from 'store/auth/types';
-import {checkLegacyInstance} from 'services/authentication';
 import {
   checkInstance as checkInstanceRequest,
   checkInstanceCompatibility,
@@ -81,6 +80,8 @@ import {InstanceCheckError} from 'services/errors/instance-check';
 import {authorize} from 'react-native-app-auth';
 
 //commented imports
+// import {checkLegacyInstance} from 'services/authentication';
+// import {all} from 'redux-saga/effects';
 // import {getEnabledModules} from 'services/instance-check';
 // import {myInfoFailed} from 'store/auth/actions';
 // import {getExpiredAt} from 'store/auth/helper';
@@ -107,7 +108,7 @@ function* checkInstance(action?: CheckInstanceAction) {
     yield openLoader();
     yield* fetchApiVersion();
 
-    let instanceUrl: string = yield selectInstanceUrl();
+    const instanceUrl: string = yield selectInstanceUrl();
     // eslint-disable-next-line no-undef
     const apiDetails: ApiDetails = yield select(selectApiDetails);
 
@@ -276,30 +277,30 @@ function* checkInstance(action?: CheckInstanceAction) {
  * Wrap checkInstanceRequest function to catch errors
  * @param {string} instanceUrl
  */
-function checkInstanceRequestWithCatch(instanceUrl: string) {
-  return checkInstanceRequest(instanceUrl).catch(() => {
-    return null;
-  });
-}
+// function checkInstanceRequestWithCatch(instanceUrl: string) {
+//   return checkInstanceRequest(instanceUrl).catch(() => {
+//     return null;
+//   });
+// }
 
-function checkLegacyInstanceWithCatch(instanceUrl: string) {
-  return checkLegacyInstance(instanceUrl).catch(() => {
-    return null;
-  });
-}
+// function checkLegacyInstanceWithCatch(instanceUrl: string) {
+//   return checkLegacyInstance(instanceUrl).catch(() => {
+//     return null;
+//   });
+// }
 
 // eslint-disable-next-line no-undef
-function isJsonResponse(response: Response) {
-  return response?.headers.get('Content-Type') === 'application/json';
-}
+// function isJsonResponse(response: Response) {
+//   return response?.headers.get('Content-Type') === 'application/json';
+// }
 
-function getAbsoluteUrlsForChecking(instanceUrl: string) {
-  return [
-    instanceUrl + '/symfony/web',
-    instanceUrl + '/symfony/web/index.php',
-    instanceUrl + '/index.php',
-  ];
-}
+// function getAbsoluteUrlsForChecking(instanceUrl: string) {
+//   return [
+//     instanceUrl + '/symfony/web',
+//     instanceUrl + '/symfony/web/index.php',
+//     instanceUrl + '/index.php',
+//   ];
+// }
 
 function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
   try {
@@ -376,7 +377,7 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
   }
 }
 
-function* fetchAuthToken(action: FetchTokenAction) {
+function* fetchAuthToken() {
   try {
     yield openLoader();
     yield* checkInstance();
