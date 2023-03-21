@@ -60,8 +60,10 @@ export const API_ENDPOINT_API_DEFINITION = '/api/v1/api-definition';
 export const API_ENDPOINT_ENABLED_MODULES = '/api/v1/enabled-modules';
 
 //v2 endpoints
-export const API_ENDPOINT_LEAVE_LIST_NEW = '/api/v2/leave/employees/leave-requests';
+export const API_ENDPOINT_LEAVE_LIST_NEW =
+  '/api/v2/leave/employees/leave-requests';
 export const API_ENDPOINT_API_VERSION = '/api/v2/core/public/version';
+export const API_ENDPOINT_MY_INFO_NEW = '/api/v2/pim/my-info';
 
 export const prepare = (
   endpoint: string,

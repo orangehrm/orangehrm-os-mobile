@@ -147,8 +147,7 @@ const Navigator = (props: NavigatorProps) => {
 
   let view = null;
   if (storageLoaded.loaded) {
-    if (instanceUrl !== null && loggedInUsername !== null) {
-      console.log('authState',isAuthenticated)
+    if (instanceUrl !== null && isAuthenticated) {
       const isLargeScreen = isLargeScreenByWidth(dimensions.width);
       if (myInfoSuccess || myInfoFailed) {
         view = (
@@ -273,7 +272,7 @@ const Navigator = (props: NavigatorProps) => {
         view = <Overlay modalProps={{visible: true}} />;
       }
     } else {
-      let initialRouteName = LOGIN;
+      let initialRouteName = SELECT_INSTANCE;
       if (instanceUrl === null) {
         initialRouteName = SELECT_INSTANCE;
       }
@@ -285,7 +284,7 @@ const Navigator = (props: NavigatorProps) => {
           }}
           initialRouteName={initialRouteName}>
           <Stack.Screen name={SELECT_INSTANCE} component={SelectInstance} />
-          <Stack.Screen name={LOGIN} component={Login} />
+          {/* <Stack.Screen name={LOGIN} component={Login} /> */}
           <Stack.Screen
             name={SELECT_INSTANCE_HELP}
             component={SelectInstanceHelp}

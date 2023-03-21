@@ -18,8 +18,8 @@
  *
  */
 
-import NetInfo, {NetInfoState} from '@react-native-community/netinfo';
-import {call, takeEvery, put, all, select} from 'redux-saga/effects';
+import NetInfo, { NetInfoState } from '@react-native-community/netinfo';
+import { call, takeEvery, put, all, select } from 'redux-saga/effects';
 import {
   FETCH_TOKEN,
   LOGOUT,
@@ -40,7 +40,6 @@ import {
   checkInstanceCompatibility,
   checkRemovedEndpoints,
   checkDeprecatedEndpoints,
-  getEnabledModules,
   getOpenApiDefinition,
   getOpenApiDefinitionPaths,
 } from 'services/instance-check';
@@ -60,7 +59,7 @@ import {
   closeLoader,
   showSnackMessage,
 } from 'store/saga-effects/globals';
-import {apiCall, apiGetCall} from 'store/saga-effects/api';
+import { apiCall, apiGetCall } from 'store/saga-effects/api';
 import {
   storageSetMulti,
   selectAuthParams,
@@ -71,28 +70,36 @@ import {
   fetchMyInfoFinished,
   checkInstanceFinished,
   fetchEnabledModulesFinished,
-  myInfoFailed,
   fetchNewAuthTokenFinished,
 } from 'store/auth/actions';
-import {getExpiredAt} from 'store/auth/helper';
-import {AuthParams, ApiDetails} from 'store/storage/types';
-import {selectApiDetails} from 'store/storage/selectors';
-import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
+import { AuthParams, ApiDetails } from 'store/storage/types';
+import { selectApiDetails } from 'store/storage/selectors';
+import { TYPE_ERROR, TYPE_WARN } from 'store/globals/types';
 import {
   getMessageAlongWithGenericErrors,
-  isJsonParseError,
-  ERROR_NO_ASSIGNED_EMPLOYEE,
-  ERROR_JSON_PARSE,
 } from 'services/api';
-import { API_ENDPOINT_MY_INFO, API_ENDPOINT_API_VERSION, prepare } from 'services/endpoints';
-import { AuthenticationError } from 'services/errors/authentication';
+import { API_ENDPOINT_API_VERSION, prepare } from 'services/endpoints';
 import { InstanceCheckError } from 'services/errors/instance-check';
-import { useState, useCallback } from 'react';
-import { revoke, refresh, authorize } from 'react-native-app-auth';
-import { duration } from 'moment';
-import {navigate} from 'lib/helpers/navigation';
-import {LEAVE_REQUEST_SUCCESS} from 'screens';
-import {LeaveRequestSuccessParam} from 'screens/leave/navigators';
+import { authorize } from 'react-native-app-auth';
+
+//commented imports
+// import {getEnabledModules} from 'services/instance-check';
+// import {myInfoFailed} from 'store/auth/actions';
+// import {getExpiredAt} from 'store/auth/helper';
+// import {
+//   isJsonParseError,
+//   ERROR_NO_ASSIGNED_EMPLOYEE,
+//   ERROR_JSON_PARSE,
+// } from 'services/api';
+// import { API_ENDPOINT_MY_INFO_NEW } from 'services/endpoints';
+// import { AuthenticationError } from 'services/errors/authentication';
+// import { useState, useCallback } from 'react';
+// import { revoke, refresh } from 'react-native-app-auth';
+// import { duration } from 'moment';
+// import {navigate} from 'lib/helpers/navigation';
+// import {LEAVE_REQUEST_SUCCESS} from 'screens';
+// import {LeaveRequestSuccessParam} from 'screens/leave/navigators';
+
 /**
  * Check instance existence & compatibility
  * @param action this param can be undefined when calling this generator from another generator
@@ -101,7 +108,7 @@ function* checkInstance(action?: CheckInstanceAction) {
   try {
     yield openLoader();
     yield* fetchApiVersion();
-    
+
     let instanceUrl: string = yield selectInstanceUrl();
     // eslint-disable-next-line no-undef
     const apiDetails: ApiDetails = yield select(selectApiDetails);
@@ -399,14 +406,14 @@ function* fetchAuthToken(action: FetchTokenAction) {
       //     throw new AuthenticationError('Invalid Credentials.');
       //   }
       // } else {
-        // yield storageSetMulti({
-        //   [ACCESS_TOKEN]: data.access_token,
-        //   [REFRESH_TOKEN]: data.refresh_token,
-        //   [TOKEN_TYPE]: data.token_type,
-        //   [SCOPE]: data.scope,
-        //   [EXPIRES_AT]: getExpiredAt(data.expires_in),
-        // });
-        yield put(fetchNewAuthTokenFinished()); //change flow
+      // yield storageSetMulti({
+      //   [ACCESS_TOKEN]: data.access_token,
+      //   [REFRESH_TOKEN]: data.refresh_token,
+      //   [TOKEN_TYPE]: data.token_type,
+      //   [SCOPE]: data.scope,
+      //   [EXPIRES_AT]: getExpiredAt(data.expires_in),
+      // });
+      yield put(fetchNewAuthTokenFinished()); //change flow
       // }
     } else {
       yield showSnackMessage('Instance URL is empty.', TYPE_ERROR);
@@ -446,7 +453,7 @@ function* fetchMyInfo() {
     // eslint-disable-next-line no-undef
     // const rawResponse: Response = yield apiCall(
     //   apiGetCall,
-    //   prepare(API_ENDPOINT_MY_INFO, {}, { withPhoto: true }),
+    //   prepare( '/web/index.php'+API_ENDPOINT_MY_INFO_NEW),
     //   true,
     // );
 
@@ -485,7 +492,7 @@ function* fetchMyInfo() {
     // if (rawResponse.ok) {
     //   try {
     //     const response = yield call([rawResponse, rawResponse.json]);
-    //     if (response.data.employee) {
+    //     if (response.data) {
     //       yield put(fetchMyInfoFinished(response.data));
     //     } else {
     //       // No employee assign to logged in user
@@ -568,19 +575,14 @@ function* fetchApiDefinition(
 }
 
 function* fetchApiVersion() {
-  console.log('fetchApiVersion');
   try {
     // eslint-disable-next-line no-undef
-
-    const VERSION_API = '/web/index.php' + API_ENDPOINT_API_VERSION;
     const response = yield apiCall(
       apiGetCall,
-      prepare(VERSION_API),
+      prepare('/web/index.php' + API_ENDPOINT_API_VERSION),
       false,
     );
 
-    console.log('response', response);
-    //Check API Version - only available in OHRM5X
     if (response.data.version) {
       yield storageSetItem(INSTANCE_API_VERSION, response.data.version);
     } else {

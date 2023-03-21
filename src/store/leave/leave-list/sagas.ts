@@ -60,14 +60,17 @@ function* fetchLeaveList() {
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_LIST_NEW, {},
+      prepare(
+        API_ENDPOINT_LEAVE_LIST_NEW,
+        {},
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
           pendingApproval: true,
           scheduled: true,
           taken: true,
-        }),
+        },
+      ),
     );
     if (response.data) {
       yield put(

@@ -3,7 +3,7 @@ export const checkUrl = (
   withPath: boolean = true,
   withProtocol: boolean = true,
 ) => {
-  //need to change 
+  //need to change
   return true;
   if (withPath && withProtocol) {
     return isValid(
