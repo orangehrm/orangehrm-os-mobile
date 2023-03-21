@@ -1,7 +1,7 @@
 export const checkUrl = (
-  url: string,
-  withPath: boolean = true,
-  withProtocol: boolean = true,
+  // url: string,
+  // withPath: boolean = true,
+  // withProtocol: boolean = true,
 ) => {
   //need to change
   return true;
