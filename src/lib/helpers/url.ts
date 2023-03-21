@@ -5,31 +5,31 @@ export const checkUrl = (
 ) => {
   //need to change
   return true;
-  if (withPath && withProtocol) {
-    return isValid(
-      url.match(
-        /^((https):\/\/)([\p{L}\p{N}\p{S}\-.])+(\.?([\p{L}\p{N}]|xn--[\p{L}\p{N}-]+)+\.?)(:[0-9]+)?((\/[\p{L}.]+)+)?$/gu,
-      ),
-    );
-  } else if (withProtocol) {
-    return isValid(
-      url.match(
-        /^((https):\/\/)([\p{L}\p{N}\p{S}\-.])+(\.?([\p{L}\p{N}]|xn--[\p{L}\p{N}-]+)+\.?)(:[0-9]+)?$/gu,
-      ),
-    );
-  } else if (withPath) {
-    return isValid(
-      url.match(
-        /^([\p{L}\p{N}\p{S}\-.])+(\.?([\p{L}\p{N}]|xn--[\p{L}\p{N}-]+)+\.?)(:[0-9]+)?(\/[\p{L}.]+)+?$/gu,
-      ),
-    );
-  } else {
-    return isValid(
-      url.match(
-        /^([\p{L}\p{N}\p{S}\-.])+(\.?([\p{L}\p{N}]|xn--[\p{L}\p{N}-]+)+\.?)(:[0-9]+)?$/gu,
-      ),
-    );
-  }
+  // if (withPath && withProtocol) {
+  //   return isValid(
+  //     url.match(
+  //       /^((https):\/\/)([\p{L}\p{N}\p{S}\-.])+(\.?([\p{L}\p{N}]|xn--[\p{L}\p{N}-]+)+\.?)(:[0-9]+)?((\/[\p{L}.]+)+)?$/gu,
+  //     ),
+  //   );
+  // } else if (withProtocol) {
+  //   return isValid(
+  //     url.match(
+  //       /^((https):\/\/)([\p{L}\p{N}\p{S}\-.])+(\.?([\p{L}\p{N}]|xn--[\p{L}\p{N}-]+)+\.?)(:[0-9]+)?$/gu,
+  //     ),
+  //   );
+  // } else if (withPath) {
+  //   return isValid(
+  //     url.match(
+  //       /^([\p{L}\p{N}\p{S}\-.])+(\.?([\p{L}\p{N}]|xn--[\p{L}\p{N}-]+)+\.?)(:[0-9]+)?(\/[\p{L}.]+)+?$/gu,
+  //     ),
+  //   );
+  // } else {
+  //   return isValid(
+  //     url.match(
+  //       /^([\p{L}\p{N}\p{S}\-.])+(\.?([\p{L}\p{N}]|xn--[\p{L}\p{N}-]+)+\.?)(:[0-9]+)?$/gu,
+  //     ),
+  //   );
+  // }
 };
 
 export const checkDomain = (url: string) => {
