@@ -25,7 +25,6 @@ import {
   LOGOUT,
   FETCH_MY_INFO,
   CHECK_INSTANCE,
-  FetchTokenAction,
   CheckInstanceAction,
   FetchEnabledModulesAction,
   FETCH_ENABLED_MODULES,
@@ -35,7 +34,6 @@ import {
   FETCH_API_VERSION,
 } from 'store/auth/types';
 import {
-  checkInstance as checkInstanceRequest,
   checkInstanceCompatibility,
   checkRemovedEndpoints,
   checkDeprecatedEndpoints,
@@ -80,6 +78,12 @@ import {InstanceCheckError} from 'services/errors/instance-check';
 import {authorize} from 'react-native-app-auth';
 
 //commented imports
+// import {
+//   FetchTokenAction,
+// } from 'store/auth/types';
+// import {
+//   checkInstance as checkInstanceRequest,
+// } from 'services/instance-check';
 // import {checkLegacyInstance} from 'services/authentication';
 // import {all} from 'redux-saga/effects';
 // import {getEnabledModules} from 'services/instance-check';
