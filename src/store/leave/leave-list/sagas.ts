@@ -43,16 +43,17 @@ import {
   assignColorToLeaveType,
 } from 'lib/helpers/leave';
 import {TYPE_ERROR} from 'store/globals/types';
-import {
-  API_ENDPOINT_LEAVE_LIST,
-  API_ENDPOINT_LEAVE_REQUEST,
-  prepare,
-} from 'services/endpoints';
+import {API_ENDPOINT_LEAVE_REQUEST, prepare} from 'services/endpoints';
 import {
   getMessageAlongWithGenericErrors,
   getMessageAlongWithResponseErrors,
   HTTP_NOT_FOUND,
 } from 'services/api';
+
+//commented import
+// import {
+//   API_ENDPOINT_LEAVE_LIST,
+// } from 'services/endpoints';
 
 function* fetchLeaveList() {
   //need to change this

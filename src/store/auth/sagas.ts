@@ -18,8 +18,8 @@
  *
  */
 
-import NetInfo, { NetInfoState } from '@react-native-community/netinfo';
-import { call, takeEvery, put, all, select } from 'redux-saga/effects';
+import NetInfo, {NetInfoState} from '@react-native-community/netinfo';
+import {call, takeEvery, put, all, select} from 'redux-saga/effects';
 import {
   FETCH_TOKEN,
   LOGOUT,
@@ -34,7 +34,7 @@ import {
   FetchNewTokenFinishedAction,
   FETCH_API_VERSION,
 } from 'store/auth/types';
-import { checkLegacyInstance } from 'services/authentication';
+import {checkLegacyInstance} from 'services/authentication';
 import {
   checkInstance as checkInstanceRequest,
   checkInstanceCompatibility,
@@ -59,7 +59,7 @@ import {
   closeLoader,
   showSnackMessage,
 } from 'store/saga-effects/globals';
-import { apiCall, apiGetCall } from 'store/saga-effects/api';
+import {apiCall, apiGetCall} from 'store/saga-effects/api';
 import {
   storageSetMulti,
   selectAuthParams,
@@ -72,15 +72,13 @@ import {
   fetchEnabledModulesFinished,
   fetchNewAuthTokenFinished,
 } from 'store/auth/actions';
-import { AuthParams, ApiDetails } from 'store/storage/types';
-import { selectApiDetails } from 'store/storage/selectors';
-import { TYPE_ERROR, TYPE_WARN } from 'store/globals/types';
-import {
-  getMessageAlongWithGenericErrors,
-} from 'services/api';
-import { API_ENDPOINT_API_VERSION, prepare } from 'services/endpoints';
-import { InstanceCheckError } from 'services/errors/instance-check';
-import { authorize } from 'react-native-app-auth';
+import {AuthParams, ApiDetails} from 'store/storage/types';
+import {selectApiDetails} from 'store/storage/selectors';
+import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
+import {getMessageAlongWithGenericErrors} from 'services/api';
+import {API_ENDPOINT_API_VERSION, prepare} from 'services/endpoints';
+import {InstanceCheckError} from 'services/errors/instance-check';
+import {authorize} from 'react-native-app-auth';
 
 //commented imports
 // import {getEnabledModules} from 'services/instance-check';
@@ -131,16 +129,13 @@ function* checkInstance(action?: CheckInstanceAction) {
         additionalParameters: {},
         usePKCE: true,
         useNonce: false,
-        additionalHeaders: { Accept: 'application/json' },
+        additionalHeaders: {Accept: 'application/json'},
         connectionTimeoutSeconds: 5,
         iosPrefersEphemeralSession: true,
       };
 
       try {
-        const authState = yield call(
-          authorize,
-          config,
-        );
+        const authState = yield call(authorize, config);
 
         //todo: handle error
         if (authState) {
@@ -315,7 +310,6 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
     // eslint-disable-next-line no-undef
     // const response: Response = yield call(getEnabledModules, instanceUrl);
 
-
     //get enable modules , leave peroid defined , time period defined from API
     const responseData = {
       data: {
@@ -337,10 +331,10 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
           },
           time: {
             isTimePeriodDefined: true,
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    };
 
     yield put(fetchEnabledModulesFinished(responseData.data));
     return;
@@ -482,9 +476,9 @@ function* fetchMyInfo() {
           isOfferer: false,
           isHiringManager: false,
           isInterviewer: false,
-        }
-      }
-    }
+        },
+      },
+    };
 
     yield put(fetchMyInfoFinished(response.data));
 
