@@ -64,11 +64,11 @@ function* fetchLeaveList() {
         API_ENDPOINT_LEAVE_LIST,
         {},
         {
-          fromDate: action.payload.fromDate,
-          toDate: action.payload.toDate,
-          pendingApproval: true,
-          scheduled: true,
-          taken: true,
+          // fromDate: action.payload.fromDate,
+          // toDate: action.payload.toDate,
+          // pendingApproval: true,
+          // scheduled: true,
+          // taken: true,
         },
       ),
     );

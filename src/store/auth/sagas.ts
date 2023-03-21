@@ -113,7 +113,6 @@ function* checkInstance(action?: CheckInstanceAction) {
     yield* fetchApiVersion();
 
     const instanceUrl: string = yield selectInstanceUrl();
-    // eslint-disable-next-line no-undef
     const apiDetails: ApiDetails = yield select(selectApiDetails);
 
     if (
@@ -293,7 +292,6 @@ function* checkInstance(action?: CheckInstanceAction) {
 //   });
 // }
 
-// eslint-disable-next-line no-undef
 // function isJsonResponse(response: Response) {
 //   return response?.headers.get('Content-Type') === 'application/json';
 // }
@@ -312,7 +310,6 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
       yield openLoader();
     }
     // const instanceUrl: string = yield selectInstanceUrl();
-    // eslint-disable-next-line no-undef
     // const response: Response = yield call(getEnabledModules, instanceUrl);
 
     //get enable modules , leave peroid defined , time period defined from API
@@ -389,7 +386,6 @@ function* fetchAuthToken() {
     const authParams: AuthParams = yield selectAuthParams();
 
     if (authParams.instanceUrl !== null) {
-      // eslint-disable-next-line no-undef
       // const response: Response = yield call(
       //   authenticate,
       //   authParams.instanceUrl,
@@ -449,7 +445,6 @@ function* fetchMyInfo() {
   try {
     yield* fetchEnabledModules();
 
-    // eslint-disable-next-line no-undef
     // const rawResponse: Response = yield apiCall(
     //   apiGetCall,
     //   prepare( '/web/index.php'+API_ENDPOINT_MY_INFO_NEW),
@@ -575,7 +570,6 @@ function* fetchApiDefinition(
 
 function* fetchApiVersion() {
   try {
-    // eslint-disable-next-line no-undef
     const response = yield apiCall(
       apiGetCall,
       prepare('/web/index.php' + API_ENDPOINT_API_VERSION),
