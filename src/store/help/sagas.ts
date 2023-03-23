@@ -37,7 +37,8 @@ import {TYPE_ERROR} from 'store/globals/types';
 // import {prepare, API_ENDPOINT_HELP_CONFIG} from 'services/endpoints';
 // import {apiCall, apiGetCall} from 'store/saga-effects/api';
 
-function* fetchConfigHelp(action: FetchHelpConfigAction) {
+//removed - action: FetchHelpConfigAction fetchConfigHelp(action: FetchHelpConfigAction)
+function* fetchConfigHelp() {
   try {
     yield openLoader();
     // const response = yield apiCall(
