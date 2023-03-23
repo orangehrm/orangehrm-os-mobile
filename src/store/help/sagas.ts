@@ -19,7 +19,6 @@
  */
 
 import {takeEvery, put} from 'redux-saga/effects';
-import {apiCall, apiGetCall} from 'store/saga-effects/api';
 import {
   openLoader,
   closeLoader,
@@ -27,27 +26,37 @@ import {
 } from 'store/saga-effects/globals';
 import {FetchHelpConfigAction, FETCH_HELP_CONFIG} from './types';
 import {fetchHelpConfigFinished} from './actions';
-import {prepare, API_ENDPOINT_HELP_CONFIG} from 'services/endpoints';
+import {HELP_REDIRECT_URL} from 'services/endpoints';
 import {
   getMessageAlongWithGenericErrors,
   getMessageAlongWithResponseErrors,
 } from 'services/api';
 import {TYPE_ERROR} from 'store/globals/types';
 
+//Commented imports
+// import {prepare, API_ENDPOINT_HELP_CONFIG} from 'services/endpoints';
+// import {apiCall, apiGetCall} from 'store/saga-effects/api';
+
 function* fetchConfigHelp(action: FetchHelpConfigAction) {
   try {
     yield openLoader();
-    const response = yield apiCall(
-      apiGetCall,
-      prepare(
-        API_ENDPOINT_HELP_CONFIG,
-        {},
-        {
-          query: action.payload.query,
-          mode: action.payload.mode,
-        },
-      ),
-    );
+    // const response = yield apiCall(
+    //   apiGetCall,
+    //   prepare(
+    //     API_ENDPOINT_HELP_CONFIG,
+    //     {},
+    //     {
+    //       query: action.payload.query,
+    //       mode: action.payload.mode,
+    //     },
+    //   ),
+    // );
+    const response = {
+      data: {
+        defaultRedirectUrl: HELP_REDIRECT_URL,
+        redirectUrls: [],
+      },
+    };
     if (response.data) {
       yield put(fetchHelpConfigFinished(response.data));
     } else {
