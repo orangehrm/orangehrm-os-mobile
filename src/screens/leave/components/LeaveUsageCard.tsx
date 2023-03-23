@@ -59,6 +59,7 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
       (item) => item.id === selectedLeaveTypeId,
     );
 
+
     return (
       <>
         <View
@@ -98,8 +99,8 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
                   <Text
                     numberOfLines={1}
                     style={{color: theme.typography.lightColor}}>
-                    {selectedLeaveType?.leaveType.type
-                      ? selectedLeaveType?.leaveType.type
+                    {selectedLeaveType?.leaveType.name
+                      ? selectedLeaveType?.leaveType.name
                       : '- -'}
                   </Text>
                 </Chip>
@@ -111,16 +112,16 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
                   {paddingVertical: theme.spacing * 2},
                 ]}>
                 <Text>
-                  {selectedLeaveType?.validFrom ? (
+                  {selectedLeaveType?.fromDate ? (
                     <FormattedDate>
-                      {selectedLeaveType?.validFrom}
+                      {selectedLeaveType?.fromDate}
                     </FormattedDate>
                   ) : (
                     <Text>{'- -'}</Text>
                   )}
                   {' to '}
-                  {selectedLeaveType?.validTo ? (
-                    <FormattedDate>{selectedLeaveType?.validTo}</FormattedDate>
+                  {selectedLeaveType?.toDate ? (
+                    <FormattedDate>{selectedLeaveType?.toDate}</FormattedDate>
                   ) : (
                     <Text>{'- -'}</Text>
                   )}

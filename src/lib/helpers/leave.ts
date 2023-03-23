@@ -18,7 +18,12 @@
  *
  */
 
-import {Leave, LeaveType, Entitlement} from 'store/leave/leave-usage/types';
+import {
+  Leave,
+  LeaveType,
+  Entitlement,
+  LeaveBalance,
+} from 'store/leave/leave-usage/types';
 import {SubordinateEntitlement} from 'store/leave/assign-leave/types';
 import {
   SPECIFY_TIME,
@@ -45,8 +50,8 @@ export const LEAVE_TYPE_COLORS = [
 
 const LEAVE_STATUS_MAP = {
   REJECTED: 'Rejected',
-  CANCELLED: 'Cancelled',
-  'PENDING APPROVAL': 'Pending Approval',
+  Cancelled: 'Cancelled',
+  'Pending Approval': 'Pending Approval',
   SCHEDULED: 'Scheduled',
   TAKEN: 'Taken',
   WEEKEND: 'Weekend',
@@ -64,6 +69,15 @@ const assignColorsToLeaveTypes = <T extends Data>(data: T[]): T[] => {
     return assignColorToLeaveType(item);
   });
   return newDataArray;
+};
+
+const assignLeaveBalance = <T extends Data>(data: T[], data1: T[]): T[] => {
+  const entitlement = data;
+  entitlement.leaveBalance = data1.balance;
+  const arr: T[] = [];
+  arr.push(entitlement);
+
+  return arr;
 };
 
 /**
@@ -226,6 +240,7 @@ export {
   getTimeValuesForSlider,
   isValidPartialOptionSpecifyTime,
   isFromTimeLessThanToTime,
+  assignLeaveBalance,
 };
 
 /**

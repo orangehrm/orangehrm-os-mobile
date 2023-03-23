@@ -44,9 +44,11 @@ import {setErrorMessage as setApplyLeaveErrorMessage} from 'store/leave/apply-le
 import {
   assignColorsToLeaveTypes,
   assignColorToLeaveType,
+  assignLeaveBalance,
 } from 'lib/helpers/leave';
 import {TYPE_ERROR} from 'store/globals/types';
 import {
+  API_ENDPOINT_LEAVE_MY_LEAVE_BALANCE,
   API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT,
   API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
   API_ENDPOINT_LEAVE_REQUEST,
@@ -65,14 +67,31 @@ function* fetchMyLeaveEntitlements() {
     const response = yield apiCall(
       apiGetCall,
       API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT,
+      false,
     );
     // clear error messages
     yield put(setErrorMessage());
     yield put(setApplyLeaveErrorMessage());
+    console.log('calling my leave 78787', response);
     if (response.data) {
+      const responseLeaveBalance = yield apiCall(
+        apiGetCall,
+        API_ENDPOINT_LEAVE_MY_LEAVE_BALANCE,
+        false,
+      );
+
+      // const allData = assignLeaveBalance(
+      //   response.data,
+      //   responseLeaveBalance.data,
+      // );
+      console.log('dfdfdfdf', responseLeaveBalance);
+      // console.log(allData, 'object');
+
       yield put(
         fetchMyLeaveEntitlementsFinished(
-          assignColorsToLeaveTypes(response.data),
+          assignColorsToLeaveTypes(
+            assignLeaveBalance(response.data, responseLeaveBalance.data),
+          ),
         ),
       );
     } else {
@@ -117,6 +136,7 @@ function* fetchMyLeaveRequests() {
     const response = yield apiCall(
       apiGetCall,
       API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
+      false,
     );
     if (response.data) {
       yield put(

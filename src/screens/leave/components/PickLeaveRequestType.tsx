@@ -81,7 +81,7 @@ class PickLeaveType extends React.Component<PickLeaveTypeProps> {
                         : {color: theme.typography.darkColor},
                     ]}>
                     {selectedLeaveType
-                      ? selectedLeaveType?.leaveType.type
+                      ? selectedLeaveType?.leaveType.name
                       : '--'}
                   </Text>
                 </Chip>

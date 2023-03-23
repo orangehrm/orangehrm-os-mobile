@@ -26,9 +26,17 @@ import {
   LEAVE_REQUEST_SUCCESS,
 } from 'screens';
 import {EmployeeLeaveRequest} from 'store/leave/leave-list/types';
-import {selectEmployeeLeaveRequest} from 'store/leave/leave-list/selectors';
+import {LeaveRequest} from 'store/leave/leave-usage/types';
+import {
+  selectEmployeeLeaveComment,
+  selectEmployeeLeaveRequest,
+  selectEmployeeLeaveRequestDetails,
+} from 'store/leave/leave-list/selectors';
 import {selectLeaveRequestDetail} from 'store/leave/leave-usage/selectors';
-import {changeEmployeeLeaveRequestStatus} from 'store/leave/leave-list/actions';
+import {
+  changeEmployeeLeaveRequestComment,
+  changeEmployeeLeaveRequestStatus,
+} from 'store/leave/leave-list/actions';
 import {changeMyLeaveRequestStatus} from 'store/leave/leave-usage/actions';
 
 export interface Employee {
@@ -61,6 +69,7 @@ export type PickEmployeeNavigationProp = NavigationProp<
 
 export interface LeaveDaysParam {
   employeeLeaveRequest: EmployeeLeaveRequest;
+  leaveRequest: LeaveRequest;
 }
 
 export type LeaveDaysParamList = {
@@ -73,11 +82,24 @@ export type LeaveDaysRouteParams = RouteProp<
 >;
 
 export interface LeaveCommentsParam {
+  employeeLeaveRequestDetailsSelector:
+    | typeof selectEmployeeLeaveRequestDetails
+    | typeof selectLeaveRequestDetail;
+
   employeeLeaveRequestSelector:
     | typeof selectEmployeeLeaveRequest
     | typeof selectLeaveRequestDetail;
+
+  employeeLeaveCommentSelector:
+    | typeof selectEmployeeLeaveComment
+    | typeof selectLeaveRequestDetail;
+
   changeEmployeeLeaveRequestStatusAction:
     | typeof changeEmployeeLeaveRequestStatus
+    | typeof changeMyLeaveRequestStatus;
+
+  changeEmployeeLeaveRequestCommentAction:
+    | typeof changeEmployeeLeaveRequestComment
     | typeof changeMyLeaveRequestStatus;
 }
 

@@ -53,7 +53,7 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
                 paddingVertical: theme.spacing * 4,
                 paddingRight: theme.spacing * 4,
               }}>
-              <Avatar name={leaveRequest.employeeName} />
+              <Avatar name={leaveRequest.employee.firstName} />
             </View>
             <View style={styles.contentView}>
               <View style={{paddingHorizontal: theme.spacing * 2}}>
@@ -65,7 +65,9 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
                       fontSize: theme.typography.fontSize * 1.2,
                     },
                   ]}>
-                  {leaveRequest.employeeName}
+                  {leaveRequest.employee.firstName +
+                    '' +
+                    leaveRequest.employee.lastName}
                 </Text>
               </View>
               <View style={styles.chipView}>
@@ -87,10 +89,8 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
                         ? {color: theme.typography.lightColor}
                         : {color: theme.typography.darkColor},
                     ]}>
-                    {leaveRequest.leaveType.type}
-                    {leaveRequest.leaveType.deleted === LEAVE_TYPE_DELETED_YES
-                      ? ' (Deleted)'
-                      : ''}
+                    {leaveRequest.leaveType.name}
+                    {leaveRequest.leaveType.deleted ? ' (Deleted)' : ''}
                   </Text>
                 </Chip>
               </View>
@@ -100,19 +100,29 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
                     color: theme.palette.secondary,
                     paddingBottom: theme.spacing,
                   }}>
-                  <FormattedDate nested>{leaveRequest.fromDate}</FormattedDate>
-                  {leaveRequest.fromDate !== leaveRequest.toDate ? (
+                  <FormattedDate nested>
+                    {leaveRequest.dates.fromDate}
+                  </FormattedDate>
+                  {leaveRequest.dates.toDate !== null ? (
                     <>
                       {' to '}
                       <FormattedDate nested>
-                        {leaveRequest.toDate}
+                        {leaveRequest.dates.toDate}
                       </FormattedDate>
                     </>
                   ) : null}
                 </Text>
-                <Text style={[{fontSize: theme.typography.smallFontSize}]}>
-                  {leaveRequest.leaveBreakdown}
-                </Text>
+                <View>
+                  {leaveRequest.leaveBreakdown.map((item) => {
+                    return (
+                      <Text
+                        style={[{fontSize: theme.typography.smallFontSize}]}>
+                        {item.name}
+                        {' (' + item.lengthDays.toFixed(2) + ')'}
+                      </Text>
+                    );
+                  })}
+                </View>
               </View>
             </View>
           </View>

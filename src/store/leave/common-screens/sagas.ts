@@ -27,8 +27,10 @@ import {
 } from 'store/saga-effects/globals';
 import {TYPE_ERROR} from 'store/globals/types';
 import {
+  API_ENDPOINT_EMPLOYEES,
   API_ENDPOINT_LEAVE_HOLIDAYS,
   API_ENDPOINT_LEAVE_WORK_WEEK,
+  prepare,
 } from 'services/endpoints';
 import {
   getMessageAlongWithGenericErrors,
@@ -46,7 +48,14 @@ import {
 function* fetchHolidays() {
   try {
     yield openLoader();
-    const response = yield apiCall(apiGetCall, API_ENDPOINT_LEAVE_HOLIDAYS);
+    const queryParams = {
+      fromDate: '2023-01-01',
+      toDate: '2023-12-31',
+    };
+    const response = yield apiCall(
+      apiGetCall,
+      prepare(API_ENDPOINT_LEAVE_HOLIDAYS, {}, queryParams),
+    );
 
     if (response.data) {
       yield put(fetchHolidaysFinished(response.data));
@@ -72,7 +81,13 @@ function* fetchHolidays() {
 function* fetchWorkWeek() {
   try {
     yield openLoader();
-    const response = yield apiCall(apiGetCall, API_ENDPOINT_LEAVE_WORK_WEEK);
+    const queryParams = {
+      model: 'indexed',
+    };
+    const response = yield apiCall(
+      apiGetCall,
+      prepare(API_ENDPOINT_LEAVE_WORK_WEEK, {}, queryParams),
+    );
 
     if (response.data) {
       yield put(fetchWorkWeekFinished(response.data));

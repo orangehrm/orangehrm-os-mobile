@@ -127,11 +127,10 @@ export const LEAVE_TYPE_DELETED_YES = '1';
 export const LEAVE_TYPE_DELETED_NO = '0';
 
 export interface LeaveType {
-  id: string;
-  type: string;
+  id: number;
+  name: string;
   color: string;
-  deleted: typeof LEAVE_TYPE_DELETED_YES | typeof LEAVE_TYPE_DELETED_NO;
-  situational: boolean;
+  deleted: boolean;
 }
 
 export interface LeaveBalance {
@@ -146,16 +145,13 @@ export interface LeaveBalance {
 }
 
 export interface LeaveRequest {
-  id: string;
-  fromDate: string;
-  toDate: string;
-  appliedDate: string;
+  id: number;
   leaveType: LeaveType;
-  leaveBalance: string;
-  numberOfDays: string;
+  leaveBalance: [];
+  numberOfDays: number;
   comments: LeaveComment[];
   days: Leave[];
-  leaveBreakdown: string;
+  leaveBreakdown: [];
 }
 
 export interface Leave {

@@ -28,24 +28,36 @@ import {
 import {
   FETCH_LEAVE_LIST,
   FETCH_EMPLOYEE_LEAVE_REQUEST,
+  FETCH_LEAVE_COMMENT,
   CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
   FetchEmployeeLeaveRequestAction,
   ChangeEmployeeLeaveRequestStatusAction,
+  FetchLeaveCommentAction,
   ACTION_TYPE_CHANGE_STATUS,
+  FetchEmployeeLeaveRequestDetailsAction,
+  FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS,
+  CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT, ChangeEmployeeLeaveRequestCommentAction,
 } from 'store/leave/leave-list/types';
 import {
   fetchLeaveListFinished,
   fetchEmployeeLeaveRequestFinished,
-  fetchEmployeeLeaveRequest as fetchEmployeeLeaveRequestAction,
+  fetchEmployeeLeaveRequestDetailsFinished,
+  fetchLeaveComment as fetchLeaveCommentAction,
+  fetchEmployeeLeaveRequestDetails as fetchEmployeeLeaveRequestDetailsAction,
+  fetchEmployeeLeaveCommentFinished,
 } from 'store/leave/leave-list/actions';
 import {
+  assignColorsToLeaveTypeArray,
   assignColorsToLeaveTypes,
   assignColorToLeaveType,
 } from 'lib/helpers/leave';
 import {TYPE_ERROR} from 'store/globals/types';
 import {
+  API_ENDPOINT_LEAVE_COMMENT,
+  API_ENDPOINT_LEAVE_COMMENT_SAVE,
   API_ENDPOINT_LEAVE_LIST,
   API_ENDPOINT_LEAVE_REQUEST,
+  API_ENDPOINT_LEAVE_REQUEST_DETAILS,
   prepare,
 } from 'services/endpoints';
 import {
@@ -58,17 +70,7 @@ function* fetchLeaveList() {
   //need to change this
   try {
     yield openLoader();
-    const response = yield apiCall(
-      apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_LIST_NEW, {},
-        {
-          fromDate: action.payload.fromDate,
-          toDate: action.payload.toDate,
-          pendingApproval: true,
-          scheduled: true,
-          taken: true,
-        }),
-    );
+    const response = yield apiCall(apiGetCall, API_ENDPOINT_LEAVE_LIST, false);
     if (response.data) {
       yield put(
         fetchLeaveListFinished(assignColorsToLeaveTypes(response.data)),
@@ -98,17 +100,56 @@ function* fetchLeaveList() {
   }
 }
 
+function* fetchEmployeeLeaveRequestDetails(
+  action: FetchEmployeeLeaveRequestDetailsAction,
+) {
+  try {
+    yield openLoader();
+    const response = yield apiCall(
+      apiGetCall,
+      prepare(
+        API_ENDPOINT_LEAVE_REQUEST_DETAILS,
+        {id: action.leaveRequestId},
+        {model: 'detailed'},
+      ),
+    );
+
+    if (response.data) {
+      yield put(fetchEmployeeLeaveRequestDetailsFinished(response.data));
+    } else {
+      yield put(fetchEmployeeLeaveRequestDetailsFinished(undefined, true));
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Leave Details',
+        ),
+        TYPE_ERROR,
+      );
+    }
+  } catch (error) {
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Leave Details'),
+      TYPE_ERROR,
+    );
+    yield put(fetchEmployeeLeaveRequestFinished(undefined, true));
+  } finally {
+    yield closeLoader();
+  }
+}
+
 function* fetchEmployeeLeaveRequest(action: FetchEmployeeLeaveRequestAction) {
   try {
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
       prepare(API_ENDPOINT_LEAVE_REQUEST, {id: action.leaveRequestId}),
+      false,
     );
+
     if (response.data) {
       yield put(
         fetchEmployeeLeaveRequestFinished(
-          assignColorToLeaveType(response.data),
+          assignColorsToLeaveTypeArray(response.data),
         ),
       );
     } else {
@@ -132,20 +173,97 @@ function* fetchEmployeeLeaveRequest(action: FetchEmployeeLeaveRequestAction) {
   }
 }
 
+function* fetchLeaveComment(action: FetchLeaveCommentAction) {
+  try {
+    yield openLoader();
+    const response = yield apiCall(
+      apiGetCall,
+      prepare(API_ENDPOINT_LEAVE_COMMENT, {id: action.leaveRequestId}),
+      false,
+    );
+
+    if (response.data) {
+      yield put(fetchEmployeeLeaveCommentFinished(response.data));
+    } else {
+      yield put(fetchEmployeeLeaveCommentFinished(undefined, true));
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Leave Details',
+        ),
+        TYPE_ERROR,
+      );
+    }
+  } catch (error) {
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Leave Details'),
+      TYPE_ERROR,
+    );
+    yield put(fetchEmployeeLeaveCommentFinished(undefined, true));
+  } finally {
+    yield closeLoader();
+  }
+}
+
 function* changeEmployeeLeaveRequestStatus(
   action: ChangeEmployeeLeaveRequestStatusAction,
 ) {
+  console.log(action);
   try {
     yield openLoader();
     const response = yield apiCall(
       apiPostCall,
-      prepare(API_ENDPOINT_LEAVE_REQUEST, {id: action.leaveRequestId}),
-      action.action,
+      prepare(API_ENDPOINT_LEAVE_REQUEST_DETAILS, {id: action.leaveRequestId}),
+      {action: action.status},
     );
 
-    if (response.success) {
+    console.log(response);
+
+    if (response.data) {
       //re-fetch with updated leave request data
-      yield put(fetchEmployeeLeaveRequestAction(action.leaveRequestId));
+      yield put(fetchLeaveCommentAction(action.leaveRequestId));
+      yield showSnackMessage(
+        action.action.actionType === ACTION_TYPE_CHANGE_STATUS
+          ? 'Successfully Updated'
+          : 'Successfully Saved',
+      );
+    } else {
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Update Leave Request',
+        ),
+        TYPE_ERROR,
+      );
+    }
+  } catch (error) {
+    console.log(error);
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Update Leave Request'),
+      TYPE_ERROR,
+    );
+  } finally {
+    yield closeLoader();
+  }
+}
+
+function* changeEmployeeLeaveRequestComment(
+  action: ChangeEmployeeLeaveRequestCommentAction,
+) {
+  console.log(action);
+  try {
+    yield openLoader();
+    const response = yield apiCall(
+      apiPostCall,
+      prepare(API_ENDPOINT_LEAVE_COMMENT_SAVE, {id: action.leaveRequestId}),
+      {comment: action.action.comment},
+    );
+
+    console.log(response);
+
+    if (response.data) {
+      //re-fetch with updated leave request data
+      yield put(fetchLeaveCommentAction(action.leaveRequestId));
       yield showSnackMessage(
         action.action.actionType === ACTION_TYPE_CHANGE_STATUS
           ? 'Successfully Updated'
@@ -174,7 +292,16 @@ export function* watchLeaveListActions() {
   yield takeEvery(FETCH_LEAVE_LIST, fetchLeaveList);
   yield takeEvery(FETCH_EMPLOYEE_LEAVE_REQUEST, fetchEmployeeLeaveRequest);
   yield takeEvery(
+    FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS,
+    fetchEmployeeLeaveRequestDetails,
+  );
+  yield takeEvery(FETCH_LEAVE_COMMENT, fetchLeaveComment);
+  yield takeEvery(
     CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
     changeEmployeeLeaveRequestStatus,
+  );
+  yield takeEvery(
+    CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT,
+    changeEmployeeLeaveRequestComment,
   );
 }

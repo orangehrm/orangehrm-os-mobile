@@ -26,15 +26,24 @@ import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Divider from 'components/DefaultDivider';
 import {LeaveDaysRouteParams} from 'screens/leave/navigators';
 import LeaveDayListItem from 'screens/leave/components/LeaveDayListItem';
+import {fetchEmployeeLeaveRequest} from 'store/leave/leave-list/actions';
+import {connect} from 'react-redux';
+import {RootState} from 'store';
+import {selectEmployeeLeaveRequest} from '../../store/leave/leave-list/selectors';
 
 class LeaveDays extends React.Component<LeaveDaysProps> {
+  onRefresh = () => {
+    const {employeeLeaveRequest} = this.props.route.params;
+    // this.props.fetchEmployeeLeaveRequest(leaveRequest.id);
+  };
+
   render() {
     const {theme, route} = this.props;
     const {employeeLeaveRequest} = route.params;
     return (
-      <MainLayout>
+      <MainLayout onRefresh={this.onRefresh}>
         <View>
-          {employeeLeaveRequest?.days.map((leave, index) => (
+          {employeeLeaveRequest.map((leave, index) => (
             <Fragment key={index}>
               <LeaveDayListItem leave={leave} />
               <View style={{paddingHorizontal: theme.spacing}}>
@@ -53,4 +62,16 @@ interface LeaveDaysProps extends WithTheme {
   route: LeaveDaysRouteParams;
 }
 
-export default withTheme<LeaveDaysProps>()(LeaveDays);
+const mapStateToProps = (state: RootState) => ({
+  employeeLeaveRequest: selectEmployeeLeaveRequest(state),
+});
+
+const mapDispatchToProps = {
+  fetchEmployeeLeaveRequest: fetchEmployeeLeaveRequest,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+const LeaveDaysWithTheme = withTheme<LeaveDaysProps>()(LeaveDays);
+
+export default connector(LeaveDaysWithTheme);

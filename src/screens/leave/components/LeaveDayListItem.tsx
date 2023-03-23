@@ -29,6 +29,7 @@ import {LEAVE_STATUS_MAP} from 'lib/helpers/leave';
 class LeaveDayListItem extends React.Component<LeaveDayListItemProps> {
   render() {
     const {theme, leave} = this.props;
+
     return (
       <>
         <View
@@ -44,14 +45,12 @@ class LeaveDayListItem extends React.Component<LeaveDayListItemProps> {
               paddingVertical: theme.spacing,
               paddingRight: theme.spacing * 4,
             }}>
-            <FormattedDate>{leave.date}</FormattedDate>
+            <FormattedDate>{leave.dates.fromDate}</FormattedDate>
           </View>
           <View style={styles.flex}>
-            <Text style={[styles.statusText]}>
-              {LEAVE_STATUS_MAP[leave.status]}
-            </Text>
+            <Text style={[styles.statusText]}>{leave.leaveStatus.name}</Text>
             <Text style={[{fontSize: theme.typography.smallFontSize}]}>
-              {leave.duration}
+              {leave.lengthHours.toFixed(2)}
               {' Hours'}
             </Text>
           </View>

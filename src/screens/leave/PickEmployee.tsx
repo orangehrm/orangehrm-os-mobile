@@ -54,7 +54,7 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
   }
 
   filterFunction = (text: string) => (item: Employee) => {
-    const fullName = item.firstName + ' ' + item.lastName;
+    const fullName = item.name;
     const regex = new RegExp(text, 'i');
     return item.employeeId.includes(text) || regex.test(fullName);
   };

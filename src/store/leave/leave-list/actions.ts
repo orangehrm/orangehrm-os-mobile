@@ -24,13 +24,23 @@ import {
   RESET_LEAVE_LIST,
   FETCH_EMPLOYEE_LEAVE_REQUEST,
   FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED,
+  FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS_FINISHED,
   CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
+  FETCH_LEAVE_COMMENT,
+  FETCH_LEAVE_COMMENT_FINISHED,
   FetchLeaveListAction,
   FetchLeaveListFinishedAction,
   ResetLeaveListAction,
   FetchEmployeeLeaveRequestAction,
+  FetchEmployeeLeaveRequestDetailsAction,
+  FetchLeaveCommentAction,
   FetchEmployeeLeaveRequestFinishedAction,
   ChangeEmployeeLeaveRequestStatusAction,
+  FetchLeaveCommentFinishedAction,
+  FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS,
+  FetchEmployeeLeaveRequestDetailsFinishedAction,
+  CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT,
+  ChangeEmployeeLeaveRequestCommentAction,
 } from 'store/leave/leave-list/types';
 import {$PropertyType} from 'utility-types';
 
@@ -55,9 +65,22 @@ export const resetLeaveList = (): ResetLeaveListAction => ({
 });
 
 export const fetchEmployeeLeaveRequest = (
-  leaveRequestId: string,
+  leaveRequestId: number,
 ): FetchEmployeeLeaveRequestAction => ({
   type: FETCH_EMPLOYEE_LEAVE_REQUEST,
+  leaveRequestId,
+});
+export const fetchEmployeeLeaveRequestDetails = (
+  leaveRequestId: string,
+): FetchEmployeeLeaveRequestDetailsAction => ({
+  type: FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS,
+  leaveRequestId,
+});
+
+export const fetchLeaveComment = (
+  leaveRequestId: string,
+): FetchLeaveCommentAction => ({
+  type: FETCH_LEAVE_COMMENT,
   leaveRequestId,
 });
 
@@ -70,16 +93,45 @@ export const fetchEmployeeLeaveRequestFinished = (
   error,
 });
 
+export const fetchEmployeeLeaveRequestDetailsFinished = (
+  payload?: $PropertyType<
+    FetchEmployeeLeaveRequestDetailsFinishedAction,
+    'payload'
+  >,
+  error: boolean = false,
+): FetchEmployeeLeaveRequestDetailsFinishedAction => ({
+  type: FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS_FINISHED,
+  payload,
+  error,
+});
+
+export const fetchEmployeeLeaveCommentFinished = (
+  payload?: $PropertyType<FetchLeaveCommentFinishedAction, 'payload'>,
+  error: boolean = false,
+): FetchLeaveCommentFinishedAction => ({
+  type: FETCH_LEAVE_COMMENT_FINISHED,
+  payload,
+  error,
+});
+
 /**
  * Change employee leave request status or add new comment
  * @param {object} action
  * @returns {object}
  */
 export const changeEmployeeLeaveRequestStatus = (
-  leaveRequestId: string,
+  leaveRequestId: number,
   action: $PropertyType<ChangeEmployeeLeaveRequestStatusAction, 'action'>,
 ): ChangeEmployeeLeaveRequestStatusAction => ({
   type: CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
+  leaveRequestId,
+  action,
+});
+export const changeEmployeeLeaveRequestComment = (
+  leaveRequestId: number,
+  action: $PropertyType<ChangeEmployeeLeaveRequestCommentAction, 'action'>,
+): ChangeEmployeeLeaveRequestCommentAction => ({
+  type: CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT,
   leaveRequestId,
   action,
 });

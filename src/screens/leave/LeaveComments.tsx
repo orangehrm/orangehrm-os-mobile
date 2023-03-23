@@ -31,6 +31,7 @@ import LeaveCommentListItem from 'screens/leave/components/LeaveCommentListItem'
 import {PickLeaveRequestCommentFooter} from 'screens/leave/components/PickLeaveRequestComment';
 import {ACTION_TYPE_COMMENT} from 'store/leave/leave-list/types';
 import {LeaveCommentsRouteParams} from 'screens/leave/navigators';
+import {changeEmployeeLeaveRequestComment} from '../../store/leave/leave-list/actions';
 
 class LeaveComments extends React.Component<
   LeaveCommentsProps,
@@ -45,11 +46,15 @@ class LeaveComments extends React.Component<
 
   onPressComment = () => {
     const {comment} = this.state;
-    const {employeeLeaveRequest, changeEmployeeLeaveRequestStatus, dispatch} =
-      this.props;
-    if (comment !== '' && employeeLeaveRequest) {
+    const {
+      employeeLeaveRequest,
+      changeEmployeeLeaveRequestComment,
+      dispatch,
+      employeeLeaveRequestDetails,
+    } = this.props;
+    if (comment !== '' && employeeLeaveRequestDetails) {
       dispatch(
-        changeEmployeeLeaveRequestStatus(employeeLeaveRequest.leaveRequestId, {
+        changeEmployeeLeaveRequestComment(employeeLeaveRequestDetails.id, {
           actionType: ACTION_TYPE_COMMENT,
           comment,
         }),
@@ -63,7 +68,8 @@ class LeaveComments extends React.Component<
   };
 
   render() {
-    const {theme, employeeLeaveRequest} = this.props;
+    const {theme, employeeLeaveRequest, employeeLeaveComment} = this.props;
+    console.log(employeeLeaveComment, 'comeent screen');
     const {comment} = this.state;
     return (
       <MainLayout
@@ -76,7 +82,7 @@ class LeaveComments extends React.Component<
           />
         }>
         <View style={{paddingBottom: theme.spacing * 5}}>
-          {employeeLeaveRequest?.comments.map((commentItem, index) => (
+          {employeeLeaveComment.map((commentItem, index) => (
             <View
               key={index}
               style={{
@@ -110,16 +116,20 @@ interface LeaveCommentsState {
 }
 
 const mapStateToProps = (state: RootState, ownProps: LeaveCommentsProps) => ({
+  employeeLeaveComment:
+    ownProps.route.params.employeeLeaveCommentSelector(state),
   employeeLeaveRequest:
     ownProps.route.params.employeeLeaveRequestSelector(state),
+  employeeLeaveRequestDetails:
+    ownProps.route.params.employeeLeaveRequestDetailsSelector(state),
 });
 
 const mapDispatchToProps = (
   dispatch: Dispatch<Action>,
   ownProps: LeaveCommentsProps,
 ) => ({
-  changeEmployeeLeaveRequestStatus:
-    ownProps.route.params.changeEmployeeLeaveRequestStatusAction,
+  changeEmployeeLeaveRequestComment:
+    ownProps.route.params.changeEmployeeLeaveRequestCommentAction,
   dispatch,
 });
 

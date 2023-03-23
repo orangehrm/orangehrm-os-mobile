@@ -34,7 +34,7 @@ import {
   FetchNewTokenFinishedAction,
   FETCH_API_VERSION,
 } from 'store/auth/types';
-import { checkLegacyInstance } from 'services/authentication';
+import {checkLegacyInstance} from 'services/authentication';
 import {
   checkInstance as checkInstanceRequest,
   checkInstanceCompatibility,
@@ -84,12 +84,16 @@ import {
   ERROR_NO_ASSIGNED_EMPLOYEE,
   ERROR_JSON_PARSE,
 } from 'services/api';
-import { API_ENDPOINT_MY_INFO, API_ENDPOINT_API_VERSION, prepare } from 'services/endpoints';
-import { AuthenticationError } from 'services/errors/authentication';
-import { InstanceCheckError } from 'services/errors/instance-check';
-import { useState, useCallback } from 'react';
-import { revoke, refresh, authorize } from 'react-native-app-auth';
-import { duration } from 'moment';
+import {
+  API_ENDPOINT_MY_INFO,
+  API_ENDPOINT_API_VERSION,
+  prepare,
+} from 'services/endpoints';
+import {AuthenticationError} from 'services/errors/authentication';
+import {InstanceCheckError} from 'services/errors/instance-check';
+import {useState, useCallback} from 'react';
+import {revoke, refresh, authorize} from 'react-native-app-auth';
+import {duration} from 'moment';
 import {navigate} from 'lib/helpers/navigation';
 import {LEAVE_REQUEST_SUCCESS} from 'screens';
 import {LeaveRequestSuccessParam} from 'screens/leave/navigators';
@@ -101,9 +105,9 @@ function* checkInstance(action?: CheckInstanceAction) {
   try {
     yield openLoader();
     yield* fetchApiVersion();
-    
-    let instanceUrl: string = yield selectInstanceUrl();
-    // eslint-disable-next-line no-undef
+
+    const instanceUrl: string = yield selectInstanceUrl();
+
     const apiDetails: ApiDetails = yield select(selectApiDetails);
 
     if (
@@ -124,16 +128,13 @@ function* checkInstance(action?: CheckInstanceAction) {
         additionalParameters: {},
         usePKCE: true,
         useNonce: false,
-        additionalHeaders: { Accept: 'application/json' },
+        additionalHeaders: {Accept: 'application/json'},
         connectionTimeoutSeconds: 5,
         iosPrefersEphemeralSession: true,
       };
 
       try {
-        const authState = yield call(
-          authorize,
-          config,
-        );
+        const authState = yield call(authorize, config);
 
         //todo: handle error
         if (authState) {
@@ -305,9 +306,8 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
       yield openLoader();
     }
     // const instanceUrl: string = yield selectInstanceUrl();
-    // eslint-disable-next-line no-undef
-    // const response: Response = yield call(getEnabledModules, instanceUrl);
 
+    // const response: Response = yield call(getEnabledModules, instanceUrl);
 
     //get enable modules , leave peroid defined , time period defined from API
     const responseData = {
@@ -330,10 +330,10 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
           },
           time: {
             isTimePeriodDefined: true,
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    };
 
     yield put(fetchEnabledModulesFinished(responseData.data));
     return;
@@ -383,7 +383,6 @@ function* fetchAuthToken(action: FetchTokenAction) {
     const authParams: AuthParams = yield selectAuthParams();
 
     if (authParams.instanceUrl !== null) {
-      // eslint-disable-next-line no-undef
       // const response: Response = yield call(
       //   authenticate,
       //   authParams.instanceUrl,
@@ -399,14 +398,14 @@ function* fetchAuthToken(action: FetchTokenAction) {
       //     throw new AuthenticationError('Invalid Credentials.');
       //   }
       // } else {
-        // yield storageSetMulti({
-        //   [ACCESS_TOKEN]: data.access_token,
-        //   [REFRESH_TOKEN]: data.refresh_token,
-        //   [TOKEN_TYPE]: data.token_type,
-        //   [SCOPE]: data.scope,
-        //   [EXPIRES_AT]: getExpiredAt(data.expires_in),
-        // });
-        yield put(fetchNewAuthTokenFinished()); //change flow
+      // yield storageSetMulti({
+      //   [ACCESS_TOKEN]: data.access_token,
+      //   [REFRESH_TOKEN]: data.refresh_token,
+      //   [TOKEN_TYPE]: data.token_type,
+      //   [SCOPE]: data.scope,
+      //   [EXPIRES_AT]: getExpiredAt(data.expires_in),
+      // });
+      yield put(fetchNewAuthTokenFinished()); //change flow
       // }
     } else {
       yield showSnackMessage('Instance URL is empty.', TYPE_ERROR);
@@ -443,7 +442,6 @@ function* fetchMyInfo() {
   try {
     yield* fetchEnabledModules();
 
-    // eslint-disable-next-line no-undef
     // const rawResponse: Response = yield apiCall(
     //   apiGetCall,
     //   prepare(API_ENDPOINT_MY_INFO, {}, { withPhoto: true }),
@@ -475,9 +473,9 @@ function* fetchMyInfo() {
           isOfferer: false,
           isHiringManager: false,
           isInterviewer: false,
-        }
-      }
-    }
+        },
+      },
+    };
 
     yield put(fetchMyInfoFinished(response.data));
 
@@ -568,18 +566,10 @@ function* fetchApiDefinition(
 }
 
 function* fetchApiVersion() {
-  console.log('fetchApiVersion');
   try {
-    // eslint-disable-next-line no-undef
-
     const VERSION_API = '/web/index.php' + API_ENDPOINT_API_VERSION;
-    const response = yield apiCall(
-      apiGetCall,
-      prepare(VERSION_API),
-      false,
-    );
+    const response = yield apiCall(apiGetCall, prepare(VERSION_API), false);
 
-    console.log('response', response);
     //Check API Version - only available in OHRM5X
     if (response.data.version) {
       yield storageSetItem(INSTANCE_API_VERSION, response.data.version);

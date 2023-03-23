@@ -156,6 +156,7 @@ function* fetchSubordinateLeaveEntitlements(
 }
 
 function* fetchAccessibleEmployees() {
+  console.log('assign leave');
   try {
     yield openLoader();
     const queryParams = {
@@ -164,8 +165,9 @@ function* fetchAccessibleEmployees() {
     };
     const response = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_EMPLOYEES, {}, queryParams),
+      prepare(API_ENDPOINT_EMPLOYEES),
     );
+    console.log(response,'assign');
     if (response.data) {
       yield put(fetchSubordinatesFinished(response.data));
     } else {

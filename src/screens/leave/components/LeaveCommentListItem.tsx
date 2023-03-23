@@ -29,6 +29,7 @@ import {LeaveComment} from 'store/leave/leave-usage/types';
 class LeaveCommentListItem extends React.Component<LeaveCommentListItemProps> {
   render() {
     const {theme, leaveComment} = this.props;
+
     return (
       <>
         <View style={[styles.row]}>
@@ -37,7 +38,7 @@ class LeaveCommentListItem extends React.Component<LeaveCommentListItemProps> {
               paddingVertical: theme.spacing,
               paddingRight: theme.spacing * 4,
             }}>
-            <Avatar small name={leaveComment.user} />
+            <Avatar small name={leaveComment.createdByEmployee.firstName} />
           </View>
           <View style={styles.flex}>
             <View
@@ -46,7 +47,11 @@ class LeaveCommentListItem extends React.Component<LeaveCommentListItemProps> {
                 styles.space,
                 {paddingHorizontal: theme.spacing * 2},
               ]}>
-              <Text style={[styles.empNameText]}>{leaveComment.user}</Text>
+              <Text style={[styles.empNameText]}>
+                {leaveComment.createdByEmployee.firstName +
+                  ' ' +
+                  leaveComment.createdByEmployee.lastName}
+              </Text>
               <FormattedDate
                 style={{
                   paddingTop: theme.spacing * 0.5,

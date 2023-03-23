@@ -22,25 +22,40 @@ import {EndpointError} from 'services/errors/endpoints';
 
 export const API_ENDPOINT_AUTH_ISSUE_TOKEN = '/oauth/issueToken';
 export const API_ENDPOINT_MY_INFO = '/api/v1/myinfo';
-export const API_ENDPOINT_EMPLOYEES = '/api/v1/employees';
+export const API_ENDPOINT_EMPLOYEES = '/web/index.php/api/v2/leave/leave-types';
 
 // leave
 export const API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT =
-  '/api/v1/leave/my-leave-entitlement';
+  '/web/index.php/api/v2/leave/leave-entitlements';
+export const API_ENDPOINT_LEAVE_MY_LEAVE_BALANCE =
+  '/web/index.php/api/v2/leave/leave-balance/leave-type/1';
 export const API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST =
-  '/api/v1/leave/my-leave-request';
-export const API_ENDPOINT_LEAVE_LIST = '/api/v1/leave/leave-list';
-export const API_ENDPOINT_LEAVE_REQUEST = '/api/v1/leave/leave-request/{id}';
+  '/web/index.php/api/v2/leave/leave-requests';
+export const API_ENDPOINT_LEAVE_LIST =
+  '/web/index.php/api/v2/leave/employees/leave-requests';
+export const API_ENDPOINT_LEAVE_REQUEST =
+  '/web/index.php/api/v2/leave/leave-requests/{id}/leaves';
+export const API_ENDPOINT_LEAVE_REQUEST_DETAILS =
+  '/web/index.php/api/v2/leave/employees/leave-requests/{id}';
+export const API_ENDPOINT_LEAVE_COMMENT =
+  '/web/index.php/api/v2/leave/leave-requests/{id}/leave-comments';
+export const API_ENDPOINT_LEAVE_COMMENT_SAVE =
+  '/web/index.php/api/v2/leave/leave-requests/{id}/leave-comments';
 export const API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT =
   '/api/v1/subordinate/{id}/leave-entitlement';
 export const API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST =
   '/api/v1/subordinate/{id}/leave-request';
-export const API_ENDPOINT_LEAVE_HOLIDAYS = '/api/v1/leave/holidays';
-export const API_ENDPOINT_LEAVE_PERIODS = '/api/v1/leave/leave-periods';
-export const API_ENDPOINT_LEAVE_WORK_SHIFT = '/api/v1/leave/work-shift';
-export const API_ENDPOINT_LEAVE_WORK_WEEK = '/api/v1/leave/work-week';
-export const API_ENDPOINT_LEAVE_TYPES = '/api/v1/leave/leave-types';
-export const API_ENDPOINT_LEAVE = '/api/v1/leave/leaves';
+export const API_ENDPOINT_LEAVE_HOLIDAYS =
+  '/web/index.php/api/v2/leave/holidays';
+export const API_ENDPOINT_LEAVE_PERIODS =
+  '/web/index.php/api/v2/leave/leave-periods';
+export const API_ENDPOINT_LEAVE_WORK_SHIFT =
+  '/web/index.php/api/v2/pim/employees/1/work-shift';
+export const API_ENDPOINT_LEAVE_WORK_WEEK =
+  '/web/index.php/api/v2/leave/workweek';
+export const API_ENDPOINT_LEAVE_TYPES =
+  '/web/index.php/api/v2/leave/leave-types';
+export const API_ENDPOINT_LEAVE = '/web/index.php/api/v2/leave/leaves';
 
 // attendance
 export const API_ENDPOINT_PUNCH_STATUS = '/api/v1/attendance/punch-status';
@@ -60,7 +75,8 @@ export const API_ENDPOINT_API_DEFINITION = '/api/v1/api-definition';
 export const API_ENDPOINT_ENABLED_MODULES = '/api/v1/enabled-modules';
 
 //v2 endpoints
-export const API_ENDPOINT_LEAVE_LIST_NEW = '/api/v2/leave/employees/leave-requests';
+export const API_ENDPOINT_LEAVE_LIST_NEW =
+  '/api/v2/leave/employees/leave-requests';
 export const API_ENDPOINT_API_VERSION = '/api/v2/core/public/version';
 
 export const prepare = (
