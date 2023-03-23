@@ -138,9 +138,9 @@ export interface Employee {
   middleName: string;
   fullName: string;
   employeeId: string;
-  code: string;
-  jobTitle: NullableString;
-  unit: NullableString;
+  code: string | null;
+  jobTitle: JobTitle;
+  unit: SubUnit;
   supervisor: null | Supervisor[];
 }
 
@@ -149,7 +149,6 @@ export interface EmployeePhoto {
 }
 
 export interface User {
-  userName: string;
   userRole: typeof USER_ROLE_ADMIN | typeof USER_ROLE_ESS;
   isSupervisor: boolean;
   isProjectAdmin: boolean;
@@ -165,6 +164,25 @@ export interface MyInfo {
   employee: Employee;
   employeePhoto: NullableString;
   user: User;
+  // employeeId: string; //add employeeId can use in other places
+  // firstName: string;
+  // lastName: string;
+  // middleName: string;
+  // jobTitle: JobTitle; //add JobTitle need to change in other place
+  // subUnit: SubUnit; //add SubUnit need to change in other place previously unit
+  // supervisor: null | Supervisor[];
+  // employeePhoto: NullableString;
+}
+
+export interface JobTitle {
+  id: string;
+  title: string;
+  isDeleted: boolean;
+}
+
+export interface SubUnit {
+  id: string;
+  name: string;
 }
 
 export interface Supervisor {

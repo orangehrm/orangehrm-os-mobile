@@ -132,8 +132,8 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ProfilePicture
-        name={myInfo?.employee.fullName}
-        jobTitle={myInfo?.employee.jobTitle}
+        name={myInfo?.employee.firstName + ' ' + myInfo?.employee.lastName}
+        jobTitle={myInfo?.employee.jobTitle.title}
         imageSource={imageSource}
       />
       <DrawerContentScrollView

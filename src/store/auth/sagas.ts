@@ -78,29 +78,25 @@ import {InstanceCheckError} from 'services/errors/instance-check';
 import {authorize} from 'react-native-app-auth';
 
 //commented imports
-// import {
-//   FetchTokenAction,
-// } from 'store/auth/types';
-// import {
-//   checkInstance as checkInstanceRequest,
-// } from 'services/instance-check';
-// import {checkLegacyInstance} from 'services/authentication';
-// import {all} from 'redux-saga/effects';
-// import {getEnabledModules} from 'services/instance-check';
-// import {myInfoFailed} from 'store/auth/actions';
-// import {getExpiredAt} from 'store/auth/helper';
-// import {
-//   isJsonParseError,
-//   ERROR_NO_ASSIGNED_EMPLOYEE,
-//   ERROR_JSON_PARSE,
-// } from 'services/api';
-// import { API_ENDPOINT_MY_INFO_NEW } from 'services/endpoints';
-// import { AuthenticationError } from 'services/errors/authentication';
-// import { useState, useCallback } from 'react';
-// import { revoke, refresh } from 'react-native-app-auth';
-// import { duration } from 'moment';
-// import {navigate} from 'lib/helpers/navigation';
-// import {LEAVE_REQUEST_SUCCESS} from 'screens';
+import {FetchTokenAction} from 'store/auth/types';
+import {checkInstance as checkInstanceRequest} from 'services/instance-check';
+import {checkLegacyInstance} from 'services/authentication';
+import {all} from 'redux-saga/effects';
+import {getEnabledModules} from 'services/instance-check';
+import {myInfoFailed} from 'store/auth/actions';
+import {getExpiredAt} from 'store/auth/helper';
+import {
+  isJsonParseError,
+  ERROR_NO_ASSIGNED_EMPLOYEE,
+  ERROR_JSON_PARSE,
+} from 'services/api';
+import {API_ENDPOINT_MY_INFO_NEW} from 'services/endpoints';
+import {AuthenticationError} from 'services/errors/authentication';
+import {useState, useCallback} from 'react';
+import {revoke, refresh} from 'react-native-app-auth';
+import {duration} from 'moment';
+import {navigate} from 'lib/helpers/navigation';
+import {LEAVE_REQUEST_SUCCESS} from 'screens';
 // import {LeaveRequestSuccessParam} from 'screens/leave/navigators';
 
 /**
@@ -142,7 +138,7 @@ function* checkInstance(action?: CheckInstanceAction) {
         const authState = yield call(authorize, config);
 
         //todo: handle error
-        if (authState) {
+        if (authState.accessToken !== null && authState.refreshToken !== null) {
           yield storageSetItem(ACCESS_TOKEN, authState.accessToken);
           yield storageSetItem(REFRESH_TOKEN, authState.refreshToken);
           yield storageSetItem(TOKEN_TYPE, authState.tokenType);
@@ -445,25 +441,18 @@ function* fetchMyInfo() {
   try {
     yield* fetchEnabledModules();
 
-    // const rawResponse: Response = yield apiCall(
-    //   apiGetCall,
-    //   prepare( '/web/index.php'+API_ENDPOINT_MY_INFO_NEW),
-    //   true,
-    // );
+    const rawResponse: Response = yield apiCall(
+      apiGetCall,
+      prepare( '/web/index.php'+API_ENDPOINT_MY_INFO_NEW, {}, {model:'detailed'}),
+      true,
+    );
 
-    //get my info from API api/v2/pim/my-info
+    const employee = yield call([rawResponse, rawResponse.json]);
+
+    // get my info from API api/v2/pim/myself
     const response = {
       data: {
-        employee: {
-          firstName: 'John',
-          lastName: 'Doe',
-          fullName: 'John Doe',
-          employeeId: '123',
-          code: '',
-          jobTitle: 'Software Engineer',
-          unit: null,
-          supervisor: null,
-        },
+        employee: employee.data,
         employeePhoto: null,
         user: {
           userName: 'john.doe',
