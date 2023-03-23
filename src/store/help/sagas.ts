@@ -24,7 +24,7 @@ import {
   closeLoader,
   showSnackMessage,
 } from 'store/saga-effects/globals';
-import {FetchHelpConfigAction, FETCH_HELP_CONFIG} from './types';
+import {FETCH_HELP_CONFIG} from './types';
 import {fetchHelpConfigFinished} from './actions';
 import {HELP_REDIRECT_URL} from 'services/endpoints';
 import {
@@ -36,6 +36,7 @@ import {TYPE_ERROR} from 'store/globals/types';
 //Commented imports
 // import {prepare, API_ENDPOINT_HELP_CONFIG} from 'services/endpoints';
 // import {apiCall, apiGetCall} from 'store/saga-effects/api';
+// import {FetchHelpConfigAction} from './types';
 
 //removed - action: FetchHelpConfigAction fetchConfigHelp(action: FetchHelpConfigAction)
 function* fetchConfigHelp() {
