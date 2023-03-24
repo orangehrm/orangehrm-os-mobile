@@ -30,13 +30,12 @@ import {
   API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT,
   API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST,
   API_ENDPOINT_EMPLOYEES,
-  API_ENDPOINT_API_DEFINITION,
+  API_ENDPOINT_API_VERSION,
   API_ENDPOINT_LEAVE_HOLIDAYS,
   API_ENDPOINT_LEAVE_WORK_SHIFT,
   API_ENDPOINT_LEAVE_WORK_WEEK,
   API_ENDPOINT_LEAVE_TYPES,
   API_ENDPOINT_ENABLED_MODULES,
-  prepare,
 } from 'services/endpoints';
 
 export const HTTP_METHOD_GET = 'get';
@@ -68,8 +67,7 @@ export const checkInstance = (instanceUrl: string) => {
 };
 
 export const getOpenApiDefinition = (instanceUrl: string) => {
-  const restApiMetaEndpoint =
-    instanceUrl + prepare(API_ENDPOINT_API_DEFINITION, {}, {tags: ['User']});
+  const restApiVersionEndpoint = instanceUrl + API_ENDPOINT_API_VERSION;
 
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');
@@ -79,7 +77,7 @@ export const getOpenApiDefinition = (instanceUrl: string) => {
     method: 'GET',
     headers: headers,
   };
-  return fetch(restApiMetaEndpoint, requestOptions);
+  return fetch(restApiVersionEndpoint, requestOptions);
 };
 
 /**

@@ -26,6 +26,7 @@ import {
   CHECK_INSTANCE_FINISHED,
   FETCH_ENABLED_MODULES_FINISHED,
   MY_INFO_FAILED,
+  FETCH_NEW_TOKEN_FINISHED,
   AuthActionTypes,
 } from 'store/auth/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
@@ -68,13 +69,18 @@ const authReducer = (
       return {
         ...state,
         checkingInstance: false,
-        isAuthenticated: true,
+        // isAuthenticated: true,
         instanceExists: action.error === undefined ? undefined : !action.error,
       };
     case FETCH_ENABLED_MODULES_FINISHED:
       return {
         ...state,
         enabledModules: action.payload,
+      };
+    case FETCH_NEW_TOKEN_FINISHED:
+      return {
+        ...state,
+        isAuthenticated: true,
       };
     case MY_INFO_FAILED:
       return {

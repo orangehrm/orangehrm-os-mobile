@@ -21,7 +21,6 @@
 // login
 export const SELECT_INSTANCE = 'SelectInstance';
 export const SELECT_INSTANCE_HELP = 'SelectInstanceHelp';
-export const LOGIN = 'Login';
 
 // leave
 export const MY_LEAVE_ENTITLEMENT_AND_USAGE = 'MyLeaveEntitilementsAndUsage';

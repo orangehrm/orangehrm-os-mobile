@@ -21,25 +21,10 @@
 import {API_ENDPOINT_AUTH_ISSUE_TOKEN} from 'services/endpoints';
 
 export const PUBLIC_MOBILE_CLIENT_ID = 'orangehrm_mobile_app';
-export const PUBLIC_MOBILE_CLIENT_SECRET = '';
 export const REQUIRED_SCOPE = 'user';
 export const GRANT_TYPE_PASSWORD = 'password';
 export const GRANT_TYPE_REFRESH_TOKEN = 'refresh_token';
-
-export const authenticate = (
-  instanceUrl: string,
-  username: string,
-  password: string,
-) => {
-  return authRequest(instanceUrl, {
-    grant_type: GRANT_TYPE_PASSWORD,
-    client_id: PUBLIC_MOBILE_CLIENT_ID,
-    client_secret: PUBLIC_MOBILE_CLIENT_SECRET,
-    scope: REQUIRED_SCOPE,
-    username,
-    password,
-  });
-};
+export const OAUTH_CALLBACK_URL = 'com.orangehrm.opensource://oauthredirect';
 
 export const getNewAccessToken = (
   instanceUrl: string,
@@ -48,7 +33,6 @@ export const getNewAccessToken = (
   return authRequest(instanceUrl, {
     grant_type: GRANT_TYPE_REFRESH_TOKEN,
     client_id: PUBLIC_MOBILE_CLIENT_ID,
-    client_secret: PUBLIC_MOBILE_CLIENT_SECRET,
     refresh_token: refreshToken,
   });
 };
@@ -57,7 +41,7 @@ export const checkLegacyInstance = (instanceUrl: string) => {
   return authRequest(instanceUrl, {
     grant_type: GRANT_TYPE_PASSWORD,
     client_id: PUBLIC_MOBILE_CLIENT_ID,
-    client_secret: PUBLIC_MOBILE_CLIENT_SECRET,
+    client_secret: '',
   });
 };
 

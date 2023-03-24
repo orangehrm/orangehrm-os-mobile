@@ -40,7 +40,7 @@ import {setStatusBarColor} from 'store/theme/actions';
 import {setItem} from 'store/storage/actions';
 import {selectInstanceUrl} from 'store/storage/selectors';
 import {INSTANCE_URL} from 'services/storage';
-import {LOGIN, SELECT_INSTANCE_HELP} from 'screens';
+import {SELECT_INSTANCE_HELP} from 'screens';
 import {checkUrl} from 'lib/helpers/url';
 import {checkInstance} from 'store/auth/actions';
 import {
@@ -68,12 +68,6 @@ class SelectInstance extends React.Component<
   componentDidUpdate(prevProps: SelectInstanceProps) {
     if (this.props.instanceUrl !== prevProps.instanceUrl) {
       this.setCurrentInstanceUrl();
-    }
-    if (
-      this.props.checkingInstance === false &&
-      this.props.instanceExists === true
-    ) {
-      this.props.navigation.dispatch(StackActions.replace(LOGIN));
     }
   }
 
