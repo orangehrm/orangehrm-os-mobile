@@ -33,7 +33,6 @@ export interface AuthState {
   enabledModules?: EnabledModules;
   myInfoFailed?: boolean;
   myInfoError?: ErrorResponse;
-  isAuthenticated: boolean;
 }
 
 export const FETCH_TOKEN = 'AUTH_FETCH_TOKEN';

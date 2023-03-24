@@ -33,7 +33,7 @@ import {RootState} from 'store';
 import {
   selectStorageLoaded,
   selectInstanceUrl,
-  selectUsername,
+  selectIsAuthenticated,
 } from 'store/storage/selectors';
 import {fetchMyInfo} from 'store/auth/actions';
 import {
@@ -42,7 +42,6 @@ import {
   selectMyInfo,
   selectEnabledModules,
   selectMyInfoFailed,
-  selectIsAuthenticated,
 } from 'store/auth/selectors';
 import {USER_ROLE_ADMIN} from 'store/auth/types';
 import {selectInitialRoute} from 'store/globals/selectors';
@@ -90,7 +89,6 @@ const Navigator = (props: NavigatorProps) => {
   const {
     storageLoaded,
     instanceUrl,
-    loggedInUsername,
     myInfoSuccess,
     isCalledMyInfo,
     initialRoute,
@@ -114,7 +112,7 @@ const Navigator = (props: NavigatorProps) => {
   useEffect(() => {
     if (
       instanceUrl !== null &&
-      loggedInUsername !== null &&
+      isAuthenticated === true &&
       !myInfoSuccess &&
       !isCalledMyInfo
     ) {
@@ -128,7 +126,7 @@ const Navigator = (props: NavigatorProps) => {
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [
     instanceUrl,
-    loggedInUsername,
+    isAuthenticated,
     myInfoSuccess,
     isCalledMyInfo,
     isSubscribed,
@@ -166,6 +164,7 @@ const Navigator = (props: NavigatorProps) => {
                 <Drawer.Screen
                   name={NO_EMPLOYEE_INFO}
                   component={NoEmployeeInfo}
+                  options={{headerShown: false}}
                 />
               ) : (
                 <>
@@ -302,7 +301,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: RootState) => ({
   storageLoaded: selectStorageLoaded(state),
   instanceUrl: selectInstanceUrl(state),
-  loggedInUsername: selectUsername(state),
   myInfoSuccess: selectMyInfoSuccess(state),
   isCalledMyInfo: selectIsCalledMyInfo(state),
   initialRoute: selectInitialRoute(state),
