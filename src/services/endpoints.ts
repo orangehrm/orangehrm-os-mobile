@@ -26,7 +26,7 @@ export const API_ENDPOINT_EMPLOYEES = '/web/index.php/api/v2/leave/leave-types';
 
 // leave
 export const API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT =
-  '/web/index.php/api/v2/leave/leave-entitlements';
+  '/web/index.php/api/v2/leave/leave-entitlements?model=summary';
 export const API_ENDPOINT_LEAVE_MY_LEAVE_BALANCE =
   '/web/index.php/api/v2/leave/leave-balance/leave-type/1';
 export const API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST =

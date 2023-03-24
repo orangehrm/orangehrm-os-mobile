@@ -229,16 +229,15 @@ export interface PartialOptionsStartDaySpecifyTime {
 }
 
 export interface PartialOptionsEndDayHalfDay {
-  endDayType: typeof HALF_DAY;
-  endDayAMPM: HalfDayType;
+  duration: {type: typeof HALF_DAY};
 }
 
 export interface PartialOptionsEndDayFullDay {
-  endDayType: typeof FULL_DAY;
+  duration: {type: typeof FULL_DAY};
 }
 
 export interface PartialOptionsEndDaySpecifyTime {
-  endDayType: typeof SPECIFY_TIME;
+  duration: {type: typeof SPECIFY_TIME};
   endDayFromTime: string;
   endDayToTime: string;
 }
@@ -265,13 +264,13 @@ export interface Holiday {
 }
 
 export interface WorkWeek {
-  mon: WorkWeekType;
-  tue: WorkWeekType;
-  wed: WorkWeekType;
-  thu: WorkWeekType;
-  fri: WorkWeekType;
-  sat: WorkWeekType;
-  sun: WorkWeekType;
+  monday: WorkWeekType;
+  tuesday: WorkWeekType;
+  wednesday: WorkWeekType;
+  thursday: WorkWeekType;
+  friday: WorkWeekType;
+  saturday: WorkWeekType;
+  sunday: WorkWeekType;
 }
 
 export type WorkWeekType =

@@ -65,7 +65,7 @@ class LeaveBalanceRow extends React.Component<LeaveBalanceRowProps> {
               <>
                 <LeaveBalanceCard
                   leaveType={item.leaveType.name}
-                  leaveBalance={'2.0'}
+                  leaveBalance={item.usageBreakdown.balance.toFixed(2)}
                   selectedColor={item.leaveType.color}
                   selected={selectedLeaveTypeId === item.id}
                   onPress={() => {
