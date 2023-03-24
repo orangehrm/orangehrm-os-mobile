@@ -78,7 +78,6 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   }, [fetchMyInfo]);
 
   const logoutOnPress = useCallback(() => {
-    AsyncStorage.removeItem('WarningRead');
     drawerContentProps.navigation.closeDrawer();
     logout();
   }, [logout, drawerContentProps]);
