@@ -126,8 +126,11 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
               </View>
               <Divider />
               <ProgressCircle
-                progress={this.calculateProgress(7, 4.75)}
-                usedDays={'4.75'}
+                progress={this.calculateProgress(
+                  selectedLeaveType?.entitlement,
+                  selectedLeaveType?.daysUsed,
+                )}
+                usedDays={selectedLeaveType?.daysUsed}
                 mainColor={selectedLeaveType?.leaveType.color}
               />
             </CardContent>
@@ -147,13 +150,12 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
                   },
                 ]}>
                 <Text>{'Total Entitlement'}</Text>
-                <Text>{'7.00 Day(s)'}</Text>
-                {/*<Text>*/}
-                {/*  {selectedLeaveType?.leaveBalance.entitled*/}
-                {/*    ? selectedLeaveType?.leaveBalance.entitled.toFixed(2)*/}
-                {/*    : '0.00'}*/}
-                {/*  {' Day(s)'}*/}
-                {/*</Text>*/}
+                <Text>
+                  {selectedLeaveType?.entitlement
+                    ? selectedLeaveType?.entitlement.toFixed(2)
+                    : '0.00'}
+                  {' Day(s)'}
+                </Text>
               </View>
             </CardActions>
           </Card>

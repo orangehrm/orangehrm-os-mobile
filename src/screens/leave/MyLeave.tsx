@@ -62,6 +62,7 @@ class MyLeave extends React.Component<MyLeaveProps> {
   };
 
   onPressLeave = (leaveRequest: LeaveRequest) => () => {
+    console.log(leaveRequest);
     navigate<MyLeaveDetailsParam>(MY_LEAVE_DETAILS, {leaveRequest});
   };
 

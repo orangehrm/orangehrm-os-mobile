@@ -52,6 +52,7 @@ const leaveUsageReducer = (
       if (action.error) {
         return state;
       }
+
       return {
         ...state,
         leaveRequest: action.payload?.slice(),

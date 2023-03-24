@@ -19,7 +19,7 @@
  */
 
 import {takeEvery, put} from 'redux-saga/effects';
-import {apiCall, apiGetCall, apiPostCall} from 'store/saga-effects/api';
+import {apiCall, apiGetCall, apiPostCall, apiPutCall} from 'store/saga-effects/api';
 import {
   openLoader,
   closeLoader,
@@ -52,6 +52,7 @@ import {
   API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT,
   API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
   API_ENDPOINT_LEAVE_REQUEST,
+  API_ENDPOINT_LEAVE_REQUEST_DETAILS,
   prepare,
 } from 'services/endpoints';
 import {
@@ -169,8 +170,13 @@ function* fetchMyLeaveDetails(action: FetchMyLeaveRequestDetailsAction) {
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_REQUEST, {id: action.leaveRequestId}),
+      prepare(
+        API_ENDPOINT_LEAVE_REQUEST_DETAILS,
+        {id: action.leaveRequestId},
+        {model: 'detailed'},
+      ),
     );
+    console.log(response.data);
     if (response.data) {
       yield put(
         fetchMyLeaveDetailsFinished(assignColorToLeaveType(response.data)),
@@ -199,13 +205,16 @@ function* fetchMyLeaveDetails(action: FetchMyLeaveRequestDetailsAction) {
 function* changeMyLeaveRequestStatus(action: ChangeMyLeaveRequestStatusAction) {
   try {
     yield openLoader();
+    console.log({action: action.action.status});
     const response = yield apiCall(
-      apiPostCall,
-      prepare(API_ENDPOINT_LEAVE_REQUEST, {id: action.leaveRequestId}),
-      action.action,
+      apiPutCall,
+      prepare(API_ENDPOINT_LEAVE_REQUEST_DETAILS,{id: action.leaveRequestId}),
+      {action: action.action.status},
     );
 
-    if (response.success) {
+    console.log(response);
+
+    if (response.data) {
       //re-fetch with updated leave request data
       yield put(fetchMyLeaveDetailsAction(action.leaveRequestId));
       yield showSnackMessage(
@@ -223,6 +232,7 @@ function* changeMyLeaveRequestStatus(action: ChangeMyLeaveRequestStatusAction) {
       );
     }
   } catch (error) {
+    console.log(error);
     yield showSnackMessage(
       getMessageAlongWithGenericErrors(error, 'Failed to Update Leave Request'),
       TYPE_ERROR,

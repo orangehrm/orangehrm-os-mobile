@@ -49,7 +49,7 @@ class LeaveCommentListItem extends React.Component<LeaveCommentListItemProps> {
               ]}>
               <Text style={[styles.empNameText]}>
                 {leaveComment.createdByEmployee.firstName +
-                  ' ' +
+                  '' +
                   leaveComment.createdByEmployee.lastName}
               </Text>
               <FormattedDate

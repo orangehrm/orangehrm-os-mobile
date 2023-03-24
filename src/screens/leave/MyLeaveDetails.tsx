@@ -34,6 +34,10 @@ import {
   fetchMyLeaveDetails,
   changeMyLeaveRequestStatus,
 } from 'store/leave/leave-usage/actions';
+import {
+  changeEmployeeLeaveRequestComment,
+  fetchLeaveComment,
+} from 'store/leave/leave-list/actions';
 import Text from 'components/DefaultText';
 import Chip from 'components/DefaultChip';
 import FormattedDate from 'components/FormattedDate';
@@ -49,10 +53,16 @@ import {navigate} from 'lib/helpers/navigation';
 import {
   ACTION_CANCEL,
   ACTION_TYPE_CHANGE_STATUS,
+  CANCEL,
   LeaveRequestAllowedActions,
 } from 'store/leave/leave-list/types';
 import {LeaveDaysParam, LeaveCommentsParam} from 'screens/leave/navigators';
 import {LEAVE_TYPE_DELETED_YES} from 'store/leave/leave-usage/types';
+import {
+  selectEmployeeLeaveComment,
+  selectEmployeeLeaveRequest,
+  selectEmployeeLeaveRequestDetails,
+} from '../../store/leave/leave-list/selectors';
 
 class MyLeaveDetails extends React.Component<
   MyLeaveDetailsProps,
@@ -69,6 +79,7 @@ class MyLeaveDetails extends React.Component<
     const {leaveRequest} = this.props.route.params;
     if (this.props.leaveRequestDetail?.leaveRequestId !== leaveRequest.id) {
       this.props.fetchMyLeaveDetails(leaveRequest.id);
+      this.props.fetchLeaveComment(leaveRequest.id);
     }
   }
 
@@ -86,9 +97,10 @@ class MyLeaveDetails extends React.Component<
   };
 
   onPressAction = (status?: LeaveRequestAllowedActions) => () => {
+    console.log(status);
     const {leaveRequestDetail} = this.props;
     if (leaveRequestDetail && status) {
-      this.props.changeMyLeaveRequestStatus(leaveRequestDetail.leaveRequestId, {
+      this.props.changeMyLeaveRequestStatus(leaveRequestDetail.id, {
         actionType: ACTION_TYPE_CHANGE_STATUS,
         status,
       });
@@ -106,17 +118,22 @@ class MyLeaveDetails extends React.Component<
   };
 
   onPressComments = () => {
-    const {leaveRequestDetail} = this.props;
-    if (leaveRequestDetail) {
+    const {employeeLeaveComment} = this.props;
+
+    if (employeeLeaveComment) {
       navigate<LeaveCommentsParam>(LEAVE_COMMENTS, {
         employeeLeaveRequestSelector: selectLeaveRequestDetail,
-        changeEmployeeLeaveRequestStatusAction: changeMyLeaveRequestStatus,
+        employeeLeaveCommentSelector: selectEmployeeLeaveComment,
+        employeeLeaveRequestDetailsSelector: selectLeaveRequestDetail,
+        changeEmployeeLeaveRequestCommentAction:
+          changeEmployeeLeaveRequestComment,
       });
     }
   };
 
   render() {
-    const {theme, leaveRequestDetail} = this.props;
+    const {theme, leaveRequestDetail, employeeLeaveComment} = this.props;
+    console.log(leaveRequestDetail, 'dsdsds');
     const {action} = this.state;
     const leaveTypeColor = leaveRequestDetail?.leaveType.color;
     return (
@@ -133,16 +150,20 @@ class MyLeaveDetails extends React.Component<
                   backgroundColor: theme.palette.backgroundSecondary,
                 }}>
                 <View style={[styles.row, styles.footerView]}>
-                  {leaveRequestDetail.allowedActions.indexOf(ACTION_CANCEL) !==
-                  -1 ? (
-                    <View style={{paddingLeft: theme.spacing * 2}}>
-                      <Button
-                        title={'Cancel'}
-                        primary
-                        onPress={this.onPressCancelLeave}
-                      />
-                    </View>
-                  ) : null}
+                  {leaveRequestDetail.allowedActions.map((item) => {
+                    if (item.name === CANCEL) {
+                      return (
+                        <Button
+                          title={'Cancel'}
+                          bordered
+                          primary
+                          onPress={this.onPressCancelLeave}
+                        />
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
                 </View>
               </View>
             ) : null}
@@ -166,7 +187,13 @@ class MyLeaveDetails extends React.Component<
                 paddingVertical: theme.spacing * 2,
                 paddingRight: theme.spacing * 4,
               }}>
-              <Avatar name={leaveRequestDetail?.employeeName} />
+              <Avatar
+                name={
+                  leaveRequestDetail?.employee.firstName +
+                  '' +
+                  leaveRequestDetail?.employee.lastName
+                }
+              />
             </View>
             <View>
               <View style={{paddingHorizontal: theme.spacing * 2}}>
@@ -178,7 +205,9 @@ class MyLeaveDetails extends React.Component<
                       fontSize: theme.typography.fontSize * 1.2,
                     },
                   ]}>
-                  {leaveRequestDetail?.employeeName}
+                  {leaveRequestDetail?.employee.firstName +
+                    '' +
+                    leaveRequestDetail?.employee.lastName}
                 </Text>
               </View>
               <View
@@ -192,14 +221,14 @@ class MyLeaveDetails extends React.Component<
                     paddingBottom: theme.spacing,
                   }}>
                   <FormattedDate nested>
-                    {leaveRequestDetail?.fromDate}
+                    {leaveRequestDetail?.dates.fromDate}
                   </FormattedDate>
-                  {leaveRequestDetail?.fromDate !==
-                  leaveRequestDetail?.toDate ? (
+                  {leaveRequestDetail?.dates.fromDate !==
+                  leaveRequestDetail?.dates.toDate ? (
                     <>
                       {' to '}
                       <FormattedDate nested>
-                        {leaveRequestDetail?.toDate}
+                        {leaveRequestDetail?.dates.toDate}
                       </FormattedDate>
                     </>
                   ) : null}
@@ -223,10 +252,9 @@ class MyLeaveDetails extends React.Component<
                           ? {color: theme.typography.lightColor}
                           : {color: theme.typography.darkColor},
                       ]}>
-                      {leaveRequestDetail?.leaveType.type
-                        ? leaveRequestDetail?.leaveType.type +
-                          (leaveRequestDetail?.leaveType.deleted ===
-                          LEAVE_TYPE_DELETED_YES
+                      {leaveRequestDetail?.leaveType.name
+                        ? leaveRequestDetail?.leaveType.name +
+                          (leaveRequestDetail?.leaveType.deleted
                             ? ' (Deleted)'
                             : '')
                         : '--'}
@@ -238,17 +266,22 @@ class MyLeaveDetails extends React.Component<
           </View>
           <View style={[styles.row, styles.leaveBalanceView]}>
             <View>
-              {leaveRequestDetail?.leaveBreakdown
-                .split(',')
-                .map((text, index) => (
-                  <Text key={index}>{text.trim()}</Text>
-                ))}
+              {leaveRequestDetail?.leaveBreakdown.map((item, index) => {
+                return (
+                  <Text key={index}>
+                    {item.name + ' ' + '(' + item.lengthDays.toFixed(2) + ')'}
+                  </Text>
+                );
+              })}
             </View>
+
             <Text style={[{fontSize: theme.typography.smallFontSize}]}>
               {'Days Available: '}
-              {leaveRequestDetail?.leaveBalance
-                ? leaveRequestDetail?.leaveBalance
-                : '--'}
+              {leaveRequestDetail?.leaveBalances?.map((item) => {
+                return item.balance.balance
+                  ? item.balance.balance.toFixed(2)
+                  : '--';
+              })}
               {' Day(s)'}
             </Text>
           </View>
@@ -267,7 +300,7 @@ class MyLeaveDetails extends React.Component<
           />
           <Divider />
           <View>
-            {leaveRequestDetail?.comments.map((comment, index) => (
+            {employeeLeaveComment?.map((item, index) => (
               <View
                 key={index}
                 style={{
@@ -278,7 +311,7 @@ class MyLeaveDetails extends React.Component<
                   style={{
                     paddingVertical: theme.spacing * 3,
                   }}>
-                  <LeaveCommentListItem leaveComment={comment} />
+                  <LeaveCommentListItem leaveComment={item} />
                 </View>
               </View>
             ))}
@@ -325,11 +358,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: RootState) => ({
   leaveRequestDetail: selectLeaveRequestDetail(state),
+  employeeLeaveComment: selectEmployeeLeaveComment(state),
+  employeeLeaveRequestDetails: selectEmployeeLeaveRequestDetails(state),
 });
 
 const mapDispatchToProps = {
   fetchMyLeaveDetails: fetchMyLeaveDetails,
+  fetchLeaveComment: fetchLeaveComment,
   changeMyLeaveRequestStatus: changeMyLeaveRequestStatus,
+  changeEmployeeLeaveRequestComment: changeEmployeeLeaveRequestComment,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
