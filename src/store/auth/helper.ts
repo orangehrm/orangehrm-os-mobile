@@ -18,10 +18,9 @@
  *
  */
 
-export const getExpiredAt = (expiresIn: number = 3600): string => {
-  const expiredAt = new Date();
-  expiredAt.setSeconds(expiredAt.getSeconds() + expiresIn);
-  // release a minute
-  expiredAt.setMinutes(expiredAt.getMinutes() - 1);
-  return expiredAt.toISOString();
+import moment from 'moment';
+
+export const getExpiredAt = (expiresInUTC: string): string => {
+  // release 3 minutes
+  return moment(expiresInUTC).subtract(3, 'minutes').toISOString();
 };

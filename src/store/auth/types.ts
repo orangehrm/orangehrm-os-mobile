@@ -49,11 +49,11 @@ export const MY_INFO_FAILED = 'AUTH_MY_INFO_FAILED';
 export const FETCH_NEW_TOKEN_FINISHED = 'AUTH_FETCH_NEW_TOKEN_FINISHED';
 export const FETCH_API_VERSION = 'AUTH_FETCH_API_VERSION';
 
-export interface FetchTokenAction {
-  type: typeof FETCH_TOKEN;
-  username: string;
-  password: string;
-}
+// export interface FetchTokenAction {
+//   type: typeof FETCH_TOKEN;
+//   username: string;
+//   password: string;
+// }
 
 export interface LogoutAction {
   type: typeof LOGOUT;
@@ -101,7 +101,6 @@ export interface FetchNewTokenFinishedAction {
 }
 
 export type AuthActionTypes =
-  | FetchTokenAction
   | LogoutAction
   | FetchMyInfoAction
   | FetchMyInfoFinishedAction

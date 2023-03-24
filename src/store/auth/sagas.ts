@@ -19,7 +19,7 @@
  */
 
 import NetInfo, {NetInfoState} from '@react-native-community/netinfo';
-import {call, takeEvery, put, select} from 'redux-saga/effects';
+import {call, takeEvery, put, all, select} from 'redux-saga/effects';
 import {
   FETCH_TOKEN,
   LOGOUT,
@@ -34,6 +34,12 @@ import {
   FETCH_API_VERSION,
 } from 'store/auth/types';
 import {
+  PUBLIC_MOBILE_CLIENT_ID,
+  OAUTH_CALLBACK_URL,
+  checkLegacyInstance,
+} from 'services/authentication';
+import {
+  checkInstance as checkInstanceRequest,
   checkInstanceCompatibility,
   checkRemovedEndpoints,
   checkDeprecatedEndpoints,
@@ -69,6 +75,7 @@ import {
   fetchEnabledModulesFinished,
   fetchNewAuthTokenFinished,
 } from 'store/auth/actions';
+import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams, ApiDetails} from 'store/storage/types';
 import {selectApiDetails} from 'store/storage/selectors';
 import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
@@ -79,16 +86,16 @@ import {
   prepare,
 } from 'services/endpoints';
 import {InstanceCheckError} from 'services/errors/instance-check';
-import {authorize} from 'react-native-app-auth';
+import {
+  authorize,
+  AuthorizeResult,
+  AuthConfiguration,
+} from 'react-native-app-auth';
 
-//commented imports
+// commented imports
 // import {FetchTokenAction} from 'store/auth/types';
-// import {checkInstance as checkInstanceRequest} from 'services/instance-check';
-// import {checkLegacyInstance} from 'services/authentication';
-// import {all} from 'redux-saga/effects';
 // import {getEnabledModules} from 'services/instance-check';
 // import {myInfoFailed} from 'store/auth/actions';
-// import {getExpiredAt} from 'store/auth/helper';
 // import {
 //   isJsonParseError,
 //   ERROR_NO_ASSIGNED_EMPLOYEE,
@@ -109,143 +116,92 @@ import {authorize} from 'react-native-app-auth';
 function* checkInstance(action?: CheckInstanceAction) {
   try {
     yield openLoader();
-    yield* fetchApiVersion();
 
-    const instanceUrl: string = yield selectInstanceUrl();
-    const apiDetails: ApiDetails = yield select(selectApiDetails);
+    let instanceUrl: string = yield selectInstanceUrl();
 
+    // eslint-disable-next-line no-undef
+    let response: Response = yield call(checkInstanceRequest, instanceUrl);
+
+    // check instance in advanced
+    const urls = getAbsoluteUrlsForChecking(instanceUrl);
+
+    // if user enter web system login screen url
     if (
-      apiDetails[INSTANCE_API_VERSION] !== null ||
-      apiDetails[INSTANCE_API_VERSION] !== undefined
+      (!response.ok || !isJsonResponse(response)) &&
+      instanceUrl.includes('/index.php')
     ) {
-      const OAUTH_ISSUER = instanceUrl + '/web/index.php';
-      const OAUTH_CLIENT_ID = 'orangehrm_mobile_app';
-      const OAUTH_CALLBACK_URL = 'com.orangehrm.opensource://oauthredirect';
-
-      const config = {
-        serviceConfiguration: {
-          authorizationEndpoint: OAUTH_ISSUER + '/oauth2/authorize',
-          tokenEndpoint: OAUTH_ISSUER + '/oauth2/token',
-        },
-        clientId: OAUTH_CLIENT_ID,
-        redirectUrl: OAUTH_CALLBACK_URL,
-        additionalParameters: {},
-        usePKCE: true,
-        useNonce: false,
-        additionalHeaders: {Accept: 'application/json'},
-        connectionTimeoutSeconds: 5,
-        iosPrefersEphemeralSession: true,
-      };
-
-      try {
-        const authState = yield call(authorize, config);
-
-        //todo: handle error
-        if (authState.accessToken !== null && authState.refreshToken !== null) {
-          yield storageSetItem(ACCESS_TOKEN, authState.accessToken);
-          yield storageSetItem(REFRESH_TOKEN, authState.refreshToken);
-          yield storageSetItem(TOKEN_TYPE, authState.tokenType);
-          yield storageSetItem(SCOPE, authState.scope);
-
-          const expiresAt = new Date(authState.accessTokenExpirationDate);
-          yield storageSetItem(EXPIRES_AT, expiresAt.getTime().toString());
-        }
-
-        yield storageSetMulti({
-          [USERNAME]: 'admin', //TODO
-          [ACCESS_TOKEN]: authState.accessToken,
-          [REFRESH_TOKEN]: authState.refreshToken,
-          [TOKEN_TYPE]: authState.tokenType,
-          [SCOPE]: authState.scope,
-          // [EXPIRES_AT]: getExpiredAt(authState.accessTokenExpirationDate),
-        });
-
-        yield put(checkInstanceFinished(false));
-        yield put(fetchNewAuthTokenFinished());
-        yield* fetchMyInfo();
-      } catch (error) {
-        yield showSnackMessage('Failed to log in ' + error.message, TYPE_ERROR);
+      const splitedInstanceUrl =
+        instanceUrl.split('/index.php')[0] + '/index.php';
+      // eslint-disable-next-line no-undef
+      const res: Response = yield call(
+        checkInstanceRequestWithCatch,
+        splitedInstanceUrl,
+      );
+      if (res.ok && isJsonResponse(res)) {
+        response = res;
+        instanceUrl = splitedInstanceUrl;
       }
     }
 
-    // let response: Response = yield call(checkInstanceRequest, instanceUrl);
+    if (!response.ok || !isJsonResponse(response)) {
+      const effects = urls.map((url) => {
+        return call(checkInstanceRequestWithCatch, url);
+      });
+      // eslint-disable-next-line no-undef
+      const responses: Response[] = yield all(effects);
 
-    // // check instance in advanced
-    // const urls = getAbsoluteUrlsForChecking(instanceUrl);
+      for (let i = 0; i < responses.length; i++) {
+        if (responses[i]?.ok && isJsonResponse(responses[i])) {
+          response = responses[i];
+          instanceUrl = urls[i];
+          break;
+        }
+      }
+    }
 
-    // // if user enter web system login screen url
-    // if (
-    //   (!response.ok || !isJsonResponse(response)) &&
-    //   instanceUrl.includes('/index.php')
-    // ) {
-    //   const splitedInstanceUrl =
-    //     instanceUrl.split('/index.php')[0] + '/index.php';
-    //   // eslint-disable-next-line no-undef
-    //   const res: Response = yield call(
-    //     checkInstanceRequestWithCatch,
-    //     splitedInstanceUrl,
-    //   );
-    //   if (res.ok && isJsonResponse(res)) {
-    //     response = res;
-    //     instanceUrl = splitedInstanceUrl;
-    //   }
-    // }
+    // check instance is legacy
+    if (!response.ok || !isJsonResponse(response)) {
+      // evaluate original URL without concat paths
+      urls.unshift(instanceUrl);
+      const effects = urls.map((url) => {
+        return call(checkLegacyInstanceWithCatch, url);
+      });
+      // eslint-disable-next-line no-undef
+      const responses: Response[] = yield all(effects);
 
-    // if (!response.ok || !isJsonResponse(response)) {
-    //   const effects = urls.map((url) => {
-    //     return call(checkInstanceRequestWithCatch, url);
-    //   });
-    //   // eslint-disable-next-line no-undef
-    //   const responses: Response[] = yield all(effects);
+      for (let i = 0; i < responses.length; i++) {
+        // `/oauth/issueToken` endpoint content-type is `text/html`. Don't check isJsonResponse(response)
+        if (responses[i]?.ok) {
+          throw new InstanceCheckError(
+            'OrangeHRM System Is Not Supported With Mobile App.',
+          );
+        }
+      }
+    }
 
-    //   for (let i = 0; i < responses.length; i++) {
-    //     if (responses[i]?.ok && isJsonResponse(responses[i])) {
-    //       response = responses[i];
-    //       instanceUrl = urls[i];
-    //       break;
-    //     }
-    //   }
-    // }
+    if (response.ok && isJsonResponse(response)) {
+      yield storageSetItem(INSTANCE_URL, instanceUrl);
+      // const data: {
+      //   version: string;
+      // } = yield call([response, response.json]);
 
-    // // check instance is legacy
-    // if (!response.ok || !isJsonResponse(response)) {
-    //   // evaluate original URL without concat paths
-    //   urls.unshift(instanceUrl);
-    //   const effects = urls.map((url) => {
-    //     return call(checkLegacyInstanceWithCatch, url);
-    //   });
-    //   // eslint-disable-next-line no-undef
-    //   const responses: Response[] = yield all(effects);
+      // checkInstanceCompatibility(data);
+      // checkRemovedEndpoints(data);
+      // const usingDeprecatedEndpoints = checkDeprecatedEndpoints(data);
+      // if (usingDeprecatedEndpoints) {
+      //   yield showSnackMessage('Please Update the Application.', TYPE_WARN);
+      // }
 
-    //   for (let i = 0; i < responses.length; i++) {
-    //     // `/oauth/issueToken` endpoint content-type is `text/html`. Don't check isJsonResponse(response)
-    //     if (responses[i]?.ok) {
-    //       throw new InstanceCheckError(
-    //         'OrangeHRM System Is Not Supported With Mobile App.',
-    //       );
-    //     }
-    //   }
-    // }
+      // yield* fetchEnabledModules();
 
-    // if (response.ok && isJsonResponse(response)) {
-    //   yield storageSetItem(INSTANCE_URL, instanceUrl);
-    //   const data = yield call([response, response.json]);
+      yield* fetchAuthToken();
 
-    //   checkInstanceCompatibility(data);
-    //   checkRemovedEndpoints(data);
-    //   const usingDeprecatedEndpoints = checkDeprecatedEndpoints(data);
-    //   if (usingDeprecatedEndpoints) {
-    //     yield showSnackMessage('Please Update the Application.', TYPE_WARN);
-    //   }
-
-    //   yield* fetchEnabledModules();
-
-    //   yield put(checkInstanceFinished(false));
-    // } else {
-    //   yield storageSetItem(INSTANCE_URL, null);
-    //   yield showSnackMessage('Invalid URL.', TYPE_ERROR);
-    //   yield put(checkInstanceFinished(true));
-    // }
+      yield put(checkInstanceFinished(false));
+    } else {
+      yield storageSetItem(INSTANCE_URL, null);
+      yield showSnackMessage('Invalid URL.', TYPE_ERROR);
+      yield put(checkInstanceFinished(true));
+    }
   } catch (error) {
     yield storageSetItem(INSTANCE_URL, null);
     yield put(checkInstanceFinished(true));
@@ -279,29 +235,30 @@ function* checkInstance(action?: CheckInstanceAction) {
  * Wrap checkInstanceRequest function to catch errors
  * @param {string} instanceUrl
  */
-// function checkInstanceRequestWithCatch(instanceUrl: string) {
-//   return checkInstanceRequest(instanceUrl).catch(() => {
-//     return null;
-//   });
-// }
+function checkInstanceRequestWithCatch(instanceUrl: string) {
+  return checkInstanceRequest(instanceUrl).catch(() => {
+    return null;
+  });
+}
 
-// function checkLegacyInstanceWithCatch(instanceUrl: string) {
-//   return checkLegacyInstance(instanceUrl).catch(() => {
-//     return null;
-//   });
-// }
+function checkLegacyInstanceWithCatch(instanceUrl: string) {
+  return checkLegacyInstance(instanceUrl).catch(() => {
+    return null;
+  });
+}
 
-// function isJsonResponse(response: Response) {
-//   return response?.headers.get('Content-Type') === 'application/json';
-// }
+// eslint-disable-next-line no-undef
+function isJsonResponse(response: Response) {
+  return response?.headers.get('Content-Type') === 'application/json';
+}
 
-// function getAbsoluteUrlsForChecking(instanceUrl: string) {
-//   return [
-//     instanceUrl + '/symfony/web',
-//     instanceUrl + '/symfony/web/index.php',
-//     instanceUrl + '/index.php',
-//   ];
-// }
+function getAbsoluteUrlsForChecking(instanceUrl: string) {
+  return [
+    instanceUrl + '/web/index.php',
+    instanceUrl + '/web',
+    instanceUrl + '/index.php',
+  ];
+}
 
 function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
   try {
@@ -380,35 +337,35 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
 function* fetchAuthToken() {
   try {
     yield openLoader();
-    yield* checkInstance();
 
     const authParams: AuthParams = yield selectAuthParams();
 
     if (authParams.instanceUrl !== null) {
-      // const response: Response = yield call(
-      //   authenticate,
-      //   authParams.instanceUrl,
-      //   action.username,
-      //   action.password,
-      // );
+      const config: AuthConfiguration = {
+        serviceConfiguration: {
+          authorizationEndpoint: authParams.instanceUrl + '/oauth2/authorize',
+          tokenEndpoint: authParams.instanceUrl + '/oauth2/token',
+        },
+        clientId: PUBLIC_MOBILE_CLIENT_ID,
+        redirectUrl: OAUTH_CALLBACK_URL,
+        additionalParameters: {},
+        usePKCE: true,
+        useNonce: false,
+        additionalHeaders: {Accept: 'application/json'},
+        connectionTimeoutSeconds: 5,
+        iosPrefersEphemeralSession: true,
+      };
 
-      // const data = yield call([response, response.json]);
-      // if (data.error) {
-      //   if (data.error === 'authentication_failed') {
-      //     throw new AuthenticationError(data.error_description);
-      //   } else {
-      //     throw new AuthenticationError('Invalid Credentials.');
-      //   }
-      // } else {
-      // yield storageSetMulti({
-      //   [ACCESS_TOKEN]: data.access_token,
-      //   [REFRESH_TOKEN]: data.refresh_token,
-      //   [TOKEN_TYPE]: data.token_type,
-      //   [SCOPE]: data.scope,
-      //   [EXPIRES_AT]: getExpiredAt(data.expires_in),
-      // });
-      yield put(fetchNewAuthTokenFinished()); //change flow
-      // }
+      const authState: AuthorizeResult = yield call(authorize, config);
+
+      yield storageSetMulti({
+        [ACCESS_TOKEN]: authState.accessToken,
+        [REFRESH_TOKEN]: authState.refreshToken,
+        [TOKEN_TYPE]: authState.tokenType,
+        [SCOPE]: authState.scopes.join(' '),
+        [EXPIRES_AT]: getExpiredAt(authState.accessTokenExpirationDate),
+      });
+      yield put(fetchNewAuthTokenFinished());
     } else {
       yield showSnackMessage('Instance URL is empty.', TYPE_ERROR);
     }
@@ -565,13 +522,12 @@ function* fetchApiDefinition(
   }
 }
 
+/**
+ * @todo
+ */
 function* fetchApiVersion() {
   try {
-    const response = yield apiCall(
-      apiGetCall,
-      prepare('/web/index.php' + API_ENDPOINT_API_VERSION),
-      false,
-    );
+    const response = yield apiCall(apiGetCall, API_ENDPOINT_API_VERSION, false);
 
     if (response.data.version) {
       yield storageSetItem(INSTANCE_API_VERSION, response.data.version);

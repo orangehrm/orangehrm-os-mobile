@@ -270,17 +270,12 @@ const Navigator = (props: NavigatorProps) => {
         view = <Overlay modalProps={{visible: true}} />;
       }
     } else {
-      let initialRouteName = SELECT_INSTANCE;
-      if (instanceUrl === null) {
-        initialRouteName = SELECT_INSTANCE;
-      }
-
       view = (
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName={initialRouteName}>
+          initialRouteName={SELECT_INSTANCE}>
           <Stack.Screen name={SELECT_INSTANCE} component={SelectInstance} />
           <Stack.Screen
             name={SELECT_INSTANCE_HELP}

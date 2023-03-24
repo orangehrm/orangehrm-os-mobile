@@ -19,7 +19,7 @@
  */
 
 import {
-  FETCH_TOKEN,
+  // FETCH_TOKEN,
   LOGOUT,
   FETCH_MY_INFO,
   FETCH_MY_INFO_FINISHED,
@@ -29,7 +29,7 @@ import {
   FETCH_ENABLED_MODULES_FINISHED,
   MY_INFO_FAILED,
   FETCH_NEW_TOKEN_FINISHED,
-  FetchTokenAction,
+  // FetchTokenAction,
   LogoutAction,
   FetchMyInfoAction,
   FetchMyInfoFinishedAction,
@@ -44,16 +44,16 @@ import {
 } from 'store/auth/types';
 import {$PropertyType} from 'utility-types';
 
-export const fetchAuthToken = (
-  username: string,
-  password: string,
-): FetchTokenAction => {
-  return {
-    type: FETCH_TOKEN,
-    username,
-    password,
-  };
-};
+// export const fetchAuthToken = (
+//   username: string,
+//   password: string,
+// ): FetchTokenAction => {
+//   return {
+//     type: FETCH_TOKEN,
+//     username,
+//     password,
+//   };
+// };
 
 export const logout = (): LogoutAction => {
   return {
