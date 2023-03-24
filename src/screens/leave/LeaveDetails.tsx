@@ -320,7 +320,7 @@ class LeaveDetails extends React.Component<
                 (item, index) => {
                   return (
                     <Text key={index}>
-                      {item.name + ' ' + '(' + item.lengthDays + ')'}
+                      {item.name + ' ' + '(' + item.lengthDays.toFixed(2) + ')'}
                     </Text>
                   );
                 },
@@ -329,7 +329,7 @@ class LeaveDetails extends React.Component<
             <Text style={[{fontSize: theme.typography.smallFontSize}]}>
               {'Days Available: '}
               {employeeLeaveRequestDetails?.leaveBalances?.map((item) => {
-                return item.balance.balance;
+                return item.balance.balance.toFixed(2);
               })}
               {' Day(s)'}
             </Text>

@@ -74,8 +74,8 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
       return 'Half Day - Morning';
     } else if (duration.duration.type === HALF_DAY_AFTERNOON) {
       return 'Half Day - Afternoon';
-    } else if (duration.singleType === SPECIFY_TIME) {
-      return duration.singleFromTime + ' - ' + duration.singleToTime;
+    } else if (duration.duration.type === SPECIFY_TIME) {
+      return duration.duration.fromTime + ' - ' + duration.duration.toTime;
     }
     return undefined;
   };

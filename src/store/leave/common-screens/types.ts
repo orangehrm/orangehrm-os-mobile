@@ -163,9 +163,11 @@ export interface SingleDayLeaveRequestFullDay {
 }
 
 export interface SingleDayLeaveRequestSpecifyTime {
-  singleType: typeof SPECIFY_TIME;
-  singleFromTime: string;
-  singleToTime: string;
+  duration: {
+    type: typeof SPECIFY_TIME;
+    fromTime: string;
+    toTime: string;
+  };
 }
 
 export type HalfDayType = typeof HALF_DAY_MORNING | typeof HALF_DAY_AFTERNOON;

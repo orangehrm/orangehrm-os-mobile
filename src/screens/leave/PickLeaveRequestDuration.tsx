@@ -82,20 +82,20 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
   };
 
   isSpecifyTime = (duration?: SingleDayDuration) => {
-    return duration?.singleType === SPECIFY_TIME;
+    return duration?.duration.type === SPECIFY_TIME;
   };
 
   getFromTime = (duration?: SingleDayDuration) => {
     const {workShift} = this.props;
-    return duration?.singleType === SPECIFY_TIME
-      ? duration.singleFromTime
+    return duration?.duration.type === SPECIFY_TIME
+      ? duration?.duration.fromTime
       : workShift.startTime;
   };
 
   getToTime = (duration?: SingleDayDuration) => {
     const {workShift} = this.props;
-    return duration?.singleType === SPECIFY_TIME
-      ? duration.singleToTime
+    return duration?.duration.type === SPECIFY_TIME
+      ? duration?.duration.toTime
       : workShift.endTime;
   };
 
@@ -105,10 +105,13 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
       duration?: SingleDayDuration,
     ) =>
     (time: string) => {
-      if (duration?.singleType === SPECIFY_TIME) {
+      if (duration?.duration.type === SPECIFY_TIME) {
         pickSingleDayDuration({
-          ...duration,
-          singleFromTime: time,
+          duration: {
+            type: SPECIFY_TIME,
+            fromTime: time,
+            toTime: duration.duration.toTime,
+          },
         });
       }
     };
@@ -119,10 +122,13 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
       duration?: SingleDayDuration,
     ) =>
     (time: string) => {
-      if (duration?.singleType === SPECIFY_TIME) {
+      if (duration?.duration.type === SPECIFY_TIME) {
         pickSingleDayDuration({
-          ...duration,
-          singleToTime: time,
+          duration: {
+            type: SPECIFY_TIME,
+            fromTime: duration.duration.fromTime,
+            toTime: time,
+          },
         });
       }
     };
@@ -198,9 +204,11 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
               style={{...radioStyle}}
               onPress={() => {
                 pickSingleDayDuration({
-                  singleType: SPECIFY_TIME,
-                  singleFromTime: workShift.startTime,
-                  singleToTime: workShift.endTime,
+                  duration: {
+                    type: SPECIFY_TIME,
+                    fromTime: workShift.startTime,
+                    toTime: workShift.endTime,
+                  },
                 });
               }}
             />
