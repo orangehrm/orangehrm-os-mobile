@@ -95,6 +95,8 @@ export const getMessageAlongWithResponseErrors = (
       } else {
         return response.error[0];
       }
+    } else if (response.error?.message) {
+      return response.error?.message;
     }
   }
   return defaultMessage;

@@ -149,8 +149,7 @@ class PickLeaveRequestPartialDays extends React.Component<PickLeaveRequestPartia
                 onPress={() => {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_ALL,
-                    startDayType: HALF_DAY,
-                    startDayAMPM: HALF_DAY_MORNING,
+                    duration: {type: HALF_DAY},
                   });
                 }}
               />
@@ -163,8 +162,7 @@ class PickLeaveRequestPartialDays extends React.Component<PickLeaveRequestPartia
                 onPress={() => {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_START,
-                    startDayType: HALF_DAY,
-                    startDayAMPM: HALF_DAY_MORNING,
+                    duration: {type: HALF_DAY},
                   });
                 }}
               />
@@ -189,8 +187,7 @@ class PickLeaveRequestPartialDays extends React.Component<PickLeaveRequestPartia
                 onPress={() => {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_START_END,
-                    startDayType: HALF_DAY,
-                    startDayAMPM: HALF_DAY_MORNING,
+                    duration: {type: HALF_DAY},
                     endDayType: HALF_DAY,
                     endDayAMPM: HALF_DAY_MORNING,
                   });

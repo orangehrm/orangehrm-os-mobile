@@ -19,7 +19,12 @@
  */
 
 import {takeEvery, put} from 'redux-saga/effects';
-import {apiCall, apiGetCall, apiPostCall} from 'store/saga-effects/api';
+import {
+  apiCall,
+  apiGetCall,
+  apiPostCall,
+  apiPutCall,
+} from 'store/saga-effects/api';
 import {
   openLoader,
   closeLoader,
@@ -36,7 +41,8 @@ import {
   ACTION_TYPE_CHANGE_STATUS,
   FetchEmployeeLeaveRequestDetailsAction,
   FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS,
-  CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT, ChangeEmployeeLeaveRequestCommentAction,
+  CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT,
+  ChangeEmployeeLeaveRequestCommentAction,
 } from 'store/leave/leave-list/types';
 import {
   fetchLeaveListFinished,
@@ -208,20 +214,18 @@ function* fetchLeaveComment(action: FetchLeaveCommentAction) {
 function* changeEmployeeLeaveRequestStatus(
   action: ChangeEmployeeLeaveRequestStatusAction,
 ) {
-  console.log(action);
   try {
     yield openLoader();
-    const response = yield apiCall(
-      apiPostCall,
-      prepare(API_ENDPOINT_LEAVE_REQUEST_DETAILS, {id: action.leaveRequestId}),
-      {action: action.status},
-    );
 
-    console.log(response);
+    const response = yield apiCall(
+      apiPutCall,
+      prepare(API_ENDPOINT_LEAVE_REQUEST_DETAILS, {id: action.leaveRequestId}),
+      {action: action.action.status},
+    );
 
     if (response.data) {
       //re-fetch with updated leave request data
-      yield put(fetchLeaveCommentAction(action.leaveRequestId));
+      yield put(fetchEmployeeLeaveRequestDetailsAction(action.leaveRequestId));
       yield showSnackMessage(
         action.action.actionType === ACTION_TYPE_CHANGE_STATUS
           ? 'Successfully Updated'
@@ -237,7 +241,6 @@ function* changeEmployeeLeaveRequestStatus(
       );
     }
   } catch (error) {
-    console.log(error);
     yield showSnackMessage(
       getMessageAlongWithGenericErrors(error, 'Failed to Update Leave Request'),
       TYPE_ERROR,

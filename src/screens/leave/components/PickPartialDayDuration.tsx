@@ -40,17 +40,16 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
     return (
       (partialOption?.partialOption === PARTIAL_OPTION_ALL ||
         partialOption?.partialOption === PARTIAL_OPTION_START) &&
-      partialOption?.startDayType === HALF_DAY &&
-      partialOption?.startDayAMPM === HALF_DAY_AFTERNOON
+      partialOption?.duration.type === HALF_DAY_AFTERNOON
     );
   };
 
   isStartDayHalfDayMorning = (partialOption?: MultipleDayPartialOption) => {
+    console.log(partialOption, 'dsdsdsdsdsdsdsdsdsdsd');
     return (
       (partialOption?.partialOption === PARTIAL_OPTION_ALL ||
         partialOption?.partialOption === PARTIAL_OPTION_START) &&
-      partialOption?.startDayType === HALF_DAY &&
-      partialOption?.startDayAMPM === HALF_DAY_MORNING
+      partialOption?.duration.type === HALF_DAY_MORNING
     );
   };
 
@@ -233,14 +232,12 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
                 if (partialOption?.partialOption === PARTIAL_OPTION_ALL) {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_ALL,
-                    startDayType: HALF_DAY,
-                    startDayAMPM: HALF_DAY_MORNING,
+                    duration: {type: HALF_DAY},
                   });
                 } else {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_START,
-                    startDayType: HALF_DAY,
-                    startDayAMPM: HALF_DAY_MORNING,
+                    duration: {type: HALF_DAY},
                   });
                 }
               }}
@@ -248,14 +245,12 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
                 if (partialOption?.partialOption === PARTIAL_OPTION_ALL) {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_ALL,
-                    startDayType: HALF_DAY,
-                    startDayAMPM: HALF_DAY_AFTERNOON,
+                    duration: {type: HALF_DAY},
                   });
                 } else {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_START,
-                    startDayType: HALF_DAY,
-                    startDayAMPM: HALF_DAY_AFTERNOON,
+                    duration: {type: HALF_DAY},
                   });
                 }
               }}
@@ -408,8 +403,7 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
                     startDayToTime: undefined,
                   }),
                   partialOption: PARTIAL_OPTION_START_END,
-                  startDayType: HALF_DAY,
-                  startDayAMPM: HALF_DAY_MORNING,
+                  duration: {type: HALF_DAY},
                 });
               }}
               onPressHalfDayAfternoon={() => {

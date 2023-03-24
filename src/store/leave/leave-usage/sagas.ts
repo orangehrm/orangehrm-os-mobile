@@ -74,24 +74,21 @@ function* fetchMyLeaveEntitlements() {
     yield put(setApplyLeaveErrorMessage());
     console.log('calling my leave 78787', response);
     if (response.data) {
-      const responseLeaveBalance = yield apiCall(
-        apiGetCall,
-        API_ENDPOINT_LEAVE_MY_LEAVE_BALANCE,
-        false,
-      );
+      // const responseLeaveBalance = yield apiCall(
+      //   apiGetCall,
+      //   API_ENDPOINT_LEAVE_MY_LEAVE_BALANCE,
+      //   false,
+      // );
 
       // const allData = assignLeaveBalance(
       //   response.data,
       //   responseLeaveBalance.data,
       // );
-      console.log('dfdfdfdf', responseLeaveBalance);
       // console.log(allData, 'object');
 
       yield put(
         fetchMyLeaveEntitlementsFinished(
-          assignColorsToLeaveTypes(
-            assignLeaveBalance(response.data, responseLeaveBalance.data),
-          ),
+          assignColorsToLeaveTypes(response.data),
         ),
       );
     } else {

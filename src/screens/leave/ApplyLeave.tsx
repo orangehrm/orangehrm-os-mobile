@@ -215,7 +215,7 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       const leaveRequest: LeaveRequest = {
         fromDate: fromDate,
         toDate: toDate ? toDate : fromDate,
-        type: selectedLeaveType?.leaveType.id,
+        leaveTypeId: selectedLeaveType?.leaveType.id,
         comment: comment === '' ? undefined : comment,
       };
       if (isSingleDayRequest(fromDate, toDate)) {
@@ -280,6 +280,7 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       comment: commentSaved,
       errorMessage,
     } = this.props;
+    console.log(fromDate);
     const {typingComment, requestDaysError, comment} = this.state;
     return (
       <MainLayout

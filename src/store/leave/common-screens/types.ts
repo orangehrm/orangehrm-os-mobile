@@ -118,20 +118,21 @@ export type ApplyLeaveActionTypes =
   | FetchWorkWeekFinishedAction;
 
 export interface LeaveRequest {
-  type: string;
+  leaveTypeId: number;
   fromDate: string;
   toDate: string;
   comment?: string;
 }
 
 export type SingleDayDuration =
-  | SingleDayLeaveRequestHalfDay
+  | SingleDayLeaveRequestHalfDayMorning
+  | SingleDayLeaveRequestHalfDayAfterNoon
   | SingleDayLeaveRequestFullDay
   | SingleDayLeaveRequestSpecifyTime;
 
 export type SingleDayLeaveRequest = SingleDayDuration & LeaveRequest;
 
-export const HALF_DAY = 'half_day';
+export const HALF_DAY = 'half_day_morning';
 export const FULL_DAY = 'full_day';
 export const SPECIFY_TIME = 'specify_time';
 export const PARTIAL_OPTION_ALL = 'all';
@@ -139,8 +140,8 @@ export const PARTIAL_OPTION_START = 'start';
 export const PARTIAL_OPTION_END = 'end';
 export const PARTIAL_OPTION_START_END = 'start_end';
 export const PARTIAL_OPTION_NONE = 'none';
-export const HALF_DAY_MORNING = 'AM';
-export const HALF_DAY_AFTERNOON = 'PM';
+export const HALF_DAY_MORNING = 'half_day_morning';
+export const HALF_DAY_AFTERNOON = 'half_day_afternoon';
 export const DEFAULT_FROM_TIME = '09:00';
 export const DEFAULT_TO_TIME = '17:00';
 export const DEFAULT_WORK_SHIFT = {
@@ -149,13 +150,16 @@ export const DEFAULT_WORK_SHIFT = {
   endTime: DEFAULT_TO_TIME,
 };
 
-export interface SingleDayLeaveRequestHalfDay {
-  singleType: typeof HALF_DAY;
-  singleAMPM: HalfDayType;
+export interface SingleDayLeaveRequestHalfDayMorning {
+  duration: {type: typeof HALF_DAY_MORNING};
+}
+
+export interface SingleDayLeaveRequestHalfDayAfterNoon {
+  duration: {type: typeof HALF_DAY_AFTERNOON};
 }
 
 export interface SingleDayLeaveRequestFullDay {
-  singleType: typeof FULL_DAY;
+  duration: {type: typeof FULL_DAY};
 }
 
 export interface SingleDayLeaveRequestSpecifyTime {
@@ -213,8 +217,7 @@ export type PartialOptionsEndDay =
   | PartialOptionsEndDaySpecifyTime;
 
 export interface PartialOptionsStartDayHalfDay {
-  startDayType: typeof HALF_DAY;
-  startDayAMPM: HalfDayType;
+  duration: {type: typeof HALF_DAY};
 }
 
 export interface PartialOptionsStartDaySpecifyTime {

@@ -59,7 +59,6 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
       (item) => item.id === selectedLeaveTypeId,
     );
 
-
     return (
       <>
         <View
@@ -113,9 +112,7 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
                 ]}>
                 <Text>
                   {selectedLeaveType?.fromDate ? (
-                    <FormattedDate>
-                      {selectedLeaveType?.fromDate}
-                    </FormattedDate>
+                    <FormattedDate>{selectedLeaveType?.fromDate}</FormattedDate>
                   ) : (
                     <Text>{'- -'}</Text>
                   )}
@@ -129,11 +126,8 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
               </View>
               <Divider />
               <ProgressCircle
-                progress={this.calculateProgress(
-                  selectedLeaveType?.leaveBalance.entitled,
-                  selectedLeaveType?.leaveBalance.used,
-                )}
-                usedDays={selectedLeaveType?.leaveBalance.used.toFixed(2)}
+                progress={this.calculateProgress(7, 4.75)}
+                usedDays={'4.75'}
                 mainColor={selectedLeaveType?.leaveType.color}
               />
             </CardContent>
@@ -153,12 +147,13 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
                   },
                 ]}>
                 <Text>{'Total Entitlement'}</Text>
-                <Text>
-                  {selectedLeaveType?.leaveBalance.entitled
-                    ? selectedLeaveType?.leaveBalance.entitled.toFixed(2)
-                    : '0.00'}
-                  {' Day(s)'}
-                </Text>
+                <Text>{'7.00 Day(s)'}</Text>
+                {/*<Text>*/}
+                {/*  {selectedLeaveType?.leaveBalance.entitled*/}
+                {/*    ? selectedLeaveType?.leaveBalance.entitled.toFixed(2)*/}
+                {/*    : '0.00'}*/}
+                {/*  {' Day(s)'}*/}
+                {/*</Text>*/}
               </View>
             </CardActions>
           </Card>
