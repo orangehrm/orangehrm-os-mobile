@@ -207,7 +207,7 @@ export function* apiDeleteCall(endpoint: string, body: object) {
     headers.append('Authorization', `Bearer ${authParams.accessToken}`);
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
-    
+
     const bodyKeys = Object.keys(body);
 
     const requestOptions = {

@@ -18,7 +18,8 @@
  *
  */
 
-import React, {useCallback, Fragment, useEffect} from 'react';
+import React, {useCallback, Fragment} from 'react';
+// import  {useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -46,9 +47,9 @@ import {
   selectMyInfo,
   selectEnabledModules,
 } from 'store/auth/selectors';
-import {helpRequestForMobile} from 'store/help/types';
-import {selectHelp} from 'store/help/selectors';
-import {fetchConfigHelp} from 'store/help/actions';
+// import {helpRequestForMobile} from 'store/help/types';
+// import {selectHelp} from 'store/help/selectors';
+// import {fetchConfigHelp} from 'store/help/actions';
 import {
   fetchMyInfo as fetchMyInfoAction,
   logout as logoutAction,
@@ -58,7 +59,7 @@ import {getDrawerItems} from 'services/drawer';
 import {SUBHEADER_LEAVE, SUBHEADER_TIME} from 'screens';
 import useApiDetails from 'lib/hook/useApiDetails';
 import {ORANGEHRM_API_1$3$0} from 'services/instance-check';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import {HELP_REDIRECT_URL} from 'services/endpoints';
 
 const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
@@ -103,7 +104,6 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   }
 
   const onPressHelp = () => {
-    console.log('help');
     // props.fetchHelp(helpRequestForMobile);
     const url = HELP_REDIRECT_URL;
     if (url !== undefined) {

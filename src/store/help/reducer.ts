@@ -21,7 +21,7 @@
 // import {
 //   FETCH_HELP_CONFIG_FINISHED,
 //   HelpConfigState,
-  // HelpConfigActionTypes,
+// HelpConfigActionTypes,
 // } from './types';
 // import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 

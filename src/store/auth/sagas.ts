@@ -83,6 +83,7 @@ import {getMessageAlongWithGenericErrors} from 'services/api';
 import {
   API_ENDPOINT_API_VERSION,
   API_ENDPOINT_MY_INFO_NEW,
+  API_ENDPOINT_ENABLED_MODULE_NEW,
   prepare,
 } from 'services/endpoints';
 import {InstanceCheckError} from 'services/errors/instance-check';
@@ -268,35 +269,30 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
     // const instanceUrl: string = yield selectInstanceUrl();
     // const response: Response = yield call(getEnabledModules, instanceUrl);
 
-    //get enable modules , leave peroid defined , time period defined from API
-    const responseData = {
-      data: {
-        modules: {
-          admin: true,
-          pim: true,
-          leave: true,
-          time: true,
-          recruitment: true,
-          performance: true,
-          dashboard: true,
-          directory: true,
-          maintenance: true,
-          mobile: true,
-        },
-        meta: {
-          leave: {
-            isLeavePeriodDefined: true,
-          },
-          time: {
-            isTimePeriodDefined: true,
+    const response = yield apiCall(
+      apiGetCall,
+      prepare(API_ENDPOINT_ENABLED_MODULE_NEW, {}, {}),
+      false,
+    );
+
+    if (response.data) {
+      const responseData = {
+        data: {
+          modules: response.data,
+          meta: {
+            leave: {
+              isLeavePeriodDefined: true,
+            },
+            time: {
+              isTimePeriodDefined: true,
+            },
           },
         },
-      },
-    };
+      };
 
-    yield put(fetchEnabledModulesFinished(responseData.data));
-    return;
-
+      yield put(fetchEnabledModulesFinished(responseData.data));
+      return;
+    }
     // if (response.ok) {
     //   const responseData = yield call([response, response.json]);
 

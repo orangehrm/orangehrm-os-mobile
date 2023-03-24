@@ -62,7 +62,7 @@ export const API_ENDPOINT_ENABLED_MODULES = '/api/v1/enabled-modules';
 export const API_ENDPOINT_AUTH_ISSUE_TOKEN = '/oauth2/token';
 export const API_ENDPOINT_API_VERSION = '/api/v2/core/public/version';
 export const API_ENDPOINT_MY_INFO_NEW = '/api/v2/pim/myself';
-
+export const API_ENDPOINT_ENABLED_MODULE_NEW = '/api/v2/admin/modules';
 //help
 export const HELP_REDIRECT_URL =
   'https://starterhelp.orangehrm.com/hc/en-us/categories/360002945899-Mobile-App';
