@@ -58,7 +58,6 @@ import {getDrawerItems} from 'services/drawer';
 import {SUBHEADER_LEAVE, SUBHEADER_TIME} from 'screens';
 import useApiDetails from 'lib/hook/useApiDetails';
 import {ORANGEHRM_API_1$3$0} from 'services/instance-check';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   const {
@@ -77,7 +76,6 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   }, [fetchMyInfo]);
 
   const logoutOnPress = useCallback(() => {
-    AsyncStorage.removeItem('WarningRead');
     drawerContentProps.navigation.closeDrawer();
     logout();
   }, [logout, drawerContentProps]);

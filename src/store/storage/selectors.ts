@@ -22,7 +22,6 @@ import {RootState} from 'store';
 import {createSelector} from 'reselect';
 import {
   INSTANCE_URL,
-  USERNAME,
   ACCESS_TOKEN,
   REFRESH_TOKEN,
   EXPIRES_AT,
@@ -44,12 +43,6 @@ export const selectInstanceUrl = createSelector<
   StorageState,
   NullableString
 >(selectStorage, (storage) => storage[INSTANCE_URL]);
-
-export const selectUsername = createSelector<
-  RootState,
-  StorageState,
-  NullableString
->(selectStorage, (storage) => storage[USERNAME]);
 
 export const selectStorageLoaded = createSelector<
   RootState,
@@ -92,3 +85,9 @@ export const selectDateFormat = createSelector<
   StorageState,
   NullableString
 >([selectStorage], (storage) => storage[DATE_FORMAT]);
+
+export const selectIsAuthenticated = createSelector<
+  RootState,
+  StorageState,
+  boolean
+>([selectStorage], (storage) => storage.accessToken !== null);

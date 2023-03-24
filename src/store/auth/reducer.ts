@@ -26,7 +26,6 @@ import {
   CHECK_INSTANCE_FINISHED,
   FETCH_ENABLED_MODULES_FINISHED,
   MY_INFO_FAILED,
-  FETCH_NEW_TOKEN_FINISHED,
   AuthActionTypes,
 } from 'store/auth/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
@@ -36,7 +35,6 @@ const initialState: AuthState = {
   isCalledMyInfo: false,
   isFinishedMyInfo: false,
   checkingInstance: false,
-  isAuthenticated: false,
 };
 
 const authReducer = (
@@ -76,11 +74,6 @@ const authReducer = (
       return {
         ...state,
         enabledModules: action.payload,
-      };
-    case FETCH_NEW_TOKEN_FINISHED:
-      return {
-        ...state,
-        isAuthenticated: true,
       };
     case MY_INFO_FAILED:
       return {
