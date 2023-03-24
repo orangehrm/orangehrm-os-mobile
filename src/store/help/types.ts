@@ -18,46 +18,46 @@
  *
  */
 
-export const helpRequestForMobile = {
-  mode: 'category',
-  query: 'Mobile',
-};
+// export const helpRequestForMobile = {
+//   mode: 'category',
+//   query: 'Mobile',
+// };
 
-export interface HelpRequest {
-  query: string;
-  mode: string;
-  labels?: string[];
-  categories?: string[];
-}
+// export interface HelpRequest {
+//   query: string;
+//   mode: string;
+//   labels?: string[];
+//   categories?: string[];
+// }
 
-export interface HelpConfigState {
-  help?: HelpConfig;
-}
+// export interface HelpConfigState {
+//   help?: HelpConfig;
+// }
 
-export interface ArticleObject {
-  name: string;
-  url: string;
-}
+// export interface ArticleObject {
+//   name: string;
+//   url: string;
+// }
 
-export interface HelpConfig {
-  defaultRedirectUrl: string;
-  redirectUrls: ArticleObject[];
-}
+// export interface HelpConfig {
+//   defaultRedirectUrl: string;
+//   redirectUrls: ArticleObject[];
+// }
 
-export const FETCH_HELP_CONFIG = 'HELP_FETCH_HELP';
-export const FETCH_HELP_CONFIG_FINISHED = 'HELP_FETCH_HELP_FINISHED';
+// export const FETCH_HELP_CONFIG = 'HELP_FETCH_HELP';
+// export const FETCH_HELP_CONFIG_FINISHED = 'HELP_FETCH_HELP_FINISHED';
 
-export interface FetchHelpConfigAction {
-  type: typeof FETCH_HELP_CONFIG;
-  payload: HelpRequest;
-}
+// export interface FetchHelpConfigAction {
+//   type: typeof FETCH_HELP_CONFIG;
+//   payload: HelpRequest;
+// }
 
-export interface FetchHelpConfigFinishedAction {
-  type: typeof FETCH_HELP_CONFIG_FINISHED;
-  payload?: HelpConfig;
-  error: boolean;
-}
+// export interface FetchHelpConfigFinishedAction {
+//   type: typeof FETCH_HELP_CONFIG_FINISHED;
+//   payload?: HelpConfig;
+//   error: boolean;
+// }
 
-export type HelpConfigActionTypes =
-  | FetchHelpConfigAction
-  | FetchHelpConfigFinishedAction;
+// export type HelpConfigActionTypes =
+//   | FetchHelpConfigAction
+//   | FetchHelpConfigFinishedAction;

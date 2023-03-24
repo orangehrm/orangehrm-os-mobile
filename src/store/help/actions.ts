@@ -18,27 +18,27 @@
  *
  */
 
-import {
-  HelpConfig,
-  FETCH_HELP_CONFIG,
-  FETCH_HELP_CONFIG_FINISHED,
-  FetchHelpConfigAction,
-  FetchHelpConfigFinishedAction,
-} from './types';
-import {$PropertyType} from 'utility-types';
+// import {
+//   HelpConfig,
+//   FETCH_HELP_CONFIG,
+//   FETCH_HELP_CONFIG_FINISHED,
+//   FetchHelpConfigAction,
+//   FetchHelpConfigFinishedAction,
+// } from './types';
+// import {$PropertyType} from 'utility-types';
 
-export const fetchConfigHelp = (
-  payload: $PropertyType<FetchHelpConfigAction, 'payload'>,
-): FetchHelpConfigAction => ({
-  type: FETCH_HELP_CONFIG,
-  payload,
-});
+// export const fetchConfigHelp = (
+//   payload: $PropertyType<FetchHelpConfigAction, 'payload'>,
+// ): FetchHelpConfigAction => ({
+//   type: FETCH_HELP_CONFIG,
+//   payload,
+// });
 
-export const fetchHelpConfigFinished = (
-  payload?: HelpConfig,
-  error: boolean = false,
-): FetchHelpConfigFinishedAction => ({
-  type: FETCH_HELP_CONFIG_FINISHED,
-  payload,
-  error,
-});
+// export const fetchHelpConfigFinished = (
+//   payload?: HelpConfig,
+//   error: boolean = false,
+// ): FetchHelpConfigFinishedAction => ({
+//   type: FETCH_HELP_CONFIG_FINISHED,
+//   payload,
+//   error,
+// });

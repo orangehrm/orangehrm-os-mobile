@@ -18,30 +18,30 @@
  *
  */
 
-import {
-  FETCH_HELP_CONFIG_FINISHED,
-  HelpConfigState,
-  HelpConfigActionTypes,
-} from './types';
-import {LOGOUT, WithLogoutAction} from 'store/auth/types';
+// import {
+//   FETCH_HELP_CONFIG_FINISHED,
+//   HelpConfigState,
+  // HelpConfigActionTypes,
+// } from './types';
+// import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
-const initialState: HelpConfigState = {};
+// const initialState: HelpConfigState = {};
 
-const helpConfigReducer = (
-  state = initialState,
-  action: WithLogoutAction<HelpConfigActionTypes>,
-): HelpConfigState => {
-  switch (action.type) {
-    case FETCH_HELP_CONFIG_FINISHED:
-      return {
-        ...state,
-        help: action.payload,
-      };
-    case LOGOUT:
-      return initialState;
-    default:
-      return state;
-  }
-};
+// const helpConfigReducer = (
+//   state = initialState,
+//   action: WithLogoutAction<HelpConfigActionTypes>,
+// ): HelpConfigState => {
+//   switch (action.type) {
+//     case FETCH_HELP_CONFIG_FINISHED:
+//       return {
+//         ...state,
+//         help: action.payload,
+//       };
+//     case LOGOUT:
+//       return initialState;
+//     default:
+//       return state;
+//   }
+// };
 
-export default helpConfigReducer;
+// export default helpConfigReducer;

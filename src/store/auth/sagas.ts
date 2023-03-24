@@ -405,7 +405,7 @@ function* fetchMyInfo() {
     const rawResponse: Response = yield apiCall(
       apiGetCall,
       prepare(
-        '/web/index.php' + API_ENDPOINT_MY_INFO_NEW,
+        API_ENDPOINT_MY_INFO_NEW,
         {},
         {model: 'detailed'},
       ),
@@ -550,6 +550,6 @@ export function* watchAuthActions() {
   yield takeEvery(CHECK_INSTANCE, checkInstance);
   yield takeEvery(FETCH_ENABLED_MODULES, fetchEnabledModules);
   yield takeEvery(FETCH_NEW_TOKEN_FINISHED, fetchApiDefinition);
-  yield takeEvery(FETCH_MY_INFO, fetchApiDefinition);
+  // yield takeEvery(FETCH_MY_INFO, fetchApiDefinition);
   yield takeEvery(FETCH_API_VERSION, fetchApiVersion);
 }

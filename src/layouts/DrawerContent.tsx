@@ -59,6 +59,7 @@ import {SUBHEADER_LEAVE, SUBHEADER_TIME} from 'screens';
 import useApiDetails from 'lib/hook/useApiDetails';
 import {ORANGEHRM_API_1$3$0} from 'services/instance-check';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {HELP_REDIRECT_URL} from 'services/endpoints';
 
 const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   const {
@@ -67,7 +68,7 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
     fetchMyInfo,
     logout,
     enabledModules,
-    helpConfig,
+    // helpConfig,
     ...drawerContentProps
   } = props;
   const theme = useTheme();
@@ -103,14 +104,9 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   }
 
   const onPressHelp = () => {
-    props.fetchHelp(helpRequestForMobile);
-  };
-
-  const navigateHelp = () => {
-    let url = helpConfig?.redirectUrls[0]?.url;
-    if (url === undefined) {
-      url = helpConfig?.defaultRedirectUrl;
-    }
+    console.log('help');
+    // props.fetchHelp(helpRequestForMobile);
+    const url = HELP_REDIRECT_URL;
     if (url !== undefined) {
       Linking.canOpenURL(url).then((supported) => {
         if (supported) {
@@ -121,13 +117,29 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
       });
     }
   };
-  useEffect(() => {
-    if (helpConfig?.defaultRedirectUrl !== undefined) {
-      navigateHelp();
-    }
-    /* eslint-disable react-hooks/exhaustive-deps */
-  }, [helpConfig]);
-  /* eslint-enable react-hooks/exhaustive-deps */
+
+  // const navigateHelp = () => {
+  //   let url = helpConfig?.redirectUrls[0]?.url;
+  //   if (url === undefined) {
+  //     url = helpConfig?.defaultRedirectUrl;
+  //   }
+  //   if (url !== undefined) {
+  //     Linking.canOpenURL(url).then((supported) => {
+  //       if (supported) {
+  //         if (url !== undefined) {
+  //           Linking.openURL(url);
+  //         }
+  //       }
+  //     });
+  //   }
+  // };
+  // useEffect(() => {
+  //   if (helpConfig?.defaultRedirectUrl !== undefined) {
+  //     navigateHelp();
+  //   }
+  //   /* eslint-disable react-hooks/exhaustive-deps */
+  // }, [helpConfig]);
+  // /* eslint-enable react-hooks/exhaustive-deps */
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -266,13 +278,13 @@ const mapStateToProps = (state: RootState) => ({
   myInfoFinished: selectMyInfoFinished(state),
   myInfo: selectMyInfo(state),
   enabledModules: selectEnabledModules(state),
-  helpConfig: selectHelp(state),
+  // helpConfig: selectHelp(state),
 });
 
 const mapDispatchToProps = {
   fetchMyInfo: fetchMyInfoAction,
   logout: logoutAction,
-  fetchHelp: fetchConfigHelp,
+  // fetchHelp: fetchConfigHelp,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

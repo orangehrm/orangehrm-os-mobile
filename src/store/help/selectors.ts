@@ -18,15 +18,15 @@
  *
  */
 
-import {RootState} from 'store';
-import {createSelector} from 'reselect';
+// import {RootState} from 'store';
+// import {createSelector} from 'reselect';
 
-import {HelpConfigState, HelpConfig} from './types';
+// import {HelpConfigState, HelpConfig} from './types';
 
-export const selectHelpConfigState = (state: RootState) => state.help;
+// export const selectHelpConfigState = (state: RootState) => state.help;
 
-export const selectHelp = createSelector<
-  RootState,
-  HelpConfigState,
-  HelpConfig | undefined
->([selectHelpConfigState], (help) => help.help);
+// export const selectHelp = createSelector<
+//   RootState,
+//   HelpConfigState,
+//   HelpConfig | undefined
+// >([selectHelpConfigState], (help) => help.help);
