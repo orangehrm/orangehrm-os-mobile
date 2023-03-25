@@ -98,6 +98,7 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
 
   getPartialOptionDetails = () => {
     const {partialOption} = this.props;
+    console.log(partialOption);
     const details: NameValue[] = [];
     if (
       partialOption.partialOption === PARTIAL_OPTION_ALL ||
@@ -108,23 +109,17 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
         partialOption.partialOption === PARTIAL_OPTION_ALL
           ? 'All Days:'
           : 'Start Day:';
-      if (
-        partialOption.startDayType === HALF_DAY &&
-        partialOption.startDayAMPM === HALF_DAY_MORNING
-      ) {
+      if (partialOption.duration?.type === HALF_DAY_MORNING) {
         details.push({name, value: 'Half Day - Morning'});
-      } else if (
-        partialOption.startDayType === HALF_DAY &&
-        partialOption.startDayAMPM === HALF_DAY_AFTERNOON
-      ) {
+      } else if (partialOption.duration?.type === HALF_DAY_AFTERNOON) {
         details.push({name, value: 'Half Day - Afternoon'});
-      } else if (partialOption.startDayType === SPECIFY_TIME) {
+      } else if (partialOption.duration?.type === SPECIFY_TIME) {
         details.push({
           name,
           value:
-            partialOption.startDayFromTime +
+            partialOption.duration?.fromTime +
             ' - ' +
-            partialOption.startDayToTime,
+            partialOption.duration?.toTime,
         });
       }
     }
@@ -133,21 +128,17 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
       partialOption.partialOption === PARTIAL_OPTION_START_END
     ) {
       const name = 'End Day:';
-      if (
-        partialOption.endDayType === HALF_DAY &&
-        partialOption.endDayAMPM === HALF_DAY_MORNING
-      ) {
+      if (partialOption.duration?.type === HALF_DAY_MORNING) {
         details.push({name, value: 'Half Day - Morning'});
-      } else if (
-        partialOption.endDayType === HALF_DAY &&
-        partialOption.endDayAMPM === HALF_DAY_AFTERNOON
-      ) {
+      } else if (partialOption.duration?.type === HALF_DAY_AFTERNOON) {
         details.push({name, value: 'Half Day - Afternoon'});
-      } else if (partialOption.endDayType === SPECIFY_TIME) {
+      } else if (partialOption.duration?.type === SPECIFY_TIME) {
         details.push({
           name,
           value:
-            partialOption.endDayFromTime + ' - ' + partialOption.endDayToTime,
+            partialOption.duration?.fromTime +
+            ' - ' +
+            partialOption.duration?.toTime,
         });
       }
     }

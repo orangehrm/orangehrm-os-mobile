@@ -187,6 +187,7 @@ class PickLeaveRequestPartialDays extends React.Component<PickLeaveRequestPartia
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_START_END,
                     duration: {type: HALF_DAY},
+                    endDuration:{type:HALF_DAY}
                   });
                 }}
               />

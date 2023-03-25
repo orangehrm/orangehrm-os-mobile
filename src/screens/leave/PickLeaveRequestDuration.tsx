@@ -53,13 +53,9 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
   }
 
   onPressContinue = (duration?: SingleDayDuration) => () => {
-    if (duration?.singleType === SPECIFY_TIME) {
-      if (
-        !isFromTimeLessThanToTime(
-          duration.singleFromTime,
-          duration.singleToTime,
-        )
-      ) {
+    console.log('sdsd', duration);
+    if (duration?.type === SPECIFY_TIME) {
+      if (!isFromTimeLessThanToTime(duration?.fromTime, duration?.toTime)) {
         return;
       }
     }
@@ -105,6 +101,7 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
       duration?: SingleDayDuration,
     ) =>
     (time: string) => {
+      console.log(time);
       if (duration?.duration.type === SPECIFY_TIME) {
         pickSingleDayDuration({
           duration: {

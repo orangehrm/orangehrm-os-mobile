@@ -96,7 +96,7 @@ class PickMultipleDayPartialOption extends React.Component<PickMultipleDayPartia
                 onPress={onPressSpecifyTime}
               />
             </View>
-
+            {console.log(specificTimeFrom)}
             {isSpecifyTime ? (
               <PickLeaveSpecificTime
                 fromTime={specificTimeFrom}

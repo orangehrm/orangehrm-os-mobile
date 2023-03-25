@@ -210,26 +210,51 @@ export type PartialDayNone = {
 };
 
 export type PartialOptionsStartDay =
-  | PartialOptionsStartDayHalfDay
+  | PartialOptionsStartDayHalfDayMorning
+  | PartialOptionsStartDayHalfDayAfternoon
   | PartialOptionsStartDaySpecifyTime;
 
 export type PartialOptionsEndDay =
-  | PartialOptionsEndDayHalfDay
+  | PartialOptionsEndDayHalfDayMorning
+  | PartialOptionsEndDayHalfDayAfternoon
+  | PartialOptionsStartEndDayHalfDayMorning
+  | PartialOptionsStartEndDayHalfDayAfternoon
   | PartialOptionsEndDayFullDay
+  | PartialOptionsStartEndDaySpecifyTime
   | PartialOptionsEndDaySpecifyTime;
 
-export interface PartialOptionsStartDayHalfDay {
-  duration: {type: typeof HALF_DAY};
+export interface PartialOptionsStartDayHalfDayMorning {
+  duration: {type: typeof HALF_DAY_MORNING};
+}
+
+export interface PartialOptionsStartDayHalfDayAfternoon {
+  duration: {type: typeof HALF_DAY_AFTERNOON};
 }
 
 export interface PartialOptionsStartDaySpecifyTime {
-  startDayType: typeof SPECIFY_TIME;
-  startDayFromTime: string;
-  startDayToTime: string;
+  duration: {
+    type: typeof SPECIFY_TIME;
+
+    fromTime: string;
+
+    toTime: string;
+  };
 }
 
-export interface PartialOptionsEndDayHalfDay {
-  duration: {type: typeof HALF_DAY};
+export interface PartialOptionsEndDayHalfDayMorning {
+  duration: {type: typeof HALF_DAY_MORNING};
+}
+
+export interface PartialOptionsEndDayHalfDayAfternoon {
+  duration: {type: typeof HALF_DAY_AFTERNOON};
+}
+
+export interface PartialOptionsStartEndDayHalfDayMorning {
+  endDuration: {type: typeof HALF_DAY_MORNING};
+}
+
+export interface PartialOptionsStartEndDayHalfDayAfternoon {
+  endDuration: {type: typeof HALF_DAY_AFTERNOON};
 }
 
 export interface PartialOptionsEndDayFullDay {
@@ -237,9 +262,29 @@ export interface PartialOptionsEndDayFullDay {
 }
 
 export interface PartialOptionsEndDaySpecifyTime {
-  duration: {type: typeof SPECIFY_TIME};
-  endDayFromTime: string;
-  endDayToTime: string;
+  duration: {
+    type: typeof SPECIFY_TIME;
+
+    fromTime: string;
+
+    toTime: string;
+  };
+}
+export interface PartialOptionsStartEndDaySpecifyTime {
+  duration: {
+    type: typeof SPECIFY_TIME;
+
+    fromTime: string;
+
+    toTime: string;
+  };
+  endDuration: {
+    type: typeof SPECIFY_TIME;
+
+    fromTime: string;
+
+    toTime: string;
+  };
 }
 
 export type LeaveRequestActions =
