@@ -148,7 +148,6 @@ const Navigator = (props: NavigatorProps) => {
   let view = null;
   if (storageLoaded.loaded) {
     if (instanceUrl !== null && loggedInUsername !== null) {
-      console.log('authState',isAuthenticated)
       const isLargeScreen = isLargeScreenByWidth(dimensions.width);
       if (myInfoSuccess || myInfoFailed) {
         view = (

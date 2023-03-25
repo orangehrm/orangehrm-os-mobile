@@ -37,6 +37,7 @@ import {
 import {
   changeEmployeeLeaveRequestComment,
   fetchLeaveComment,
+  fetchEmployeeLeaveRequest,
 } from 'store/leave/leave-list/actions';
 import Text from 'components/DefaultText';
 import Chip from 'components/DefaultChip';
@@ -80,6 +81,7 @@ class MyLeaveDetails extends React.Component<
     if (this.props.leaveRequestDetail?.leaveRequestId !== leaveRequest.id) {
       this.props.fetchMyLeaveDetails(leaveRequest.id);
       this.props.fetchLeaveComment(leaveRequest.id);
+      this.props.fetchEmployeeLeaveRequest(leaveRequest.id);
     }
   }
 
@@ -97,7 +99,6 @@ class MyLeaveDetails extends React.Component<
   };
 
   onPressAction = (status?: LeaveRequestAllowedActions) => () => {
-    console.log(status);
     const {leaveRequestDetail} = this.props;
     if (leaveRequestDetail && status) {
       this.props.changeMyLeaveRequestStatus(leaveRequestDetail.id, {
@@ -109,10 +110,11 @@ class MyLeaveDetails extends React.Component<
   };
 
   onPressLeaveDays = () => {
-    const {leaveRequestDetail} = this.props;
+    const {leaveRequestDetail, employeeLeaveRequest} = this.props;
     if (leaveRequestDetail) {
       navigate<LeaveDaysParam>(LEAVE_DAYS, {
-        employeeLeaveRequest: leaveRequestDetail,
+        employeeLeaveRequest,
+        leaveRequestDetail,
       });
     }
   };
@@ -133,7 +135,6 @@ class MyLeaveDetails extends React.Component<
 
   render() {
     const {theme, leaveRequestDetail, employeeLeaveComment} = this.props;
-    console.log(leaveRequestDetail, 'dsdsds');
     const {action} = this.state;
     const leaveTypeColor = leaveRequestDetail?.leaveType.color;
     return (
@@ -360,6 +361,7 @@ const mapStateToProps = (state: RootState) => ({
   leaveRequestDetail: selectLeaveRequestDetail(state),
   employeeLeaveComment: selectEmployeeLeaveComment(state),
   employeeLeaveRequestDetails: selectEmployeeLeaveRequestDetails(state),
+  employeeLeaveRequest: selectEmployeeLeaveRequest(state),
 });
 
 const mapDispatchToProps = {
@@ -367,6 +369,7 @@ const mapDispatchToProps = {
   fetchLeaveComment: fetchLeaveComment,
   changeMyLeaveRequestStatus: changeMyLeaveRequestStatus,
   changeEmployeeLeaveRequestComment: changeEmployeeLeaveRequestComment,
+  fetchEmployeeLeaveRequest: fetchEmployeeLeaveRequest,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

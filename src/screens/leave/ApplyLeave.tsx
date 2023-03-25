@@ -280,7 +280,6 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       comment: commentSaved,
       errorMessage,
     } = this.props;
-    console.log(fromDate);
     const {typingComment, requestDaysError, comment} = this.state;
     return (
       <MainLayout

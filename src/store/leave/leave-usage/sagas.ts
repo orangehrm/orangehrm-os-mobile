@@ -73,19 +73,7 @@ function* fetchMyLeaveEntitlements() {
     // clear error messages
     yield put(setErrorMessage());
     yield put(setApplyLeaveErrorMessage());
-    console.log('calling my leave 78787', response);
     if (response.data) {
-      // const responseLeaveBalance = yield apiCall(
-      //   apiGetCall,
-      //   API_ENDPOINT_LEAVE_MY_LEAVE_BALANCE,
-      //   false,
-      // );
-
-      // const allData = assignLeaveBalance(
-      //   response.data,
-      //   responseLeaveBalance.data,
-      // );
-      // console.log(allData, 'object');
 
       yield put(
         fetchMyLeaveEntitlementsFinished(
@@ -176,7 +164,6 @@ function* fetchMyLeaveDetails(action: FetchMyLeaveRequestDetailsAction) {
         {model: 'detailed'},
       ),
     );
-    console.log(response.data);
     if (response.data) {
       yield put(
         fetchMyLeaveDetailsFinished(assignColorToLeaveType(response.data)),
@@ -205,14 +192,11 @@ function* fetchMyLeaveDetails(action: FetchMyLeaveRequestDetailsAction) {
 function* changeMyLeaveRequestStatus(action: ChangeMyLeaveRequestStatusAction) {
   try {
     yield openLoader();
-    console.log({action: action.action.status});
     const response = yield apiCall(
       apiPutCall,
       prepare(API_ENDPOINT_LEAVE_REQUEST_DETAILS,{id: action.leaveRequestId}),
       {action: action.action.status},
     );
-
-    console.log(response);
 
     if (response.data) {
       //re-fetch with updated leave request data
@@ -232,7 +216,6 @@ function* changeMyLeaveRequestStatus(action: ChangeMyLeaveRequestStatusAction) {
       );
     }
   } catch (error) {
-    console.log(error);
     yield showSnackMessage(
       getMessageAlongWithGenericErrors(error, 'Failed to Update Leave Request'),
       TYPE_ERROR,

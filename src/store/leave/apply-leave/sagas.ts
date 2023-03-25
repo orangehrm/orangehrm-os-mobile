@@ -57,7 +57,6 @@ import {LeaveRequestSuccessParam} from 'screens/leave/navigators';
 function* saveLeaveRequest(
   action: ApplySingleDayLeaveRequestAction | ApplyMultipleDayLeaveRequestAction,
 ) {
-  console.log(action);
   try {
     yield openLoader();
     const response = yield apiCall(
@@ -65,8 +64,6 @@ function* saveLeaveRequest(
       API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
       action.payload,
     );
-
-    console.log(response);
 
     if (response.data) {
       yield put(fetchMyLeaveEntitlements());

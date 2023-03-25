@@ -67,7 +67,6 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
 
   getSelectedTextForDuration = () => {
     const {duration} = this.props;
-    console.log(duration);
     if (duration.duration.type === FULL_DAY) {
       return 'Full Day';
     } else if (duration.duration.type === HALF_DAY_MORNING) {
@@ -98,7 +97,6 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
 
   getPartialOptionDetails = () => {
     const {partialOption} = this.props;
-    console.log(partialOption);
     const details: NameValue[] = [];
     if (
       partialOption.partialOption === PARTIAL_OPTION_ALL ||

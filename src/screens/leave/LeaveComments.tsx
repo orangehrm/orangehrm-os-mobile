@@ -68,8 +68,7 @@ class LeaveComments extends React.Component<
   };
 
   render() {
-    const {theme, employeeLeaveRequest, employeeLeaveComment} = this.props;
-    console.log(employeeLeaveComment, 'comeent screen');
+    const {theme,employeeLeaveComment} = this.props;
     const {comment} = this.state;
     return (
       <MainLayout

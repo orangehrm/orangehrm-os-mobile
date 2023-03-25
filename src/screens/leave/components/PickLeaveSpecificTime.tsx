@@ -36,8 +36,6 @@ class PickLeaveSpecificTime extends React.Component<PickLeaveSpecificTimeProps> 
     const {theme, fromTime, toTime, setFromTime, setToTime, forceUpdate} =
       this.props;
 
-    console.log(fromTime);
-
     const sliderValues = getTimeValuesForSlider();
     const bottomRowStyle = {marginTop: theme.spacing * 8};
 

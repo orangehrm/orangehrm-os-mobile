@@ -22,7 +22,7 @@ import {EndpointError} from 'services/errors/endpoints';
 
 export const API_ENDPOINT_AUTH_ISSUE_TOKEN = '/oauth/issueToken';
 export const API_ENDPOINT_MY_INFO = '/api/v1/myinfo';
-export const API_ENDPOINT_EMPLOYEES = '/web/index.php/api/v2/leave/leave-types';
+export const API_ENDPOINT_EMPLOYEES = '/web/index.php/api/v2/pim/employees';
 
 // leave
 export const API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT =
@@ -42,9 +42,9 @@ export const API_ENDPOINT_LEAVE_COMMENT =
 export const API_ENDPOINT_LEAVE_COMMENT_SAVE =
   '/web/index.php/api/v2/leave/leave-requests/{id}/leave-comments';
 export const API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT =
-  '/api/v1/subordinate/{id}/leave-entitlement';
+  '/web/index.php/api/v2/subordinate/{id}/leave-entitlement';
 export const API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST =
-  '/api/v1/subordinate/{id}/leave-request';
+  '/web/index.php/api/v1/subordinate/{id}/leave-request';
 export const API_ENDPOINT_LEAVE_HOLIDAYS =
   '/web/index.php/api/v2/leave/holidays';
 export const API_ENDPOINT_LEAVE_PERIODS =

@@ -245,7 +245,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
       const leaveRequest: LeaveRequest = {
         fromDate: fromDate,
         toDate: toDate ? toDate : fromDate,
-        type: selectedLeaveType?.leaveType.id,
+        leaveTypeId: selectedLeaveType?.leaveType.id,
         comment: comment === '' ? undefined : comment,
       };
       if (isSingleDayRequest(fromDate, toDate)) {

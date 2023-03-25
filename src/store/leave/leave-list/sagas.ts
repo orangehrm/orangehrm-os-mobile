@@ -253,7 +253,6 @@ function* changeEmployeeLeaveRequestStatus(
 function* changeEmployeeLeaveRequestComment(
   action: ChangeEmployeeLeaveRequestCommentAction,
 ) {
-  console.log(action);
   try {
     yield openLoader();
     const response = yield apiCall(
@@ -261,8 +260,6 @@ function* changeEmployeeLeaveRequestComment(
       prepare(API_ENDPOINT_LEAVE_COMMENT_SAVE, {id: action.leaveRequestId}),
       {comment: action.action.comment},
     );
-
-    console.log(response);
 
     if (response.data) {
       //re-fetch with updated leave request data

@@ -53,7 +53,6 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
   }
 
   onPressContinue = (duration?: SingleDayDuration) => () => {
-    console.log('sdsd', duration);
     if (duration?.type === SPECIFY_TIME) {
       if (!isFromTimeLessThanToTime(duration?.fromTime, duration?.toTime)) {
         return;
@@ -64,7 +63,6 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
   };
 
   isFullDay = (duration?: SingleDayDuration) => {
-    console.log(duration);
     return duration?.duration.type === FULL_DAY;
   };
 
@@ -73,7 +71,6 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
   };
 
   isHalfDayAfternoon = (duration?: SingleDayDuration) => {
-    console.log(duration?.duration.type);
     return duration?.duration.type === HALF_DAY_AFTERNOON;
   };
 
@@ -101,7 +98,6 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
       duration?: SingleDayDuration,
     ) =>
     (time: string) => {
-      console.log(time);
       if (duration?.duration.type === SPECIFY_TIME) {
         pickSingleDayDuration({
           duration: {

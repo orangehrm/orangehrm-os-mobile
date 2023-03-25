@@ -45,7 +45,6 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
   };
 
   isStartDayHalfDayMorning = (partialOption?: MultipleDayPartialOption) => {
-    console.log(partialOption, 'dsdsdsdsdsdsdsdsdsdsd');
     return (
       (partialOption?.partialOption === PARTIAL_OPTION_ALL ||
         partialOption?.partialOption === PARTIAL_OPTION_START) &&
@@ -69,7 +68,6 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
   };
 
   isEndDayHalfDayMorning = (partialOption?: MultipleDayPartialOption) => {
-    console.log(partialOption);
     return (
       partialOption?.partialOption === PARTIAL_OPTION_END &&
       partialOption?.duration.type === HALF_DAY_MORNING
@@ -86,7 +84,6 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
   isStartEndOptionEndDayHalfDayAfternoon = (
     partialOption?: MultipleDayPartialOption,
   ) => {
-    console.log(partialOption);
     return (
       partialOption?.partialOption === PARTIAL_OPTION_START_END &&
       partialOption?.endDuration?.type === HALF_DAY_AFTERNOON
@@ -274,7 +271,6 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
               specificTimeFrom={this.getFromTime(partialOption)}
               specificTimeTo={this.getToTime(partialOption)}
               setSpecificTimeFrom={(time) => {
-                console.log(time,'newww');
                 if (partialOption?.partialOption === PARTIAL_OPTION_ALL) {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_ALL,
