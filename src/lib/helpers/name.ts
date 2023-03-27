@@ -44,13 +44,14 @@ const getFullName = (employee: {
   middleName?: string;
   terminationId?: string;
 }) => {
-  if (employee.terminationId !== null) {
+  if (employee.terminationId !== null && employee.middleName == null) {
     return employee.firstName + ' ' + employee.lastName + ' (Past Employee)';
-  } else {
+  } else if (employee.middleName !== null) {
     return (
       employee.firstName + ' ' + employee.middleName + ' ' + employee.lastName
     );
-  }  
+  }
+  return employee.firstName + ' ' + employee.lastName;
 };
 
 const getFirstAndLastNames = (employee: {
