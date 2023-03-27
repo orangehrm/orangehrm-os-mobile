@@ -18,7 +18,7 @@
  *
  */
 
-import React, {useCallback, Fragment, useEffect} from 'react';
+import React, {useCallback, Fragment} from 'react';
 import {
   StyleSheet,
   View,
@@ -46,9 +46,6 @@ import {
   selectMyInfo,
   selectEnabledModules,
 } from 'store/auth/selectors';
-import {helpRequestForMobile} from 'store/help/types';
-import {selectHelp} from 'store/help/selectors';
-import {fetchConfigHelp} from 'store/help/actions';
 import {
   fetchMyInfo as fetchMyInfoAction,
   logout as logoutAction,
@@ -56,9 +53,8 @@ import {
 import useTheme from 'lib/hook/useTheme';
 import {getDrawerItems} from 'services/drawer';
 import {SUBHEADER_LEAVE, SUBHEADER_TIME} from 'screens';
-import useApiDetails from 'lib/hook/useApiDetails';
-import {ORANGEHRM_API_1$3$0} from 'services/instance-check';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {HELP_REDIRECT_URL} from 'services/endpoints';
+import {getFullName} from 'lib/helpers/name';
 
 const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   const {
@@ -67,7 +63,6 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
     fetchMyInfo,
     logout,
     enabledModules,
-    helpConfig,
     ...drawerContentProps
   } = props;
   const theme = useTheme();
@@ -77,12 +72,9 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   }, [fetchMyInfo]);
 
   const logoutOnPress = useCallback(() => {
-    AsyncStorage.removeItem('WarningRead');
     drawerContentProps.navigation.closeDrawer();
     logout();
   }, [logout, drawerContentProps]);
-
-  const {isApiCompatible} = useApiDetails();
 
   let imageSource;
   if (myInfo?.employeePhoto !== undefined && myInfo?.employeePhoto !== null) {
@@ -103,14 +95,7 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   }
 
   const onPressHelp = () => {
-    props.fetchHelp(helpRequestForMobile);
-  };
-
-  const navigateHelp = () => {
-    let url = helpConfig?.redirectUrls[0]?.url;
-    if (url === undefined) {
-      url = helpConfig?.defaultRedirectUrl;
-    }
+    const url = HELP_REDIRECT_URL;
     if (url !== undefined) {
       Linking.canOpenURL(url).then((supported) => {
         if (supported) {
@@ -121,19 +106,14 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
       });
     }
   };
-  useEffect(() => {
-    if (helpConfig?.defaultRedirectUrl !== undefined) {
-      navigateHelp();
-    }
-    /* eslint-disable react-hooks/exhaustive-deps */
-  }, [helpConfig]);
-  /* eslint-enable react-hooks/exhaustive-deps */
+
+  const fullName = getFullName(myInfo?.employee);
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <ProfilePicture
-        name={myInfo?.employee.fullName}
-        jobTitle={myInfo?.employee.jobTitle}
+        name={fullName}
+        jobTitle={myInfo?.employee.jobTitle.title}
         imageSource={imageSource}
       />
       <DrawerContentScrollView
@@ -183,20 +163,16 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
         </View>
       </DrawerContentScrollView>
       <View>
-        {isApiCompatible(ORANGEHRM_API_1$3$0) ? (
-          <>
-            <Divider />
-            <DrawerItem
-              style={styles.drawerItem}
-              label={'Help'}
-              onPress={onPressHelp}
-              icon={() => (
-                <Icon name={'help-circle'} style={styles.draweItemIcon} />
-              )}
-              {...commonProps}
-            />
-          </>
-        ) : null}
+        <Divider />
+        <DrawerItem
+          style={styles.drawerItem}
+          label={'Help'}
+          onPress={onPressHelp}
+          icon={() => (
+            <Icon name={'help-circle'} style={styles.draweItemIcon} />
+          )}
+          {...commonProps}
+        />
         <Divider />
         <DrawerItem
           style={styles.drawerItem}
@@ -266,13 +242,11 @@ const mapStateToProps = (state: RootState) => ({
   myInfoFinished: selectMyInfoFinished(state),
   myInfo: selectMyInfo(state),
   enabledModules: selectEnabledModules(state),
-  helpConfig: selectHelp(state),
 });
 
 const mapDispatchToProps = {
   fetchMyInfo: fetchMyInfoAction,
   logout: logoutAction,
-  fetchHelp: fetchConfigHelp,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

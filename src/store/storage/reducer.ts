@@ -35,7 +35,6 @@ import {
   SCOPE,
   TOKEN_TYPE,
   INSTANCE_API_VERSION,
-  INSTANCE_API_PATHS,
   DATE_FORMAT,
 } from 'services/storage';
 import {DEFAULT_DATE_FORMAT} from 'lib/helpers/date';
@@ -49,7 +48,6 @@ const initialState: StorageState = {
   [SCOPE]: null,
   [TOKEN_TYPE]: null,
   [INSTANCE_API_VERSION]: null,
-  [INSTANCE_API_PATHS]: null,
   [DATE_FORMAT]: DEFAULT_DATE_FORMAT,
   loaded: false,
   fetchingAccessTokenLock: false,

@@ -21,27 +21,26 @@
 import NetInfo, {NetInfoState} from '@react-native-community/netinfo';
 import {call, takeEvery, put, all, select} from 'redux-saga/effects';
 import {
-  FETCH_TOKEN,
   LOGOUT,
   FETCH_MY_INFO,
   CHECK_INSTANCE,
-  FetchTokenAction,
   CheckInstanceAction,
   FetchEnabledModulesAction,
   FETCH_ENABLED_MODULES,
   FETCH_NEW_TOKEN_FINISHED,
-  FetchMyInfoAction,
-  FetchNewTokenFinishedAction,
+  MyInfo,
+  EnabledModules,
 } from 'store/auth/types';
-import {authenticate, checkLegacyInstance} from 'services/authentication';
+import {
+  PUBLIC_MOBILE_CLIENT_ID,
+  OAUTH_CALLBACK_URL,
+  checkLegacyInstance,
+} from 'services/authentication';
 import {
   checkInstance as checkInstanceRequest,
   checkInstanceCompatibility,
-  checkRemovedEndpoints,
-  checkDeprecatedEndpoints,
-  getEnabledModules,
-  getOpenApiDefinition,
-  getOpenApiDefinitionPaths,
+  getRestApiVersion,
+  RestApiVersion,
 } from 'services/instance-check';
 import {
   USERNAME,
@@ -52,7 +51,6 @@ import {
   EXPIRES_AT,
   INSTANCE_URL,
   INSTANCE_API_VERSION,
-  INSTANCE_API_PATHS,
 } from 'services/storage';
 import {
   openLoader,
@@ -76,16 +74,26 @@ import {
 import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams, ApiDetails} from 'store/storage/types';
 import {selectApiDetails} from 'store/storage/selectors';
-import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
+import {TYPE_ERROR} from 'store/globals/types';
 import {
   getMessageAlongWithGenericErrors,
   isJsonParseError,
   ERROR_NO_ASSIGNED_EMPLOYEE,
   ERROR_JSON_PARSE,
 } from 'services/api';
-import {API_ENDPOINT_MY_INFO, prepare} from 'services/endpoints';
-import {AuthenticationError} from 'services/errors/authentication';
+import {
+  API_ENDPOINT_MY_INFO,
+  API_ENDPOINT_ENABLED_MODULES,
+  prepare,
+} from 'services/endpoints';
+// import {AuthenticationError} from 'services/errors/authentication';
 import {InstanceCheckError} from 'services/errors/instance-check';
+import {
+  authorize,
+  AuthorizeResult,
+  AuthConfiguration,
+} from 'react-native-app-auth';
+import {$PropertyType} from 'utility-types';
 
 /**
  * Check instance existence & compatibility
@@ -157,16 +165,14 @@ function* checkInstance(action?: CheckInstanceAction) {
 
     if (response.ok && isJsonResponse(response)) {
       yield storageSetItem(INSTANCE_URL, instanceUrl);
-      const data = yield call([response, response.json]);
+      const data: RestApiVersion = (yield call([response, response.json])).data;
 
       checkInstanceCompatibility(data);
-      checkRemovedEndpoints(data);
-      const usingDeprecatedEndpoints = checkDeprecatedEndpoints(data);
-      if (usingDeprecatedEndpoints) {
-        yield showSnackMessage('Please Update the Application.', TYPE_WARN);
-      }
 
-      yield* fetchEnabledModules();
+      // TODO
+      // yield* fetchEnabledModules();
+
+      yield* fetchAuthToken();
 
       yield put(checkInstanceFinished(false));
     } else {
@@ -226,8 +232,8 @@ function isJsonResponse(response: Response) {
 
 function getAbsoluteUrlsForChecking(instanceUrl: string) {
   return [
-    instanceUrl + '/symfony/web',
-    instanceUrl + '/symfony/web/index.php',
+    instanceUrl + '/web/index.php',
+    instanceUrl + '/web',
     instanceUrl + '/index.php',
   ];
 }
@@ -237,16 +243,34 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
     if (action) {
       yield openLoader();
     }
-    const instanceUrl: string = yield selectInstanceUrl();
+
     // eslint-disable-next-line no-undef
-    const response: Response = yield call(getEnabledModules, instanceUrl);
+    const response: Response = yield apiCall(
+      apiGetCall,
+      API_ENDPOINT_ENABLED_MODULES,
+      true,
+    );
 
     if (response.ok) {
-      const responseData = yield call([response, response.json]);
+      const responseData: {
+        data: $PropertyType<EnabledModules, 'modules'>;
+      } = yield call([response, response.json]);
+      const enabledModules: EnabledModules = {
+        modules: responseData.data,
+        meta: {
+          leave: {
+            isLeavePeriodDefined: true, // TODO
+          },
+          time: {
+            isTimesheetPeriodDefined: true, // TODO
+          },
+        },
+      };
 
       if (responseData.data) {
-        yield put(fetchEnabledModulesFinished(responseData.data));
-        if (!responseData.data.modules.mobile) {
+        yield put(fetchEnabledModulesFinished(enabledModules));
+        if (!enabledModules.modules.mobile) {
+          // TODO::remove
           // Logout in case loggedin user
           yield* logout();
           throw new InstanceCheckError(
@@ -278,40 +302,38 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
   }
 }
 
-function* fetchAuthToken(action: FetchTokenAction) {
+function* fetchAuthToken() {
   try {
     yield openLoader();
-    yield* checkInstance();
 
     const authParams: AuthParams = yield selectAuthParams();
 
     if (authParams.instanceUrl !== null) {
-      // eslint-disable-next-line no-undef
-      const response: Response = yield call(
-        authenticate,
-        authParams.instanceUrl,
-        action.username,
-        action.password,
-      );
+      const config: AuthConfiguration = {
+        serviceConfiguration: {
+          authorizationEndpoint: authParams.instanceUrl + '/oauth2/authorize',
+          tokenEndpoint: authParams.instanceUrl + '/oauth2/token',
+        },
+        clientId: PUBLIC_MOBILE_CLIENT_ID,
+        redirectUrl: OAUTH_CALLBACK_URL,
+        additionalParameters: {},
+        usePKCE: true,
+        useNonce: false,
+        additionalHeaders: {Accept: 'application/json'},
+        connectionTimeoutSeconds: 5,
+        iosPrefersEphemeralSession: true,
+      };
 
-      const data = yield call([response, response.json]);
-      if (data.error) {
-        if (data.error === 'authentication_failed') {
-          throw new AuthenticationError(data.error_description);
-        } else {
-          throw new AuthenticationError('Invalid Credentials.');
-        }
-      } else {
-        yield storageSetMulti({
-          [USERNAME]: action.username,
-          [ACCESS_TOKEN]: data.access_token,
-          [REFRESH_TOKEN]: data.refresh_token,
-          [TOKEN_TYPE]: data.token_type,
-          [SCOPE]: data.scope,
-          [EXPIRES_AT]: getExpiredAt(data.expires_in),
-        });
-        yield put(fetchNewAuthTokenFinished());
-      }
+      const authState: AuthorizeResult = yield call(authorize, config);
+
+      yield storageSetMulti({
+        [ACCESS_TOKEN]: authState.accessToken,
+        [REFRESH_TOKEN]: authState.refreshToken,
+        [TOKEN_TYPE]: authState.tokenType,
+        [SCOPE]: authState.scopes.join(' '),
+        [EXPIRES_AT]: getExpiredAt(authState.accessTokenExpirationDate),
+      });
+      yield put(fetchNewAuthTokenFinished());
     } else {
       yield showSnackMessage('Instance URL is empty.', TYPE_ERROR);
     }
@@ -350,15 +372,24 @@ function* fetchMyInfo() {
     // eslint-disable-next-line no-undef
     const rawResponse: Response = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_MY_INFO, {}, {withPhoto: true}),
+      prepare(API_ENDPOINT_MY_INFO, {}, {model: 'detailed'}),
       true,
     );
 
     if (rawResponse.ok) {
       try {
         const response = yield call([rawResponse, rawResponse.json]);
-        if (response.data.employee) {
-          yield put(fetchMyInfoFinished(response.data));
+        if (response.data) {
+          const data: MyInfo = {
+            employee: response.data,
+            employeePhoto: null,
+            user: {
+              // TODO::remove
+              userRole: 'Admin',
+              isSupervisor: false,
+            },
+          };
+          yield put(fetchMyInfoFinished(data));
         } else {
           // No employee assign to logged in user
           yield put(
@@ -395,38 +426,26 @@ function* fetchMyInfo() {
   }
 }
 
-function* fetchApiDefinition(
-  action: FetchMyInfoAction | FetchNewTokenFinishedAction,
-) {
+function* fetchApiDefinition() {
   try {
     // only continue generator if `INSTANCE_API_VERSION` key not available in storage
-    if (action.type === FETCH_MY_INFO) {
-      const apiDetails: ApiDetails = yield select(selectApiDetails);
-      if (
-        apiDetails[INSTANCE_API_VERSION] !== null ||
-        apiDetails[INSTANCE_API_VERSION] !== undefined
-      ) {
-        return;
-      }
+    const apiDetails: ApiDetails = yield select(selectApiDetails);
+    if (
+      apiDetails[INSTANCE_API_VERSION] !== null ||
+      apiDetails[INSTANCE_API_VERSION] !== undefined
+    ) {
+      return;
     }
 
     const instanceUrl: string = yield selectInstanceUrl();
     // eslint-disable-next-line no-undef
-    const response: Response = yield call(getOpenApiDefinition, instanceUrl);
-    const apiDefinition = yield call([response, response.json]);
+    const response: Response = yield call(getRestApiVersion, instanceUrl);
+    const apiVersion: RestApiVersion = yield call([response, response.json]);
 
-    checkInstanceCompatibility(apiDefinition);
-    checkRemovedEndpoints(apiDefinition);
-    const usingDeprecatedEndpoints = checkDeprecatedEndpoints(apiDefinition);
-    if (usingDeprecatedEndpoints) {
-      yield showSnackMessage('Please Update the Application.', TYPE_WARN);
-    }
+    checkInstanceCompatibility(apiVersion);
 
-    const apiVersion = apiDefinition?.info?.version;
-    const apiPaths = Object.keys(getOpenApiDefinitionPaths(apiDefinition));
     yield storageSetMulti({
-      [INSTANCE_API_VERSION]: apiVersion ? apiVersion : null,
-      [INSTANCE_API_PATHS]: apiPaths ? JSON.stringify(apiPaths) : null,
+      [INSTANCE_API_VERSION]: apiVersion.version,
     });
   } catch (error) {
     yield showSnackMessage(
@@ -440,11 +459,10 @@ function* fetchApiDefinition(
 }
 
 export function* watchAuthActions() {
-  yield takeEvery(FETCH_TOKEN, fetchAuthToken);
   yield takeEvery(LOGOUT, logout);
   yield takeEvery(FETCH_MY_INFO, fetchMyInfo);
   yield takeEvery(CHECK_INSTANCE, checkInstance);
   yield takeEvery(FETCH_ENABLED_MODULES, fetchEnabledModules);
   yield takeEvery(FETCH_NEW_TOKEN_FINISHED, fetchApiDefinition);
-  yield takeEvery(FETCH_MY_INFO, fetchApiDefinition);
+  // yield takeEvery(FETCH_MY_INFO, fetchApiDefinition); // TODO
 }

@@ -28,6 +28,7 @@
     "native-base": "~2.13.15",
     "react": "18.2.0",
     "react-native": "~0.71.3",
+    "react-native-app-auth": "^6.4.3",
     "react-native-calendars": "~1.300.0",
     "react-native-gesture-handler": "~2.8.0",
     "react-native-modal": "~13.0.1",

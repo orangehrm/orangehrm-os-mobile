@@ -18,8 +18,7 @@
  *
  */
 
-import {gte, major} from 'semver';
-import {MutableKeys} from 'utility-types';
+import {gte} from 'semver';
 import {InstanceCheckError} from 'services/errors/instance-check';
 import {
   API_ENDPOINT_MY_INFO,
@@ -30,13 +29,11 @@ import {
   API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT,
   API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST,
   API_ENDPOINT_EMPLOYEES,
-  API_ENDPOINT_API_DEFINITION,
+  API_ENDPOINT_API_VERSION,
   API_ENDPOINT_LEAVE_HOLIDAYS,
   API_ENDPOINT_LEAVE_WORK_SHIFT,
   API_ENDPOINT_LEAVE_WORK_WEEK,
   API_ENDPOINT_LEAVE_TYPES,
-  API_ENDPOINT_ENABLED_MODULES,
-  prepare,
 } from 'services/endpoints';
 
 export const HTTP_METHOD_GET = 'get';
@@ -57,19 +54,20 @@ export const REQUIRED_ENDPOINTS = {
   [API_ENDPOINT_LEAVE_TYPES]: [HTTP_METHOD_GET],
 };
 
-export const ORANGEHRM_API_1$1$0 = '1.1.0';
-export const ORANGEHRM_API_1$2$0 = '1.2.0';
-export const ORANGEHRM_API_1$3$0 = '1.3.0';
+export const ORANGEHRM_API_2$2$0 = '2.2.0'; // TODO
 
-export const REQUIRED_MINIMUM_ORANGEHRM_API_VER = ORANGEHRM_API_1$1$0;
+export const REQUIRED_MINIMUM_ORANGEHRM_API_VER = ORANGEHRM_API_2$2$0;
+
+export interface RestApiVersion {
+  version: string;
+}
 
 export const checkInstance = (instanceUrl: string) => {
-  return getOpenApiDefinition(instanceUrl);
+  return getRestApiVersion(instanceUrl);
 };
 
-export const getOpenApiDefinition = (instanceUrl: string) => {
-  const restApiMetaEndpoint =
-    instanceUrl + prepare(API_ENDPOINT_API_DEFINITION, {}, {tags: ['User']});
+export const getRestApiVersion = (instanceUrl: string) => {
+  const restApiVersionEndpoint = instanceUrl + API_ENDPOINT_API_VERSION;
 
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');
@@ -79,102 +77,20 @@ export const getOpenApiDefinition = (instanceUrl: string) => {
     method: 'GET',
     headers: headers,
   };
-  return fetch(restApiMetaEndpoint, requestOptions);
+  return fetch(restApiVersionEndpoint, requestOptions);
 };
 
 /**
- *
- * @param openApiDefinition OpenAPI 3.0.x https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md
+ * @param versionData
  * @returns {boolean}
  */
-export const checkInstanceCompatibility = (openApiDefinition: any): boolean => {
-  if (major(openApiDefinition.openapi) === 3) {
-    if (
-      gte(openApiDefinition?.info?.version, REQUIRED_MINIMUM_ORANGEHRM_API_VER)
-    ) {
-      return true;
-    }
-    throw new InstanceCheckError('Incompatible OrangeHRM API version.');
+export const checkInstanceCompatibility = (
+  versionData: RestApiVersion,
+): boolean => {
+  if (gte(versionData?.version, REQUIRED_MINIMUM_ORANGEHRM_API_VER)) {
+    return true;
   }
-  throw new InstanceCheckError('Incompatible OpenAPI version.');
-};
-
-/**
- * Called followed `checkInstanceCompatibility`
- * @param openApiDefinition
- */
-export const checkRemovedEndpoints = (openApiDefinition: any): void => {
-  const paths = getOpenApiDefinitionPaths(openApiDefinition);
-  Object.keys(REQUIRED_ENDPOINTS).forEach((key) => {
-    const path = <MutableKeys<typeof REQUIRED_ENDPOINTS>>key;
-    REQUIRED_ENDPOINTS[path].forEach((operation) => {
-      const exist = Object.prototype.hasOwnProperty.call(
-        paths[path],
-        operation,
-      );
-
-      if (!exist) {
-        throw new InstanceCheckError('Please Update the Application.');
-      }
-    });
-  });
-};
-
-/**
- * Called followed `checkRemovedEndpoints`
- * @param openApiDefinition
- * @returns {boolean}
- */
-export const checkDeprecatedEndpoints = (openApiDefinition: any): boolean => {
-  if (openApiDefinition.paths && openApiDefinition.info['x-base-path']) {
-    const paths = getOpenApiDefinitionPaths(openApiDefinition);
-    for (const key of Object.keys(REQUIRED_ENDPOINTS)) {
-      const path = <MutableKeys<typeof REQUIRED_ENDPOINTS>>key;
-      for (const operation of REQUIRED_ENDPOINTS[path]) {
-        const deprecated = paths[path]?.[operation]?.deprecated;
-
-        if (deprecated === true) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-  throw new InstanceCheckError('Incompatible OpenAPI version.');
-};
-
-/**
- * Prepend base path to definition paths
- * @param openApiDefinition
- */
-export const getOpenApiDefinitionPaths = (openApiDefinition: any) => {
-  if (openApiDefinition.paths && openApiDefinition.info['x-base-path']) {
-    const basePath = openApiDefinition.info['x-base-path'];
-    const paths: {[key: string]: any} = {};
-    Object.keys(openApiDefinition.paths).forEach((path) => {
-      paths[`${basePath}${path}`] = openApiDefinition.paths[path];
-    });
-    return paths;
-  }
-  throw new InstanceCheckError('Incompatible OpenAPI Definition.');
-};
-
-/**
- * Get instance enabled modules
- * @param instanceUrl
- */
-export const getEnabledModules = (instanceUrl: string) => {
-  const enabledModulesEndpoint = instanceUrl + API_ENDPOINT_ENABLED_MODULES;
-
-  const headers = new Headers();
-  headers.append('Content-Type', 'application/json');
-  headers.append('Accept', 'application/json');
-
-  const requestOptions = {
-    method: 'GET',
-    headers: headers,
-  };
-  return fetch(enabledModulesEndpoint, requestOptions);
+  throw new InstanceCheckError('Incompatible OrangeHRM API version.');
 };
 
 /**

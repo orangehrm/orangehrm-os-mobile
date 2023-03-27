@@ -33,7 +33,7 @@ import {RootState} from 'store';
 import {
   selectStorageLoaded,
   selectInstanceUrl,
-  selectUsername,
+  selectIsAuthenticated,
 } from 'store/storage/selectors';
 import {fetchMyInfo} from 'store/auth/actions';
 import {
@@ -47,17 +47,14 @@ import {USER_ROLE_ADMIN} from 'store/auth/types';
 import {selectInitialRoute} from 'store/globals/selectors';
 import {navigationRef, getNavigation} from 'lib/helpers/navigation';
 import useGlobals from 'lib/hook/useGlobals';
-import useApiDetails from 'lib/hook/useApiDetails';
 import {isLargeScreen as isLargeScreenByWidth} from 'lib/helpers/dimension';
 import {DEFAULT_FIXED_DRAWER_WIDTH} from 'services/drawer';
 
-import Login from 'screens/login/Login';
 import SelectInstance from 'screens/login/SelectInstance';
 import SelectInstanceHelp from 'screens/login/SelectInstanceHelp';
 import {
   SELECT_INSTANCE,
   SELECT_INSTANCE_HELP,
-  LOGIN,
   APPLY_LEAVE,
   MY_LEAVE_ENTITLEMENT_AND_USAGE,
   LEAVE_LIST,
@@ -70,7 +67,6 @@ import {
   ATTENDANCE_SUMMARY,
   ATTENDANCE_LIST,
 } from 'screens';
-import {ORANGEHRM_API_1$2$0} from 'services/instance-check';
 
 import ApplyLeave from 'screens/leave/navigators/ApplyLeaveNavigator';
 import MyLeaveUsage from 'screens/leave/navigators/MyLeaveUsageNavigator';
@@ -91,18 +87,17 @@ const Navigator = (props: NavigatorProps) => {
   const {
     storageLoaded,
     instanceUrl,
-    loggedInUsername,
     myInfoSuccess,
     isCalledMyInfo,
     initialRoute,
     myInfo,
     enabledModules,
     myInfoFailed,
+    isAuthenticated,
   } = props;
   const dimensions = useWindowDimensions();
   const [isSubscribed, setIsSubscribed] = useState(false);
   const {changeCurrentRoute} = useGlobals();
-  const {isApiCompatible} = useApiDetails();
 
   const onRouteChange = () => {
     const currentRoute = getNavigation()?.getCurrentRoute()?.name;
@@ -114,7 +109,7 @@ const Navigator = (props: NavigatorProps) => {
   useEffect(() => {
     if (
       instanceUrl !== null &&
-      loggedInUsername !== null &&
+      isAuthenticated === true &&
       !myInfoSuccess &&
       !isCalledMyInfo
     ) {
@@ -128,7 +123,7 @@ const Navigator = (props: NavigatorProps) => {
     /* eslint-disable react-hooks/exhaustive-deps */
   }, [
     instanceUrl,
-    loggedInUsername,
+    isAuthenticated,
     myInfoSuccess,
     isCalledMyInfo,
     isSubscribed,
@@ -145,7 +140,7 @@ const Navigator = (props: NavigatorProps) => {
 
   let view = null;
   if (storageLoaded.loaded) {
-    if (instanceUrl !== null && loggedInUsername !== null) {
+    if (instanceUrl !== null && isAuthenticated) {
       const isLargeScreen = isLargeScreenByWidth(dimensions.width);
       if (myInfoSuccess || myInfoFailed) {
         view = (
@@ -166,6 +161,7 @@ const Navigator = (props: NavigatorProps) => {
                 <Drawer.Screen
                   name={NO_EMPLOYEE_INFO}
                   component={NoEmployeeInfo}
+                  options={{headerShown: false}}
                 />
               ) : (
                 <>
@@ -217,8 +213,7 @@ const Navigator = (props: NavigatorProps) => {
                     </>
                   ) : null}
 
-                  {isApiCompatible(ORANGEHRM_API_1$2$0) &&
-                  enabledModules !== undefined &&
+                  {enabledModules !== undefined &&
                   enabledModules.modules.time &&
                   enabledModules.meta.time.isTimesheetPeriodDefined ? (
                     <>
@@ -270,19 +265,13 @@ const Navigator = (props: NavigatorProps) => {
         view = <Overlay modalProps={{visible: true}} />;
       }
     } else {
-      let initialRouteName = LOGIN;
-      if (instanceUrl === null) {
-        initialRouteName = SELECT_INSTANCE;
-      }
-
       view = (
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName={initialRouteName}>
+          initialRouteName={SELECT_INSTANCE}>
           <Stack.Screen name={SELECT_INSTANCE} component={SelectInstance} />
-          <Stack.Screen name={LOGIN} component={Login} />
           <Stack.Screen
             name={SELECT_INSTANCE_HELP}
             component={SelectInstanceHelp}
@@ -308,13 +297,13 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: RootState) => ({
   storageLoaded: selectStorageLoaded(state),
   instanceUrl: selectInstanceUrl(state),
-  loggedInUsername: selectUsername(state),
   myInfoSuccess: selectMyInfoSuccess(state),
   isCalledMyInfo: selectIsCalledMyInfo(state),
   initialRoute: selectInitialRoute(state),
   myInfo: selectMyInfo(state),
   enabledModules: selectEnabledModules(state),
   myInfoFailed: selectMyInfoFailed(state),
+  isAuthenticated: selectIsAuthenticated(state),
 });
 
 const mapDispatchToProps = {

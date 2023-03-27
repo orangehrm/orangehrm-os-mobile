@@ -99,6 +99,9 @@ android {
 
     namespace "com.orangehrm.opensource"
     defaultConfig {
+        manifestPlaceholders = [
+      appAuthRedirectScheme: 'com.orangehrm.opensource'
+    ]
         applicationId "com.orangehrm.opensource"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion

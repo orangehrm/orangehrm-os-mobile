@@ -18,6 +18,7 @@
  *
  */
 
+import moment from 'moment';
 import {NullableString} from 'store/storage/types';
 import {AuthenticationError} from 'services/errors/authentication';
 import {InstanceCheckError} from 'services/errors/instance-check';
@@ -38,9 +39,10 @@ export const ERROR_JSON_PARSE = 'ERROR_JSON_PARSE';
  */
 export const isAccessTokenExpired = (expiredAtISO: NullableString) => {
   if (typeof expiredAtISO === 'string') {
-    const now = new Date();
-    const expired = new Date(expiredAtISO);
-    return now.getTime() >= expired.getTime();
+    const now = moment.utc();
+    const expired = moment.utc(expiredAtISO);
+    // now >= expired
+    return now.isSameOrAfter(expired);
   }
   return true;
 };
