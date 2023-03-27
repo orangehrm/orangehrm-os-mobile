@@ -24,7 +24,6 @@ import Text from 'components/DefaultText';
 import FormattedDate from 'components/FormattedDate';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {Leave} from 'store/leave/leave-usage/types';
-import {LEAVE_STATUS_MAP} from 'lib/helpers/leave';
 
 class LeaveDayListItem extends React.Component<LeaveDayListItemProps> {
   render() {

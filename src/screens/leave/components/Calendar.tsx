@@ -34,7 +34,6 @@ import {
   WorkWeek,
   WORK_WEEK_FULL,
   WORK_WEEK_NON,
-  RECURRING_TRUE,
 } from 'store/leave/common-screens/types';
 
 const MAP = {

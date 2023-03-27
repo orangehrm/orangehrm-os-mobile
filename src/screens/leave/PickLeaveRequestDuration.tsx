@@ -39,7 +39,6 @@ import RadioItem from 'components/DefaultRadioItem';
 import PickLeaveSpecificTime from 'screens/leave/components/PickLeaveSpecificTime';
 import {
   FULL_DAY,
-  HALF_DAY,
   SPECIFY_TIME,
   HALF_DAY_MORNING,
   HALF_DAY_AFTERNOON,

@@ -18,12 +18,7 @@
  *
  */
 
-import {
-  Leave,
-  LeaveType,
-  Entitlement,
-  LeaveBalance,
-} from 'store/leave/leave-usage/types';
+import {Leave, LeaveType, Entitlement} from 'store/leave/leave-usage/types';
 import {SubordinateEntitlement} from 'store/leave/assign-leave/types';
 import {
   SPECIFY_TIME,

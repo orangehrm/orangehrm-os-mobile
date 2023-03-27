@@ -27,7 +27,6 @@ import {
 } from 'store/saga-effects/globals';
 import {TYPE_ERROR} from 'store/globals/types';
 import {
-  API_ENDPOINT_EMPLOYEES,
   API_ENDPOINT_LEAVE_HOLIDAYS,
   API_ENDPOINT_LEAVE_WORK_WEEK,
   prepare,

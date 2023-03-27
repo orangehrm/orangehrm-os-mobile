@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {
   NavigationProp,
   ParamListBase,
@@ -144,12 +144,8 @@ class LeaveDetails extends React.Component<
   };
 
   render() {
-    const {
-      theme,
-      employeeLeaveRequest,
-      employeeLeaveRequestDetails,
-      employeeLeaveComment,
-    } = this.props;
+    const {theme, employeeLeaveRequestDetails, employeeLeaveComment} =
+      this.props;
     const {action} = this.state;
 
     const leaveTypeColor = 'green';

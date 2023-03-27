@@ -58,7 +58,6 @@ import {
   LeaveRequestAllowedActions,
 } from 'store/leave/leave-list/types';
 import {LeaveDaysParam, LeaveCommentsParam} from 'screens/leave/navigators';
-import {LEAVE_TYPE_DELETED_YES} from 'store/leave/leave-usage/types';
 import {
   selectEmployeeLeaveComment,
   selectEmployeeLeaveRequest,
@@ -111,10 +110,11 @@ class MyLeaveDetails extends React.Component<
 
   onPressLeaveDays = () => {
     const {leaveRequestDetail, employeeLeaveRequest} = this.props;
+    const leaveRequest = leaveRequestDetail;
     if (leaveRequestDetail) {
       navigate<LeaveDaysParam>(LEAVE_DAYS, {
         employeeLeaveRequest,
-        leaveRequestDetail,
+        leaveRequest,
       });
     }
   };

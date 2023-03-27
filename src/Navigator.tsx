@@ -99,7 +99,6 @@ const Navigator = (props: NavigatorProps) => {
     myInfo,
     enabledModules,
     myInfoFailed,
-    isAuthenticated,
   } = props;
   const dimensions = useWindowDimensions();
   const [isSubscribed, setIsSubscribed] = useState(false);

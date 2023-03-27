@@ -31,7 +31,6 @@ import LeaveCommentListItem from 'screens/leave/components/LeaveCommentListItem'
 import {PickLeaveRequestCommentFooter} from 'screens/leave/components/PickLeaveRequestComment';
 import {ACTION_TYPE_COMMENT} from 'store/leave/leave-list/types';
 import {LeaveCommentsRouteParams} from 'screens/leave/navigators';
-import {changeEmployeeLeaveRequestComment} from '../../store/leave/leave-list/actions';
 
 class LeaveComments extends React.Component<
   LeaveCommentsProps,
@@ -47,7 +46,6 @@ class LeaveComments extends React.Component<
   onPressComment = () => {
     const {comment} = this.state;
     const {
-      employeeLeaveRequest,
       changeEmployeeLeaveRequestComment,
       dispatch,
       employeeLeaveRequestDetails,
@@ -68,7 +66,7 @@ class LeaveComments extends React.Component<
   };
 
   render() {
-    const {theme,employeeLeaveComment} = this.props;
+    const {theme, employeeLeaveComment} = this.props;
     const {comment} = this.state;
     return (
       <MainLayout

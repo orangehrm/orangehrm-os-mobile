@@ -44,7 +44,6 @@ import {
 import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
 import {
   API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
-  API_ENDPOINT_LEAVE_REQUEST_DETAILS,
   API_ENDPOINT_LEAVE_WORK_SHIFT,
   prepare,
 } from 'services/endpoints';

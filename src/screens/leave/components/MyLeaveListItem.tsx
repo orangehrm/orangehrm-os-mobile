@@ -30,7 +30,6 @@ import Chip from 'components/DefaultChip';
 import FormattedDate from 'components/FormattedDate';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {LeaveRequest} from 'store/leave/leave-usage/types';
-import {LEAVE_TYPE_DELETED_YES} from 'store/leave/leave-usage/types';
 
 class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
   render() {

@@ -34,7 +34,6 @@ import {navigate} from 'lib/helpers/navigation';
 import {isSingleDayRequest, isMultipleDayRequest} from 'lib/helpers/leave';
 import {
   FULL_DAY,
-  HALF_DAY,
   HALF_DAY_MORNING,
   HALF_DAY_AFTERNOON,
   SPECIFY_TIME,

@@ -33,8 +33,8 @@ import {selectEmployeeLeaveRequest} from '../../store/leave/leave-list/selectors
 
 class LeaveDays extends React.Component<LeaveDaysProps> {
   onRefresh = () => {
-    const {employeeLeaveRequest} = this.props.route.params;
-    // this.props.fetchEmployeeLeaveRequest(leaveRequest.id);
+    const {leaveRequest} = this.props.route.params;
+    this.props.fetchEmployeeLeaveRequest(leaveRequest.id);
   };
 
   render() {

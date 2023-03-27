@@ -41,7 +41,6 @@ import Divider from 'components/DefaultDivider';
 import PickPartialDayDuration from 'screens/leave/components/PickPartialDayDuration';
 import {
   HALF_DAY,
-  HALF_DAY_MORNING,
   PARTIAL_OPTION_NONE,
   PARTIAL_OPTION_ALL,
   PARTIAL_OPTION_START,
@@ -187,7 +186,7 @@ class PickLeaveRequestPartialDays extends React.Component<PickLeaveRequestPartia
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_START_END,
                     duration: {type: HALF_DAY},
-                    endDuration:{type:HALF_DAY}
+                    endDuration: {type: HALF_DAY},
                   });
                 }}
               />

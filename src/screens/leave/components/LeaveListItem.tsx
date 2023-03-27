@@ -31,7 +31,6 @@ import Avatar from 'components/DefaultAvatar';
 import FormattedDate from 'components/FormattedDate';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {LeaveListLeaveRequest} from 'store/leave/leave-list/types';
-import {LEAVE_TYPE_DELETED_YES} from 'store/leave/leave-usage/types';
 
 class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
   render() {

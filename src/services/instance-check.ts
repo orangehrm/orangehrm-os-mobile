@@ -70,7 +70,7 @@ export const checkInstance = (instanceUrl: string) => {
 export const getOpenApiDefinition = (instanceUrl: string) => {
   const restApiMetaEndpoint =
     instanceUrl + prepare(API_ENDPOINT_API_DEFINITION, {}, {tags: ['User']});
- 
+
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');
   headers.append('Accept', 'application/json');

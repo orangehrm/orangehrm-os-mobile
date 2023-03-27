@@ -55,7 +55,6 @@ import {
 import {
   assignColorsToLeaveTypeArray,
   assignColorsToLeaveTypes,
-  assignColorToLeaveType,
 } from 'lib/helpers/leave';
 import {TYPE_ERROR} from 'store/globals/types';
 import {

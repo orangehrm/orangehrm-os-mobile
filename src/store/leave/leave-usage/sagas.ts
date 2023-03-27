@@ -19,7 +19,7 @@
  */
 
 import {takeEvery, put} from 'redux-saga/effects';
-import {apiCall, apiGetCall, apiPostCall, apiPutCall} from 'store/saga-effects/api';
+import {apiCall, apiGetCall, apiPutCall} from 'store/saga-effects/api';
 import {
   openLoader,
   closeLoader,
@@ -71,7 +71,6 @@ function* fetchMyLeaveEntitlements() {
     yield put(setErrorMessage());
     yield put(setApplyLeaveErrorMessage());
     if (response.data) {
-
       yield put(
         fetchMyLeaveEntitlementsFinished(
           assignColorsToLeaveTypes(response.data),
@@ -191,7 +190,7 @@ function* changeMyLeaveRequestStatus(action: ChangeMyLeaveRequestStatusAction) {
     yield openLoader();
     const response = yield apiCall(
       apiPutCall,
-      prepare(API_ENDPOINT_LEAVE_REQUEST_DETAILS,{id: action.leaveRequestId}),
+      prepare(API_ENDPOINT_LEAVE_REQUEST_DETAILS, {id: action.leaveRequestId}),
       {action: action.action.status},
     );
 
