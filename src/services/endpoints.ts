@@ -42,9 +42,9 @@ export const API_ENDPOINT_LEAVE_COMMENT =
 export const API_ENDPOINT_LEAVE_COMMENT_SAVE =
   '/web/index.php/api/v2/leave/leave-requests/{id}/leave-comments';
 export const API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT =
-  '/web/index.php/api/v2/subordinate/{id}/leave-entitlement';
+  '/web/index.php/api/v2/leave/leave-entitlements';
 export const API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST =
-  '/web/index.php/api/v1/subordinate/{id}/leave-request';
+  '/web/index.php/api/v2/leave/employees/leave-requests';
 export const API_ENDPOINT_LEAVE_HOLIDAYS =
   '/web/index.php/api/v2/leave/holidays';
 export const API_ENDPOINT_LEAVE_PERIODS =

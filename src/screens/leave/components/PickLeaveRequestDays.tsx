@@ -67,6 +67,7 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
 
   getSelectedTextForDuration = () => {
     const {duration} = this.props;
+    console.log(duration, 'checked');
     if (duration.duration.type === FULL_DAY) {
       return 'Full Day';
     } else if (duration.duration.type === HALF_DAY_MORNING) {

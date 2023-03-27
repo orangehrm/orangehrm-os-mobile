@@ -302,10 +302,11 @@ export const WORK_WEEK_NON = '8';
 
 export interface Holiday {
   id: string;
-  recurring: typeof RECURRING_TRUE | typeof RECURRING_FALSE;
-  description: string;
+  recurring: boolean;
+  name: string;
   date: string;
-  length: typeof WORK_WEEK_FULL | typeof WORK_WEEK_HALF;
+  length: number;
+  lengthName: string;
 }
 
 export interface WorkWeek {

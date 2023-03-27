@@ -74,15 +74,20 @@ function* saveLeaveRequest(
     | AssignSingleDayLeaveRequestAction
     | AssignMultipleDayLeaveRequestAction,
 ) {
+  const payload = action.payload;
+  payload.empNumber = action.empNumber;
+  console.log(payload, 'ssss actionss');
   try {
     yield openLoader();
     const response = yield apiCall(
       apiPostCall,
-      prepare(API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST, {id: action.empNumber}),
-      action.payload,
+      prepare(API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST),
+      payload,
     );
 
-    if (response.success) {
+    console.log(response, 'ssss');
+
+    if (response.data) {
       yield put(resetAssignLeaveWithoutSubordinates());
       yield put(resetLeaveList());
       navigate<LeaveRequestSuccessParam>(LEAVE_REQUEST_SUCCESS);
@@ -93,6 +98,7 @@ function* saveLeaveRequest(
       );
     }
   } catch (error) {
+    console.log(error, 'ssss');
     yield showSnackMessage(
       getMessageAlongWithGenericErrors(error, 'Failed to Save Leave'),
       TYPE_ERROR,
@@ -105,16 +111,19 @@ function* saveLeaveRequest(
 function* fetchSubordinateLeaveEntitlements(
   action: FetchSubordinateLeaveEntitlementAction,
 ) {
+  console.log(action.empNumber);
   try {
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
       prepare(
         API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT,
-        {id: action.empNumber},
-        {combineLeaveTypes: true},
+        {},
+        {model: 'summary', empNumber: action.empNumber},
       ),
     );
+
+    console.log(response, 'assign');
     // clear error messages
     yield put(setErrorMessage());
     if (response.data) {
@@ -142,6 +151,7 @@ function* fetchSubordinateLeaveEntitlements(
       );
     }
   } catch (error) {
+    console.log(error, 'assign error');
     yield showSnackMessage(
       getMessageAlongWithGenericErrors(
         error,
@@ -163,11 +173,7 @@ function* fetchAccessibleEmployees() {
       actionName: 'assign_leave',
       properties: ['firstName', 'lastName', 'employeeId'],
     };
-    const response = yield apiCall(
-      apiGetCall,
-      prepare(API_ENDPOINT_EMPLOYEES),
-    );
-    console.log(response,'assign');
+    const response = yield apiCall(apiGetCall, prepare(API_ENDPOINT_EMPLOYEES));
     if (response.data) {
       yield put(fetchSubordinatesFinished(response.data));
     } else {
