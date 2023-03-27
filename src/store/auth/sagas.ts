@@ -39,7 +39,7 @@ import {
 import {
   checkInstance as checkInstanceRequest,
   checkInstanceCompatibility,
-  getOpenApiDefinition,
+  getRestApiVersion,
   RestApiVersion,
 } from 'services/instance-check';
 import {
@@ -439,7 +439,7 @@ function* fetchApiDefinition() {
 
     const instanceUrl: string = yield selectInstanceUrl();
     // eslint-disable-next-line no-undef
-    const response: Response = yield call(getOpenApiDefinition, instanceUrl);
+    const response: Response = yield call(getRestApiVersion, instanceUrl);
     const apiVersion: RestApiVersion = yield call([response, response.json]);
 
     checkInstanceCompatibility(apiVersion);

@@ -54,7 +54,7 @@ export const REQUIRED_ENDPOINTS = {
   [API_ENDPOINT_LEAVE_TYPES]: [HTTP_METHOD_GET],
 };
 
-export const ORANGEHRM_API_2$2$0 = '2.2.0';
+export const ORANGEHRM_API_2$2$0 = '2.2.0'; // TODO
 
 export const REQUIRED_MINIMUM_ORANGEHRM_API_VER = ORANGEHRM_API_2$2$0;
 
@@ -63,10 +63,10 @@ export interface RestApiVersion {
 }
 
 export const checkInstance = (instanceUrl: string) => {
-  return getOpenApiDefinition(instanceUrl);
+  return getRestApiVersion(instanceUrl);
 };
 
-export const getOpenApiDefinition = (instanceUrl: string) => {
+export const getRestApiVersion = (instanceUrl: string) => {
   const restApiVersionEndpoint = instanceUrl + API_ENDPOINT_API_VERSION;
 
   const headers = new Headers();

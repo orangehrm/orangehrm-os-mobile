@@ -31,14 +31,8 @@ describe('services/instance-check', () => {
 
   test('checkInstanceCompatibility::check with incompatible OrangeHRM API version', () => {
     expect(() => {
-      checkInstanceCompatibility({version: '2.2.0'});
-    }).toThrow('Incompatible OrangeHRM API version.');
-  });
-
-  test('checkInstanceCompatibility::check with incompatible OpenAPI version', () => {
-    expect(() => {
       checkInstanceCompatibility({version: '2.1.0'});
-    }).toThrow('Incompatible OpenAPI version.');
+    }).toThrow('Incompatible OrangeHRM API version.');
   });
 
   test('isApiCompatible::check incompatible', () => {
