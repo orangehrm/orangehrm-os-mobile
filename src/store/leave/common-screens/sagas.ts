@@ -88,7 +88,6 @@ function* fetchWorkWeek() {
       apiGetCall,
       prepare(API_ENDPOINT_LEAVE_WORK_WEEK, {}, queryParams),
     );
-
     if (response.data) {
       yield put(fetchWorkWeekFinished(response.data));
     } else {

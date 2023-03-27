@@ -38,13 +38,13 @@ import {
 } from 'store/leave/common-screens/types';
 
 const MAP = {
-  0: 'sun',
-  1: 'mon',
-  2: 'tue',
-  3: 'wed',
-  4: 'thu',
-  5: 'fri',
-  6: 'sat',
+  0: 0,
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
+  6: 6,
 };
 
 const PAST_SCROLL_RANGE = 24;
@@ -84,7 +84,7 @@ const Calendar = (props: CalendarProps) => {
             ? theme.palette.defaultDark
             : theme.palette.default,
       };
-      if (holiday.recurring === RECURRING_TRUE) {
+      if (holiday.recurring) {
         for (let i = 0; i < PAST_SCROLL_RANGE / 12; i++) {
           const holidayDate = new Date(holiday.date);
           holidayDate.setFullYear(holidayDate.getFullYear() - (i + 1));

@@ -296,9 +296,9 @@ export type LeaveRequestActions =
 export const RECURRING_TRUE = '1';
 export const RECURRING_FALSE = '0';
 
-export const WORK_WEEK_FULL = '0';
-export const WORK_WEEK_HALF = '4';
-export const WORK_WEEK_NON = '8';
+export const WORK_WEEK_FULL = 0;
+export const WORK_WEEK_HALF = 4;
+export const WORK_WEEK_NON = 8;
 
 export interface Holiday {
   id: string;
@@ -310,13 +310,13 @@ export interface Holiday {
 }
 
 export interface WorkWeek {
-  monday: WorkWeekType;
-  tuesday: WorkWeekType;
-  wednesday: WorkWeekType;
-  thursday: WorkWeekType;
-  friday: WorkWeekType;
-  saturday: WorkWeekType;
-  sunday: WorkWeekType;
+  0: WorkWeekType;
+  1: WorkWeekType;
+  2: WorkWeekType;
+  3: WorkWeekType;
+  4: WorkWeekType;
+  5: WorkWeekType;
+  6: WorkWeekType;
 }
 
 export type WorkWeekType =
