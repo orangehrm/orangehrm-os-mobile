@@ -18,6 +18,7 @@
  *
  */
 
+import moment from 'moment';
 import {
   isAccessTokenExpired,
   getMessageAlongWithGenericErrors,
@@ -33,15 +34,38 @@ describe('services/api', () => {
 
   test('isAccessTokenExpired::check with now', () => {
     const date = new Date();
-    const result = isAccessTokenExpired(date.toISOString());
+    const result = isAccessTokenExpired(date.toUTCString());
     expect(result).toBeTruthy();
   });
 
   test('isAccessTokenExpired::check with future time', () => {
     const date = new Date();
     date.setMinutes(date.getMinutes() + 5);
-    const result = isAccessTokenExpired(date.toISOString());
+    const result = isAccessTokenExpired(date.toUTCString());
     expect(result).toBeFalsy();
+  });
+
+  test('isAccessTokenExpired::check with past time', () => {
+    const date = new Date();
+    date.setMinutes(date.getMinutes() - 5);
+    const result = isAccessTokenExpired(date.toUTCString());
+    expect(result).toBeTruthy();
+  });
+
+  test('moment::isAfter::check exactly', () => {
+    const now = moment.utc('2023-03-27T06:00:01');
+    const expired = moment.utc('2023-03-27T06:00:01');
+    expect(now.isAfter(expired)).toBeFalsy();
+    expect(now.isBefore(expired)).toBeFalsy();
+    expect(now.isSame(expired)).toBeTruthy();
+    expect(now.isSameOrAfter(expired)).toBeTruthy();
+  });
+
+  test('moment::check isAfter & isBefore', () => {
+    const now = moment.utc('2023-03-26T23:59:59');
+    const expired = moment.utc('2023-03-27T00:00:00');
+    expect(now.isAfter(expired)).toBeFalsy();
+    expect(now.isBefore(expired)).toBeTruthy();
   });
 
   test('getMessageAlongWithGenericErrors::invalid error object + default message', () => {

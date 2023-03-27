@@ -47,7 +47,6 @@ import {USER_ROLE_ADMIN} from 'store/auth/types';
 import {selectInitialRoute} from 'store/globals/selectors';
 import {navigationRef, getNavigation} from 'lib/helpers/navigation';
 import useGlobals from 'lib/hook/useGlobals';
-import useApiDetails from 'lib/hook/useApiDetails';
 import {isLargeScreen as isLargeScreenByWidth} from 'lib/helpers/dimension';
 import {DEFAULT_FIXED_DRAWER_WIDTH} from 'services/drawer';
 
@@ -68,7 +67,6 @@ import {
   ATTENDANCE_SUMMARY,
   ATTENDANCE_LIST,
 } from 'screens';
-import {ORANGEHRM_API_1$2$0} from 'services/instance-check';
 
 import ApplyLeave from 'screens/leave/navigators/ApplyLeaveNavigator';
 import MyLeaveUsage from 'screens/leave/navigators/MyLeaveUsageNavigator';
@@ -100,7 +98,6 @@ const Navigator = (props: NavigatorProps) => {
   const dimensions = useWindowDimensions();
   const [isSubscribed, setIsSubscribed] = useState(false);
   const {changeCurrentRoute} = useGlobals();
-  const {isApiCompatible} = useApiDetails();
 
   const onRouteChange = () => {
     const currentRoute = getNavigation()?.getCurrentRoute()?.name;
@@ -216,8 +213,7 @@ const Navigator = (props: NavigatorProps) => {
                     </>
                   ) : null}
 
-                  {isApiCompatible(ORANGEHRM_API_1$2$0) &&
-                  enabledModules !== undefined &&
+                  {enabledModules !== undefined &&
                   enabledModules.modules.time &&
                   enabledModules.meta.time.isTimesheetPeriodDefined ? (
                     <>

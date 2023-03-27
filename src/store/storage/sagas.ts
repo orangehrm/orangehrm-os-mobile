@@ -28,7 +28,6 @@ import storage, {
   SCOPE,
   TOKEN_TYPE,
   INSTANCE_API_VERSION,
-  INSTANCE_API_PATHS,
   DATE_FORMAT,
 } from 'services/storage';
 import {storageSetMulti, storageChangeLoaded} from 'store/saga-effects/storage';
@@ -52,7 +51,6 @@ export function* loadAsyncStorage() {
       SCOPE,
       TOKEN_TYPE,
       INSTANCE_API_VERSION,
-      INSTANCE_API_PATHS,
       DATE_FORMAT,
     ];
     const keyValuePairs = yield call(storage.multiGet, keys);

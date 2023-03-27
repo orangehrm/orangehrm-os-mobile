@@ -20,7 +20,6 @@
 
 import {EndpointError} from 'services/errors/endpoints';
 
-export const API_ENDPOINT_MY_INFO = '/api/v1/myinfo';
 export const API_ENDPOINT_EMPLOYEES = '/api/v1/employees';
 
 // leave
@@ -53,7 +52,6 @@ export const API_ENDPOINT_ATTENDANCE_CONFIGURATION = '/api/v1/time/config';
 
 // public endpoints
 export const API_ENDPOINT_API_DEFINITION = '/api/v1/api-definition';
-export const API_ENDPOINT_ENABLED_MODULES = '/api/v1/enabled-modules';
 
 /**
  * V2 endpoints
@@ -61,8 +59,10 @@ export const API_ENDPOINT_ENABLED_MODULES = '/api/v1/enabled-modules';
 
 export const API_ENDPOINT_AUTH_ISSUE_TOKEN = '/oauth2/token';
 export const API_ENDPOINT_API_VERSION = '/api/v2/core/public/version';
-export const API_ENDPOINT_MY_INFO_NEW = '/api/v2/pim/myself';
-export const API_ENDPOINT_ENABLED_MODULE_NEW = '/api/v2/admin/modules';
+
+export const API_ENDPOINT_MY_INFO = '/api/v2/pim/myself';
+export const API_ENDPOINT_ENABLED_MODULES = '/api/v2/admin/modules';
+
 //help
 export const HELP_REDIRECT_URL =
   'https://starterhelp.orangehrm.com/hc/en-us/categories/360002945899-Mobile-App';
