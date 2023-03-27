@@ -53,8 +53,6 @@ import {
 import useTheme from 'lib/hook/useTheme';
 import {getDrawerItems} from 'services/drawer';
 import {SUBHEADER_LEAVE, SUBHEADER_TIME} from 'screens';
-import useApiDetails from 'lib/hook/useApiDetails';
-import {ORANGEHRM_API_1$3$0} from 'services/instance-check';
 import {HELP_REDIRECT_URL} from 'services/endpoints';
 import {getFullName} from 'lib/helpers/name';
 
@@ -77,8 +75,6 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
     drawerContentProps.navigation.closeDrawer();
     logout();
   }, [logout, drawerContentProps]);
-
-  const {isApiCompatible} = useApiDetails();
 
   let imageSource;
   if (myInfo?.employeePhoto !== undefined && myInfo?.employeePhoto !== null) {
@@ -167,20 +163,16 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
         </View>
       </DrawerContentScrollView>
       <View>
-        {isApiCompatible(ORANGEHRM_API_1$3$0) ? (
-          <>
-            <Divider />
-            <DrawerItem
-              style={styles.drawerItem}
-              label={'Help'}
-              onPress={onPressHelp}
-              icon={() => (
-                <Icon name={'help-circle'} style={styles.draweItemIcon} />
-              )}
-              {...commonProps}
-            />
-          </>
-        ) : null}
+        <Divider />
+        <DrawerItem
+          style={styles.drawerItem}
+          label={'Help'}
+          onPress={onPressHelp}
+          icon={() => (
+            <Icon name={'help-circle'} style={styles.draweItemIcon} />
+          )}
+          {...commonProps}
+        />
         <Divider />
         <DrawerItem
           style={styles.drawerItem}

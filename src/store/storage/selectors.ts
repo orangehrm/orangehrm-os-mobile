@@ -26,7 +26,6 @@ import {
   REFRESH_TOKEN,
   EXPIRES_AT,
   INSTANCE_API_VERSION,
-  INSTANCE_API_PATHS,
   DATE_FORMAT,
 } from 'services/storage';
 import {
@@ -72,13 +71,9 @@ export const selectApiDetails = createSelector<
   RootState,
   StorageState,
   ApiDetails
->([selectStorage], (storage) => {
-  const paths = storage[INSTANCE_API_PATHS];
-  return {
-    [INSTANCE_API_VERSION]: storage[INSTANCE_API_VERSION],
-    [INSTANCE_API_PATHS]: paths ? JSON.parse(paths) : null,
-  };
-});
+>([selectStorage], (storage) => ({
+  [INSTANCE_API_VERSION]: storage[INSTANCE_API_VERSION],
+}));
 
 export const selectDateFormat = createSelector<
   RootState,

@@ -41,7 +41,8 @@ export const isAccessTokenExpired = (expiredAtISO: NullableString) => {
   if (typeof expiredAtISO === 'string') {
     const now = moment.utc();
     const expired = moment.utc(expiredAtISO);
-    return now.isAfter(expired);
+    // now >= expired
+    return now.isSameOrAfter(expired);
   }
   return true;
 };

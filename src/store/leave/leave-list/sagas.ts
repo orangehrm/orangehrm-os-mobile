@@ -55,22 +55,11 @@ import {
 } from 'services/api';
 
 function* fetchLeaveList() {
-  //need to change this
   try {
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      prepare(
-        API_ENDPOINT_LEAVE_LIST,
-        {},
-        {
-          // fromDate: action.payload.fromDate,
-          // toDate: action.payload.toDate,
-          // pendingApproval: true,
-          // scheduled: true,
-          // taken: true,
-        },
-      ),
+      prepare(API_ENDPOINT_LEAVE_LIST, {}, {pendingApproval: true}),
     );
     if (response.data) {
       yield put(
@@ -106,9 +95,7 @@ function* fetchEmployeeLeaveRequest(action: FetchEmployeeLeaveRequestAction) {
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_REQUEST, {
-        id: action.leaveRequestId,
-      }),
+      prepare(API_ENDPOINT_LEAVE_REQUEST, {id: action.leaveRequestId}),
     );
     if (response.data) {
       yield put(

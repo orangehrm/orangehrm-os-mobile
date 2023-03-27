@@ -67,7 +67,6 @@ const authReducer = (
       return {
         ...state,
         checkingInstance: false,
-        // isAuthenticated: true,
         instanceExists: action.error === undefined ? undefined : !action.error,
       };
     case FETCH_ENABLED_MODULES_FINISHED:
