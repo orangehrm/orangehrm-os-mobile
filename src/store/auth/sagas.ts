@@ -102,9 +102,7 @@ import {$PropertyType} from 'utility-types';
 function* checkInstance(action?: CheckInstanceAction) {
   try {
     yield openLoader();
-
     let instanceUrl: string = yield selectInstanceUrl();
-
     // eslint-disable-next-line no-undef
     let response: Response = yield call(checkInstanceRequest, instanceUrl);
 
@@ -171,6 +169,7 @@ function* checkInstance(action?: CheckInstanceAction) {
 
       checkInstanceCompatibility(data);
 
+      // TODO
       // yield* fetchEnabledModules();
 
       yield* fetchAuthToken();
@@ -260,10 +259,10 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
         modules: responseData.data,
         meta: {
           leave: {
-            isLeavePeriodDefined: true,
+            isLeavePeriodDefined: true, // TODO
           },
           time: {
-            isTimesheetPeriodDefined: true,
+            isTimesheetPeriodDefined: true, // TODO
           },
         },
       };
@@ -271,6 +270,7 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
       if (responseData.data) {
         yield put(fetchEnabledModulesFinished(enabledModules));
         if (!enabledModules.modules.mobile) {
+          // TODO::remove
           // Logout in case loggedin user
           yield* logout();
           throw new InstanceCheckError(
@@ -464,5 +464,5 @@ export function* watchAuthActions() {
   yield takeEvery(CHECK_INSTANCE, checkInstance);
   yield takeEvery(FETCH_ENABLED_MODULES, fetchEnabledModules);
   yield takeEvery(FETCH_NEW_TOKEN_FINISHED, fetchApiDefinition);
-  // yield takeEvery(FETCH_MY_INFO, fetchApiDefinition);
+  // yield takeEvery(FETCH_MY_INFO, fetchApiDefinition); // TODO
 }
