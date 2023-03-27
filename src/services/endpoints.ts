@@ -20,37 +20,6 @@
 
 import {EndpointError} from 'services/errors/endpoints';
 
-export const API_ENDPOINT_EMPLOYEES = '/api/v2/pim/employees';
-
-// leave
-export const API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT =
-  '/web/index.php/api/v2/leave/leave-entitlements?model=summary';
-export const API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST =
-  '/web/index.php/api/v2/leave/leave-requests';
-export const API_ENDPOINT_LEAVE_LIST =
-  '/web/index.php/api/v2/leave/employees/leave-requests';
-export const API_ENDPOINT_LEAVE_REQUEST =
-  '/web/index.php/api/v2/leave/leave-requests/{id}/leaves';
-export const API_ENDPOINT_LEAVE_REQUEST_DETAILS =
-  '/web/index.php/api/v2/leave/employees/leave-requests/{id}';
-export const API_ENDPOINT_LEAVE_COMMENT =
-  '/web/index.php/api/v2/leave/leave-requests/{id}/leave-comments';
-export const API_ENDPOINT_LEAVE_COMMENT_SAVE =
-  '/web/index.php/api/v2/leave/leave-requests/{id}/leave-comments';
-export const API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT =
-  '/web/index.php/api/v2/leave/leave-entitlements';
-export const API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST =
-  '/web/index.php/api/v2/leave/employees/leave-requests';
-export const API_ENDPOINT_LEAVE_HOLIDAYS =
-  '/web/index.php/api/v2/leave/holidays';
-export const API_ENDPOINT_LEAVE_WORK_SHIFT =
-  '/web/index.php/api/v2/pim/employees/{id}/work-shift';
-export const API_ENDPOINT_LEAVE_WORK_WEEK =
-  '/web/index.php/api/v2/leave/workweek';
-export const API_ENDPOINT_LEAVE_TYPES =
-  '/web/index.php/api/v2/leave/leave-types';
-export const API_ENDPOINT_LEAVE = '/web/index.php/api/v2/leave/leaves';
-
 // attendance
 export const API_ENDPOINT_PUNCH_STATUS = '/api/v1/attendance/punch-status';
 export const API_ENDPOINT_PUNCH_IN_REQUEST = '/api/v1/attendance/punch-in';
@@ -72,7 +41,33 @@ export const API_ENDPOINT_AUTH_ISSUE_TOKEN = '/oauth2/token';
 export const API_ENDPOINT_API_VERSION = '/api/v2/core/public/version';
 
 export const API_ENDPOINT_MY_INFO = '/api/v2/pim/myself';
+export const API_ENDPOINT_EMPLOYEES = '/api/v2/pim/employees';
 export const API_ENDPOINT_ENABLED_MODULES = '/api/v2/admin/modules';
+
+// leave
+export const API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT =
+  '/api/v2/leave/leave-entitlements?model=summary';
+export const API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST =
+  '/api/v2/leave/leave-requests';
+export const API_ENDPOINT_LEAVE_LIST = '/api/v2/leave/employees/leave-requests';
+export const API_ENDPOINT_LEAVE_REQUEST =
+  '/api/v2/leave/leave-requests/{id}/leaves';
+export const API_ENDPOINT_LEAVE_REQUEST_DETAILS =
+  '/api/v2/leave/employees/leave-requests/{id}';
+export const API_ENDPOINT_LEAVE_COMMENT =
+  '/api/v2/leave/leave-requests/{id}/leave-comments';
+export const API_ENDPOINT_LEAVE_COMMENT_SAVE =
+  '/api/v2/leave/leave-requests/{id}/leave-comments';
+export const API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT =
+  '/api/v2/leave/leave-entitlements';
+export const API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST =
+  '/api/v2/leave/employees/leave-requests';
+export const API_ENDPOINT_LEAVE_HOLIDAYS = '/api/v2/leave/holidays';
+export const API_ENDPOINT_LEAVE_WORK_SHIFT =
+  '/api/v2/pim/employees/{id}/work-shift';
+export const API_ENDPOINT_LEAVE_WORK_WEEK = '/api/v2/leave/workweek';
+export const API_ENDPOINT_LEAVE_TYPES = '/api/v2/leave/leave-types';
+export const API_ENDPOINT_LEAVE = '/api/v2/leave/leaves';
 
 //help
 export const HELP_REDIRECT_URL =

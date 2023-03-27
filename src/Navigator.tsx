@@ -42,7 +42,6 @@ import {
   selectMyInfo,
   selectEnabledModules,
   selectMyInfoFailed,
-  selectIsAuthenticated,
 } from 'store/auth/selectors';
 import {USER_ROLE_ADMIN} from 'store/auth/types';
 import {selectInitialRoute} from 'store/globals/selectors';
