@@ -20,90 +20,25 @@
 
 import {
   checkInstanceCompatibility,
-  checkRemovedEndpoints,
-  checkDeprecatedEndpoints,
   isApiCompatible,
 } from 'services/instance-check';
 
-const DUMMY_OPEN_API_DEFINITION = {
-  openapi: '3.0.3',
-  info: {
-    title: 'OrangeHRM Open Source : REST api docs',
-    version: '1.1.0',
-    'x-base-path': '/api/v1',
-  },
-  paths: {
-    '/myinfo': {get: {}},
-    '/leave/my-leave-entitlement': {get: {}},
-    '/leave/my-leave-request': {get: {}, post: {}},
-    '/leave/leave-list': {get: {}},
-    '/leave/leave-request/{id}': {get: {}, post: {}},
-    '/subordinate/{id}/leave-entitlement': {get: {}},
-    '/subordinate/{id}/leave-request': {post: {}},
-    '/employees': {get: {}},
-    '/leave/holidays': {get: {}},
-    '/leave/work-shift': {get: {}},
-    '/leave/work-week': {get: {}},
-    '/leave/leave-types': {get: {}},
-  },
-};
-
 describe('services/instance-check', () => {
   test('checkInstanceCompatibility::check correct', () => {
-    const result = checkInstanceCompatibility(DUMMY_OPEN_API_DEFINITION);
+    const result = checkInstanceCompatibility({version: '2.2.0'});
     expect(result).toBeTruthy();
   });
 
   test('checkInstanceCompatibility::check with incompatible OrangeHRM API version', () => {
     expect(() => {
-      checkInstanceCompatibility({
-        ...DUMMY_OPEN_API_DEFINITION,
-        info: {...DUMMY_OPEN_API_DEFINITION.info, version: '1.0.0'},
-      });
+      checkInstanceCompatibility({version: '2.2.0'});
     }).toThrow('Incompatible OrangeHRM API version.');
   });
 
   test('checkInstanceCompatibility::check with incompatible OpenAPI version', () => {
     expect(() => {
-      checkInstanceCompatibility({
-        ...DUMMY_OPEN_API_DEFINITION,
-        openapi: '2.0.0',
-      });
+      checkInstanceCompatibility({version: '2.1.0'});
     }).toThrow('Incompatible OpenAPI version.');
-  });
-
-  test('checkRemovedEndpoints::check with removed enpoints', () => {
-    expect(() => {
-      checkRemovedEndpoints({
-        ...DUMMY_OPEN_API_DEFINITION,
-        paths: {...DUMMY_OPEN_API_DEFINITION.paths, '/myinfo': {}},
-      });
-    }).toThrow('Please Update the Application.');
-  });
-
-  test('checkRemovedEndpoints::check successfully executed without removing enpoints', () => {
-    checkRemovedEndpoints({...DUMMY_OPEN_API_DEFINITION});
-  });
-
-  test('checkDeprecatedEndpoints::check with deprecated enpoints', () => {
-    const result = checkDeprecatedEndpoints({
-      ...DUMMY_OPEN_API_DEFINITION,
-      paths: {
-        ...DUMMY_OPEN_API_DEFINITION.paths,
-        '/myinfo': {
-          get: {
-            ...DUMMY_OPEN_API_DEFINITION.paths['/myinfo'],
-            deprecated: true,
-          },
-        },
-      },
-    });
-    expect(result).toBeTruthy();
-  });
-
-  test('checkDeprecatedEndpoints::check without deprecated enpoints', () => {
-    const result = checkDeprecatedEndpoints({...DUMMY_OPEN_API_DEFINITION});
-    expect(result).toBeFalsy();
   });
 
   test('isApiCompatible::check incompatible', () => {
