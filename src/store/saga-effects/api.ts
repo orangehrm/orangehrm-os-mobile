@@ -199,7 +199,7 @@ export function* apiPutCall(endpoint: string, body: object) {
   throw new Error("Couldn't call with empty instanceUrl or accessToken.");
 }
 
-export function* apiDeleteCall(endpoint: string) {
+export function* apiDeleteCall(endpoint: string, body: object) {
   const authParams: AuthParams = yield selectAuthParams();
 
   if (authParams.accessToken !== null && authParams.instanceUrl !== null) {
@@ -208,9 +208,12 @@ export function* apiDeleteCall(endpoint: string) {
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
 
+    const bodyKeys = Object.keys(body);
+
     const requestOptions = {
       method: 'DELETE',
       headers: headers,
+      body: bodyKeys.length === 0 ? undefined : JSON.stringify(body),
     };
     const url = authParams.instanceUrl + endpoint;
 

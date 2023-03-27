@@ -36,7 +36,6 @@ export interface AuthState {
   isAuthenticated: boolean;
 }
 
-export const FETCH_TOKEN = 'AUTH_FETCH_TOKEN';
 export const LOGOUT = 'AUTH_LOGOUT';
 export const FETCH_MY_INFO = 'AUTH_FETCH_MY_INFO';
 export const FETCH_MY_INFO_FINISHED = 'AUTH_FETCH_MY_INFO_FINISHED';
@@ -48,12 +47,6 @@ export const FETCH_ENABLED_MODULES_FINISHED =
 export const MY_INFO_FAILED = 'AUTH_MY_INFO_FAILED';
 export const FETCH_NEW_TOKEN_FINISHED = 'AUTH_FETCH_NEW_TOKEN_FINISHED';
 export const FETCH_API_VERSION = 'AUTH_FETCH_API_VERSION';
-
-export interface FetchTokenAction {
-  type: typeof FETCH_TOKEN;
-  username: string;
-  password: string;
-}
 
 export interface LogoutAction {
   type: typeof LOGOUT;
@@ -101,7 +94,6 @@ export interface FetchNewTokenFinishedAction {
 }
 
 export type AuthActionTypes =
-  | FetchTokenAction
   | LogoutAction
   | FetchMyInfoAction
   | FetchMyInfoFinishedAction
@@ -138,9 +130,9 @@ export interface Employee {
   middleName: string;
   fullName: string;
   employeeId: string;
-  code: string;
-  jobTitle: NullableString;
-  unit: NullableString;
+  code: string | null;
+  jobTitle: JobTitle;
+  unit: SubUnit;
   supervisor: null | Supervisor[];
 }
 
@@ -149,16 +141,8 @@ export interface EmployeePhoto {
 }
 
 export interface User {
-  userName: string;
   userRole: typeof USER_ROLE_ADMIN | typeof USER_ROLE_ESS;
   isSupervisor: boolean;
-  isProjectAdmin: boolean;
-  isManager: boolean;
-  isDirector: boolean;
-  isAcceptor: boolean;
-  isOfferer: boolean;
-  isHiringManager: boolean;
-  isInterviewer: boolean;
 }
 
 export interface MyInfo {
@@ -167,6 +151,23 @@ export interface MyInfo {
   user: User;
 }
 
+export interface JobTitle {
+  id: string;
+  title: string;
+  isDeleted: boolean;
+}
+
+/**
+ * @deprecated
+ */
+export interface SubUnit {
+  id: string;
+  name: string;
+}
+
+/**
+ * @deprecated
+ */
 export interface Supervisor {
   id: string;
   name: string;
