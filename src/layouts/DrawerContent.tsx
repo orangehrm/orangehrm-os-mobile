@@ -56,6 +56,7 @@ import {SUBHEADER_LEAVE, SUBHEADER_TIME} from 'screens';
 import useApiDetails from 'lib/hook/useApiDetails';
 import {ORANGEHRM_API_1$3$0} from 'services/instance-check';
 import {HELP_REDIRECT_URL} from 'services/endpoints';
+import {getFullName} from 'lib/helpers/name';
 
 const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   const {
@@ -110,10 +111,12 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
     }
   };
 
+  const fullName = getFullName(myInfo?.employee);
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ProfilePicture
-        name={myInfo?.employee.firstName + ' ' + myInfo?.employee.lastName}
+        name={fullName}
         jobTitle={myInfo?.employee.jobTitle.title}
         imageSource={imageSource}
       />
