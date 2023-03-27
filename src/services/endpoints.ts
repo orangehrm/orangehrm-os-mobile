@@ -27,8 +27,6 @@ export const API_ENDPOINT_EMPLOYEES = '/web/index.php/api/v2/pim/employees';
 // leave
 export const API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT =
   '/web/index.php/api/v2/leave/leave-entitlements?model=summary';
-export const API_ENDPOINT_LEAVE_MY_LEAVE_BALANCE =
-  '/web/index.php/api/v2/leave/leave-balance/leave-type/1';
 export const API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST =
   '/web/index.php/api/v2/leave/leave-requests';
 export const API_ENDPOINT_LEAVE_LIST =
@@ -47,10 +45,8 @@ export const API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST =
   '/web/index.php/api/v2/leave/employees/leave-requests';
 export const API_ENDPOINT_LEAVE_HOLIDAYS =
   '/web/index.php/api/v2/leave/holidays';
-export const API_ENDPOINT_LEAVE_PERIODS =
-  '/web/index.php/api/v2/leave/leave-periods';
 export const API_ENDPOINT_LEAVE_WORK_SHIFT =
-  '/web/index.php/api/v2/pim/employees/1/work-shift';
+  '/web/index.php/api/v2/pim/employees/{id}/work-shift';
 export const API_ENDPOINT_LEAVE_WORK_WEEK =
   '/web/index.php/api/v2/leave/workweek';
 export const API_ENDPOINT_LEAVE_TYPES =

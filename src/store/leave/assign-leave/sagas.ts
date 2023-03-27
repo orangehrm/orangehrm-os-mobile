@@ -190,7 +190,7 @@ function* fetchWorkShift(action: FetchWorkShiftAction) {
     yield openLoader();
     const response = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_WORK_SHIFT, {}, {empNumber: action.empNumber}),
+      prepare(API_ENDPOINT_LEAVE_WORK_SHIFT, {id: action.empNumber}, {empNumber: action.empNumber}),
     );
 
     if (response.data) {

@@ -44,14 +44,11 @@ import {setErrorMessage as setApplyLeaveErrorMessage} from 'store/leave/apply-le
 import {
   assignColorsToLeaveTypes,
   assignColorToLeaveType,
-  assignLeaveBalance,
 } from 'lib/helpers/leave';
 import {TYPE_ERROR} from 'store/globals/types';
 import {
-  API_ENDPOINT_LEAVE_MY_LEAVE_BALANCE,
   API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT,
   API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
-  API_ENDPOINT_LEAVE_REQUEST,
   API_ENDPOINT_LEAVE_REQUEST_DETAILS,
   prepare,
 } from 'services/endpoints';

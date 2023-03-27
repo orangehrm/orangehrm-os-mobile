@@ -164,7 +164,7 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
           currentRoute === APPLY_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS) &&
         !workShiftFetched
       ) {
-        this.props.fetchWorkShift();
+        this.props.fetchWorkShift('2');
       }
     }
 

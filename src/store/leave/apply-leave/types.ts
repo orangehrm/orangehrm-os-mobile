@@ -94,6 +94,7 @@ export interface ResetApplyLeaveAction {
 
 export interface FetchWorkShiftAction {
   type: typeof FETCH_WORK_SHIFT;
+  empNumber: string;
 }
 
 export interface FetchWorkShiftFinishedAction {
