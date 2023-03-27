@@ -173,7 +173,6 @@ function* checkInstance(action?: CheckInstanceAction) {
       // yield* fetchEnabledModules();
 
       yield* fetchAuthToken();
-
       yield put(checkInstanceFinished(false));
     } else {
       yield storageSetItem(INSTANCE_URL, null);

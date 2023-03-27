@@ -88,7 +88,6 @@ class SelectInstance extends React.Component<
     if (errorMessage === '' && isUrl) {
       const {storageSetItem} = this.props;
       storageSetItem(INSTANCE_URL, instanceUrl);
-
       this.props.checkInstance();
     }
   };
