@@ -197,7 +197,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
 
     const {typingComment} = this.state;
     if (prevState.typingComment !== typingComment) {
-      if (typingComment === true) {
+      if (typingComment) {
         this.inputRef?.focus();
       } else {
         this.inputRef?.blur();
@@ -212,7 +212,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
   };
 
   toggleCommentInput = () => {
-    if (this.state.typingComment === true) {
+    if (this.state.typingComment) {
       this.hideCommentInput();
     } else {
       this.showCommentInput();

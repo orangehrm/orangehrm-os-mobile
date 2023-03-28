@@ -125,6 +125,7 @@ export interface ErrorResponse {
 export type NullableString = string | null;
 
 export interface Employee {
+  empNumber: number;
   firstName: string;
   lastName: string;
   middleName: string;

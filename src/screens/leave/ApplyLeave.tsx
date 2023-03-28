@@ -31,7 +31,7 @@ import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
-import {selectMyInfo} from '../../store/auth/selectors';
+import {selectMyInfo} from 'store/auth/selectors';
 import {
   selectEntitlement,
   selectSelectedLeaveTypeId,
@@ -164,9 +164,10 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       if (
         (currentRoute === APPLY_LEAVE_PICK_LEAVE_REQUEST_DURATION ||
           currentRoute === APPLY_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS) &&
-        !workShiftFetched
+        !workShiftFetched &&
+        myInfo !== undefined
       ) {
-        this.props.fetchWorkShift(myInfo.employee?.empNumber);
+        this.props.fetchWorkShift(myInfo.employee.empNumber);
       }
     }
 

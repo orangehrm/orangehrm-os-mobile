@@ -107,7 +107,7 @@ export const resetApplyLeave = (): ResetApplyLeaveAction => ({
   type: RESET_APPLY_LEAVE,
 });
 
-export const fetchWorkShift = (empNumber: string): FetchWorkShiftAction => ({
+export const fetchWorkShift = (empNumber: number): FetchWorkShiftAction => ({
   type: FETCH_WORK_SHIFT,
   empNumber,
 });

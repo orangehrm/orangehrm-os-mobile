@@ -66,15 +66,6 @@ const assignColorsToLeaveTypes = <T extends Data>(data: T[]): T[] => {
   return newDataArray;
 };
 
-const assignLeaveBalance = <T extends Data>(data: T[], data1: T[]): T[] => {
-  const entitlement = data;
-  entitlement.leaveBalance = data1.balance;
-  const arr: T[] = [];
-  arr.push(entitlement);
-
-  return arr;
-};
-
 /**
  * Assign leave color into `leaveType` object by considering leave type id
  * @param data
@@ -235,7 +226,6 @@ export {
   getTimeValuesForSlider,
   isValidPartialOptionSpecifyTime,
   isFromTimeLessThanToTime,
-  assignLeaveBalance,
 };
 
 /**
