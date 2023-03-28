@@ -23,7 +23,7 @@ import {View, StyleSheet} from 'react-native';
 import Text from 'components/DefaultText';
 import FormattedDate from 'components/FormattedDate';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {Leave} from 'store/leave/leave-usage/types';
+import {LeaveDetailedModel} from 'store/leave/leave-list/types';
 
 class LeaveDayListItem extends React.Component<LeaveDayListItemProps> {
   render() {
@@ -60,7 +60,7 @@ class LeaveDayListItem extends React.Component<LeaveDayListItemProps> {
 }
 
 interface LeaveDayListItemProps extends WithTheme {
-  leave: Leave;
+  leave: LeaveDetailedModel;
 }
 
 const styles = StyleSheet.create({

@@ -22,8 +22,8 @@ import {
   FETCH_LEAVE_LIST,
   FETCH_LEAVE_LIST_FINISHED,
   RESET_LEAVE_LIST,
-  FETCH_EMPLOYEE_LEAVE_REQUEST,
-  FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED,
+  FETCH_EMPLOYEE_LEAVES,
+  FETCH_EMPLOYEE_LEAVES_FINISHED,
   FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS_FINISHED,
   CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
   FETCH_LEAVE_COMMENT,
@@ -31,10 +31,10 @@ import {
   FetchLeaveListAction,
   FetchLeaveListFinishedAction,
   ResetLeaveListAction,
-  FetchEmployeeLeaveRequestAction,
+  FetchEmployeeLeavesAction,
   FetchEmployeeLeaveRequestDetailsAction,
   FetchLeaveCommentAction,
-  FetchEmployeeLeaveRequestFinishedAction,
+  FetchEmployeeLeavesFinishedAction,
   ChangeEmployeeLeaveRequestStatusAction,
   FetchLeaveCommentFinishedAction,
   FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS,
@@ -64,10 +64,10 @@ export const resetLeaveList = (): ResetLeaveListAction => ({
   type: RESET_LEAVE_LIST,
 });
 
-export const fetchEmployeeLeaveRequest = (
+export const fetchEmployeeLeaves = (
   leaveRequestId: number,
-): FetchEmployeeLeaveRequestAction => ({
-  type: FETCH_EMPLOYEE_LEAVE_REQUEST,
+): FetchEmployeeLeavesAction => ({
+  type: FETCH_EMPLOYEE_LEAVES,
   leaveRequestId,
 });
 export const fetchEmployeeLeaveRequestDetails = (
@@ -85,10 +85,10 @@ export const fetchLeaveComment = (
 });
 
 export const fetchEmployeeLeaveRequestFinished = (
-  payload?: $PropertyType<FetchEmployeeLeaveRequestFinishedAction, 'payload'>,
+  payload?: $PropertyType<FetchEmployeeLeavesFinishedAction, 'payload'>,
   error: boolean = false,
-): FetchEmployeeLeaveRequestFinishedAction => ({
-  type: FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED,
+): FetchEmployeeLeavesFinishedAction => ({
+  type: FETCH_EMPLOYEE_LEAVES_FINISHED,
   payload,
   error,
 });

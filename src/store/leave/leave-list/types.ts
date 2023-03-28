@@ -23,6 +23,7 @@ import {LeaveRequest} from 'store/leave/leave-usage/types';
 export interface LeaveListState {
   leaveList?: LeaveListLeaveRequest[];
   employeeLeaveRequest?: EmployeeLeaveRequest;
+  employeeLeaves?: LeaveDetailedModel[];
   employeeLeaveComment?: EmployeeLeaveComment;
   employeeLeaveRequestDetails?: EmployeeLeaveDetails;
 
@@ -32,13 +33,12 @@ export interface LeaveListState {
 export const FETCH_LEAVE_LIST = 'LEAVE_LIST_FETCH_LEAVE_LIST';
 export const FETCH_LEAVE_LIST_FINISHED = 'LEAVE_LIST_FETCH_LEAVE_LIST_FINISHED';
 export const RESET_LEAVE_LIST = 'LEAVE_LIST_RESET_LEAVE_LIST';
-export const FETCH_EMPLOYEE_LEAVE_REQUEST =
-  'LEAVE_LIST_FETCH_EMPLOYEE_LEAVE_REQUEST';
+export const FETCH_EMPLOYEE_LEAVES = 'LEAVE_LIST_FETCH_EMPLOYEE_LEAVES';
 export const FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS =
   'LEAVE_LIST_FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS';
 export const FETCH_LEAVE_COMMENT = 'LEAVE_LIST_FETCH_LEAVE_COMMENT';
-export const FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED =
-  'LEAVE_LIST_FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED';
+export const FETCH_EMPLOYEE_LEAVES_FINISHED =
+  'LEAVE_LIST_FETCH_EMPLOYEE_LEAVES_FINISHED';
 export const FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS_FINISHED =
   'LEAVE_LIST_FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS_FINISHED';
 export const FETCH_LEAVE_COMMENT_FINISHED =
@@ -63,8 +63,8 @@ export interface ResetLeaveListAction {
   type: typeof RESET_LEAVE_LIST;
 }
 
-export interface FetchEmployeeLeaveRequestAction {
-  type: typeof FETCH_EMPLOYEE_LEAVE_REQUEST;
+export interface FetchEmployeeLeavesAction {
+  type: typeof FETCH_EMPLOYEE_LEAVES;
   leaveRequestId: number;
 }
 
@@ -78,9 +78,9 @@ export interface FetchLeaveCommentAction {
   leaveRequestId: number;
 }
 
-export interface FetchEmployeeLeaveRequestFinishedAction {
-  type: typeof FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED;
-  payload?: EmployeeLeaveRequest;
+export interface FetchEmployeeLeavesFinishedAction {
+  type: typeof FETCH_EMPLOYEE_LEAVES_FINISHED;
+  payload?: LeaveDetailedModel[];
   error: boolean;
 }
 
@@ -112,9 +112,9 @@ export type LeaveUsageActionTypes =
   | FetchLeaveListAction
   | FetchLeaveListFinishedAction
   | ResetLeaveListAction
-  | FetchEmployeeLeaveRequestAction
+  | FetchEmployeeLeavesAction
   | FetchEmployeeLeaveRequestDetailsAction
-  | FetchEmployeeLeaveRequestFinishedAction
+  | FetchEmployeeLeavesFinishedAction
   | FetchEmployeeLeaveRequestDetailsFinishedAction
   | FetchLeaveCommentAction
   | FetchLeaveCommentFinishedAction
@@ -181,3 +181,64 @@ export interface EmployeeLeaveRequestCommentAction {
 export type EmployeeLeaveRequestActions =
   | EmployeeLeaveRequestAction
   | EmployeeLeaveRequestCommentAction;
+
+interface LeaveType {
+  id: number;
+  name: string;
+  deleted: boolean;
+}
+
+interface LeaveStatus {
+  id: number;
+  name: string;
+  lengthDays: number;
+}
+
+interface LeaveBalance {
+  balance: {
+    balance: number;
+    entitled: number;
+    pending: number;
+    scheduled: number;
+    taken: number;
+    used: number;
+    asAtDate: string;
+    endDate: string;
+  };
+  period: {
+    startDate: string;
+    endDate: string;
+  };
+}
+
+interface LeaveComment {
+  id: number;
+  comment: string;
+  date: string;
+  time: string;
+}
+
+interface AllowedAction {
+  action: string;
+  name: string;
+}
+
+export interface LeaveDetailedModel {
+  id: number;
+  dates: {
+    fromDate: string;
+    toDate: null | string;
+    durationType: {
+      id: null | number;
+      type: null | string;
+    };
+    startTime: null | string;
+    endTime: null | string;
+  };
+  lengthHours: number;
+  leaveBalance: LeaveBalance;
+  leaveStatus: LeaveStatus;
+  allowedActions: AllowedAction[];
+  leaveType: LeaveType;
+  lastComment: null | LeaveComment;
+}

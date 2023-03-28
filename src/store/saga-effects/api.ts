@@ -38,6 +38,11 @@ import {AuthParams} from 'store/storage/types';
 import {logout, fetchNewAuthTokenFinished} from 'store/auth/actions';
 import {AuthenticationError} from 'services/errors/authentication';
 
+export interface ApiResponse<Data, Meta = {}> {
+  data: Data;
+  meta: Meta;
+}
+
 export function* apiCall<Fn extends (...args: any[]) => any>(
   fn: Fn,
   ...args: Parameters<Fn>

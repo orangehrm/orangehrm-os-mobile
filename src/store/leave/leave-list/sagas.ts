@@ -24,6 +24,7 @@ import {
   apiGetCall,
   apiPostCall,
   apiPutCall,
+  ApiResponse,
 } from 'store/saga-effects/api';
 import {
   openLoader,
@@ -32,10 +33,10 @@ import {
 } from 'store/saga-effects/globals';
 import {
   FETCH_LEAVE_LIST,
-  FETCH_EMPLOYEE_LEAVE_REQUEST,
+  FETCH_EMPLOYEE_LEAVES,
   FETCH_LEAVE_COMMENT,
   CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
-  FetchEmployeeLeaveRequestAction,
+  FetchEmployeeLeavesAction,
   ChangeEmployeeLeaveRequestStatusAction,
   FetchLeaveCommentAction,
   ACTION_TYPE_CHANGE_STATUS,
@@ -43,6 +44,7 @@ import {
   FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS,
   CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT,
   ChangeEmployeeLeaveRequestCommentAction,
+  LeaveDetailedModel,
 } from 'store/leave/leave-list/types';
 import {
   fetchLeaveListFinished,
@@ -52,16 +54,13 @@ import {
   fetchEmployeeLeaveRequestDetails as fetchEmployeeLeaveRequestDetailsAction,
   fetchEmployeeLeaveCommentFinished,
 } from 'store/leave/leave-list/actions';
-import {
-  assignColorsToLeaveTypeArray,
-  assignColorsToLeaveTypes,
-} from 'lib/helpers/leave';
+import {assignColorsToLeaveTypes} from 'lib/helpers/leave';
 import {TYPE_ERROR} from 'store/globals/types';
 import {
   API_ENDPOINT_LEAVE_COMMENT,
   API_ENDPOINT_LEAVE_COMMENT_SAVE,
   API_ENDPOINT_LEAVE_LIST,
-  API_ENDPOINT_LEAVE_REQUEST,
+  API_ENDPOINT_LEAVES,
   API_ENDPOINT_LEAVE_REQUEST_DETAILS,
   prepare,
 } from 'services/endpoints';
@@ -72,7 +71,6 @@ import {
 } from 'services/api';
 
 function* fetchLeaveList() {
-  //need to change this
   try {
     yield openLoader();
     const response = yield apiCall(apiGetCall, API_ENDPOINT_LEAVE_LIST, false);
@@ -142,21 +140,17 @@ function* fetchEmployeeLeaveRequestDetails(
   }
 }
 
-function* fetchEmployeeLeaveRequest(action: FetchEmployeeLeaveRequestAction) {
+function* fetchEmployeeLeaves(action: FetchEmployeeLeavesAction) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveDetailedModel[]> = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_REQUEST, {id: action.leaveRequestId}),
+      prepare(API_ENDPOINT_LEAVES, {leaveRequestId: action.leaveRequestId}),
       false,
     );
 
     if (response.data) {
-      yield put(
-        fetchEmployeeLeaveRequestFinished(
-          assignColorsToLeaveTypeArray(response.data),
-        ),
-      );
+      yield put(fetchEmployeeLeaveRequestFinished(response.data));
     } else {
       yield put(fetchEmployeeLeaveRequestFinished(undefined, true));
       yield showSnackMessage(
@@ -289,7 +283,7 @@ function* changeEmployeeLeaveRequestComment(
 
 export function* watchLeaveListActions() {
   yield takeEvery(FETCH_LEAVE_LIST, fetchLeaveList);
-  yield takeEvery(FETCH_EMPLOYEE_LEAVE_REQUEST, fetchEmployeeLeaveRequest);
+  yield takeEvery(FETCH_EMPLOYEE_LEAVES, fetchEmployeeLeaves);
   yield takeEvery(
     FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS,
     fetchEmployeeLeaveRequestDetails,

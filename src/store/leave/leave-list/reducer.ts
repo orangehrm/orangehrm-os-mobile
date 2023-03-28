@@ -21,10 +21,10 @@
 import {
   ACTION_TYPE_CHANGE_STATUS,
   CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
-  FETCH_EMPLOYEE_LEAVE_REQUEST,
+  FETCH_EMPLOYEE_LEAVES,
   FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS,
   FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS_FINISHED,
-  FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED,
+  FETCH_EMPLOYEE_LEAVES_FINISHED,
   FETCH_LEAVE_COMMENT,
   FETCH_LEAVE_COMMENT_FINISHED,
   FETCH_LEAVE_LIST_FINISHED,
@@ -50,11 +50,11 @@ const leaveUsageReducer = (
         leaveList: action.payload?.slice(),
         employeeLeaveRequest: initialState.employeeLeaveRequest,
       };
-    case FETCH_EMPLOYEE_LEAVE_REQUEST:
+    case FETCH_EMPLOYEE_LEAVES:
       //reset current value when new fetch triggers
       return {
         ...state,
-        employeeLeaveRequest: initialState.employeeLeaveRequest,
+        employeeLeaves: initialState.employeeLeaves,
       };
     case FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS:
       //reset current value when new fetch triggers
@@ -73,10 +73,10 @@ const leaveUsageReducer = (
         ...state,
         employeeLeaveComment: action.payload,
       };
-    case FETCH_EMPLOYEE_LEAVE_REQUEST_FINISHED:
+    case FETCH_EMPLOYEE_LEAVES_FINISHED:
       return {
         ...state,
-        employeeLeaveRequest: action.payload,
+        employeeLeaves: action.payload,
       };
     case FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS_FINISHED:
       return {

@@ -26,6 +26,7 @@ import {
   EmployeeLeaveRequest,
   EmployeeLeaveComment,
   EmployeeLeaveDetails,
+  LeaveDetailedModel,
 } from 'store/leave/leave-list/types';
 
 export const selectLeaveList = (state: RootState) => state.leaveList;
@@ -41,6 +42,12 @@ export const selectEmployeeLeaveRequest = createSelector<
   LeaveListState,
   EmployeeLeaveRequest | undefined
 >([selectLeaveList], (leaveList) => leaveList.employeeLeaveRequest);
+
+export const selectEmployeeLeaves = createSelector<
+  RootState,
+  LeaveListState,
+  LeaveDetailedModel[] | undefined
+>([selectLeaveList], (leaveList) => leaveList.employeeLeaves);
 
 export const selectEmployeeLeaveComment = createSelector<
   RootState,

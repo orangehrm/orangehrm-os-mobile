@@ -37,7 +37,7 @@ import {
 import {
   changeEmployeeLeaveRequestComment,
   changeEmployeeLeaveRequestStatus,
-  fetchEmployeeLeaveRequest,
+  fetchEmployeeLeaves,
   fetchEmployeeLeaveRequestDetails,
   fetchLeaveComment,
 } from 'store/leave/leave-list/actions';
@@ -120,13 +120,7 @@ class LeaveDetails extends React.Component<
 
   onPressLeaveDays = () => {
     const {leaveRequest} = this.props.route.params;
-    const {employeeLeaveRequest} = this.props;
-    if (employeeLeaveRequest) {
-      navigate<LeaveDaysParam>(LEAVE_DAYS, {
-        employeeLeaveRequest,
-        leaveRequest,
-      });
-    }
+    navigate<LeaveDaysParam>(LEAVE_DAYS, {leaveRequest});
   };
 
   onPressComments = () => {
@@ -409,7 +403,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = {
   fetchEmployeeLeaveRequestDetails: fetchEmployeeLeaveRequestDetails,
-  fetchEmployeeLeaveRequest: fetchEmployeeLeaveRequest,
+  fetchEmployeeLeaveRequest: fetchEmployeeLeaves,
   fetchLeaveComment: fetchLeaveComment,
   changeEmployeeLeaveRequestComment: changeEmployeeLeaveRequestComment,
   changeEmployeeLeaveRequestStatus: changeEmployeeLeaveRequestStatus,

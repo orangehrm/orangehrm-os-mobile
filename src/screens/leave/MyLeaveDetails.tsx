@@ -37,7 +37,7 @@ import {
 import {
   changeEmployeeLeaveRequestComment,
   fetchLeaveComment,
-  fetchEmployeeLeaveRequest,
+  fetchEmployeeLeaves,
 } from 'store/leave/leave-list/actions';
 import Text from 'components/DefaultText';
 import Chip from 'components/DefaultChip';
@@ -109,12 +109,10 @@ class MyLeaveDetails extends React.Component<
   };
 
   onPressLeaveDays = () => {
-    const {leaveRequestDetail, employeeLeaveRequest} = this.props;
-    const leaveRequest = leaveRequestDetail;
+    const {leaveRequestDetail} = this.props;
     if (leaveRequestDetail) {
       navigate<LeaveDaysParam>(LEAVE_DAYS, {
-        employeeLeaveRequest,
-        leaveRequest,
+        leaveRequest: leaveRequestDetail,
       });
     }
   };
@@ -369,7 +367,7 @@ const mapDispatchToProps = {
   fetchLeaveComment: fetchLeaveComment,
   changeMyLeaveRequestStatus: changeMyLeaveRequestStatus,
   changeEmployeeLeaveRequestComment: changeEmployeeLeaveRequestComment,
-  fetchEmployeeLeaveRequest: fetchEmployeeLeaveRequest,
+  fetchEmployeeLeaveRequest: fetchEmployeeLeaves,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
