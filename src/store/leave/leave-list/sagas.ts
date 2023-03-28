@@ -78,7 +78,10 @@ import {
 function* fetchLeaveList() {
   try {
     yield openLoader();
-    const response = yield apiCall(apiGetCall, API_ENDPOINT_LEAVE_LIST);
+    const response: ApiResponse<LeaveRequestDetailedModel[]> = yield apiCall(
+      apiGetCall,
+      API_ENDPOINT_LEAVE_LIST,
+    );
 
     if (response.data) {
       yield put(

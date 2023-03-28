@@ -25,7 +25,7 @@ import {
   LEAVE_COMMENTS,
   LEAVE_REQUEST_SUCCESS,
 } from 'screens';
-import {LeaveRequest} from 'store/leave/leave-usage/types';
+import {LeaveRequestDetailedModel} from 'store/leave/leave-list/types';
 import {
   selectEmployeeLeaveComment,
   selectEmployeeLeaveRequest,
@@ -67,7 +67,7 @@ export type PickEmployeeNavigationProp = NavigationProp<
 >;
 
 export interface LeaveDaysParam {
-  leaveRequest: LeaveRequest;
+  leaveRequest: LeaveRequestDetailedModel;
 }
 
 export type LeaveDaysParamList = {

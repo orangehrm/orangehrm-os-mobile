@@ -30,7 +30,7 @@ import {LEAVE_LIST, LEAVE_DETAILS, LEAVE_DAYS, LEAVE_COMMENTS} from 'screens';
 import HeaderMenuIcon from 'components/HeaderMenuIcon';
 import HeaderBackIcon from 'components/HeaderBackIcon';
 import {getHeaderStyle} from 'lib/helpers/header';
-import {LeaveListLeaveRequest} from 'store/leave/leave-list/types';
+import {LeaveRequestDetailedModel} from 'store/leave/leave-list/types';
 import {LeaveDaysParamList} from 'screens/leave/navigators';
 
 const Stack = createStackNavigator<LeaveListNavigatorParamList>();
@@ -99,7 +99,7 @@ export type LeaveListNavigatorParamList = {
 } & LeaveDaysParamList;
 
 export interface LeaveDetailsParam {
-  leaveRequest: LeaveListLeaveRequest;
+  leaveRequest: LeaveRequestDetailedModel;
 }
 
 export default withTheme<LeaveListNavigatorProps>()(LeaveListNavigator);

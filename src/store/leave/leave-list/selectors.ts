@@ -22,7 +22,6 @@ import {RootState} from 'store';
 import {createSelector} from 'reselect';
 import {
   LeaveListState,
-  LeaveListLeaveRequest,
   LeaveRequestDetailedModel,
   LeaveRequestCommentModel,
   LeaveDetailedModel,
@@ -33,7 +32,7 @@ export const selectLeaveList = (state: RootState) => state.leaveList;
 export const selectEmployeeLeaveList = createSelector<
   RootState,
   LeaveListState,
-  LeaveListLeaveRequest[] | undefined
+  LeaveRequestDetailedModel[] | undefined
 >([selectLeaveList], (leaveList) => leaveList.leaveList);
 
 export const selectEmployeeLeaveRequest = createSelector<

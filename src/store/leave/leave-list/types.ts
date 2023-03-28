@@ -21,7 +21,7 @@
 import {LeaveRequest} from 'store/leave/leave-usage/types';
 
 export interface LeaveListState {
-  leaveList?: LeaveListLeaveRequest[];
+  leaveList?: LeaveRequestDetailedModel[];
   employeeLeaveRequest?: LeaveRequestDetailedModel;
   employeeLeaves?: LeaveDetailedModel[];
   employeeLeaveComment?: LeaveRequestCommentModel[];
@@ -52,7 +52,7 @@ export interface FetchLeaveListAction {
 
 export interface FetchLeaveListFinishedAction {
   type: typeof FETCH_LEAVE_LIST_FINISHED;
-  payload?: LeaveListLeaveRequest[];
+  payload?: LeaveRequestDetailedModel[];
   error: boolean;
 }
 

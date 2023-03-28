@@ -41,6 +41,8 @@ import {AuthenticationError} from 'services/errors/authentication';
 export interface ApiResponse<Data, Meta = {}> {
   data: Data;
   meta: Meta;
+  // eslint-disable-next-line no-undef
+  getResponse: () => Response;
 }
 
 export function* apiCall<Fn extends (...args: any[]) => any>(
@@ -74,7 +76,15 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
         authParams.instanceUrl,
         authParams.refreshToken,
       );
-      const data = yield call([response, response.json]);
+      const data: {
+        access_token: string;
+        refresh_token: string;
+        token_type: string;
+        expires_in: number;
+        scope: string; // TODO
+        error?: string;
+        error_description?: string;
+      } = yield call([response, response.json]);
 
       if (data.access_token) {
         yield storageSetMulti({
@@ -89,6 +99,7 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
         });
         yield put(fetchNewAuthTokenFinished());
       } else {
+        // TODO
         if (data.error === 'authentication_failed') {
           // employee not assigned, terminated, disabled
           yield put(logout());
