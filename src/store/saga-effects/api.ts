@@ -19,7 +19,7 @@
  */
 
 import {call, put, take} from 'redux-saga/effects';
-import {isAccessTokenExpired} from 'services/api';
+import {isAccessTokenExpired, getExpiredAtByLifetime} from 'services/api';
 import {getNewAccessToken} from 'services/authentication';
 import {
   ACCESS_TOKEN,
@@ -34,7 +34,6 @@ import {
   SET_FETCHING_ACCESS_TOKEN_LOCK,
   SetFetchingAccessTokenLockAction,
 } from 'store/storage/types';
-import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams} from 'store/storage/types';
 import {logout, fetchNewAuthTokenFinished} from 'store/auth/actions';
 import {AuthenticationError} from 'services/errors/authentication';
@@ -81,7 +80,7 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
             }),
           [TOKEN_TYPE]: data.token_type,
           [SCOPE]: data.scope,
-          [EXPIRES_AT]: getExpiredAt(data.expires_in),
+          [EXPIRES_AT]: getExpiredAtByLifetime(data.expires_in),
         });
         yield put(fetchNewAuthTokenFinished());
       } else {

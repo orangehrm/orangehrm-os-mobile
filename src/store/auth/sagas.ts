@@ -71,7 +71,7 @@ import {
   myInfoFailed,
   fetchNewAuthTokenFinished,
 } from 'store/auth/actions';
-import {getExpiredAt} from 'store/auth/helper';
+import {getExpiredAt} from 'services/api';
 import {AuthParams, ApiDetails} from 'store/storage/types';
 import {selectApiDetails} from 'store/storage/selectors';
 import {TYPE_ERROR} from 'store/globals/types';
@@ -84,6 +84,8 @@ import {
 import {
   API_ENDPOINT_MY_INFO,
   API_ENDPOINT_ENABLED_MODULES,
+  OAUTH_ENDPOINT_TOKEN,
+  OAUTH_ENDPOINT_AUTHORIZE,
   prepare,
 } from 'services/endpoints';
 // import {AuthenticationError} from 'services/errors/authentication';
@@ -165,9 +167,11 @@ function* checkInstance(action?: CheckInstanceAction) {
 
     if (response.ok && isJsonResponse(response)) {
       yield storageSetItem(INSTANCE_URL, instanceUrl);
-      const data: RestApiVersion = (yield call([response, response.json])).data;
+      const data: {
+        data: RestApiVersion;
+      } = yield call([response, response.json]);
 
-      checkInstanceCompatibility(data);
+      checkInstanceCompatibility(data.data);
 
       // TODO
       // yield* fetchEnabledModules();
@@ -310,17 +314,17 @@ function* fetchAuthToken() {
     if (authParams.instanceUrl !== null) {
       const config: AuthConfiguration = {
         serviceConfiguration: {
-          authorizationEndpoint: authParams.instanceUrl + '/oauth2/authorize',
-          tokenEndpoint: authParams.instanceUrl + '/oauth2/token',
+          authorizationEndpoint:
+            authParams.instanceUrl + OAUTH_ENDPOINT_AUTHORIZE,
+          tokenEndpoint: authParams.instanceUrl + OAUTH_ENDPOINT_TOKEN,
         },
         clientId: PUBLIC_MOBILE_CLIENT_ID,
+        scopes: [],
         redirectUrl: OAUTH_CALLBACK_URL,
-        additionalParameters: {},
         usePKCE: true,
         useNonce: false,
         additionalHeaders: {Accept: 'application/json'},
         connectionTimeoutSeconds: 5,
-        iosPrefersEphemeralSession: true,
       };
 
       const authState: AuthorizeResult = yield call(authorize, config);

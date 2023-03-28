@@ -22,7 +22,6 @@
     "@react-navigation/native": "~6.0.0",
     "@react-navigation/stack": "~6.3.11",
     "connected-react-router": "~6.0.0",
-    "deprecated-react-native-prop-types": "~4.0.0",
     "eslint-plugin-prettier": "^4.2.1",
     "moment": "~2.29.1",
     "native-base": "~2.13.15",

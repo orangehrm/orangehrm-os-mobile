@@ -37,7 +37,8 @@ export const API_ENDPOINT_API_DEFINITION = '/api/v1/api-definition';
  * V2 endpoints
  */
 
-export const API_ENDPOINT_AUTH_ISSUE_TOKEN = '/oauth2/token';
+export const OAUTH_ENDPOINT_AUTHORIZE = '/oauth2/authorize';
+export const OAUTH_ENDPOINT_TOKEN = '/oauth2/token';
 export const API_ENDPOINT_API_VERSION = '/api/v2/core/public/version';
 
 export const API_ENDPOINT_MY_INFO = '/api/v2/pim/myself';
@@ -46,12 +47,12 @@ export const API_ENDPOINT_ENABLED_MODULES = '/api/v2/admin/modules';
 
 // leave
 export const API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT =
-  '/api/v2/leave/leave-entitlements?model=summary';
+  '/api/v2/leave/leave-entitlements';
 export const API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST =
   '/api/v2/leave/leave-requests';
 export const API_ENDPOINT_LEAVE_LIST = '/api/v2/leave/employees/leave-requests';
-export const API_ENDPOINT_LEAVE_REQUEST =
-  '/api/v2/leave/leave-requests/{id}/leaves';
+export const API_ENDPOINT_LEAVES =
+  '/api/v2/leave/leave-requests/{leaveRequestId}/leaves';
 export const API_ENDPOINT_LEAVE_REQUEST_DETAILS =
   '/api/v2/leave/employees/leave-requests/{id}';
 export const API_ENDPOINT_LEAVE_COMMENT =
