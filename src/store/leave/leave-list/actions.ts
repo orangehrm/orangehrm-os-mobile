@@ -71,14 +71,14 @@ export const fetchEmployeeLeaves = (
   leaveRequestId,
 });
 export const fetchEmployeeLeaveRequestDetails = (
-  leaveRequestId: string,
+  leaveRequestId: number,
 ): FetchEmployeeLeaveRequestDetailsAction => ({
   type: FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS,
   leaveRequestId,
 });
 
 export const fetchLeaveComments = (
-  leaveRequestId: string,
+  leaveRequestId: number,
 ): FetchLeaveCommentAction => ({
   type: FETCH_LEAVE_COMMENT,
   leaveRequestId,

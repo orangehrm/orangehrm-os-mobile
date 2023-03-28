@@ -46,6 +46,7 @@ import {
   ChangeEmployeeLeaveRequestCommentAction,
   LeaveDetailedModel,
   LeaveRequestCommentModel,
+  LeaveRequestDetailedModel,
 } from 'store/leave/leave-list/types';
 import {
   fetchLeaveListFinished,
@@ -55,7 +56,10 @@ import {
   fetchEmployeeLeaveRequestDetails as fetchEmployeeLeaveRequestDetailsAction,
   fetchEmployeeLeaveCommentFinished,
 } from 'store/leave/leave-list/actions';
-import {assignColorsToLeaveTypes} from 'lib/helpers/leave';
+import {
+  assignColorsToLeaveTypes,
+  assignColorToLeaveType,
+} from 'lib/helpers/leave';
 import {TYPE_ERROR} from 'store/globals/types';
 import {
   API_ENDPOINT_LEAVE_COMMENT,
@@ -74,7 +78,8 @@ import {
 function* fetchLeaveList() {
   try {
     yield openLoader();
-    const response = yield apiCall(apiGetCall, API_ENDPOINT_LEAVE_LIST, false);
+    const response = yield apiCall(apiGetCall, API_ENDPOINT_LEAVE_LIST);
+
     if (response.data) {
       yield put(
         fetchLeaveListFinished(assignColorsToLeaveTypes(response.data)),
@@ -109,17 +114,21 @@ function* fetchEmployeeLeaveRequestDetails(
 ) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveRequestDetailedModel> = yield apiCall(
       apiGetCall,
       prepare(
         API_ENDPOINT_LEAVE_REQUEST_DETAILS,
-        {id: action.leaveRequestId},
+        {leaveRequestId: action.leaveRequestId},
         {model: 'detailed'},
       ),
     );
 
     if (response.data) {
-      yield put(fetchEmployeeLeaveRequestDetailsFinished(response.data));
+      yield put(
+        fetchEmployeeLeaveRequestDetailsFinished(
+          assignColorToLeaveType(response.data),
+        ),
+      );
     } else {
       yield put(fetchEmployeeLeaveRequestDetailsFinished(undefined, true));
       yield showSnackMessage(
@@ -147,7 +156,6 @@ function* fetchEmployeeLeaves(action: FetchEmployeeLeavesAction) {
     const response: ApiResponse<LeaveDetailedModel[]> = yield apiCall(
       apiGetCall,
       prepare(API_ENDPOINT_LEAVES, {leaveRequestId: action.leaveRequestId}),
-      false,
     );
 
     if (response.data) {
@@ -181,7 +189,6 @@ function* fetchLeaveComment(action: FetchLeaveCommentAction) {
       prepare(API_ENDPOINT_LEAVE_COMMENT, {
         leaveRequestId: action.leaveRequestId,
       }),
-      false,
     );
 
     if (response.data) {

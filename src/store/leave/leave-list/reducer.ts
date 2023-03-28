@@ -60,7 +60,7 @@ const leaveUsageReducer = (
       //reset current value when new fetch triggers
       return {
         ...state,
-        employeeLeaveRequestDetails: initialState.employeeLeaveRequestDetails,
+        employeeLeaveRequest: initialState.employeeLeaveRequest,
       };
     case FETCH_LEAVE_COMMENT:
       //reset current value when new fetch triggers
@@ -81,11 +81,12 @@ const leaveUsageReducer = (
     case FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS_FINISHED:
       return {
         ...state,
-        employeeLeaveRequestData: action.payload,
+        employeeLeaveRequest: action.payload,
       };
     case CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS:
       //reset leave list for refresh the leave list only with state changes
       if (action.action.actionType === ACTION_TYPE_CHANGE_STATUS) {
+        // TODO
         return {
           ...state,
           leaveList: initialState.leaveList,

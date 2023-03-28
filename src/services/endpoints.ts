@@ -54,7 +54,7 @@ export const API_ENDPOINT_LEAVE_LIST = '/api/v2/leave/employees/leave-requests';
 export const API_ENDPOINT_LEAVES =
   '/api/v2/leave/leave-requests/{leaveRequestId}/leaves';
 export const API_ENDPOINT_LEAVE_REQUEST_DETAILS =
-  '/api/v2/leave/employees/leave-requests/{id}';
+  '/api/v2/leave/employees/leave-requests/{leaveRequestId}';
 export const API_ENDPOINT_LEAVE_COMMENT =
   '/api/v2/leave/leave-requests/{leaveRequestId}/leave-comments';
 export const API_ENDPOINT_LEAVE_COMMENT_SAVE =

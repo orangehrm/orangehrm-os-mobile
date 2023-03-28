@@ -22,12 +22,9 @@ import {LeaveRequest} from 'store/leave/leave-usage/types';
 
 export interface LeaveListState {
   leaveList?: LeaveListLeaveRequest[];
-  employeeLeaveRequest?: EmployeeLeaveRequest;
+  employeeLeaveRequest?: LeaveRequestDetailedModel;
   employeeLeaves?: LeaveDetailedModel[];
   employeeLeaveComment?: LeaveRequestCommentModel[];
-  employeeLeaveRequestDetails?: EmployeeLeaveDetails;
-
-  employeeLeaveRequestData?: EmployeeLeaveDetails;
 }
 
 export const FETCH_LEAVE_LIST = 'LEAVE_LIST_FETCH_LEAVE_LIST';
@@ -86,7 +83,7 @@ export interface FetchEmployeeLeavesFinishedAction {
 
 export interface FetchEmployeeLeaveRequestDetailsFinishedAction {
   type: typeof FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS_FINISHED;
-  payload?: EmployeeLeaveRequestDetails;
+  payload?: LeaveRequestDetailedModel;
   error: boolean;
 }
 
@@ -143,11 +140,7 @@ export interface Employee {
   firstName: string;
   lastName: string;
   middleName: string;
-  terminationId: number;
-}
-
-export interface EmployeeLeaveDetails {
-  allowedActions: [];
+  terminationId: null | number;
 }
 
 export interface EmployeeLeaveRequest extends Omit<LeaveRequest, 'id'> {
@@ -182,6 +175,10 @@ interface LeaveType {
   id: number;
   name: string;
   deleted: boolean;
+}
+
+interface ColorAssignedLeaveType extends LeaveType {
+  color: string;
 }
 
 interface LeaveStatus {
@@ -219,18 +216,20 @@ interface AllowedAction {
   name: string;
 }
 
+interface LeaveDatesDetails {
+  fromDate: string;
+  toDate: null | string;
+  durationType: {
+    id: null | number;
+    type: null | string;
+  };
+  startTime: null | string;
+  endTime: null | string;
+}
+
 export interface LeaveDetailedModel {
   id: number;
-  dates: {
-    fromDate: string;
-    toDate: null | string;
-    durationType: {
-      id: null | number;
-      type: null | string;
-    };
-    startTime: null | string;
-    endTime: null | string;
-  };
+  dates: LeaveDatesDetails;
   lengthHours: number;
   leaveBalance: LeaveBalance;
   leaveStatus: LeaveStatus;
@@ -257,4 +256,31 @@ export interface LeaveRequestCommentModel {
     };
   };
   comment: string;
+}
+
+interface LeaveBreakdown {
+  id: number;
+  lengthDays: number;
+  name: string;
+}
+
+interface LeaveRequestComment {
+  id: number;
+  comment: string;
+  date: string;
+  time: string;
+}
+
+export interface LeaveRequestDetailedModel {
+  id: number;
+  dates: LeaveDatesDetails;
+  noOfDays: number;
+  leaveBalances: LeaveBalance[];
+  multiPeriod: boolean;
+  leaveBreakdown: LeaveBreakdown[];
+  allowedActions: AllowedAction[];
+  hasMultipleStatus: boolean;
+  employee: Employee;
+  leaveType: ColorAssignedLeaveType;
+  lastComment: LeaveRequestComment;
 }
