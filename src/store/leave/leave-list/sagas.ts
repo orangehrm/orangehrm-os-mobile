@@ -45,12 +45,13 @@ import {
   CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT,
   ChangeEmployeeLeaveRequestCommentAction,
   LeaveDetailedModel,
+  LeaveRequestCommentModel,
 } from 'store/leave/leave-list/types';
 import {
   fetchLeaveListFinished,
   fetchEmployeeLeaveRequestFinished,
   fetchEmployeeLeaveRequestDetailsFinished,
-  fetchLeaveComment as fetchLeaveCommentAction,
+  fetchLeaveComments as fetchLeaveCommentAction,
   fetchEmployeeLeaveRequestDetails as fetchEmployeeLeaveRequestDetailsAction,
   fetchEmployeeLeaveCommentFinished,
 } from 'store/leave/leave-list/actions';
@@ -175,9 +176,11 @@ function* fetchEmployeeLeaves(action: FetchEmployeeLeavesAction) {
 function* fetchLeaveComment(action: FetchLeaveCommentAction) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveRequestCommentModel[]> = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_COMMENT, {id: action.leaveRequestId}),
+      prepare(API_ENDPOINT_LEAVE_COMMENT, {
+        leaveRequestId: action.leaveRequestId,
+      }),
       false,
     );
 

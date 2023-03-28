@@ -66,7 +66,7 @@ const leaveUsageReducer = (
       //reset current value when new fetch triggers
       return {
         ...state,
-        employeeLeaveRequest: initialState.employeeLeaveRequest,
+        employeeLeaveComment: initialState.employeeLeaveComment,
       };
     case FETCH_LEAVE_COMMENT_FINISHED:
       return {

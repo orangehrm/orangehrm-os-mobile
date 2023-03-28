@@ -24,7 +24,8 @@ import Text from 'components/DefaultText';
 import Avatar from 'components/DefaultAvatar';
 import FormattedDate from 'components/FormattedDate';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {LeaveComment} from 'store/leave/leave-usage/types';
+import {LeaveRequestCommentModel} from 'store/leave/leave-list/types';
+import {getFirstAndLastNames} from 'lib/helpers/name';
 
 class LeaveCommentListItem extends React.Component<LeaveCommentListItemProps> {
   render() {
@@ -48,9 +49,7 @@ class LeaveCommentListItem extends React.Component<LeaveCommentListItemProps> {
                 {paddingHorizontal: theme.spacing * 2},
               ]}>
               <Text style={[styles.empNameText]}>
-                {leaveComment.createdByEmployee.firstName +
-                  '' +
-                  leaveComment.createdByEmployee.lastName}
+                {getFirstAndLastNames(leaveComment.createdByEmployee)}
               </Text>
               <FormattedDate
                 style={{
@@ -77,7 +76,7 @@ class LeaveCommentListItem extends React.Component<LeaveCommentListItemProps> {
 }
 
 interface LeaveCommentListItemProps extends WithTheme {
-  leaveComment: LeaveComment;
+  leaveComment: LeaveRequestCommentModel;
 }
 
 const styles = StyleSheet.create({

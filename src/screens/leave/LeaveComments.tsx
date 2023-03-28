@@ -45,14 +45,11 @@ class LeaveComments extends React.Component<
 
   onPressComment = () => {
     const {comment} = this.state;
-    const {
-      changeEmployeeLeaveRequestComment,
-      dispatch,
-      employeeLeaveRequestDetails,
-    } = this.props;
-    if (comment !== '' && employeeLeaveRequestDetails) {
+    const {employeeLeaveRequest, changeEmployeeLeaveRequestComment, dispatch} =
+      this.props;
+    if (comment !== '' && employeeLeaveRequest) {
       dispatch(
-        changeEmployeeLeaveRequestComment(employeeLeaveRequestDetails.id, {
+        changeEmployeeLeaveRequestComment(employeeLeaveRequest.id, {
           actionType: ACTION_TYPE_COMMENT,
           comment,
         }),
@@ -79,31 +76,33 @@ class LeaveComments extends React.Component<
           />
         }>
         <View style={{paddingBottom: theme.spacing * 5}}>
-          {employeeLeaveComment.map((commentItem, index) => (
-            <View
-              key={index}
-              style={{
-                paddingHorizontal: theme.spacing,
-              }}>
+          {employeeLeaveComment &&
+            employeeLeaveComment.map((commentItem, index) => (
               <View
+                key={index}
                 style={{
-                  padding: theme.spacing * 3,
-                  paddingBottom: theme.spacing * 4,
+                  paddingHorizontal: theme.spacing,
                 }}>
-                <LeaveCommentListItem leaveComment={commentItem} />
+                <View
+                  style={{
+                    padding: theme.spacing * 3,
+                    paddingBottom: theme.spacing * 4,
+                  }}>
+                  <LeaveCommentListItem leaveComment={commentItem} />
+                </View>
+                <Divider />
               </View>
-              <Divider />
-            </View>
-          ))}
+            ))}
         </View>
       </MainLayout>
     );
   }
 }
 
-interface LeaveCommentsProps
-  extends WithTheme,
-    ConnectedProps<typeof connector> {
+type LeaveCommentsProps = PartialLeaveCommentsProps &
+  ConnectedProps<typeof connector>;
+
+interface PartialLeaveCommentsProps extends WithTheme {
   navigation: NavigationProp<ParamListBase>;
   route: LeaveCommentsRouteParams;
 }
@@ -112,18 +111,19 @@ interface LeaveCommentsState {
   comment: string;
 }
 
-const mapStateToProps = (state: RootState, ownProps: LeaveCommentsProps) => ({
+const mapStateToProps = (
+  state: RootState,
+  ownProps: PartialLeaveCommentsProps,
+) => ({
   employeeLeaveComment:
     ownProps.route.params.employeeLeaveCommentSelector(state),
   employeeLeaveRequest:
     ownProps.route.params.employeeLeaveRequestSelector(state),
-  employeeLeaveRequestDetails:
-    ownProps.route.params.employeeLeaveRequestDetailsSelector(state),
 });
 
 const mapDispatchToProps = (
   dispatch: Dispatch<Action>,
-  ownProps: LeaveCommentsProps,
+  ownProps: PartialLeaveCommentsProps,
 ) => ({
   changeEmployeeLeaveRequestComment:
     ownProps.route.params.changeEmployeeLeaveRequestCommentAction,

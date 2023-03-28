@@ -37,9 +37,8 @@ import {
 import {
   changeEmployeeLeaveRequestComment,
   changeEmployeeLeaveRequestStatus,
-  fetchEmployeeLeaves,
   fetchEmployeeLeaveRequestDetails,
-  fetchLeaveComment,
+  fetchLeaveComments,
 } from 'store/leave/leave-list/actions';
 import Text from 'components/DefaultText';
 import Chip from 'components/DefaultChip';
@@ -81,14 +80,14 @@ class LeaveDetails extends React.Component<
 
     if (this.props.employeeLeaveRequest?.leaveRequestId !== leaveRequest.id) {
       this.props.fetchEmployeeLeaveRequestDetails(leaveRequest.id);
-      this.props.fetchEmployeeLeaveRequest(leaveRequest.id);
-      this.props.fetchLeaveComment(leaveRequest.id);
+      this.props.fetchLeaveComments(leaveRequest.id);
     }
   }
 
   onRefresh = () => {
     const {leaveRequest} = this.props.route.params;
-    this.props.fetchEmployeeLeaveRequest(leaveRequest.id);
+    this.props.fetchEmployeeLeaveRequestDetails(leaveRequest.id);
+    this.props.fetchLeaveComments(leaveRequest.id);
   };
 
   onPressApproveLeave = () => {
@@ -141,8 +140,8 @@ class LeaveDetails extends React.Component<
     const {theme, employeeLeaveRequestDetails, employeeLeaveComment} =
       this.props;
     const {action} = this.state;
+    const leaveTypeColor = employeeLeaveRequestDetails?.leaveType.color;
 
-    const leaveTypeColor = 'green';
     return (
       <MainLayout
         onRefresh={this.onRefresh}
@@ -339,21 +338,22 @@ class LeaveDetails extends React.Component<
           />
           <Divider />
           <View>
-            {employeeLeaveComment?.map((item, index) => (
-              <View
-                key={index}
-                style={{
-                  paddingHorizontal: theme.spacing * 4,
-                }}>
-                {index !== 0 ? <Divider /> : null}
+            {employeeLeaveComment &&
+              employeeLeaveComment?.map((item, index) => (
                 <View
+                  key={index}
                   style={{
-                    paddingVertical: theme.spacing * 3,
+                    paddingHorizontal: theme.spacing * 4,
                   }}>
-                  <LeaveCommentListItem leaveComment={item} />
+                  {index !== 0 ? <Divider /> : null}
+                  <View
+                    style={{
+                      paddingVertical: theme.spacing * 3,
+                    }}>
+                    <LeaveCommentListItem leaveComment={item} />
+                  </View>
                 </View>
-              </View>
-            ))}
+              ))}
           </View>
         </View>
         <BottomConfirmationDialog
@@ -403,8 +403,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = {
   fetchEmployeeLeaveRequestDetails: fetchEmployeeLeaveRequestDetails,
-  fetchEmployeeLeaveRequest: fetchEmployeeLeaves,
-  fetchLeaveComment: fetchLeaveComment,
+  fetchLeaveComments: fetchLeaveComments,
   changeEmployeeLeaveRequestComment: changeEmployeeLeaveRequestComment,
   changeEmployeeLeaveRequestStatus: changeEmployeeLeaveRequestStatus,
 };

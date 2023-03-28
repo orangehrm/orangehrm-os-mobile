@@ -24,7 +24,7 @@ export interface LeaveListState {
   leaveList?: LeaveListLeaveRequest[];
   employeeLeaveRequest?: EmployeeLeaveRequest;
   employeeLeaves?: LeaveDetailedModel[];
-  employeeLeaveComment?: EmployeeLeaveComment;
+  employeeLeaveComment?: LeaveRequestCommentModel[];
   employeeLeaveRequestDetails?: EmployeeLeaveDetails;
 
   employeeLeaveRequestData?: EmployeeLeaveDetails;
@@ -92,7 +92,7 @@ export interface FetchEmployeeLeaveRequestDetailsFinishedAction {
 
 export interface FetchLeaveCommentFinishedAction {
   type: typeof FETCH_LEAVE_COMMENT_FINISHED;
-  payload?: EmployeeLeaveComment;
+  payload?: LeaveRequestCommentModel[];
   error: boolean;
 }
 
@@ -144,10 +144,6 @@ export interface Employee {
   lastName: string;
   middleName: string;
   terminationId: number;
-}
-
-export interface EmployeeLeaveComment {
-  comment: string;
 }
 
 export interface EmployeeLeaveDetails {
@@ -241,4 +237,24 @@ export interface LeaveDetailedModel {
   allowedActions: AllowedAction[];
   leaveType: LeaveType;
   lastComment: null | LeaveComment;
+}
+
+export interface LeaveRequestCommentModel {
+  id: number;
+  leaveRequest: {
+    id: number;
+  };
+  date: string;
+  time: string;
+  createdByEmployee: {
+    empNumber: number;
+    lastName: string;
+    firstName: string;
+    middleName: string;
+    employeeId: string;
+    employeeTerminationRecord: {
+      terminationId: null | number;
+    };
+  };
+  comment: string;
 }

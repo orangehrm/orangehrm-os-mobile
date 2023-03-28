@@ -77,7 +77,7 @@ export const fetchEmployeeLeaveRequestDetails = (
   leaveRequestId,
 });
 
-export const fetchLeaveComment = (
+export const fetchLeaveComments = (
   leaveRequestId: string,
 ): FetchLeaveCommentAction => ({
   type: FETCH_LEAVE_COMMENT,

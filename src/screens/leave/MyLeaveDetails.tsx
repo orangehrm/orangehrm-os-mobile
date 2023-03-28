@@ -36,7 +36,7 @@ import {
 } from 'store/leave/leave-usage/actions';
 import {
   changeEmployeeLeaveRequestComment,
-  fetchLeaveComment,
+  fetchLeaveComments,
   fetchEmployeeLeaves,
 } from 'store/leave/leave-list/actions';
 import Text from 'components/DefaultText';
@@ -364,7 +364,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = {
   fetchMyLeaveDetails: fetchMyLeaveDetails,
-  fetchLeaveComment: fetchLeaveComment,
+  fetchLeaveComment: fetchLeaveComments,
   changeMyLeaveRequestStatus: changeMyLeaveRequestStatus,
   changeEmployeeLeaveRequestComment: changeEmployeeLeaveRequestComment,
   fetchEmployeeLeaveRequest: fetchEmployeeLeaves,
