@@ -121,17 +121,17 @@ export const fetchEmployeeLeaveCommentFinished = (
  */
 export const changeEmployeeLeaveRequestStatus = (
   leaveRequestId: number,
-  action: $PropertyType<ChangeEmployeeLeaveRequestStatusAction, 'action'>,
+  status: $PropertyType<ChangeEmployeeLeaveRequestStatusAction, 'status'>,
 ): ChangeEmployeeLeaveRequestStatusAction => ({
   type: CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
   leaveRequestId,
-  action,
+  status,
 });
 export const changeEmployeeLeaveRequestComment = (
   leaveRequestId: number,
-  action: $PropertyType<ChangeEmployeeLeaveRequestCommentAction, 'action'>,
+  comment: $PropertyType<ChangeEmployeeLeaveRequestCommentAction, 'comment'>,
 ): ChangeEmployeeLeaveRequestCommentAction => ({
   type: CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT,
   leaveRequestId,
-  action,
+  comment,
 });

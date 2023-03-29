@@ -39,7 +39,6 @@ import {
   FetchEmployeeLeavesAction,
   ChangeEmployeeLeaveRequestStatusAction,
   FetchLeaveCommentAction,
-  ACTION_TYPE_CHANGE_STATUS,
   FetchEmployeeLeaveRequestDetailsAction,
   FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS,
   CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT,
@@ -53,7 +52,6 @@ import {
   fetchEmployeeLeaveRequestFinished,
   fetchEmployeeLeaveRequestDetailsFinished,
   fetchLeaveComments as fetchLeaveCommentAction,
-  fetchEmployeeLeaveRequestDetails as fetchEmployeeLeaveRequestDetailsAction,
   fetchEmployeeLeaveCommentFinished,
 } from 'store/leave/leave-list/actions';
 import {
@@ -63,7 +61,6 @@ import {
 import {TYPE_ERROR} from 'store/globals/types';
 import {
   API_ENDPOINT_LEAVE_COMMENT,
-  API_ENDPOINT_LEAVE_COMMENT_SAVE,
   API_ENDPOINT_LEAVE_LIST,
   API_ENDPOINT_LEAVES,
   API_ENDPOINT_LEAVE_REQUEST_DETAILS,
@@ -223,21 +220,25 @@ function* changeEmployeeLeaveRequestStatus(
   try {
     yield openLoader();
 
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveRequestDetailedModel> = yield apiCall(
       apiPutCall,
-      prepare(API_ENDPOINT_LEAVE_REQUEST_DETAILS, {id: action.leaveRequestId}),
-      {action: action.action.status},
+      prepare(
+        API_ENDPOINT_LEAVE_REQUEST_DETAILS,
+        {leaveRequestId: action.leaveRequestId},
+        {model: 'detailed'},
+      ),
+      {action: action.status},
     );
 
     if (response.data) {
-      //re-fetch with updated leave request data
-      yield put(fetchEmployeeLeaveRequestDetailsAction(action.leaveRequestId));
-      yield showSnackMessage(
-        action.action.actionType === ACTION_TYPE_CHANGE_STATUS
-          ? 'Successfully Updated'
-          : 'Successfully Saved',
+      yield put(
+        fetchEmployeeLeaveRequestDetailsFinished(
+          assignColorToLeaveType(response.data),
+        ),
       );
+      yield showSnackMessage('Successfully Updated');
     } else {
+      yield put(fetchEmployeeLeaveRequestDetailsFinished(undefined, true));
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(
           response,
@@ -261,20 +262,18 @@ function* changeEmployeeLeaveRequestComment(
 ) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveRequestCommentModel> = yield apiCall(
       apiPostCall,
-      prepare(API_ENDPOINT_LEAVE_COMMENT_SAVE, {id: action.leaveRequestId}),
-      {comment: action.action.comment},
+      prepare(API_ENDPOINT_LEAVE_COMMENT, {
+        leaveRequestId: action.leaveRequestId,
+      }),
+      {comment: action.comment},
     );
 
     if (response.data) {
-      //re-fetch with updated leave request data
+      //re-fetch with added leave comments
       yield put(fetchLeaveCommentAction(action.leaveRequestId));
-      yield showSnackMessage(
-        action.action.actionType === ACTION_TYPE_CHANGE_STATUS
-          ? 'Successfully Updated'
-          : 'Successfully Saved',
-      );
+      yield showSnackMessage('Successfully Saved');
     } else {
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(

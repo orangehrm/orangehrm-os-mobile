@@ -96,13 +96,13 @@ export interface FetchLeaveCommentFinishedAction {
 export interface ChangeEmployeeLeaveRequestStatusAction {
   type: typeof CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS;
   leaveRequestId: number;
-  action: EmployeeLeaveRequestActions;
+  status: LeaveRequestAllowedActions;
 }
 
 export interface ChangeEmployeeLeaveRequestCommentAction {
   type: typeof CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT;
   leaveRequestId: number;
-  action: EmployeeLeaveRequestActions;
+  comment: string;
 }
 
 export type LeaveUsageActionTypes =
@@ -171,7 +171,7 @@ export type EmployeeLeaveRequestActions =
   | EmployeeLeaveRequestAction
   | EmployeeLeaveRequestCommentAction;
 
-interface LeaveType {
+export interface LeaveType {
   id: number;
   name: string;
   deleted: boolean;

@@ -18,7 +18,8 @@
  *
  */
 
-import {Leave, LeaveType, Entitlement} from 'store/leave/leave-usage/types';
+import {Leave, Entitlement} from 'store/leave/leave-usage/types';
+import {LeaveType} from 'store/leave/leave-list/types';
 import {SubordinateEntitlement} from 'store/leave/assign-leave/types';
 import {
   SPECIFY_TIME,
@@ -71,14 +72,15 @@ const assignColorsToLeaveTypes = <T extends Data>(data: T[]): T[] => {
  * @param data
  */
 const assignColorToLeaveType = <T extends Data>(data: T): T => {
+  let leaveTypeId = data.leaveType.id;
+  if (typeof leaveTypeId === 'string') {
+    leaveTypeId = parseInt(leaveTypeId, 10);
+  }
   return {
     ...data,
     leaveType: {
       ...data.leaveType,
-      color:
-        LEAVE_TYPE_COLORS[
-          parseInt(data.leaveType.id, 10) % LEAVE_TYPE_COLORS.length
-        ],
+      color: LEAVE_TYPE_COLORS[leaveTypeId % LEAVE_TYPE_COLORS.length],
     },
   };
 };

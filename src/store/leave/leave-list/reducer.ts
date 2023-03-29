@@ -19,7 +19,6 @@
  */
 
 import {
-  ACTION_TYPE_CHANGE_STATUS,
   CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
   FETCH_EMPLOYEE_LEAVES,
   FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS,
@@ -85,15 +84,10 @@ const leaveUsageReducer = (
       };
     case CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS:
       //reset leave list for refresh the leave list only with state changes
-      if (action.action.actionType === ACTION_TYPE_CHANGE_STATUS) {
-        // TODO
-        return {
-          ...state,
-          leaveList: initialState.leaveList,
-        };
-      } else {
-        return state;
-      }
+      return {
+        ...state,
+        leaveList: initialState.leaveList,
+      };
     case RESET_LEAVE_LIST:
     case LOGOUT:
       return {

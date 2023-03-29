@@ -109,10 +109,10 @@ class LeaveDetails extends React.Component<
   onPressAction = (status?: LeaveRequestAllowedActions) => () => {
     const {employeeLeaveRequest} = this.props;
     if (employeeLeaveRequest && status) {
-      this.props.changeEmployeeLeaveRequestStatus(employeeLeaveRequest.id, {
-        actionType: ACTION_TYPE_CHANGE_STATUS,
+      this.props.changeEmployeeLeaveRequestStatus(
+        employeeLeaveRequest.id,
         status,
-      });
+      );
     }
     this.onResetAction();
   };

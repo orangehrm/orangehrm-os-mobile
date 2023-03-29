@@ -29,7 +29,6 @@ import {RootState} from 'store';
 import Divider from 'components/DefaultDivider';
 import LeaveCommentListItem from 'screens/leave/components/LeaveCommentListItem';
 import {PickLeaveRequestCommentFooter} from 'screens/leave/components/PickLeaveRequestComment';
-import {ACTION_TYPE_COMMENT} from 'store/leave/leave-list/types';
 import {LeaveCommentsRouteParams} from 'screens/leave/navigators';
 
 class LeaveComments extends React.Component<
@@ -49,10 +48,7 @@ class LeaveComments extends React.Component<
       this.props;
     if (comment !== '' && employeeLeaveRequest) {
       dispatch(
-        changeEmployeeLeaveRequestComment(employeeLeaveRequest.id, {
-          actionType: ACTION_TYPE_COMMENT,
-          comment,
-        }),
+        changeEmployeeLeaveRequestComment(employeeLeaveRequest.id, comment),
       );
       this.setState({comment: ''});
     }
