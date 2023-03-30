@@ -27,7 +27,9 @@ import {
   RESET_MY_LEAVE_REQUEST,
   FETCH_MY_LEAVE_DETAILS,
   FETCH_MY_LEAVE_DETAILS_FINISHED,
+  FETCH_MY_LEAVE_COMMENTS,
   CHANGE_MY_LEAVE_REQUEST_STATUS,
+  ADD_MY_LEAVE_REQUEST_COMMENT,
   SET_ERROR_MESSAGE,
   FetchMyLeaveEntitlementAction,
   FetchMyLeaveEntitlementFinishedAction,
@@ -36,12 +38,14 @@ import {
   FetchMyLeaveRequestFinishedAction,
   ResetMyLeaveRequestAction,
   Entitlement,
-  LeaveRequest,
   FetchMyLeaveRequestDetailsAction,
   FetchMyLeaveRequestDetailsFinishedAction,
+  FetchMyLeaveCommentAction,
   ChangeMyLeaveRequestStatusAction,
+  AddMyLeaveRequestCommentAction,
   SetErrorMessageAction,
 } from 'store/leave/leave-usage/types';
+import {LeaveRequestDetailedModel} from 'store/leave/leave-list/types';
 import {$PropertyType} from 'utility-types';
 
 export const fetchMyLeaveEntitlements = (): FetchMyLeaveEntitlementAction => ({
@@ -67,7 +71,7 @@ export const fetchMyLeaveRequests = (): FetchMyLeaveRequestAction => ({
 });
 
 export const fetchMyLeaveRequestsFinished = (
-  payload?: LeaveRequest[],
+  payload?: LeaveRequestDetailedModel[],
   error: boolean = false,
 ): FetchMyLeaveRequestFinishedAction => ({
   type: FETCH_MY_LEAVE_REQUEST_FINISHED,
@@ -88,16 +92,16 @@ export const resethMyLeaveRequests = (): ResetMyLeaveRequestAction => ({
  * @returns {object}
  */
 export const changeMyLeaveRequestStatus = (
-  leaveRequestId: string,
-  action: $PropertyType<ChangeMyLeaveRequestStatusAction, 'action'>,
+  leaveRequestId: number,
+  status: $PropertyType<ChangeMyLeaveRequestStatusAction, 'status'>,
 ): ChangeMyLeaveRequestStatusAction => ({
   type: CHANGE_MY_LEAVE_REQUEST_STATUS,
   leaveRequestId,
-  action,
+  status,
 });
 
 export const fetchMyLeaveDetails = (
-  leaveRequestId: string,
+  leaveRequestId: number,
 ): FetchMyLeaveRequestDetailsAction => ({
   type: FETCH_MY_LEAVE_DETAILS,
   leaveRequestId,
@@ -110,6 +114,22 @@ export const fetchMyLeaveDetailsFinished = (
   type: FETCH_MY_LEAVE_DETAILS_FINISHED,
   payload,
   error,
+});
+
+export const fetchMyLeaveComments = (
+  leaveRequestId: number,
+): FetchMyLeaveCommentAction => ({
+  type: FETCH_MY_LEAVE_COMMENTS,
+  leaveRequestId,
+});
+
+export const addMyLeaveRequestComment = (
+  leaveRequestId: number,
+  comment: $PropertyType<AddMyLeaveRequestCommentAction, 'comment'>,
+): AddMyLeaveRequestCommentAction => ({
+  type: ADD_MY_LEAVE_REQUEST_COMMENT,
+  leaveRequestId,
+  comment,
 });
 
 export const setErrorMessage = (message?: string): SetErrorMessageAction => ({

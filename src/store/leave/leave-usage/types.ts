@@ -20,16 +20,19 @@
 
 import {MutableKeys} from 'utility-types';
 import {LEAVE_STATUS_MAP} from 'lib/helpers/leave';
+import {LeaveRequestAllowedActions} from 'store/leave/leave-list/types';
 import {
-  EmployeeLeaveRequest,
-  EmployeeLeaveRequestActions,
+  LeaveDetailedModel,
+  LeaveRequestDetailedModel,
+  LeaveRequestCommentModel,
 } from 'store/leave/leave-list/types';
 
 export interface LeaveUsageState {
   entitlement?: Entitlement[];
-  leaveRequest?: LeaveRequest[];
+  leaveRequests?: LeaveRequestDetailedModel[];
   selectedLeaveTypeId?: string;
-  leaveRequestDetail?: EmployeeLeaveRequest;
+  leaveRequestDetail?: LeaveRequestDetailedModel;
+  leaveComments?: LeaveRequestCommentModel[];
   errorMessage?: string;
 }
 
@@ -47,8 +50,11 @@ export const RESET_MY_LEAVE_REQUEST = 'LEAVE_USAGE_RESET_MY_LEAVE_REQUEST';
 export const FETCH_MY_LEAVE_DETAILS_FINISHED =
   'LEAVE_USAGE_FETCH_MY_LEAVE_DETAILS_FINISHED';
 export const FETCH_MY_LEAVE_DETAILS = 'LEAVE_USAGE_FETCH_MY_LEAVE_DETAILS';
+export const FETCH_MY_LEAVE_COMMENTS = 'LEAVE_USAGE_FETCH_MY_LEAVE_COMMENTS';
 export const CHANGE_MY_LEAVE_REQUEST_STATUS =
   'LEAVE_USAGE_CHANGE_MY_LEAVE_REQUEST_STATUS';
+export const ADD_MY_LEAVE_REQUEST_COMMENT =
+  'LEAVE_USAGE_ADD_EMPLOYEE_LEAVE_REQUEST_COMMENT';
 export const SET_ERROR_MESSAGE = 'LEAVE_USAGE_SET_ERROR_MESSAGE';
 
 export interface FetchMyLeaveEntitlementAction {
@@ -67,8 +73,13 @@ export interface FetchMyLeaveRequestAction {
 
 export interface FetchMyLeaveRequestFinishedAction {
   type: typeof FETCH_MY_LEAVE_REQUEST_FINISHED;
-  payload?: LeaveRequest[];
+  payload?: LeaveRequestDetailedModel[];
   error: boolean;
+}
+
+export interface FetchMyLeaveCommentAction {
+  type: typeof FETCH_MY_LEAVE_COMMENTS;
+  leaveRequestId: number;
 }
 
 export interface SelectLeaveTypeAction {
@@ -82,19 +93,25 @@ export interface ResetMyLeaveRequestAction {
 
 export interface FetchMyLeaveRequestDetailsAction {
   type: typeof FETCH_MY_LEAVE_DETAILS;
-  leaveRequestId: string;
+  leaveRequestId: number;
 }
 
 export interface FetchMyLeaveRequestDetailsFinishedAction {
   type: typeof FETCH_MY_LEAVE_DETAILS_FINISHED;
-  payload?: EmployeeLeaveRequest;
+  payload?: LeaveDetailedModel;
   error: boolean;
 }
 
 export interface ChangeMyLeaveRequestStatusAction {
   type: typeof CHANGE_MY_LEAVE_REQUEST_STATUS;
-  leaveRequestId: string;
-  action: EmployeeLeaveRequestActions;
+  leaveRequestId: number;
+  status: LeaveRequestAllowedActions;
+}
+
+export interface AddMyLeaveRequestCommentAction {
+  type: typeof ADD_MY_LEAVE_REQUEST_COMMENT;
+  leaveRequestId: number;
+  comment: string;
 }
 
 export interface SetErrorMessageAction {

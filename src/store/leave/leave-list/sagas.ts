@@ -41,8 +41,8 @@ import {
   FetchLeaveCommentAction,
   FetchEmployeeLeaveRequestDetailsAction,
   FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS,
-  CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT,
-  ChangeEmployeeLeaveRequestCommentAction,
+  ADD_EMPLOYEE_LEAVE_REQUEST_COMMENT,
+  AddEmployeeLeaveRequestCommentAction,
   LeaveDetailedModel,
   LeaveRequestCommentModel,
   LeaveRequestDetailedModel,
@@ -258,7 +258,7 @@ function* changeEmployeeLeaveRequestStatus(
 }
 
 function* changeEmployeeLeaveRequestComment(
-  action: ChangeEmployeeLeaveRequestCommentAction,
+  action: AddEmployeeLeaveRequestCommentAction,
 ) {
   try {
     yield openLoader();
@@ -306,7 +306,7 @@ export function* watchLeaveListActions() {
     changeEmployeeLeaveRequestStatus,
   );
   yield takeEvery(
-    CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT,
+    ADD_EMPLOYEE_LEAVE_REQUEST_COMMENT,
     changeEmployeeLeaveRequestComment,
   );
 }

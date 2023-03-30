@@ -19,7 +19,12 @@
  */
 
 import {takeEvery, put} from 'redux-saga/effects';
-import {apiCall, apiGetCall, apiPutCall} from 'store/saga-effects/api';
+import {
+  apiCall,
+  apiGetCall,
+  apiPutCall,
+  ApiResponse,
+} from 'store/saga-effects/api';
 import {
   openLoader,
   closeLoader,
@@ -49,7 +54,7 @@ import {TYPE_ERROR} from 'store/globals/types';
 import {
   API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT,
   API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
-  API_ENDPOINT_LEAVE_REQUEST_DETAILS,
+  API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST_DETAILS,
   prepare,
 } from 'services/endpoints';
 import {
@@ -57,7 +62,10 @@ import {
   getMessageAlongWithResponseErrors,
   HTTP_NOT_FOUND,
 } from 'services/api';
-import {ACTION_TYPE_CHANGE_STATUS} from 'store/leave/leave-list/types';
+import {
+  LeaveDetailedModel,
+  LeaveRequestDetailedModel,
+} from 'store/leave/leave-list/types';
 
 function* fetchMyLeaveEntitlements() {
   try {
@@ -114,28 +122,23 @@ function* fetchMyLeaveEntitlements() {
 function* fetchMyLeaveRequests() {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveRequestDetailedModel[]> = yield apiCall(
       apiGetCall,
       API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
-      false,
     );
     if (response.data) {
       yield put(
         fetchMyLeaveRequestsFinished(assignColorsToLeaveTypes(response.data)),
       );
     } else {
-      if (response.getResponse().status === HTTP_NOT_FOUND) {
-        yield put(fetchMyLeaveRequestsFinished([]));
-      } else {
-        yield put(fetchMyLeaveRequestsFinished(undefined, true));
-        yield showSnackMessage(
-          getMessageAlongWithResponseErrors(
-            response,
-            'Failed to Fetch Leave Details',
-          ),
-          TYPE_ERROR,
-        );
-      }
+      yield put(fetchMyLeaveRequestsFinished(undefined, true));
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Leave Details',
+        ),
+        TYPE_ERROR,
+      );
     }
   } catch (error) {
     yield showSnackMessage(
@@ -151,11 +154,11 @@ function* fetchMyLeaveRequests() {
 function* fetchMyLeaveDetails(action: FetchMyLeaveRequestDetailsAction) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveDetailedModel> = yield apiCall(
       apiGetCall,
       prepare(
-        API_ENDPOINT_LEAVE_REQUEST_DETAILS,
-        {id: action.leaveRequestId},
+        API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST_DETAILS,
+        {leaveRequestId: action.leaveRequestId},
         {model: 'detailed'},
       ),
     );
@@ -187,20 +190,20 @@ function* fetchMyLeaveDetails(action: FetchMyLeaveRequestDetailsAction) {
 function* changeMyLeaveRequestStatus(action: ChangeMyLeaveRequestStatusAction) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveDetailedModel> = yield apiCall(
       apiPutCall,
-      prepare(API_ENDPOINT_LEAVE_REQUEST_DETAILS, {id: action.leaveRequestId}),
-      {action: action.action.status},
+      prepare(
+        API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST_DETAILS,
+        {leaveRequestId: action.leaveRequestId},
+        {model: 'detailed'},
+      ),
+      {action: action.status},
     );
 
     if (response.data) {
       //re-fetch with updated leave request data
       yield put(fetchMyLeaveDetailsAction(action.leaveRequestId));
-      yield showSnackMessage(
-        action.action.actionType === ACTION_TYPE_CHANGE_STATUS
-          ? 'Successfully Updated'
-          : 'Successfully Saved',
-      );
+      yield showSnackMessage('Successfully Updated');
     } else {
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(

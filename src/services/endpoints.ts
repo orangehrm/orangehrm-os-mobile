@@ -50,6 +50,8 @@ export const API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT =
   '/api/v2/leave/leave-entitlements';
 export const API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST =
   '/api/v2/leave/leave-requests';
+export const API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST_DETAILS =
+  '/api/v2/leave/leave-requests/{leaveRequestId}';
 export const API_ENDPOINT_LEAVE_LIST = '/api/v2/leave/employees/leave-requests';
 export const API_ENDPOINT_LEAVES =
   '/api/v2/leave/leave-requests/{leaveRequestId}/leaves';

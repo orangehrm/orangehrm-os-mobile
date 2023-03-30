@@ -39,8 +39,8 @@ import {
   FetchLeaveCommentFinishedAction,
   FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS,
   FetchEmployeeLeaveRequestDetailsFinishedAction,
-  CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT,
-  ChangeEmployeeLeaveRequestCommentAction,
+  ADD_EMPLOYEE_LEAVE_REQUEST_COMMENT,
+  AddEmployeeLeaveRequestCommentAction,
 } from 'store/leave/leave-list/types';
 import {$PropertyType} from 'utility-types';
 
@@ -127,11 +127,12 @@ export const changeEmployeeLeaveRequestStatus = (
   leaveRequestId,
   status,
 });
-export const changeEmployeeLeaveRequestComment = (
+
+export const addEmployeeLeaveRequestComment = (
   leaveRequestId: number,
-  comment: $PropertyType<ChangeEmployeeLeaveRequestCommentAction, 'comment'>,
-): ChangeEmployeeLeaveRequestCommentAction => ({
-  type: CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT,
+  comment: $PropertyType<AddEmployeeLeaveRequestCommentAction, 'comment'>,
+): AddEmployeeLeaveRequestCommentAction => ({
+  type: ADD_EMPLOYEE_LEAVE_REQUEST_COMMENT,
   leaveRequestId,
   comment,
 });

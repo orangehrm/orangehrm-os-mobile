@@ -31,12 +31,15 @@ import {
   selectEmployeeLeaveRequest,
   // selectEmployeeLeaveRequestDetails,
 } from 'store/leave/leave-list/selectors';
-// import {selectLeaveRequestDetail} from 'store/leave/leave-usage/selectors';
 import {
-  changeEmployeeLeaveRequestComment,
+  selectLeaveRequestDetail,
+  selectLeaveComments,
+} from 'store/leave/leave-usage/selectors';
+import {
+  addEmployeeLeaveRequestComment,
   // changeEmployeeLeaveRequestStatus,
 } from 'store/leave/leave-list/actions';
-// import {changeMyLeaveRequestStatus} from 'store/leave/leave-usage/actions';
+import {addMyLeaveRequestComment} from 'store/leave/leave-usage/actions';
 
 export interface Employee {
   empNumber: string;
@@ -80,15 +83,17 @@ export type LeaveDaysRouteParams = RouteProp<
 >;
 
 export interface LeaveCommentsParam {
-  employeeLeaveRequestSelector: typeof selectEmployeeLeaveRequest;
-  // | typeof selectLeaveRequestDetail; // TODO
+  employeeLeaveRequestSelector:
+    | typeof selectEmployeeLeaveRequest
+    | typeof selectLeaveRequestDetail;
 
-  employeeLeaveCommentSelector: typeof selectEmployeeLeaveComment;
-  // | typeof selectLeaveRequestDetail; // TODO
+  employeeLeaveCommentSelector:
+    | typeof selectEmployeeLeaveComment
+    | typeof selectLeaveComments;
 
-  changeEmployeeLeaveRequestCommentAction:
-    | typeof changeEmployeeLeaveRequestComment;
-  // | typeof changeMyLeaveRequestStatus; // TODO
+  addEmployeeLeaveRequestCommentAction:
+    | typeof addEmployeeLeaveRequestComment
+    | typeof addMyLeaveRequestComment;
 }
 
 export type LeaveCommentsParamList = {

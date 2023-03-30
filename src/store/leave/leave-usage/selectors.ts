@@ -20,12 +20,11 @@
 
 import {RootState} from 'store';
 import {createSelector} from 'reselect';
+import {LeaveUsageState, Entitlement} from 'store/leave/leave-usage/types';
 import {
-  LeaveUsageState,
-  Entitlement,
-  LeaveRequest,
-} from 'store/leave/leave-usage/types';
-import {EmployeeLeaveRequest} from 'store/leave/leave-list/types';
+  LeaveRequestDetailedModel,
+  LeaveRequestCommentModel,
+} from 'store/leave/leave-list/types';
 
 export const selectLeaveUsage = (state: RootState) => state.leaveUsage;
 
@@ -44,13 +43,13 @@ export const selectSelectedLeaveTypeId = createSelector<
 export const selectLeaveRequests = createSelector<
   RootState,
   LeaveUsageState,
-  LeaveRequest[] | undefined
->([selectLeaveUsage], (leaveUsage) => leaveUsage.leaveRequest);
+  LeaveRequestDetailedModel[] | undefined
+>([selectLeaveUsage], (leaveUsage) => leaveUsage.leaveRequests);
 
 export const selectLeaveRequestDetail = createSelector<
   RootState,
   LeaveUsageState,
-  EmployeeLeaveRequest | undefined
+  LeaveRequestDetailedModel | undefined
 >([selectLeaveUsage], (leaveUsage) => leaveUsage.leaveRequestDetail);
 
 export const selectErrorMessage = createSelector<
@@ -58,3 +57,9 @@ export const selectErrorMessage = createSelector<
   LeaveUsageState,
   string | undefined
 >([selectLeaveUsage], (leaveUsage) => leaveUsage.errorMessage);
+
+export const selectLeaveComments = createSelector<
+  RootState,
+  LeaveUsageState,
+  LeaveRequestCommentModel[] | undefined
+>([selectLeaveUsage], (leaveUsage) => leaveUsage.leaveComments);

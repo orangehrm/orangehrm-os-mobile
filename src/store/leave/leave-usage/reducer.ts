@@ -55,7 +55,7 @@ const leaveUsageReducer = (
 
       return {
         ...state,
-        leaveRequest: action.payload?.slice(),
+        leaveRequests: action.payload?.slice(),
         leaveRequestDetail: initialState.leaveRequestDetail,
       };
     case SELECT_LEAVE_TYPE:
@@ -79,7 +79,7 @@ const leaveUsageReducer = (
       if (action.action.actionType === ACTION_TYPE_CHANGE_STATUS) {
         return {
           ...state,
-          leaveRequest: initialState.leaveRequest,
+          leaveRequests: initialState.leaveRequests,
           entitlement: initialState.entitlement,
         };
       } else {

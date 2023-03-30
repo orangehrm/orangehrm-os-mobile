@@ -29,16 +29,16 @@ import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
-import {selectLeaveRequestDetail} from 'store/leave/leave-usage/selectors';
+import {
+  selectLeaveRequestDetail,
+  selectLeaveComments,
+} from 'store/leave/leave-usage/selectors';
 import {
   fetchMyLeaveDetails,
+  fetchMyLeaveComments,
   changeMyLeaveRequestStatus,
+  addMyLeaveRequestComment,
 } from 'store/leave/leave-usage/actions';
-import {
-  changeEmployeeLeaveRequestComment,
-  fetchLeaveComments,
-  fetchEmployeeLeaves,
-} from 'store/leave/leave-list/actions';
 import Text from 'components/DefaultText';
 import Chip from 'components/DefaultChip';
 import FormattedDate from 'components/FormattedDate';
@@ -53,16 +53,11 @@ import {MY_LEAVE_DETAILS, LEAVE_DAYS, LEAVE_COMMENTS} from 'screens';
 import {navigate} from 'lib/helpers/navigation';
 import {
   ACTION_CANCEL,
-  ACTION_TYPE_CHANGE_STATUS,
   CANCEL,
   LeaveRequestAllowedActions,
 } from 'store/leave/leave-list/types';
 import {LeaveDaysParam, LeaveCommentsParam} from 'screens/leave/navigators';
-import {
-  selectEmployeeLeaveComment,
-  selectEmployeeLeaveRequest,
-  selectEmployeeLeaveRequestDetails,
-} from '../../store/leave/leave-list/selectors';
+import {getFirstAndLastNames} from 'lib/helpers/name';
 
 class MyLeaveDetails extends React.Component<
   MyLeaveDetailsProps,
@@ -77,16 +72,15 @@ class MyLeaveDetails extends React.Component<
 
   componentDidMount() {
     const {leaveRequest} = this.props.route.params;
-    if (this.props.leaveRequestDetail?.leaveRequestId !== leaveRequest.id) {
-      this.props.fetchMyLeaveDetails(leaveRequest.id);
-      this.props.fetchLeaveComment(leaveRequest.id);
-      this.props.fetchEmployeeLeaveRequest(leaveRequest.id);
+    if (this.props.leaveRequestDetail?.id !== leaveRequest.id) {
+      this.onRefresh();
     }
   }
 
   onRefresh = () => {
     const {leaveRequest} = this.props.route.params;
     this.props.fetchMyLeaveDetails(leaveRequest.id);
+    this.props.fetchMyLeaveComments(leaveRequest.id);
   };
 
   onPressCancelLeave = () => {
@@ -100,10 +94,7 @@ class MyLeaveDetails extends React.Component<
   onPressAction = (status?: LeaveRequestAllowedActions) => () => {
     const {leaveRequestDetail} = this.props;
     if (leaveRequestDetail && status) {
-      this.props.changeMyLeaveRequestStatus(leaveRequestDetail.id, {
-        actionType: ACTION_TYPE_CHANGE_STATUS,
-        status,
-      });
+      this.props.changeMyLeaveRequestStatus(leaveRequestDetail.id, status);
     }
     this.onResetAction();
   };
@@ -123,10 +114,8 @@ class MyLeaveDetails extends React.Component<
     if (employeeLeaveComment) {
       navigate<LeaveCommentsParam>(LEAVE_COMMENTS, {
         employeeLeaveRequestSelector: selectLeaveRequestDetail,
-        employeeLeaveCommentSelector: selectEmployeeLeaveComment,
-        employeeLeaveRequestDetailsSelector: selectLeaveRequestDetail,
-        changeEmployeeLeaveRequestCommentAction:
-          changeEmployeeLeaveRequestComment,
+        employeeLeaveCommentSelector: selectLeaveComments,
+        addEmployeeLeaveRequestCommentAction: addMyLeaveRequestComment,
       });
     }
   };
@@ -188,9 +177,9 @@ class MyLeaveDetails extends React.Component<
               }}>
               <Avatar
                 name={
-                  leaveRequestDetail?.employee.firstName +
-                  '' +
-                  leaveRequestDetail?.employee.lastName
+                  leaveRequestDetail?.employee
+                    ? getFirstAndLastNames(leaveRequestDetail?.employee)
+                    : ''
                 }
               />
             </View>
@@ -204,9 +193,9 @@ class MyLeaveDetails extends React.Component<
                       fontSize: theme.typography.fontSize * 1.2,
                     },
                   ]}>
-                  {leaveRequestDetail?.employee.firstName +
-                    '' +
-                    leaveRequestDetail?.employee.lastName}
+                  {leaveRequestDetail?.employee
+                    ? getFirstAndLastNames(leaveRequestDetail?.employee)
+                    : ''}
                 </Text>
               </View>
               <View
@@ -357,17 +346,13 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: RootState) => ({
   leaveRequestDetail: selectLeaveRequestDetail(state),
-  employeeLeaveComment: selectEmployeeLeaveComment(state),
-  employeeLeaveRequestDetails: selectEmployeeLeaveRequestDetails(state),
-  employeeLeaveRequest: selectEmployeeLeaveRequest(state),
+  employeeLeaveComment: selectLeaveComments(state),
 });
 
 const mapDispatchToProps = {
   fetchMyLeaveDetails: fetchMyLeaveDetails,
-  fetchLeaveComment: fetchLeaveComments,
+  fetchMyLeaveComments: fetchMyLeaveComments,
   changeMyLeaveRequestStatus: changeMyLeaveRequestStatus,
-  changeEmployeeLeaveRequestComment: changeEmployeeLeaveRequestComment,
-  fetchEmployeeLeaveRequest: fetchEmployeeLeaves,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

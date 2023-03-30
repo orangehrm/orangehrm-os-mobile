@@ -122,7 +122,7 @@ const mapDispatchToProps = (
   ownProps: PartialLeaveCommentsProps,
 ) => ({
   changeEmployeeLeaveRequestComment:
-    ownProps.route.params.changeEmployeeLeaveRequestCommentAction,
+    ownProps.route.params.addEmployeeLeaveRequestCommentAction,
   dispatch,
 });
 

@@ -42,9 +42,8 @@ export const FETCH_LEAVE_COMMENT_FINISHED =
   'LEAVE_LIST_FETCH_LEAVE_COMMENT_FINISHED';
 export const CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS =
   'LEAVE_LIST_CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS';
-
-export const CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT =
-  'LEAVE_LIST_CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT';
+export const ADD_EMPLOYEE_LEAVE_REQUEST_COMMENT =
+  'LEAVE_LIST_ADD_EMPLOYEE_LEAVE_REQUEST_COMMENT';
 
 export interface FetchLeaveListAction {
   type: typeof FETCH_LEAVE_LIST;
@@ -99,8 +98,8 @@ export interface ChangeEmployeeLeaveRequestStatusAction {
   status: LeaveRequestAllowedActions;
 }
 
-export interface ChangeEmployeeLeaveRequestCommentAction {
-  type: typeof CHANGE_EMPLOYEE_LEAVE_REQUEST_COMMENT;
+export interface AddEmployeeLeaveRequestCommentAction {
+  type: typeof ADD_EMPLOYEE_LEAVE_REQUEST_COMMENT;
   leaveRequestId: number;
   comment: string;
 }
@@ -115,8 +114,9 @@ export type LeaveUsageActionTypes =
   | FetchEmployeeLeaveRequestDetailsFinishedAction
   | FetchLeaveCommentAction
   | FetchLeaveCommentFinishedAction
-  | ChangeEmployeeLeaveRequestCommentAction
-  | ChangeEmployeeLeaveRequestStatusAction;
+  | AddEmployeeLeaveRequestCommentAction
+  | ChangeEmployeeLeaveRequestStatusAction
+  | AddEmployeeLeaveRequestCommentAction;
 
 export const ACTION_CANCEL = 'CANCEL';
 

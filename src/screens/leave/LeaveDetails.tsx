@@ -34,7 +34,7 @@ import {
   selectEmployeeLeaveRequest,
 } from 'store/leave/leave-list/selectors';
 import {
-  changeEmployeeLeaveRequestComment,
+  addEmployeeLeaveRequestComment,
   changeEmployeeLeaveRequestStatus,
   fetchEmployeeLeaveRequestDetails,
   fetchLeaveComments,
@@ -55,7 +55,6 @@ import {
   ACTION_APPROVE,
   ACTION_CANCEL,
   ACTION_REJECT,
-  ACTION_TYPE_CHANGE_STATUS,
   APPROVE,
   CANCEL,
   LeaveRequestAllowedActions,
@@ -79,8 +78,7 @@ class LeaveDetails extends React.Component<
     const {leaveRequest} = this.props.route.params;
 
     if (this.props.employeeLeaveRequest?.id !== leaveRequest.id) {
-      this.props.fetchEmployeeLeaveRequestDetails(leaveRequest.id);
-      this.props.fetchLeaveComments(leaveRequest.id);
+      this.onRefresh();
     }
   }
 
@@ -129,8 +127,7 @@ class LeaveDetails extends React.Component<
       navigate<LeaveCommentsParam>(LEAVE_COMMENTS, {
         employeeLeaveRequestSelector: selectEmployeeLeaveRequest,
         employeeLeaveCommentSelector: selectEmployeeLeaveComment,
-        changeEmployeeLeaveRequestCommentAction:
-          changeEmployeeLeaveRequestComment,
+        addEmployeeLeaveRequestCommentAction: addEmployeeLeaveRequestComment,
       });
     }
   };
@@ -399,7 +396,6 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = {
   fetchEmployeeLeaveRequestDetails: fetchEmployeeLeaveRequestDetails,
   fetchLeaveComments: fetchLeaveComments,
-  changeEmployeeLeaveRequestComment: changeEmployeeLeaveRequestComment,
   changeEmployeeLeaveRequestStatus: changeEmployeeLeaveRequestStatus,
 };
 
