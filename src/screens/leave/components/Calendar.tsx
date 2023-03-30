@@ -37,13 +37,13 @@ import {
 } from 'store/leave/common-screens/types';
 
 const MAP = {
-  0: 0,
-  1: 1,
-  2: 2,
-  3: 3,
-  4: 4,
-  5: 5,
-  6: 6,
+  0: 'sunday',
+  1: 'monday',
+  2: 'tuesday',
+  3: 'wednesday',
+  4: 'thursday',
+  5: 'friday',
+  6: 'saturday',
 };
 
 const PAST_SCROLL_RANGE = 24;

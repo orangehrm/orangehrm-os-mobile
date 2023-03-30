@@ -162,40 +162,4 @@ export interface LeaveType {
   deleted: boolean;
 }
 
-export interface LeaveBalance {
-  entitled: number;
-  used: number;
-  scheduled: number;
-  pending: number;
-  notLinked: number;
-  taken: number;
-  adjustment: number;
-  balance: number;
-}
-
-export interface LeaveRequest {
-  id: number;
-  leaveType: LeaveType;
-  leaveBalance: [];
-  numberOfDays: number;
-  comments: LeaveComment[];
-  days: Leave[];
-  leaveBreakdown: [];
-}
-
-export interface Leave {
-  date: string;
-  status: LeaveStatus;
-  duration: string;
-  durationString: string;
-  comments: LeaveComment[];
-}
-
-export interface LeaveComment {
-  user: string;
-  date: string;
-  time: string;
-  comment: string;
-}
-
 export type LeaveStatus = MutableKeys<typeof LEAVE_STATUS_MAP>;

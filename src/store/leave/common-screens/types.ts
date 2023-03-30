@@ -88,6 +88,8 @@ export interface SetPickedStateAction {
 
 export interface FetchHolidaysAction {
   type: typeof FETCH_HOLIDAYS;
+  fromDate: string;
+  toDate: string;
 }
 
 export interface FetchHolidaysFinishedAction
@@ -287,15 +289,6 @@ export interface PartialOptionsStartEndDaySpecifyTime {
   };
 }
 
-export type LeaveRequestActions =
-  | 'SCHEDULED'
-  | 'PENDING'
-  | 'REJECTED'
-  | 'CANCELLED';
-
-export const RECURRING_TRUE = '1';
-export const RECURRING_FALSE = '0';
-
 export const WORK_WEEK_FULL = 0;
 export const WORK_WEEK_HALF = 4;
 export const WORK_WEEK_NON = 8;
@@ -305,18 +298,18 @@ export interface Holiday {
   recurring: boolean;
   name: string;
   date: string;
-  length: number;
-  lengthName: string;
+  length: 0 | 4;
+  lengthName: 'Full Day' | 'Half Day';
 }
 
 export interface WorkWeek {
-  0: WorkWeekType;
-  1: WorkWeekType;
-  2: WorkWeekType;
-  3: WorkWeekType;
-  4: WorkWeekType;
-  5: WorkWeekType;
-  6: WorkWeekType;
+  sunday: WorkWeekType;
+  monday: WorkWeekType;
+  tuesday: WorkWeekType;
+  wednesday: WorkWeekType;
+  thursday: WorkWeekType;
+  friday: WorkWeekType;
+  saturday: WorkWeekType;
 }
 
 export type WorkWeekType =

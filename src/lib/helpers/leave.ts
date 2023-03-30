@@ -18,7 +18,7 @@
  *
  */
 
-import {Leave, EntitlementSummaryModel} from 'store/leave/leave-usage/types';
+import {EntitlementSummaryModel} from 'store/leave/leave-usage/types';
 import {LeaveType} from 'store/leave/leave-list/types';
 import {SubordinateEntitlement} from 'store/leave/assign-leave/types';
 import {
@@ -47,8 +47,8 @@ export const LEAVE_TYPE_COLORS = [
 // TODO::remove
 const LEAVE_STATUS_MAP = {
   REJECTED: 'Rejected',
-  Cancelled: 'Cancelled',
-  'Pending Approval': 'Pending Approval',
+  CANCELLED: 'Cancelled',
+  'PENDING APPROVAL': 'Pending Approval',
   SCHEDULED: 'Scheduled',
   TAKEN: 'Taken',
   WEEKEND: 'Weekend',
@@ -90,29 +90,15 @@ export const assignColorsToLeaveTypeArray = (
   leaveTypes: LeaveType[],
 ): LeaveType[] => {
   return leaveTypes.map((leaveType) => {
+    let leaveTypeId = leaveType.id;
+    if (typeof leaveTypeId === 'string') {
+      leaveTypeId = parseInt(leaveTypeId, 10);
+    }
     return {
       ...leaveType,
-      color:
-        LEAVE_TYPE_COLORS[
-          parseInt(leaveType.id, 10) % LEAVE_TYPE_COLORS.length
-        ],
+      color: LEAVE_TYPE_COLORS[leaveTypeId % LEAVE_TYPE_COLORS.length],
     };
   });
-};
-
-const sortLeaveArrayByDate = (days: Leave[]) => {
-  const sortedDays = [...days].sort((leave1, leave2) => {
-    const leave1Date = new Date(leave1.date);
-    const leave2Date = new Date(leave2.date);
-    if (leave1Date < leave2Date) {
-      return -1;
-    }
-    if (leave1Date > leave2Date) {
-      return 1;
-    }
-    return 0;
-  });
-  return sortedDays;
 };
 
 /**
@@ -223,7 +209,6 @@ export {
   assignColorsToLeaveTypes,
   assignColorToLeaveType,
   LEAVE_STATUS_MAP,
-  sortLeaveArrayByDate,
   isSingleDayRequest,
   isMultipleDayRequest,
   getTimeValuesForSlider,

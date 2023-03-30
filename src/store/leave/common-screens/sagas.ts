@@ -19,7 +19,7 @@
  */
 
 import {takeEvery, put} from 'redux-saga/effects';
-import {apiCall, apiGetCall} from 'store/saga-effects/api';
+import {apiCall, apiGetCall, ApiResponse} from 'store/saga-effects/api';
 import {
   openLoader,
   closeLoader,
@@ -36,24 +36,27 @@ import {
   getMessageAlongWithResponseErrors,
 } from 'services/api';
 import {
+  FetchHolidaysAction,
   FETCH_HOLIDAYS,
   FETCH_WORK_WEEK,
+  Holiday,
+  WorkWeek,
 } from 'store/leave/common-screens/types';
 import {
   fetchHolidaysFinished,
   fetchWorkWeekFinished,
 } from 'store/leave/common-screens/actions';
 
-function* fetchHolidays() {
+function* fetchHolidays(action: FetchHolidaysAction) {
   try {
     yield openLoader();
-    const queryParams = {
-      fromDate: '2023-01-01',
-      toDate: '2023-12-31',
-    };
-    const response = yield apiCall(
+    const response: ApiResponse<Holiday[]> = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_HOLIDAYS, {}, queryParams),
+      prepare(
+        API_ENDPOINT_LEAVE_HOLIDAYS,
+        {},
+        {fromDate: action.fromDate, toDate: action.toDate},
+      ),
     );
 
     if (response.data) {
@@ -80,12 +83,9 @@ function* fetchHolidays() {
 function* fetchWorkWeek() {
   try {
     yield openLoader();
-    const queryParams = {
-      model: 'indexed',
-    };
-    const response = yield apiCall(
+    const response: ApiResponse<WorkWeek> = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_WORK_WEEK, {}, queryParams),
+      API_ENDPOINT_LEAVE_WORK_WEEK,
     );
     if (response.data) {
       yield put(fetchWorkWeekFinished(response.data));

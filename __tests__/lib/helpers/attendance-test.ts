@@ -40,7 +40,6 @@ import {
 import moment from 'moment';
 import {
   WorkWeekType,
-  RECURRING_FALSE,
   WORK_WEEK_FULL,
   WORK_WEEK_HALF,
 } from 'store/leave/common-screens/types';
@@ -411,14 +410,14 @@ describe('lib/helpers/attendance', () => {
     const holidays = [
       {
         id: '1',
-        recurring: <typeof RECURRING_FALSE>'0',
+        recurring: '0',
         description: 'Poya Day',
         date: '2020-12-03',
         length: <typeof WORK_WEEK_HALF>'4',
       },
       {
         id: '2',
-        recurring: <typeof RECURRING_FALSE>'0',
+        recurring: '0',
         description: 'Christmas Day',
         date: '2020-12-25',
         length: <typeof WORK_WEEK_FULL>'0',

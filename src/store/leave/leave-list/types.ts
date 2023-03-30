@@ -18,8 +18,6 @@
  *
  */
 
-import {LeaveRequest} from 'store/leave/leave-usage/types';
-
 export interface LeaveListState {
   leaveList?: LeaveRequestDetailedModel[];
   employeeLeaveRequest?: LeaveRequestDetailedModel;
@@ -121,11 +119,6 @@ export const ACTION_CANCEL = 'CANCEL';
 export const ACTION_REJECT = 'REJECT';
 export const ACTION_APPROVE = 'APPROVE';
 
-export interface LeaveListLeaveRequest
-  extends Omit<LeaveRequest, 'id' | 'comments' | 'days'> {
-  employee: Employee;
-}
-
 export interface Employee {
   empNumber: number;
   employeeId: string;
@@ -133,15 +126,6 @@ export interface Employee {
   lastName: string;
   middleName: string;
   terminationId: null | number;
-}
-
-export interface EmployeeLeaveRequest extends Omit<LeaveRequest, 'id'> {
-  leaveRequestId: number;
-  allowedActions: LeaveRequestAllowedActions[];
-}
-
-export interface EmployeeLeaveRequestDetails {
-  allowedActions: [];
 }
 
 export type LeaveRequestAllowedActions =
@@ -212,7 +196,7 @@ export interface LeaveDetailedModel {
   leaveBalance: LeaveBalance;
   leaveStatus: LeaveStatus;
   allowedActions: AllowedAction[];
-  leaveType: LeaveType;
+  leaveType: LeaveType | ColorAssignedLeaveType;
   lastComment: null | LeaveComment;
 }
 
