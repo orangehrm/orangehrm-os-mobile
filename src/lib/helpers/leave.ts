@@ -18,7 +18,7 @@
  *
  */
 
-import {Leave, Entitlement} from 'store/leave/leave-usage/types';
+import {Leave, EntitlementSummaryModel} from 'store/leave/leave-usage/types';
 import {LeaveType} from 'store/leave/leave-list/types';
 import {SubordinateEntitlement} from 'store/leave/assign-leave/types';
 import {
@@ -44,6 +44,7 @@ export const LEAVE_TYPE_COLORS = [
   '#405040', //very dark gray
 ];
 
+// TODO::remove
 const LEAVE_STATUS_MAP = {
   REJECTED: 'Rejected',
   Cancelled: 'Cancelled',
@@ -237,19 +238,19 @@ export {
  */
 export const getEntitlementWithZeroBalanced = (
   entitlements?: SubordinateEntitlement[],
-): Entitlement[] | undefined => {
+): EntitlementSummaryModel[] | undefined => {
   if (entitlements === undefined) {
     return entitlements;
   }
 
-  const entitlementsArray: Entitlement[] = [];
+  const entitlementsArray: EntitlementSummaryModel[] = [];
 
   entitlements.forEach((subordinateEntitlement) => {
     if (subordinateEntitlement.id === undefined) {
       subordinateEntitlement.id = `${subordinateEntitlement.leaveType.id}-${subordinateEntitlement.leaveType.type}`;
     }
     entitlementsArray.push({
-      ...(subordinateEntitlement as Entitlement),
+      ...(subordinateEntitlement as EntitlementSummaryModel),
     });
   });
   return entitlementsArray;

@@ -28,6 +28,7 @@ import {
   FETCH_MY_LEAVE_DETAILS,
   FETCH_MY_LEAVE_DETAILS_FINISHED,
   FETCH_MY_LEAVE_COMMENTS,
+  FETCH_MY_LEAVE_COMMENT_FINISHED,
   CHANGE_MY_LEAVE_REQUEST_STATUS,
   ADD_MY_LEAVE_REQUEST_COMMENT,
   SET_ERROR_MESSAGE,
@@ -37,12 +38,13 @@ import {
   FetchMyLeaveRequestAction,
   FetchMyLeaveRequestFinishedAction,
   ResetMyLeaveRequestAction,
-  Entitlement,
+  EntitlementSummaryModel,
   FetchMyLeaveRequestDetailsAction,
   FetchMyLeaveRequestDetailsFinishedAction,
   FetchMyLeaveCommentAction,
   ChangeMyLeaveRequestStatusAction,
   AddMyLeaveRequestCommentAction,
+  FetchMyLeaveCommentFinishedAction,
   SetErrorMessageAction,
 } from 'store/leave/leave-usage/types';
 import {LeaveRequestDetailedModel} from 'store/leave/leave-list/types';
@@ -53,7 +55,7 @@ export const fetchMyLeaveEntitlements = (): FetchMyLeaveEntitlementAction => ({
 });
 
 export const fetchMyLeaveEntitlementsFinished = (
-  payload?: Entitlement[],
+  payload?: EntitlementSummaryModel[],
   error: boolean = false,
 ): FetchMyLeaveEntitlementFinishedAction => ({
   type: FETCH_MY_LEAVE_ENTITLEMENT_FINISHED,
@@ -61,7 +63,7 @@ export const fetchMyLeaveEntitlementsFinished = (
   error,
 });
 
-export const selectLeaveType = (id: string): SelectLeaveTypeAction => ({
+export const selectLeaveType = (id: number): SelectLeaveTypeAction => ({
   type: SELECT_LEAVE_TYPE,
   id,
 });
@@ -121,6 +123,15 @@ export const fetchMyLeaveComments = (
 ): FetchMyLeaveCommentAction => ({
   type: FETCH_MY_LEAVE_COMMENTS,
   leaveRequestId,
+});
+
+export const fetchMyLeaveCommentFinished = (
+  payload?: $PropertyType<FetchMyLeaveCommentFinishedAction, 'payload'>,
+  error: boolean = false,
+): FetchMyLeaveCommentFinishedAction => ({
+  type: FETCH_MY_LEAVE_COMMENT_FINISHED,
+  payload,
+  error,
 });
 
 export const addMyLeaveRequestComment = (

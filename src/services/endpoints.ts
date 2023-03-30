@@ -59,12 +59,10 @@ export const API_ENDPOINT_LEAVE_REQUEST_DETAILS =
   '/api/v2/leave/employees/leave-requests/{leaveRequestId}';
 export const API_ENDPOINT_LEAVE_COMMENT =
   '/api/v2/leave/leave-requests/{leaveRequestId}/leave-comments';
-export const API_ENDPOINT_LEAVE_COMMENT_SAVE =
-  '/api/v2/leave/leave-requests/{id}/leave-comments';
 export const API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT =
-  '/api/v2/leave/leave-entitlements';
+  '/api/v2/leave/leave-entitlements'; // TODO::remove
 export const API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST =
-  '/api/v2/leave/employees/leave-requests';
+  '/api/v2/leave/employees/leave-requests'; // TODO::remove
 export const API_ENDPOINT_LEAVE_HOLIDAYS = '/api/v2/leave/holidays';
 export const API_ENDPOINT_LEAVE_WORK_SHIFT =
   '/api/v2/pim/employees/{id}/work-shift';
@@ -75,10 +73,6 @@ export const API_ENDPOINT_LEAVE = '/api/v2/leave/leaves';
 //help
 export const HELP_REDIRECT_URL =
   'https://starterhelp.orangehrm.com/hc/en-us/categories/360002945899-Mobile-App';
-
-//v2 endpoints
-export const API_ENDPOINT_LEAVE_LIST_NEW =
-  '/api/v2/leave/employees/leave-requests';
 
 export const prepare = (
   endpoint: string,

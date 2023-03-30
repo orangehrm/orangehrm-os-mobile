@@ -115,19 +115,11 @@ export type LeaveUsageActionTypes =
   | FetchLeaveCommentAction
   | FetchLeaveCommentFinishedAction
   | AddEmployeeLeaveRequestCommentAction
-  | ChangeEmployeeLeaveRequestStatusAction
-  | AddEmployeeLeaveRequestCommentAction;
+  | ChangeEmployeeLeaveRequestStatusAction;
 
 export const ACTION_CANCEL = 'CANCEL';
-
 export const ACTION_REJECT = 'REJECT';
-
 export const ACTION_APPROVE = 'APPROVE';
-export const CANCEL = 'Cancel';
-export const REJECT = 'Reject';
-export const APPROVE = 'Approve';
-export const ACTION_TYPE_CHANGE_STATUS = 'changeStatus';
-export const ACTION_TYPE_COMMENT = 'comment';
 
 export interface LeaveListLeaveRequest
   extends Omit<LeaveRequest, 'id' | 'comments' | 'days'> {
@@ -156,20 +148,6 @@ export type LeaveRequestAllowedActions =
   | typeof ACTION_CANCEL
   | typeof ACTION_REJECT
   | typeof ACTION_APPROVE;
-
-export interface EmployeeLeaveRequestAction {
-  actionType: typeof ACTION_TYPE_CHANGE_STATUS;
-  status: LeaveRequestAllowedActions;
-}
-
-export interface EmployeeLeaveRequestCommentAction {
-  actionType: typeof ACTION_TYPE_COMMENT;
-  comment: string;
-}
-
-export type EmployeeLeaveRequestActions =
-  | EmployeeLeaveRequestAction
-  | EmployeeLeaveRequestCommentAction;
 
 export interface LeaveType {
   id: number;

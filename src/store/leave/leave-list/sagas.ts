@@ -257,7 +257,7 @@ function* changeEmployeeLeaveRequestStatus(
   }
 }
 
-function* changeEmployeeLeaveRequestComment(
+function* addEmployeeLeaveRequestComment(
   action: AddEmployeeLeaveRequestCommentAction,
 ) {
   try {
@@ -307,6 +307,6 @@ export function* watchLeaveListActions() {
   );
   yield takeEvery(
     ADD_EMPLOYEE_LEAVE_REQUEST_COMMENT,
-    changeEmployeeLeaveRequestComment,
+    addEmployeeLeaveRequestComment,
   );
 }

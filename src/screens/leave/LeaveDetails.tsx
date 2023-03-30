@@ -55,10 +55,7 @@ import {
   ACTION_APPROVE,
   ACTION_CANCEL,
   ACTION_REJECT,
-  APPROVE,
-  CANCEL,
   LeaveRequestAllowedActions,
-  REJECT,
 } from 'store/leave/leave-list/types';
 import {LeaveCommentsParam, LeaveDaysParam} from 'screens/leave/navigators';
 import {getFirstAndLastNames} from 'lib/helpers/name';
@@ -156,7 +153,7 @@ class LeaveDetails extends React.Component<
                 ]}>
                 <View>
                   {employeeLeaveRequest.allowedActions.map((item) => {
-                    if (item.name === CANCEL) {
+                    if (item.action === ACTION_CANCEL) {
                       return (
                         <Button
                           title={'Cancel'}
@@ -172,7 +169,7 @@ class LeaveDetails extends React.Component<
                 </View>
                 <View style={styles.row}>
                   {employeeLeaveRequest.allowedActions.map((item) => {
-                    if (item.name === REJECT) {
+                    if (item.action === ACTION_REJECT) {
                       return (
                         <Button
                           title={'Reject'}
@@ -181,7 +178,7 @@ class LeaveDetails extends React.Component<
                           onPress={this.onPressRejectLeave}
                         />
                       );
-                    } else if (item.name === APPROVE) {
+                    } else if (item.action === ACTION_APPROVE) {
                       return (
                         <View style={{paddingLeft: theme.spacing * 2}}>
                           <Button

@@ -22,15 +22,14 @@ import {MutableKeys} from 'utility-types';
 import {LEAVE_STATUS_MAP} from 'lib/helpers/leave';
 import {LeaveRequestAllowedActions} from 'store/leave/leave-list/types';
 import {
-  LeaveDetailedModel,
   LeaveRequestDetailedModel,
   LeaveRequestCommentModel,
 } from 'store/leave/leave-list/types';
 
 export interface LeaveUsageState {
-  entitlement?: Entitlement[];
+  entitlement?: EntitlementSummaryModel[];
   leaveRequests?: LeaveRequestDetailedModel[];
-  selectedLeaveTypeId?: string;
+  selectedLeaveTypeId?: number;
   leaveRequestDetail?: LeaveRequestDetailedModel;
   leaveComments?: LeaveRequestCommentModel[];
   errorMessage?: string;
@@ -51,6 +50,8 @@ export const FETCH_MY_LEAVE_DETAILS_FINISHED =
   'LEAVE_USAGE_FETCH_MY_LEAVE_DETAILS_FINISHED';
 export const FETCH_MY_LEAVE_DETAILS = 'LEAVE_USAGE_FETCH_MY_LEAVE_DETAILS';
 export const FETCH_MY_LEAVE_COMMENTS = 'LEAVE_USAGE_FETCH_MY_LEAVE_COMMENTS';
+export const FETCH_MY_LEAVE_COMMENT_FINISHED =
+  'LEAVE_USAGE_FETCH_LEAVE_COMMENT_FINISHED';
 export const CHANGE_MY_LEAVE_REQUEST_STATUS =
   'LEAVE_USAGE_CHANGE_MY_LEAVE_REQUEST_STATUS';
 export const ADD_MY_LEAVE_REQUEST_COMMENT =
@@ -63,7 +64,7 @@ export interface FetchMyLeaveEntitlementAction {
 
 export interface FetchMyLeaveEntitlementFinishedAction {
   type: typeof FETCH_MY_LEAVE_ENTITLEMENT_FINISHED;
-  payload?: Entitlement[];
+  payload?: EntitlementSummaryModel[];
   error: boolean;
 }
 
@@ -82,9 +83,15 @@ export interface FetchMyLeaveCommentAction {
   leaveRequestId: number;
 }
 
+export interface FetchMyLeaveCommentFinishedAction {
+  type: typeof FETCH_MY_LEAVE_COMMENT_FINISHED;
+  payload?: LeaveRequestCommentModel[];
+  error: boolean;
+}
+
 export interface SelectLeaveTypeAction {
   type: typeof SELECT_LEAVE_TYPE;
-  id: string;
+  id: number;
 }
 
 export interface ResetMyLeaveRequestAction {
@@ -98,7 +105,7 @@ export interface FetchMyLeaveRequestDetailsAction {
 
 export interface FetchMyLeaveRequestDetailsFinishedAction {
   type: typeof FETCH_MY_LEAVE_DETAILS_FINISHED;
-  payload?: LeaveDetailedModel;
+  payload?: LeaveRequestDetailedModel;
   error: boolean;
 }
 
@@ -129,19 +136,24 @@ export type LeaveUsageActionTypes =
   | FetchMyLeaveRequestDetailsAction
   | FetchMyLeaveRequestDetailsFinishedAction
   | ChangeMyLeaveRequestStatusAction
+  | FetchMyLeaveCommentAction
+  | FetchMyLeaveCommentFinishedAction
   | SetErrorMessageAction;
 
-export interface Entitlement {
-  id: string;
-  validFrom: string;
-  validTo: string;
-  creditedDate: string;
-  leaveBalance: LeaveBalance;
+export interface EntitlementSummaryModel {
+  id: number;
+  entitlement: number;
+  daysUsed: number;
+  usageBreakdown: {
+    scheduled: number;
+    pending: number;
+    taken: number;
+    balance: number;
+  };
   leaveType: LeaveType;
+  fromDate: string;
+  toDate: string;
 }
-
-export const LEAVE_TYPE_DELETED_YES = '1';
-export const LEAVE_TYPE_DELETED_NO = '0';
 
 export interface LeaveType {
   id: number;

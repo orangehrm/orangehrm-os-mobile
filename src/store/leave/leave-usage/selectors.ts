@@ -20,7 +20,10 @@
 
 import {RootState} from 'store';
 import {createSelector} from 'reselect';
-import {LeaveUsageState, Entitlement} from 'store/leave/leave-usage/types';
+import {
+  LeaveUsageState,
+  EntitlementSummaryModel,
+} from 'store/leave/leave-usage/types';
 import {
   LeaveRequestDetailedModel,
   LeaveRequestCommentModel,
@@ -31,13 +34,13 @@ export const selectLeaveUsage = (state: RootState) => state.leaveUsage;
 export const selectEntitlement = createSelector<
   RootState,
   LeaveUsageState,
-  Entitlement[] | undefined
+  EntitlementSummaryModel[] | undefined
 >([selectLeaveUsage], (leaveUsage) => leaveUsage.entitlement);
 
 export const selectSelectedLeaveTypeId = createSelector<
   RootState,
   LeaveUsageState,
-  string | undefined
+  number | undefined
 >([selectLeaveUsage], (leaveUsage) => leaveUsage.selectedLeaveTypeId);
 
 export const selectLeaveRequests = createSelector<

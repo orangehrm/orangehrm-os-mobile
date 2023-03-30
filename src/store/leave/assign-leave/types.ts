@@ -25,7 +25,10 @@ import {
   MultipleDayLeaveRequest,
   WorkShift,
 } from 'store/leave/common-screens/types';
-import {Entitlement, LeaveType} from 'store/leave/leave-usage/types';
+import {
+  EntitlementSummaryModel,
+  LeaveType,
+} from 'store/leave/leave-usage/types';
 
 export interface AssignLeaveState {
   fromDate?: string;
@@ -204,10 +207,13 @@ export interface Subordinate {
 }
 
 export type SubordinateEntitlement =
-  | Entitlement
+  | EntitlementSummaryModel
   | SubordinateLeaveBalanceLeaveType;
 
 export interface SubordinateLeaveBalanceLeaveType
-  extends Omit<Entitlement, 'id' | 'validFrom' | 'validTo' | 'creditedDate'> {
+  extends Omit<
+    EntitlementSummaryModel,
+    'id' | 'validFrom' | 'validTo' | 'creditedDate'
+  > {
   id?: string;
 }

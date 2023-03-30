@@ -53,7 +53,6 @@ import {MY_LEAVE_DETAILS, LEAVE_DAYS, LEAVE_COMMENTS} from 'screens';
 import {navigate} from 'lib/helpers/navigation';
 import {
   ACTION_CANCEL,
-  CANCEL,
   LeaveRequestAllowedActions,
 } from 'store/leave/leave-list/types';
 import {LeaveDaysParam, LeaveCommentsParam} from 'screens/leave/navigators';
@@ -139,7 +138,7 @@ class MyLeaveDetails extends React.Component<
                 }}>
                 <View style={[styles.row, styles.footerView]}>
                   {leaveRequestDetail.allowedActions.map((item) => {
-                    if (item.name === CANCEL) {
+                    if (item.action === ACTION_CANCEL) {
                       return (
                         <Button
                           title={'Cancel'}
@@ -266,9 +265,7 @@ class MyLeaveDetails extends React.Component<
             <Text style={[{fontSize: theme.typography.smallFontSize}]}>
               {'Days Available: '}
               {leaveRequestDetail?.leaveBalances?.map((item) => {
-                return item.balance.balance
-                  ? item.balance.balance.toFixed(2)
-                  : '--';
+                return item.balance.balance.toFixed(2);
               })}
               {' Day(s)'}
             </Text>
