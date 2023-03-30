@@ -106,17 +106,17 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
         partialOption.partialOption === PARTIAL_OPTION_ALL
           ? 'All Days:'
           : 'Start Day:';
-      if (partialOption.duration?.type === HALF_DAY_MORNING) {
+      if (partialOption.duration.type === HALF_DAY_MORNING) {
         details.push({name, value: 'Half Day - Morning'});
-      } else if (partialOption.duration?.type === HALF_DAY_AFTERNOON) {
+      } else if (partialOption.duration.type === HALF_DAY_AFTERNOON) {
         details.push({name, value: 'Half Day - Afternoon'});
-      } else if (partialOption.duration?.type === SPECIFY_TIME) {
+      } else if (partialOption.duration.type === SPECIFY_TIME) {
         details.push({
           name,
           value:
-            partialOption.duration?.fromTime +
+            partialOption.duration.fromTime +
             ' - ' +
-            partialOption.duration?.toTime,
+            partialOption.duration.toTime,
         });
       }
     }
@@ -125,17 +125,17 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
       partialOption.partialOption === PARTIAL_OPTION_START_END
     ) {
       const name = 'End Day:';
-      if (partialOption.duration?.type === HALF_DAY_MORNING) {
+      if (partialOption.duration.type === HALF_DAY_MORNING) {
         details.push({name, value: 'Half Day - Morning'});
-      } else if (partialOption.duration?.type === HALF_DAY_AFTERNOON) {
+      } else if (partialOption.duration.type === HALF_DAY_AFTERNOON) {
         details.push({name, value: 'Half Day - Afternoon'});
-      } else if (partialOption.duration?.type === SPECIFY_TIME) {
+      } else if (partialOption.duration.type === SPECIFY_TIME) {
         details.push({
           name,
           value:
-            partialOption.duration?.fromTime +
+            partialOption.duration.fromTime +
             ' - ' +
-            partialOption.duration?.toTime,
+            partialOption.duration.toTime,
         });
       }
     }

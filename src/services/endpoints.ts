@@ -65,7 +65,7 @@ export const API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST =
   '/api/v2/leave/employees/leave-requests'; // TODO::remove
 export const API_ENDPOINT_LEAVE_HOLIDAYS = '/api/v2/leave/holidays';
 export const API_ENDPOINT_LEAVE_WORK_SHIFT =
-  '/api/v2/pim/employees/{id}/work-shift';
+  '/api/v2/pim/employees/{empNumber}/work-shift';
 export const API_ENDPOINT_LEAVE_WORK_WEEK = '/api/v2/leave/workweek';
 export const API_ENDPOINT_LEAVE_TYPES = '/api/v2/leave/leave-types';
 export const API_ENDPOINT_LEAVE = '/api/v2/leave/leaves';

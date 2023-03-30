@@ -23,7 +23,6 @@ import {View} from 'react-native';
 import {pickMultipleDayPartialOption as pickMultipleDayPartialOptionAction} from 'store/leave/common-screens/actions';
 import PickMultipleDayPartialOption from 'screens/leave/components/PickMultipleDayPartialOption';
 import {
-  HALF_DAY,
   HALF_DAY_AFTERNOON,
   HALF_DAY_MORNING,
   MultipleDayPartialOption,
@@ -155,7 +154,7 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
       partialOption?.duration.type === SPECIFY_TIME &&
       partialStartEndType === 'end'
     ) {
-      return partialOption?.endDuration.fromTime;
+      return partialOption?.duration.fromTime;
     } else if (
       partialOption?.partialOption === PARTIAL_OPTION_START_END &&
       partialOption?.duration.type === SPECIFY_TIME &&
@@ -186,7 +185,7 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
       partialOption?.duration.type === SPECIFY_TIME &&
       partialStartEndType === 'end'
     ) {
-      return partialOption?.endDuration.toTime;
+      return partialOption?.duration.toTime;
     } else if (
       partialOption?.partialOption === PARTIAL_OPTION_START_END &&
       partialOption?.duration.type === SPECIFY_TIME &&
@@ -367,8 +366,8 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
                     type: SPECIFY_TIME,
                     fromTime: time,
                     toTime:
-                      partialOption.duration?.type === SPECIFY_TIME
-                        ? partialOption.duration?.toTime
+                      partialOption.duration.type === SPECIFY_TIME
+                        ? partialOption.duration.toTime
                         : workShift.endTime,
                   },
                 });
@@ -379,8 +378,8 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
                   duration: {
                     type: SPECIFY_TIME,
                     fromTime:
-                      partialOption.duration?.type === SPECIFY_TIME
-                        ? partialOption.duration?.fromTime
+                      partialOption.duration.type === SPECIFY_TIME
+                        ? partialOption.duration.fromTime
                         : workShift.startTime,
                     toTime: time,
                   },
@@ -407,7 +406,7 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
               onPressHalfDayMorning={() => {
                 pickMultipleDayPartialOption({
                   ...partialOption,
-                  ...(partialOption.duration?.type === HALF_DAY_MORNING && {
+                  ...(partialOption.duration.type === SPECIFY_TIME && {
                     startDayFromTime: undefined,
                     startDayToTime: undefined,
                   }),
@@ -418,7 +417,7 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
               onPressHalfDayAfternoon={() => {
                 pickMultipleDayPartialOption({
                   ...partialOption,
-                  ...(partialOption.duration?.type === HALF_DAY_AFTERNOON && {
+                  ...(partialOption.duration.type === SPECIFY_TIME && {
                     startDayFromTime: undefined,
                     startDayToTime: undefined,
                   }),
@@ -429,9 +428,6 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
               onPressSpecifyTime={() => {
                 pickMultipleDayPartialOption({
                   ...partialOption,
-                  ...(partialOption.duration?.type === HALF_DAY && {
-                    startDayAMPM: undefined,
-                  }),
                   partialOption: PARTIAL_OPTION_START_END,
                   duration: {
                     type: SPECIFY_TIME,
@@ -450,8 +446,8 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
                     type: SPECIFY_TIME,
                     fromTime: time,
                     toTime:
-                      partialOption.duration?.type === SPECIFY_TIME
-                        ? partialOption.duration?.toTime
+                      partialOption.duration.type === SPECIFY_TIME
+                        ? partialOption.duration.toTime
                         : workShift.endTime,
                   },
                 });
@@ -463,8 +459,8 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
                   duration: {
                     type: SPECIFY_TIME,
                     fromTime:
-                      partialOption.duration?.type === SPECIFY_TIME
-                        ? partialOption.duration?.fromTime
+                      partialOption.duration.type === SPECIFY_TIME
+                        ? partialOption.duration.fromTime
                         : workShift.startTime,
                     toTime: time,
                   },
@@ -486,9 +482,8 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
               onPressHalfDayMorning={() => {
                 pickMultipleDayPartialOption({
                   ...partialOption,
-                  ...(partialOption.duration?.type === SPECIFY_TIME && {
-                    endDayFromTime: undefined,
-                    endDayToTime: undefined,
+                  ...(partialOption.endDuration.type === SPECIFY_TIME && {
+                    endDuration: {fromTime: undefined, toTime: undefined},
                   }),
                   partialOption: PARTIAL_OPTION_START_END,
                   endDuration: {type: HALF_DAY_MORNING},
@@ -497,9 +492,8 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
               onPressHalfDayAfternoon={() => {
                 pickMultipleDayPartialOption({
                   ...partialOption,
-                  ...(partialOption.duration?.type === SPECIFY_TIME && {
-                    endDayFromTime: undefined,
-                    endDayToTime: undefined,
+                  ...(partialOption.endDuration.type === SPECIFY_TIME && {
+                    endDuration: {fromTime: undefined, toTime: undefined},
                   }),
                   partialOption: PARTIAL_OPTION_START_END,
                   endDuration: {type: HALF_DAY_AFTERNOON},
@@ -508,9 +502,6 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
               onPressSpecifyTime={() => {
                 pickMultipleDayPartialOption({
                   ...partialOption,
-                  ...(partialOption.endDuration?.type === HALF_DAY && {
-                    endDayAMPM: undefined,
-                  }),
                   partialOption: PARTIAL_OPTION_START_END,
                   endDuration: {
                     type: SPECIFY_TIME,
@@ -529,8 +520,8 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
                     type: SPECIFY_TIME,
                     fromTime: time,
                     toTime:
-                      partialOption.endDuration?.type === SPECIFY_TIME
-                        ? partialOption.endDuration?.toTime
+                      partialOption.endDuration.type === SPECIFY_TIME
+                        ? partialOption.endDuration.toTime
                         : workShift.endTime,
                   },
                 });
@@ -542,8 +533,8 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
                   endDuration: {
                     type: SPECIFY_TIME,
                     fromTime:
-                      partialOption.endDuration?.type === SPECIFY_TIME
-                        ? partialOption.endDuration?.fromTime
+                      partialOption.endDuration.type === SPECIFY_TIME
+                        ? partialOption.endDuration.fromTime
                         : workShift.startTime,
                     toTime: time,
                   },
