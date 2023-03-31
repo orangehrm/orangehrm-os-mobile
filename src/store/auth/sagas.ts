@@ -30,6 +30,7 @@ import {
   FETCH_NEW_TOKEN_FINISHED,
   MyInfo,
   EnabledModules,
+  Employee,
 } from 'store/auth/types';
 import {
   PUBLIC_MOBILE_CLIENT_ID,
@@ -57,7 +58,7 @@ import {
   closeLoader,
   showSnackMessage,
 } from 'store/saga-effects/globals';
-import {apiCall, apiGetCall} from 'store/saga-effects/api';
+import {apiCall, apiGetCall, ApiResponse} from 'store/saga-effects/api';
 import {
   storageSetMulti,
   selectAuthParams,
@@ -381,7 +382,10 @@ function* fetchMyInfo() {
 
     if (rawResponse.ok) {
       try {
-        const response = yield call([rawResponse, rawResponse.json]);
+        const response: ApiResponse<Employee> = yield call([
+          rawResponse,
+          rawResponse.json,
+        ]);
         if (response.data) {
           const data: MyInfo = {
             employee: response.data,

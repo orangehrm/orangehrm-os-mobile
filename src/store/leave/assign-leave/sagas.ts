@@ -19,7 +19,12 @@
  */
 
 import {takeEvery, put} from 'redux-saga/effects';
-import {apiCall, apiGetCall, apiPostCall} from 'store/saga-effects/api';
+import {
+  apiCall,
+  apiGetCall,
+  apiPostCall,
+  ApiResponse,
+} from 'store/saga-effects/api';
 import {
   openLoader,
   closeLoader,
@@ -37,6 +42,8 @@ import {
   FetchSubordinateLeaveEntitlementAction,
   FetchWorkShiftAction,
   FetchLeaveTypesAction,
+  FetchSubordinatesAction,
+  Subordinate,
 } from 'store/leave/assign-leave/types';
 import {
   resetAssignLeaveWithoutSubordinates,
@@ -63,25 +70,28 @@ import {
 import {
   getMessageAlongWithGenericErrors,
   getMessageAlongWithResponseErrors,
-  HTTP_NOT_FOUND,
 } from 'services/api';
 import {navigate} from 'lib/helpers/navigation';
 import {LEAVE_REQUEST_SUCCESS} from 'screens';
 import {LeaveRequestSuccessParam} from 'screens/leave/navigators';
+import {LeaveRequestModel, WorkShift} from 'store/leave/common-screens/types';
+import {LeaveType} from 'store/leave/leave-list/types';
+import {EntitlementSummaryModel} from '../leave-usage/types';
 
 function* saveLeaveRequest(
   action:
     | AssignSingleDayLeaveRequestAction
     | AssignMultipleDayLeaveRequestAction,
 ) {
-  const payload = action.payload;
-  payload.empNumber = action.empNumber;
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveRequestModel> = yield apiCall(
       apiPostCall,
-      prepare(API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST),
-      payload,
+      API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST,
+      {
+        ...action.payload,
+        empNumber: action.empNumber,
+      },
     );
 
     if (response.data) {
@@ -109,7 +119,7 @@ function* fetchSubordinateLeaveEntitlements(
 ) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<EntitlementSummaryModel[]> = yield apiCall(
       apiGetCall,
       prepare(
         API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT,
@@ -126,15 +136,16 @@ function* fetchSubordinateLeaveEntitlements(
           assignColorsToLeaveTypes(response.data),
         ),
       );
-    } else if (response.getResponse().status === HTTP_NOT_FOUND) {
-      yield put(fetchSubordinateLeaveEntitlementsFinished([]));
-    } else if (response.error[0] === 'No Leave Types Defined.') {
-      yield put(
-        setErrorMessage(
-          'There Are No Leave Types Defined, Please Contact Your System Administrator.',
-        ),
-      );
-    } else {
+    }
+    // TODO::  handle errors
+    // else if (response.error[0] === 'No Leave Types Defined.') {
+    //   yield put(
+    //     setErrorMessage(
+    //       'There Are No Leave Types Defined, Please Contact Your System Administrator.',
+    //     ),
+    //   );
+    // }
+    else {
       yield put(fetchSubordinateLeaveEntitlementsFinished(undefined, true));
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(
@@ -158,10 +169,17 @@ function* fetchSubordinateLeaveEntitlements(
   }
 }
 
-function* fetchAccessibleEmployees() {
+function* fetchAccessibleEmployees(action: FetchSubordinatesAction) {
   try {
     yield openLoader();
-    const response = yield apiCall(apiGetCall, prepare(API_ENDPOINT_EMPLOYEES));
+    if (action.nameOrId === '') {
+      yield put(fetchSubordinatesFinished([]));
+      return;
+    }
+    const response: ApiResponse<Subordinate[]> = yield apiCall(
+      apiGetCall,
+      prepare(API_ENDPOINT_EMPLOYEES, {}, {nameOrId: action.nameOrId}),
+    );
     if (response.data) {
       yield put(fetchSubordinatesFinished(response.data));
     } else {
@@ -188,7 +206,7 @@ function* fetchAccessibleEmployees() {
 function* fetchWorkShift(action: FetchWorkShiftAction) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<WorkShift, {empNumber: number}> = yield apiCall(
       apiGetCall,
       prepare(API_ENDPOINT_LEAVE_WORK_SHIFT, {empNumber: action.empNumber}),
     );
@@ -208,9 +226,9 @@ function* fetchWorkShift(action: FetchWorkShiftAction) {
 function* fetchLeaveTypes(_action: FetchLeaveTypesAction) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveType[]> = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_TYPES, {}, {all: true}),
+      prepare(API_ENDPOINT_LEAVE_TYPES),
     );
 
     if (response.data) {

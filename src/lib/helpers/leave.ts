@@ -19,7 +19,7 @@
  */
 
 import {EntitlementSummaryModel} from 'store/leave/leave-usage/types';
-import {LeaveType} from 'store/leave/leave-list/types';
+import {LeaveType, ColorAssignedLeaveType} from 'store/leave/leave-list/types';
 import {SubordinateEntitlement} from 'store/leave/assign-leave/types';
 import {
   SPECIFY_TIME,
@@ -88,7 +88,7 @@ const assignColorToLeaveType = <T extends Data>(data: T): T => {
 
 export const assignColorsToLeaveTypeArray = (
   leaveTypes: LeaveType[],
-): LeaveType[] => {
+): ColorAssignedLeaveType[] => {
   return leaveTypes.map((leaveType) => {
     let leaveTypeId = leaveType.id;
     if (typeof leaveTypeId === 'string') {
@@ -163,27 +163,27 @@ const isValidPartialOptionSpecifyTime = (
   if (
     (partialOption?.partialOption === PARTIAL_OPTION_ALL ||
       partialOption?.partialOption === PARTIAL_OPTION_START ||
-      partialOption?.partialOption === PARTIAL_OPTION_START_END) &&
-    partialOption.startDayType === SPECIFY_TIME
+      partialOption?.partialOption === PARTIAL_OPTION_START_END ||
+      partialOption?.partialOption === PARTIAL_OPTION_END) &&
+    partialOption.duration.type === SPECIFY_TIME
   ) {
     if (
       !isFromTimeLessThanToTime(
-        partialOption.startDayFromTime,
-        partialOption.startDayToTime,
+        partialOption.duration.fromTime,
+        partialOption.duration.toTime,
       )
     ) {
       return false;
     }
   }
   if (
-    (partialOption?.partialOption === PARTIAL_OPTION_END ||
-      partialOption?.partialOption === PARTIAL_OPTION_START_END) &&
-    partialOption.endDayType === SPECIFY_TIME
+    partialOption?.partialOption === PARTIAL_OPTION_START_END &&
+    partialOption.endDuration.type === SPECIFY_TIME
   ) {
     if (
       !isFromTimeLessThanToTime(
-        partialOption.endDayFromTime,
-        partialOption.endDayToTime,
+        partialOption.endDuration.fromTime,
+        partialOption.endDuration.toTime,
       )
     ) {
       return false;
@@ -232,7 +232,7 @@ export const getEntitlementWithZeroBalanced = (
 
   entitlements.forEach((subordinateEntitlement) => {
     if (subordinateEntitlement.id === undefined) {
-      subordinateEntitlement.id = `${subordinateEntitlement.leaveType.id}-${subordinateEntitlement.leaveType.type}`;
+      subordinateEntitlement.id = `${subordinateEntitlement.leaveType.id}-${subordinateEntitlement.leaveType.name}`;
     }
     entitlementsArray.push({
       ...(subordinateEntitlement as EntitlementSummaryModel),

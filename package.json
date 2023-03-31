@@ -9,7 +9,8 @@
     "format": "prettier src --write",
     "format-test": "prettier __tests__ --write",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "tsc": "tsc"
   },
   "dependencies": {
     "@jest/globals": "^29.4.3",
@@ -21,13 +22,12 @@
     "@react-navigation/drawer": "~6.5.7",
     "@react-navigation/native": "~6.0.0",
     "@react-navigation/stack": "~6.3.11",
-    "connected-react-router": "~6.0.0",
-    "eslint-plugin-prettier": "^4.2.1",
+    "lodash": "~4.17.21",
     "moment": "~2.29.1",
     "native-base": "~2.13.15",
     "react": "18.2.0",
     "react-native": "~0.71.3",
-    "react-native-app-auth": "^6.4.3",
+    "react-native-app-auth": "~6.4.3",
     "react-native-calendars": "~1.300.0",
     "react-native-gesture-handler": "~2.8.0",
     "react-native-modal": "~13.0.1",
@@ -41,7 +41,6 @@
     "redux-saga": "~1.2.2",
     "reselect": "~4.0.0",
     "semver": "~7.3.4",
-    "ts-jest": "^29.0.5",
     "victory-native": "~36.6.8"
   },
   "devDependencies": {
@@ -51,6 +50,7 @@
     "@react-native-community/eslint-config": "^3.2.0",
     "@tsconfig/react-native": "^2.0.2",
     "@types/jest": "^29.4.0",
+    "@types/lodash": "^4.14.192",
     "@types/react": "^18.0.24",
     "@types/react-native": "^0.71.3",
     "@types/react-native-calendars": "^1.20.8",

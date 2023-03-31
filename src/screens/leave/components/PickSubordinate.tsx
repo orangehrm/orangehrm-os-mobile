@@ -87,7 +87,6 @@ class PickSubordinate extends React.Component<
   };
 
   onFocus = () => {
-    const {onRefreshSubordinate} = this.props;
     const {textValue} = this.state;
     navigate<PickEmployeeParams>(PICK_EMPLOYEE, {
       textValue,
@@ -95,7 +94,6 @@ class PickSubordinate extends React.Component<
         this.setState({textValue: text});
       },
       pickEmployee: this.pickSubordinate,
-      onRefresh: onRefreshSubordinate,
     });
   };
 
@@ -105,7 +103,7 @@ class PickSubordinate extends React.Component<
   };
 
   render() {
-    const {theme, style, subordinates, selectedSubordinate} = this.props;
+    const {theme, style, selectedSubordinate} = this.props;
     const {textValue} = this.state;
     return (
       <View style={style}>
@@ -125,41 +123,39 @@ class PickSubordinate extends React.Component<
             },
             styles.marginForShadow,
           ]}>
-          {subordinates ? (
-            <TouchableWithoutFeedback onPress={this.onPressEmployee}>
-              <View style={styles.textInputView}>
-                <View style={styles.fullName}>
-                  <PickEmployeeTextInput
-                    ref={(input) => {
-                      this.inputRef = input;
-                    }}
-                    onFocus={this.onFocus}
-                    value={textValue}
-                    onChangeText={(text: string) => {
-                      this.setState({textValue: text});
-                    }}
-                    multiline={Platform.OS !== 'ios'}
-                    style={{
-                      ...Platform.select({
-                        ios: {
-                          marginVertical: theme.spacing * 4,
-                        },
-                      }),
-                    }}
-                  />
-                </View>
-                {selectedSubordinate !== undefined ? (
-                  <Text
-                    style={[
-                      {paddingVertical: theme.spacing * 4},
-                      styles.employeeId,
-                    ]}>
-                    {selectedSubordinate.employeeId}
-                  </Text>
-                ) : null}
+          <TouchableWithoutFeedback onPress={this.onPressEmployee}>
+            <View style={styles.textInputView}>
+              <View style={styles.fullName}>
+                <PickEmployeeTextInput
+                  ref={(input) => {
+                    this.inputRef = input;
+                  }}
+                  onFocus={this.onFocus}
+                  value={textValue}
+                  onChangeText={(text: string) => {
+                    this.setState({textValue: text});
+                  }}
+                  multiline={Platform.OS !== 'ios'}
+                  style={{
+                    ...Platform.select({
+                      ios: {
+                        marginVertical: theme.spacing * 4,
+                      },
+                    }),
+                  }}
+                />
               </View>
-            </TouchableWithoutFeedback>
-          ) : null}
+              {selectedSubordinate !== undefined ? (
+                <Text
+                  style={[
+                    {paddingVertical: theme.spacing * 4},
+                    styles.employeeId,
+                  ]}>
+                  {selectedSubordinate.employeeId}
+                </Text>
+              ) : null}
+            </View>
+          </TouchableWithoutFeedback>
         </View>
       </View>
     );
@@ -167,10 +163,8 @@ class PickSubordinate extends React.Component<
 }
 
 interface PickSubordinateProps extends WithTheme, Pick<ViewProps, 'style'> {
-  subordinates?: Subordinate[];
   selectedSubordinate?: Subordinate;
   setSelectedSubordinate: (subordinate: Subordinate) => void;
-  onRefreshSubordinate: () => void;
 }
 
 interface PickSubordinateState {

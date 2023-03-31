@@ -100,23 +100,23 @@ function* fetchMyLeaveEntitlements() {
       }
     } else {
       // TODO::  handle errors
-      if (response.error[0] === 'No Leave Types Defined.') {
-        const message =
-          'There Are No Leave Types Defined, Please Contact Your System Administrator.';
-        yield put(setErrorMessage(message));
-        yield put(setApplyLeaveErrorMessage(message));
-      } else if (
-        response.error[0] !== 'Leave Period Start Date Is Not Defined.'
-      ) {
-        yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
-        yield showSnackMessage(
-          getMessageAlongWithResponseErrors(
-            response,
-            'Failed to Fetch Leave Details',
-          ),
-          TYPE_ERROR,
-        );
-      }
+      // if (response.error[0] === 'No Leave Types Defined.') {
+      //   const message =
+      //     'There Are No Leave Types Defined, Please Contact Your System Administrator.';
+      //   yield put(setErrorMessage(message));
+      //   yield put(setApplyLeaveErrorMessage(message));
+      // } else if (
+      //   response.error[0] !== 'Leave Period Start Date Is Not Defined.'
+      // ) {
+      //   yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
+      //   yield showSnackMessage(
+      //     getMessageAlongWithResponseErrors(
+      //       response,
+      //       'Failed to Fetch Leave Details',
+      //     ),
+      //     TYPE_ERROR,
+      //   );
+      // }
     }
   } catch (error) {
     yield showSnackMessage(

@@ -255,7 +255,7 @@ export const WORK_WEEK_HALF = 4;
 export const WORK_WEEK_NON = 8;
 
 export interface Holiday {
-  id: string;
+  id: number;
   recurring: boolean;
   name: string;
   date: string;

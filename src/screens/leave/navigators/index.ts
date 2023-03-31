@@ -40,13 +40,7 @@ import {
   // changeEmployeeLeaveRequestStatus,
 } from 'store/leave/leave-list/actions';
 import {addMyLeaveRequestComment} from 'store/leave/leave-usage/actions';
-
-export interface Employee {
-  empNumber: string;
-  employeeId: string;
-  firstName: string;
-  lastName: string;
-}
+import {Subordinate} from 'store/leave/assign-leave/types';
 
 export type CommonNavigatorParamList = {
   [PICK_EMPLOYEE]: PickEmployeeParams;
@@ -55,8 +49,7 @@ export type CommonNavigatorParamList = {
 export interface PickEmployeeParams {
   textValue: string;
   setTextValue: (text: string) => void;
-  pickEmployee: (employee: Employee) => void;
-  onRefresh: () => void;
+  pickEmployee: (employee: Subordinate) => void;
 }
 
 export type PickEmployeeRouteParams = RouteProp<

@@ -100,6 +100,7 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
     if (
       partialOption.partialOption === PARTIAL_OPTION_ALL ||
       partialOption.partialOption === PARTIAL_OPTION_START ||
+      partialOption.partialOption === PARTIAL_OPTION_END ||
       partialOption.partialOption === PARTIAL_OPTION_START_END
     ) {
       const name =
@@ -120,22 +121,19 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
         });
       }
     }
-    if (
-      partialOption.partialOption === PARTIAL_OPTION_END ||
-      partialOption.partialOption === PARTIAL_OPTION_START_END
-    ) {
+    if (partialOption.partialOption === PARTIAL_OPTION_START_END) {
       const name = 'End Day:';
-      if (partialOption.duration.type === HALF_DAY_MORNING) {
+      if (partialOption.endDuration.type === HALF_DAY_MORNING) {
         details.push({name, value: 'Half Day - Morning'});
-      } else if (partialOption.duration.type === HALF_DAY_AFTERNOON) {
+      } else if (partialOption.endDuration.type === HALF_DAY_AFTERNOON) {
         details.push({name, value: 'Half Day - Afternoon'});
-      } else if (partialOption.duration.type === SPECIFY_TIME) {
+      } else if (partialOption.endDuration.type === SPECIFY_TIME) {
         details.push({
           name,
           value:
-            partialOption.duration.fromTime +
+            partialOption.endDuration.fromTime +
             ' - ' +
-            partialOption.duration.toTime,
+            partialOption.endDuration.toTime,
         });
       }
     }

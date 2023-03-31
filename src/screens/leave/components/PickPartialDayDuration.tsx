@@ -151,10 +151,10 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
       return partialOption?.duration.fromTime;
     } else if (
       partialOption?.partialOption === PARTIAL_OPTION_START_END &&
-      partialOption?.duration.type === SPECIFY_TIME &&
+      partialOption?.endDuration.type === SPECIFY_TIME &&
       partialStartEndType === 'end'
     ) {
-      return partialOption?.duration.fromTime;
+      return partialOption?.endDuration.fromTime;
     } else if (
       partialOption?.partialOption === PARTIAL_OPTION_START_END &&
       partialOption?.duration.type === SPECIFY_TIME &&
@@ -182,10 +182,10 @@ class PickPartialDayDuration extends React.Component<PickPartialDayDurationProps
       return partialOption?.duration.toTime;
     } else if (
       partialOption?.partialOption === PARTIAL_OPTION_START_END &&
-      partialOption?.duration.type === SPECIFY_TIME &&
+      partialOption?.endDuration.type === SPECIFY_TIME &&
       partialStartEndType === 'end'
     ) {
-      return partialOption?.duration.toTime;
+      return partialOption?.endDuration.toTime;
     } else if (
       partialOption?.partialOption === PARTIAL_OPTION_START_END &&
       partialOption?.duration.type === SPECIFY_TIME &&

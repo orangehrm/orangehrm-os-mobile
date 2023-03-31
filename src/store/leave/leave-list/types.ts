@@ -139,7 +139,7 @@ export interface LeaveType {
   deleted: boolean;
 }
 
-interface ColorAssignedLeaveType extends LeaveType {
+export interface ColorAssignedLeaveType extends LeaveType {
   color: string;
 }
 
