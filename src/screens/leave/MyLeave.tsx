@@ -26,9 +26,8 @@ import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import {selectLeaveRequests} from 'store/leave/leave-usage/selectors';
-import {selectEntitlement} from 'store/leave/leave-usage/selectors';
 import {fetchMyLeaveRequests} from 'store/leave/leave-usage/actions';
-import {LeaveRequest} from 'store/leave/leave-usage/types';
+import {LeaveRequestDetailedModel} from 'store/leave/leave-list/types';
 import Divider from 'components/DefaultDivider';
 import Text from 'components/DefaultText';
 import Icon from 'components/DefaultIcon';
@@ -61,7 +60,7 @@ class MyLeave extends React.Component<MyLeaveProps> {
     this.props.fetchMyLeaveRequests();
   };
 
-  onPressLeave = (leaveRequest: LeaveRequest) => () => {
+  onPressLeave = (leaveRequest: LeaveRequestDetailedModel) => () => {
     navigate<MyLeaveDetailsParam>(MY_LEAVE_DETAILS, {leaveRequest});
   };
 
@@ -77,7 +76,7 @@ class MyLeave extends React.Component<MyLeaveProps> {
               onPress={this.onPressLeave(item)}
             />
           )}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id.toString()}
           ItemSeparatorComponent={() => {
             return (
               <View style={{paddingHorizontal: theme.spacing}}>
@@ -141,7 +140,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state: RootState) => ({
   leaveRequests: selectLeaveRequests(state),
-  entitlements: selectEntitlement(state),
   currentRoute: selectCurrentRoute(state),
 });
 

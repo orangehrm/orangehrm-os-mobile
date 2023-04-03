@@ -29,12 +29,12 @@ import Text from 'components/DefaultText';
 import Chip from 'components/DefaultChip';
 import FormattedDate from 'components/FormattedDate';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {LeaveRequest} from 'store/leave/leave-usage/types';
-import {LEAVE_TYPE_DELETED_YES} from 'store/leave/leave-usage/types';
+import {LeaveRequestDetailedModel} from 'store/leave/leave-list/types';
 
 class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
   render() {
     const {theme, leaveRequest, onPress} = this.props;
+
     const leaveTypeColor = leaveRequest.leaveType.color;
     return (
       <>
@@ -63,10 +63,8 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
                       ? {color: theme.typography.lightColor}
                       : {color: theme.typography.darkColor},
                   ]}>
-                  {leaveRequest.leaveType.type}
-                  {leaveRequest.leaveType.deleted === LEAVE_TYPE_DELETED_YES
-                    ? ' (Deleted)'
-                    : ''}
+                  {leaveRequest.leaveType.name}
+                  {leaveRequest.leaveType.deleted ? ' (Deleted)' : ''}
                 </Text>
               </Chip>
             </View>
@@ -76,17 +74,26 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
                   color: theme.palette.secondary,
                   paddingBottom: theme.spacing,
                 }}>
-                <FormattedDate nested>{leaveRequest.fromDate}</FormattedDate>
-                {leaveRequest.fromDate !== leaveRequest.toDate ? (
+                <FormattedDate nested>
+                  {leaveRequest.dates.fromDate}
+                </FormattedDate>
+                {leaveRequest.dates.fromDate !== leaveRequest.dates.toDate ? (
                   <>
                     {' to '}
-                    <FormattedDate nested>{leaveRequest.toDate}</FormattedDate>
+                    <FormattedDate nested>
+                      {leaveRequest.dates.toDate}
+                    </FormattedDate>
                   </>
                 ) : null}
               </Text>
-              <Text style={{fontSize: theme.typography.smallFontSize}}>
-                {leaveRequest.leaveBreakdown}
-              </Text>
+              {leaveRequest.leaveBreakdown.map((item) => {
+                return (
+                  <Text style={{fontSize: theme.typography.smallFontSize}}>
+                    {item.name}
+                    {' (' + item.lengthDays.toFixed(2) + ')'}
+                  </Text>
+                );
+              })}
             </View>
           </View>
         </TouchableWithoutFeedback>
@@ -98,7 +105,7 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
 interface MyLeaveListItemProps
   extends WithTheme,
     Pick<TouchableWithoutFeedbackProps, 'onPress'> {
-  leaveRequest: LeaveRequest;
+  leaveRequest: LeaveRequestDetailedModel;
 }
 
 const styles = StyleSheet.create({

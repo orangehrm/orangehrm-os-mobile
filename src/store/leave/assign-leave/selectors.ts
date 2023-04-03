@@ -68,12 +68,44 @@ export const selectSubordinateEntitlement = createSelector<
   RootState,
   AssignLeaveState,
   SubordinateEntitlement[] | undefined
->([selectAssignLeave], (assignLeave) => assignLeave.entitlement);
+>([selectAssignLeave], (assignLeave) => {
+  if (assignLeave.leaveTypes === undefined) {
+    return assignLeave.entitlement;
+  }
+
+  const entitlementForLeaveType: {
+    [key: number]: SubordinateEntitlement;
+  } = [];
+
+  assignLeave.entitlement?.forEach((entitlement: SubordinateEntitlement) => {
+    entitlementForLeaveType[entitlement.leaveType.id] = entitlement;
+  });
+
+  const entitlements: SubordinateEntitlement[] = [];
+  assignLeave.leaveTypes.forEach((leaveType: LeaveType) => {
+    if (Object.hasOwn(entitlementForLeaveType, leaveType.id)) {
+      entitlements.push(entitlementForLeaveType[leaveType.id]);
+    } else {
+      entitlements.push({
+        entitlement: 0,
+        daysUsed: 0,
+        usageBreakdown: {
+          scheduled: 0,
+          pending: 0,
+          taken: 0,
+          balance: 0,
+        },
+        leaveType,
+      });
+    }
+  });
+  return entitlements;
+});
 
 export const selectSubordinateSelectedLeaveTypeId = createSelector<
   RootState,
   AssignLeaveState,
-  string | undefined
+  number | undefined
 >([selectAssignLeave], (assignLeave) => assignLeave.selectedLeaveTypeId);
 
 export const selectSubordinates = createSelector<

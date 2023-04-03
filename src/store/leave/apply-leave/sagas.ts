@@ -19,7 +19,12 @@
  */
 
 import {takeEvery, put} from 'redux-saga/effects';
-import {apiCall, apiPostCall, apiGetCall} from 'store/saga-effects/api';
+import {
+  apiCall,
+  apiPostCall,
+  apiGetCall,
+  ApiResponse,
+} from 'store/saga-effects/api';
 import {
   openLoader,
   closeLoader,
@@ -45,6 +50,7 @@ import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
 import {
   API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
   API_ENDPOINT_LEAVE_WORK_SHIFT,
+  prepare,
 } from 'services/endpoints';
 import {
   getMessageAlongWithGenericErrors,
@@ -53,32 +59,33 @@ import {
 import {navigate} from 'lib/helpers/navigation';
 import {LEAVE_REQUEST_SUCCESS} from 'screens';
 import {LeaveRequestSuccessParam} from 'screens/leave/navigators';
+import {LeaveRequestModel, WorkShift} from 'store/leave/common-screens/types';
 
 function* saveLeaveRequest(
   action: ApplySingleDayLeaveRequestAction | ApplyMultipleDayLeaveRequestAction,
 ) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveRequestModel> = yield apiCall(
       apiPostCall,
       API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
       action.payload,
     );
 
-    if (response.success) {
+    if (response.data) {
       yield put(fetchMyLeaveEntitlements());
       yield put(resethMyLeaveRequests());
       yield put(resetApplyLeave());
       navigate<LeaveRequestSuccessParam>(LEAVE_REQUEST_SUCCESS);
     } else {
       yield showSnackMessage(
-        getMessageAlongWithResponseErrors(response, 'Failed to Save Leave'),
+        getMessageAlongWithResponseErrors(response, 'Failed to Apply Leave'),
         TYPE_ERROR,
       );
     }
   } catch (error) {
     yield showSnackMessage(
-      getMessageAlongWithGenericErrors(error, 'Failed to Save Leave'),
+      getMessageAlongWithGenericErrors(error, 'Failed to Apply Leave'),
       TYPE_ERROR,
     );
   } finally {
@@ -86,10 +93,13 @@ function* saveLeaveRequest(
   }
 }
 
-function* fetchWorkShift(_action: FetchWorkShiftAction) {
+function* fetchWorkShift(action: FetchWorkShiftAction) {
   try {
     yield openLoader();
-    const response = yield apiCall(apiGetCall, API_ENDPOINT_LEAVE_WORK_SHIFT);
+    const response: ApiResponse<WorkShift, {empNumber: number}> = yield apiCall(
+      apiGetCall,
+      prepare(API_ENDPOINT_LEAVE_WORK_SHIFT, {empNumber: action.empNumber}),
+    );
 
     if (response.data) {
       yield put(fetchWorkShiftFinished(response.data));

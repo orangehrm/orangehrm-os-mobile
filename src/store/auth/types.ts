@@ -33,6 +33,7 @@ export interface AuthState {
   enabledModules?: EnabledModules;
   myInfoFailed?: boolean;
   myInfoError?: ErrorResponse;
+  isAuthenticated: boolean;
 }
 
 export const LOGOUT = 'AUTH_LOGOUT';
@@ -45,6 +46,7 @@ export const FETCH_ENABLED_MODULES_FINISHED =
   'AUTH_FETCH_ENABLED_MODULES_FINISHED';
 export const MY_INFO_FAILED = 'AUTH_MY_INFO_FAILED';
 export const FETCH_NEW_TOKEN_FINISHED = 'AUTH_FETCH_NEW_TOKEN_FINISHED';
+export const FETCH_API_VERSION = 'AUTH_FETCH_API_VERSION';
 
 export interface LogoutAction {
   type: typeof LOGOUT;
@@ -123,6 +125,7 @@ export interface ErrorResponse {
 export type NullableString = string | null;
 
 export interface Employee {
+  empNumber: number;
   firstName: string;
   lastName: string;
   middleName: string;

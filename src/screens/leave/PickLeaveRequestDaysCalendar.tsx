@@ -44,7 +44,17 @@ import Calendar from 'screens/leave/components/Calendar';
 class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
   componentDidMount() {
     if (this.props.holidays === undefined) {
-      this.props.fetchHolidays();
+      // TODO:: use leave period start date & end date
+      const fromDate = new Date();
+      fromDate.setMonth(0);
+      fromDate.setDate(1);
+      const toDate = new Date();
+      toDate.setMonth(11);
+      toDate.setDate(31);
+      this.props.fetchHolidays(
+        fromDate.toISOString().split('T')[0],
+        toDate.toISOString().split('T')[0],
+      );
     }
     if (this.props.workWeek === undefined) {
       this.props.fetchWorkWeek();

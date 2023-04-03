@@ -26,31 +26,56 @@ import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Divider from 'components/DefaultDivider';
 import {LeaveDaysRouteParams} from 'screens/leave/navigators';
 import LeaveDayListItem from 'screens/leave/components/LeaveDayListItem';
+import {fetchEmployeeLeaves} from 'store/leave/leave-list/actions';
+import {connect, ConnectedProps} from 'react-redux';
+import {RootState} from 'store';
+import {selectEmployeeLeaves} from 'store/leave/leave-list/selectors';
 
 class LeaveDays extends React.Component<LeaveDaysProps> {
+  componentDidMount() {
+    this.onRefresh();
+  }
+
+  onRefresh = () => {
+    const {leaveRequest} = this.props.route.params;
+    this.props.fetchEmployeeLeaves(leaveRequest.id);
+  };
+
   render() {
-    const {theme, route} = this.props;
-    const {employeeLeaveRequest} = route.params;
+    const {theme, employeeLeaves} = this.props;
     return (
-      <MainLayout>
+      <MainLayout onRefresh={this.onRefresh}>
         <View>
-          {employeeLeaveRequest?.days.map((leave, index) => (
-            <Fragment key={index}>
-              <LeaveDayListItem leave={leave} />
-              <View style={{paddingHorizontal: theme.spacing}}>
-                <Divider />
-              </View>
-            </Fragment>
-          ))}
+          {employeeLeaves &&
+            employeeLeaves.map((leave, index) => (
+              <Fragment key={index}>
+                <LeaveDayListItem leave={leave} />
+                <View style={{paddingHorizontal: theme.spacing}}>
+                  <Divider />
+                </View>
+              </Fragment>
+            ))}
         </View>
       </MainLayout>
     );
   }
 }
 
-interface LeaveDaysProps extends WithTheme {
+interface LeaveDaysProps extends WithTheme, ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
   route: LeaveDaysRouteParams;
 }
 
-export default withTheme<LeaveDaysProps>()(LeaveDays);
+const mapStateToProps = (state: RootState) => ({
+  employeeLeaves: selectEmployeeLeaves(state),
+});
+
+const mapDispatchToProps = {
+  fetchEmployeeLeaves: fetchEmployeeLeaves,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+const LeaveDaysWithTheme = withTheme<LeaveDaysProps>()(LeaveDays);
+
+export default connector(LeaveDaysWithTheme);

@@ -20,16 +20,18 @@
 
 import {MutableKeys} from 'utility-types';
 import {LEAVE_STATUS_MAP} from 'lib/helpers/leave';
+import {LeaveRequestAllowedActions} from 'store/leave/leave-list/types';
 import {
-  EmployeeLeaveRequest,
-  EmployeeLeaveRequestActions,
+  LeaveRequestDetailedModel,
+  LeaveRequestCommentModel,
 } from 'store/leave/leave-list/types';
 
 export interface LeaveUsageState {
-  entitlement?: Entitlement[];
-  leaveRequest?: LeaveRequest[];
-  selectedLeaveTypeId?: string;
-  leaveRequestDetail?: EmployeeLeaveRequest;
+  entitlement?: EntitlementSummaryModel[];
+  leaveRequests?: LeaveRequestDetailedModel[];
+  selectedLeaveTypeId?: number;
+  leaveRequestDetail?: LeaveRequestDetailedModel;
+  leaveComments?: LeaveRequestCommentModel[];
   errorMessage?: string;
 }
 
@@ -47,8 +49,13 @@ export const RESET_MY_LEAVE_REQUEST = 'LEAVE_USAGE_RESET_MY_LEAVE_REQUEST';
 export const FETCH_MY_LEAVE_DETAILS_FINISHED =
   'LEAVE_USAGE_FETCH_MY_LEAVE_DETAILS_FINISHED';
 export const FETCH_MY_LEAVE_DETAILS = 'LEAVE_USAGE_FETCH_MY_LEAVE_DETAILS';
+export const FETCH_MY_LEAVE_COMMENTS = 'LEAVE_USAGE_FETCH_MY_LEAVE_COMMENTS';
+export const FETCH_MY_LEAVE_COMMENT_FINISHED =
+  'LEAVE_USAGE_FETCH_LEAVE_COMMENT_FINISHED';
 export const CHANGE_MY_LEAVE_REQUEST_STATUS =
   'LEAVE_USAGE_CHANGE_MY_LEAVE_REQUEST_STATUS';
+export const ADD_MY_LEAVE_REQUEST_COMMENT =
+  'LEAVE_USAGE_ADD_EMPLOYEE_LEAVE_REQUEST_COMMENT';
 export const SET_ERROR_MESSAGE = 'LEAVE_USAGE_SET_ERROR_MESSAGE';
 
 export interface FetchMyLeaveEntitlementAction {
@@ -57,7 +64,7 @@ export interface FetchMyLeaveEntitlementAction {
 
 export interface FetchMyLeaveEntitlementFinishedAction {
   type: typeof FETCH_MY_LEAVE_ENTITLEMENT_FINISHED;
-  payload?: Entitlement[];
+  payload?: EntitlementSummaryModel[];
   error: boolean;
 }
 
@@ -67,13 +74,24 @@ export interface FetchMyLeaveRequestAction {
 
 export interface FetchMyLeaveRequestFinishedAction {
   type: typeof FETCH_MY_LEAVE_REQUEST_FINISHED;
-  payload?: LeaveRequest[];
+  payload?: LeaveRequestDetailedModel[];
+  error: boolean;
+}
+
+export interface FetchMyLeaveCommentAction {
+  type: typeof FETCH_MY_LEAVE_COMMENTS;
+  leaveRequestId: number;
+}
+
+export interface FetchMyLeaveCommentFinishedAction {
+  type: typeof FETCH_MY_LEAVE_COMMENT_FINISHED;
+  payload?: LeaveRequestCommentModel[];
   error: boolean;
 }
 
 export interface SelectLeaveTypeAction {
   type: typeof SELECT_LEAVE_TYPE;
-  id: string;
+  id: number;
 }
 
 export interface ResetMyLeaveRequestAction {
@@ -82,19 +100,25 @@ export interface ResetMyLeaveRequestAction {
 
 export interface FetchMyLeaveRequestDetailsAction {
   type: typeof FETCH_MY_LEAVE_DETAILS;
-  leaveRequestId: string;
+  leaveRequestId: number;
 }
 
 export interface FetchMyLeaveRequestDetailsFinishedAction {
   type: typeof FETCH_MY_LEAVE_DETAILS_FINISHED;
-  payload?: EmployeeLeaveRequest;
+  payload?: LeaveRequestDetailedModel;
   error: boolean;
 }
 
 export interface ChangeMyLeaveRequestStatusAction {
   type: typeof CHANGE_MY_LEAVE_REQUEST_STATUS;
-  leaveRequestId: string;
-  action: EmployeeLeaveRequestActions;
+  leaveRequestId: number;
+  status: LeaveRequestAllowedActions;
+}
+
+export interface AddMyLeaveRequestCommentAction {
+  type: typeof ADD_MY_LEAVE_REQUEST_COMMENT;
+  leaveRequestId: number;
+  comment: string;
 }
 
 export interface SetErrorMessageAction {
@@ -112,65 +136,30 @@ export type LeaveUsageActionTypes =
   | FetchMyLeaveRequestDetailsAction
   | FetchMyLeaveRequestDetailsFinishedAction
   | ChangeMyLeaveRequestStatusAction
+  | FetchMyLeaveCommentAction
+  | FetchMyLeaveCommentFinishedAction
   | SetErrorMessageAction;
 
-export interface Entitlement {
-  id: string;
-  validFrom: string;
-  validTo: string;
-  creditedDate: string;
-  leaveBalance: LeaveBalance;
+export interface EntitlementSummaryModel {
+  id: number;
+  entitlement: number;
+  daysUsed: number;
+  usageBreakdown: {
+    scheduled: number;
+    pending: number;
+    taken: number;
+    balance: number;
+  };
   leaveType: LeaveType;
-}
-
-export const LEAVE_TYPE_DELETED_YES = '1';
-export const LEAVE_TYPE_DELETED_NO = '0';
-
-export interface LeaveType {
-  id: string;
-  type: string;
-  color: string;
-  deleted: typeof LEAVE_TYPE_DELETED_YES | typeof LEAVE_TYPE_DELETED_NO;
-  situational: boolean;
-}
-
-export interface LeaveBalance {
-  entitled: number;
-  used: number;
-  scheduled: number;
-  pending: number;
-  notLinked: number;
-  taken: number;
-  adjustment: number;
-  balance: number;
-}
-
-export interface LeaveRequest {
-  id: string;
   fromDate: string;
   toDate: string;
-  appliedDate: string;
-  leaveType: LeaveType;
-  leaveBalance: string;
-  numberOfDays: string;
-  comments: LeaveComment[];
-  days: Leave[];
-  leaveBreakdown: string;
 }
 
-export interface Leave {
-  date: string;
-  status: LeaveStatus;
-  duration: string;
-  durationString: string;
-  comments: LeaveComment[];
-}
-
-export interface LeaveComment {
-  user: string;
-  date: string;
-  time: string;
-  comment: string;
+export interface LeaveType {
+  id: number;
+  name: string;
+  color: string;
+  deleted: boolean;
 }
 
 export type LeaveStatus = MutableKeys<typeof LEAVE_STATUS_MAP>;

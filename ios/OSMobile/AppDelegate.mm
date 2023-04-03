@@ -1,8 +1,12 @@
 #import "AppDelegate.h"
+#import "RNAppAuthAuthorizationFlowManager.h"
 
 #import <React/RCTBundleURLProvider.h>
 
 @implementation AppDelegate
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *, id> *)options {
+ return [self.authorizationFlowManagerDelegate resumeExternalUserAgentFlowWithURL:url];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

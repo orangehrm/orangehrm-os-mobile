@@ -39,7 +39,6 @@ import RadioItem from 'components/DefaultRadioItem';
 import PickLeaveSpecificTime from 'screens/leave/components/PickLeaveSpecificTime';
 import {
   FULL_DAY,
-  HALF_DAY,
   SPECIFY_TIME,
   HALF_DAY_MORNING,
   HALF_DAY_AFTERNOON,
@@ -53,11 +52,11 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
   }
 
   onPressContinue = (duration?: SingleDayDuration) => () => {
-    if (duration?.singleType === SPECIFY_TIME) {
+    if (duration?.duration.type === SPECIFY_TIME) {
       if (
         !isFromTimeLessThanToTime(
-          duration.singleFromTime,
-          duration.singleToTime,
+          duration?.duration.fromTime,
+          duration?.duration.toTime,
         )
       ) {
         return;
@@ -68,38 +67,32 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
   };
 
   isFullDay = (duration?: SingleDayDuration) => {
-    return duration?.singleType === FULL_DAY;
+    return duration?.duration.type === FULL_DAY;
   };
 
   isHalfDayMorning = (duration?: SingleDayDuration) => {
-    return (
-      duration?.singleType === HALF_DAY &&
-      duration?.singleAMPM === HALF_DAY_MORNING
-    );
+    return duration?.duration.type === HALF_DAY_MORNING;
   };
 
   isHalfDayAfternoon = (duration?: SingleDayDuration) => {
-    return (
-      duration?.singleType === HALF_DAY &&
-      duration?.singleAMPM === HALF_DAY_AFTERNOON
-    );
+    return duration?.duration.type === HALF_DAY_AFTERNOON;
   };
 
   isSpecifyTime = (duration?: SingleDayDuration) => {
-    return duration?.singleType === SPECIFY_TIME;
+    return duration?.duration.type === SPECIFY_TIME;
   };
 
   getFromTime = (duration?: SingleDayDuration) => {
     const {workShift} = this.props;
-    return duration?.singleType === SPECIFY_TIME
-      ? duration.singleFromTime
+    return duration?.duration.type === SPECIFY_TIME
+      ? duration?.duration.fromTime
       : workShift.startTime;
   };
 
   getToTime = (duration?: SingleDayDuration) => {
     const {workShift} = this.props;
-    return duration?.singleType === SPECIFY_TIME
-      ? duration.singleToTime
+    return duration?.duration.type === SPECIFY_TIME
+      ? duration?.duration.toTime
       : workShift.endTime;
   };
 
@@ -109,10 +102,13 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
       duration?: SingleDayDuration,
     ) =>
     (time: string) => {
-      if (duration?.singleType === SPECIFY_TIME) {
+      if (duration?.duration.type === SPECIFY_TIME) {
         pickSingleDayDuration({
-          ...duration,
-          singleFromTime: time,
+          duration: {
+            type: SPECIFY_TIME,
+            fromTime: time,
+            toTime: duration.duration.toTime,
+          },
         });
       }
     };
@@ -123,10 +119,13 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
       duration?: SingleDayDuration,
     ) =>
     (time: string) => {
-      if (duration?.singleType === SPECIFY_TIME) {
+      if (duration?.duration.type === SPECIFY_TIME) {
         pickSingleDayDuration({
-          ...duration,
-          singleToTime: time,
+          duration: {
+            type: SPECIFY_TIME,
+            fromTime: duration.duration.fromTime,
+            toTime: time,
+          },
         });
       }
     };
@@ -177,7 +176,7 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
               radioProps={{selected: this.isFullDay(duration)}}
               style={{...radioStyle}}
               onPress={() => {
-                pickSingleDayDuration({singleType: FULL_DAY});
+                pickSingleDayDuration({duration: {type: FULL_DAY}});
               }}
             />
             <RadioItem
@@ -185,10 +184,7 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
               radioProps={{selected: this.isHalfDayMorning(duration)}}
               style={{...radioStyle}}
               onPress={() => {
-                pickSingleDayDuration({
-                  singleType: HALF_DAY,
-                  singleAMPM: HALF_DAY_MORNING,
-                });
+                pickSingleDayDuration({duration: {type: HALF_DAY_MORNING}});
               }}
             />
             <RadioItem
@@ -196,10 +192,7 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
               radioProps={{selected: this.isHalfDayAfternoon(duration)}}
               style={{...radioStyle}}
               onPress={() => {
-                pickSingleDayDuration({
-                  singleType: HALF_DAY,
-                  singleAMPM: HALF_DAY_AFTERNOON,
-                });
+                pickSingleDayDuration({duration: {type: HALF_DAY_AFTERNOON}});
               }}
             />
             <RadioItem
@@ -208,9 +201,11 @@ class PickLeaveRequestDuration extends React.Component<PickLeaveRequestDurationP
               style={{...radioStyle}}
               onPress={() => {
                 pickSingleDayDuration({
-                  singleType: SPECIFY_TIME,
-                  singleFromTime: workShift.startTime,
-                  singleToTime: workShift.endTime,
+                  duration: {
+                    type: SPECIFY_TIME,
+                    fromTime: workShift.startTime,
+                    toTime: workShift.endTime,
+                  },
                 });
               }}
             />

@@ -34,17 +34,16 @@ import {
   WorkWeek,
   WORK_WEEK_FULL,
   WORK_WEEK_NON,
-  RECURRING_TRUE,
 } from 'store/leave/common-screens/types';
 
 const MAP = {
-  0: 'sun',
-  1: 'mon',
-  2: 'tue',
-  3: 'wed',
-  4: 'thu',
-  5: 'fri',
-  6: 'sat',
+  0: 'sunday',
+  1: 'monday',
+  2: 'tuesday',
+  3: 'wednesday',
+  4: 'thursday',
+  5: 'friday',
+  6: 'saturday',
 };
 
 const PAST_SCROLL_RANGE = 24;
@@ -84,7 +83,7 @@ const Calendar = (props: CalendarProps) => {
             ? theme.palette.defaultDark
             : theme.palette.default,
       };
-      if (holiday.recurring === RECURRING_TRUE) {
+      if (holiday.recurring) {
         for (let i = 0; i < PAST_SCROLL_RANGE / 12; i++) {
           const holidayDate = new Date(holiday.date);
           holidayDate.setFullYear(holidayDate.getFullYear() - (i + 1));

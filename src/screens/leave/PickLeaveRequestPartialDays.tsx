@@ -40,7 +40,6 @@ import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
 import PickPartialDayDuration from 'screens/leave/components/PickPartialDayDuration';
 import {
-  HALF_DAY,
   HALF_DAY_MORNING,
   PARTIAL_OPTION_NONE,
   PARTIAL_OPTION_ALL,
@@ -149,8 +148,7 @@ class PickLeaveRequestPartialDays extends React.Component<PickLeaveRequestPartia
                 onPress={() => {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_ALL,
-                    startDayType: HALF_DAY,
-                    startDayAMPM: HALF_DAY_MORNING,
+                    duration: {type: HALF_DAY_MORNING},
                   });
                 }}
               />
@@ -163,8 +161,7 @@ class PickLeaveRequestPartialDays extends React.Component<PickLeaveRequestPartia
                 onPress={() => {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_START,
-                    startDayType: HALF_DAY,
-                    startDayAMPM: HALF_DAY_MORNING,
+                    duration: {type: HALF_DAY_MORNING},
                   });
                 }}
               />
@@ -175,8 +172,7 @@ class PickLeaveRequestPartialDays extends React.Component<PickLeaveRequestPartia
                 onPress={() => {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_END,
-                    endDayType: HALF_DAY,
-                    endDayAMPM: HALF_DAY_MORNING,
+                    duration: {type: HALF_DAY_MORNING},
                   });
                 }}
               />
@@ -189,10 +185,8 @@ class PickLeaveRequestPartialDays extends React.Component<PickLeaveRequestPartia
                 onPress={() => {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_START_END,
-                    startDayType: HALF_DAY,
-                    startDayAMPM: HALF_DAY_MORNING,
-                    endDayType: HALF_DAY,
-                    endDayAMPM: HALF_DAY_MORNING,
+                    duration: {type: HALF_DAY_MORNING},
+                    endDuration: {type: HALF_DAY_MORNING},
                   });
                 }}
               />

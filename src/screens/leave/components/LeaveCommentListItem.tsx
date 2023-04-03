@@ -24,11 +24,13 @@ import Text from 'components/DefaultText';
 import Avatar from 'components/DefaultAvatar';
 import FormattedDate from 'components/FormattedDate';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {LeaveComment} from 'store/leave/leave-usage/types';
+import {LeaveRequestCommentModel} from 'store/leave/leave-list/types';
+import {getFirstAndLastNames} from 'lib/helpers/name';
 
 class LeaveCommentListItem extends React.Component<LeaveCommentListItemProps> {
   render() {
     const {theme, leaveComment} = this.props;
+
     return (
       <>
         <View style={[styles.row]}>
@@ -37,7 +39,7 @@ class LeaveCommentListItem extends React.Component<LeaveCommentListItemProps> {
               paddingVertical: theme.spacing,
               paddingRight: theme.spacing * 4,
             }}>
-            <Avatar small name={leaveComment.user} />
+            <Avatar small name={leaveComment.createdByEmployee.firstName} />
           </View>
           <View style={styles.flex}>
             <View
@@ -46,7 +48,9 @@ class LeaveCommentListItem extends React.Component<LeaveCommentListItemProps> {
                 styles.space,
                 {paddingHorizontal: theme.spacing * 2},
               ]}>
-              <Text style={[styles.empNameText]}>{leaveComment.user}</Text>
+              <Text style={[styles.empNameText]}>
+                {getFirstAndLastNames(leaveComment.createdByEmployee)}
+              </Text>
               <FormattedDate
                 style={{
                   paddingTop: theme.spacing * 0.5,
@@ -72,7 +76,7 @@ class LeaveCommentListItem extends React.Component<LeaveCommentListItemProps> {
 }
 
 interface LeaveCommentListItemProps extends WithTheme {
-  leaveComment: LeaveComment;
+  leaveComment: LeaveRequestCommentModel;
 }
 
 const styles = StyleSheet.create({

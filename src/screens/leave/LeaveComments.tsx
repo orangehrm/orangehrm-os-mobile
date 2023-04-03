@@ -29,7 +29,6 @@ import {RootState} from 'store';
 import Divider from 'components/DefaultDivider';
 import LeaveCommentListItem from 'screens/leave/components/LeaveCommentListItem';
 import {PickLeaveRequestCommentFooter} from 'screens/leave/components/PickLeaveRequestComment';
-import {ACTION_TYPE_COMMENT} from 'store/leave/leave-list/types';
 import {LeaveCommentsRouteParams} from 'screens/leave/navigators';
 
 class LeaveComments extends React.Component<
@@ -45,14 +44,11 @@ class LeaveComments extends React.Component<
 
   onPressComment = () => {
     const {comment} = this.state;
-    const {employeeLeaveRequest, changeEmployeeLeaveRequestStatus, dispatch} =
+    const {employeeLeaveRequest, changeEmployeeLeaveRequestComment, dispatch} =
       this.props;
     if (comment !== '' && employeeLeaveRequest) {
       dispatch(
-        changeEmployeeLeaveRequestStatus(employeeLeaveRequest.leaveRequestId, {
-          actionType: ACTION_TYPE_COMMENT,
-          comment,
-        }),
+        changeEmployeeLeaveRequestComment(employeeLeaveRequest.id, comment),
       );
       this.setState({comment: ''});
     }
@@ -63,7 +59,7 @@ class LeaveComments extends React.Component<
   };
 
   render() {
-    const {theme, employeeLeaveRequest} = this.props;
+    const {theme, employeeLeaveComment} = this.props;
     const {comment} = this.state;
     return (
       <MainLayout
@@ -76,31 +72,33 @@ class LeaveComments extends React.Component<
           />
         }>
         <View style={{paddingBottom: theme.spacing * 5}}>
-          {employeeLeaveRequest?.comments.map((commentItem, index) => (
-            <View
-              key={index}
-              style={{
-                paddingHorizontal: theme.spacing,
-              }}>
+          {employeeLeaveComment &&
+            employeeLeaveComment.map((commentItem, index) => (
               <View
+                key={index}
                 style={{
-                  padding: theme.spacing * 3,
-                  paddingBottom: theme.spacing * 4,
+                  paddingHorizontal: theme.spacing,
                 }}>
-                <LeaveCommentListItem leaveComment={commentItem} />
+                <View
+                  style={{
+                    padding: theme.spacing * 3,
+                    paddingBottom: theme.spacing * 4,
+                  }}>
+                  <LeaveCommentListItem leaveComment={commentItem} />
+                </View>
+                <Divider />
               </View>
-              <Divider />
-            </View>
-          ))}
+            ))}
         </View>
       </MainLayout>
     );
   }
 }
 
-interface LeaveCommentsProps
-  extends WithTheme,
-    ConnectedProps<typeof connector> {
+type LeaveCommentsProps = PartialLeaveCommentsProps &
+  ConnectedProps<typeof connector>;
+
+interface PartialLeaveCommentsProps extends WithTheme {
   navigation: NavigationProp<ParamListBase>;
   route: LeaveCommentsRouteParams;
 }
@@ -109,17 +107,22 @@ interface LeaveCommentsState {
   comment: string;
 }
 
-const mapStateToProps = (state: RootState, ownProps: LeaveCommentsProps) => ({
+const mapStateToProps = (
+  state: RootState,
+  ownProps: PartialLeaveCommentsProps,
+) => ({
+  employeeLeaveComment:
+    ownProps.route.params.employeeLeaveCommentSelector(state),
   employeeLeaveRequest:
     ownProps.route.params.employeeLeaveRequestSelector(state),
 });
 
 const mapDispatchToProps = (
   dispatch: Dispatch<Action>,
-  ownProps: LeaveCommentsProps,
+  ownProps: PartialLeaveCommentsProps,
 ) => ({
-  changeEmployeeLeaveRequestStatus:
-    ownProps.route.params.changeEmployeeLeaveRequestStatusAction,
+  changeEmployeeLeaveRequestComment:
+    ownProps.route.params.addEmployeeLeaveRequestCommentAction,
   dispatch,
 });
 

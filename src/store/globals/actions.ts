@@ -18,6 +18,7 @@
  *
  */
 
+import {$PropertyType} from 'utility-types';
 import {
   SHOW_SNACK_MESSAGE,
   CLOSE_SNACK_MESSAGE,
@@ -51,7 +52,7 @@ export const closeSnackMessage = (): CloseSnackAction => {
 };
 
 export const openLoader = (
-  content?: Pick<Loader, 'content'>,
+  content?: $PropertyType<Loader, 'content'>,
 ): OpenLoaderAction => {
   return {
     type: OPEN_LOADER,

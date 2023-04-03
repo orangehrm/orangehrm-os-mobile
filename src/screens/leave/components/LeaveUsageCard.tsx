@@ -98,8 +98,8 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
                   <Text
                     numberOfLines={1}
                     style={{color: theme.typography.lightColor}}>
-                    {selectedLeaveType?.leaveType.type
-                      ? selectedLeaveType?.leaveType.type
+                    {selectedLeaveType?.leaveType.name
+                      ? selectedLeaveType?.leaveType.name
                       : '- -'}
                   </Text>
                 </Chip>
@@ -111,16 +111,14 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
                   {paddingVertical: theme.spacing * 2},
                 ]}>
                 <Text>
-                  {selectedLeaveType?.validFrom ? (
-                    <FormattedDate>
-                      {selectedLeaveType?.validFrom}
-                    </FormattedDate>
+                  {selectedLeaveType?.fromDate ? (
+                    <FormattedDate>{selectedLeaveType?.fromDate}</FormattedDate>
                   ) : (
                     <Text>{'- -'}</Text>
                   )}
                   {' to '}
-                  {selectedLeaveType?.validTo ? (
-                    <FormattedDate>{selectedLeaveType?.validTo}</FormattedDate>
+                  {selectedLeaveType?.toDate ? (
+                    <FormattedDate>{selectedLeaveType?.toDate}</FormattedDate>
                   ) : (
                     <Text>{'- -'}</Text>
                   )}
@@ -129,10 +127,10 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
               <Divider />
               <ProgressCircle
                 progress={this.calculateProgress(
-                  selectedLeaveType?.leaveBalance.entitled,
-                  selectedLeaveType?.leaveBalance.used,
+                  selectedLeaveType?.entitlement,
+                  selectedLeaveType?.daysUsed,
                 )}
-                usedDays={selectedLeaveType?.leaveBalance.used.toFixed(2)}
+                usedDays={selectedLeaveType?.daysUsed.toFixed(2)}
                 mainColor={selectedLeaveType?.leaveType.color}
               />
             </CardContent>
@@ -153,8 +151,8 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
                 ]}>
                 <Text>{'Total Entitlement'}</Text>
                 <Text>
-                  {selectedLeaveType?.leaveBalance.entitled
-                    ? selectedLeaveType?.leaveBalance.entitled.toFixed(2)
+                  {selectedLeaveType?.entitlement
+                    ? selectedLeaveType?.entitlement.toFixed(2)
                     : '0.00'}
                   {' Day(s)'}
                 </Text>

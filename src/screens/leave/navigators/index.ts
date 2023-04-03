@@ -25,18 +25,18 @@ import {
   LEAVE_COMMENTS,
   LEAVE_REQUEST_SUCCESS,
 } from 'screens';
-import {EmployeeLeaveRequest} from 'store/leave/leave-list/types';
-import {selectEmployeeLeaveRequest} from 'store/leave/leave-list/selectors';
-import {selectLeaveRequestDetail} from 'store/leave/leave-usage/selectors';
-import {changeEmployeeLeaveRequestStatus} from 'store/leave/leave-list/actions';
-import {changeMyLeaveRequestStatus} from 'store/leave/leave-usage/actions';
-
-export interface Employee {
-  empNumber: string;
-  employeeId: string;
-  firstName: string;
-  lastName: string;
-}
+import {LeaveRequestDetailedModel} from 'store/leave/leave-list/types';
+import {
+  selectEmployeeLeaveComment,
+  selectEmployeeLeaveRequest,
+} from 'store/leave/leave-list/selectors';
+import {
+  selectLeaveRequestDetail,
+  selectLeaveComments,
+} from 'store/leave/leave-usage/selectors';
+import {addEmployeeLeaveRequestComment} from 'store/leave/leave-list/actions';
+import {addMyLeaveRequestComment} from 'store/leave/leave-usage/actions';
+import {Subordinate} from 'store/leave/assign-leave/types';
 
 export type CommonNavigatorParamList = {
   [PICK_EMPLOYEE]: PickEmployeeParams;
@@ -45,8 +45,7 @@ export type CommonNavigatorParamList = {
 export interface PickEmployeeParams {
   textValue: string;
   setTextValue: (text: string) => void;
-  pickEmployee: (employee: Employee) => void;
-  onRefresh: () => void;
+  pickEmployee: (employee: Subordinate) => void;
 }
 
 export type PickEmployeeRouteParams = RouteProp<
@@ -60,7 +59,7 @@ export type PickEmployeeNavigationProp = NavigationProp<
 >;
 
 export interface LeaveDaysParam {
-  employeeLeaveRequest: EmployeeLeaveRequest;
+  leaveRequest: LeaveRequestDetailedModel;
 }
 
 export type LeaveDaysParamList = {
@@ -76,9 +75,14 @@ export interface LeaveCommentsParam {
   employeeLeaveRequestSelector:
     | typeof selectEmployeeLeaveRequest
     | typeof selectLeaveRequestDetail;
-  changeEmployeeLeaveRequestStatusAction:
-    | typeof changeEmployeeLeaveRequestStatus
-    | typeof changeMyLeaveRequestStatus;
+
+  employeeLeaveCommentSelector:
+    | typeof selectEmployeeLeaveComment
+    | typeof selectLeaveComments;
+
+  addEmployeeLeaveRequestCommentAction:
+    | typeof addEmployeeLeaveRequestComment
+    | typeof addMyLeaveRequestComment;
 }
 
 export type LeaveCommentsParamList = {

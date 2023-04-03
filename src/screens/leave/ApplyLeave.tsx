@@ -31,6 +31,7 @@ import MainLayout from 'layouts/MainLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
+import {selectMyInfo} from 'store/auth/selectors';
 import {
   selectEntitlement,
   selectSelectedLeaveTypeId,
@@ -126,6 +127,7 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       pickedLeavePartialOption,
       workShift,
       workShiftFetched,
+      myInfo,
     } = this.props;
     if (
       prevProps.previousRoute !== previousRoute &&
@@ -162,9 +164,10 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       if (
         (currentRoute === APPLY_LEAVE_PICK_LEAVE_REQUEST_DURATION ||
           currentRoute === APPLY_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS) &&
-        !workShiftFetched
+        !workShiftFetched &&
+        myInfo !== undefined
       ) {
-        this.props.fetchWorkShift();
+        this.props.fetchWorkShift(myInfo.employee.empNumber);
       }
     }
 
@@ -215,7 +218,7 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       const leaveRequest: LeaveRequest = {
         fromDate: fromDate,
         toDate: toDate ? toDate : fromDate,
-        type: selectedLeaveType?.leaveType.id,
+        leaveTypeId: selectedLeaveType?.leaveType.id,
         comment: comment === '' ? undefined : comment,
       };
       if (isSingleDayRequest(fromDate, toDate)) {
@@ -394,6 +397,7 @@ const mapStateToProps = (state: RootState) => ({
   workShift: selectWorkShift(state),
   workShiftFetched: selectWorkShiftFetched(state),
   errorMessage: selectErrorMessage(state),
+  myInfo: selectMyInfo(state),
 });
 
 const mapDispatchToProps = {

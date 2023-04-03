@@ -19,7 +19,13 @@
  */
 
 import {takeEvery, put} from 'redux-saga/effects';
-import {apiCall, apiGetCall, apiPostCall} from 'store/saga-effects/api';
+import {
+  apiCall,
+  apiGetCall,
+  apiPostCall,
+  apiPutCall,
+  ApiResponse,
+} from 'store/saga-effects/api';
 import {
   openLoader,
   closeLoader,
@@ -27,16 +33,26 @@ import {
 } from 'store/saga-effects/globals';
 import {
   FETCH_LEAVE_LIST,
-  FETCH_EMPLOYEE_LEAVE_REQUEST,
+  FETCH_EMPLOYEE_LEAVES,
+  FETCH_LEAVE_COMMENT,
   CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
-  FetchEmployeeLeaveRequestAction,
+  FetchEmployeeLeavesAction,
   ChangeEmployeeLeaveRequestStatusAction,
-  ACTION_TYPE_CHANGE_STATUS,
+  FetchLeaveCommentAction,
+  FetchEmployeeLeaveRequestDetailsAction,
+  FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS,
+  ADD_EMPLOYEE_LEAVE_REQUEST_COMMENT,
+  AddEmployeeLeaveRequestCommentAction,
+  LeaveDetailedModel,
+  LeaveRequestCommentModel,
+  LeaveRequestDetailedModel,
 } from 'store/leave/leave-list/types';
 import {
   fetchLeaveListFinished,
   fetchEmployeeLeaveRequestFinished,
-  fetchEmployeeLeaveRequest as fetchEmployeeLeaveRequestAction,
+  fetchEmployeeLeaveRequestDetailsFinished,
+  fetchLeaveComments as fetchLeaveCommentAction,
+  fetchEmployeeLeaveCommentFinished,
 } from 'store/leave/leave-list/actions';
 import {
   assignColorsToLeaveTypes,
@@ -44,8 +60,10 @@ import {
 } from 'lib/helpers/leave';
 import {TYPE_ERROR} from 'store/globals/types';
 import {
+  API_ENDPOINT_LEAVE_COMMENT,
   API_ENDPOINT_LEAVE_LIST,
-  API_ENDPOINT_LEAVE_REQUEST,
+  API_ENDPOINT_LEAVES,
+  API_ENDPOINT_LEAVE_REQUEST_DETAILS,
   prepare,
 } from 'services/endpoints';
 import {
@@ -57,10 +75,11 @@ import {
 function* fetchLeaveList() {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveRequestDetailedModel[]> = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_LIST, {}, {pendingApproval: true}),
+      API_ENDPOINT_LEAVE_LIST,
     );
+
     if (response.data) {
       yield put(
         fetchLeaveListFinished(assignColorsToLeaveTypes(response.data)),
@@ -90,19 +109,57 @@ function* fetchLeaveList() {
   }
 }
 
-function* fetchEmployeeLeaveRequest(action: FetchEmployeeLeaveRequestAction) {
+function* fetchEmployeeLeaveRequestDetails(
+  action: FetchEmployeeLeaveRequestDetailsAction,
+) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveRequestDetailedModel> = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_REQUEST, {id: action.leaveRequestId}),
+      prepare(
+        API_ENDPOINT_LEAVE_REQUEST_DETAILS,
+        {leaveRequestId: action.leaveRequestId},
+        {model: 'detailed'},
+      ),
     );
+
     if (response.data) {
       yield put(
-        fetchEmployeeLeaveRequestFinished(
+        fetchEmployeeLeaveRequestDetailsFinished(
           assignColorToLeaveType(response.data),
         ),
       );
+    } else {
+      yield put(fetchEmployeeLeaveRequestDetailsFinished(undefined, true));
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Leave Details',
+        ),
+        TYPE_ERROR,
+      );
+    }
+  } catch (error) {
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Leave Details'),
+      TYPE_ERROR,
+    );
+    yield put(fetchEmployeeLeaveRequestFinished(undefined, true));
+  } finally {
+    yield closeLoader();
+  }
+}
+
+function* fetchEmployeeLeaves(action: FetchEmployeeLeavesAction) {
+  try {
+    yield openLoader();
+    const response: ApiResponse<LeaveDetailedModel[]> = yield apiCall(
+      apiGetCall,
+      prepare(API_ENDPOINT_LEAVES, {leaveRequestId: action.leaveRequestId}),
+    );
+
+    if (response.data) {
+      yield put(fetchEmployeeLeaveRequestFinished(response.data));
     } else {
       yield put(fetchEmployeeLeaveRequestFinished(undefined, true));
       yield showSnackMessage(
@@ -124,25 +181,99 @@ function* fetchEmployeeLeaveRequest(action: FetchEmployeeLeaveRequestAction) {
   }
 }
 
+function* fetchLeaveComment(action: FetchLeaveCommentAction) {
+  try {
+    yield openLoader();
+    const response: ApiResponse<LeaveRequestCommentModel[]> = yield apiCall(
+      apiGetCall,
+      prepare(API_ENDPOINT_LEAVE_COMMENT, {
+        leaveRequestId: action.leaveRequestId,
+      }),
+    );
+
+    if (response.data) {
+      yield put(fetchEmployeeLeaveCommentFinished(response.data));
+    } else {
+      yield put(fetchEmployeeLeaveCommentFinished(undefined, true));
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Leave Details',
+        ),
+        TYPE_ERROR,
+      );
+    }
+  } catch (error) {
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Leave Details'),
+      TYPE_ERROR,
+    );
+    yield put(fetchEmployeeLeaveCommentFinished(undefined, true));
+  } finally {
+    yield closeLoader();
+  }
+}
+
 function* changeEmployeeLeaveRequestStatus(
   action: ChangeEmployeeLeaveRequestStatusAction,
 ) {
   try {
     yield openLoader();
-    const response = yield apiCall(
-      apiPostCall,
-      prepare(API_ENDPOINT_LEAVE_REQUEST, {id: action.leaveRequestId}),
-      action.action,
+
+    const response: ApiResponse<LeaveRequestDetailedModel> = yield apiCall(
+      apiPutCall,
+      prepare(
+        API_ENDPOINT_LEAVE_REQUEST_DETAILS,
+        {leaveRequestId: action.leaveRequestId},
+        {model: 'detailed'},
+      ),
+      {action: action.status},
     );
 
-    if (response.success) {
-      //re-fetch with updated leave request data
-      yield put(fetchEmployeeLeaveRequestAction(action.leaveRequestId));
-      yield showSnackMessage(
-        action.action.actionType === ACTION_TYPE_CHANGE_STATUS
-          ? 'Successfully Updated'
-          : 'Successfully Saved',
+    if (response.data) {
+      yield put(
+        fetchEmployeeLeaveRequestDetailsFinished(
+          assignColorToLeaveType(response.data),
+        ),
       );
+      yield showSnackMessage('Successfully Updated');
+    } else {
+      yield put(fetchEmployeeLeaveRequestDetailsFinished(undefined, true));
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Update Leave Request',
+        ),
+        TYPE_ERROR,
+      );
+    }
+  } catch (error) {
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Update Leave Request'),
+      TYPE_ERROR,
+    );
+  } finally {
+    yield closeLoader();
+  }
+}
+
+function* addEmployeeLeaveRequestComment(
+  action: AddEmployeeLeaveRequestCommentAction,
+) {
+  try {
+    yield openLoader();
+    const response: ApiResponse<LeaveRequestCommentModel> = yield apiCall(
+      apiPostCall,
+      prepare(API_ENDPOINT_LEAVE_COMMENT, {
+        leaveRequestId: action.leaveRequestId,
+      }),
+      {comment: action.comment},
+    );
+
+    if (response.data) {
+      //re-fetch with added leave comments
+      yield put(fetchLeaveCommentAction(action.leaveRequestId));
+      yield showSnackMessage('Successfully Saved');
     } else {
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(
@@ -164,9 +295,18 @@ function* changeEmployeeLeaveRequestStatus(
 
 export function* watchLeaveListActions() {
   yield takeEvery(FETCH_LEAVE_LIST, fetchLeaveList);
-  yield takeEvery(FETCH_EMPLOYEE_LEAVE_REQUEST, fetchEmployeeLeaveRequest);
+  yield takeEvery(FETCH_EMPLOYEE_LEAVES, fetchEmployeeLeaves);
+  yield takeEvery(
+    FETCH_EMPLOYEE_LEAVE_REQUEST_DETAILS,
+    fetchEmployeeLeaveRequestDetails,
+  );
+  yield takeEvery(FETCH_LEAVE_COMMENT, fetchLeaveComment);
   yield takeEvery(
     CHANGE_EMPLOYEE_LEAVE_REQUEST_STATUS,
     changeEmployeeLeaveRequestStatus,
+  );
+  yield takeEvery(
+    ADD_EMPLOYEE_LEAVE_REQUEST_COMMENT,
+    addEmployeeLeaveRequestComment,
   );
 }

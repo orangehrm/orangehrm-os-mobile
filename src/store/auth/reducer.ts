@@ -35,6 +35,7 @@ const initialState: AuthState = {
   isCalledMyInfo: false,
   isFinishedMyInfo: false,
   checkingInstance: false,
+  isAuthenticated: false,
 };
 
 const authReducer = (
@@ -67,6 +68,7 @@ const authReducer = (
       return {
         ...state,
         checkingInstance: false,
+        isAuthenticated: true,
         instanceExists: action.error === undefined ? undefined : !action.error,
       };
     case FETCH_ENABLED_MODULES_FINISHED:

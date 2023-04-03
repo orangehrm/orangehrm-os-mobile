@@ -77,7 +77,7 @@ export const pickAssignLeaveToDate = (date?: string): PickToDateAction => ({
  * @param payload
  */
 export const saveSingleDayLeaveRequest = (
-  empNumber: string,
+  empNumber: number,
   payload: $PropertyType<AssignSingleDayLeaveRequestAction, 'payload'>,
 ): AssignSingleDayLeaveRequestAction => ({
   type: ASSIGN_SINGLE_DAY_LEAVE_REQUEST,
@@ -90,7 +90,7 @@ export const saveSingleDayLeaveRequest = (
  * @param payload
  */
 export const saveMultipleDayLeaveRequest = (
-  empNumber: string,
+  empNumber: number,
   payload: $PropertyType<AssignMultipleDayLeaveRequestAction, 'payload'>,
 ): AssignMultipleDayLeaveRequestAction => ({
   type: ASSIGN_MULTIPLE_DAY_LEAVE_REQUEST,
@@ -135,7 +135,7 @@ export const resetAssignLeaveWithoutSubordinates =
   });
 
 export const fetchSubordinateLeaveEntitlements = (
-  empNumber: string,
+  empNumber: number,
 ): FetchSubordinateLeaveEntitlementAction => ({
   type: FETCH_SUBORDINATE_LEAVE_ENTITLEMENT,
   empNumber,
@@ -154,14 +154,17 @@ export const fetchSubordinateLeaveEntitlementsFinished = (
 });
 
 export const selectSubordinateLeaveType = (
-  id: string,
+  id: number,
 ): SelectSubordinateLeaveTypeAction => ({
   type: SELECT_SUBORDINATE_LEAVE_TYPE,
   id,
 });
 
-export const fetchSubordinates = (): FetchSubordinatesAction => ({
+export const fetchSubordinates = (
+  nameOrId: string,
+): FetchSubordinatesAction => ({
   type: FETCH_SUBORDINATES,
+  nameOrId,
 });
 
 export const fetchSubordinatesFinished = (
@@ -180,7 +183,7 @@ export const pickSubordinate = (
   subordinate,
 });
 
-export const fetchWorkShift = (empNumber: string): FetchWorkShiftAction => ({
+export const fetchWorkShift = (empNumber: number): FetchWorkShiftAction => ({
   type: FETCH_WORK_SHIFT,
   empNumber,
 });

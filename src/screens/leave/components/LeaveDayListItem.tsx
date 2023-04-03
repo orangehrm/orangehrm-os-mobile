@@ -23,12 +23,12 @@ import {View, StyleSheet} from 'react-native';
 import Text from 'components/DefaultText';
 import FormattedDate from 'components/FormattedDate';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {Leave} from 'store/leave/leave-usage/types';
-import {LEAVE_STATUS_MAP} from 'lib/helpers/leave';
+import {LeaveDetailedModel} from 'store/leave/leave-list/types';
 
 class LeaveDayListItem extends React.Component<LeaveDayListItemProps> {
   render() {
     const {theme, leave} = this.props;
+
     return (
       <>
         <View
@@ -44,14 +44,12 @@ class LeaveDayListItem extends React.Component<LeaveDayListItemProps> {
               paddingVertical: theme.spacing,
               paddingRight: theme.spacing * 4,
             }}>
-            <FormattedDate>{leave.date}</FormattedDate>
+            <FormattedDate>{leave.dates.fromDate}</FormattedDate>
           </View>
           <View style={styles.flex}>
-            <Text style={[styles.statusText]}>
-              {LEAVE_STATUS_MAP[leave.status]}
-            </Text>
+            <Text style={[styles.statusText]}>{leave.leaveStatus.name}</Text>
             <Text style={[{fontSize: theme.typography.smallFontSize}]}>
-              {leave.duration}
+              {leave.lengthHours.toFixed(2)}
               {' Hours'}
             </Text>
           </View>
@@ -62,7 +60,7 @@ class LeaveDayListItem extends React.Component<LeaveDayListItemProps> {
 }
 
 interface LeaveDayListItemProps extends WithTheme {
-  leave: Leave;
+  leave: LeaveDetailedModel;
 }
 
 const styles = StyleSheet.create({

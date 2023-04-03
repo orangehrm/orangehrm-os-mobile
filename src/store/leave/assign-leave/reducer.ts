@@ -46,7 +46,7 @@ import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
 const initialState: AssignLeaveState = {
   duration: {
-    singleType: FULL_DAY,
+    duration: {type: FULL_DAY},
   },
   partialOption: {
     partialOption: PARTIAL_OPTION_NONE,

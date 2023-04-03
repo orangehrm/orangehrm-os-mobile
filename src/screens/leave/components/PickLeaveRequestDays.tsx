@@ -34,7 +34,6 @@ import {navigate} from 'lib/helpers/navigation';
 import {isSingleDayRequest, isMultipleDayRequest} from 'lib/helpers/leave';
 import {
   FULL_DAY,
-  HALF_DAY,
   HALF_DAY_MORNING,
   HALF_DAY_AFTERNOON,
   SPECIFY_TIME,
@@ -67,20 +66,14 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
 
   getSelectedTextForDuration = () => {
     const {duration} = this.props;
-    if (duration.singleType === FULL_DAY) {
+    if (duration.duration.type === FULL_DAY) {
       return 'Full Day';
-    } else if (
-      duration.singleType === HALF_DAY &&
-      duration.singleAMPM === HALF_DAY_MORNING
-    ) {
+    } else if (duration.duration.type === HALF_DAY_MORNING) {
       return 'Half Day - Morning';
-    } else if (
-      duration.singleType === HALF_DAY &&
-      duration.singleAMPM === HALF_DAY_AFTERNOON
-    ) {
+    } else if (duration.duration.type === HALF_DAY_AFTERNOON) {
       return 'Half Day - Afternoon';
-    } else if (duration.singleType === SPECIFY_TIME) {
-      return duration.singleFromTime + ' - ' + duration.singleToTime;
+    } else if (duration.duration.type === SPECIFY_TIME) {
+      return duration.duration.fromTime + ' - ' + duration.duration.toTime;
     }
     return undefined;
   };
@@ -107,52 +100,40 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
     if (
       partialOption.partialOption === PARTIAL_OPTION_ALL ||
       partialOption.partialOption === PARTIAL_OPTION_START ||
+      partialOption.partialOption === PARTIAL_OPTION_END ||
       partialOption.partialOption === PARTIAL_OPTION_START_END
     ) {
       const name =
         partialOption.partialOption === PARTIAL_OPTION_ALL
           ? 'All Days:'
           : 'Start Day:';
-      if (
-        partialOption.startDayType === HALF_DAY &&
-        partialOption.startDayAMPM === HALF_DAY_MORNING
-      ) {
+      if (partialOption.duration.type === HALF_DAY_MORNING) {
         details.push({name, value: 'Half Day - Morning'});
-      } else if (
-        partialOption.startDayType === HALF_DAY &&
-        partialOption.startDayAMPM === HALF_DAY_AFTERNOON
-      ) {
+      } else if (partialOption.duration.type === HALF_DAY_AFTERNOON) {
         details.push({name, value: 'Half Day - Afternoon'});
-      } else if (partialOption.startDayType === SPECIFY_TIME) {
+      } else if (partialOption.duration.type === SPECIFY_TIME) {
         details.push({
           name,
           value:
-            partialOption.startDayFromTime +
+            partialOption.duration.fromTime +
             ' - ' +
-            partialOption.startDayToTime,
+            partialOption.duration.toTime,
         });
       }
     }
-    if (
-      partialOption.partialOption === PARTIAL_OPTION_END ||
-      partialOption.partialOption === PARTIAL_OPTION_START_END
-    ) {
+    if (partialOption.partialOption === PARTIAL_OPTION_START_END) {
       const name = 'End Day:';
-      if (
-        partialOption.endDayType === HALF_DAY &&
-        partialOption.endDayAMPM === HALF_DAY_MORNING
-      ) {
+      if (partialOption.endDuration.type === HALF_DAY_MORNING) {
         details.push({name, value: 'Half Day - Morning'});
-      } else if (
-        partialOption.endDayType === HALF_DAY &&
-        partialOption.endDayAMPM === HALF_DAY_AFTERNOON
-      ) {
+      } else if (partialOption.endDuration.type === HALF_DAY_AFTERNOON) {
         details.push({name, value: 'Half Day - Afternoon'});
-      } else if (partialOption.endDayType === SPECIFY_TIME) {
+      } else if (partialOption.endDuration.type === SPECIFY_TIME) {
         details.push({
           name,
           value:
-            partialOption.endDayFromTime + ' - ' + partialOption.endDayToTime,
+            partialOption.endDuration.fromTime +
+            ' - ' +
+            partialOption.endDuration.toTime,
         });
       }
     }

@@ -25,9 +25,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput as RNTextInput,
-  RefreshControl,
   Platform,
 } from 'react-native';
+import {debounce, DebouncedFunc} from 'lodash';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import SafeAreaLayout from 'layouts/SafeAreaLayout';
@@ -41,25 +41,24 @@ import {
   PickEmployeeRouteParams,
   PickEmployeeNavigationProp,
 } from 'screens/leave/navigators';
-import {Employee} from 'screens/leave/navigators';
 import {getFirstAndLastNames} from 'lib/helpers/name';
 import {selectSubordinates} from 'store/leave/assign-leave/selectors';
+import {fetchSubordinates} from 'store/leave/assign-leave/actions';
+import {Subordinate} from 'store/leave/assign-leave/types';
 
 class PickEmployee extends React.Component<PickEmployeeProps> {
   inputRef: RNTextInput | null;
+  fetchSubordinates: DebouncedFunc<(text: string) => {}>;
 
   constructor(props: PickEmployeeProps) {
     super(props);
     this.inputRef = null;
+    this.fetchSubordinates = debounce((text: string) => {
+      props.fetchSubordinates(text);
+    }, 500);
   }
 
-  filterFunction = (text: string) => (item: Employee) => {
-    const fullName = item.firstName + ' ' + item.lastName;
-    const regex = new RegExp(text, 'i');
-    return item.employeeId.includes(text) || regex.test(fullName);
-  };
-
-  pickEmployee = (employee: Employee) => () => {
+  pickEmployee = (employee: Subordinate) => () => {
     const {route, navigation} = this.props;
     const {pickEmployee} = route.params;
     pickEmployee(employee);
@@ -74,18 +73,18 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
     }
   };
 
+  onChangeText = (text: string) => {
+    const {route, navigation} = this.props;
+    const {setTextValue} = route.params;
+    navigation.setParams({textValue: text});
+    setTextValue(text);
+
+    this.fetchSubordinates(text);
+  };
+
   render() {
-    const {theme, route, navigation, employees} = this.props;
-    const {textValue, setTextValue, onRefresh} = route.params;
-
-    let filteredData;
-    if (textValue !== '') {
-      const filterFn = this.filterFunction(textValue);
-      filteredData = employees?.filter(filterFn);
-    } else {
-      filteredData = employees;
-    }
-
+    const {theme, route, employees} = this.props;
+    const {textValue} = route.params;
     const paddingRight = theme.spacing * 6;
 
     return (
@@ -111,10 +110,8 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
               }}
               autoFocus
               value={textValue}
-              onChangeText={(text) => {
-                navigation.setParams({textValue: text});
-                setTextValue(text);
-              }}
+              onChangeText={this.onChangeText}
+              onPressIn={this.onPressEmployeePicker}
               style={[
                 {
                   paddingRight,
@@ -131,7 +128,7 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
             />
           </View>
           <View style={[styles.row, styles.flex]}>
-            {filteredData === undefined || filteredData.length === 0 ? (
+            {employees?.length === 0 ? (
               <View style={[styles.row, styles.flex, styles.center]}>
                 <Text
                   style={{
@@ -153,7 +150,7 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
                     }}
                   />
                 }
-                data={filteredData}
+                data={employees}
                 renderItem={({item}) => {
                   const fullName = getFirstAndLastNames(item);
                   return (
@@ -189,11 +186,8 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
                     </TouchableOpacity>
                   );
                 }}
-                keyExtractor={(item) => item.empNumber}
+                keyExtractor={(item) => item.empNumber.toString()}
                 keyboardShouldPersistTaps="handled"
-                refreshControl={
-                  <RefreshControl refreshing={false} onRefresh={onRefresh} />
-                }
               />
             )}
           </View>
@@ -245,7 +239,11 @@ const mapStateToProps = (state: RootState) => ({
   employees: selectSubordinates(state),
 });
 
-const connector = connect(mapStateToProps);
+const mapDispatchToProps = {
+  fetchSubordinates: fetchSubordinates,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 const PickEmployeeWithTheme = withTheme<PickEmployeeProps>()(PickEmployee);
 

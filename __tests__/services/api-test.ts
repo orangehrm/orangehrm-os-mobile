@@ -20,6 +20,8 @@
 
 import moment from 'moment';
 import {
+  getExpiredAt,
+  getExpiredAtByLifetime,
   isAccessTokenExpired,
   getMessageAlongWithGenericErrors,
   getMessageAlongWithResponseErrors,
@@ -27,6 +29,29 @@ import {
 import {AuthenticationError} from 'services/errors/authentication';
 
 describe('services/api', () => {
+  test('getExpiredAtByLifetime', () => {
+    const expiredAt = new Date();
+    expiredAt.setSeconds(expiredAt.getSeconds() + 3600);
+    expiredAt.setMinutes(expiredAt.getMinutes() - 3);
+    const result = getExpiredAtByLifetime(3600);
+
+    const resultDate = new Date(result);
+    expect(resultDate.getFullYear()).toBe(expiredAt.getFullYear());
+    expect(resultDate.getMonth()).toBe(expiredAt.getMonth());
+    expect(resultDate.getDate()).toBe(expiredAt.getDate());
+    expect(resultDate.getHours()).toBe(expiredAt.getHours());
+    expect(resultDate.getMinutes()).toBe(expiredAt.getMinutes());
+    expect(resultDate.getSeconds()).toBe(expiredAt.getSeconds());
+  });
+
+  test('getExpiredAt', () => {
+    let result = getExpiredAt('2023-03-27T13:40:03Z');
+    expect(result).toBe('2023-03-27T13:37:03.000Z');
+
+    result = getExpiredAt('2023-03-27T13:40:03.000Z');
+    expect(result).toBe('2023-03-27T13:37:03.000Z');
+  });
+
   test('isAccessTokenExpired::check with null', () => {
     const result = isAccessTokenExpired(null);
     expect(result).toBeTruthy();
