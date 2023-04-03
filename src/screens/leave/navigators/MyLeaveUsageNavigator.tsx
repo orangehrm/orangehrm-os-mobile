@@ -38,7 +38,10 @@ import HeaderMenuIcon from 'components/HeaderMenuIcon';
 import HeaderBackIcon from 'components/HeaderBackIcon';
 import {getHeaderStyle} from 'lib/helpers/header';
 import {LeaveRequestDetailedModel} from 'store/leave/leave-list/types';
-import {LeaveDaysParamList, LeaveCommentsParam} from 'screens/leave/navigators';
+import {
+  LeaveDaysParamList,
+  LeaveCommentsParamList,
+} from 'screens/leave/navigators';
 
 const Stack = createStackNavigator<MyLeaveUsageNavigatorParamList>();
 
@@ -110,8 +113,8 @@ export type MyLeaveUsageNavigatorParamList = {
   [MY_LEAVE_ENTITLEMENT_AND_USAGE]: {};
   [MY_LEAVE]: {};
   [MY_LEAVE_DETAILS]: MyLeaveDetailsParam;
-  [LEAVE_COMMENTS]: LeaveCommentsParam;
-} & LeaveDaysParamList;
+} & LeaveDaysParamList &
+  LeaveCommentsParamList;
 
 export interface MyLeaveDetailsParam {
   leaveRequest: LeaveRequestDetailedModel;

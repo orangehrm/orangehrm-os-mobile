@@ -152,46 +152,39 @@ class LeaveDetails extends React.Component<
                   },
                 ]}>
                 <View>
-                  {employeeLeaveRequest.allowedActions.map((item) => {
-                    if (item.action === ACTION_CANCEL) {
-                      return (
-                        <Button
-                          title={'Cancel'}
-                          bordered
-                          primary
-                          onPress={this.onPressCancelLeave}
-                        />
-                      );
-                    } else {
-                      return null;
-                    }
-                  })}
+                  {employeeLeaveRequest.allowedActions.filter(
+                    (item) => item.action === ACTION_CANCEL,
+                  ).length !== 0 ? (
+                    <Button
+                      title={'Cancel'}
+                      bordered
+                      primary
+                      onPress={this.onPressCancelLeave}
+                    />
+                  ) : null}
                 </View>
                 <View style={styles.row}>
-                  {employeeLeaveRequest.allowedActions.map((item) => {
-                    if (item.action === ACTION_REJECT) {
-                      return (
-                        <Button
-                          title={'Reject'}
-                          bordered
-                          primary
-                          onPress={this.onPressRejectLeave}
-                        />
-                      );
-                    } else if (item.action === ACTION_APPROVE) {
-                      return (
-                        <View style={{paddingLeft: theme.spacing * 2}}>
-                          <Button
-                            title={'Approve'}
-                            primary
-                            onPress={this.onPressApproveLeave}
-                          />
-                        </View>
-                      );
-                    } else {
-                      return null;
-                    }
-                  })}
+                  {employeeLeaveRequest.allowedActions.filter(
+                    (item) => item.action === ACTION_REJECT,
+                  ).length !== 0 ? (
+                    <Button
+                      title={'Reject'}
+                      bordered
+                      primary
+                      onPress={this.onPressRejectLeave}
+                    />
+                  ) : null}
+                  {employeeLeaveRequest.allowedActions.filter(
+                    (item) => item.action === ACTION_APPROVE,
+                  ).length !== 0 ? (
+                    <View style={{paddingLeft: theme.spacing * 2}}>
+                      <Button
+                        title={'Approve'}
+                        primary
+                        onPress={this.onPressApproveLeave}
+                      />
+                    </View>
+                  ) : null}
                 </View>
               </View>
             ) : null}

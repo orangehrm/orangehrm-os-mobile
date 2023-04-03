@@ -107,7 +107,10 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
     }
   };
 
-  const fullName = getFullName(myInfo?.employee);
+  let fullName = '';
+  if (myInfo?.employee !== undefined) {
+    fullName = getFullName(myInfo?.employee);
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
