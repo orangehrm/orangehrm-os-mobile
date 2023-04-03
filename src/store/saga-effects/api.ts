@@ -19,7 +19,7 @@
  */
 
 import {call, put, take} from 'redux-saga/effects';
-import {isAccessTokenExpired} from 'services/api';
+import {isAccessTokenExpired, getExpiredAtByLifetime} from 'services/api';
 import {getNewAccessToken} from 'services/authentication';
 import {
   ACCESS_TOKEN,
@@ -34,10 +34,16 @@ import {
   SET_FETCHING_ACCESS_TOKEN_LOCK,
   SetFetchingAccessTokenLockAction,
 } from 'store/storage/types';
-import {getExpiredAt} from 'store/auth/helper';
 import {AuthParams} from 'store/storage/types';
 import {logout, fetchNewAuthTokenFinished} from 'store/auth/actions';
 import {AuthenticationError} from 'services/errors/authentication';
+
+export interface ApiResponse<Data, Meta = {}> {
+  data: Data;
+  meta: Meta;
+  // eslint-disable-next-line no-undef
+  getResponse: () => Response;
+}
 
 export function* apiCall<Fn extends (...args: any[]) => any>(
   fn: Fn,
@@ -70,7 +76,15 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
         authParams.instanceUrl,
         authParams.refreshToken,
       );
-      const data = yield call([response, response.json]);
+      const data: {
+        access_token: string;
+        refresh_token: string;
+        token_type: string;
+        expires_in: number;
+        scope: string; // TODO
+        error?: string;
+        error_description?: string;
+      } = yield call([response, response.json]);
 
       if (data.access_token) {
         yield storageSetMulti({
@@ -81,10 +95,11 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
             }),
           [TOKEN_TYPE]: data.token_type,
           [SCOPE]: data.scope,
-          [EXPIRES_AT]: getExpiredAt(data.expires_in),
+          [EXPIRES_AT]: getExpiredAtByLifetime(data.expires_in),
         });
         yield put(fetchNewAuthTokenFinished());
       } else {
+        // TODO
         if (data.error === 'authentication_failed') {
           // employee not assigned, terminated, disabled
           yield put(logout());

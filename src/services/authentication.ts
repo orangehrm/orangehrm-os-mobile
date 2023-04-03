@@ -18,7 +18,7 @@
  *
  */
 
-import {API_ENDPOINT_AUTH_ISSUE_TOKEN} from 'services/endpoints';
+import {OAUTH_ENDPOINT_TOKEN} from 'services/endpoints';
 
 export const PUBLIC_MOBILE_CLIENT_ID = 'orangehrm_mobile_app';
 export const REQUIRED_SCOPE = 'user';
@@ -46,7 +46,7 @@ export const checkLegacyInstance = (instanceUrl: string) => {
 };
 
 export const authRequest = (instanceUrl: string, body: object) => {
-  const authEndpoint = instanceUrl + API_ENDPOINT_AUTH_ISSUE_TOKEN;
+  const authEndpoint = instanceUrl + OAUTH_ENDPOINT_TOKEN;
 
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');

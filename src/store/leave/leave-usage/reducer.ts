@@ -28,9 +28,10 @@ import {
   FETCH_MY_LEAVE_DETAILS,
   FETCH_MY_LEAVE_DETAILS_FINISHED,
   CHANGE_MY_LEAVE_REQUEST_STATUS,
+  FETCH_MY_LEAVE_COMMENTS,
+  FETCH_MY_LEAVE_COMMENT_FINISHED,
   SET_ERROR_MESSAGE,
 } from 'store/leave/leave-usage/types';
-import {ACTION_TYPE_CHANGE_STATUS} from 'store/leave/leave-list/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
 const initialState: LeaveUsageState = {};
@@ -55,7 +56,7 @@ const leaveUsageReducer = (
 
       return {
         ...state,
-        leaveRequest: action.payload?.slice(),
+        leaveRequests: action.payload?.slice(),
         leaveRequestDetail: initialState.leaveRequestDetail,
       };
     case SELECT_LEAVE_TYPE:
@@ -76,15 +77,22 @@ const leaveUsageReducer = (
       };
     case CHANGE_MY_LEAVE_REQUEST_STATUS:
       //reset my leave list, entitlements for refresh the my leave list only with state changes
-      if (action.action.actionType === ACTION_TYPE_CHANGE_STATUS) {
-        return {
-          ...state,
-          leaveRequest: initialState.leaveRequest,
-          entitlement: initialState.entitlement,
-        };
-      } else {
-        return state;
-      }
+      return {
+        ...state,
+        leaveRequests: initialState.leaveRequests,
+        entitlement: initialState.entitlement,
+      };
+    case FETCH_MY_LEAVE_COMMENTS:
+      //reset current value when new fetch triggers
+      return {
+        ...state,
+        leaveComments: initialState.leaveComments,
+      };
+    case FETCH_MY_LEAVE_COMMENT_FINISHED:
+      return {
+        ...state,
+        leaveComments: action.payload,
+      };
     case SET_ERROR_MESSAGE:
       return {
         ...state,

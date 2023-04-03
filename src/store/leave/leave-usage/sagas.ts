@@ -19,7 +19,13 @@
  */
 
 import {takeEvery, put} from 'redux-saga/effects';
-import {apiCall, apiGetCall, apiPutCall} from 'store/saga-effects/api';
+import {
+  apiCall,
+  apiGetCall,
+  apiPostCall,
+  apiPutCall,
+  ApiResponse,
+} from 'store/saga-effects/api';
 import {
   openLoader,
   closeLoader,
@@ -29,15 +35,21 @@ import {
   FETCH_MY_LEAVE_ENTITLEMENT,
   FETCH_MY_LEAVE_REQUEST,
   FETCH_MY_LEAVE_DETAILS,
+  FETCH_MY_LEAVE_COMMENTS,
+  ADD_MY_LEAVE_REQUEST_COMMENT,
   CHANGE_MY_LEAVE_REQUEST_STATUS,
   FetchMyLeaveRequestDetailsAction,
   ChangeMyLeaveRequestStatusAction,
+  AddMyLeaveRequestCommentAction,
+  FetchMyLeaveCommentAction,
+  EntitlementSummaryModel,
 } from 'store/leave/leave-usage/types';
 import {
   fetchMyLeaveEntitlementsFinished,
   fetchMyLeaveRequestsFinished,
   fetchMyLeaveDetailsFinished,
-  fetchMyLeaveDetails as fetchMyLeaveDetailsAction,
+  fetchMyLeaveComments,
+  fetchMyLeaveCommentFinished,
   setErrorMessage,
 } from 'store/leave/leave-usage/actions';
 import {setErrorMessage as setApplyLeaveErrorMessage} from 'store/leave/apply-leave/actions';
@@ -47,59 +59,64 @@ import {
 } from 'lib/helpers/leave';
 import {TYPE_ERROR} from 'store/globals/types';
 import {
+  API_ENDPOINT_LEAVE_COMMENT,
   API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT,
   API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
-  API_ENDPOINT_LEAVE_REQUEST_DETAILS,
+  API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST_DETAILS,
   prepare,
 } from 'services/endpoints';
 import {
   getMessageAlongWithGenericErrors,
   getMessageAlongWithResponseErrors,
-  HTTP_NOT_FOUND,
 } from 'services/api';
-import {ACTION_TYPE_CHANGE_STATUS} from 'store/leave/leave-list/types';
+import {
+  LeaveRequestDetailedModel,
+  LeaveRequestCommentModel,
+} from 'store/leave/leave-list/types';
 
 function* fetchMyLeaveEntitlements() {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<EntitlementSummaryModel[]> = yield apiCall(
       apiGetCall,
-      API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT,
-      false,
+      prepare(API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT, {}, {model: 'summary'}),
     );
     // clear error messages
     yield put(setErrorMessage());
     yield put(setApplyLeaveErrorMessage());
     if (response.data) {
-      yield put(
-        fetchMyLeaveEntitlementsFinished(
-          assignColorsToLeaveTypes(response.data),
-        ),
-      );
-    } else {
-      if (response.getResponse().status === HTTP_NOT_FOUND) {
+      if (response.data.length === 0) {
         yield put(fetchMyLeaveEntitlementsFinished([]));
         const message =
           'There Are No Entitlement Added, Please Contact Your System Administrator.';
         yield put(setErrorMessage(message));
         yield put(setApplyLeaveErrorMessage(message));
-      } else if (response.error[0] === 'No Leave Types Defined.') {
-        const message =
-          'There Are No Leave Types Defined, Please Contact Your System Administrator.';
-        yield put(setErrorMessage(message));
-        yield put(setApplyLeaveErrorMessage(message));
-      } else if (
-        response.error[0] !== 'Leave Period Start Date Is Not Defined.'
-      ) {
-        yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
-        yield showSnackMessage(
-          getMessageAlongWithResponseErrors(
-            response,
-            'Failed to Fetch Leave Details',
+      } else {
+        yield put(
+          fetchMyLeaveEntitlementsFinished(
+            assignColorsToLeaveTypes(response.data),
           ),
-          TYPE_ERROR,
         );
       }
+    } else {
+      // TODO::  handle errors
+      // if (response.error[0] === 'No Leave Types Defined.') {
+      //   const message =
+      //     'There Are No Leave Types Defined, Please Contact Your System Administrator.';
+      //   yield put(setErrorMessage(message));
+      //   yield put(setApplyLeaveErrorMessage(message));
+      // } else if (
+      //   response.error[0] !== 'Leave Period Start Date Is Not Defined.'
+      // ) {
+      //   yield put(fetchMyLeaveEntitlementsFinished(undefined, true));
+      //   yield showSnackMessage(
+      //     getMessageAlongWithResponseErrors(
+      //       response,
+      //       'Failed to Fetch Leave Details',
+      //     ),
+      //     TYPE_ERROR,
+      //   );
+      // }
     }
   } catch (error) {
     yield showSnackMessage(
@@ -115,28 +132,23 @@ function* fetchMyLeaveEntitlements() {
 function* fetchMyLeaveRequests() {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveRequestDetailedModel[]> = yield apiCall(
       apiGetCall,
       API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
-      false,
     );
     if (response.data) {
       yield put(
         fetchMyLeaveRequestsFinished(assignColorsToLeaveTypes(response.data)),
       );
     } else {
-      if (response.getResponse().status === HTTP_NOT_FOUND) {
-        yield put(fetchMyLeaveRequestsFinished([]));
-      } else {
-        yield put(fetchMyLeaveRequestsFinished(undefined, true));
-        yield showSnackMessage(
-          getMessageAlongWithResponseErrors(
-            response,
-            'Failed to Fetch Leave Details',
-          ),
-          TYPE_ERROR,
-        );
-      }
+      yield put(fetchMyLeaveRequestsFinished(undefined, true));
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Leave Details',
+        ),
+        TYPE_ERROR,
+      );
     }
   } catch (error) {
     yield showSnackMessage(
@@ -152,11 +164,11 @@ function* fetchMyLeaveRequests() {
 function* fetchMyLeaveDetails(action: FetchMyLeaveRequestDetailsAction) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveRequestDetailedModel> = yield apiCall(
       apiGetCall,
       prepare(
-        API_ENDPOINT_LEAVE_REQUEST_DETAILS,
-        {id: action.leaveRequestId},
+        API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST_DETAILS,
+        {leaveRequestId: action.leaveRequestId},
         {model: 'detailed'},
       ),
     );
@@ -188,20 +200,89 @@ function* fetchMyLeaveDetails(action: FetchMyLeaveRequestDetailsAction) {
 function* changeMyLeaveRequestStatus(action: ChangeMyLeaveRequestStatusAction) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveRequestDetailedModel> = yield apiCall(
       apiPutCall,
-      prepare(API_ENDPOINT_LEAVE_REQUEST_DETAILS, {id: action.leaveRequestId}),
-      {action: action.action.status},
+      prepare(
+        API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST_DETAILS,
+        {leaveRequestId: action.leaveRequestId},
+        {model: 'detailed'},
+      ),
+      {action: action.status},
     );
 
     if (response.data) {
-      //re-fetch with updated leave request data
-      yield put(fetchMyLeaveDetailsAction(action.leaveRequestId));
-      yield showSnackMessage(
-        action.action.actionType === ACTION_TYPE_CHANGE_STATUS
-          ? 'Successfully Updated'
-          : 'Successfully Saved',
+      yield put(
+        fetchMyLeaveDetailsFinished(assignColorToLeaveType(response.data)),
       );
+      yield showSnackMessage('Successfully Updated');
+    } else {
+      yield put(fetchMyLeaveDetailsFinished(undefined, true));
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Update Leave Request',
+        ),
+        TYPE_ERROR,
+      );
+    }
+  } catch (error) {
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Update Leave Request'),
+      TYPE_ERROR,
+    );
+  } finally {
+    yield closeLoader();
+  }
+}
+
+function* fetchLeaveComment(action: FetchMyLeaveCommentAction) {
+  try {
+    yield openLoader();
+    const response: ApiResponse<LeaveRequestCommentModel[]> = yield apiCall(
+      apiGetCall,
+      prepare(API_ENDPOINT_LEAVE_COMMENT, {
+        leaveRequestId: action.leaveRequestId,
+      }),
+    );
+
+    if (response.data) {
+      yield put(fetchMyLeaveCommentFinished(response.data));
+    } else {
+      yield put(fetchMyLeaveCommentFinished(undefined, true));
+      yield showSnackMessage(
+        getMessageAlongWithResponseErrors(
+          response,
+          'Failed to Fetch Leave Details',
+        ),
+        TYPE_ERROR,
+      );
+    }
+  } catch (error) {
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Leave Details'),
+      TYPE_ERROR,
+    );
+    yield put(fetchMyLeaveCommentFinished(undefined, true));
+  } finally {
+    yield closeLoader();
+  }
+}
+
+function* addMyLeaveRequestComment(action: AddMyLeaveRequestCommentAction) {
+  try {
+    yield openLoader();
+    const response: ApiResponse<LeaveRequestCommentModel> = yield apiCall(
+      apiPostCall,
+      prepare(API_ENDPOINT_LEAVE_COMMENT, {
+        leaveRequestId: action.leaveRequestId,
+      }),
+      {comment: action.comment},
+    );
+
+    if (response.data) {
+      //re-fetch with added leave comments
+      yield put(fetchMyLeaveComments(action.leaveRequestId));
+      yield showSnackMessage('Successfully Saved');
     } else {
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(
@@ -226,4 +307,6 @@ export function* watchLeaveUsageActions() {
   yield takeEvery(FETCH_MY_LEAVE_REQUEST, fetchMyLeaveRequests);
   yield takeEvery(FETCH_MY_LEAVE_DETAILS, fetchMyLeaveDetails);
   yield takeEvery(CHANGE_MY_LEAVE_REQUEST_STATUS, changeMyLeaveRequestStatus);
+  yield takeEvery(FETCH_MY_LEAVE_COMMENTS, fetchLeaveComment);
+  yield takeEvery(ADD_MY_LEAVE_REQUEST_COMMENT, addMyLeaveRequestComment);
 }

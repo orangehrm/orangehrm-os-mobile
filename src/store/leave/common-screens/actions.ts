@@ -103,8 +103,13 @@ export const resetPickedState = (): SetPickedStateAction => ({
   state: false,
 });
 
-export const fetchHolidays = (): FetchHolidaysAction => ({
+export const fetchHolidays = (
+  fromDate: string,
+  toDate: string,
+): FetchHolidaysAction => ({
   type: FETCH_HOLIDAYS,
+  fromDate,
+  toDate,
 });
 
 export const fetchHolidaysFinished = (

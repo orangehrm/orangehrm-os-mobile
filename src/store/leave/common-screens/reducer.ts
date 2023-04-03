@@ -41,7 +41,9 @@ const initialState: CommonLeaveState = {
   pickedDuration: false,
   pickedPartialOption: false,
   duration: {
-    singleType: FULL_DAY,
+    duration: {
+      type: FULL_DAY,
+    },
   },
   partialOption: {
     partialOption: PARTIAL_OPTION_NONE,

@@ -18,7 +18,8 @@
  *
  */
 
-import {Leave, LeaveType, Entitlement} from 'store/leave/leave-usage/types';
+import {EntitlementSummaryModel} from 'store/leave/leave-usage/types';
+import {LeaveType, ColorAssignedLeaveType} from 'store/leave/leave-list/types';
 import {SubordinateEntitlement} from 'store/leave/assign-leave/types';
 import {
   SPECIFY_TIME,
@@ -43,10 +44,11 @@ export const LEAVE_TYPE_COLORS = [
   '#405040', //very dark gray
 ];
 
+// TODO::remove
 const LEAVE_STATUS_MAP = {
   REJECTED: 'Rejected',
-  Cancelled: 'Cancelled',
-  'Pending Approval': 'Pending Approval',
+  CANCELLED: 'Cancelled',
+  'PENDING APPROVAL': 'Pending Approval',
   SCHEDULED: 'Scheduled',
   TAKEN: 'Taken',
   WEEKEND: 'Weekend',
@@ -71,45 +73,32 @@ const assignColorsToLeaveTypes = <T extends Data>(data: T[]): T[] => {
  * @param data
  */
 const assignColorToLeaveType = <T extends Data>(data: T): T => {
+  let leaveTypeId = data.leaveType.id;
+  if (typeof leaveTypeId === 'string') {
+    leaveTypeId = parseInt(leaveTypeId, 10);
+  }
   return {
     ...data,
     leaveType: {
       ...data.leaveType,
-      color:
-        LEAVE_TYPE_COLORS[
-          parseInt(data.leaveType.id, 10) % LEAVE_TYPE_COLORS.length
-        ],
+      color: LEAVE_TYPE_COLORS[leaveTypeId % LEAVE_TYPE_COLORS.length],
     },
   };
 };
 
 export const assignColorsToLeaveTypeArray = (
   leaveTypes: LeaveType[],
-): LeaveType[] => {
+): ColorAssignedLeaveType[] => {
   return leaveTypes.map((leaveType) => {
+    let leaveTypeId = leaveType.id;
+    if (typeof leaveTypeId === 'string') {
+      leaveTypeId = parseInt(leaveTypeId, 10);
+    }
     return {
       ...leaveType,
-      color:
-        LEAVE_TYPE_COLORS[
-          parseInt(leaveType.id, 10) % LEAVE_TYPE_COLORS.length
-        ],
+      color: LEAVE_TYPE_COLORS[leaveTypeId % LEAVE_TYPE_COLORS.length],
     };
   });
-};
-
-const sortLeaveArrayByDate = (days: Leave[]) => {
-  const sortedDays = [...days].sort((leave1, leave2) => {
-    const leave1Date = new Date(leave1.date);
-    const leave2Date = new Date(leave2.date);
-    if (leave1Date < leave2Date) {
-      return -1;
-    }
-    if (leave1Date > leave2Date) {
-      return 1;
-    }
-    return 0;
-  });
-  return sortedDays;
 };
 
 /**
@@ -174,27 +163,27 @@ const isValidPartialOptionSpecifyTime = (
   if (
     (partialOption?.partialOption === PARTIAL_OPTION_ALL ||
       partialOption?.partialOption === PARTIAL_OPTION_START ||
-      partialOption?.partialOption === PARTIAL_OPTION_START_END) &&
-    partialOption.startDayType === SPECIFY_TIME
+      partialOption?.partialOption === PARTIAL_OPTION_START_END ||
+      partialOption?.partialOption === PARTIAL_OPTION_END) &&
+    partialOption.duration.type === SPECIFY_TIME
   ) {
     if (
       !isFromTimeLessThanToTime(
-        partialOption.startDayFromTime,
-        partialOption.startDayToTime,
+        partialOption.duration.fromTime,
+        partialOption.duration.toTime,
       )
     ) {
       return false;
     }
   }
   if (
-    (partialOption?.partialOption === PARTIAL_OPTION_END ||
-      partialOption?.partialOption === PARTIAL_OPTION_START_END) &&
-    partialOption.endDayType === SPECIFY_TIME
+    partialOption?.partialOption === PARTIAL_OPTION_START_END &&
+    partialOption.endDuration.type === SPECIFY_TIME
   ) {
     if (
       !isFromTimeLessThanToTime(
-        partialOption.endDayFromTime,
-        partialOption.endDayToTime,
+        partialOption.endDuration.fromTime,
+        partialOption.endDuration.toTime,
       )
     ) {
       return false;
@@ -220,7 +209,6 @@ export {
   assignColorsToLeaveTypes,
   assignColorToLeaveType,
   LEAVE_STATUS_MAP,
-  sortLeaveArrayByDate,
   isSingleDayRequest,
   isMultipleDayRequest,
   getTimeValuesForSlider,
@@ -235,19 +223,19 @@ export {
  */
 export const getEntitlementWithZeroBalanced = (
   entitlements?: SubordinateEntitlement[],
-): Entitlement[] | undefined => {
+): EntitlementSummaryModel[] | undefined => {
   if (entitlements === undefined) {
     return entitlements;
   }
 
-  const entitlementsArray: Entitlement[] = [];
+  const entitlementsArray: EntitlementSummaryModel[] = [];
 
   entitlements.forEach((subordinateEntitlement) => {
     if (subordinateEntitlement.id === undefined) {
-      subordinateEntitlement.id = `${subordinateEntitlement.leaveType.id}-${subordinateEntitlement.leaveType.type}`;
+      subordinateEntitlement.id = `${subordinateEntitlement.leaveType.id}-${subordinateEntitlement.leaveType.name}`;
     }
     entitlementsArray.push({
-      ...(subordinateEntitlement as Entitlement),
+      ...(subordinateEntitlement as EntitlementSummaryModel),
     });
   });
   return entitlementsArray;

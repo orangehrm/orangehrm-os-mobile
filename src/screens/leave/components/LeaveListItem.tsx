@@ -30,7 +30,8 @@ import Chip from 'components/DefaultChip';
 import Avatar from 'components/DefaultAvatar';
 import FormattedDate from 'components/FormattedDate';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {LeaveListLeaveRequest} from 'store/leave/leave-list/types';
+import {LeaveRequestDetailedModel} from 'store/leave/leave-list/types';
+import {getFirstAndLastNames} from 'lib/helpers/name';
 
 class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
   render() {
@@ -52,7 +53,7 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
                 paddingVertical: theme.spacing * 4,
                 paddingRight: theme.spacing * 4,
               }}>
-              <Avatar name={leaveRequest.employee.firstName} />
+              <Avatar name={getFirstAndLastNames(leaveRequest.employee)} />
             </View>
             <View style={styles.contentView}>
               <View style={{paddingHorizontal: theme.spacing * 2}}>
@@ -64,9 +65,7 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
                       fontSize: theme.typography.fontSize * 1.2,
                     },
                   ]}>
-                  {leaveRequest.employee.firstName +
-                    '' +
-                    leaveRequest.employee.lastName}
+                  {getFirstAndLastNames(leaveRequest.employee)}
                 </Text>
               </View>
               <View style={styles.chipView}>
@@ -134,7 +133,7 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
 interface MyLeaveListItemProps
   extends WithTheme,
     Pick<TouchableWithoutFeedbackProps, 'onPress'> {
-  leaveRequest: LeaveListLeaveRequest;
+  leaveRequest: LeaveRequestDetailedModel;
 }
 
 const styles = StyleSheet.create({

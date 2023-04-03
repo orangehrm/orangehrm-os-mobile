@@ -352,10 +352,18 @@ const getWorkWeekResultOfTheSelectedDate = (
   selectedDay?: moment.Moment,
 ) => {
   if (workweek !== undefined && selectedDay !== undefined) {
-    const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    const days = [
+      'sunday',
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+    ];
     let hours;
     days.forEach((day) => {
-      if (selectedDay.format('ddd').toLocaleLowerCase() === day) {
+      if (selectedDay.format('dddd').toLocaleLowerCase() === day) {
         const key = <MutableKeys<WorkWeek>>day;
         hours = workweek[key];
       }

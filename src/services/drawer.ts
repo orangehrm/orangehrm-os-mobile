@@ -52,12 +52,7 @@ export const getDrawerItems = (
           subheader: undefined,
           subheaderIcon: undefined,
         };
-        if (
-          !Object.prototype.hasOwnProperty.call(
-            subheaders,
-            route.params.subheader,
-          )
-        ) {
+        if (!Object.hasOwn(subheaders, route.params.subheader)) {
           item.subheader = route.params.subheader;
           item.subheaderIcon = SUBHEADER_ICONS[route.params.subheader];
           subheaders[route.params.subheader] = undefined;

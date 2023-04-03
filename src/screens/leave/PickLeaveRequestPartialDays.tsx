@@ -40,7 +40,7 @@ import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
 import PickPartialDayDuration from 'screens/leave/components/PickPartialDayDuration';
 import {
-  HALF_DAY,
+  HALF_DAY_MORNING,
   PARTIAL_OPTION_NONE,
   PARTIAL_OPTION_ALL,
   PARTIAL_OPTION_START,
@@ -148,7 +148,7 @@ class PickLeaveRequestPartialDays extends React.Component<PickLeaveRequestPartia
                 onPress={() => {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_ALL,
-                    duration: {type: HALF_DAY},
+                    duration: {type: HALF_DAY_MORNING},
                   });
                 }}
               />
@@ -161,7 +161,7 @@ class PickLeaveRequestPartialDays extends React.Component<PickLeaveRequestPartia
                 onPress={() => {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_START,
-                    duration: {type: HALF_DAY},
+                    duration: {type: HALF_DAY_MORNING},
                   });
                 }}
               />
@@ -172,7 +172,7 @@ class PickLeaveRequestPartialDays extends React.Component<PickLeaveRequestPartia
                 onPress={() => {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_END,
-                    duration: {type: HALF_DAY},
+                    duration: {type: HALF_DAY_MORNING},
                   });
                 }}
               />
@@ -185,8 +185,8 @@ class PickLeaveRequestPartialDays extends React.Component<PickLeaveRequestPartia
                 onPress={() => {
                   pickMultipleDayPartialOption({
                     partialOption: PARTIAL_OPTION_START_END,
-                    duration: {type: HALF_DAY},
-                    endDuration: {type: HALF_DAY},
+                    duration: {type: HALF_DAY_MORNING},
+                    endDuration: {type: HALF_DAY_MORNING},
                   });
                 }}
               />

@@ -39,7 +39,6 @@ import {
   selectSubordinateLeaveComment,
   selectSubordinateEntitlement,
   selectSubordinateSelectedLeaveTypeId,
-  selectSubordinates,
   selectSelectedSubordinate,
   selectWorkShift,
   selectWorkShiftFetched,
@@ -60,13 +59,13 @@ import {
   pickAssignLeaveComment,
   selectSubordinateLeaveType,
   fetchSubordinateLeaveEntitlements,
-  fetchSubordinates as fetchSubordinatesAction,
   pickSubordinate as pickSubordinateAction,
   pickAssignLeaveFromDate,
   pickAssignLeaveToDate,
   pickAssignLeaveSingleDayDuration,
   pickAssignLeaveMultipleDayPartialOption,
   fetchWorkShift,
+  fetchLeaveTypes,
 } from 'store/leave/assign-leave/actions';
 import {selectPreviousRoute, selectCurrentRoute} from 'store/globals/selectors';
 import {
@@ -111,7 +110,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
   }
 
   componentDidMount() {
-    this.updateSubordinateList();
+    this.props.fetchLeaveTypes();
     this.keyboardHide = Keyboard.addListener(
       'keyboardDidHide',
       this.onKeyboardHide,
@@ -289,15 +288,12 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
 
   updateSubordinateEntitlements = () => {
     const {selectedSubordinate} = this.props;
+    this.props.fetchLeaveTypes();
     if (selectedSubordinate !== undefined) {
       this.props.fetchSubordinateLeaveEntitlements(
         selectedSubordinate.empNumber,
       );
     }
-  };
-
-  updateSubordinateList = () => {
-    this.props.fetchSubordinates();
   };
 
   render() {
@@ -311,7 +307,6 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
       duration,
       partialOption,
       comment: commentSaved,
-      subordinates,
       selectedSubordinate,
       pickSubordinate,
       errorMessage,
@@ -321,9 +316,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
       <MainLayout
         onRefresh={
           selectedSubordinate === undefined
-            ? subordinates === undefined
-              ? this.updateSubordinateList
-              : undefined
+            ? undefined
             : this.updateSubordinateEntitlements
         }
         footer={
@@ -371,10 +364,8 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
           ]}>
           <PickSubordinate
             style={{paddingBottom: theme.spacing * 4}}
-            subordinates={subordinates}
             selectedSubordinate={selectedSubordinate}
             setSelectedSubordinate={pickSubordinate}
-            onRefreshSubordinate={this.updateSubordinateList}
           />
           {selectedSubordinate ? (
             <>
@@ -443,7 +434,6 @@ const mapStateToProps = (state: RootState) => ({
   duration: selectSubordinateDuration(state),
   partialOption: selectSubordinatePartialOption(state),
   comment: selectSubordinateLeaveComment(state),
-  subordinates: selectSubordinates(state),
   selectedSubordinate: selectSelectedSubordinate(state),
   commonFromDate: selectFromDate(state),
   commonToDate: selectToDate(state),
@@ -465,7 +455,6 @@ const mapDispatchToProps = {
   saveMultipleDayLeaveRequest: saveMultipleDayLeaveRequest,
   fetchSubordinateLeaveEntitlements: fetchSubordinateLeaveEntitlements,
   setLeaveComment: pickAssignLeaveComment,
-  fetchSubordinates: fetchSubordinatesAction,
   pickSubordinate: pickSubordinateAction,
   pickAssignLeaveFromDate: pickAssignLeaveFromDate,
   pickAssignLeaveToDate: pickAssignLeaveToDate,
@@ -475,6 +464,7 @@ const mapDispatchToProps = {
   resetCommonLeave: resetCommonLeave,
   setCommonLeaveScreensState: setCommonLeaveScreensState,
   fetchWorkShift,
+  fetchLeaveTypes,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

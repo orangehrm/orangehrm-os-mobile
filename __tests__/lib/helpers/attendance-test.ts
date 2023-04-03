@@ -38,12 +38,7 @@ import {
   formatTime,
 } from 'lib/helpers/attendance';
 import moment from 'moment';
-import {
-  WorkWeekType,
-  RECURRING_FALSE,
-  WORK_WEEK_FULL,
-  WORK_WEEK_HALF,
-} from 'store/leave/common-screens/types';
+import {Holiday, WorkWeek} from 'store/leave/common-screens/types';
 import {LeaveStatus} from 'store/leave/leave-usage/types';
 
 describe('lib/helpers/attendance', () => {
@@ -408,48 +403,51 @@ describe('lib/helpers/attendance', () => {
   });
 
   test('getHolidayRecordsOfTheSelectedDate', () => {
-    const holidays = [
+    const holidays: Holiday[] = [
       {
-        id: '1',
-        recurring: <typeof RECURRING_FALSE>'0',
-        description: 'Poya Day',
+        id: 1,
+        recurring: false,
+        name: 'Poya Day',
         date: '2020-12-03',
-        length: <typeof WORK_WEEK_HALF>'4',
+        length: 4,
+        lengthName: 'Half Day',
       },
       {
-        id: '2',
-        recurring: <typeof RECURRING_FALSE>'0',
-        description: 'Christmas Day',
+        id: 2,
+        recurring: false,
+        name: 'Christmas Day',
         date: '2020-12-25',
-        length: <typeof WORK_WEEK_FULL>'0',
+        length: 0,
+        lengthName: 'Full Day',
       },
     ];
     const selectedDay = moment('2020-12-25');
     const result = getHolidayRecordsOfTheSelectedDate(holidays, selectedDay);
     expect(result).toStrictEqual([
       {
-        id: '2',
-        recurring: '0',
-        description: 'Christmas Day',
+        id: 2,
+        recurring: false,
+        name: 'Christmas Day',
         date: '2020-12-25',
-        length: '0',
+        length: 0,
+        lengthName: 'Full Day',
       },
     ]);
   });
 
   test('getWorkWeekResultOfTheSelectedDate', () => {
-    const workweek = {
-      mon: <WorkWeekType>'0',
-      tue: <WorkWeekType>'0',
-      wed: <WorkWeekType>'0',
-      thu: <WorkWeekType>'0',
-      fri: <WorkWeekType>'0',
-      sat: <WorkWeekType>'4',
-      sun: <WorkWeekType>'8',
+    const workweek: WorkWeek = {
+      monday: 0,
+      tuesday: 0,
+      wednesday: 0,
+      thursday: 0,
+      friday: 0,
+      saturday: 4,
+      sunday: 8,
     };
     const selectedDay = moment('2020-12-26');
     const result = getWorkWeekResultOfTheSelectedDate(workweek, selectedDay);
-    expect(result).toBe('4');
+    expect(result).toBe(4);
   });
 
   test('getDurationFromHours', () => {

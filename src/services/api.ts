@@ -34,6 +34,25 @@ export const ERROR_NO_ASSIGNED_EMPLOYEE = 'ERROR_NO_ASSIGNED_EMPLOYEE';
 export const ERROR_JSON_PARSE = 'ERROR_JSON_PARSE';
 
 /**
+ * @param expiresIn Access token lifetime in seconds
+ * @returns ISO date. e.g. 2023-03-27T14:06:43.926Z
+ */
+export const getExpiredAtByLifetime = (expiresIn: number = 1800): string => {
+  const now = moment.utc();
+  const expired = now.add(expiresIn, 'seconds');
+  return getExpiredAt(expired.toISOString());
+};
+
+/**
+ * @param expiresInUTC Access token expired time in UTC
+ * @returns ISO date. e.g. 2023-03-27T14:06:43.926Z
+ */
+export const getExpiredAt = (expiresInUTC: string): string => {
+  // release 3 minutes
+  return moment(expiresInUTC).subtract(3, 'minutes').toISOString();
+};
+
+/**
  * Compare given ISO date with now.
  * @param expiredAtISO ISO date. e.g. 2020-07-28T07:01:21.152Z
  */

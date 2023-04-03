@@ -22,10 +22,9 @@ import {RootState} from 'store';
 import {createSelector} from 'reselect';
 import {
   LeaveListState,
-  LeaveListLeaveRequest,
-  EmployeeLeaveRequest,
-  EmployeeLeaveComment,
-  EmployeeLeaveDetails,
+  LeaveRequestDetailedModel,
+  LeaveRequestCommentModel,
+  LeaveDetailedModel,
 } from 'store/leave/leave-list/types';
 
 export const selectLeaveList = (state: RootState) => state.leaveList;
@@ -33,23 +32,23 @@ export const selectLeaveList = (state: RootState) => state.leaveList;
 export const selectEmployeeLeaveList = createSelector<
   RootState,
   LeaveListState,
-  LeaveListLeaveRequest[] | undefined
+  LeaveRequestDetailedModel[] | undefined
 >([selectLeaveList], (leaveList) => leaveList.leaveList);
 
 export const selectEmployeeLeaveRequest = createSelector<
   RootState,
   LeaveListState,
-  EmployeeLeaveRequest | undefined
+  LeaveRequestDetailedModel | undefined
 >([selectLeaveList], (leaveList) => leaveList.employeeLeaveRequest);
+
+export const selectEmployeeLeaves = createSelector<
+  RootState,
+  LeaveListState,
+  LeaveDetailedModel[] | undefined
+>([selectLeaveList], (leaveList) => leaveList.employeeLeaves);
 
 export const selectEmployeeLeaveComment = createSelector<
   RootState,
   LeaveListState,
-  EmployeeLeaveComment | undefined
+  LeaveRequestCommentModel[] | undefined
 >([selectLeaveList], (leaveList) => leaveList.employeeLeaveComment);
-
-export const selectEmployeeLeaveRequestDetails = createSelector<
-  RootState,
-  LeaveListState,
-  EmployeeLeaveDetails | undefined
->([selectLeaveList], (leaveList) => leaveList.employeeLeaveRequestData);

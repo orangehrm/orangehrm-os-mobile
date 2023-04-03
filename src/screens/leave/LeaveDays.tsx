@@ -26,48 +26,52 @@ import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Divider from 'components/DefaultDivider';
 import {LeaveDaysRouteParams} from 'screens/leave/navigators';
 import LeaveDayListItem from 'screens/leave/components/LeaveDayListItem';
-import {fetchEmployeeLeaveRequest} from 'store/leave/leave-list/actions';
-import {connect} from 'react-redux';
+import {fetchEmployeeLeaves} from 'store/leave/leave-list/actions';
+import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
-import {selectEmployeeLeaveRequest} from '../../store/leave/leave-list/selectors';
+import {selectEmployeeLeaves} from 'store/leave/leave-list/selectors';
 
 class LeaveDays extends React.Component<LeaveDaysProps> {
+  componentDidMount() {
+    this.onRefresh();
+  }
+
   onRefresh = () => {
     const {leaveRequest} = this.props.route.params;
-    this.props.fetchEmployeeLeaveRequest(leaveRequest.id);
+    this.props.fetchEmployeeLeaves(leaveRequest.id);
   };
 
   render() {
-    const {theme, route} = this.props;
-    const {employeeLeaveRequest} = route.params;
+    const {theme, employeeLeaves} = this.props;
     return (
       <MainLayout onRefresh={this.onRefresh}>
         <View>
-          {employeeLeaveRequest.map((leave, index) => (
-            <Fragment key={index}>
-              <LeaveDayListItem leave={leave} />
-              <View style={{paddingHorizontal: theme.spacing}}>
-                <Divider />
-              </View>
-            </Fragment>
-          ))}
+          {employeeLeaves &&
+            employeeLeaves.map((leave, index) => (
+              <Fragment key={index}>
+                <LeaveDayListItem leave={leave} />
+                <View style={{paddingHorizontal: theme.spacing}}>
+                  <Divider />
+                </View>
+              </Fragment>
+            ))}
         </View>
       </MainLayout>
     );
   }
 }
 
-interface LeaveDaysProps extends WithTheme {
+interface LeaveDaysProps extends WithTheme, ConnectedProps<typeof connector> {
   navigation: NavigationProp<ParamListBase>;
   route: LeaveDaysRouteParams;
 }
 
 const mapStateToProps = (state: RootState) => ({
-  employeeLeaveRequest: selectEmployeeLeaveRequest(state),
+  employeeLeaves: selectEmployeeLeaves(state),
 });
 
 const mapDispatchToProps = {
-  fetchEmployeeLeaveRequest: fetchEmployeeLeaveRequest,
+  fetchEmployeeLeaves: fetchEmployeeLeaves,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

@@ -25,7 +25,8 @@ import {
   MultipleDayLeaveRequest,
   WorkShift,
 } from 'store/leave/common-screens/types';
-import {Entitlement, LeaveType} from 'store/leave/leave-usage/types';
+import {EntitlementSummaryModel} from 'store/leave/leave-usage/types';
+import {ColorAssignedLeaveType} from 'store/leave/leave-list/types';
 
 export interface AssignLeaveState {
   fromDate?: string;
@@ -34,12 +35,12 @@ export interface AssignLeaveState {
   duration: SingleDayDuration;
   partialOption: MultipleDayPartialOption;
   entitlement?: SubordinateEntitlement[];
-  selectedLeaveTypeId?: string;
+  selectedLeaveTypeId?: number;
   selectedSubordinate?: Subordinate;
   subordinates?: Subordinate[];
   workShift: WorkShift;
   workShiftFetched: boolean;
-  leaveTypes?: LeaveType[];
+  leaveTypes?: ColorAssignedLeaveType[];
   errorMessage?: string;
 }
 
@@ -87,13 +88,13 @@ export interface PickToDateAction {
 export interface AssignSingleDayLeaveRequestAction {
   type: typeof ASSIGN_SINGLE_DAY_LEAVE_REQUEST;
   payload: SingleDayLeaveRequest;
-  empNumber: string;
+  empNumber: number;
 }
 
 export interface AssignMultipleDayLeaveRequestAction {
   type: typeof ASSIGN_MULTIPLE_DAY_LEAVE_REQUEST;
   payload: MultipleDayLeaveRequest;
-  empNumber: string;
+  empNumber: number;
 }
 
 export interface PickSingleDayDurationAction {
@@ -121,7 +122,7 @@ export interface ResetAssignLeaveWithoutSubordinateAction {
 
 export interface FetchSubordinateLeaveEntitlementAction {
   type: typeof FETCH_SUBORDINATE_LEAVE_ENTITLEMENT;
-  empNumber: string;
+  empNumber: number;
 }
 
 export interface FetchSubordinateLeaveEntitlementFinishedAction {
@@ -132,11 +133,12 @@ export interface FetchSubordinateLeaveEntitlementFinishedAction {
 
 export interface SelectSubordinateLeaveTypeAction {
   type: typeof SELECT_SUBORDINATE_LEAVE_TYPE;
-  id: string;
+  id: number;
 }
 
 export interface FetchSubordinatesAction {
   type: typeof FETCH_SUBORDINATES;
+  nameOrId: string;
 }
 
 export interface FetchSubordinatesFinishedAction {
@@ -152,7 +154,7 @@ export interface PickSubordinateAction {
 
 export interface FetchWorkShiftAction {
   type: typeof FETCH_WORK_SHIFT;
-  empNumber: string;
+  empNumber: number;
 }
 
 export interface FetchWorkShiftFinishedAction {
@@ -166,7 +168,7 @@ export interface FetchLeaveTypesAction {
 
 export interface FetchLeaveTypesFinishedAction {
   type: typeof FETCH_LEAVE_TYPES_FINISHED;
-  leaveTypes: LeaveType[];
+  leaveTypes: ColorAssignedLeaveType[];
 }
 
 export interface SetErrorMessageAction {
@@ -197,17 +199,19 @@ export type ApplyLeaveActionTypes =
   | SetErrorMessageAction;
 
 export interface Subordinate {
-  empNumber: string;
+  empNumber: number;
+  employeeId: string;
   firstName: string;
   lastName: string;
-  employeeId: string;
+  middleName: string;
+  terminationId: null | number;
 }
 
 export type SubordinateEntitlement =
-  | Entitlement
+  | EntitlementSummaryModel
   | SubordinateLeaveBalanceLeaveType;
 
 export interface SubordinateLeaveBalanceLeaveType
-  extends Omit<Entitlement, 'id' | 'validFrom' | 'validTo' | 'creditedDate'> {
+  extends Omit<EntitlementSummaryModel, 'id' | 'fromDate' | 'toDate'> {
   id?: string;
 }
