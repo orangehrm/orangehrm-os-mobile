@@ -95,16 +95,11 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   }
 
   const onPressHelp = () => {
-    const url = HELP_REDIRECT_URL;
-    if (url !== undefined) {
-      Linking.canOpenURL(url).then((supported) => {
-        if (supported) {
-          if (url !== undefined) {
-            Linking.openURL(url);
-          }
-        }
-      });
-    }
+    Linking.canOpenURL(HELP_REDIRECT_URL).then((supported) => {
+      if (supported) {
+        Linking.openURL(HELP_REDIRECT_URL);
+      }
+    });
   };
 
   let fullName = '';
