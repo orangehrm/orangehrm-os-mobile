@@ -78,8 +78,8 @@ import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
 import {selectCurrentRoute} from 'store/globals/selectors';
 import {PUNCH} from 'screens';
 import FormattedDate from 'components/FormattedDate';
-import {USER_ROLE_ADMIN} from '../../store/auth/types';
-import {selectMyInfo} from '../../store/auth/selectors';
+import {USER_ROLE_ADMIN} from 'store/auth/types';
+import {selectMyInfo} from 'store/auth/selectors';
 
 class Punch extends React.Component<PunchProps, PunchState> {
   inputRef: RNTextInput | null;
