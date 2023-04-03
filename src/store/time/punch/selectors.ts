@@ -21,7 +21,11 @@
 import {RootState} from 'store';
 import {createSelector} from 'reselect';
 
-import {PunchStatus, PunchStatusState} from './types';
+import {
+  AttendanceConfigObject,
+  PunchStatus,
+  PunchStatusState,
+} from './types';
 
 export const selectPunchState = (state: RootState) => state.punch;
 
@@ -31,11 +35,23 @@ export const selectPunchStatus = createSelector<
   PunchStatus | undefined
 >([selectPunchState], (attendance) => attendance.punchStatus);
 
-export const selectPunchCurrentDateTime = createSelector<
+export const selectAttendanceConfig = createSelector<
   RootState,
   PunchStatusState,
-  Date | undefined
->([selectPunchState], (attendance) => attendance.punchCurrentDateTime);
+  AttendanceConfigObject | undefined
+>([selectPunchState], (attendance) => attendance.punchAttendanceConfig);
+
+export const selectPunchCurrentDate = createSelector<
+  RootState,
+  PunchStatusState,
+  string | undefined
+>([selectPunchState], (attendance) => attendance.punchCurrentDate);
+
+export const selectPunchCurrentTime = createSelector<
+  RootState,
+  PunchStatusState,
+  string | undefined
+>([selectPunchState], (attendance) => attendance.punchCurrentTime);
 
 export const selectSavedPunchNote = createSelector<
   RootState,

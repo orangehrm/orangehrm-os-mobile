@@ -21,9 +21,9 @@
 import {EndpointError} from 'services/errors/endpoints';
 
 // attendance
-export const API_ENDPOINT_PUNCH_STATUS = '/api/v1/attendance/punch-status';
-export const API_ENDPOINT_PUNCH_IN_REQUEST = '/api/v1/attendance/punch-in';
-export const API_ENDPOINT_PUNCH_OUT_REQUEST = '/api/v1/attendance/punch-out';
+export const API_ENDPOINT_PUNCH_STATUS = '/api/v2/attendance/records/latest';
+export const API_ENDPOINT_PUNCH_IN_OUT_REQUEST = '/api/v2/attendance/records';
+export const API_ENDPOINT_ATTENDANCE_CONFIG = '/api/v2/attendance/configs';
 export const API_ENDPOINT_ATTENDANCE = '/api/v1/attendance/records';
 export const API_ENDPOINT_ATTENDANCE_GRAPH = '/api/v1/attendance/summary';
 export const API_ENDPOINT_ATTENDANCE_LIST =

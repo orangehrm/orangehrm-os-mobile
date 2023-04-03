@@ -27,19 +27,17 @@ import {
 import {SingleEmployeeAttendance} from 'store/time/attendance/types';
 import {RouteProp} from '@react-navigation/native';
 import {Moment} from 'moment';
+import {
+  EmployeeObject, PunchInOutFinishObject,
+  PunchInOutObject,
+  PunchStateObject,
+} from 'store/time/punch/types';
 
 export interface PunchRequestSuccessParam {
-  success: string;
-  id: number;
-  punchInDateTime: string;
-  punchInTimeZoneOffset: string;
-  punchInNote: string;
-  punchOutDateTime: string;
-  punchOutTimeZoneOffset: string;
-  punchOutNote: string;
-  datetime: string;
-  note: string;
-  timezoneOffset: string;
+  employee: EmployeeObject;
+  punchIn: PunchInOutFinishObject;
+  punchOut: PunchInOutFinishObject;
+  state: PunchStateObject;
 }
 
 export type PunchRequestSuccessParamList = {

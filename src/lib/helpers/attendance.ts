@@ -57,6 +57,24 @@ const getDateSaveFormatFromDateObject = (date: Date) => {
 };
 
 /**
+ * Format given date object to YYYY-MM-DD HH:mm format
+ * @param {Date} date
+ * @returns {String} YYYY-MM-DD formated string
+ */
+const getDateFormatFromDateObject = (date: Date) => {
+  return moment(date).format('YYYY-MM-DD');
+};
+
+/**
+ * Format given date object to YYYY-MM-DD HH:mm format
+ * @param {Date} date
+ * @returns {String} HH:mm formated string
+ */
+const getTimeFormatFromDateObject = (date: Date) => {
+  return moment(date).format('HH:mm');
+};
+
+/**
  * @param {String} dateString YYYY-MM-DD HH:mm formated string
  * @return {Date}
  */
@@ -93,6 +111,7 @@ const calculateDurationBasedOnTimezone = (
   if (punchInDatetime && punchOutDatetime) {
     const punchInDateObj = getLocalDateObjectFromSaveFormat(punchInDatetime);
     const punchOutDateObj = getLocalDateObjectFromSaveFormat(punchOutDatetime);
+
     let punchOutTime = punchOutDateObj.getTime();
     let punchInTime = punchInDateObj.getTime();
 
@@ -181,6 +200,10 @@ const convertDateObjectToStringFormat = (
  */
 const getCurrentTimeZoneOffset = () => {
   return moment().utcOffset() / 60;
+};
+
+const getCurrentTimeZoneName = () => {
+  return moment().utcOffset();
 };
 
 const dayMapper = {
@@ -437,6 +460,7 @@ export {
   getDateSaveFormatFromDateObject,
   formatLastRecordDetails,
   getCurrentTimeZoneOffset,
+  getCurrentTimeZoneName,
   NEGATIVE_DURATION,
   convertDateObjectToStringFormat,
   getDurationFromHours,
@@ -455,4 +479,6 @@ export {
   getWeekdayOrder,
   formatTimezoneOffset,
   getLocalDateObjectFromSaveFormat,
+  getDateFormatFromDateObject,
+  getTimeFormatFromDateObject,
 };

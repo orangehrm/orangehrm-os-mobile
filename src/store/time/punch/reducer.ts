@@ -25,6 +25,9 @@ import {
   PunchStatusState,
   PunchStatusActionTypes,
   RESET_PUNCH_STATE,
+  PUNCHED_IN,
+  PUNCHED_OUT,
+  FETCH_ATTENDANCE_CONFIG_FINISHED,
 } from './types';
 import {getUTCDateObjectFromSaveFormat} from 'lib/helpers/attendance';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
@@ -40,13 +43,15 @@ const attendanceReducer = (
       if (action.error) {
         return state;
       }
-      if (action.payload?.currentUTCDateTime) {
+      if (action.payload?.state.name === PUNCHED_IN) {
         return {
           ...state,
           punchStatus: action.payload,
-          punchCurrentDateTime: getUTCDateObjectFromSaveFormat(
-            action.payload.currentUTCDateTime,
-          ),
+        };
+      } else if (action.payload?.state.name === PUNCHED_OUT) {
+        return {
+          ...state,
+          punchStatus: action.payload,
         };
       }
       return {
@@ -56,7 +61,8 @@ const attendanceReducer = (
     case CHANGE_PUNCH_CURRENT_DATE_TIME:
       return {
         ...state,
-        punchCurrentDateTime: action.punchCurrentDateTime,
+        punchCurrentDate: action.punchCurrentDate,
+        punchCurrentTime: action.punchCurrentTime,
       };
     case PICK_PUNCH_NOTE:
       return {
@@ -66,6 +72,11 @@ const attendanceReducer = (
     case RESET_PUNCH_STATE:
       return {
         ...initialState,
+      };
+    case FETCH_ATTENDANCE_CONFIG_FINISHED:
+      return {
+        ...state,
+        punchAttendanceConfig: action.payload,
       };
     case LOGOUT:
       return initialState;

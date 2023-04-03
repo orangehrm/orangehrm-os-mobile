@@ -34,6 +34,11 @@ import {
   ResetPunchStateAction,
   PunchStatus,
   RESET_PUNCH_STATE,
+  FETCH_ATTENDANCE_CONFIG,
+  fetchAttendanceConfigsAction,
+  FETCH_ATTENDANCE_CONFIG_FINISHED,
+  FetchAttendanceConfigFinishedAction,
+  AttendanceConfigObject,
 } from './types';
 import {$PropertyType} from 'utility-types';
 
@@ -49,6 +54,13 @@ export const fetchPunchStatus = (
   refresh,
 });
 
+export const fetchAttendanceConfigs = (
+  refresh?: boolean,
+): fetchAttendanceConfigsAction => ({
+  type: FETCH_ATTENDANCE_CONFIG,
+  refresh,
+});
+
 export const fetchPunchStatusFinished = (
   payload?: PunchStatus,
   error: boolean = false,
@@ -57,12 +69,22 @@ export const fetchPunchStatusFinished = (
   payload,
   error,
 });
+export const fetchAttendanceConfigFinished = (
+  payload?: AttendanceConfigObject,
+  error: boolean = false,
+): FetchAttendanceConfigFinishedAction => ({
+  type: FETCH_ATTENDANCE_CONFIG_FINISHED,
+  payload,
+  error,
+});
 
 export const changePunchCurrentDateTime = (
-  datetime?: Date,
+  date?: string,
+  time?: string,
 ): ChangePunchCurrentDateTimeAction => ({
   type: CHANGE_PUNCH_CURRENT_DATE_TIME,
-  punchCurrentDateTime: datetime,
+  punchCurrentDate: date,
+  punchCurrentTime: time,
 });
 
 export const savePunchInRequest = (

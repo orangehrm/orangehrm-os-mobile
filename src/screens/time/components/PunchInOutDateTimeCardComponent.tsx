@@ -28,15 +28,15 @@ import Text from 'components/DefaultText';
 import {fetchPunchStatus} from 'store/time/punch/actions';
 import {formatTime} from 'lib/helpers/attendance';
 import FormattedDate from 'components/FormattedDate';
+import applyLeave from '../../leave/ApplyLeave';
 
 const PunchInOutDateTimeCard = (props: PunchInOutDateTimeCardProps) => {
-  const {theme, punchCurrentDateTime} = props;
-
+  const {theme, punchCurrentDate, punchCurrentTime} = props;
   let date;
-  if (punchCurrentDateTime === undefined) {
+  if (punchCurrentDate === undefined) {
     date = new Date();
   } else {
-    date = punchCurrentDateTime;
+    date = new Date(punchCurrentDate + ':' + punchCurrentTime);
   }
 
   const dateDisplay = date.toDateString();
@@ -107,7 +107,8 @@ const PunchInOutDateTimeCard = (props: PunchInOutDateTimeCardProps) => {
 };
 
 interface PunchInOutDateTimeCardProps extends WithTheme {
-  punchCurrentDateTime?: Date;
+  punchCurrentDate?: string;
+  punchCurrentTime?: string;
 }
 
 const styles = StyleSheet.create({

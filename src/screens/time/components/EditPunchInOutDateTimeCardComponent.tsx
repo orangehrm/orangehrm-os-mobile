@@ -28,10 +28,10 @@ import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
 import {fetchPunchStatus} from 'store/time/punch/actions';
 import Icon from 'components/DefaultIcon';
-import {AndroidEvent} from '@react-native-community/datetimepicker/src/index';
-import {formatTime} from 'lib/helpers/attendance';
+import {AndroidEvent} from '@react-native-community/datetimepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import FormattedDate from 'components/FormattedDate';
+import {formatTime} from '../../../lib/helpers/attendance';
 
 class EditPunchInOutDateTimeCard extends React.Component<
   EditPunchInOutDateTimeCardProps,
@@ -76,14 +76,15 @@ class EditPunchInOutDateTimeCard extends React.Component<
   };
 
   render() {
-    const {theme, punchCurrentDateTime} = this.props;
+    const {theme, punchCurrentDate, punchCurrentTime} = this.props;
     const {mode, display} = this.state;
 
     let date;
-    if (punchCurrentDateTime === undefined) {
+    if (punchCurrentDate === undefined) {
       date = new Date();
+      this.props.updateDateTime(date);
     } else {
-      date = punchCurrentDateTime;
+      date = new Date(punchCurrentDate + ':' + punchCurrentTime);
     }
     const dateDisplay = date.toDateString();
     const timeDisplay = formatTime(date);
@@ -223,7 +224,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
                   <View>
                     <DateTimePicker
                       testID="dateTimePicker"
-                      value={date}
+                      value={new Date(date)}
                       mode={mode}
                       is24Hour={false}
                       display={display}
@@ -241,7 +242,8 @@ class EditPunchInOutDateTimeCard extends React.Component<
 }
 
 interface EditPunchInOutDateTimeCardProps extends WithTheme {
-  punchCurrentDateTime?: Date;
+  punchCurrentDate?: string;
+  punchCurrentTime?: string;
   updateDateTime: (date: Date) => void;
 }
 
