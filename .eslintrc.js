@@ -39,5 +39,6 @@ module.exports = {
         allowAsProps: true,
       },
     ],
+    'prefer-object-has-own': ['error'],
   },
 };

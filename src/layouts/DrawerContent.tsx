@@ -31,7 +31,6 @@ import {DrawerActions} from '@react-navigation/native';
 import {
   DrawerNavigationHelpers,
   DrawerDescriptorMap,
-  DrawerContentOptions,
 } from '@react-navigation/drawer/lib/typescript/src/types';
 import {DrawerNavigationState as BaseDrawerNavigationState} from '@react-navigation/routers/lib/typescript/src/DrawerRouter';
 import ProfilePicture from 'components/ProfilePicture';
@@ -54,7 +53,6 @@ import useTheme from 'lib/hook/useTheme';
 import {getDrawerItems} from 'services/drawer';
 import {SUBHEADER_LEAVE, SUBHEADER_TIME} from 'screens';
 import {HELP_REDIRECT_URL} from 'services/endpoints';
-import {getFullName} from 'lib/helpers/name';
 
 const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   const {
@@ -75,11 +73,6 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
     drawerContentProps.navigation.closeDrawer();
     logout();
   }, [logout, drawerContentProps]);
-
-  let imageSource;
-  if (myInfo?.employeePhoto !== undefined && myInfo?.employeePhoto !== null) {
-    imageSource = {uri: `data:image/png;base64,${myInfo?.employeePhoto}`};
-  }
 
   const commonProps = {
     activeTintColor: theme.palette.secondary,
@@ -102,18 +95,9 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
     });
   };
 
-  let fullName = '';
-  if (myInfo?.employee !== undefined) {
-    fullName = getFullName(myInfo?.employee);
-  }
-
   return (
     <SafeAreaView style={styles.safeArea}>
-      <ProfilePicture
-        name={fullName}
-        jobTitle={myInfo?.employee.jobTitle.title}
-        imageSource={imageSource}
-      />
+      <ProfilePicture employee={myInfo?.employee} />
       <DrawerContentScrollView
         contentContainerStyle={styles.contentContainer}
         refreshControl={
@@ -186,22 +170,12 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   );
 };
 
-export type DrawerNavigationState = BaseDrawerNavigationState & {
-  routeNames: string[];
-  routes: Array<{
-    key: string;
-    name: string;
-    params: {
-      subheader: typeof SUBHEADER_LEAVE | typeof SUBHEADER_TIME;
-      [key: string]: any;
-    };
-  }>;
-};
+export type DrawerNavigationState = BaseDrawerNavigationState<{
+  subheader: typeof SUBHEADER_LEAVE | typeof SUBHEADER_TIME;
+  [key: string]: any;
+}>;
 
-type DrawerItemListProps = Omit<
-  DrawerContentOptions,
-  'contentContainerStyle' | 'style'
-> & {
+type DrawerItemListProps = {
   state: DrawerNavigationState;
   navigation: DrawerNavigationHelpers;
   descriptors: DrawerDescriptorMap;

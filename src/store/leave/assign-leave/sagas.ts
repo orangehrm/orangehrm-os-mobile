@@ -171,7 +171,7 @@ function* fetchSubordinateLeaveEntitlements(
 
 function* fetchAccessibleEmployees(action: FetchSubordinatesAction) {
   try {
-    yield openLoader();
+    // yield openLoader();
     if (action.nameOrId === '') {
       yield put(fetchSubordinatesFinished([]));
       return;
@@ -199,7 +199,7 @@ function* fetchAccessibleEmployees(action: FetchSubordinatesAction) {
     );
     yield put(fetchSubordinatesFinished(undefined, true));
   } finally {
-    yield closeLoader();
+    // yield closeLoader();
   }
 }
 

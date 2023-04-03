@@ -31,4 +31,9 @@ const getDateFromString = (hhMmString: string): Date => {
   return date;
 };
 
+// const getUTC = () => {
+//   new Date().toISOString()
+
+// };
+
 export {getDateFromString};
