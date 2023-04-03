@@ -29,7 +29,6 @@ import {
   PUNCHED_OUT,
   FETCH_ATTENDANCE_CONFIG_FINISHED,
 } from './types';
-import {getUTCDateObjectFromSaveFormat} from 'lib/helpers/attendance';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
 const initialState: PunchStatusState = {};

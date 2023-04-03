@@ -28,8 +28,8 @@ import {SingleEmployeeAttendance} from 'store/time/attendance/types';
 import {RouteProp} from '@react-navigation/native';
 import {Moment} from 'moment';
 import {
-  EmployeeObject, PunchInOutFinishObject,
-  PunchInOutObject,
+  EmployeeObject,
+  PunchInOutFinishObject,
   PunchStateObject,
 } from 'store/time/punch/types';
 

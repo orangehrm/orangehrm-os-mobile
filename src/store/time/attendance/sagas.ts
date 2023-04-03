@@ -110,7 +110,6 @@ function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
       }
     }
   } catch (error) {
-    console.log('3333333');
     yield showSnackMessage(
       getMessageAlongWithGenericErrors(error, 'Failed to Fetch  Record'),
       TYPE_ERROR,
@@ -158,7 +157,6 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
       }
     }
   } catch (error) {
-    console.log('444444');
     yield showSnackMessage(
       getMessageAlongWithGenericErrors(error, 'Failed to Fetch Record'),
       TYPE_ERROR,
@@ -205,7 +203,6 @@ function* fetchAttendanceGraphRecords(
       );
     }
   } catch (error) {
-    console.log("1111");
     yield showSnackMessage(
       getMessageAlongWithGenericErrors(error, 'Failed to Fetch Record'),
       TYPE_ERROR,
@@ -393,7 +390,6 @@ function* fetchAttendanceConfiguration() {
       );
     }
   } catch (error) {
-    console.log("22222");
     yield showSnackMessage(
       getMessageAlongWithGenericErrors(
         error,

@@ -21,11 +21,7 @@
 import {RootState} from 'store';
 import {createSelector} from 'reselect';
 
-import {
-  AttendanceConfigObject,
-  PunchStatus,
-  PunchStatusState,
-} from './types';
+import {AttendanceConfigObject, PunchStatus, PunchStatusState} from './types';
 
 export const selectPunchState = (state: RootState) => state.punch;
 

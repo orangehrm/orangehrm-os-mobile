@@ -28,7 +28,6 @@ import Text from 'components/DefaultText';
 import {fetchPunchStatus} from 'store/time/punch/actions';
 import {formatTime} from 'lib/helpers/attendance';
 import FormattedDate from 'components/FormattedDate';
-import applyLeave from '../../leave/ApplyLeave';
 
 const PunchInOutDateTimeCard = (props: PunchInOutDateTimeCardProps) => {
   const {theme, punchCurrentDate, punchCurrentTime} = props;
