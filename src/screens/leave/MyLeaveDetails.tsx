@@ -137,20 +137,17 @@ class MyLeaveDetails extends React.Component<
                   backgroundColor: theme.palette.backgroundSecondary,
                 }}>
                 <View style={[styles.row, styles.footerView]}>
-                  {leaveRequestDetail.allowedActions.map((item) => {
-                    if (item.action === ACTION_CANCEL) {
-                      return (
-                        <Button
-                          title={'Cancel'}
-                          bordered
-                          primary
-                          onPress={this.onPressCancelLeave}
-                        />
-                      );
-                    } else {
-                      return null;
-                    }
-                  })}
+                  {leaveRequestDetail.allowedActions.filter(
+                    (item) => item.action === ACTION_CANCEL,
+                  ).length !== 0 ? (
+                    <View style={{paddingLeft: theme.spacing * 2}}>
+                      <Button
+                        title={'Cancel'}
+                        primary
+                        onPress={this.onPressCancelLeave}
+                      />
+                    </View>
+                  ) : null}
                 </View>
               </View>
             ) : null}

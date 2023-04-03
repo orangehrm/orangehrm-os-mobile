@@ -29,16 +29,12 @@ import {LeaveRequestDetailedModel} from 'store/leave/leave-list/types';
 import {
   selectEmployeeLeaveComment,
   selectEmployeeLeaveRequest,
-  // selectEmployeeLeaveRequestDetails,
 } from 'store/leave/leave-list/selectors';
 import {
   selectLeaveRequestDetail,
   selectLeaveComments,
 } from 'store/leave/leave-usage/selectors';
-import {
-  addEmployeeLeaveRequestComment,
-  // changeEmployeeLeaveRequestStatus,
-} from 'store/leave/leave-list/actions';
+import {addEmployeeLeaveRequestComment} from 'store/leave/leave-list/actions';
 import {addMyLeaveRequestComment} from 'store/leave/leave-usage/actions';
 import {Subordinate} from 'store/leave/assign-leave/types';
 
