@@ -174,7 +174,6 @@ class Punch extends React.Component<PunchProps, PunchState> {
   componentDidMount() {
     this.props.fetchPunchStatus();
     this.props.fetchAttendanceConfigs();
-    getCurrentTimeZoneName();
     this.keyboardHide = Keyboard.addListener(
       'keyboardDidHide',
       this.hideCommentInput,
@@ -243,7 +242,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
     if (punchCurrentDate !== undefined) {
       const punchRequest: PunchRequest = {
         timezoneOffset: getCurrentTimeZoneOffset(),
-        timezoneName: 'Asia/Calcutta',
+        timezoneName: getCurrentTimeZoneName(),
         note: savedNote ? savedNote : null,
         date: punchCurrentDate,
         time: punchCurrentTime,
