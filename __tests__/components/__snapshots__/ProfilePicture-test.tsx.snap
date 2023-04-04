@@ -7,6 +7,11 @@ exports[`components/ProfilePicture test ProfilePicture component 1`] = `
     style={{}}
   >
     <Image
+      defaultSource={
+        {
+          "testUri": "../../../src/images/default-photo.png",
+        }
+      }
       source={
         {
           "testUri": "../../../src/images/default-photo.png",
@@ -41,6 +46,11 @@ exports[`components/ProfilePicture test ProfilePicture component 1`] = `
         }
       >
         <Image
+          defaultSource={
+            {
+              "testUri": "../../../src/images/default-photo.png",
+            }
+          }
           large={true}
           source={
             {
@@ -87,7 +97,22 @@ exports[`components/ProfilePicture test ProfilePicture component 1`] = `
             ]
           }
         >
-          Employee Name
+          Abbey  Kyla
+        </Text>
+        <Text
+          style={
+            [
+              {
+                "color": "#818181",
+              },
+              undefined,
+              {
+                "color": "#000000",
+              },
+            ]
+          }
+        >
+          Accountant
         </Text>
       </View>
     </View>

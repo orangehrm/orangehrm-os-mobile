@@ -23,54 +23,71 @@ import {selectAuthParams} from 'store/storage/selectors';
 import {ENDPOINT_EMPLOYEE_PHOTO, prepare} from 'services/endpoints';
 import {ImageSourcePropType} from 'react-native';
 import {isAccessTokenExpired} from 'services/api';
+import {useEffect, useState} from 'react';
 
 const useEmployeePhoto = (empNumber: number | undefined) => {
   const authParams = useSelector(selectAuthParams);
-  let source: ImageSourcePropType = require('images/default-photo.png');
-  if (empNumber !== undefined && !isAccessTokenExpired(authParams.expiresAt)) {
-    const now = new Date();
-    const version = Date.UTC(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
-      now.getHours(),
-      getMinuteRange(now.getMinutes()),
-      0,
-      0,
-    );
-    const src = prepare(
-      authParams.instanceUrl + ENDPOINT_EMPLOYEE_PHOTO,
-      {empNumber},
-      {v: version},
-    );
-    source = {
-      uri: src,
-      headers: {
-        Authorization: `Bearer ${authParams.accessToken}`,
-      },
-      cache: 'force-cache',
-    };
-  }
+  const [source, setSource] = useState<ImageSourcePropType>(
+    require('images/default-photo.png'),
+  );
+  const [lock, setLock] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (
+      empNumber !== undefined &&
+      !isAccessTokenExpired(authParams.expiresAt) &&
+      lock === false
+    ) {
+      setLock(true);
+      const src = prepare(authParams.instanceUrl + ENDPOINT_EMPLOYEE_PHOTO, {
+        empNumber,
+      });
+
+      const headers = new Headers();
+      headers.append('Authorization', `Bearer ${authParams.accessToken}`);
+
+      const requestOptions = {
+        method: 'GET',
+        headers: headers,
+      };
+
+      /**
+       * - Why used fetch for image?
+       * When provide image URI to Image component it will aggressively cache the image.
+       * Can add time based version query parameter, then it will grow cache storage
+       */
+      fetch(src, requestOptions)
+        // eslint-disable-next-line no-undef
+        .then((response: Response) => {
+          response
+            .blob()
+            .then((blob) => {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                if (typeof reader.result === 'string') {
+                  setSource({
+                    uri: reader.result, // `data:application/octet-stream;base64,${content}`
+                  });
+                }
+              };
+              reader.readAsDataURL(blob);
+            })
+            .catch(() => {})
+            .finally(() => {
+              setLock(false);
+            });
+          // TODO:: can handle caching using: response.headers.get('etag')
+        })
+        .catch(() => {
+          setLock(false);
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [empNumber, authParams]);
 
   return {
     source,
   };
-};
-
-/**
- * @param minute
- * @returns e.g. 0, 15, 30, 45, 60
- */
-const getMinuteRange = (minute: number): number => {
-  const rangeSize = 15;
-  const startMinute = Math.floor(minute / rangeSize) * rangeSize;
-
-  if (minute % rangeSize === 0) {
-    return startMinute;
-  }
-
-  // Otherwise, return the end minute
-  return startMinute + rangeSize;
 };
 
 export default useEmployeePhoto;
