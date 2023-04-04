@@ -26,19 +26,6 @@ export const GRANT_TYPE_PASSWORD = 'password';
 export const GRANT_TYPE_REFRESH_TOKEN = 'refresh_token';
 export const OAUTH_CALLBACK_URL = 'com.orangehrm.opensource://oauthredirect';
 
-export interface AccessTokenSuccessResponce {
-  access_token: string;
-  refresh_token: string;
-  token_type: string;
-  expires_in: number;
-  scope: string; // TODO
-}
-
-export interface AccessTokenErrorResponce {
-  error: string;
-  error_description: string;
-}
-
 export const getNewAccessToken = (
   instanceUrl: string,
   refreshToken: string,

@@ -20,11 +20,7 @@
 
 import {call, put, take} from 'redux-saga/effects';
 import {isAccessTokenExpired, getExpiredAtByLifetime} from 'services/api';
-import {
-  getNewAccessToken,
-  AccessTokenSuccessResponce,
-  AccessTokenErrorResponce,
-} from 'services/authentication';
+import {getNewAccessToken} from 'services/authentication';
 import {
   ACCESS_TOKEN,
   REFRESH_TOKEN,
@@ -41,6 +37,7 @@ import {
 import {AuthParams} from 'store/storage/types';
 import {logout, fetchNewAuthTokenFinished} from 'store/auth/actions';
 import {AuthenticationError} from 'services/errors/authentication';
+import {AuthResponse} from 'store/auth/types';
 
 export interface ApiResponse<Data, Meta = {}> {
   data: Data;
@@ -80,8 +77,7 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
         authParams.instanceUrl,
         authParams.refreshToken,
       );
-      const data: AccessTokenSuccessResponce | AccessTokenErrorResponce =
-        yield call([response, response.json]);
+      const data: AuthResponse = yield call([response, response.json]);
 
       if ('access_token' in data) {
         yield storageSetMulti({

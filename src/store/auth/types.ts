@@ -145,17 +145,14 @@ export interface MyInfo {
 }
 
 export interface JobTitle {
-  id: string | null;
+  id: number | null;
   title: string | null;
   isDeleted: boolean | null;
 }
 
-/**
- * @deprecated
- */
 export interface SubUnit {
-  id: string;
-  name: string;
+  id: string | null;
+  name: string | null;
 }
 
 /**
