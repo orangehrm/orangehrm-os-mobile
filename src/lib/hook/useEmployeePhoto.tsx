@@ -24,27 +24,53 @@ import {ENDPOINT_EMPLOYEE_PHOTO, prepare} from 'services/endpoints';
 import {ImageSourcePropType} from 'react-native';
 import {isAccessTokenExpired} from 'services/api';
 
-const useEmployeePhoto = (emoNumber: number | undefined) => {
+const useEmployeePhoto = (empNumber: number | undefined) => {
   const authParams = useSelector(selectAuthParams);
   let source: ImageSourcePropType = require('images/default-photo.png');
-  if (emoNumber !== undefined && isAccessTokenExpired(authParams.expiresAt)) {
+  if (empNumber !== undefined && !isAccessTokenExpired(authParams.expiresAt)) {
+    const now = new Date();
+    const version = Date.UTC(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      now.getHours(),
+      getMinuteRange(now.getMinutes()),
+      0,
+      0,
+    );
     const src = prepare(
       authParams.instanceUrl + ENDPOINT_EMPLOYEE_PHOTO,
-      {emoNumber},
-      // {v: },
+      {empNumber},
+      {v: version},
     );
     source = {
       uri: src,
       headers: {
         Authorization: `Bearer ${authParams.accessToken}`,
       },
-      cache: 'reload',
+      cache: 'force-cache',
     };
   }
 
   return {
     source,
   };
+};
+
+/**
+ * @param minute
+ * @returns e.g. 0, 15, 30, 45, 60
+ */
+const getMinuteRange = (minute: number): number => {
+  const rangeSize = 15;
+  const startMinute = Math.floor(minute / rangeSize) * rangeSize;
+
+  if (minute % rangeSize === 0) {
+    return startMinute;
+  }
+
+  // Otherwise, return the end minute
+  return startMinute + rangeSize;
 };
 
 export default useEmployeePhoto;
