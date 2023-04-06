@@ -18,27 +18,17 @@
  *
  */
 
-module.exports = {
-  root: true,
-  extends: ['@react-native-community', 'eslint:recommended'],
-  parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'jest'],
-  rules: {
-    'no-console': 1, // warn for console logs
-    'lines-between-class-members': [
-      'error',
-      'always',
-      {exceptAfterSingleLine: true},
-    ],
-    'prefer-const': ['error'],
-    'react-native/no-unused-styles': 'error',
-    'react/no-unstable-nested-components': [
-      //https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/no-unstable-nested-components.md
-      'error',
-      {
-        allowAsProps: true,
-      },
-    ],
-    'prefer-object-has-own': ['error'],
-  },
-};
+import {
+  EMPLOYEE_PHOTO_SET_SOURCE,
+  SetEmployeePhotoSourceAction,
+} from 'store/pim/types';
+import {$PropertyType} from 'utility-types';
+
+export const setEmployeePhotoSource = (
+  empNumber: number,
+  source: $PropertyType<SetEmployeePhotoSourceAction, 'source'>,
+): SetEmployeePhotoSourceAction => ({
+  type: EMPLOYEE_PHOTO_SET_SOURCE,
+  empNumber,
+  source,
+});

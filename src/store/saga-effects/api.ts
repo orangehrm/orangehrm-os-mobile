@@ -37,6 +37,7 @@ import {
 import {AuthParams} from 'store/storage/types';
 import {logout, fetchNewAuthTokenFinished} from 'store/auth/actions';
 import {AuthenticationError} from 'services/errors/authentication';
+import {AuthResponse} from 'store/auth/types';
 
 export interface ApiResponse<Data, Meta = {}> {
   data: Data;
@@ -76,17 +77,9 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
         authParams.instanceUrl,
         authParams.refreshToken,
       );
-      const data: {
-        access_token: string;
-        refresh_token: string;
-        token_type: string;
-        expires_in: number;
-        scope: string; // TODO
-        error?: string;
-        error_description?: string;
-      } = yield call([response, response.json]);
+      const data: AuthResponse = yield call([response, response.json]);
 
-      if (data.access_token) {
+      if ('access_token' in data) {
         yield storageSetMulti({
           [ACCESS_TOKEN]: data.access_token,
           ...(data.refresh_token !== undefined &&
@@ -122,7 +115,7 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
   // Release lock
   yield put(setFetchingAccessTokenLock(false));
 
-  const result = yield call(fn, ...args);
+  const result: object = yield call(fn, ...args);
   return result;
 }
 
@@ -147,7 +140,7 @@ export function* apiGetCall(endpoint: string, requiredRawResponse?: boolean) {
     if (requiredRawResponse === true) {
       return response;
     }
-    const data = yield call([response, response.json]);
+    const data: ApiResponse<object> = yield call([response, response.json]);
     data.getResponse = () => {
       return response;
     };
@@ -176,7 +169,7 @@ export function* apiPostCall(endpoint: string, body: object) {
 
     // eslint-disable-next-line no-undef
     const response: Response = yield call(fetch, url, requestOptions);
-    const data = yield call([response, response.json]);
+    const data: ApiResponse<object> = yield call([response, response.json]);
     data.getResponse = () => {
       return response;
     };
@@ -205,7 +198,7 @@ export function* apiPutCall(endpoint: string, body: object) {
 
     // eslint-disable-next-line no-undef
     const response: Response = yield call(fetch, url, requestOptions);
-    const data = yield call([response, response.json]);
+    const data: ApiResponse<object> = yield call([response, response.json]);
     data.getResponse = () => {
       return response;
     };
@@ -234,7 +227,7 @@ export function* apiDeleteCall(endpoint: string, body: object) {
 
     // eslint-disable-next-line no-undef
     const response: Response = yield call(fetch, url, requestOptions);
-    const data = yield call([response, response.json]);
+    const data: ApiResponse<object> = yield call([response, response.json]);
     data.getResponse = () => {
       return response;
     };

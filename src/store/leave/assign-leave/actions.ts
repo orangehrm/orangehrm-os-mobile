@@ -168,10 +168,12 @@ export const fetchSubordinates = (
 });
 
 export const fetchSubordinatesFinished = (
+  sourceAction: FetchSubordinatesAction,
   payload?: $PropertyType<FetchSubordinatesFinishedAction, 'payload'>,
   error: boolean = false,
 ): FetchSubordinatesFinishedAction => ({
   type: FETCH_SUBORDINATES_FINISHED,
+  sourceAction,
   payload,
   error,
 });
