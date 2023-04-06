@@ -31,9 +31,9 @@ import {
 describe('lib/helpers/leave', () => {
   test('assignColorToLeaveType::check leave type with id 1', () => {
     const leaveType = {
-      id: '1',
-      type: 'Test Leave Type',
-      color: '',
+      id: 1,
+      name: 'Test Leave Type',
+      deleted: false,
     };
     const resultLeaveType = assignColorToLeaveType({leaveType});
     expect(resultLeaveType).toStrictEqual({
@@ -46,9 +46,9 @@ describe('lib/helpers/leave', () => {
 
   test('assignColorToLeaveType::check leave type first color', () => {
     const leaveType = {
-      id: '10',
-      type: 'Test Leave Type',
-      color: '',
+      id: 10,
+      name: 'Test Leave Type',
+      deleted: false,
     };
     const resultLeaveType = assignColorToLeaveType({leaveType});
     expect(resultLeaveType).toStrictEqual({
@@ -61,26 +61,26 @@ describe('lib/helpers/leave', () => {
 
   test('assignColorsToLeaveTypes::assign leave type color in array', () => {
     const leaveType = {
-      type: 'Test Leave Type',
-      color: '',
+      name: 'Test Leave Type',
+      deleted: false,
     };
     const leaveTypeArray = [
-      {leaveType: {id: '10', ...leaveType}},
-      {leaveType: {id: '9', ...leaveType}},
+      {leaveType: {id: 10, ...leaveType}},
+      {leaveType: {id: 9, ...leaveType}},
     ];
     const resultLeaveTypes = assignColorsToLeaveTypes(leaveTypeArray);
     expect(resultLeaveTypes).toStrictEqual([
       {
         leaveType: {
           ...leaveType,
-          id: '10',
+          id: 10,
           color: '#445abf',
         },
       },
       {
         leaveType: {
           ...leaveType,
-          id: '9',
+          id: 9,
           color: '#405040',
         },
       },
