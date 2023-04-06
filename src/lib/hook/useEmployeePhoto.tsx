@@ -24,19 +24,31 @@ import {ENDPOINT_EMPLOYEE_PHOTO, prepare} from 'services/endpoints';
 import {ImageSourcePropType} from 'react-native';
 import {isAccessTokenExpired} from 'services/api';
 import {useEffect, useState} from 'react';
+import {selectEmployeePhotos} from 'store/pim/selectors';
+import {useDispatch} from 'react-redux';
+import {setEmployeePhotoSource} from 'store/pim/actions';
 
 const useEmployeePhoto = (empNumber: number | undefined) => {
   const authParams = useSelector(selectAuthParams);
-  const [source, setSource] = useState<ImageSourcePropType>(
-    require('images/default-photo.png'),
-  );
+  const employeePhotos = useSelector(selectEmployeePhotos);
+  const dispatch = useDispatch();
+
+  let employeePhoto: ImageSourcePropType = require('images/default-photo.png');
+  let empPhoto: ImageSourcePropType | undefined;
+  if (
+    empNumber !== undefined &&
+    (empPhoto = employeePhotos.get(empNumber)) !== undefined
+  ) {
+    employeePhoto = empPhoto;
+  }
   const [lock, setLock] = useState<boolean>(false);
 
   useEffect(() => {
     if (
       empNumber !== undefined &&
       !isAccessTokenExpired(authParams.expiresAt) &&
-      lock === false
+      lock === false &&
+      employeePhotos.get(empNumber) === undefined
     ) {
       setLock(true);
       const src = prepare(authParams.instanceUrl + ENDPOINT_EMPLOYEE_PHOTO, {
@@ -65,9 +77,11 @@ const useEmployeePhoto = (empNumber: number | undefined) => {
               const reader = new FileReader();
               reader.onloadend = () => {
                 if (typeof reader.result === 'string') {
-                  setSource({
-                    uri: reader.result, // `data:application/octet-stream;base64,${content}`
-                  });
+                  dispatch(
+                    setEmployeePhotoSource(empNumber, {
+                      uri: reader.result, // `data:application/octet-stream;base64,${content}`
+                    }),
+                  );
                 }
               };
               reader.readAsDataURL(blob);
@@ -83,10 +97,10 @@ const useEmployeePhoto = (empNumber: number | undefined) => {
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [empNumber, authParams]);
+  }, [empNumber, authParams, employeePhotos]);
 
   return {
-    source,
+    source: employeePhoto,
   };
 };
 
