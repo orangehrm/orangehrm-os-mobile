@@ -53,6 +53,7 @@ const initialState: AssignLeaveState = {
   },
   workShift: DEFAULT_WORK_SHIFT,
   workShiftFetched: false,
+  subordinates: new Map([['', []]]),
 };
 
 const assignLeaveReducer = (
@@ -99,14 +100,18 @@ const assignLeaveReducer = (
         ...state,
         entitlement: action.payload?.slice(),
       };
-    case FETCH_SUBORDINATES_FINISHED:
+    case FETCH_SUBORDINATES_FINISHED: {
       if (action.error) {
         return state;
       }
+
+      const map = new Map(state.subordinates.entries());
+      map.set(action.sourceAction.nameOrId, action.payload ?? []);
       return {
         ...state,
-        subordinates: action.payload,
+        subordinates: map,
       };
+    }
     case PICK_SUBORDINATE: {
       const isSubordinateChanged =
         state.selectedSubordinate?.empNumber !== action.subordinate?.empNumber;

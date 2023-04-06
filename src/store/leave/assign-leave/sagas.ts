@@ -124,7 +124,11 @@ function* fetchSubordinateLeaveEntitlements(
       prepare(
         API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT,
         {},
-        {model: 'summary', empNumber: action.empNumber},
+        {
+          model: 'summary',
+          empNumber: action.empNumber,
+          leaveTypeDeleted: false,
+        },
       ),
     );
 
@@ -171,9 +175,8 @@ function* fetchSubordinateLeaveEntitlements(
 
 function* fetchAccessibleEmployees(action: FetchSubordinatesAction) {
   try {
-    // yield openLoader();
     if (action.nameOrId === '') {
-      yield put(fetchSubordinatesFinished([]));
+      yield put(fetchSubordinatesFinished(action, []));
       return;
     }
     const response: ApiResponse<Subordinate[]> = yield apiCall(
@@ -181,9 +184,9 @@ function* fetchAccessibleEmployees(action: FetchSubordinatesAction) {
       prepare(API_ENDPOINT_EMPLOYEES, {}, {nameOrId: action.nameOrId}),
     );
     if (response.data) {
-      yield put(fetchSubordinatesFinished(response.data));
+      yield put(fetchSubordinatesFinished(action, response.data));
     } else {
-      yield put(fetchSubordinatesFinished(undefined, true));
+      yield put(fetchSubordinatesFinished(action, undefined, true));
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(
           response,
@@ -197,9 +200,7 @@ function* fetchAccessibleEmployees(action: FetchSubordinatesAction) {
       getMessageAlongWithGenericErrors(error, 'Failed to Fetch Subordinates'),
       TYPE_ERROR,
     );
-    yield put(fetchSubordinatesFinished(undefined, true));
-  } finally {
-    // yield closeLoader();
+    yield put(fetchSubordinatesFinished(action, undefined, true));
   }
 }
 
