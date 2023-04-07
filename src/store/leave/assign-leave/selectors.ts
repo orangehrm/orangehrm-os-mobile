@@ -111,7 +111,7 @@ export const selectSubordinateSelectedLeaveTypeId = createSelector<
 export const selectSubordinates = createSelector<
   RootState,
   AssignLeaveState,
-  Subordinate[] | undefined
+  Map<string, Subordinate[]> | undefined
 >([selectAssignLeave], (assignLeave) => assignLeave.subordinates);
 
 export const selectSelectedSubordinate = createSelector<

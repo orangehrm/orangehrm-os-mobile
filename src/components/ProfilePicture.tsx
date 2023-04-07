@@ -19,31 +19,35 @@
  */
 
 import React from 'react';
-import {
-  View,
-  ImageBackground,
-  StyleSheet,
-  ImageSourcePropType,
-} from 'react-native';
+import {View, ImageBackground, StyleSheet} from 'react-native';
 import {Thumbnail} from 'native-base';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Text from 'components/DefaultText';
+import useEmployeePhoto from 'lib/hook/useEmployeePhoto';
+import {Employee} from 'store/auth/types';
+import {getFullName} from 'lib/helpers/name';
 
 const ProfilePicture = (props: ProfilePictureProps) => {
-  const {theme, imageSource, name, jobTitle} = props;
+  const {theme, employee} = props;
+  const employeePhoto = useEmployeePhoto(employee?.empNumber);
+  let fullName: string | undefined;
+  if (employee !== undefined) {
+    fullName = getFullName(employee);
+  }
+  const jobTitle = employee?.jobTitle.title;
   return (
     <View>
       <ImageBackground
-        source={imageSource ? imageSource : require('images/default-photo.png')}
+        source={employeePhoto.source}
+        defaultSource={require('images/default-photo.png')}
         style={styles.backgroundImageWidth}
         imageStyle={styles.backgroundImage}>
         <View>
           <View style={styles.thumbnailContainer}>
             <Thumbnail
               large
-              source={
-                imageSource ? imageSource : require('images/default-photo.png')
-              }
+              source={employeePhoto.source}
+              defaultSource={require('images/default-photo.png')}
               style={{margin: theme.spacing * 4}}
             />
           </View>
@@ -52,10 +56,10 @@ const ProfilePicture = (props: ProfilePictureProps) => {
               marginLeft: theme.spacing * 4,
               marginBottom: theme.spacing * 4,
             }}>
-            {name === undefined ? null : (
+            {fullName === undefined ? null : (
               <Text
                 style={[styles.nameText, {color: theme.typography.darkColor}]}>
-                {name}
+                {fullName}
               </Text>
             )}
             {jobTitle === undefined || jobTitle === null ? null : (
@@ -71,9 +75,7 @@ const ProfilePicture = (props: ProfilePictureProps) => {
 };
 
 interface ProfilePictureProps extends WithTheme {
-  imageSource?: ImageSourcePropType;
-  name?: string;
-  jobTitle?: string | null;
+  employee: Employee | undefined;
 }
 
 const styles = StyleSheet.create({

@@ -37,7 +37,7 @@ export interface AssignLeaveState {
   entitlement?: SubordinateEntitlement[];
   selectedLeaveTypeId?: number;
   selectedSubordinate?: Subordinate;
-  subordinates?: Subordinate[];
+  subordinates: Map<string, Subordinate[]>;
   workShift: WorkShift;
   workShiftFetched: boolean;
   leaveTypes?: ColorAssignedLeaveType[];
@@ -143,6 +143,7 @@ export interface FetchSubordinatesAction {
 
 export interface FetchSubordinatesFinishedAction {
   type: typeof FETCH_SUBORDINATES_FINISHED;
+  sourceAction: FetchSubordinatesAction;
   payload?: Subordinate[];
   error: boolean;
 }

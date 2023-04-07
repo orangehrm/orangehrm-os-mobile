@@ -128,7 +128,7 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
             />
           </View>
           <View style={[styles.row, styles.flex]}>
-            {employees?.length === 0 ? (
+            {employees?.get(textValue)?.length === 0 ? (
               <View style={[styles.row, styles.flex, styles.center]}>
                 <Text
                   style={{
@@ -150,7 +150,7 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
                     }}
                   />
                 }
-                data={employees}
+                data={employees?.get(textValue)}
                 renderItem={({item}) => {
                   const fullName = getFirstAndLastNames(item);
                   return (

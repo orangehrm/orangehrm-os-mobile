@@ -30,7 +30,17 @@ describe('components/ProfilePicture', () => {
   test('test ProfilePicture component', () => {
     const node = render(
       <Provider store={mockStore}>
-        <ProfilePicture name="Employee Name" />
+        <ProfilePicture
+          employee={{
+            empNumber: 1,
+            employeeId: '0001',
+            firstName: 'Abbey',
+            lastName: 'Kyla',
+            middleName: '',
+            jobTitle: {id: 2, title: 'Accountant', isDeleted: false},
+            subunit: {id: null, name: null},
+          }}
+        />
       </Provider>,
     ).toJSON();
     expect(node).toMatchSnapshot();

@@ -29,8 +29,13 @@ type DrawerItem = {
   key: string;
   label: string;
   subheader?: string;
-  subheaderIcon?: {name: string; type?: string};
+  subheaderIcon?: SubHeaderIcon;
 };
+
+interface SubHeaderIcon {
+  name: string;
+  type?: string;
+}
 
 export const getDrawerItems = (
   drawerNavigationState: DrawerNavigationState,
@@ -41,6 +46,14 @@ export const getDrawerItems = (
   const subheaders: {[key: string]: undefined} = {};
   if (enabledModules !== undefined) {
     drawerNavigationState.routes.forEach((route) => {
+      if (route.params?.subheader === undefined) {
+        return;
+      }
+
+      const label = drawerDescriptors[route.key].options.drawerLabel;
+      if (typeof label !== 'string') {
+        return;
+      }
       const moduleName = SUBHEADER_MODULE_MAP[
         route.params?.subheader
       ] as keyof $PropertyType<EnabledModules, 'modules'>;
@@ -48,7 +61,7 @@ export const getDrawerItems = (
         const item: DrawerItem = {
           name: route.name,
           key: route.key,
-          label: drawerDescriptors[route.key].options.drawerLabel,
+          label: label,
           subheader: undefined,
           subheaderIcon: undefined,
         };
@@ -65,12 +78,16 @@ export const getDrawerItems = (
   return items;
 };
 
-export const SUBHEADER_ICONS = {
+export const SUBHEADER_ICONS: {
+  [key: string]: SubHeaderIcon;
+} = {
   [SUBHEADER_LEAVE]: {name: 'briefcase'},
   [SUBHEADER_TIME]: {name: 'clock'},
 };
 
-export const SUBHEADER_MODULE_MAP = {
+export const SUBHEADER_MODULE_MAP: {
+  [key: string]: string;
+} = {
   [SUBHEADER_LEAVE]: MODULE_LEAVE,
   [SUBHEADER_TIME]: MODULE_TIME,
 };

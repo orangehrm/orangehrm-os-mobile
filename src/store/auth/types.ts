@@ -129,16 +129,9 @@ export interface Employee {
   firstName: string;
   lastName: string;
   middleName: string;
-  fullName: string;
   employeeId: string;
-  code: string | null;
   jobTitle: JobTitle;
-  unit: SubUnit;
-  supervisor: null | Supervisor[];
-}
-
-export interface EmployeePhoto {
-  employeePhoto: NullableString;
+  subunit: SubUnit;
 }
 
 export interface User {
@@ -148,22 +141,18 @@ export interface User {
 
 export interface MyInfo {
   employee: Employee;
-  employeePhoto: NullableString;
   user: User;
 }
 
 export interface JobTitle {
-  id: string;
-  title: string;
-  isDeleted: boolean;
+  id: number | null;
+  title: string | null;
+  isDeleted: boolean | null;
 }
 
-/**
- * @deprecated
- */
 export interface SubUnit {
-  id: string;
-  name: string;
+  id: string | null;
+  name: string | null;
 }
 
 /**

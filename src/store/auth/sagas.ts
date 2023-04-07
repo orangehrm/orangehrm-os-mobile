@@ -376,7 +376,7 @@ function* fetchMyInfo() {
     // eslint-disable-next-line no-undef
     const rawResponse: Response = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_MY_INFO, {}, {model: 'detailed'}),
+      prepare(API_ENDPOINT_MY_INFO, {}, {model: 'summary'}),
       true,
     );
 
@@ -389,7 +389,6 @@ function* fetchMyInfo() {
         if (response.data) {
           const data: MyInfo = {
             employee: response.data,
-            employeePhoto: null,
             user: {
               // TODO::remove
               userRole: 'Admin',
