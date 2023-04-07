@@ -475,7 +475,8 @@ const getAttendanceRecordsOfTheSelectedDate = (
     const selectedAttendanceObjects: AttendanceObject[] = [];
     attendanceObjects.forEach((attendanceObject) => {
       if (
-        selectedDay.format('YYYY-MM-DD') === attendanceObject.punchIn.userDate
+        selectedDay.format('YYYY-MM-DD') ===
+        attendanceObject.punchInUserTime.split(' ', 2)[0]
       ) {
         selectedAttendanceObjects.push(attendanceObject);
       }

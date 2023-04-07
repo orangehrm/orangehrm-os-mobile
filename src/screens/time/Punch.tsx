@@ -39,11 +39,7 @@ import {
   savePunchOutRequest,
   fetchUTCDateTime,
 } from 'store/time/punch/actions';
-import {
-  PunchRequest,
-  PUNCHED_IN,
-  PUNCHED_OUT,
-} from 'store/time/punch/types';
+import {PunchRequest, PUNCHED_IN, PUNCHED_OUT} from 'store/time/punch/types';
 import {
   selectPunchStatus,
   selectSavedPunchNote,
@@ -147,7 +143,6 @@ class Punch extends React.Component<PunchProps, PunchState> {
   }
 
   componentDidMount() {
-    console.log('ssssss');
     this.props.fetchPunchStatus();
     this.props.fetchAttendanceConfigs();
     this.keyboardHide = Keyboard.addListener(
