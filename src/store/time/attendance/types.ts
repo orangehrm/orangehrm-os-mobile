@@ -151,7 +151,7 @@ export interface GraphRecordsObject {
   totalWorkHours: number;
   totalLeaveHours: number;
   totalLeaveTypeHours: SingleLeave[];
-  workSummary: WorkSummaryObject;
+  workSummary: WorkSummaryObject[];
 }
 
 export const SHORT_SUNDAY = 'Su';

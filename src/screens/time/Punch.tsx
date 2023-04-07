@@ -78,8 +78,6 @@ import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
 import {selectCurrentRoute} from 'store/globals/selectors';
 import {PUNCH} from 'screens';
 import FormattedDate from 'components/FormattedDate';
-import {USER_ROLE_ADMIN} from 'store/auth/types';
-import {selectMyInfo} from 'store/auth/selectors';
 
 class Punch extends React.Component<PunchProps, PunchState> {
   inputRef: RNTextInput | null;
@@ -103,40 +101,18 @@ class Punch extends React.Component<PunchProps, PunchState> {
     }
     if (prevProps.currentRoute !== this.props.currentRoute) {
       if (
-        this.props.myInfo?.user.userRole === USER_ROLE_ADMIN ||
-        this.props.myInfo?.user.isSupervisor === true
+        prevProps.punchAttendanceConfig?.canUserChangeCurrentTime !==
+        this.props.punchAttendanceConfig?.canUserChangeCurrentTime
       ) {
         if (
-          prevProps.punchAttendanceConfig?.canSupervisorModifyAttendance !==
-          this.props.punchAttendanceConfig?.canSupervisorModifyAttendance
+          this.props.currentRoute === PUNCH &&
+          this.timeInterval === null &&
+          this.props.punchAttendanceConfig?.canUserChangeCurrentTime === false
         ) {
-          if (
-            this.props.currentRoute === PUNCH &&
-            this.timeInterval === null &&
-            this.props.punchAttendanceConfig?.canSupervisorModifyAttendance ===
-              false
-          ) {
-            this.timeInterval = setInterval(this.onAutoReload, 30000);
-          } else {
-            clearInterval(this.timeInterval);
-            this.timeInterval = null;
-          }
-        }
-      } else {
-        if (
-          prevProps.punchAttendanceConfig?.canUserModifyAttendance !==
-          this.props.punchAttendanceConfig?.canUserModifyAttendance
-        ) {
-          if (
-            this.props.currentRoute === PUNCH &&
-            this.timeInterval === null &&
-            this.props.punchAttendanceConfig?.canUserModifyAttendance === false
-          ) {
-            this.timeInterval = setInterval(this.onAutoReload, 30000);
-          } else {
-            clearInterval(this.timeInterval);
-            this.timeInterval = null;
-          }
+          this.timeInterval = setInterval(this.onAutoReload, 30000);
+        } else {
+          clearInterval(this.timeInterval);
+          this.timeInterval = null;
         }
       }
     }
@@ -193,8 +169,12 @@ class Punch extends React.Component<PunchProps, PunchState> {
   };
 
   onAutoReload = () => {
+    console.log('ddddddddddddddd');
     this.props.fetchPunchStatus(true);
     this.props.fetchAttendanceConfigs(true);
+    const date = getDateFormatFromDateObject(new Date());
+    const time = getTimeFormatFromDateObject(new Date());
+    this.props.changePunchCurrentDateTime(date, time);
   };
 
   updateDateTime = (data: Date) => {
@@ -293,14 +273,9 @@ class Punch extends React.Component<PunchProps, PunchState> {
       punchCurrentTime,
       savedNote,
       punchAttendanceConfig,
-      myInfo,
     } = this.props;
     const {note} = this.state;
-    const editable =
-      myInfo?.user.userRole === USER_ROLE_ADMIN ||
-      myInfo?.user.isSupervisor === true
-        ? punchAttendanceConfig?.canSupervisorModifyAttendance
-        : punchAttendanceConfig?.canUserModifyAttendance;
+    const editable = punchAttendanceConfig?.canUserChangeCurrentTime;
     return (
       <MainLayout
         onRefresh={this.onRefresh}
@@ -488,16 +463,6 @@ class Punch extends React.Component<PunchProps, PunchState> {
                         <View style={[styles.flexFour]}>
                           <Text>
                             {punchStatus?.state.name === PUNCHED_IN
-                              ? punchStatus?.punchIn.userTime
-                                ? formatTime(
-                                    getLocalDateObjectFromSaveFormat(
-                                      punchStatus?.punchIn.userDate +
-                                        ':' +
-                                        punchStatus?.punchIn.userTime,
-                                    ),
-                                  )
-                                : null
-                              : punchStatus?.punchIn.userTime
                               ? formatTime(
                                   getLocalDateObjectFromSaveFormat(
                                     punchStatus?.punchIn.userDate +
@@ -505,7 +470,13 @@ class Punch extends React.Component<PunchProps, PunchState> {
                                       punchStatus?.punchIn.userTime,
                                   ),
                                 )
-                              : null}
+                              : formatTime(
+                                  getLocalDateObjectFromSaveFormat(
+                                    punchStatus?.punchOut.userDate +
+                                      ':' +
+                                      punchStatus?.punchOut.userTime,
+                                  ),
+                                )}
                             {'   '}
                             <FormattedDate>
                               {punchStatus?.state.name === PUNCHED_IN
@@ -622,7 +593,6 @@ const mapStateToProps = (state: RootState) => ({
   punchCurrentTime: selectPunchCurrentTime(state),
   savedNote: selectSavedPunchNote(state),
   currentRoute: selectCurrentRoute(state),
-  myInfo: selectMyInfo(state),
 });
 
 const mapDispatchToProps = {

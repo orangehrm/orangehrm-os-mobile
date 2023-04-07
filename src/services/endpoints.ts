@@ -25,10 +25,14 @@ export const API_ENDPOINT_PUNCH_STATUS = '/api/v2/attendance/records/latest';
 export const API_ENDPOINT_PUNCH_IN_OUT_REQUEST = '/api/v2/attendance/records';
 export const API_ENDPOINT_ATTENDANCE_CONFIG = '/api/v2/attendance/configs';
 export const API_ENDPOINT_ATTENDANCE = '/api/v1/attendance/records';
-export const API_ENDPOINT_ATTENDANCE_GRAPH = '/api/v1/attendance/summary';
+export const API_ENDPOINT_ATTENDANCE_GRAPH =
+  '/api/v2/leave/employees/leave-requests';
+export const API_ENDPOINT_ATTENDANCE_WORK_SUMMARY =
+  '/api/v2/dashboard/employees/time-at-work';
 export const API_ENDPOINT_ATTENDANCE_LIST =
-  '/api/v1/attendance/attendance-list';
-export const API_ENDPOINT_ATTENDANCE_CONFIGURATION = '/api/v1/time/config';
+  '/api/v2/attendance/employees/summary';
+export const API_ENDPOINT_ATTENDANCE_CONFIGURATION =
+  '/api/v2/time/time-sheet-period';
 
 // public endpoints
 export const API_ENDPOINT_API_DEFINITION = '/api/v1/api-definition';

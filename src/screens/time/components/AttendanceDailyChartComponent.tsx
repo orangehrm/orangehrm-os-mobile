@@ -70,6 +70,7 @@ const AttendanceDailyChartComponent = (
     width === window.width ? width : width - theme.spacing * 10;
 
   const renderGraph = () => {
+      console.log(props.dateOfMonth);
     return (
       <View>
         <VictoryChart
@@ -177,6 +178,7 @@ const AttendanceDailyChartComponent = (
               events={events}
             />
             {props.graphLeaveData.map((leaveTypeData, index) => {
+                console.log(leaveTypeData);
               return (
                 <VictoryBar
                   key={index}

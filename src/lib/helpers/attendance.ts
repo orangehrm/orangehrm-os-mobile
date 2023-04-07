@@ -354,11 +354,15 @@ const calculateWorkData = (
   });
   days.forEach((day) => {
     const key = <MutableKeys<WorkSummaryObject>>day;
+    console.log(key);
+    console.log(graphRecordsInputData.workSummary[key]);
     const hours = graphRecordsInputData.workSummary[key].workHours;
     const data: GraphDataPoint = {
       x: dayMapper[key],
       y: parseFloat(hours),
     };
+
+    console.log(data);
     workGraphData.push(data);
   });
   return workGraphData;
@@ -368,6 +372,7 @@ const calculateGraphData = (
   leaveTypesInputData: GraphRecordsObject,
   startDayIndex: number,
 ) => {
+  console.log(leaveTypesInputData);
   const leaveGraphData: LeaveTypeGraphData[] = [];
 
   const leaveTypeIds: string[] = [];
@@ -577,6 +582,25 @@ const getWeekdayOrder = (startDayIndex: number, format: string) => {
   return result;
 };
 
+const getDatesStringKey = (name: string) => {
+  if (name === 'Sun') {
+    return 'sunday';
+  } else if (name === 'Mon') {
+    return 'monday';
+  } else if (name === 'Tue') {
+    return 'tuesday';
+  } else if (name === 'Wed') {
+    return 'wednesday';
+  } else if (name === 'Thu') {
+    return 'thursday';
+  } else if (name === 'Fri') {
+    return 'friday';
+  } else if (name === 'Sat') {
+    return 'saturday';
+  }
+  return 'sunday';
+};
+
 export {
   getUTCDateObjectFromSaveFormat,
   calculateDurationBasedOnTimezone,
@@ -604,4 +628,5 @@ export {
   getLocalDateObjectFromSaveFormat,
   getDateFormatFromDateObject,
   getTimeFormatFromDateObject,
+  getDatesStringKey,
 };

@@ -19,7 +19,7 @@
  */
 
 import {takeEvery, put, select} from 'redux-saga/effects';
-import {apiCall, apiGetCall} from 'store/saga-effects/api';
+import {apiCall, apiGetCall, ApiResponse} from 'store/saga-effects/api';
 import {
   openLoader,
   closeLoader,
@@ -40,6 +40,10 @@ import {
   FETCH_SUBORDINATES,
   FETCH_ATTENDANCE_CONFIGURATION,
   AttendanceConfiguration,
+  LeaveObject,
+  GraphRecordsObject,
+  SingleEmployeeAttendance,
+  WorkSummaryObject,
 } from './types';
 import {
   fetchAttendanceRecordsFinished,
@@ -52,7 +56,6 @@ import {
   fetchAttendanceConfigurationFinished,
 } from './actions';
 import {
-  API_ENDPOINT_ATTENDANCE,
   API_ENDPOINT_LEAVE,
   API_ENDPOINT_ATTENDANCE_GRAPH,
   API_ENDPOINT_LEAVE_HOLIDAYS,
@@ -61,6 +64,8 @@ import {
   API_ENDPOINT_EMPLOYEES,
   API_ENDPOINT_ATTENDANCE_CONFIGURATION,
   prepare,
+  API_ENDPOINT_PUNCH_IN_OUT_REQUEST,
+  API_ENDPOINT_ATTENDANCE_WORK_SUMMARY,
 } from 'services/endpoints';
 import {
   getMessageAlongWithGenericErrors,
@@ -74,24 +79,29 @@ import {
   selectAttendanceConfiguration,
   selectAttendanceConfigurationFetched,
 } from 'store/time/attendance/selectors';
+import {AttendanceObject} from './types';
+import {Holiday, WorkWeek} from '../../leave/common-screens/types';
+import {getDatesStringKey} from 'lib/helpers/attendance';
 
 function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
+  console.log('attendance records');
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<AttendanceObject, {}> = yield apiCall(
       apiGetCall,
       prepare(
-        API_ENDPOINT_ATTENDANCE,
+        API_ENDPOINT_PUNCH_IN_OUT_REQUEST,
         {},
         {
-          fromDate: action.payload.fromDate + ' 00:00:00',
-          toDate: action.payload.toDate + ' 23:59:59',
+          date: action.payload.fromDate,
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
         },
       ),
     );
+
+    console.log(response);
 
     if (response.data) {
       yield put(fetchAttendanceRecordsFinished(response.data));
@@ -110,6 +120,7 @@ function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
       }
     }
   } catch (error) {
+    console.log(error, '787878787878');
     yield showSnackMessage(
       getMessageAlongWithGenericErrors(error, 'Failed to Fetch  Record'),
       TYPE_ERROR,
@@ -121,9 +132,10 @@ function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
 }
 
 function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
+  console.log('leave Records');
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveObject[]> = yield apiCall(
       apiGetCall,
       prepare(
         API_ENDPOINT_LEAVE,
@@ -170,38 +182,120 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
 function* fetchAttendanceGraphRecords(
   action: FetchAttendanceGraphRecordsAction,
 ) {
+  console.log('attendance graph');
   try {
     yield openLoader();
 
-    const response = yield apiCall(
+    const response: ApiResponse<GraphRecordsObject> = yield apiCall(
       apiGetCall,
       prepare(
         API_ENDPOINT_ATTENDANCE_GRAPH,
         {},
         {
-          fromDate: action.payload.fromDate + ' 00:00:00',
-          toDate: action.payload.toDate + ' 23:59:59',
-          pendingApproval: true,
-          scheduled: true,
-          taken: true,
+          fromDate: action.payload.fromDate,
+          toDate: action.payload.toDate,
+          includeEmployees: 'onlyCurrent',
+          statuses: ['1', '2', '3'],
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
         },
       ),
     );
-    if (response.data) {
-      yield put(fetchAttendanceGraphRecordsFinished(response.data));
-    } else {
-      yield put(fetchAttendanceGraphRecordsFinished(undefined, true));
-      yield showSnackMessage(
-        getMessageAlongWithResponseErrors(
-          response,
-          'Failed to Fetch Leave Details',
-        ),
-        TYPE_ERROR,
-      );
+
+    const response1: ApiResponse<WorkSummaryObject> = yield apiCall(
+      apiGetCall,
+      prepare(
+        API_ENDPOINT_ATTENDANCE_WORK_SUMMARY,
+        {},
+        {
+          timezoneOffset: 5.5,
+          currentDate: action.payload.fromDate,
+          currentTime: '00:00',
+          ...(action.payload.empNumber && {
+            empNumber: action.payload.empNumber,
+          }),
+        },
+      ),
+    );
+
+    const graphData: any = response.data;
+    const workWeekData: any = response1.data;
+
+    if (graphData) {
+      const arr1: any = [];
+      graphData?.map((item: any) => {
+        const obj = {
+          typeId: item.leaveType.id,
+          type: item.leaveType.name,
+          hours: item.noOfDays * 8,
+        };
+        arr1.push(obj);
+      });
+
+      console.log(response.data);
+      console.log(response1.data);
+
+      if (response1.data) {
+        const object = {
+          [getDatesStringKey(workWeekData[0].workDay.day)]: {
+            workHours: workWeekData[0].totalTime.hours,
+            leave: [],
+          },
+          [getDatesStringKey(workWeekData[1].workDay.day)]: {
+            workHours: workWeekData[1].totalTime.hours,
+            leave: [],
+          },
+          [getDatesStringKey(workWeekData[2].workDay.day)]: {
+            workHours: workWeekData[2].totalTime.hours,
+            leave: [],
+          },
+          [getDatesStringKey(workWeekData[3].workDay.day)]: {
+            workHours: workWeekData[3].totalTime.hours,
+            leave: [],
+          },
+          [getDatesStringKey(workWeekData[4].workDay.day)]: {
+            workHours: workWeekData[4].totalTime.hours,
+            leave: [],
+          },
+          [getDatesStringKey(workWeekData[5].workDay.day)]: {
+            workHours: workWeekData[5].totalTime.hours,
+            leave: [],
+          },
+          [getDatesStringKey(workWeekData[6].workDay.day)]: {
+            workHours: workWeekData[6].totalTime.hours,
+            leave: [],
+          },
+        };
+
+        console.log(object, 'dfdfdfdffdf');
+        const data = {
+          totalWorkHours: '7.95',
+          totalLeaveHours: '12.00',
+          totalLeaveTypeHours: arr1,
+          workSummary: object,
+        };
+
+        console.log(data, '999999');
+        if (data) {
+          yield put(fetchAttendanceGraphRecordsFinished(data));
+        } else {
+          yield put(fetchAttendanceGraphRecordsFinished(undefined, true));
+          yield showSnackMessage(
+            getMessageAlongWithResponseErrors(
+              response,
+              'Failed to Fetch Leave Details',
+            ),
+            TYPE_ERROR,
+          );
+        }
+      }
     }
+
+    // console.log(action.payload);
+    console.log(response);
+
+    console.log(response1);
   } catch (error) {
     yield showSnackMessage(
       getMessageAlongWithGenericErrors(error, 'Failed to Fetch Record'),
@@ -216,7 +310,7 @@ function* fetchAttendanceGraphRecords(
 function* fetchHolidays(action: FetchHolidaysAction) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<Holiday[]> = yield apiCall(
       apiGetCall,
       prepare(
         API_ENDPOINT_LEAVE_HOLIDAYS,
@@ -251,7 +345,10 @@ function* fetchHolidays(action: FetchHolidaysAction) {
 function* fetchWorkWeek() {
   try {
     yield openLoader();
-    const response = yield apiCall(apiGetCall, API_ENDPOINT_LEAVE_WORK_WEEK);
+    const response: ApiResponse<WorkWeek> = yield apiCall(
+      apiGetCall,
+      API_ENDPOINT_LEAVE_WORK_WEEK,
+    );
     if (response.data) {
       yield put(fetchWorkWeekFinished(response.data));
     } else {
@@ -276,29 +373,22 @@ function* fetchWorkWeek() {
 function* fetchEmployeeAttendanceList(
   action: FetchEmployeeAttendanceListAction,
 ) {
+  console.log('employeeAttendance');
   try {
     yield openLoader();
-    const myInfo: MyInfo = yield selectMyInfo();
-    const response = yield apiCall(
+    const response: ApiResponse<SingleEmployeeAttendance[]> = yield apiCall(
       apiGetCall,
       prepare(
         API_ENDPOINT_ATTENDANCE_LIST,
         {},
         {
-          fromDate: action.payload.fromDate + ' 00:00:00',
-          toDate: action.payload.toDate + ' 23:59:59',
-          pastEmployee: false,
-          ...(action.payload.empNumber !== undefined && {
-            empNumber: action.payload.empNumber,
-          }),
-          ...(action.payload.pastEmployee !== undefined && {
-            pastEmployee: action.payload.pastEmployee,
-          }),
-          all: true,
-          includeSelf: myInfo.user.userRole === USER_ROLE_ADMIN,
+          fromDate: action.payload.fromDate,
+          toDate: action.payload.toDate,
         },
       ),
     );
+
+    console.log(response);
     if (response.data) {
       yield put(fetchEmployeeAttendanceListFinished(response.data));
     } else {
@@ -311,6 +401,7 @@ function* fetchEmployeeAttendanceList(
       );
     }
   } catch (error) {
+    console.log(error);
     yield showSnackMessage(
       getMessageAlongWithGenericErrors(
         error,
@@ -358,6 +449,7 @@ function* fetchAccessibleEmployees() {
 }
 
 function* fetchAttendanceConfiguration() {
+  console.log('config');
   let attendanceConfigFetched: boolean = false;
   try {
     attendanceConfigFetched = yield select(
@@ -373,13 +465,17 @@ function* fetchAttendanceConfiguration() {
       return;
     }
 
+    console.log('111');
+
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<AttendanceConfiguration> = yield apiCall(
       apiGetCall,
       prepare(API_ENDPOINT_ATTENDANCE_CONFIGURATION),
     );
+
+    console.log(response, '222222222222222222222222222222222');
     if (response.data) {
-      yield put(fetchAttendanceConfigurationFinished(response.data));
+      yield put(fetchAttendanceConfigurationFinished({startDate: 2}));
     } else {
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(
@@ -390,6 +486,7 @@ function* fetchAttendanceConfiguration() {
       );
     }
   } catch (error) {
+    console.log(error);
     yield showSnackMessage(
       getMessageAlongWithGenericErrors(
         error,

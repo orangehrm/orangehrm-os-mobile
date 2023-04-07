@@ -175,6 +175,11 @@ class AttendanceSummary extends React.Component<
         this.props.graphRecords,
         this.state.startDayIndex,
       );
+
+      console.log(leaveResult);
+      console.log(cardRresult);
+      console.log(workResult);
+      console.log(this.props.weekStartDay);
       this.setState({
         graphLeaveData: leaveResult,
         singleLeaveTypeData: cardRresult,
@@ -224,6 +229,7 @@ class AttendanceSummary extends React.Component<
       attendanceRequest = {
         fromDate: startDate,
         toDate: endDate,
+        empNumber: 1,
       };
     }
     this.props.fetchAttendanceGraphRecords(attendanceRequest);
