@@ -177,8 +177,8 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                               color: theme.palette.secondary,
                             }}>
                             {calculateDurationBasedOnTimezone(
-                              punchIn.userDate + ':' + punchIn.userTime,
-                              punchOut.userDate + ':' + punchOut.userTime,
+                              punchIn.userDate + 'T' + punchIn.userTime,
+                              punchOut.userDate + 'T' + punchOut.userTime,
                               parseFloat(punchIn.timezoneOffset),
                               parseFloat(punchOut.timezoneOffset),
                             )}
@@ -242,13 +242,13 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                         {punchIn.userDate
                           ? formatTime(
                               getLocalDateObjectFromSaveFormat(
-                                punchIn.userDate + ':' + punchIn.userTime,
+                                punchIn.userDate + 'T' + punchIn.userTime,
                               ),
                             )
                           : null}
                         {'    '}
                         <FormattedDate>
-                          {punchIn.userDate + ':' + punchIn.userTime}
+                          {punchIn.userDate + 'T' + punchIn.userTime}
                         </FormattedDate>
                         <Text>
                           {formatTimezoneOffset(punchIn.timezoneOffset)}
@@ -323,13 +323,13 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                             {punchOut.userDate
                               ? formatTime(
                                   getLocalDateObjectFromSaveFormat(
-                                    punchOut.userDate + ':' + punchOut.userTime,
+                                    punchOut.userDate + 'T' + punchOut.userTime,
                                   ),
                                 )
                               : null}
                             {'    '}
                             <FormattedDate>
-                              {punchOut.userDate + ':' + punchOut.userTime}
+                              {punchOut.userDate + 'T' + punchOut.userTime}
                             </FormattedDate>
                             <Text>
                               {formatTimezoneOffset(punchOut.timezoneOffset)}

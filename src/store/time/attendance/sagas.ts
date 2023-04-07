@@ -44,6 +44,7 @@ import {
   GraphRecordsObject,
   SingleEmployeeAttendance,
   WorkSummaryObject,
+  EmployeeObject,
 } from './types';
 import {
   fetchAttendanceRecordsFinished,
@@ -84,13 +85,13 @@ import {getCurrentTimeZoneOffset, getGraphObject} from 'lib/helpers/attendance';
 function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
   try {
     yield openLoader();
-    const response: ApiResponse<AttendanceObject> = yield apiCall(
+    const response: ApiResponse<AttendanceObject[]> = yield apiCall(
       apiGetCall,
       prepare(
         API_ENDPOINT_PUNCH_IN_OUT_REQUEST,
         {},
         {
-          date: '2023-04-06',
+          date: action.payload.fromDate,
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
@@ -347,7 +348,7 @@ function* fetchAccessibleEmployees() {
       actionName: 'attendance_records',
       properties: ['firstName', 'lastName', 'employeeId'],
     };
-    const response = yield apiCall(
+    const response: ApiResponse<EmployeeObject[]> = yield apiCall(
       apiGetCall,
       prepare(API_ENDPOINT_EMPLOYEES, {}, queryParams),
     );

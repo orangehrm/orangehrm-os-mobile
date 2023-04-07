@@ -34,7 +34,7 @@ import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 import {
   getUTCDateFromSaveFormat,
   getUTCTimeObjectFromSaveFormat,
-} from '../../../lib/helpers/attendance';
+} from 'lib/helpers/attendance';
 
 const initialState: PunchStatusState = {};
 

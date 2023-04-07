@@ -76,18 +76,16 @@ const getTimeFormatFromDateObject = (date: Date) => {
 };
 
 /**
- * @param {String} dateString YYYY-MM-DD  formated string
+ * @param {String} utcDate YYYY-MM-DD  formated string
  * @param {String} utcTime HH:mm formated string
  * @return {Date}
  */
 const getUTCDateFromSaveFormat = (
-  dateString: string | undefined,
+  utcDate: string | undefined,
   utcTime: string | undefined,
 ) => {
   // https://github.com/facebook/react-native/issues/30245
-  return moment(new Date(dateString + 'T' + utcTime + 'Z')).format(
-    'YYYY-MM-DD',
-  );
+  return moment(new Date(utcDate + 'T' + utcTime + 'Z')).format('YYYY-MM-DD');
 };
 
 /**
@@ -101,16 +99,16 @@ const getUTCDateObjectFromSaveFormat = (dateString: string) => {
 };
 
 /**
- * @param {String} dateString YYYY-MM-DD  formated string
+ * @param {String} utcDate YYYY-MM-DD  formated string
  * @param {String} utcTime HH:mm formated string
  * @return {Date}
  */
 const getUTCTimeObjectFromSaveFormat = (
-  dateString: string | undefined,
+  utcDate: string | undefined,
   utcTime: string | undefined,
 ) => {
   // https://github.com/facebook/react-native/issues/30245
-  return moment(new Date(dateString + 'T' + utcTime + 'Z')).format('HH:mm');
+  return moment(new Date(utcDate + 'T' + utcTime + 'Z')).format('HH:mm');
 };
 
 /**
@@ -386,7 +384,7 @@ const calculateWorkData = (
     const hours = graphRecordsInputData.workSummary[key].workHours;
     const data: GraphDataPoint = {
       x: dayMapper[key],
-      y: parseFloat(hours),
+      y: parseFloat(String(hours)),
     };
 
     workGraphData.push(data);
@@ -428,7 +426,7 @@ const calculateGraphData = (
       } else {
         singleData = {
           x: dayMapper[key],
-          y: parseFloat(filteredLeaves[0].hours),
+          y: parseFloat(String(filteredLeaves[0].hours)),
         };
       }
       data.push(singleData);
@@ -477,8 +475,7 @@ const getAttendanceRecordsOfTheSelectedDate = (
     const selectedAttendanceObjects: AttendanceObject[] = [];
     attendanceObjects.forEach((attendanceObject) => {
       if (
-        selectedDay.format('YYYY-MM-DD') ===
-        attendanceObject.punchInUserTime.split(' ', 2)[0]
+        selectedDay.format('YYYY-MM-DD') === attendanceObject.punchIn.userDate
       ) {
         selectedAttendanceObjects.push(attendanceObject);
       }

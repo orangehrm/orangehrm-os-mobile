@@ -74,7 +74,7 @@ function* fetchAttendanceConfigs(action: fetchAttendanceConfigsAction) {
       yield openLoader();
     }
 
-    const response: ApiResponse<AttendanceConfigObject, {}> = yield apiCall(
+    const response: ApiResponse<AttendanceConfigObject> = yield apiCall(
       apiGetCall,
       API_ENDPOINT_ATTENDANCE_CONFIG,
     );
@@ -122,7 +122,7 @@ function* savePunchInRequest(action: PunchInRequestAction) {
 function* savePunchOutRequest(action: PunchOutRequestAction) {
   try {
     yield openLoader();
-    const response: ApiResponse<PunchRequestSuccessParam, {}> = yield apiCall(
+    const response: ApiResponse<PunchRequestSuccessParam> = yield apiCall(
       apiPutCall,
       API_ENDPOINT_PUNCH_IN_OUT_REQUEST,
       action.payload,
@@ -155,7 +155,7 @@ function* fetchPunchStatus(action: FetchPunchStatusAction) {
       yield openLoader();
     }
 
-    const response: ApiResponse<PunchStatus, {}> = yield apiCall(
+    const response: ApiResponse<PunchStatus> = yield apiCall(
       apiGetCall,
       API_ENDPOINT_PUNCH_STATUS,
     );
@@ -175,7 +175,7 @@ function* fetchUTCDateTime(action: FetchUTCDateTimeAction) {
       yield openLoader();
     }
 
-    const response: ApiResponse<UTCDateTime, {}> = yield apiCall(
+    const response: ApiResponse<UTCDateTime> = yield apiCall(
       apiGetCall,
       API_ENDPOINT_FETCH_UTC_DATE_TIME,
     );

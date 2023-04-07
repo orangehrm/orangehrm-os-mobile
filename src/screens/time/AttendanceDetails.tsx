@@ -128,6 +128,7 @@ class AttendanceDetails extends React.Component<
 
   render() {
     const {attendanceRecords, leaveRecords, workweek, holidays} = this.props;
+    console.log(this.props.route.params.leaveTypesInputData);
     const {selectedDate} = this.state;
     const selectedAttendanceRecords = getAttendanceRecordsOfTheSelectedDate(
       attendanceRecords,

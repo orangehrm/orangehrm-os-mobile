@@ -35,7 +35,7 @@ const PunchInOutDateTimeCard = (props: PunchInOutDateTimeCardProps) => {
   if (punchCurrentDate === undefined) {
     date = new Date();
   } else {
-    date = new Date(punchCurrentDate + ':' + punchCurrentTime);
+    date = new Date(punchCurrentDate + 'T' + punchCurrentTime);
   }
 
   const dateDisplay = date.toDateString();

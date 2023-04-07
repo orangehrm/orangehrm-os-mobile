@@ -144,7 +144,7 @@ export interface PunchRequest {
   timezoneOffset: number;
   timezoneName: string;
   note: string | null;
-  date: string;
+  date: string | undefined;
   time: string | undefined;
 }
 
