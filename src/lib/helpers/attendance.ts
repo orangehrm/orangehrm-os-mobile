@@ -21,16 +21,17 @@
 import moment from 'moment';
 import {LEAVE_TYPE_COLORS} from './leave';
 import {
-  GraphRecordsObject,
-  GraphDataPoint,
-  WorkSummaryObject,
-  LeaveTypeGraphData,
-  DaySelectorSingleDay,
   AttendanceObject,
+  DaySelectorSingleDay,
+  GraphDataPoint,
+  GraphRecordsObject,
   LeaveObject,
+  LeaveTypeGraphData,
+  WorkSummaryObject,
 } from 'store/time/attendance/types';
 import {MutableKeys} from 'utility-types';
-import {WorkWeek, Holiday} from 'store/leave/common-screens/types';
+import {Holiday, WorkWeek} from 'store/leave/common-screens/types';
+
 /**
  *
  * @param dateString  // input format '2020-12-25 13:26'
@@ -75,13 +76,41 @@ const getTimeFormatFromDateObject = (date: Date) => {
 };
 
 /**
- * @param {String} dateString YYYY-MM-DD HH:mm formated string
+ * @param {String} dateString YYYY-MM-DD  formated string
+ * @param {String} utcTime HH:mm formated string
+ * @return {Date}
+ */
+const getUTCDateFromSaveFormat = (
+  dateString: string | undefined,
+  utcTime: string | undefined,
+) => {
+  // https://github.com/facebook/react-native/issues/30245
+  return moment(new Date(dateString + 'T' + utcTime + 'Z')).format(
+    'YYYY-MM-DD',
+  );
+};
+
+/**
+ * @param {String} dateString YYYY-MM-DD  formated string
  * @return {Date}
  */
 const getUTCDateObjectFromSaveFormat = (dateString: string) => {
   const datetime = dateString.split(' ', 2);
   // https://github.com/facebook/react-native/issues/30245
   return new Date(datetime[0] + 'T' + datetime[1] + 'Z');
+};
+
+/**
+ * @param {String} dateString YYYY-MM-DD  formated string
+ * @param {String} utcTime HH:mm formated string
+ * @return {Date}
+ */
+const getUTCTimeObjectFromSaveFormat = (
+  dateString: string | undefined,
+  utcTime: string | undefined,
+) => {
+  // https://github.com/facebook/react-native/issues/30245
+  return moment(new Date(dateString + 'T' + utcTime + 'Z')).format('HH:mm');
 };
 
 /**
@@ -354,15 +383,12 @@ const calculateWorkData = (
   });
   days.forEach((day) => {
     const key = <MutableKeys<WorkSummaryObject>>day;
-    console.log(key);
-    console.log(graphRecordsInputData.workSummary[key]);
     const hours = graphRecordsInputData.workSummary[key].workHours;
     const data: GraphDataPoint = {
       x: dayMapper[key],
       y: parseFloat(hours),
     };
 
-    console.log(data);
     workGraphData.push(data);
   });
   return workGraphData;
@@ -372,7 +398,6 @@ const calculateGraphData = (
   leaveTypesInputData: GraphRecordsObject,
   startDayIndex: number,
 ) => {
-  console.log(leaveTypesInputData);
   const leaveGraphData: LeaveTypeGraphData[] = [];
 
   const leaveTypeIds: string[] = [];
@@ -390,7 +415,7 @@ const calculateGraphData = (
       const key = <MutableKeys<WorkSummaryObject>>day;
 
       const filteredLeaves = leaveTypesInputData.workSummary[key].leave.filter(
-        (leave) => {
+        (leave: any) => {
           return leave.typeId === id;
         },
       );
@@ -434,7 +459,7 @@ const calculateDateSelectorData = (
       const hours = workSummaryObject[key].workHours;
       const daySelectorSingleDay: DaySelectorSingleDay = {
         date: date,
-        duration: getDurationFromHours(parseFloat(hours)),
+        duration: getDurationFromHours(parseFloat(String(hours))),
       };
       selectedWeek.push(daySelectorSingleDay);
     }
@@ -601,6 +626,78 @@ const getDatesStringKey = (name: string) => {
   return 'sunday';
 };
 
+const getGraphObject = (graphData: any, workWeekData: any) => {
+  let totalWorkDuration = 0;
+  const totalLeaveHours = 12.0;
+
+  if (graphData) {
+    const arr1: any[] = [];
+    graphData?.map((item: any) => {
+      const obj = {
+        typeId: item.leaveType.id,
+        type: item.leaveType.name,
+        hours: item.noOfDays * 8,
+      };
+      totalWorkDuration += item.noOfDays * 8;
+      arr1.push(obj);
+    });
+
+    if (workWeekData) {
+      const object = {
+        [getDatesStringKey(workWeekData[0].workDay.day)]: {
+          workHours:
+            workWeekData[0].totalTime.hours +
+            workWeekData[0].totalTime.minutes / 60,
+          leave: [],
+        },
+        [getDatesStringKey(workWeekData[1].workDay.day)]: {
+          workHours:
+            workWeekData[1].totalTime.hours +
+            workWeekData[1].totalTime.minutes / 60,
+          leave: [],
+        },
+        [getDatesStringKey(workWeekData[2].workDay.day)]: {
+          workHours:
+            workWeekData[2].totalTime.hours +
+            workWeekData[2].totalTime.minutes / 60,
+          leave: [],
+        },
+        [getDatesStringKey(workWeekData[3].workDay.day)]: {
+          workHours:
+            workWeekData[3].totalTime.hours +
+            workWeekData[3].totalTime.minutes / 60,
+          leave: [],
+        },
+        [getDatesStringKey(workWeekData[4].workDay.day)]: {
+          workHours:
+            workWeekData[4].totalTime.hours +
+            workWeekData[4].totalTime.minutes / 60,
+          leave: [],
+        },
+        [getDatesStringKey(workWeekData[5].workDay.day)]: {
+          workHours:
+            workWeekData[5].totalTime.hours +
+            workWeekData[5].totalTime.minutes / 60,
+          leave: [],
+        },
+        [getDatesStringKey(workWeekData[6].workDay.day)]: {
+          workHours:
+            workWeekData[6].totalTime.hours +
+            workWeekData[6].totalTime.minutes / 60,
+          leave: [],
+        },
+      };
+
+      return {
+        totalWorkHours: totalWorkDuration,
+        totalLeaveHours: totalLeaveHours,
+        totalLeaveTypeHours: arr1,
+        workSummary: object,
+      };
+    }
+  }
+};
+
 export {
   getUTCDateObjectFromSaveFormat,
   calculateDurationBasedOnTimezone,
@@ -629,4 +726,7 @@ export {
   getDateFormatFromDateObject,
   getTimeFormatFromDateObject,
   getDatesStringKey,
+  getGraphObject,
+  getUTCTimeObjectFromSaveFormat,
+  getUTCDateFromSaveFormat,
 };

@@ -28,8 +28,13 @@ import {
   PUNCHED_IN,
   PUNCHED_OUT,
   FETCH_ATTENDANCE_CONFIG_FINISHED,
+  FETCH_UTC_DATE_TIME_FINISHED,
 } from './types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
+import {
+  getUTCDateFromSaveFormat,
+  getUTCTimeObjectFromSaveFormat,
+} from '../../../lib/helpers/attendance';
 
 const initialState: PunchStatusState = {};
 
@@ -62,6 +67,18 @@ const attendanceReducer = (
         ...state,
         punchCurrentDate: action.punchCurrentDate,
         punchCurrentTime: action.punchCurrentTime,
+      };
+    case FETCH_UTC_DATE_TIME_FINISHED:
+      return {
+        ...state,
+        punchCurrentDate: getUTCDateFromSaveFormat(
+          action.payload?.utcDate,
+          action.payload?.utcTime,
+        ),
+        punchCurrentTime: getUTCTimeObjectFromSaveFormat(
+          action.payload?.utcDate,
+          action.payload?.utcTime,
+        ),
       };
     case PICK_PUNCH_NOTE:
       return {

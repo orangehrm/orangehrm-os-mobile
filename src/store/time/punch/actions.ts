@@ -39,6 +39,11 @@ import {
   FETCH_ATTENDANCE_CONFIG_FINISHED,
   FetchAttendanceConfigFinishedAction,
   AttendanceConfigObject,
+  FETCH_UTC_DATE_TIME_FINISHED,
+  FetchUTCDatetimeFinishedAction,
+  UTCDateTime,
+  FetchUTCDateTimeAction,
+  FETCH_UTC_DATE_TIME,
 } from './types';
 import {$PropertyType} from 'utility-types';
 
@@ -51,6 +56,13 @@ export const fetchPunchStatus = (
   refresh?: boolean,
 ): FetchPunchStatusAction => ({
   type: FETCH_PUNCH_STATUS,
+  refresh,
+});
+
+export const fetchUTCDateTime = (
+  refresh?: boolean,
+): FetchUTCDateTimeAction => ({
+  type: FETCH_UTC_DATE_TIME,
   refresh,
 });
 
@@ -69,6 +81,16 @@ export const fetchPunchStatusFinished = (
   payload,
   error,
 });
+
+export const fetchUTCDateTimeFinished = (
+  payload?: UTCDateTime,
+  error: boolean = false,
+): FetchUTCDatetimeFinishedAction => ({
+  type: FETCH_UTC_DATE_TIME_FINISHED,
+  payload,
+  error,
+});
+
 export const fetchAttendanceConfigFinished = (
   payload?: AttendanceConfigObject,
   error: boolean = false,

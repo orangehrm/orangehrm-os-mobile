@@ -41,16 +41,21 @@ import {
   fetchAttendanceConfigsAction,
   FETCH_ATTENDANCE_CONFIG,
   AttendanceConfigObject,
+  UTCDateTime,
+  FETCH_UTC_DATE_TIME,
+  FetchUTCDateTimeAction,
 } from './types';
 import {
   fetchAttendanceConfigFinished,
   fetchPunchStatusFinished,
+  fetchUTCDateTimeFinished,
   resetPunchState,
 } from './actions';
 import {
   API_ENDPOINT_PUNCH_STATUS,
   API_ENDPOINT_PUNCH_IN_OUT_REQUEST,
   API_ENDPOINT_ATTENDANCE_CONFIG,
+  API_ENDPOINT_FETCH_UTC_DATE_TIME,
 } from 'services/endpoints';
 import {PunchRequestSuccessParam} from 'screens/time/navigators';
 import {navigate} from 'lib/helpers/navigation';
@@ -164,8 +169,29 @@ function* fetchPunchStatus(action: FetchPunchStatusAction) {
   }
 }
 
+function* fetchUTCDateTime(action: FetchUTCDateTimeAction) {
+  try {
+    if (!action.refresh) {
+      yield openLoader();
+    }
+
+    const response: ApiResponse<UTCDateTime, {}> = yield apiCall(
+      apiGetCall,
+      API_ENDPOINT_FETCH_UTC_DATE_TIME,
+    );
+    yield put(fetchUTCDateTimeFinished(response.data));
+  } catch (error) {
+    yield put(fetchUTCDateTimeFinished(undefined, true));
+  } finally {
+    if (!action.refresh) {
+      yield closeLoader();
+    }
+  }
+}
+
 export function* watchPunchStatusActions() {
   yield takeEvery(FETCH_PUNCH_STATUS, fetchPunchStatus);
+  yield takeEvery(FETCH_UTC_DATE_TIME, fetchUTCDateTime);
   yield takeEvery(FETCH_ATTENDANCE_CONFIG, fetchAttendanceConfigs);
   yield takeEvery(PUNCH_IN_REQUEST, savePunchInRequest);
   yield takeEvery(PUNCH_OUT_REQUEST, savePunchOutRequest);

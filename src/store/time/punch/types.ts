@@ -55,6 +55,11 @@ export interface PunchStatus {
   state: PunchStateObject;
 }
 
+export interface UTCDateTime {
+  utcDate: string;
+  utcTime: string;
+}
+
 export interface PunchStatusState {
   punchStatus?: PunchStatus;
   punchCurrentDate?: string;
@@ -77,11 +82,14 @@ export const PUNCH_OUT = 'PUNCH_OUT';
 export type PunchAction = typeof PUNCH_IN | typeof PUNCH_OUT;
 
 export const FETCH_PUNCH_STATUS = 'PUNCH_STATUS_FETCH_PUNCH_STATUS';
+export const FETCH_UTC_DATE_TIME = 'PUNCH_STATUS_FETCH_UTC_DATE_TIME';
 export const FETCH_ATTENDANCE_CONFIG = 'PUNCH_STATUS_FETCH_ATTENDANCE_CONFIG';
 export const FETCH_ATTENDANCE_CONFIG_FINISHED =
   'PUNCH_STATUS_FETCH_ATTENDANCE_CONFIG_FINISHED';
 export const FETCH_PUNCH_STATUS_FINISHED =
   'PUNCH_STATUS_FETCH_PUNCH_STATUS_FINISHED';
+export const FETCH_UTC_DATE_TIME_FINISHED =
+  'PUNCH_STATUS_FETCH_UTC_DATE_TIME_FINISHED';
 export const CHANGE_PUNCH_CURRENT_DATE_TIME =
   'PUNCH_CURRENT_DATE_TIME_CHANGE_PUNCH_CURRENT_DATE_TIME';
 export const PICK_PUNCH_NOTE = 'ATTENDANCE_PICK_PUNCH_NOTE';
@@ -93,6 +101,11 @@ export interface FetchPunchStatusAction {
   type: typeof FETCH_PUNCH_STATUS;
   refresh?: boolean;
 }
+
+export interface FetchUTCDateTimeAction {
+  type: typeof FETCH_UTC_DATE_TIME;
+  refresh?: boolean;
+}
 export interface fetchAttendanceConfigsAction {
   type: typeof FETCH_ATTENDANCE_CONFIG;
   refresh?: boolean;
@@ -101,6 +114,12 @@ export interface fetchAttendanceConfigsAction {
 export interface FetchPunchStatusFinishedAction {
   type: typeof FETCH_PUNCH_STATUS_FINISHED;
   payload?: PunchStatus;
+  error: boolean;
+}
+
+export interface FetchUTCDatetimeFinishedAction {
+  type: typeof FETCH_UTC_DATE_TIME_FINISHED;
+  payload?: UTCDateTime;
   error: boolean;
 }
 
@@ -146,6 +165,8 @@ export interface ResetPunchStateAction {
 export type PunchStatusActionTypes =
   | FetchPunchStatusAction
   | FetchPunchStatusFinishedAction
+  | FetchUTCDateTimeAction
+  | FetchUTCDatetimeFinishedAction
   | fetchAttendanceConfigsAction
   | FetchAttendanceConfigFinishedAction
   | ChangePunchCurrentDateTimeAction

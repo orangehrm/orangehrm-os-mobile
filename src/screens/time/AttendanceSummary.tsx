@@ -176,10 +176,6 @@ class AttendanceSummary extends React.Component<
         this.state.startDayIndex,
       );
 
-      console.log(leaveResult);
-      console.log(cardRresult);
-      console.log(workResult);
-      console.log(this.props.weekStartDay);
       this.setState({
         graphLeaveData: leaveResult,
         singleLeaveTypeData: cardRresult,
@@ -198,7 +194,7 @@ class AttendanceSummary extends React.Component<
         type: leaveTypesInputData[i].type,
         colour: getLeaveColourById(leaveTypesInputData[i].typeId),
         duration: getDurationFromHours(
-          parseFloat(leaveTypesInputData[i].hours),
+          parseFloat(String(leaveTypesInputData[i].hours)),
         ),
       };
       result.push(graphLeaveType);
@@ -229,7 +225,6 @@ class AttendanceSummary extends React.Component<
       attendanceRequest = {
         fromDate: startDate,
         toDate: endDate,
-        empNumber: 1,
       };
     }
     this.props.fetchAttendanceGraphRecords(attendanceRequest);

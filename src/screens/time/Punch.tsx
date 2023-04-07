@@ -37,6 +37,7 @@ import {
   setPunchNote,
   savePunchInRequest,
   savePunchOutRequest,
+  fetchUTCDateTime,
 } from 'store/time/punch/actions';
 import {
   PunchRequest,
@@ -99,21 +100,20 @@ class Punch extends React.Component<PunchProps, PunchState> {
     if (this.props.currentRoute === PUNCH && prevProps.currentRoute !== PUNCH) {
       this.onRefresh();
     }
-    if (prevProps.currentRoute !== this.props.currentRoute) {
-      if (
-        prevProps.punchAttendanceConfig?.canUserChangeCurrentTime !==
+    if (
+      prevProps.currentRoute !== this.props.currentRoute ||
+      prevProps.punchAttendanceConfig?.canUserChangeCurrentTime !==
         this.props.punchAttendanceConfig?.canUserChangeCurrentTime
+    ) {
+      if (
+        this.props.currentRoute === PUNCH &&
+        this.timeInterval === null &&
+        this.props.punchAttendanceConfig?.canUserChangeCurrentTime === false
       ) {
-        if (
-          this.props.currentRoute === PUNCH &&
-          this.timeInterval === null &&
-          this.props.punchAttendanceConfig?.canUserChangeCurrentTime === false
-        ) {
-          this.timeInterval = setInterval(this.onAutoReload, 30000);
-        } else {
-          clearInterval(this.timeInterval);
-          this.timeInterval = null;
-        }
+        this.timeInterval = setInterval(this.onAutoReload, 30000);
+      } else {
+        clearInterval(this.timeInterval);
+        this.timeInterval = null;
       }
     }
 
@@ -161,20 +161,11 @@ class Punch extends React.Component<PunchProps, PunchState> {
   }
 
   onRefresh = () => {
-    this.props.fetchPunchStatus();
-    this.props.fetchAttendanceConfigs();
-    const date = getDateFormatFromDateObject(new Date());
-    const time = getTimeFormatFromDateObject(new Date());
-    this.props.changePunchCurrentDateTime(date, time);
+    this.props.fetchUTCDateTime();
   };
 
   onAutoReload = () => {
-    console.log('ddddddddddddddd');
-    this.props.fetchPunchStatus(true);
-    this.props.fetchAttendanceConfigs(true);
-    const date = getDateFormatFromDateObject(new Date());
-    const time = getTimeFormatFromDateObject(new Date());
-    this.props.changePunchCurrentDateTime(date, time);
+    this.props.fetchUTCDateTime(true);
   };
 
   updateDateTime = (data: Date) => {
@@ -602,6 +593,7 @@ const mapDispatchToProps = {
   setPunchNote,
   savePunchInRequest,
   savePunchOutRequest,
+  fetchUTCDateTime,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

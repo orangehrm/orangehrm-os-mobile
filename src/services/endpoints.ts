@@ -22,6 +22,8 @@ import {EndpointError} from 'services/errors/endpoints';
 
 // attendance
 export const API_ENDPOINT_PUNCH_STATUS = '/api/v2/attendance/records/latest';
+export const API_ENDPOINT_FETCH_UTC_DATE_TIME =
+  '/api/v2/attendance/current-datetime';
 export const API_ENDPOINT_PUNCH_IN_OUT_REQUEST = '/api/v2/attendance/records';
 export const API_ENDPOINT_ATTENDANCE_CONFIG = '/api/v2/attendance/configs';
 export const API_ENDPOINT_ATTENDANCE = '/api/v1/attendance/records';
