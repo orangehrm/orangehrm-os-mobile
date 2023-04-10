@@ -47,7 +47,13 @@ class AttendanceListItem extends React.Component<AttendanceListItemProps> {
               style={{
                 paddingRight: theme.spacing * 4,
               }}>
-              <Avatar name={employeeAttendance.employeeName} />
+              <Avatar
+                name={
+                  employeeAttendance.firstName +
+                  ' ' +
+                  employeeAttendance.lastName
+                }
+              />
             </View>
             <View style={styles.contentView}>
               <View style={{paddingHorizontal: theme.spacing * 2}}>
@@ -59,7 +65,9 @@ class AttendanceListItem extends React.Component<AttendanceListItemProps> {
                       fontSize: theme.typography.fontSize * 1.2,
                     },
                   ]}>
-                  {employeeAttendance.employeeName}
+                  {employeeAttendance.firstName +
+                    ' ' +
+                    employeeAttendance.lastName}
                 </Text>
               </View>
               <View style={{paddingHorizontal: theme.spacing * 2}}>
@@ -68,7 +76,7 @@ class AttendanceListItem extends React.Component<AttendanceListItemProps> {
                     color: theme.palette.secondary,
                     paddingTop: theme.spacing,
                   }}>
-                  {employeeAttendance.duration}
+                  {employeeAttendance.sum.label}
                   {' Hours'}
                 </Text>
               </View>

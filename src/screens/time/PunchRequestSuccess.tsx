@@ -37,8 +37,8 @@ import {
   savePunchInRequest,
   savePunchOutRequest,
 } from 'store/time/punch/actions';
-import {PUNCH_IN, PUNCH_OUT, PunchAction} from 'store/time/punch/types';
-import {PunchRequestSuccessParam} from 'screens/time/navigators/index';
+import {PUNCHED_OUT} from 'store/time/punch/types';
+import {PunchRequestSuccessParam} from './navigators';
 import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
 import Icon from 'components/DefaultIcon';
@@ -65,32 +65,9 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
   };
 
   render() {
-    let punchAction: PunchAction;
     const {theme, route} = this.props;
 
-    const {
-      punchInDateTime,
-      punchInTimeZoneOffset,
-      punchInNote,
-      punchOutDateTime,
-      punchOutTimeZoneOffset,
-      punchOutNote,
-      datetime,
-      note,
-      timezoneOffset,
-    } = route.params;
-
-    let punchNote = note;
-    let punchTimeZone = timezoneOffset;
-    let punchDateTime = datetime;
-    if (datetime !== undefined) {
-      punchAction = PUNCH_IN;
-    } else {
-      punchAction = PUNCH_OUT;
-      punchNote = punchInNote;
-      punchTimeZone = punchInTimeZoneOffset;
-      punchDateTime = punchInDateTime;
-    }
+    const {punchIn, punchOut, state} = route.params;
 
     return (
       <MainLayout
@@ -154,13 +131,13 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                         lineHeight: theme.spacing * 8,
                       },
                     ]}>
-                    {punchAction === PUNCH_OUT
+                    {state.name === PUNCHED_OUT
                       ? 'You Have Successfully Punched Out from the System'
                       : 'You Have Successfully Punched in to the System'}
                   </Text>
                 </View>
               </View>
-              {punchAction === PUNCH_OUT ? (
+              {state.name === PUNCHED_OUT ? (
                 <>
                   <View
                     style={[
@@ -200,10 +177,10 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                               color: theme.palette.secondary,
                             }}>
                             {calculateDurationBasedOnTimezone(
-                              punchInDateTime,
-                              punchOutDateTime,
-                              parseFloat(punchInTimeZoneOffset),
-                              parseFloat(punchOutTimeZoneOffset),
+                              punchIn.userDate + 'T' + punchIn.userTime,
+                              punchOut.userDate + 'T' + punchOut.userTime,
+                              parseFloat(punchIn.timezoneOffset),
+                              parseFloat(punchOut.timezoneOffset),
                             )}
                           </Text>
                         </View>
@@ -262,21 +239,24 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                     </View>
                     <View style={styles.flexSix}>
                       <Text>
-                        {punchDateTime
+                        {punchIn.userDate
                           ? formatTime(
-                              getLocalDateObjectFromSaveFormat(punchDateTime),
+                              getLocalDateObjectFromSaveFormat(
+                                punchIn.userDate + 'T' + punchIn.userTime,
+                              ),
                             )
                           : null}
                         {'    '}
-                        <FormattedDate>{punchDateTime}</FormattedDate>
+                        <FormattedDate>
+                          {punchIn.userDate + 'T' + punchIn.userTime}
+                        </FormattedDate>
                         <Text>
-                          {' '}
-                          {formatTimezoneOffset(punchTimeZone.toString())}
+                          {formatTimezoneOffset(punchIn.timezoneOffset)}
                         </Text>
                       </Text>
                     </View>
                   </View>
-                  {punchNote ? (
+                  {punchIn.note ? (
                     <View
                       style={[
                         styles.rowFlexDirection,
@@ -298,12 +278,12 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                         />
                       </View>
                       <View style={styles.flexSix}>
-                        <Text numberOfLines={2}>{punchNote}</Text>
+                        <Text numberOfLines={2}>{punchIn.note}</Text>
                       </View>
                     </View>
                   ) : null}
                 </View>
-                {punchAction === PUNCH_OUT ? (
+                {state.name === PUNCHED_OUT ? (
                   <>
                     <Divider />
                     <View
@@ -340,25 +320,24 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                         </View>
                         <View style={styles.flexSix}>
                           <Text>
-                            {punchOutDateTime
+                            {punchOut.userDate
                               ? formatTime(
                                   getLocalDateObjectFromSaveFormat(
-                                    punchOutDateTime,
+                                    punchOut.userDate + 'T' + punchOut.userTime,
                                   ),
                                 )
                               : null}
                             {'    '}
-                            <FormattedDate>{punchOutDateTime}</FormattedDate>
+                            <FormattedDate>
+                              {punchOut.userDate + 'T' + punchOut.userTime}
+                            </FormattedDate>
                             <Text>
-                              {' '}
-                              {formatTimezoneOffset(
-                                punchOutTimeZoneOffset.toString(),
-                              )}
+                              {formatTimezoneOffset(punchOut.timezoneOffset)}
                             </Text>
                           </Text>
                         </View>
                       </View>
-                      {punchOutNote ? (
+                      {punchOut.note ? (
                         <View
                           style={[
                             styles.rowFlexDirection,
@@ -380,7 +359,7 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                             />
                           </View>
                           <View style={styles.flexSix}>
-                            <Text numberOfLines={2}>{punchOutNote}</Text>
+                            <Text numberOfLines={2}>{punchOut.note}</Text>
                           </View>
                         </View>
                       ) : null}

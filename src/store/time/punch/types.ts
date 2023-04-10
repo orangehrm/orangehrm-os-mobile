@@ -18,23 +18,63 @@
  *
  */
 
+export interface EmployeeObject {
+  empNumber: number;
+  lastName: string;
+  firstName: string;
+  employeeId: string;
+}
+
+export interface PunchInOutObject {
+  note: string;
+  offset: string;
+  utcDate: string;
+  utcTime: string;
+  userTime: string;
+  userDate: string;
+}
+
+export interface PunchInOutFinishObject {
+  note: string;
+  timezoneOffset: string;
+  utcDate: string;
+  utcTime: string;
+  userTime: string;
+  userDate: string;
+}
+
+export interface PunchStateObject {
+  id: string;
+  name: string;
+}
+
 export interface PunchStatus {
-  punchTime: string;
-  punchNote: string;
-  punchTimeZoneOffset: string;
-  dateTimeEditable: boolean;
-  currentUTCDateTime: string;
-  punchState: string;
+  employee: EmployeeObject;
+  punchIn: PunchInOutObject;
+  punchOut: PunchInOutObject;
+  state: PunchStateObject;
+}
+
+export interface UTCDateTime {
+  utcDate: string;
+  utcTime: string;
 }
 
 export interface PunchStatusState {
   punchStatus?: PunchStatus;
-  punchCurrentDateTime?: Date;
+  punchCurrentDate?: string;
+  punchCurrentTime?: string;
   punchNoteSaved?: string;
+  punchAttendanceConfig?: AttendanceConfigObject;
+}
+export interface AttendanceConfigObject {
+  canSupervisorModifyAttendance: boolean;
+  canUserChangeCurrentTime: boolean;
+  canUserModifyAttendance: boolean;
 }
 
-export const PUNCHED_IN = 'PUNCHED IN';
-export const PUNCHED_OUT = 'PUNCHED OUT';
+export const PUNCHED_IN = 'Punched In';
+export const PUNCHED_OUT = 'Punched Out';
 export const INITIAL = 'INITIAL';
 
 export const PUNCH_IN = 'PUNCH_IN';
@@ -42,8 +82,14 @@ export const PUNCH_OUT = 'PUNCH_OUT';
 export type PunchAction = typeof PUNCH_IN | typeof PUNCH_OUT;
 
 export const FETCH_PUNCH_STATUS = 'PUNCH_STATUS_FETCH_PUNCH_STATUS';
+export const FETCH_UTC_DATE_TIME = 'PUNCH_STATUS_FETCH_UTC_DATE_TIME';
+export const FETCH_ATTENDANCE_CONFIG = 'PUNCH_STATUS_FETCH_ATTENDANCE_CONFIG';
+export const FETCH_ATTENDANCE_CONFIG_FINISHED =
+  'PUNCH_STATUS_FETCH_ATTENDANCE_CONFIG_FINISHED';
 export const FETCH_PUNCH_STATUS_FINISHED =
   'PUNCH_STATUS_FETCH_PUNCH_STATUS_FINISHED';
+export const FETCH_UTC_DATE_TIME_FINISHED =
+  'PUNCH_STATUS_FETCH_UTC_DATE_TIME_FINISHED';
 export const CHANGE_PUNCH_CURRENT_DATE_TIME =
   'PUNCH_CURRENT_DATE_TIME_CHANGE_PUNCH_CURRENT_DATE_TIME';
 export const PICK_PUNCH_NOTE = 'ATTENDANCE_PICK_PUNCH_NOTE';
@@ -56,15 +102,37 @@ export interface FetchPunchStatusAction {
   refresh?: boolean;
 }
 
+export interface FetchUTCDateTimeAction {
+  type: typeof FETCH_UTC_DATE_TIME;
+  refresh?: boolean;
+}
+export interface fetchAttendanceConfigsAction {
+  type: typeof FETCH_ATTENDANCE_CONFIG;
+  refresh?: boolean;
+}
+
 export interface FetchPunchStatusFinishedAction {
   type: typeof FETCH_PUNCH_STATUS_FINISHED;
   payload?: PunchStatus;
   error: boolean;
 }
 
+export interface FetchUTCDatetimeFinishedAction {
+  type: typeof FETCH_UTC_DATE_TIME_FINISHED;
+  payload?: UTCDateTime;
+  error: boolean;
+}
+
+export interface FetchAttendanceConfigFinishedAction {
+  type: typeof FETCH_ATTENDANCE_CONFIG_FINISHED;
+  payload?: AttendanceConfigObject;
+  error: boolean;
+}
+
 export interface ChangePunchCurrentDateTimeAction {
   type: typeof CHANGE_PUNCH_CURRENT_DATE_TIME;
-  punchCurrentDateTime?: Date;
+  punchCurrentDate?: string;
+  punchCurrentTime?: string;
 }
 
 export interface SetPunchNoteAction {
@@ -74,8 +142,10 @@ export interface SetPunchNoteAction {
 
 export interface PunchRequest {
   timezoneOffset: number;
-  note: string | undefined;
-  datetime: string;
+  timezoneName: string;
+  note: string | null;
+  date: string | undefined;
+  time: string | undefined;
 }
 
 export interface PunchInRequestAction {
@@ -95,6 +165,10 @@ export interface ResetPunchStateAction {
 export type PunchStatusActionTypes =
   | FetchPunchStatusAction
   | FetchPunchStatusFinishedAction
+  | FetchUTCDateTimeAction
+  | FetchUTCDatetimeFinishedAction
+  | fetchAttendanceConfigsAction
+  | FetchAttendanceConfigFinishedAction
   | ChangePunchCurrentDateTimeAction
   | SetPunchNoteAction
   | PunchInRequestAction

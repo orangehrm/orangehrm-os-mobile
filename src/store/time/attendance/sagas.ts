@@ -19,7 +19,7 @@
  */
 
 import {takeEvery, put, select} from 'redux-saga/effects';
-import {apiCall, apiGetCall} from 'store/saga-effects/api';
+import {apiCall, apiGetCall, ApiResponse} from 'store/saga-effects/api';
 import {
   openLoader,
   closeLoader,
@@ -40,6 +40,11 @@ import {
   FETCH_SUBORDINATES,
   FETCH_ATTENDANCE_CONFIGURATION,
   AttendanceConfiguration,
+  LeaveObject,
+  GraphRecordsObject,
+  SingleEmployeeAttendance,
+  WorkSummaryObject,
+  EmployeeObject,
 } from './types';
 import {
   fetchAttendanceRecordsFinished,
@@ -52,7 +57,6 @@ import {
   fetchAttendanceConfigurationFinished,
 } from './actions';
 import {
-  API_ENDPOINT_ATTENDANCE,
   API_ENDPOINT_LEAVE,
   API_ENDPOINT_ATTENDANCE_GRAPH,
   API_ENDPOINT_LEAVE_HOLIDAYS,
@@ -61,6 +65,8 @@ import {
   API_ENDPOINT_EMPLOYEES,
   API_ENDPOINT_ATTENDANCE_CONFIGURATION,
   prepare,
+  API_ENDPOINT_PUNCH_IN_OUT_REQUEST,
+  API_ENDPOINT_ATTENDANCE_WORK_SUMMARY,
 } from 'services/endpoints';
 import {
   getMessageAlongWithGenericErrors,
@@ -68,24 +74,24 @@ import {
   HTTP_NOT_FOUND,
 } from 'services/api';
 import {TYPE_ERROR} from 'store/globals/types';
-import {selectMyInfo} from 'store/saga-effects/auth';
-import {MyInfo, USER_ROLE_ADMIN} from 'store/auth/types';
 import {
   selectAttendanceConfiguration,
   selectAttendanceConfigurationFetched,
 } from 'store/time/attendance/selectors';
+import {AttendanceObject} from './types';
+import {Holiday, WorkWeek} from '../../leave/common-screens/types';
+import {getCurrentTimeZoneOffset, getGraphObject} from 'lib/helpers/attendance';
 
 function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<AttendanceObject[]> = yield apiCall(
       apiGetCall,
       prepare(
-        API_ENDPOINT_ATTENDANCE,
+        API_ENDPOINT_PUNCH_IN_OUT_REQUEST,
         {},
         {
-          fromDate: action.payload.fromDate + ' 00:00:00',
-          toDate: action.payload.toDate + ' 23:59:59',
+          date: action.payload.fromDate,
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
@@ -123,7 +129,7 @@ function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
 function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<LeaveObject[]> = yield apiCall(
       apiGetCall,
       prepare(
         API_ENDPOINT_LEAVE,
@@ -173,30 +179,48 @@ function* fetchAttendanceGraphRecords(
   try {
     yield openLoader();
 
-    const response = yield apiCall(
+    const graphResponse: ApiResponse<GraphRecordsObject> = yield apiCall(
       apiGetCall,
       prepare(
         API_ENDPOINT_ATTENDANCE_GRAPH,
         {},
         {
-          fromDate: action.payload.fromDate + ' 00:00:00',
-          toDate: action.payload.toDate + ' 23:59:59',
-          pendingApproval: true,
-          scheduled: true,
-          taken: true,
+          fromDate: action.payload.fromDate,
+          toDate: action.payload.toDate,
+          includeEmployees: 'onlyCurrent',
+          statuses: ['1', '2', '3'],
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
         },
       ),
     );
-    if (response.data) {
-      yield put(fetchAttendanceGraphRecordsFinished(response.data));
+
+    const workWeekResponse: ApiResponse<WorkSummaryObject> = yield apiCall(
+      apiGetCall,
+      prepare(
+        API_ENDPOINT_ATTENDANCE_WORK_SUMMARY,
+        {},
+        {
+          timezoneOffset: getCurrentTimeZoneOffset(),
+          currentDate: action.payload.fromDate,
+          currentTime: '00:00',
+          ...(action.payload.empNumber && {
+            empNumber: action.payload.empNumber,
+          }),
+        },
+      ),
+    );
+
+    const result = getGraphObject(graphResponse.data, workWeekResponse.data);
+
+    if (result) {
+      yield put(fetchAttendanceGraphRecordsFinished(result));
     } else {
       yield put(fetchAttendanceGraphRecordsFinished(undefined, true));
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(
-          response,
+          result,
           'Failed to Fetch Leave Details',
         ),
         TYPE_ERROR,
@@ -216,7 +240,7 @@ function* fetchAttendanceGraphRecords(
 function* fetchHolidays(action: FetchHolidaysAction) {
   try {
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<Holiday[]> = yield apiCall(
       apiGetCall,
       prepare(
         API_ENDPOINT_LEAVE_HOLIDAYS,
@@ -251,7 +275,10 @@ function* fetchHolidays(action: FetchHolidaysAction) {
 function* fetchWorkWeek() {
   try {
     yield openLoader();
-    const response = yield apiCall(apiGetCall, API_ENDPOINT_LEAVE_WORK_WEEK);
+    const response: ApiResponse<WorkWeek> = yield apiCall(
+      apiGetCall,
+      API_ENDPOINT_LEAVE_WORK_WEEK,
+    );
     if (response.data) {
       yield put(fetchWorkWeekFinished(response.data));
     } else {
@@ -278,27 +305,18 @@ function* fetchEmployeeAttendanceList(
 ) {
   try {
     yield openLoader();
-    const myInfo: MyInfo = yield selectMyInfo();
-    const response = yield apiCall(
+    const response: ApiResponse<SingleEmployeeAttendance[]> = yield apiCall(
       apiGetCall,
       prepare(
         API_ENDPOINT_ATTENDANCE_LIST,
         {},
         {
-          fromDate: action.payload.fromDate + ' 00:00:00',
-          toDate: action.payload.toDate + ' 23:59:59',
-          pastEmployee: false,
-          ...(action.payload.empNumber !== undefined && {
-            empNumber: action.payload.empNumber,
-          }),
-          ...(action.payload.pastEmployee !== undefined && {
-            pastEmployee: action.payload.pastEmployee,
-          }),
-          all: true,
-          includeSelf: myInfo.user.userRole === USER_ROLE_ADMIN,
+          fromDate: action.payload.fromDate,
+          toDate: action.payload.toDate,
         },
       ),
     );
+
     if (response.data) {
       yield put(fetchEmployeeAttendanceListFinished(response.data));
     } else {
@@ -330,7 +348,7 @@ function* fetchAccessibleEmployees() {
       actionName: 'attendance_records',
       properties: ['firstName', 'lastName', 'employeeId'],
     };
-    const response = yield apiCall(
+    const response: ApiResponse<EmployeeObject[]> = yield apiCall(
       apiGetCall,
       prepare(API_ENDPOINT_EMPLOYEES, {}, queryParams),
     );
@@ -374,12 +392,13 @@ function* fetchAttendanceConfiguration() {
     }
 
     yield openLoader();
-    const response = yield apiCall(
+    const response: ApiResponse<AttendanceConfiguration> = yield apiCall(
       apiGetCall,
       prepare(API_ENDPOINT_ATTENDANCE_CONFIGURATION),
     );
+
     if (response.data) {
-      yield put(fetchAttendanceConfigurationFinished(response.data));
+      yield put(fetchAttendanceConfigurationFinished({startDate: 2}));
     } else {
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(

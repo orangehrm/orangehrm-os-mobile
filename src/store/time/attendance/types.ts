@@ -98,16 +98,17 @@ export interface LeaveObject {
 }
 
 export interface AttendanceObject {
-  id: string;
-  punchInUtcTime: string;
-  punchInNote: string;
-  punchInUserTime: string;
-  punchInTimeOffset: string;
-  punchOutUtcTime: string;
-  punchOutNote: string;
-  punchOutTimeOffset: string;
-  punchOutUserTime: string;
-  state: string;
+  id: number;
+  punchIn: PunchInOutObject;
+  punchOut: PunchInOutObject;
+  duration: string;
+}
+
+export interface PunchInOutObject {
+  note: string;
+  offset: string;
+  userTime: string;
+  userDate: string;
 }
 
 export interface AttendanceState {
@@ -129,11 +130,11 @@ export interface AttendanceState {
 export interface SingleLeave {
   typeId: string;
   type: string;
-  hours: string;
+  hours: number;
 }
 
 export interface WorkSummarySingleDay {
-  workHours: string;
+  workHours: number;
   leave: SingleLeave[];
 }
 
@@ -258,16 +259,16 @@ export interface FetchWorkWeekFinishedAction {
   error: boolean;
 }
 
-type NullableString = string | null;
-
 export interface SingleEmployeeAttendance {
   employeeId: string;
-  employeeName: string;
-  code: string;
-  jobTitle: NullableString;
-  unit: NullableString;
-  status: NullableString;
-  duration: string;
+  empNumber: number;
+  firstName: string;
+  lastName: string;
+  sum: {
+    hours: number;
+    label: string;
+    minutes: number;
+  };
 }
 
 export interface AttendanceConfiguration {

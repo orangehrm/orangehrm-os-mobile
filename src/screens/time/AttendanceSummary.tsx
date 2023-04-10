@@ -116,9 +116,12 @@ class AttendanceSummary extends React.Component<
       startDayIndex: this.state.startDayIndex,
       employeeAttendance,
       employeeName: this.props.route.params?.employeeAttendance
-        ? this.props.route.params.employeeAttendance.employeeName
+        ? this.props.route.params.employeeAttendance.firstName +
+          ' ' +
+          this.props.route.params.employeeAttendance.lastName
         : undefined,
       selectedDate: selectedDate,
+      leaveTypesInputData: this.props.graphRecords?.totalLeaveTypeHours,
     });
   };
 
@@ -175,6 +178,7 @@ class AttendanceSummary extends React.Component<
         this.props.graphRecords,
         this.state.startDayIndex,
       );
+
       this.setState({
         graphLeaveData: leaveResult,
         singleLeaveTypeData: cardRresult,
@@ -193,7 +197,7 @@ class AttendanceSummary extends React.Component<
         type: leaveTypesInputData[i].type,
         colour: getLeaveColourById(leaveTypesInputData[i].typeId),
         duration: getDurationFromHours(
-          parseFloat(leaveTypesInputData[i].hours),
+          parseFloat(String(leaveTypesInputData[i].hours)),
         ),
       };
       result.push(graphLeaveType);
@@ -288,7 +292,9 @@ class AttendanceSummary extends React.Component<
       ? this.props.route.params.employeeAttendance?.employeeId
       : undefined;
     const employeeName = this.props.route.params
-      ? this.props.route.params.employeeAttendance?.employeeName
+      ? this.props.route.params.employeeAttendance?.firstName +
+        ' ' +
+        this.props.route.params.employeeAttendance?.lastName
       : undefined;
     const employeeJobTitle = this.props.route.params
       ? this.props.route.params.employeeAttendance?.jobTitle
