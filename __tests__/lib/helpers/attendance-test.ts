@@ -36,25 +36,27 @@ import {
   getDurationFromHours,
   getWeekdayOrder,
   formatTime,
+  convertDateObjToYmd,
+  convertDateObjToHHmm,
 } from 'lib/helpers/attendance';
 import moment from 'moment';
 import {Holiday, WorkWeek} from 'store/leave/common-screens/types';
 import {LeaveStatus} from 'store/leave/leave-usage/types';
 
 describe('lib/helpers/attendance', () => {
-  test('getDateSaveFormatFromDateObject:: check YYYY-MM-DD HH:mm', () => {
-    let strDate = '2020-07-14 10:35';
+  test('convertDateObjToISOFormat:: check YYYY-MM-DD HH:mm', () => {
+    let strDate = '2020-07-14T10:35';
     let date = new Date(strDate);
     let result = convertDateObjToISOFormat(date);
     expect(result).toBe(strDate);
 
-    strDate = '2020-07-14 23:59';
+    strDate = '2020-07-14T23:59';
     date = new Date(strDate);
     result = convertDateObjToISOFormat(date);
     expect(result).toBe(strDate);
   });
 
-  test('getUTCDateObjectFromSaveFormat', () => {
+  test('getDateObjFromUTCDateAndTime', () => {
     let strDate = '2020-07-14';
     let result = getDateObjFromUTCDateAndTime(strDate, '10:35');
     expect(result).toStrictEqual(new Date('2020-07-14T10:35Z'));
@@ -101,10 +103,10 @@ describe('lib/helpers/attendance', () => {
     );
     expect(result).toBe(NEGATIVE_DURATION);
   });
-  test('getDateSaveFormatFromDateObject::check get YYYY-MM-DD hh:mm datetime string from Date object', () => {
+  test('convertDateObjToISOFormat::check get YYYY-MM-DD hh:mm datetime string from Date object', () => {
     const date = new Date('2020-07-14T21:48');
     const result = convertDateObjToISOFormat(date);
-    expect(result).toBe('2020-07-14 21:48');
+    expect(result).toBe('2020-07-14T21:48');
   });
 
   test('formatLastRecordDetails', () => {
@@ -125,6 +127,28 @@ describe('lib/helpers/attendance', () => {
     const format = 'ddd';
     const result = convertDateObjectToStringFormat(dateObject, format);
     expect(result).toBe('Wed');
+  });
+
+  test('convertDateObjToYmd', () => {
+    let result = convertDateObjToYmd(new Date('2020-07-14T10:35'));
+    expect(result).toBe('2020-07-14');
+
+    result = convertDateObjToYmd(new Date('2020-02-29 10:35'));
+    expect(result).toBe('2020-02-29');
+
+    result = convertDateObjToYmd(new Date('2020-12-31T00:00Z'));
+    expect(result).toBe('2020-12-31');
+  });
+
+  test('convertDateObjToHHmm', () => {
+    let result = convertDateObjToHHmm(new Date('2020-07-14T10:35'));
+    expect(result).toBe('10:35');
+
+    result = convertDateObjToHHmm(new Date('2020-02-29 10:59:59'));
+    expect(result).toBe('10:59');
+
+    result = convertDateObjToHHmm(new Date('2020-02-29 10:60'));
+    expect(result).toBe('Invalid date');
   });
 
   test('calculateWorkData', () => {
