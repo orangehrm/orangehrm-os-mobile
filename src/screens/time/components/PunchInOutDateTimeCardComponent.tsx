@@ -30,12 +30,12 @@ import {formatTime} from 'lib/helpers/attendance';
 import FormattedDate from 'components/FormattedDate';
 
 const PunchInOutDateTimeCard = (props: PunchInOutDateTimeCardProps) => {
-  const {theme, punchCurrentDate, punchCurrentTime} = props;
+  const {theme, punchCurrentDateTime} = props;
   let date;
-  if (punchCurrentDate === undefined) {
+  if (punchCurrentDateTime === undefined) {
     date = new Date();
   } else {
-    date = new Date(punchCurrentDate + 'T' + punchCurrentTime);
+    date = punchCurrentDateTime;
   }
 
   const dateDisplay = date.toDateString();
@@ -106,8 +106,7 @@ const PunchInOutDateTimeCard = (props: PunchInOutDateTimeCardProps) => {
 };
 
 interface PunchInOutDateTimeCardProps extends WithTheme {
-  punchCurrentDate?: string;
-  punchCurrentTime?: string;
+  punchCurrentDateTime?: Date;
 }
 
 const styles = StyleSheet.create({

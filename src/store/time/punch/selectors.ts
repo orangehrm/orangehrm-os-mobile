@@ -37,17 +37,11 @@ export const selectAttendanceConfig = createSelector<
   AttendanceConfigObject | undefined
 >([selectPunchState], (attendance) => attendance.punchAttendanceConfig);
 
-export const selectPunchCurrentDate = createSelector<
+export const selectPunchCurrentDateTime = createSelector<
   RootState,
   PunchStatusState,
-  string | undefined
->([selectPunchState], (attendance) => attendance.punchCurrentDate);
-
-export const selectPunchCurrentTime = createSelector<
-  RootState,
-  PunchStatusState,
-  string | undefined
->([selectPunchState], (attendance) => attendance.punchCurrentTime);
+  Date | undefined
+>([selectPunchState], (attendance) => attendance.punchCurrentDateTime);
 
 export const selectSavedPunchNote = createSelector<
   RootState,

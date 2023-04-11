@@ -43,8 +43,7 @@ import {PunchRequest, PUNCHED_IN, PUNCHED_OUT} from 'store/time/punch/types';
 import {
   selectPunchStatus,
   selectSavedPunchNote,
-  selectPunchCurrentTime,
-  selectPunchCurrentDate,
+  selectPunchCurrentDateTime,
   selectAttendanceConfig,
 } from 'store/time/punch/selectors';
 import Text from 'components/DefaultText';
@@ -59,15 +58,15 @@ import CardContent from 'components/DefaultCardContent';
 import View from 'components/HideableView';
 import {
   calculateDurationBasedOnTimezone,
-  getDateSaveFormatFromDateObject,
+  convertDateObjToISOFormat,
   getCurrentTimeZoneOffset,
   NEGATIVE_DURATION,
   getLocalDateObjectFromSaveFormat,
   getCurrentTimeZoneName,
   formatTime,
   formatTimezoneOffset,
-  getDateFormatFromDateObject,
-  getTimeFormatFromDateObject,
+  convertDateObjToYmd,
+  convertDateObjToHHmm,
 } from 'lib/helpers/attendance';
 import {TYPE_WARN} from 'store/globals/types';
 import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
@@ -113,27 +112,18 @@ class Punch extends React.Component<PunchProps, PunchState> {
     }
 
     if (
-      prevProps.punchCurrentDate + 'T' + prevProps.punchCurrentTime !==
-        this.props.punchCurrentDate + 'T' + this.props.punchCurrentTime &&
-      this.props.punchStatus?.state.name === PUNCHED_IN
+      prevProps.punchCurrentDateTime !== this.props.punchCurrentDateTime &&
+      this.props.punchStatus?.state.id === PUNCHED_IN
     ) {
       if (
         this.props.punchStatus?.punchIn.userTime &&
-        this.props.punchCurrentTime
+        this.props.punchCurrentDateTime
       ) {
         const duration = this.calculateDuration(
-          getDateSaveFormatFromDateObject(
-            new Date(
-              this.props.punchStatus?.punchIn.userDate +
-                ':' +
-                this.props.punchStatus?.punchIn.userTime,
-            ),
-          ),
-          getDateSaveFormatFromDateObject(
-            new Date(
-              this.props.punchCurrentDate + 'T' + this.props.punchCurrentTime,
-            ),
-          ),
+          this.props.punchStatus.punchIn.userDate +
+            'T' +
+            this.props.punchStatus.punchIn.userTime,
+          convertDateObjToISOFormat(this.props.punchCurrentDateTime),
           parseFloat(this.props.punchStatus.punchIn.offset),
           getCurrentTimeZoneOffset(),
         );
@@ -165,10 +155,8 @@ class Punch extends React.Component<PunchProps, PunchState> {
     this.props.fetchUTCDateTime(true);
   };
 
-  updateDateTime = (data: Date) => {
-    const date = getDateFormatFromDateObject(data);
-    const time = getTimeFormatFromDateObject(data);
-    this.props.changePunchCurrentDateTime(date, time);
+  updateDateTime = (datetime: Date) => {
+    this.props.changePunchCurrentDateTime(datetime);
   };
 
   setNote = (text: string) => {
@@ -206,21 +194,17 @@ class Punch extends React.Component<PunchProps, PunchState> {
   };
 
   onPressPunchButton = () => {
-    const {punchCurrentDate, punchCurrentTime, savedNote} = this.props;
-    if (punchCurrentDate !== undefined) {
+    const {punchCurrentDateTime, savedNote} = this.props;
+    if (punchCurrentDateTime !== undefined) {
       const punchRequest: PunchRequest = {
         timezoneOffset: getCurrentTimeZoneOffset(),
         timezoneName: getCurrentTimeZoneName(),
         note: savedNote ? savedNote : null,
-        date: punchCurrentDate,
-        time: punchCurrentTime,
+        date: convertDateObjToYmd(punchCurrentDateTime),
+        time: convertDateObjToHHmm(punchCurrentDateTime),
       };
-      if (this.props.punchStatus?.state.name === PUNCHED_IN) {
+      if (this.props.punchStatus?.state.id === PUNCHED_IN) {
         this.props.savePunchOutRequest({
-          ...punchRequest,
-        });
-      } else if (this.props.punchStatus?.state.name === PUNCHED_OUT) {
-        this.props.savePunchInRequest({
           ...punchRequest,
         });
       } else {
@@ -257,8 +241,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
     const {
       theme,
       punchStatus,
-      punchCurrentDate,
-      punchCurrentTime,
+      punchCurrentDateTime,
       savedNote,
       punchAttendanceConfig,
     } = this.props;
@@ -281,7 +264,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
                   onPress={this.onPressNote}
                 />
               </>
-            ) : (
+            ) : punchStatus !== undefined ? (
               <View
                 style={{
                   paddingHorizontal: theme.spacing * 12,
@@ -290,7 +273,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
                 }}>
                 <Button
                   title={
-                    punchStatus?.state.name === PUNCHED_IN
+                    punchStatus?.state.id === PUNCHED_IN
                       ? 'Punch Out'
                       : 'Punch In'
                   }
@@ -299,7 +282,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
                   onPress={this.onPressPunchButton}
                 />
               </View>
-            )}
+            ) : undefined}
           </View>
         }>
         <View
@@ -316,15 +299,13 @@ class Punch extends React.Component<PunchProps, PunchState> {
             {editable ? (
               <>
                 <EditPunchInOutDateTimeCard
-                  punchCurrentDate={punchCurrentDate}
-                  punchCurrentTime={punchCurrentTime}
+                  punchCurrentDateTime={punchCurrentDateTime}
                   updateDateTime={this.updateDateTime}
                 />
               </>
             ) : (
               <PunchInOutDateTimeCard
-                punchCurrentDate={punchCurrentDate}
-                punchCurrentTime={punchCurrentTime}
+                punchCurrentDateTime={punchCurrentDateTime}
               />
             )}
           </View>
@@ -345,7 +326,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
                   paddingTop: theme.spacing * 2,
                   paddingHorizontal: theme.spacing * 3,
                 }}>
-                {punchStatus?.state.name === PUNCHED_IN &&
+                {punchStatus?.state.id === PUNCHED_IN &&
                 this.state.duration !== NEGATIVE_DURATION ? (
                   <>
                     <View
@@ -440,17 +421,17 @@ class Punch extends React.Component<PunchProps, PunchState> {
                         ]}>
                         <View style={{paddingLeft: theme.spacing * 2}}>
                           <View style={[styles.lastPunchText]}>
-                            {punchStatus?.state.name === PUNCHED_OUT ? (
+                            {punchStatus?.state.id === PUNCHED_OUT ? (
                               <Text>{'Last Punch Out' + ' : '}</Text>
                             ) : null}
-                            {punchStatus?.state.name === PUNCHED_IN ? (
+                            {punchStatus?.state.id === PUNCHED_IN ? (
                               <Text>{'Punched In at' + ' : '}</Text>
                             ) : null}
                           </View>
                         </View>
                         <View style={[styles.flexFour]}>
                           <Text>
-                            {punchStatus?.state.name === PUNCHED_IN
+                            {punchStatus?.state.id === PUNCHED_IN
                               ? formatTime(
                                   getLocalDateObjectFromSaveFormat(
                                     punchStatus?.punchIn.userDate +
@@ -467,7 +448,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
                                 )}
                             {'   '}
                             <FormattedDate>
-                              {punchStatus?.state.name === PUNCHED_IN
+                              {punchStatus?.state.id === PUNCHED_IN
                                 ? punchStatus?.punchIn.userDate +
                                   'T' +
                                   punchStatus?.punchIn.userTime
@@ -477,7 +458,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
                             </FormattedDate>
                             <Text>
                               {formatTimezoneOffset(
-                                punchStatus?.state.name === PUNCHED_IN
+                                punchStatus?.state.id === PUNCHED_IN
                                   ? punchStatus?.punchIn.offset
                                   : punchStatus?.punchOut.offset,
                               )}
@@ -577,8 +558,7 @@ interface PunchState {
 const mapStateToProps = (state: RootState) => ({
   punchStatus: selectPunchStatus(state),
   punchAttendanceConfig: selectAttendanceConfig(state),
-  punchCurrentDate: selectPunchCurrentDate(state),
-  punchCurrentTime: selectPunchCurrentTime(state),
+  punchCurrentDateTime: selectPunchCurrentDateTime(state),
   savedNote: selectSavedPunchNote(state),
   currentRoute: selectCurrentRoute(state),
 });

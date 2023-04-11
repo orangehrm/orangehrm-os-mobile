@@ -131,13 +131,13 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                         lineHeight: theme.spacing * 8,
                       },
                     ]}>
-                    {state.name === PUNCHED_OUT
+                    {state.id === PUNCHED_OUT
                       ? 'You Have Successfully Punched Out from the System'
                       : 'You Have Successfully Punched in to the System'}
                   </Text>
                 </View>
               </View>
-              {state.name === PUNCHED_OUT ? (
+              {state.id === PUNCHED_OUT ? (
                 <>
                   <View
                     style={[
@@ -283,7 +283,7 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                     </View>
                   ) : null}
                 </View>
-                {state.name === PUNCHED_OUT ? (
+                {state.id === PUNCHED_OUT ? (
                   <>
                     <Divider />
                     <View

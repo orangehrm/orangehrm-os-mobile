@@ -101,12 +101,10 @@ export const fetchAttendanceConfigFinished = (
 });
 
 export const changePunchCurrentDateTime = (
-  date?: string,
-  time?: string,
+  datetime?: Date,
 ): ChangePunchCurrentDateTimeAction => ({
   type: CHANGE_PUNCH_CURRENT_DATE_TIME,
-  punchCurrentDate: date,
-  punchCurrentTime: time,
+  punchCurrentDateTime: datetime,
 });
 
 export const savePunchInRequest = (

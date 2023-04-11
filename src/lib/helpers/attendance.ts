@@ -53,25 +53,25 @@ const setTwoDigits = (number: string) => {
  * @param {Date} date
  * @returns {String} YYYY-MM-DD HH:mm formated string
  */
-const getDateSaveFormatFromDateObject = (date: Date) => {
-  return moment(date).format('YYYY-MM-DD HH:mm');
+const convertDateObjToISOFormat = (date: Date) => {
+  return moment(date).format('YYYY-MM-DDTHH:mm');
 };
 
 /**
- * Format given date object to YYYY-MM-DD HH:mm format
+ *
  * @param {Date} date
  * @returns {String} YYYY-MM-DD formated string
  */
-const getDateFormatFromDateObject = (date: Date) => {
+const convertDateObjToYmd = (date: Date) => {
   return moment(date).format('YYYY-MM-DD');
 };
 
 /**
- * Format given date object to YYYY-MM-DD HH:mm format
+ *
  * @param {Date} date
  * @returns {String} HH:mm formated string
  */
-const getTimeFormatFromDateObject = (date: Date) => {
+const convertDateObjToHHmm = (date: Date) => {
   return moment(date).format('HH:mm');
 };
 
@@ -80,35 +80,9 @@ const getTimeFormatFromDateObject = (date: Date) => {
  * @param {String} utcTime HH:mm formated string
  * @return {Date}
  */
-const getUTCDateFromSaveFormat = (
-  utcDate: string | undefined,
-  utcTime: string | undefined,
-) => {
+const getDateObjFromUTCDateAndTime = (utcDate: string, utcTime: string) => {
   // https://github.com/facebook/react-native/issues/30245
-  return moment(new Date(utcDate + 'T' + utcTime + 'Z')).format('YYYY-MM-DD');
-};
-
-/**
- * @param {String} dateString YYYY-MM-DD  formated string
- * @return {Date}
- */
-const getUTCDateObjectFromSaveFormat = (dateString: string) => {
-  const datetime = dateString.split(' ', 2);
-  // https://github.com/facebook/react-native/issues/30245
-  return new Date(datetime[0] + 'T' + datetime[1] + 'Z');
-};
-
-/**
- * @param {String} utcDate YYYY-MM-DD  formated string
- * @param {String} utcTime HH:mm formated string
- * @return {Date}
- */
-const getUTCTimeObjectFromSaveFormat = (
-  utcDate: string | undefined,
-  utcTime: string | undefined,
-) => {
-  // https://github.com/facebook/react-native/issues/30245
-  return moment(new Date(utcDate + 'T' + utcTime + 'Z')).format('HH:mm');
+  return new Date(utcDate + 'T' + utcTime + 'Z');
 };
 
 /**
@@ -196,7 +170,7 @@ const formatLastRecordDetails = (
  *
  * @param timezoneOffset
  */
-const formatTimezoneOffset = (timezoneOffset?: string) => {
+const formatTimezoneOffset = (timezoneOffset?: string | null) => {
   if (timezoneOffset) {
     let timezone;
     if (parseFloat(timezoneOffset) > 0) {
@@ -697,9 +671,9 @@ const getGraphObject = (graphData: any, workWeekData: any) => {
 };
 
 export {
-  getUTCDateObjectFromSaveFormat,
+  getDateObjFromUTCDateAndTime,
   calculateDurationBasedOnTimezone,
-  getDateSaveFormatFromDateObject,
+  convertDateObjToISOFormat,
   formatLastRecordDetails,
   getCurrentTimeZoneOffset,
   getCurrentTimeZoneName,
@@ -721,10 +695,8 @@ export {
   getWeekdayOrder,
   formatTimezoneOffset,
   getLocalDateObjectFromSaveFormat,
-  getDateFormatFromDateObject,
-  getTimeFormatFromDateObject,
   getDatesStringKey,
   getGraphObject,
-  getUTCTimeObjectFromSaveFormat,
-  getUTCDateFromSaveFormat,
+  convertDateObjToYmd,
+  convertDateObjToHHmm,
 };

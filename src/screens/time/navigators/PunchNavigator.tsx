@@ -57,8 +57,11 @@ class PunchNavigator extends React.Component<PunchNavigatorProps> {
           name={PUNCH}
           component={Punch}
           options={{
-            title:
-              punchStatus?.state.name === PUNCHED_IN ? 'Punch Out' : 'Punch In',
+            title: punchStatus
+              ? punchStatus?.state.id === PUNCHED_IN
+                ? 'Punch Out'
+                : 'Punch In'
+              : '',
             ...headerMenuIcon,
           }}
         />

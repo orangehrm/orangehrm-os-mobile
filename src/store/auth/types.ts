@@ -129,7 +129,7 @@ export interface Employee {
   firstName: string;
   lastName: string;
   middleName: string;
-  employeeId: string;
+  employeeId: string | null;
   jobTitle: JobTitle;
   subunit: SubUnit;
 }
