@@ -80,7 +80,7 @@ const convertDateObjToHHmm = (date: Date) => {
  * @param {String} utcTime HH:mm formated string
  * @return {Date}
  */
-const getUTCDateObjectFromSaveFormat = (utcDate: string, utcTime: string) => {
+const getDateObjFromUTCDateAndTime = (utcDate: string, utcTime: string) => {
   // https://github.com/facebook/react-native/issues/30245
   return new Date(utcDate + 'T' + utcTime + 'Z');
 };
@@ -671,7 +671,7 @@ const getGraphObject = (graphData: any, workWeekData: any) => {
 };
 
 export {
-  getUTCDateObjectFromSaveFormat,
+  getDateObjFromUTCDateAndTime,
   calculateDurationBasedOnTimezone,
   convertDateObjToISOFormat,
   formatLastRecordDetails,

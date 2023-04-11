@@ -21,7 +21,7 @@
 import 'react-native';
 import {
   convertDateObjToISOFormat,
-  getUTCDateObjectFromSaveFormat,
+  getDateObjFromUTCDateAndTime,
   calculateDurationBasedOnTimezone,
   NEGATIVE_DURATION,
   formatLastRecordDetails,
@@ -56,15 +56,15 @@ describe('lib/helpers/attendance', () => {
 
   test('getUTCDateObjectFromSaveFormat', () => {
     let strDate = '2020-07-14';
-    let result = getUTCDateObjectFromSaveFormat(strDate, '10:35');
+    let result = getDateObjFromUTCDateAndTime(strDate, '10:35');
     expect(result).toStrictEqual(new Date('2020-07-14T10:35Z'));
 
     strDate = '2020-07-14';
-    result = getUTCDateObjectFromSaveFormat(strDate, '23:35:00');
+    result = getDateObjFromUTCDateAndTime(strDate, '23:35:00');
     expect(result).toStrictEqual(new Date('2020-07-14T23:35:00Z'));
 
     strDate = '2020-07-14';
-    result = getUTCDateObjectFromSaveFormat(strDate, '24:35');
+    result = getDateObjFromUTCDateAndTime(strDate, '24:35');
     expect(result.toString()).toBe('Invalid Date');
   });
 

@@ -31,7 +31,7 @@ import {
   FETCH_UTC_DATE_TIME_FINISHED,
 } from './types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
-import {getUTCDateObjectFromSaveFormat} from 'lib/helpers/attendance';
+import {getDateObjFromUTCDateAndTime} from 'lib/helpers/attendance';
 
 const initialState: PunchStatusState = {};
 
@@ -68,7 +68,7 @@ const attendanceReducer = (
       if (action.payload?.utcDate && action.payload?.utcTime) {
         return {
           ...state,
-          punchCurrentDateTime: getUTCDateObjectFromSaveFormat(
+          punchCurrentDateTime: getDateObjFromUTCDateAndTime(
             action.payload.utcDate,
             action.payload.utcTime,
           ),
