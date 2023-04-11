@@ -31,10 +31,7 @@ import {
   FETCH_UTC_DATE_TIME_FINISHED,
 } from './types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
-import {
-  getUTCDateFromSaveFormat,
-  getUTCTimeObjectFromSaveFormat,
-} from 'lib/helpers/attendance';
+import {getUTCDateObjectFromSaveFormat} from 'lib/helpers/attendance';
 
 const initialState: PunchStatusState = {};
 
@@ -65,17 +62,12 @@ const attendanceReducer = (
     case CHANGE_PUNCH_CURRENT_DATE_TIME:
       return {
         ...state,
-        punchCurrentDate: action.punchCurrentDate,
-        punchCurrentTime: action.punchCurrentTime,
+        punchCurrentDateTime: action.punchCurrentDateTime,
       };
     case FETCH_UTC_DATE_TIME_FINISHED:
       return {
         ...state,
-        punchCurrentDate: getUTCDateFromSaveFormat(
-          action.payload?.utcDate,
-          action.payload?.utcTime,
-        ),
-        punchCurrentTime: getUTCTimeObjectFromSaveFormat(
+        punchCurrentDateTime: getUTCDateObjectFromSaveFormat(
           action.payload?.utcDate,
           action.payload?.utcTime,
         ),

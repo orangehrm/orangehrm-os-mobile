@@ -76,15 +76,15 @@ class EditPunchInOutDateTimeCard extends React.Component<
   };
 
   render() {
-    const {theme, punchCurrentDate, punchCurrentTime} = this.props;
+    const {theme, punchCurrentDateTime} = this.props;
     const {mode, display} = this.state;
 
     let date;
-    if (punchCurrentDate === undefined) {
+    if (punchCurrentDateTime === undefined) {
       date = new Date();
       this.props.updateDateTime(date);
     } else {
-      date = new Date(punchCurrentDate + ':' + punchCurrentTime);
+      date = punchCurrentDateTime;
     }
     const dateDisplay = date.toDateString();
     const timeDisplay = formatTime(date);
@@ -242,8 +242,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
 }
 
 interface EditPunchInOutDateTimeCardProps extends WithTheme {
-  punchCurrentDate?: string;
-  punchCurrentTime?: string;
+  punchCurrentDateTime?: Date;
   updateDateTime: (date: Date) => void;
 }
 

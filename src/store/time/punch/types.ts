@@ -22,16 +22,27 @@ export interface EmployeeObject {
   empNumber: number;
   lastName: string;
   firstName: string;
-  employeeId: string;
+  middleName: string;
+  employeeId: string | null;
+  terminationId: number | null;
 }
 
-export interface PunchInOutObject {
-  note: string;
+export interface PunchInObject {
+  note: string | null;
   offset: string;
   utcDate: string;
   utcTime: string;
   userTime: string;
   userDate: string;
+}
+
+export interface PunchOutObject {
+  note: string | null;
+  offset: string | null;
+  utcDate: string | null;
+  utcTime: string | null;
+  userTime: string | null;
+  userDate: string | null;
 }
 
 export interface PunchInOutFinishObject {
@@ -44,14 +55,14 @@ export interface PunchInOutFinishObject {
 }
 
 export interface PunchStateObject {
-  id: string;
+  id: PunchState;
   name: string;
 }
 
 export interface PunchStatus {
   employee: EmployeeObject;
-  punchIn: PunchInOutObject;
-  punchOut: PunchInOutObject;
+  punchIn: PunchInObject;
+  punchOut: PunchOutObject;
   state: PunchStateObject;
 }
 
@@ -62,8 +73,7 @@ export interface UTCDateTime {
 
 export interface PunchStatusState {
   punchStatus?: PunchStatus;
-  punchCurrentDate?: string;
-  punchCurrentTime?: string;
+  punchCurrentDateTime?: Date;
   punchNoteSaved?: string;
   punchAttendanceConfig?: AttendanceConfigObject;
 }
@@ -73,9 +83,10 @@ export interface AttendanceConfigObject {
   canUserModifyAttendance: boolean;
 }
 
-export const PUNCHED_IN = 'Punched In';
-export const PUNCHED_OUT = 'Punched Out';
+export const PUNCHED_IN = 'PUNCHED IN';
+export const PUNCHED_OUT = 'PUNCHED OUT';
 export const INITIAL = 'INITIAL';
+export type PunchState = typeof PUNCHED_IN | typeof PUNCHED_OUT;
 
 export const PUNCH_IN = 'PUNCH_IN';
 export const PUNCH_OUT = 'PUNCH_OUT';
@@ -131,8 +142,7 @@ export interface FetchAttendanceConfigFinishedAction {
 
 export interface ChangePunchCurrentDateTimeAction {
   type: typeof CHANGE_PUNCH_CURRENT_DATE_TIME;
-  punchCurrentDate?: string;
-  punchCurrentTime?: string;
+  punchCurrentDateTime?: Date;
 }
 
 export interface SetPunchNoteAction {
@@ -144,8 +154,8 @@ export interface PunchRequest {
   timezoneOffset: number;
   timezoneName: string;
   note: string | null;
-  date: string | undefined;
-  time: string | undefined;
+  date: string;
+  time: string;
 }
 
 export interface PunchInRequestAction {

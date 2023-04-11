@@ -71,6 +71,7 @@ import {
   AttendanceSummaryScreenRouteParams,
   EmployeeAttendanceSummaryScreenRouteParams,
 } from 'screens/time/navigators';
+import {getFirstAndLastNames} from 'lib/helpers/name';
 
 class AttendanceSummary extends React.Component<
   AttendanceSummaryProps,
@@ -116,9 +117,7 @@ class AttendanceSummary extends React.Component<
       startDayIndex: this.state.startDayIndex,
       employeeAttendance,
       employeeName: this.props.route.params?.employeeAttendance
-        ? this.props.route.params.employeeAttendance.firstName +
-          ' ' +
-          this.props.route.params.employeeAttendance.lastName
+        ? getFirstAndLastNames(this.props.route.params.employeeAttendance)
         : undefined,
       selectedDate: selectedDate,
       leaveTypesInputData: this.props.graphRecords?.totalLeaveTypeHours,
@@ -289,13 +288,12 @@ class AttendanceSummary extends React.Component<
   render() {
     const {theme, graphRecords, weekStartDay} = this.props;
     const empNumber = this.props.route.params
-      ? this.props.route.params.employeeAttendance?.employeeId
+      ? this.props.route.params.employeeAttendance?.empNumber
       : undefined;
-    const employeeName = this.props.route.params
-      ? this.props.route.params.employeeAttendance?.firstName +
-        ' ' +
-        this.props.route.params.employeeAttendance?.lastName
+    const employeeName = this.props.route.params.employeeAttendance
+      ? getFirstAndLastNames(this.props.route.params.employeeAttendance)
       : undefined;
+    // TODO
     const employeeJobTitle = this.props.route.params
       ? this.props.route.params.employeeAttendance?.jobTitle
       : undefined;
