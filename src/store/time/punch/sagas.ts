@@ -1,4 +1,3 @@
-import {HTTP_NOT_FOUND} from './../../../services/api';
 /*
  * This file is part of OrangeHRM
  *
@@ -65,6 +64,7 @@ import {
   getMessageAlongWithGenericErrors,
   getMessageAlongWithResponseErrors,
   HTTP_SUCCESS,
+  HTTP_NOT_FOUND,
 } from 'services/api';
 import {TYPE_ERROR} from 'store/globals/types';
 import {PunchStatus} from 'store/time/punch/types';
