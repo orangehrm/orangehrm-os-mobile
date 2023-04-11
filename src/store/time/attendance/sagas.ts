@@ -79,7 +79,7 @@ import {
   selectAttendanceConfigurationFetched,
 } from 'store/time/attendance/selectors';
 import {AttendanceObject} from './types';
-import {Holiday, WorkWeek} from '../../leave/common-screens/types';
+import {Holiday, WorkWeek} from 'store/leave/common-screens/types';
 import {getCurrentTimeZoneOffset, getGraphObject} from 'lib/helpers/attendance';
 
 function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {

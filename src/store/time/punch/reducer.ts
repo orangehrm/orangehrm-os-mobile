@@ -25,8 +25,6 @@ import {
   PunchStatusState,
   PunchStatusActionTypes,
   RESET_PUNCH_STATE,
-  PUNCHED_IN,
-  PUNCHED_OUT,
   FETCH_ATTENDANCE_CONFIG_FINISHED,
   FETCH_UTC_DATE_TIME_FINISHED,
 } from './types';
@@ -43,17 +41,6 @@ const attendanceReducer = (
     case FETCH_PUNCH_STATUS_FINISHED:
       if (action.error) {
         return state;
-      }
-      if (action.payload?.state.name === PUNCHED_IN) {
-        return {
-          ...state,
-          punchStatus: action.payload,
-        };
-      } else if (action.payload?.state.name === PUNCHED_OUT) {
-        return {
-          ...state,
-          punchStatus: action.payload,
-        };
       }
       return {
         ...state,

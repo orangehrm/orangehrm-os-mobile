@@ -72,7 +72,7 @@ export interface UTCDateTime {
 }
 
 export interface PunchStatusState {
-  punchStatus?: PunchStatus;
+  punchStatus?: PunchStatus | null;
   punchCurrentDateTime?: Date;
   punchNoteSaved?: string;
   punchAttendanceConfig?: AttendanceConfigObject;
@@ -119,7 +119,7 @@ export interface fetchAttendanceConfigsAction {
 
 export interface FetchPunchStatusFinishedAction {
   type: typeof FETCH_PUNCH_STATUS_FINISHED;
-  payload?: PunchStatus;
+  payload?: PunchStatus | null;
   error: boolean;
 }
 
