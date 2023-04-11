@@ -65,13 +65,16 @@ const attendanceReducer = (
         punchCurrentDateTime: action.punchCurrentDateTime,
       };
     case FETCH_UTC_DATE_TIME_FINISHED:
-      return {
-        ...state,
-        punchCurrentDateTime: getUTCDateObjectFromSaveFormat(
-          action.payload?.utcDate,
-          action.payload?.utcTime,
-        ),
-      };
+      if (action.payload?.utcDate && action.payload?.utcTime) {
+        return {
+          ...state,
+          punchCurrentDateTime: getUTCDateObjectFromSaveFormat(
+            action.payload.utcDate,
+            action.payload.utcTime,
+          ),
+        };
+      }
+      return state;
     case PICK_PUNCH_NOTE:
       return {
         ...state,

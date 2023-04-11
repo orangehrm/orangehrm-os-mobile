@@ -53,8 +53,8 @@ const setTwoDigits = (number: string) => {
  * @param {Date} date
  * @returns {String} YYYY-MM-DD HH:mm formated string
  */
-const getDateSaveFormatFromDateObject = (date: Date) => {
-  return moment(date).format('YYYY-MM-DD HH:mm');
+const convertDateObjToISOFormat = (date: Date) => {
+  return moment(date).format('YYYY-MM-DDTHH:mm');
 };
 
 /**
@@ -69,7 +69,7 @@ const convertDateObjToYmd = (date: Date) => {
 /**
  *
  * @param {Date} date
- * @returns {String} YYYY-MM-DD formated string
+ * @returns {String} HH:mm formated string
  */
 const convertDateObjToHHmm = (date: Date) => {
   return moment(date).format('HH:mm');
@@ -80,10 +80,7 @@ const convertDateObjToHHmm = (date: Date) => {
  * @param {String} utcTime HH:mm formated string
  * @return {Date}
  */
-const getUTCDateObjectFromSaveFormat = (
-  utcDate: string | undefined,
-  utcTime: string | undefined,
-) => {
+const getUTCDateObjectFromSaveFormat = (utcDate: string, utcTime: string) => {
   // https://github.com/facebook/react-native/issues/30245
   return new Date(utcDate + 'T' + utcTime + 'Z');
 };
@@ -676,7 +673,7 @@ const getGraphObject = (graphData: any, workWeekData: any) => {
 export {
   getUTCDateObjectFromSaveFormat,
   calculateDurationBasedOnTimezone,
-  getDateSaveFormatFromDateObject,
+  convertDateObjToISOFormat,
   formatLastRecordDetails,
   getCurrentTimeZoneOffset,
   getCurrentTimeZoneName,

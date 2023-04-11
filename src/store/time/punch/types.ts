@@ -85,12 +85,7 @@ export interface AttendanceConfigObject {
 
 export const PUNCHED_IN = 'PUNCHED IN';
 export const PUNCHED_OUT = 'PUNCHED OUT';
-export const INITIAL = 'INITIAL';
 export type PunchState = typeof PUNCHED_IN | typeof PUNCHED_OUT;
-
-export const PUNCH_IN = 'PUNCH_IN';
-export const PUNCH_OUT = 'PUNCH_OUT';
-export type PunchAction = typeof PUNCH_IN | typeof PUNCH_OUT;
 
 export const FETCH_PUNCH_STATUS = 'PUNCH_STATUS_FETCH_PUNCH_STATUS';
 export const FETCH_UTC_DATE_TIME = 'PUNCH_STATUS_FETCH_UTC_DATE_TIME';

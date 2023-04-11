@@ -20,7 +20,7 @@
 
 import 'react-native';
 import {
-  getDateSaveFormatFromDateObject,
+  convertDateObjToISOFormat,
   getUTCDateObjectFromSaveFormat,
   calculateDurationBasedOnTimezone,
   NEGATIVE_DURATION,
@@ -45,12 +45,12 @@ describe('lib/helpers/attendance', () => {
   test('getDateSaveFormatFromDateObject:: check YYYY-MM-DD HH:mm', () => {
     let strDate = '2020-07-14 10:35';
     let date = new Date(strDate);
-    let result = getDateSaveFormatFromDateObject(date);
+    let result = convertDateObjToISOFormat(date);
     expect(result).toBe(strDate);
 
     strDate = '2020-07-14 23:59';
     date = new Date(strDate);
-    result = getDateSaveFormatFromDateObject(date);
+    result = convertDateObjToISOFormat(date);
     expect(result).toBe(strDate);
   });
 
@@ -103,7 +103,7 @@ describe('lib/helpers/attendance', () => {
   });
   test('getDateSaveFormatFromDateObject::check get YYYY-MM-DD hh:mm datetime string from Date object', () => {
     const date = new Date('2020-07-14T21:48');
-    const result = getDateSaveFormatFromDateObject(date);
+    const result = convertDateObjToISOFormat(date);
     expect(result).toBe('2020-07-14 21:48');
   });
 

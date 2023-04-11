@@ -58,7 +58,7 @@ import CardContent from 'components/DefaultCardContent';
 import View from 'components/HideableView';
 import {
   calculateDurationBasedOnTimezone,
-  getDateSaveFormatFromDateObject,
+  convertDateObjToISOFormat,
   getCurrentTimeZoneOffset,
   NEGATIVE_DURATION,
   getLocalDateObjectFromSaveFormat,
@@ -92,8 +92,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
 
   componentDidUpdate(prevProps: PunchProps) {
     if (this.props.currentRoute === PUNCH && prevProps.currentRoute !== PUNCH) {
-      this.props.fetchUTCDateTime();
-      this.props.fetchPunchStatus();
+      this.onRefresh();
     }
     if (
       prevProps.currentRoute !== this.props.currentRoute ||
@@ -124,7 +123,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
           this.props.punchStatus.punchIn.userDate +
             'T' +
             this.props.punchStatus.punchIn.userTime,
-          getDateSaveFormatFromDateObject(this.props.punchCurrentDateTime),
+          convertDateObjToISOFormat(this.props.punchCurrentDateTime),
           parseFloat(this.props.punchStatus.punchIn.offset),
           getCurrentTimeZoneOffset(),
         );
