@@ -34,7 +34,7 @@ class PickLeaveType extends React.Component<PickLeaveTypeProps> {
     const {theme, style, ...leaveBalanceRowProps} = this.props;
     const {entitlement, selectedLeaveTypeId} = leaveBalanceRowProps;
     const selectedLeaveType = entitlement?.find(
-      (item) => item.id === selectedLeaveTypeId,
+      (item) => item.leaveType.id === selectedLeaveTypeId,
     );
     const leaveTypeColor = selectedLeaveType?.leaveType.color;
 

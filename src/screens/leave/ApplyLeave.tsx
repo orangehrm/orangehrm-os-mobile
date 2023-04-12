@@ -212,7 +212,7 @@ class ApplyLeave extends React.Component<ApplyLeaveProps, ApplyLeaveState> {
       entitlements,
     } = this.props;
     const selectedLeaveType = entitlements?.find(
-      (item) => item.id === selectedLeaveTypeId,
+      (item) => item.leaveType.id === selectedLeaveTypeId,
     );
     if (fromDate && selectedLeaveType) {
       const leaveRequest: LeaveRequest = {

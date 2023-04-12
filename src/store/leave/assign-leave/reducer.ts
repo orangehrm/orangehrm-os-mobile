@@ -98,7 +98,7 @@ const assignLeaveReducer = (
       }
       return {
         ...state,
-        entitlement: action.payload?.slice(),
+        entitlement: action.payload,
       };
     case FETCH_SUBORDINATES_FINISHED: {
       if (action.error) {

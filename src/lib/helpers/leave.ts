@@ -18,9 +18,11 @@
  *
  */
 
-import {EntitlementSummaryModel} from 'store/leave/leave-usage/types';
+import {
+  EmployeeLeaveBalanceModel,
+  ModifiedEmployeeLeaveBalanceModel,
+} from 'store/leave/leave-usage/types';
 import {LeaveType, ColorAssignedLeaveType} from 'store/leave/leave-list/types';
-import {SubordinateEntitlement} from 'store/leave/assign-leave/types';
 import {
   SPECIFY_TIME,
   PARTIAL_OPTION_ALL,
@@ -222,20 +224,27 @@ export {
  * @param entitlements
  */
 export const getEntitlementWithZeroBalanced = (
-  entitlements?: SubordinateEntitlement[],
-): EntitlementSummaryModel[] | undefined => {
+  entitlements?: EmployeeLeaveBalanceModel[],
+): ModifiedEmployeeLeaveBalanceModel[] | undefined => {
   if (entitlements === undefined) {
     return entitlements;
   }
 
-  const entitlementsArray: EntitlementSummaryModel[] = [];
+  const entitlementsArray: ModifiedEmployeeLeaveBalanceModel[] = [];
 
   entitlements.forEach((subordinateEntitlement) => {
-    if (subordinateEntitlement.id === undefined) {
-      subordinateEntitlement.id = `${subordinateEntitlement.leaveType.id}-${subordinateEntitlement.leaveType.name}`;
+    if (subordinateEntitlement.usageBreakdown === null) {
+      subordinateEntitlement.usageBreakdown = {
+        entitlement: 0,
+        used: 0,
+        scheduled: 0,
+        pending: 0,
+        taken: 0,
+        balance: 0,
+      };
     }
     entitlementsArray.push({
-      ...(subordinateEntitlement as EntitlementSummaryModel),
+      ...(subordinateEntitlement as ModifiedEmployeeLeaveBalanceModel),
     });
   });
   return entitlementsArray;

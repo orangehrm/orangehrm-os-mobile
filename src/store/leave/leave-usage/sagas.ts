@@ -79,7 +79,14 @@ function* fetchMyLeaveEntitlements() {
     yield openLoader();
     const response: ApiResponse<EntitlementSummaryModel[]> = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT, {}, {model: 'summary'}),
+      prepare(
+        API_ENDPOINT_LEAVE_MY_LEAVE_ENTITLEMENT,
+        {},
+        {
+          model: 'summary',
+          sortField: 'leaveType.name',
+        },
+      ),
     );
     // clear error messages
     yield put(setErrorMessage());

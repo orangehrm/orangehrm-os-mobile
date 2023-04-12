@@ -61,7 +61,7 @@ import {
 import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
 import {
   API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST,
-  API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT,
+  API_ENDPOINT_EMPLOYEE_LEAVE_BALANCE,
   API_ENDPOINT_EMPLOYEES,
   API_ENDPOINT_LEAVE_WORK_SHIFT,
   API_ENDPOINT_LEAVE_TYPES,
@@ -76,7 +76,7 @@ import {LEAVE_REQUEST_SUCCESS} from 'screens';
 import {LeaveRequestSuccessParam} from 'screens/leave/navigators';
 import {LeaveRequestModel, WorkShift} from 'store/leave/common-screens/types';
 import {LeaveType} from 'store/leave/leave-list/types';
-import {EntitlementSummaryModel} from '../leave-usage/types';
+import {EmployeeLeaveBalanceModel} from 'store/leave/leave-usage/types';
 
 function* saveLeaveRequest(
   action:
@@ -119,15 +119,13 @@ function* fetchSubordinateLeaveEntitlements(
 ) {
   try {
     yield openLoader();
-    const response: ApiResponse<EntitlementSummaryModel[]> = yield apiCall(
+    const response: ApiResponse<EmployeeLeaveBalanceModel[]> = yield apiCall(
       apiGetCall,
       prepare(
-        API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT,
+        API_ENDPOINT_EMPLOYEE_LEAVE_BALANCE,
         {},
         {
-          model: 'summary',
           empNumber: action.empNumber,
-          leaveTypeDeleted: false,
         },
       ),
     );

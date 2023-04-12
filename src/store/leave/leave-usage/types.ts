@@ -140,19 +140,42 @@ export type LeaveUsageActionTypes =
   | FetchMyLeaveCommentFinishedAction
   | SetErrorMessageAction;
 
-export interface EntitlementSummaryModel {
-  id: number;
-  entitlement: number;
-  daysUsed: number;
+export interface LeaveBalanceRowEntitlement {
   usageBreakdown: {
-    scheduled: number;
-    pending: number;
-    taken: number;
+    entitlement: number;
+    used: number;
     balance: number;
   };
   leaveType: LeaveType;
+}
+
+export interface EntitlementSummaryModel {
+  id: number;
+  leaveType: LeaveType;
+  usageBreakdown: EmployeeLeaveBalanceUsageBreakdown;
   fromDate: string;
   toDate: string;
+}
+
+export interface EmployeeLeaveBalanceModel {
+  leaveType: LeaveType;
+  usageBreakdown: EmployeeLeaveBalanceUsageBreakdown | null;
+  fromDate: string | null;
+  toDate: string | null;
+}
+
+export interface ModifiedEmployeeLeaveBalanceModel
+  extends Omit<EmployeeLeaveBalanceModel, 'usageBreakdown'> {
+  usageBreakdown: EmployeeLeaveBalanceUsageBreakdown;
+}
+
+export interface EmployeeLeaveBalanceUsageBreakdown {
+  entitlement: number;
+  used: number;
+  scheduled: number;
+  pending: number;
+  taken: number;
+  balance: number;
 }
 
 export interface LeaveType {

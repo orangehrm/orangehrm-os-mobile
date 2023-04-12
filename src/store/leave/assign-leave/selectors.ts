@@ -20,17 +20,16 @@
 
 import {RootState} from 'store';
 import {createSelector} from 'reselect';
-import {
-  AssignLeaveState,
-  Subordinate,
-  SubordinateEntitlement,
-} from 'store/leave/assign-leave/types';
+import {AssignLeaveState, Subordinate} from 'store/leave/assign-leave/types';
 import {
   SingleDayDuration,
   MultipleDayPartialOption,
   WorkShift,
 } from 'store/leave/common-screens/types';
-import {LeaveType} from 'store/leave/leave-usage/types';
+import {
+  EmployeeLeaveBalanceModel,
+  LeaveType,
+} from 'store/leave/leave-usage/types';
 
 export const selectAssignLeave = (state: RootState) => state.assignLeave;
 
@@ -67,39 +66,9 @@ export const selectSubordinateLeaveComment = createSelector<
 export const selectSubordinateEntitlement = createSelector<
   RootState,
   AssignLeaveState,
-  SubordinateEntitlement[] | undefined
+  EmployeeLeaveBalanceModel[] | undefined
 >([selectAssignLeave], (assignLeave) => {
-  if (assignLeave.leaveTypes === undefined) {
-    return assignLeave.entitlement;
-  }
-
-  const entitlementForLeaveType: {
-    [key: number]: SubordinateEntitlement;
-  } = [];
-
-  assignLeave.entitlement?.forEach((entitlement: SubordinateEntitlement) => {
-    entitlementForLeaveType[entitlement.leaveType.id] = entitlement;
-  });
-
-  const entitlements: SubordinateEntitlement[] = [];
-  assignLeave.leaveTypes.forEach((leaveType: LeaveType) => {
-    if (Object.hasOwn(entitlementForLeaveType, leaveType.id)) {
-      entitlements.push(entitlementForLeaveType[leaveType.id]);
-    } else {
-      entitlements.push({
-        entitlement: 0,
-        daysUsed: 0,
-        usageBreakdown: {
-          scheduled: 0,
-          pending: 0,
-          taken: 0,
-          balance: 0,
-        },
-        leaveType,
-      });
-    }
-  });
-  return entitlements;
+  return assignLeave.entitlement;
 });
 
 export const selectSubordinateSelectedLeaveTypeId = createSelector<
