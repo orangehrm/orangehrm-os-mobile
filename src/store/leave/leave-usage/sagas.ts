@@ -85,6 +85,7 @@ function* fetchMyLeaveEntitlements() {
         {
           model: 'summary',
           sortField: 'leaveType.name',
+          leaveTypeDeleted: false,
         },
       ),
     );
