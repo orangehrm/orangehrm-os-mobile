@@ -25,7 +25,10 @@ import {
   MultipleDayLeaveRequest,
   WorkShift,
 } from 'store/leave/common-screens/types';
-import {EntitlementSummaryModel} from 'store/leave/leave-usage/types';
+import {
+  EmployeeLeaveBalanceModel,
+  EntitlementSummaryModel,
+} from 'store/leave/leave-usage/types';
 import {ColorAssignedLeaveType} from 'store/leave/leave-list/types';
 
 export interface AssignLeaveState {
@@ -34,7 +37,7 @@ export interface AssignLeaveState {
   comment?: string;
   duration: SingleDayDuration;
   partialOption: MultipleDayPartialOption;
-  entitlement?: SubordinateEntitlement[];
+  entitlement?: EmployeeLeaveBalanceModel[];
   selectedLeaveTypeId?: number;
   selectedSubordinate?: Subordinate;
   subordinates: Map<string, Subordinate[]>;
@@ -127,7 +130,7 @@ export interface FetchSubordinateLeaveEntitlementAction {
 
 export interface FetchSubordinateLeaveEntitlementFinishedAction {
   type: typeof FETCH_SUBORDINATE_LEAVE_ENTITLEMENT_FINISHED;
-  payload?: SubordinateEntitlement[];
+  payload?: EmployeeLeaveBalanceModel[];
   error: boolean;
 }
 

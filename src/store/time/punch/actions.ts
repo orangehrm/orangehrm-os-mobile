@@ -74,7 +74,7 @@ export const fetchAttendanceConfigs = (
 });
 
 export const fetchPunchStatusFinished = (
-  payload?: PunchStatus,
+  payload?: PunchStatus | null,
   error: boolean = false,
 ): FetchPunchStatusFinishedAction => ({
   type: FETCH_PUNCH_STATUS_FINISHED,

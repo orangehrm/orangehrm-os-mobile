@@ -56,7 +56,7 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
     const {theme, entitlement, selectedLeaveTypeId} = this.props;
 
     const selectedLeaveType = entitlement?.find(
-      (item) => item.id === selectedLeaveTypeId,
+      (item) => item.leaveType.id === selectedLeaveTypeId,
     );
 
     return (
@@ -127,10 +127,10 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
               <Divider />
               <ProgressCircle
                 progress={this.calculateProgress(
-                  selectedLeaveType?.entitlement,
-                  selectedLeaveType?.daysUsed,
+                  selectedLeaveType?.usageBreakdown.entitlement,
+                  selectedLeaveType?.usageBreakdown.used,
                 )}
-                usedDays={selectedLeaveType?.daysUsed.toFixed(2)}
+                usedDays={selectedLeaveType?.usageBreakdown.used.toFixed(2)}
                 mainColor={selectedLeaveType?.leaveType.color}
               />
             </CardContent>
@@ -151,8 +151,8 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
                 ]}>
                 <Text>{'Total Entitlement'}</Text>
                 <Text>
-                  {selectedLeaveType?.entitlement
-                    ? selectedLeaveType?.entitlement.toFixed(2)
+                  {selectedLeaveType?.usageBreakdown.entitlement
+                    ? selectedLeaveType?.usageBreakdown.entitlement.toFixed(2)
                     : '0.00'}
                   {' Day(s)'}
                 </Text>

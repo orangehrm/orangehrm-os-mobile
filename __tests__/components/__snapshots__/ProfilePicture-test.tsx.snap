@@ -97,7 +97,7 @@ exports[`components/ProfilePicture test ProfilePicture component 1`] = `
             ]
           }
         >
-          Abbey  Kyla
+          Abbey Kyla
         </Text>
         <Text
           style={
@@ -113,6 +113,126 @@ exports[`components/ProfilePicture test ProfilePicture component 1`] = `
           }
         >
           Accountant
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`components/ProfilePicture test ProfilePicture component: terminated employee 1`] = `
+<View>
+  <View
+    accessibilityIgnoresInvertColors={true}
+    style={{}}
+  >
+    <Image
+      defaultSource={
+        {
+          "testUri": "../../../src/images/default-photo.png",
+        }
+      }
+      source={
+        {
+          "testUri": "../../../src/images/default-photo.png",
+        }
+      }
+      style={
+        [
+          {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          },
+          {
+            "height": undefined,
+            "width": undefined,
+          },
+          {
+            "opacity": 0.5,
+            "resizeMode": "cover",
+          },
+        ]
+      }
+    />
+    <View>
+      <View
+        style={
+          {
+            "elevation": 4,
+          }
+        }
+      >
+        <Image
+          defaultSource={
+            {
+              "testUri": "../../../src/images/default-photo.png",
+            }
+          }
+          large={true}
+          source={
+            {
+              "testUri": "../../../src/images/default-photo.png",
+            }
+          }
+          style={
+            [
+              {
+                "borderRadius": 40,
+                "height": 80,
+                "width": 80,
+              },
+              {
+                "margin": 16,
+              },
+            ]
+          }
+        />
+      </View>
+      <View
+        style={
+          {
+            "marginBottom": 16,
+            "marginLeft": 16,
+          }
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "color": "#818181",
+              },
+              undefined,
+              [
+                {
+                  "fontWeight": "bold",
+                },
+                {
+                  "color": "#000000",
+                },
+              ],
+            ]
+          }
+        >
+          Lynda Jane (Past Employee)
+        </Text>
+        <Text
+          style={
+            [
+              {
+                "color": "#818181",
+              },
+              undefined,
+              {
+                "color": "#000000",
+              },
+            ]
+          }
+        >
+          Manager
         </Text>
       </View>
     </View>

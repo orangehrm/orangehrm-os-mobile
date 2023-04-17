@@ -65,7 +65,6 @@ import {
   pickAssignLeaveSingleDayDuration,
   pickAssignLeaveMultipleDayPartialOption,
   fetchWorkShift,
-  fetchLeaveTypes,
 } from 'store/leave/assign-leave/actions';
 import {selectPreviousRoute, selectCurrentRoute} from 'store/globals/selectors';
 import {
@@ -110,7 +109,6 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
   }
 
   componentDidMount() {
-    this.props.fetchLeaveTypes();
     this.keyboardHide = Keyboard.addListener(
       'keyboardDidHide',
       this.onKeyboardHide,
@@ -239,7 +237,7 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
     } = this.props;
     const selectedLeaveType = getEntitlementWithZeroBalanced(
       entitlements,
-    )?.find((item) => item.id === selectedLeaveTypeId);
+    )?.find((item) => item.leaveType.id === selectedLeaveTypeId);
     if (fromDate && selectedLeaveType && selectedSubordinate) {
       const leaveRequest: LeaveRequest = {
         fromDate: fromDate,
@@ -288,7 +286,6 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
 
   updateSubordinateEntitlements = () => {
     const {selectedSubordinate} = this.props;
-    this.props.fetchLeaveTypes();
     if (selectedSubordinate !== undefined) {
       this.props.fetchSubordinateLeaveEntitlements(
         selectedSubordinate.empNumber,
@@ -464,7 +461,6 @@ const mapDispatchToProps = {
   resetCommonLeave: resetCommonLeave,
   setCommonLeaveScreensState: setCommonLeaveScreensState,
   fetchWorkShift,
-  fetchLeaveTypes,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

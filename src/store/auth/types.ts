@@ -132,6 +132,7 @@ export interface Employee {
   employeeId: string | null;
   jobTitle: JobTitle;
   subunit: SubUnit;
+  terminationId: number | null;
 }
 
 export interface User {

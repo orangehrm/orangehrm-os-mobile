@@ -41,24 +41,36 @@ const getNameLetters = (name: string): string | undefined => {
 const getFullName = (employee: {
   firstName: string;
   lastName: string;
-  middleName?: string;
-  terminationId?: string;
+  middleName: string;
+  terminationId: number | null;
 }) => {
-  if (employee.terminationId !== null && employee.middleName == null) {
-    return employee.firstName + ' ' + employee.lastName + ' (Past Employee)';
-  } else if (employee.middleName !== null) {
-    return (
-      employee.firstName + ' ' + employee.middleName + ' ' + employee.lastName
-    );
+  const name =
+    employee.firstName +
+    ' ' +
+    (employee.middleName !== '' ? employee.middleName + ' ' : '') +
+    employee.lastName;
+  if (
+    employee?.terminationId !== undefined &&
+    employee.terminationId !== null
+  ) {
+    return name + ' (Past Employee)';
   }
-  return employee.firstName + ' ' + employee.lastName;
+  return name;
 };
 
 const getFirstAndLastNames = (employee: {
   firstName: string;
   lastName: string;
+  terminationId: number | null;
 }) => {
-  return employee.firstName + ' ' + employee.lastName;
+  const name = employee.firstName + ' ' + employee.lastName;
+  if (
+    employee?.terminationId !== undefined &&
+    employee.terminationId !== null
+  ) {
+    return name + ' (Past Employee)';
+  }
+  return name;
 };
 
 export {getNameLetters, getFullName, getFirstAndLastNames};

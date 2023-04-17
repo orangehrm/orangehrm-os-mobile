@@ -44,7 +44,7 @@ export const set = async (
   }
 };
 
-interface StringMap {
+export interface StringMap {
   [key: string]: string | null;
 }
 

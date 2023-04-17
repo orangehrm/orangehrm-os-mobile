@@ -65,8 +65,8 @@ export const API_ENDPOINT_LEAVE_REQUEST_DETAILS =
   '/api/v2/leave/employees/leave-requests/{leaveRequestId}';
 export const API_ENDPOINT_LEAVE_COMMENT =
   '/api/v2/leave/leave-requests/{leaveRequestId}/leave-comments';
-export const API_ENDPOINT_SUBORDINATE_LEAVE_ENTITLEMENT =
-  '/api/v2/leave/leave-entitlements'; // TODO::remove
+export const API_ENDPOINT_EMPLOYEE_LEAVE_BALANCE =
+  '/api/v2/leave/employee/leave-balances'; // TODO::remove
 export const API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST =
   '/api/v2/leave/employees/leave-requests'; // TODO::remove
 export const API_ENDPOINT_LEAVE_HOLIDAYS = '/api/v2/leave/holidays';

@@ -22,7 +22,7 @@ import React from 'react';
 import {FlatList, View, StyleSheet, ViewProps} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import LeaveBalanceCard from 'screens/leave/components/LeaveBalanceCard';
-import {EntitlementSummaryModel} from 'store/leave/leave-usage/types';
+import {LeaveBalanceRowEntitlement} from 'store/leave/leave-usage/types';
 
 class LeaveBalanceRow extends React.Component<LeaveBalanceRowProps> {
   componentDidUpdate(prevProps: LeaveBalanceRowProps) {
@@ -31,7 +31,7 @@ class LeaveBalanceRow extends React.Component<LeaveBalanceRowProps> {
         this.props;
       if (selectedLeaveTypeId === undefined) {
         if (entitlement !== undefined && entitlement.length !== 0) {
-          selectLeaveTypeAction(entitlement[0].id);
+          selectLeaveTypeAction(entitlement[0].leaveType.id);
         }
       }
     }
@@ -67,14 +67,14 @@ class LeaveBalanceRow extends React.Component<LeaveBalanceRowProps> {
                   leaveType={item.leaveType.name}
                   leaveBalance={item.usageBreakdown.balance.toFixed(2)}
                   selectedColor={item.leaveType.color}
-                  selected={selectedLeaveTypeId === item.id}
+                  selected={selectedLeaveTypeId === item.leaveType.id}
                   onPress={() => {
-                    selectLeaveTypeAction(item.id);
+                    selectLeaveTypeAction(item.leaveType.id);
                   }}
                 />
               </>
             )}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item.leaveType.id.toString()}
             ItemSeparatorComponent={() => {
               return <View style={{paddingHorizontal: theme.spacing}} />;
             }}
@@ -107,7 +107,7 @@ export interface LeaveBalanceRowProps
   extends WithTheme,
     Pick<ViewProps, 'style'> {
   marginHorizontal?: number;
-  entitlement?: EntitlementSummaryModel[];
+  entitlement?: LeaveBalanceRowEntitlement[];
   selectedLeaveTypeId?: number;
   selectLeaveTypeAction: (id: number) => {type: string; id: number};
 }

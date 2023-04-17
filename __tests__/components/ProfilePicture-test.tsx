@@ -39,6 +39,27 @@ describe('components/ProfilePicture', () => {
             middleName: '',
             jobTitle: {id: 2, title: 'Accountant', isDeleted: false},
             subunit: {id: null, name: null},
+            terminationId: null,
+          }}
+        />
+      </Provider>,
+    ).toJSON();
+    expect(node).toMatchSnapshot();
+  });
+
+  test('test ProfilePicture component: terminated employee', () => {
+    const node = render(
+      <Provider store={mockStore}>
+        <ProfilePicture
+          employee={{
+            empNumber: 10,
+            employeeId: '0005',
+            firstName: 'Lynda',
+            lastName: 'Jane',
+            middleName: '',
+            jobTitle: {id: 6, title: 'Manager', isDeleted: false},
+            subunit: {id: null, name: null},
+            terminationId: 2,
           }}
         />
       </Provider>,

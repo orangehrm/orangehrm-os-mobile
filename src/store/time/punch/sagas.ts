@@ -64,6 +64,7 @@ import {
   getMessageAlongWithGenericErrors,
   getMessageAlongWithResponseErrors,
   HTTP_SUCCESS,
+  HTTP_NOT_FOUND,
 } from 'services/api';
 import {TYPE_ERROR} from 'store/globals/types';
 import {PunchStatus} from 'store/time/punch/types';
@@ -159,7 +160,11 @@ function* fetchPunchStatus(action: FetchPunchStatusAction) {
       apiGetCall,
       API_ENDPOINT_PUNCH_STATUS,
     );
-    yield put(fetchPunchStatusFinished(response.data));
+    if (response.getResponse().status === HTTP_NOT_FOUND) {
+      yield put(fetchPunchStatusFinished(null));
+    } else {
+      yield put(fetchPunchStatusFinished(response.data));
+    }
   } catch (error) {
     yield put(fetchPunchStatusFinished(undefined, true));
   } finally {

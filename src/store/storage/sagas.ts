@@ -29,6 +29,7 @@ import storage, {
   TOKEN_TYPE,
   INSTANCE_API_VERSION,
   DATE_FORMAT,
+  StringMap,
 } from 'services/storage';
 import {storageSetMulti, storageChangeLoaded} from 'store/saga-effects/storage';
 import {
@@ -53,7 +54,7 @@ export function* loadAsyncStorage() {
       INSTANCE_API_VERSION,
       DATE_FORMAT,
     ];
-    const keyValuePairs = yield call(storage.multiGet, keys);
+    const keyValuePairs: StringMap = yield call(storage.multiGet, keys);
     // update redux store
     yield storageSetMulti(keyValuePairs);
     yield storageChangeLoaded(true);
@@ -71,7 +72,9 @@ function* setItemAsyncStorage(action: SetItemAction) {
 
 function* setMultiAsyncStorage(action: SetMultiAction) {
   try {
-    const initialStorageLoaded = yield select(selectStorageLoaded);
+    const initialStorageLoaded: {loaded?: boolean; error: any} = yield select(
+      selectStorageLoaded,
+    );
     // Avoid update async storage when executing `loadAsyncStorage` when application starts
     if (initialStorageLoaded.loaded) {
       const keys = Object.keys(action.keyValuePairs);

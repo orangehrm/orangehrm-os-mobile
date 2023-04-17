@@ -28,7 +28,7 @@ export const selectPunchState = (state: RootState) => state.punch;
 export const selectPunchStatus = createSelector<
   RootState,
   PunchStatusState,
-  PunchStatus | undefined
+  PunchStatus | null | undefined
 >([selectPunchState], (attendance) => attendance.punchStatus);
 
 export const selectAttendanceConfig = createSelector<
