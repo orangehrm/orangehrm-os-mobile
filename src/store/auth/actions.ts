@@ -36,7 +36,7 @@ import {
   MyInfo,
   FetchEnabledModulesFinishedAction,
   FetchEnabledModulesAction,
-  EnabledModules,
+  MenuItems,
   MyInfoFailedAction,
   FetchNewTokenFinishedAction,
 } from 'store/auth/types';
@@ -81,7 +81,7 @@ export const fetchEnabledModules = (): FetchEnabledModulesAction => ({
 });
 
 export const fetchEnabledModulesFinished = (
-  payload?: EnabledModules,
+  payload?: MenuItems,
   error: boolean = false,
 ): FetchEnabledModulesFinishedAction => ({
   type: FETCH_ENABLED_MODULES_FINISHED,

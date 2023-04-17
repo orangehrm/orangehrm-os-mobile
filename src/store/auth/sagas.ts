@@ -29,9 +29,8 @@ import {
   FETCH_ENABLED_MODULES,
   FETCH_NEW_TOKEN_FINISHED,
   MyInfo,
-  EnabledModules,
+  MenuItems,
   Employee,
-  MenuItem,
 } from 'store/auth/types';
 import {
   PUBLIC_MOBILE_CLIENT_ID,
@@ -243,7 +242,7 @@ function getAbsoluteUrlsForChecking(instanceUrl: string) {
   ];
 }
 
-function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
+function* fetchMenuItems(action?: FetchEnabledModulesAction) {
   try {
     if (action) {
       yield openLoader();
@@ -258,10 +257,10 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
 
     if (response.ok) {
       const responseData: ApiResponse<
-        MenuItem[],
-        $PropertyType<EnabledModules, 'meta'>
+        $PropertyType<MenuItems, 'menuItems'>,
+        $PropertyType<MenuItems, 'meta'>
       > = yield call([response, response.json]);
-      const enabledModules: EnabledModules = {
+      const enabledModules: MenuItems = {
         menuItems: responseData.data,
         meta: responseData.meta,
       };
@@ -358,7 +357,7 @@ function* logout() {
 
 function* fetchMyInfo() {
   try {
-    yield* fetchEnabledModules();
+    yield* fetchMenuItems();
 
     // eslint-disable-next-line no-undef
     const rawResponse: Response = yield apiCall(
@@ -450,7 +449,6 @@ export function* watchAuthActions() {
   yield takeEvery(LOGOUT, logout);
   yield takeEvery(FETCH_MY_INFO, fetchMyInfo);
   yield takeEvery(CHECK_INSTANCE, checkInstance);
-  yield takeEvery(FETCH_ENABLED_MODULES, fetchEnabledModules);
+  yield takeEvery(FETCH_ENABLED_MODULES, fetchMenuItems);
   yield takeEvery(FETCH_NEW_TOKEN_FINISHED, fetchApiDefinition);
-  // yield takeEvery(FETCH_MY_INFO, fetchApiDefinition); // TODO
 }

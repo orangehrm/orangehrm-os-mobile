@@ -39,7 +39,7 @@ import {fetchMyInfo} from 'store/auth/actions';
 import {
   selectMyInfoSuccess,
   selectIsCalledMyInfo,
-  selectEnabledModules,
+  selectMenuItemsMetaData,
   selectMyInfoFailed,
   selectMenuItems,
 } from 'store/auth/selectors';
@@ -97,7 +97,7 @@ const Navigator = (props: NavigatorProps) => {
     myInfoSuccess,
     isCalledMyInfo,
     initialRoute,
-    enabledModules,
+    menuItemsMetaData,
     myInfoFailed,
     isAuthenticated,
     menuItems,
@@ -172,9 +172,9 @@ const Navigator = (props: NavigatorProps) => {
                 />
               ) : (
                 <>
-                  {enabledModules !== undefined &&
+                  {menuItemsMetaData !== undefined &&
                   menuItems.has(MENU_LEAVE) &&
-                  enabledModules.meta.isLeavePeriodDefined ? (
+                  menuItemsMetaData.isLeavePeriodDefined ? (
                     <>
                       {menuItems.get(MENU_LEAVE)?.get(MENU_ITEM_APPLY_LEAVE) ? (
                         <Drawer.Screen
@@ -230,9 +230,9 @@ const Navigator = (props: NavigatorProps) => {
                     </>
                   ) : null}
 
-                  {enabledModules !== undefined &&
+                  {menuItemsMetaData !== undefined &&
                   menuItems.has(MENU_TIME) &&
-                  enabledModules.meta.isTimesheetPeriodDefined ? (
+                  menuItemsMetaData.isTimesheetPeriodDefined ? (
                     <>
                       {menuItems.get(MENU_TIME)?.get(MENU_ITEM_PUNCH_IN_OUT) ? (
                         <Drawer.Screen
@@ -326,7 +326,7 @@ const mapStateToProps = (state: RootState) => ({
   myInfoSuccess: selectMyInfoSuccess(state),
   isCalledMyInfo: selectIsCalledMyInfo(state),
   initialRoute: selectInitialRoute(state),
-  enabledModules: selectEnabledModules(state),
+  menuItemsMetaData: selectMenuItemsMetaData(state),
   myInfoFailed: selectMyInfoFailed(state),
   isAuthenticated: selectIsAuthenticated(state),
   menuItems: selectMenuItems(state),

@@ -23,7 +23,7 @@ import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
-import {selectEnabledModules, selectMenuItems} from 'store/auth/selectors';
+import {selectMenuItemsMetaData, selectMenuItems} from 'store/auth/selectors';
 import {fetchEnabledModules} from 'store/auth/actions';
 import FullInfoView from 'screens/common/component/FullInfoView';
 import {MENU_LEAVE, MENU_TIME} from 'store/auth/types';
@@ -36,8 +36,8 @@ class FullScreenError extends React.Component<FullScreenErrorProps> {
 
   componentDidUpdate(prevProps: FullScreenErrorProps) {
     if (
-      JSON.stringify(this.props.enabledModules) !==
-      JSON.stringify(prevProps.enabledModules)
+      JSON.stringify(this.props.menuItemsMetaData) !==
+      JSON.stringify(prevProps.menuItemsMetaData)
     ) {
       try {
         getNavigation()?.resetRoot();
@@ -47,20 +47,20 @@ class FullScreenError extends React.Component<FullScreenErrorProps> {
   }
 
   render() {
-    const {enabledModules, menuItems} = this.props;
+    const {menuItemsMetaData, menuItems} = this.props;
     let message = 'Unexpected Error Occurred';
 
     if (!menuItems.has(MENU_LEAVE) && !menuItems.has(MENU_TIME)) {
       message = 'Leave and Time Modules Are Disabled';
     } else if (
       menuItems.has(MENU_LEAVE) &&
-      !enabledModules?.meta.isLeavePeriodDefined
+      !menuItemsMetaData?.isLeavePeriodDefined
     ) {
       message = 'Leave Period Is Not Defined';
     } else if (
       !menuItems.has(MENU_LEAVE) &&
       menuItems.has(MENU_TIME) &&
-      !enabledModules?.meta.isTimesheetPeriodDefined
+      !menuItemsMetaData?.isTimesheetPeriodDefined
     ) {
       message = 'Timesheet Period Is Not Defined';
     }
@@ -79,7 +79,7 @@ interface FullScreenErrorProps extends ConnectedProps<typeof connector> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  enabledModules: selectEnabledModules(state),
+  menuItemsMetaData: selectMenuItemsMetaData(state),
   menuItems: selectMenuItems(state),
 });
 

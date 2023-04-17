@@ -18,7 +18,7 @@
  *
  */
 
-import {$PropertyType, MutableKeys} from 'utility-types';
+import {$PropertyType} from 'utility-types';
 
 export interface AuthState {
   myInfo?: MyInfo;
@@ -27,8 +27,9 @@ export interface AuthState {
   isFinishedMyInfo: boolean;
   checkingInstance: boolean;
   instanceExists?: boolean;
-  enabledModules?: EnabledModules;
+  enabledModules?: MenuItems;
   menuItems: TransformedMenuItems;
+  menuItemsMetaData?: MenuItemsMetaData;
   myInfoFailed?: boolean;
   myInfoError?: ErrorResponse;
   isAuthenticated: boolean;
@@ -77,7 +78,7 @@ export interface FetchEnabledModulesAction {
 
 export interface FetchEnabledModulesFinishedAction {
   type: typeof FETCH_ENABLED_MODULES_FINISHED;
-  payload?: EnabledModules;
+  payload?: MenuItems;
   error: boolean;
 }
 
@@ -158,18 +159,6 @@ export interface Supervisor {
 
 export type AuthResponse = AuthSuccessResponse | AuthErrorResponse;
 
-export const MODULE_ADMIN = 'admin';
-export const MODULE_PIM = 'pim';
-export const MODULE_LEAVE = 'leave';
-export const MODULE_TIME = 'time';
-export const MODULE_RECRUITMENT = 'recruitment';
-export const MODULE_PERFORMANCE = 'performance';
-export const MODULE_DIRECTORY = 'directory';
-export const MODULE_MAINTENANCE = 'maintenance';
-export const MODULE_MOILE = 'mobile';
-
-export type Modules = MutableKeys<$PropertyType<EnabledModules, 'modules'>>;
-
 export const MENU_LEAVE = 'Leave';
 export const MENU_TIME = 'Time';
 
@@ -184,23 +173,14 @@ export interface MenuItem {
   children: ChildMenuItem[];
 }
 
-export interface EnabledModules {
-  modules?: {
-    [MODULE_ADMIN]: boolean;
-    [MODULE_PIM]: boolean;
-    [MODULE_LEAVE]: boolean;
-    [MODULE_TIME]: boolean;
-    [MODULE_RECRUITMENT]: boolean;
-    [MODULE_PERFORMANCE]: boolean;
-    [MODULE_DIRECTORY]: boolean;
-    [MODULE_MAINTENANCE]: boolean;
-    [MODULE_MOILE]: boolean;
-  };
+export interface MenuItemsMetaData {
+  isLeavePeriodDefined: boolean;
+  isTimesheetPeriodDefined: boolean;
+}
+
+export interface MenuItems {
   menuItems: MenuItem[];
-  meta: {
-    isLeavePeriodDefined: boolean;
-    isTimesheetPeriodDefined: boolean;
-  };
+  meta: MenuItemsMetaData;
 }
 
 export type TransformedMenuItems = Map<MenuNames, Map<string, ChildMenuItem>>;

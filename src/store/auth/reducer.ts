@@ -85,7 +85,7 @@ const authReducer = (
 
       return {
         ...state,
-        enabledModules: action.payload,
+        menuItemsMetaData: action.payload?.meta,
         menuItems: map,
       };
     }
