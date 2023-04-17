@@ -89,7 +89,6 @@ import {
   prepare,
   API_ENDPOINT_MOBILE_MENU_ITEMS,
 } from 'services/endpoints';
-// import {AuthenticationError} from 'services/errors/authentication';
 import {InstanceCheckError} from 'services/errors/instance-check';
 import {
   authorize,

@@ -88,6 +88,10 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
     const {textValue} = route.params;
     const paddingRight = theme.spacing * 6;
 
+    if (employees && !employees.has(textValue)) {
+      this.fetchSubordinates(textValue);
+    }
+
     return (
       <SafeAreaLayout>
         <View

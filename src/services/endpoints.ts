@@ -49,7 +49,6 @@ export const API_ENDPOINT_API_VERSION = '/api/v2/core/public/version';
 
 export const API_ENDPOINT_MY_INFO = '/api/v2/pim/myself';
 export const API_ENDPOINT_EMPLOYEES = '/api/v2/pim/employees';
-export const API_ENDPOINT_ENABLED_MODULES = '/api/v2/admin/modules'; // TODO::remove
 export const API_ENDPOINT_MOBILE_MENU_ITEMS = '/api/v2/mobile/menus';
 
 // leave
