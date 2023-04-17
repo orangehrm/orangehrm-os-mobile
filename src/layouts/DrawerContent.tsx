@@ -40,11 +40,7 @@ import Icon from 'components/DefaultIcon';
 import Text from 'components/DefaultText';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
-import {
-  selectMyInfoFinished,
-  selectMyInfo,
-  selectEnabledModules,
-} from 'store/auth/selectors';
+import {selectMyInfoFinished, selectMyInfo} from 'store/auth/selectors';
 import {
   fetchMyInfo as fetchMyInfoAction,
   logout as logoutAction,
@@ -55,14 +51,8 @@ import {SUBHEADER_LEAVE, SUBHEADER_TIME} from 'screens';
 import {HELP_REDIRECT_URL} from 'services/endpoints';
 
 const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
-  const {
-    myInfo,
-    myInfoFinished,
-    fetchMyInfo,
-    logout,
-    enabledModules,
-    ...drawerContentProps
-  } = props;
+  const {myInfo, myInfoFinished, fetchMyInfo, logout, ...drawerContentProps} =
+    props;
   const theme = useTheme();
 
   const onRefresh = useCallback(() => {
@@ -108,7 +98,6 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
             {getDrawerItems(
               drawerContentProps.state,
               drawerContentProps.descriptors,
-              enabledModules,
             ).map((drawerItem) => (
               <Fragment key={drawerItem.key}>
                 {drawerItem.subheader ? (
@@ -213,7 +202,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state: RootState) => ({
   myInfoFinished: selectMyInfoFinished(state),
   myInfo: selectMyInfo(state),
-  enabledModules: selectEnabledModules(state),
 });
 
 const mapDispatchToProps = {

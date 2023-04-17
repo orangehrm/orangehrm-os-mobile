@@ -39,11 +39,11 @@ import {fetchMyInfo} from 'store/auth/actions';
 import {
   selectMyInfoSuccess,
   selectIsCalledMyInfo,
-  selectMyInfo,
   selectEnabledModules,
   selectMyInfoFailed,
+  selectMenuItems,
 } from 'store/auth/selectors';
-import {USER_ROLE_ADMIN} from 'store/auth/types';
+import {MENU_LEAVE, MENU_TIME} from 'store/auth/types';
 import {selectInitialRoute} from 'store/globals/selectors';
 import {navigationRef, getNavigation} from 'lib/helpers/navigation';
 import useGlobals from 'lib/hook/useGlobals';
@@ -66,6 +66,13 @@ import {
   PUNCH,
   ATTENDANCE_SUMMARY,
   ATTENDANCE_LIST,
+  MENU_ITEM_APPLY_LEAVE,
+  MENU_ITEM_MY_LEAVE_USAGE,
+  MENU_ITEM_LEAVE_LIST,
+  MENU_ITEM_ASSIGN_LEAVE,
+  MENU_ITEM_PUNCH_IN_OUT,
+  MENU_ITEM_MY_ATTENDANCE,
+  MENU_ITEM_EMPLOYEE_ATTENDANCE,
 } from 'screens';
 
 import ApplyLeave from 'screens/leave/navigators/ApplyLeaveNavigator';
@@ -90,10 +97,10 @@ const Navigator = (props: NavigatorProps) => {
     myInfoSuccess,
     isCalledMyInfo,
     initialRoute,
-    myInfo,
     enabledModules,
     myInfoFailed,
     isAuthenticated,
+    menuItems,
   } = props;
   const dimensions = useWindowDimensions();
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -166,82 +173,101 @@ const Navigator = (props: NavigatorProps) => {
               ) : (
                 <>
                   {enabledModules !== undefined &&
-                  enabledModules.modules.leave &&
-                  enabledModules.meta.leave.isLeavePeriodDefined ? (
+                  menuItems.has(MENU_LEAVE) &&
+                  enabledModules.meta.isLeavePeriodDefined ? (
                     <>
-                      <Drawer.Screen
-                        name={APPLY_LEAVE}
-                        component={ApplyLeave}
-                        options={{
-                          drawerLabel: 'Apply Leave',
-                          headerShown: false,
-                        }}
-                        initialParams={{subheader: SUBHEADER_LEAVE}}
-                      />
-                      <Drawer.Screen
-                        name={MY_LEAVE_ENTITLEMENT_AND_USAGE}
-                        component={MyLeaveUsage}
-                        options={{
-                          drawerLabel: 'My Leave Usage',
-                          headerShown: false,
-                        }}
-                        initialParams={{subheader: SUBHEADER_LEAVE}}
-                      />
-                      {myInfo?.user.userRole === USER_ROLE_ADMIN ||
-                      myInfo?.user.isSupervisor === true ? (
-                        <>
-                          <Drawer.Screen
-                            name={LEAVE_LIST}
-                            component={LeaveList}
-                            options={{
-                              drawerLabel: 'Leave List',
-                              headerShown: false,
-                            }}
-                            initialParams={{subheader: SUBHEADER_LEAVE}}
-                          />
-                          <Drawer.Screen
-                            name={ASSIGN_LEAVE}
-                            component={AssignLeave}
-                            options={{
-                              drawerLabel: 'Assign Leave',
-                              headerShown: false,
-                            }}
-                            initialParams={{subheader: SUBHEADER_LEAVE}}
-                          />
-                        </>
+                      {menuItems.get(MENU_LEAVE)?.get(MENU_ITEM_APPLY_LEAVE) ? (
+                        <Drawer.Screen
+                          name={APPLY_LEAVE}
+                          component={ApplyLeave}
+                          options={{
+                            drawerLabel: MENU_ITEM_APPLY_LEAVE,
+                            headerShown: false,
+                          }}
+                          initialParams={{subheader: SUBHEADER_LEAVE}}
+                        />
+                      ) : null}
+
+                      {menuItems
+                        .get(MENU_LEAVE)
+                        ?.get(MENU_ITEM_MY_LEAVE_USAGE) ? (
+                        <Drawer.Screen
+                          name={MY_LEAVE_ENTITLEMENT_AND_USAGE}
+                          component={MyLeaveUsage}
+                          options={{
+                            drawerLabel: MENU_ITEM_MY_LEAVE_USAGE,
+                            headerShown: false,
+                          }}
+                          initialParams={{subheader: SUBHEADER_LEAVE}}
+                        />
+                      ) : null}
+
+                      {menuItems.get(MENU_LEAVE)?.get(MENU_ITEM_LEAVE_LIST) ? (
+                        <Drawer.Screen
+                          name={LEAVE_LIST}
+                          component={LeaveList}
+                          options={{
+                            drawerLabel: MENU_ITEM_LEAVE_LIST,
+                            headerShown: false,
+                          }}
+                          initialParams={{subheader: SUBHEADER_LEAVE}}
+                        />
+                      ) : null}
+
+                      {menuItems
+                        .get(MENU_LEAVE)
+                        ?.get(MENU_ITEM_ASSIGN_LEAVE) ? (
+                        <Drawer.Screen
+                          name={ASSIGN_LEAVE}
+                          component={AssignLeave}
+                          options={{
+                            drawerLabel: MENU_ITEM_ASSIGN_LEAVE,
+                            headerShown: false,
+                          }}
+                          initialParams={{subheader: SUBHEADER_LEAVE}}
+                        />
                       ) : null}
                     </>
                   ) : null}
 
                   {enabledModules !== undefined &&
-                  enabledModules.modules.time &&
-                  enabledModules.meta.time.isTimesheetPeriodDefined ? (
+                  menuItems.has(MENU_TIME) &&
+                  enabledModules.meta.isTimesheetPeriodDefined ? (
                     <>
-                      <Drawer.Screen
-                        name={PUNCH}
-                        component={Punch}
-                        options={{
-                          drawerLabel: 'Punch In/Out',
-                          headerShown: false,
-                        }}
-                        initialParams={{subheader: SUBHEADER_TIME}}
-                      />
-                      <Drawer.Screen
-                        name={ATTENDANCE_SUMMARY}
-                        component={AttendanceSummary}
-                        options={{
-                          drawerLabel: 'My Attendance',
-                          headerShown: false,
-                        }}
-                        initialParams={{subheader: SUBHEADER_TIME}}
-                      />
-                      {myInfo?.user.userRole === USER_ROLE_ADMIN ||
-                      myInfo?.user.isSupervisor === true ? (
+                      {menuItems.get(MENU_TIME)?.get(MENU_ITEM_PUNCH_IN_OUT) ? (
+                        <Drawer.Screen
+                          name={PUNCH}
+                          component={Punch}
+                          options={{
+                            drawerLabel: MENU_ITEM_PUNCH_IN_OUT,
+                            headerShown: false,
+                          }}
+                          initialParams={{subheader: SUBHEADER_TIME}}
+                        />
+                      ) : null}
+
+                      {menuItems
+                        .get(MENU_TIME)
+                        ?.get(MENU_ITEM_MY_ATTENDANCE) ? (
+                        <Drawer.Screen
+                          name={ATTENDANCE_SUMMARY}
+                          component={AttendanceSummary}
+                          options={{
+                            drawerLabel: MENU_ITEM_MY_ATTENDANCE,
+                            headerShown: false,
+                          }}
+                          initialParams={{subheader: SUBHEADER_TIME}}
+                        />
+                      ) : null}
+
+                      {menuItems
+                        .get(MENU_TIME)
+                        ?.get(MENU_ITEM_EMPLOYEE_ATTENDANCE) ? (
                         <Drawer.Screen
                           name={ATTENDANCE_LIST}
                           component={AttendanceList}
                           options={{
-                            drawerLabel: 'Employee Attendance',
+                            drawerLabel: MENU_ITEM_EMPLOYEE_ATTENDANCE,
                             headerShown: false,
                           }}
                           initialParams={{subheader: SUBHEADER_TIME}}
@@ -300,10 +326,10 @@ const mapStateToProps = (state: RootState) => ({
   myInfoSuccess: selectMyInfoSuccess(state),
   isCalledMyInfo: selectIsCalledMyInfo(state),
   initialRoute: selectInitialRoute(state),
-  myInfo: selectMyInfo(state),
   enabledModules: selectEnabledModules(state),
   myInfoFailed: selectMyInfoFailed(state),
   isAuthenticated: selectIsAuthenticated(state),
+  menuItems: selectMenuItems(state),
 });
 
 const mapDispatchToProps = {

@@ -21,8 +21,6 @@
 import {SUBHEADER_LEAVE, SUBHEADER_TIME} from 'screens';
 import {DrawerNavigationState} from 'layouts/DrawerContent';
 import {DrawerDescriptorMap} from '@react-navigation/drawer/lib/typescript/src/types';
-import {EnabledModules, MODULE_LEAVE, MODULE_TIME} from 'store/auth/types';
-import {$PropertyType} from 'utility-types';
 
 type DrawerItem = {
   name: string;
@@ -40,41 +38,34 @@ interface SubHeaderIcon {
 export const getDrawerItems = (
   drawerNavigationState: DrawerNavigationState,
   drawerDescriptors: DrawerDescriptorMap,
-  enabledModules?: EnabledModules,
 ) => {
   const items: DrawerItem[] = [];
   const subheaders: {[key: string]: undefined} = {};
-  if (enabledModules !== undefined) {
-    drawerNavigationState.routes.forEach((route) => {
-      if (route.params?.subheader === undefined) {
-        return;
-      }
+  drawerNavigationState.routes.forEach((route) => {
+    if (route.params?.subheader === undefined) {
+      return;
+    }
 
-      const label = drawerDescriptors[route.key].options.drawerLabel;
-      if (typeof label !== 'string') {
-        return;
-      }
-      const moduleName = SUBHEADER_MODULE_MAP[
-        route.params?.subheader
-      ] as keyof $PropertyType<EnabledModules, 'modules'>;
-      if (enabledModules.modules[moduleName]) {
-        const item: DrawerItem = {
-          name: route.name,
-          key: route.key,
-          label: label,
-          subheader: undefined,
-          subheaderIcon: undefined,
-        };
-        if (!Object.hasOwn(subheaders, route.params.subheader)) {
-          item.subheader = route.params.subheader;
-          item.subheaderIcon = SUBHEADER_ICONS[route.params.subheader];
-          subheaders[route.params.subheader] = undefined;
-        }
+    const label = drawerDescriptors[route.key].options.drawerLabel;
+    if (typeof label !== 'string') {
+      return;
+    }
 
-        items.push(item);
-      }
-    });
-  }
+    const item: DrawerItem = {
+      name: route.name,
+      key: route.key,
+      label: label,
+      subheader: undefined,
+      subheaderIcon: undefined,
+    };
+    if (!Object.hasOwn(subheaders, route.params.subheader)) {
+      item.subheader = route.params.subheader;
+      item.subheaderIcon = SUBHEADER_ICONS[route.params.subheader];
+      subheaders[route.params.subheader] = undefined;
+    }
+
+    items.push(item);
+  });
   return items;
 };
 
@@ -83,13 +74,6 @@ export const SUBHEADER_ICONS: {
 } = {
   [SUBHEADER_LEAVE]: {name: 'briefcase'},
   [SUBHEADER_TIME]: {name: 'clock'},
-};
-
-export const SUBHEADER_MODULE_MAP: {
-  [key: string]: string;
-} = {
-  [SUBHEADER_LEAVE]: MODULE_LEAVE,
-  [SUBHEADER_TIME]: MODULE_TIME,
 };
 
 export const DEFAULT_FIXED_DRAWER_WIDTH = '32%';

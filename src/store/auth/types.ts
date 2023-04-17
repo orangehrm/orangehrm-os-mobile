@@ -20,9 +20,6 @@
 
 import {$PropertyType, MutableKeys} from 'utility-types';
 
-export const USER_ROLE_ADMIN = 'Admin';
-export const USER_ROLE_ESS = 'ESS';
-
 export interface AuthState {
   myInfo?: MyInfo;
   myInfoSuccess: boolean;
@@ -31,6 +28,7 @@ export interface AuthState {
   checkingInstance: boolean;
   instanceExists?: boolean;
   enabledModules?: EnabledModules;
+  menuItems: TransformedMenuItems;
   myInfoFailed?: boolean;
   myInfoError?: ErrorResponse;
   isAuthenticated: boolean;
@@ -135,14 +133,8 @@ export interface Employee {
   terminationId: number | null;
 }
 
-export interface User {
-  userRole: typeof USER_ROLE_ADMIN | typeof USER_ROLE_ESS;
-  isSupervisor: boolean;
-}
-
 export interface MyInfo {
   employee: Employee;
-  user: User;
 }
 
 export interface JobTitle {
@@ -178,8 +170,22 @@ export const MODULE_MOILE = 'mobile';
 
 export type Modules = MutableKeys<$PropertyType<EnabledModules, 'modules'>>;
 
+export const MENU_LEAVE = 'Leave';
+export const MENU_TIME = 'Time';
+
+export type MenuNames = typeof MENU_LEAVE | typeof MENU_TIME;
+
+interface ChildMenuItem {
+  name: string;
+}
+
+export interface MenuItem {
+  name: MenuNames;
+  children: ChildMenuItem[];
+}
+
 export interface EnabledModules {
-  modules: {
+  modules?: {
     [MODULE_ADMIN]: boolean;
     [MODULE_PIM]: boolean;
     [MODULE_LEAVE]: boolean;
@@ -190,12 +196,11 @@ export interface EnabledModules {
     [MODULE_MAINTENANCE]: boolean;
     [MODULE_MOILE]: boolean;
   };
+  menuItems: MenuItem[];
   meta: {
-    [MODULE_LEAVE]: {
-      isLeavePeriodDefined: boolean;
-    };
-    [MODULE_TIME]: {
-      isTimesheetPeriodDefined: boolean;
-    };
+    isLeavePeriodDefined: boolean;
+    isTimesheetPeriodDefined: boolean;
   };
 }
+
+export type TransformedMenuItems = Map<MenuNames, Map<string, ChildMenuItem>>;

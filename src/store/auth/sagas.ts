@@ -31,6 +31,7 @@ import {
   MyInfo,
   EnabledModules,
   Employee,
+  MenuItem,
 } from 'store/auth/types';
 import {
   PUBLIC_MOBILE_CLIENT_ID,
@@ -84,10 +85,10 @@ import {
 } from 'services/api';
 import {
   API_ENDPOINT_MY_INFO,
-  API_ENDPOINT_ENABLED_MODULES,
   OAUTH_ENDPOINT_TOKEN,
   OAUTH_ENDPOINT_AUTHORIZE,
   prepare,
+  API_ENDPOINT_MOBILE_MENU_ITEMS,
 } from 'services/endpoints';
 // import {AuthenticationError} from 'services/errors/authentication';
 import {InstanceCheckError} from 'services/errors/instance-check';
@@ -251,36 +252,22 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
     // eslint-disable-next-line no-undef
     const response: Response = yield apiCall(
       apiGetCall,
-      API_ENDPOINT_ENABLED_MODULES,
+      API_ENDPOINT_MOBILE_MENU_ITEMS,
       true,
     );
 
     if (response.ok) {
-      const responseData: {
-        data: $PropertyType<EnabledModules, 'modules'>;
-      } = yield call([response, response.json]);
+      const responseData: ApiResponse<
+        MenuItem[],
+        $PropertyType<EnabledModules, 'meta'>
+      > = yield call([response, response.json]);
       const enabledModules: EnabledModules = {
-        modules: responseData.data,
-        meta: {
-          leave: {
-            isLeavePeriodDefined: true, // TODO
-          },
-          time: {
-            isTimesheetPeriodDefined: true, // TODO
-          },
-        },
+        menuItems: responseData.data,
+        meta: responseData.meta,
       };
 
       if (responseData.data) {
         yield put(fetchEnabledModulesFinished(enabledModules));
-        if (!enabledModules.modules.mobile) {
-          // TODO::remove
-          // Logout in case loggedin user
-          yield* logout();
-          throw new InstanceCheckError(
-            'The Mobile App Is Not Enabled, Please Contact Your System Administrator.',
-          );
-        }
       } else {
         throw new InstanceCheckError('Failed to Load Enabled Modules.');
       }
@@ -389,11 +376,6 @@ function* fetchMyInfo() {
         if (response.data) {
           const data: MyInfo = {
             employee: response.data,
-            user: {
-              // TODO::remove
-              userRole: 'Admin',
-              isSupervisor: false,
-            },
           };
           yield put(fetchMyInfoFinished(data));
         } else {
