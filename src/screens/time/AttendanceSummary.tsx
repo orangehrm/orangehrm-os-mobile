@@ -72,6 +72,7 @@ import {
   EmployeeAttendanceSummaryScreenRouteParams,
 } from 'screens/time/navigators';
 import {getFirstAndLastNames} from 'lib/helpers/name';
+import {selectMyInfo} from '../../store/auth/selectors';
 
 class AttendanceSummary extends React.Component<
   AttendanceSummaryProps,
@@ -117,7 +118,7 @@ class AttendanceSummary extends React.Component<
       startDayIndex: this.state.startDayIndex,
       employeeAttendance,
       employeeName: this.props.route.params?.employeeAttendance
-        ? getFirstAndLastNames(this.props.route.params.employeeAttendance)
+        ? getFirstAndLastNames(this.props.route.params?.employeeAttendance)
         : undefined,
       selectedDate: selectedDate,
       leaveTypesInputData: this.props.graphRecords?.totalLeaveTypeHours,
@@ -227,6 +228,7 @@ class AttendanceSummary extends React.Component<
       attendanceRequest = {
         fromDate: startDate,
         toDate: endDate,
+        empNumber: this.props.myInfo?.employee.empNumber,
       };
     }
     this.props.fetchAttendanceGraphRecords(attendanceRequest);
@@ -290,12 +292,12 @@ class AttendanceSummary extends React.Component<
     const empNumber = this.props.route.params
       ? this.props.route.params.employeeAttendance?.empNumber
       : undefined;
-    const employeeName = this.props.route.params.employeeAttendance
+    const employeeName = this.props.route.params?.employeeAttendance
       ? getFirstAndLastNames(this.props.route.params.employeeAttendance)
       : undefined;
     // TODO
-    const employeeJobTitle = this.props.route.params
-      ? this.props.route.params.employeeAttendance?.jobTitle
+    const employeeJobTitle = this.props.route
+      ? this.props.route.params?.employeeAttendance?.jobTitle
       : undefined;
 
     const dateOfMonth = calculateDateOfMonth(
@@ -405,6 +407,7 @@ const mapStateToProps = (state: RootState) => ({
   attendanceConfiguration: selectAttendanceConfiguration(state),
   weekStartDay: selectStartDay(state),
   weekEndDay: selectEndDay(state),
+  myInfo: selectMyInfo(state),
 });
 
 const mapDispatchToProps = {

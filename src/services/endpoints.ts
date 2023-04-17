@@ -31,6 +31,8 @@ export const API_ENDPOINT_ATTENDANCE_GRAPH =
   '/api/v2/leave/employees/leave-requests';
 export const API_ENDPOINT_ATTENDANCE_WORK_SUMMARY =
   '/api/v2/dashboard/employees/time-at-work';
+export const API_ENDPOINT_GRAPH_LEAVE_RECORDS =
+  '/api/v2/leave/employees/leaves';
 export const API_ENDPOINT_ATTENDANCE_LIST =
   '/api/v2/attendance/employees/summary';
 export const API_ENDPOINT_ATTENDANCE_CONFIGURATION =

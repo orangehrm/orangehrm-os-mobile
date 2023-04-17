@@ -41,10 +41,12 @@ import {
   FETCH_ATTENDANCE_CONFIGURATION,
   AttendanceConfiguration,
   LeaveObject,
-  GraphRecordsObject,
   SingleEmployeeAttendance,
-  WorkSummaryObject,
   EmployeeObject,
+  AttendanceConfig,
+  GraphRecordsDetailsArray,
+  GraphRecordsLeaveObject,
+  WorkSummaryGraphObject,
 } from './types';
 import {
   fetchAttendanceRecordsFinished,
@@ -67,6 +69,7 @@ import {
   prepare,
   API_ENDPOINT_PUNCH_IN_OUT_REQUEST,
   API_ENDPOINT_ATTENDANCE_WORK_SUMMARY,
+  API_ENDPOINT_GRAPH_LEAVE_RECORDS,
 } from 'services/endpoints';
 import {
   getMessageAlongWithGenericErrors,
@@ -179,16 +182,49 @@ function* fetchAttendanceGraphRecords(
   try {
     yield openLoader();
 
-    const graphResponse: ApiResponse<GraphRecordsObject> = yield apiCall(
+    const graphResponse: ApiResponse<GraphRecordsDetailsArray[]> =
+      yield apiCall(
+        apiGetCall,
+        prepare(
+          API_ENDPOINT_ATTENDANCE_GRAPH,
+          {},
+          {
+            fromDate: action.payload.fromDate,
+            toDate: action.payload.toDate,
+            includeEmployees: 'onlyCurrent',
+            statuses: ['1', '2', '3'],
+            ...(action.payload.empNumber && {
+              empNumber: action.payload.empNumber,
+            }),
+          },
+        ),
+      );
+
+    const workWeekResponse: ApiResponse<WorkSummaryGraphObject[]> =
+      yield apiCall(
+        apiGetCall,
+        prepare(
+          API_ENDPOINT_ATTENDANCE_WORK_SUMMARY,
+          {},
+          {
+            timezoneOffset: getCurrentTimeZoneOffset(),
+            currentDate: action.payload.fromDate,
+            currentTime: '00:00',
+            ...(action.payload.empNumber && {
+              empNumber: action.payload.empNumber,
+            }),
+          },
+        ),
+      );
+
+    const leaveResponse: ApiResponse<GraphRecordsLeaveObject[]> = yield apiCall(
       apiGetCall,
       prepare(
-        API_ENDPOINT_ATTENDANCE_GRAPH,
+        API_ENDPOINT_GRAPH_LEAVE_RECORDS,
         {},
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
-          includeEmployees: 'onlyCurrent',
-          statuses: ['1', '2', '3'],
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
@@ -196,23 +232,11 @@ function* fetchAttendanceGraphRecords(
       ),
     );
 
-    const workWeekResponse: ApiResponse<WorkSummaryObject> = yield apiCall(
-      apiGetCall,
-      prepare(
-        API_ENDPOINT_ATTENDANCE_WORK_SUMMARY,
-        {},
-        {
-          timezoneOffset: getCurrentTimeZoneOffset(),
-          currentDate: action.payload.fromDate,
-          currentTime: '00:00',
-          ...(action.payload.empNumber && {
-            empNumber: action.payload.empNumber,
-          }),
-        },
-      ),
+    const result = getGraphObject(
+      graphResponse.data,
+      workWeekResponse.data,
+      leaveResponse.data,
     );
-
-    const result = getGraphObject(graphResponse.data, workWeekResponse.data);
 
     if (result) {
       yield put(fetchAttendanceGraphRecordsFinished(result));
@@ -392,13 +416,17 @@ function* fetchAttendanceConfiguration() {
     }
 
     yield openLoader();
-    const response: ApiResponse<AttendanceConfiguration> = yield apiCall(
+    const response: ApiResponse<AttendanceConfig> = yield apiCall(
       apiGetCall,
       prepare(API_ENDPOINT_ATTENDANCE_CONFIGURATION),
     );
 
     if (response.data) {
-      yield put(fetchAttendanceConfigurationFinished({startDate: 2}));
+      yield put(
+        fetchAttendanceConfigurationFinished({
+          startDate: parseInt(response.data.startDay, 10),
+        }),
+      );
     } else {
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(

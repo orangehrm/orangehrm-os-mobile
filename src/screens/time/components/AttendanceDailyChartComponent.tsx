@@ -94,7 +94,7 @@ const AttendanceDailyChartComponent = (
             tickLabelComponent={
               <VictoryLabel
                 text={(datum) => {
-                  const tickValue = datum.ticks[datum.index];
+                  const tickValue = datum.index ? datum.ticks[datum.index] : [];
                   if (Number.isInteger(tickValue)) {
                     return tickValue + ' Hrs';
                   } else {

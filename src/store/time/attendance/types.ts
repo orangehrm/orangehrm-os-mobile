@@ -40,7 +40,7 @@ export interface GraphData {
 }
 
 export interface GraphLeaveType {
-  typeId: string;
+  typeId: number;
   type: string;
   duration: string;
   colour: string;
@@ -64,7 +64,7 @@ export interface WorkWeekObject {
 }
 
 export interface LeaveTypeGraphData {
-  id: string;
+  id: number;
   colour: string;
   data: GraphDataPoint[];
 }
@@ -128,7 +128,7 @@ export interface AttendanceState {
 }
 
 export interface SingleLeave {
-  typeId: string;
+  typeId: number;
   type: string;
   hours: number;
 }
@@ -148,11 +148,50 @@ export interface WorkSummaryObject {
   saturday: WorkSummarySingleDay;
 }
 
+export interface WorkSummaryGraphObject {
+  workDay: WorkDayObject;
+  totalTime: TotalTimeObject;
+}
+
+export interface WorkDayObject {
+  date: string;
+  day: string;
+  id: string;
+}
+
+export interface TotalTimeObject {
+  hours: number;
+  minutes: number;
+}
+
 export interface GraphRecordsObject {
   totalWorkHours: number;
   totalLeaveHours: number;
   totalLeaveTypeHours: SingleLeave[];
   workSummary: WorkSummaryObject;
+}
+
+export interface GraphRecordsLeaveObject {
+  leaveType: LeaveTypeGraph;
+  lengthHours: number;
+  date: string;
+}
+
+export interface GraphRecordsDetailsArray {
+  leaveType: LeaveTypeGraph;
+  noOfDays: number;
+}
+
+export interface GraphRecordsDetailsObject {
+  typeId: number;
+  type: string;
+  hours: number;
+}
+
+export interface LeaveTypeGraph {
+  id: number;
+  name: string;
+  deleted: boolean;
 }
 
 export const SHORT_SUNDAY = 'Su';
@@ -264,6 +303,8 @@ export interface SingleEmployeeAttendance {
   empNumber: number;
   firstName: string;
   lastName: string;
+
+  terminationId: number;
   sum: {
     hours: number;
     label: string;
@@ -273,6 +314,10 @@ export interface SingleEmployeeAttendance {
 
 export interface AttendanceConfiguration {
   startDate: number;
+}
+
+export interface AttendanceConfig {
+  startDay: string;
 }
 
 export interface EmployeeAttendanceListRequest {
@@ -335,4 +380,5 @@ export type AttendanceActionTypes =
   | FetchSubordinatesFinishedAction
   | PickSubordinateAction
   | FetchAttendanceConfigurationAction
+  | AttendanceConfig
   | FetchAttendanceConfigurationFinishedAction;
