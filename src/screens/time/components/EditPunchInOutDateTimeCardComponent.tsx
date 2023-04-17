@@ -28,10 +28,16 @@ import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
 import {fetchPunchStatus} from 'store/time/punch/actions';
 import Icon from 'components/DefaultIcon';
-import {AndroidEvent} from '@react-native-community/datetimepicker';
+import {
+  AndroidEvent,
+  Event,
+  IOSNativeProps,
+  AndroidNativeProps,
+} from '@react-native-community/datetimepicker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import FormattedDate from 'components/FormattedDate';
 import {formatTime} from 'lib/helpers/attendance';
+import {$PropertyType} from 'utility-types';
 
 class EditPunchInOutDateTimeCard extends React.Component<
   EditPunchInOutDateTimeCardProps,
@@ -46,7 +52,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
     };
   }
 
-  onChange = (event: AndroidEvent, selectedDate?: Date) => {
+  onChange = (event: Event | AndroidEvent, selectedDate?: Date) => {
     this.setState(
       {
         show: false,
@@ -249,7 +255,9 @@ interface EditPunchInOutDateTimeCardProps extends WithTheme {
 interface EditPunchInOutDateTimeCardState {
   show: boolean;
   mode: typeof TIME | typeof DATE;
-  display: DateTimePickerDisplayOption;
+  display:
+    | $PropertyType<IOSNativeProps, 'display'>
+    | $PropertyType<AndroidNativeProps, 'display'>;
 }
 
 const styles = StyleSheet.create({
@@ -286,25 +294,5 @@ const TIME = 'time';
 
 export const DISPLAY_DEFAULT = 'default';
 export const DISPLAY_SPINNER = 'spinner';
-export const DISPLAY_CLOCK = 'clock';
-export const DISPLAY_CALENDAR = 'calendar';
-export const DISPLAY_COMPACT = 'compact';
-export const DISPLAY_INLINE = 'inline';
-
-export type DateTimePickerAndroidDisplayOption =
-  | typeof DISPLAY_DEFAULT
-  | typeof DISPLAY_SPINNER
-  | typeof DISPLAY_CLOCK
-  | typeof DISPLAY_CALENDAR;
-
-export type DateTimePickerIOSDisplayOption =
-  | typeof DISPLAY_DEFAULT
-  | typeof DISPLAY_SPINNER
-  | typeof DISPLAY_COMPACT
-  | typeof DISPLAY_INLINE;
-
-export type DateTimePickerDisplayOption =
-  | DateTimePickerAndroidDisplayOption
-  | DateTimePickerIOSDisplayOption;
 
 export default connector(EditPunchInOutDateTimeCardCardWithTheme);

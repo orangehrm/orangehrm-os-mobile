@@ -23,7 +23,7 @@ import Slider, {SliderProps} from '@react-native-community/slider';
 import useTheme from 'lib/hook/useTheme';
 
 const LeaveSpecificTimeSlider = (props: LeaveSpecificTimeSliderProps) => {
-  const [sliderInitialValue, setSliderInitialValue] = useState();
+  const [sliderInitialValue, setSliderInitialValue] = useState<number>();
   const theme = useTheme();
   const {values, value, setValue, forceUpdate, ...sliderProps} = props;
 
