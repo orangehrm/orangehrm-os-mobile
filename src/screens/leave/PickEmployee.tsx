@@ -37,6 +37,7 @@ import Divider from 'components/DefaultDivider';
 import FlatButton from 'components/FlatButton';
 import Avatar from 'components/DefaultAvatar';
 import TextInput, {TextInputProps} from 'components/DefaultTextInput';
+import Spinner from 'components/DefaultSpinner';
 import {
   PickEmployeeRouteParams,
   PickEmployeeNavigationProp,
@@ -139,6 +140,14 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
               </View>
             ) : (
               <FlatList
+                ListEmptyComponent={
+                  <View
+                    style={{
+                      paddingTop: theme.spacing * 4,
+                    }}>
+                    <Spinner />
+                  </View>
+                }
                 ItemSeparatorComponent={() => {
                   return <Divider />;
                 }}
