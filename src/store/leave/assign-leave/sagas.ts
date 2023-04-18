@@ -60,7 +60,7 @@ import {
 } from 'lib/helpers/leave';
 import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
 import {
-  API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST,
+  API_ENDPOINT_EMPLOYEE_LEAVE_REQUEST,
   API_ENDPOINT_EMPLOYEE_LEAVE_BALANCE,
   API_ENDPOINT_EMPLOYEES,
   API_ENDPOINT_LEAVE_WORK_SHIFT,
@@ -87,7 +87,7 @@ function* saveLeaveRequest(
     yield openLoader();
     const response: ApiResponse<LeaveRequestModel> = yield apiCall(
       apiPostCall,
-      API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST,
+      API_ENDPOINT_EMPLOYEE_LEAVE_REQUEST,
       {
         ...action.payload,
         empNumber: action.empNumber,
@@ -119,35 +119,34 @@ function* fetchSubordinateLeaveEntitlements(
 ) {
   try {
     yield openLoader();
-    const response: ApiResponse<EmployeeLeaveBalanceModel[]> = yield apiCall(
-      apiGetCall,
-      prepare(
-        API_ENDPOINT_EMPLOYEE_LEAVE_BALANCE,
-        {},
-        {
-          empNumber: action.empNumber,
-        },
-      ),
-    );
+    const response: ApiResponse<EmployeeLeaveBalanceModel[], {total: number}> =
+      yield apiCall(
+        apiGetCall,
+        prepare(
+          API_ENDPOINT_EMPLOYEE_LEAVE_BALANCE,
+          {},
+          {
+            empNumber: action.empNumber,
+          },
+        ),
+      );
 
     // clear error messages
     yield put(setErrorMessage());
-    if (response.data) {
+    if (response.data !== undefined) {
+      if (response.data.length === 0) {
+        yield put(
+          setErrorMessage(
+            'There Are No Leave Types Defined, Please Contact Your System Administrator.',
+          ),
+        );
+      }
       yield put(
         fetchSubordinateLeaveEntitlementsFinished(
           assignColorsToLeaveTypes(response.data),
         ),
       );
-    }
-    // TODO::  handle errors
-    // else if (response.error[0] === 'No Leave Types Defined.') {
-    //   yield put(
-    //     setErrorMessage(
-    //       'There Are No Leave Types Defined, Please Contact Your System Administrator.',
-    //     ),
-    //   );
-    // }
-    else {
+    } else {
       yield put(fetchSubordinateLeaveEntitlementsFinished(undefined, true));
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(
@@ -227,7 +226,7 @@ function* fetchLeaveTypes(_action: FetchLeaveTypesAction) {
     yield openLoader();
     const response: ApiResponse<LeaveType[]> = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_TYPES),
+      API_ENDPOINT_LEAVE_TYPES,
     );
 
     if (response.data) {

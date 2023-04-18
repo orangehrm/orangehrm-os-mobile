@@ -18,10 +18,7 @@
  *
  */
 
-import {$PropertyType, MutableKeys} from 'utility-types';
-
-export const USER_ROLE_ADMIN = 'Admin';
-export const USER_ROLE_ESS = 'ESS';
+import {$PropertyType} from 'utility-types';
 
 export interface AuthState {
   myInfo?: MyInfo;
@@ -30,7 +27,8 @@ export interface AuthState {
   isFinishedMyInfo: boolean;
   checkingInstance: boolean;
   instanceExists?: boolean;
-  enabledModules?: EnabledModules;
+  menuItems: TransformedMenuItems;
+  menuItemsMetaData?: MenuItemsMetaData;
   myInfoFailed?: boolean;
   myInfoError?: ErrorResponse;
   isAuthenticated: boolean;
@@ -73,13 +71,13 @@ export interface CheckInstanceFinishedAction {
   error?: boolean;
 }
 
-export interface FetchEnabledModulesAction {
+export interface FetchMenuItemsAction {
   type: typeof FETCH_ENABLED_MODULES;
 }
 
-export interface FetchEnabledModulesFinishedAction {
+export interface FetchMenuItemsFinishedAction {
   type: typeof FETCH_ENABLED_MODULES_FINISHED;
-  payload?: EnabledModules;
+  payload?: MenuItems;
   error: boolean;
 }
 
@@ -99,8 +97,8 @@ export type AuthActionTypes =
   | FetchMyInfoFinishedAction
   | CheckInstanceAction
   | CheckInstanceFinishedAction
-  | FetchEnabledModulesAction
-  | FetchEnabledModulesFinishedAction
+  | FetchMenuItemsAction
+  | FetchMenuItemsFinishedAction
   | MyInfoFailedAction
   | FetchNewTokenFinishedAction;
 
@@ -135,14 +133,8 @@ export interface Employee {
   terminationId: number | null;
 }
 
-export interface User {
-  userRole: typeof USER_ROLE_ADMIN | typeof USER_ROLE_ESS;
-  isSupervisor: boolean;
-}
-
 export interface MyInfo {
   employee: Employee;
-  user: User;
 }
 
 export interface JobTitle {
@@ -166,36 +158,28 @@ export interface Supervisor {
 
 export type AuthResponse = AuthSuccessResponse | AuthErrorResponse;
 
-export const MODULE_ADMIN = 'admin';
-export const MODULE_PIM = 'pim';
-export const MODULE_LEAVE = 'leave';
-export const MODULE_TIME = 'time';
-export const MODULE_RECRUITMENT = 'recruitment';
-export const MODULE_PERFORMANCE = 'performance';
-export const MODULE_DIRECTORY = 'directory';
-export const MODULE_MAINTENANCE = 'maintenance';
-export const MODULE_MOILE = 'mobile';
+export const MENU_LEAVE = 'Leave';
+export const MENU_TIME = 'Time';
 
-export type Modules = MutableKeys<$PropertyType<EnabledModules, 'modules'>>;
+export type MenuNames = typeof MENU_LEAVE | typeof MENU_TIME;
 
-export interface EnabledModules {
-  modules: {
-    [MODULE_ADMIN]: boolean;
-    [MODULE_PIM]: boolean;
-    [MODULE_LEAVE]: boolean;
-    [MODULE_TIME]: boolean;
-    [MODULE_RECRUITMENT]: boolean;
-    [MODULE_PERFORMANCE]: boolean;
-    [MODULE_DIRECTORY]: boolean;
-    [MODULE_MAINTENANCE]: boolean;
-    [MODULE_MOILE]: boolean;
-  };
-  meta: {
-    [MODULE_LEAVE]: {
-      isLeavePeriodDefined: boolean;
-    };
-    [MODULE_TIME]: {
-      isTimesheetPeriodDefined: boolean;
-    };
-  };
+interface ChildMenuItem {
+  name: string;
 }
+
+export interface MenuItem {
+  name: MenuNames;
+  children: ChildMenuItem[];
+}
+
+export interface MenuItemsMetaData {
+  isLeavePeriodDefined: boolean;
+  isTimesheetPeriodDefined: boolean;
+}
+
+export interface MenuItems {
+  menuItems: MenuItem[];
+  meta: MenuItemsMetaData;
+}
+
+export type TransformedMenuItems = Map<MenuNames, Map<string, ChildMenuItem>>;

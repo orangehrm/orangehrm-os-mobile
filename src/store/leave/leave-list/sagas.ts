@@ -61,9 +61,9 @@ import {
 import {TYPE_ERROR} from 'store/globals/types';
 import {
   API_ENDPOINT_LEAVE_COMMENT,
-  API_ENDPOINT_LEAVE_LIST,
+  API_ENDPOINT_EMPLOYEE_LEAVE_REQUEST,
   API_ENDPOINT_LEAVES,
-  API_ENDPOINT_LEAVE_REQUEST_DETAILS,
+  API_ENDPOINT_EMPLOYEE_LEAVE_REQUEST_DETAILS,
   prepare,
 } from 'services/endpoints';
 import {
@@ -77,7 +77,7 @@ function* fetchLeaveList() {
     yield openLoader();
     const response: ApiResponse<LeaveRequestDetailedModel[]> = yield apiCall(
       apiGetCall,
-      API_ENDPOINT_LEAVE_LIST,
+      API_ENDPOINT_EMPLOYEE_LEAVE_REQUEST,
     );
 
     if (response.data) {
@@ -117,7 +117,7 @@ function* fetchEmployeeLeaveRequestDetails(
     const response: ApiResponse<LeaveRequestDetailedModel> = yield apiCall(
       apiGetCall,
       prepare(
-        API_ENDPOINT_LEAVE_REQUEST_DETAILS,
+        API_ENDPOINT_EMPLOYEE_LEAVE_REQUEST_DETAILS,
         {leaveRequestId: action.leaveRequestId},
         {model: 'detailed'},
       ),
@@ -223,7 +223,7 @@ function* changeEmployeeLeaveRequestStatus(
     const response: ApiResponse<LeaveRequestDetailedModel> = yield apiCall(
       apiPutCall,
       prepare(
-        API_ENDPOINT_LEAVE_REQUEST_DETAILS,
+        API_ENDPOINT_EMPLOYEE_LEAVE_REQUEST_DETAILS,
         {leaveRequestId: action.leaveRequestId},
         {model: 'detailed'},
       ),

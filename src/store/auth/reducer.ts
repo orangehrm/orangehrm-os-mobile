@@ -27,6 +27,7 @@ import {
   FETCH_ENABLED_MODULES_FINISHED,
   MY_INFO_FAILED,
   AuthActionTypes,
+  TransformedMenuItems,
 } from 'store/auth/types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
@@ -36,6 +37,7 @@ const initialState: AuthState = {
   isFinishedMyInfo: false,
   checkingInstance: false,
   isAuthenticated: false,
+  menuItems: new Map(),
 };
 
 const authReducer = (
@@ -71,11 +73,22 @@ const authReducer = (
         isAuthenticated: true,
         instanceExists: action.error === undefined ? undefined : !action.error,
       };
-    case FETCH_ENABLED_MODULES_FINISHED:
+    case FETCH_ENABLED_MODULES_FINISHED: {
+      const map: TransformedMenuItems = new Map();
+      action.payload?.menuItems.forEach((menuItem) => {
+        const children = new Map();
+        menuItem.children.forEach((child) => {
+          children.set(child.name, child);
+        });
+        map.set(menuItem.name, children);
+      });
+
       return {
         ...state,
-        enabledModules: action.payload,
+        menuItemsMetaData: action.payload?.meta,
+        menuItems: map,
       };
+    }
     case MY_INFO_FAILED:
       return {
         ...state,

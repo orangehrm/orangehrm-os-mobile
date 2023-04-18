@@ -20,7 +20,12 @@
 
 import {RootState} from 'store';
 import {createSelector} from 'reselect';
-import {AuthState, MyInfo, EnabledModules} from 'store/auth/types';
+import {
+  AuthState,
+  MyInfo,
+  TransformedMenuItems,
+  MenuItemsMetaData,
+} from 'store/auth/types';
 import {$PropertyType} from 'utility-types';
 
 export const selectAuth = (state: RootState): AuthState => state.auth;
@@ -61,11 +66,17 @@ export const selectMyInfoFinished = createSelector<
   boolean
 >([selectAuth], (auth) => auth.isFinishedMyInfo);
 
-export const selectEnabledModules = createSelector<
+export const selectMenuItemsMetaData = createSelector<
   RootState,
   AuthState,
-  EnabledModules | undefined
->([selectAuth], (auth) => auth.enabledModules);
+  MenuItemsMetaData | undefined
+>([selectAuth], (auth) => auth.menuItemsMetaData);
+
+export const selectMenuItems = createSelector<
+  RootState,
+  AuthState,
+  TransformedMenuItems
+>([selectAuth], (auth) => auth.menuItems);
 
 export const selectMyInfoFailed = createSelector<
   RootState,

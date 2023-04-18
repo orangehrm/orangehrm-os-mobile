@@ -23,22 +23,21 @@ import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
-import {selectEnabledModules} from 'store/auth/selectors';
-import {fetchEnabledModules} from 'store/auth/actions';
+import {selectMenuItemsMetaData, selectMenuItems} from 'store/auth/selectors';
+import {fetchMenuItems} from 'store/auth/actions';
 import FullInfoView from 'screens/common/component/FullInfoView';
-import {Modules, MODULE_LEAVE, MODULE_TIME} from 'store/auth/types';
-import {SUBHEADER_MODULE_MAP} from 'services/drawer';
+import {MENU_LEAVE, MENU_TIME} from 'store/auth/types';
 import {getNavigation} from 'lib/helpers/navigation';
 
 class FullScreenError extends React.Component<FullScreenErrorProps> {
   onRefresh = () => {
-    this.props.fetchEnabledModules();
+    this.props.fetchMenuItems();
   };
 
   componentDidUpdate(prevProps: FullScreenErrorProps) {
     if (
-      JSON.stringify(this.props.enabledModules) !==
-      JSON.stringify(prevProps.enabledModules)
+      JSON.stringify(this.props.menuItemsMetaData) !==
+      JSON.stringify(prevProps.menuItemsMetaData)
     ) {
       try {
         getNavigation()?.resetRoot();
@@ -47,72 +46,21 @@ class FullScreenError extends React.Component<FullScreenErrorProps> {
     }
   }
 
-  isDisableOnly = (module: Modules): boolean => {
-    const {enabledModules} = this.props;
-    if (enabledModules?.modules === undefined) {
-      return false;
-    }
-    if (enabledModules.modules[module]) {
-      return false;
-    }
-
-    const appSupportedModules = this.getAppSupportedModulesExcept(module);
-    for (let i = 0; i < appSupportedModules.length; i++) {
-      if (!enabledModules.modules[appSupportedModules[i]]) {
-        return false;
-      }
-    }
-    return true;
-  };
-
-  isEnabledOnly = (module: Modules): boolean => {
-    const {enabledModules} = this.props;
-    if (enabledModules?.modules === undefined) {
-      return false;
-    }
-    if (!enabledModules.modules[module]) {
-      return false;
-    }
-
-    const appSupportedModules = this.getAppSupportedModulesExcept(module);
-    for (let i = 0; i < appSupportedModules.length; i++) {
-      if (enabledModules.modules[appSupportedModules[i]]) {
-        return false;
-      }
-    }
-    return true;
-  };
-
-  getAppSupportedModulesExcept = (module: Modules) => {
-    const appSupportedModules = Object.values(
-      SUBHEADER_MODULE_MAP,
-    ) as Array<Modules>;
-
-    const index = appSupportedModules.indexOf(module);
-    if (index > -1) {
-      appSupportedModules.splice(index, 1);
-    }
-    return appSupportedModules;
-  };
-
   render() {
-    const {enabledModules} = this.props;
+    const {menuItemsMetaData, menuItems} = this.props;
     let message = 'Unexpected Error Occurred';
 
-    if (!enabledModules?.modules.leave && !enabledModules?.modules.time) {
+    if (!menuItems.has(MENU_LEAVE) && !menuItems.has(MENU_TIME)) {
       message = 'Leave and Time Modules Are Disabled';
-    } else if (this.isDisableOnly(MODULE_LEAVE)) {
-      message = 'Leave Module Is Disabled';
     } else if (
-      enabledModules?.modules.leave &&
-      !enabledModules.meta.leave.isLeavePeriodDefined
+      menuItems.has(MENU_LEAVE) &&
+      !menuItemsMetaData?.isLeavePeriodDefined
     ) {
       message = 'Leave Period Is Not Defined';
-    } else if (this.isDisableOnly(MODULE_TIME)) {
-      message = 'Time Module Is Disabled';
     } else if (
-      this.isEnabledOnly(MODULE_TIME) &&
-      !enabledModules.meta.time.isTimesheetPeriodDefined
+      !menuItems.has(MENU_LEAVE) &&
+      menuItems.has(MENU_TIME) &&
+      !menuItemsMetaData?.isTimesheetPeriodDefined
     ) {
       message = 'Timesheet Period Is Not Defined';
     }
@@ -131,11 +79,12 @@ interface FullScreenErrorProps extends ConnectedProps<typeof connector> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  enabledModules: selectEnabledModules(state),
+  menuItemsMetaData: selectMenuItemsMetaData(state),
+  menuItems: selectMenuItems(state),
 });
 
 const mapDispatchToProps = {
-  fetchEnabledModules: fetchEnabledModules,
+  fetchMenuItems: fetchMenuItems,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

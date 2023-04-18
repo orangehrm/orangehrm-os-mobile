@@ -25,11 +25,11 @@ import {
   FETCH_MY_INFO,
   CHECK_INSTANCE,
   CheckInstanceAction,
-  FetchEnabledModulesAction,
+  FetchMenuItemsAction,
   FETCH_ENABLED_MODULES,
   FETCH_NEW_TOKEN_FINISHED,
   MyInfo,
-  EnabledModules,
+  MenuItems,
   Employee,
 } from 'store/auth/types';
 import {
@@ -68,7 +68,7 @@ import {
 import {
   fetchMyInfoFinished,
   checkInstanceFinished,
-  fetchEnabledModulesFinished,
+  fetchMenuItemsFinished,
   myInfoFailed,
   fetchNewAuthTokenFinished,
 } from 'store/auth/actions';
@@ -84,12 +84,11 @@ import {
 } from 'services/api';
 import {
   API_ENDPOINT_MY_INFO,
-  API_ENDPOINT_ENABLED_MODULES,
   OAUTH_ENDPOINT_TOKEN,
   OAUTH_ENDPOINT_AUTHORIZE,
   prepare,
+  API_ENDPOINT_MOBILE_MENU_ITEMS,
 } from 'services/endpoints';
-// import {AuthenticationError} from 'services/errors/authentication';
 import {InstanceCheckError} from 'services/errors/instance-check';
 import {
   authorize,
@@ -174,9 +173,6 @@ function* checkInstance(action?: CheckInstanceAction) {
 
       checkInstanceCompatibility(data.data);
 
-      // TODO
-      // yield* fetchEnabledModules();
-
       yield* fetchAuthToken();
       yield put(checkInstanceFinished(false));
     } else {
@@ -242,7 +238,7 @@ function getAbsoluteUrlsForChecking(instanceUrl: string) {
   ];
 }
 
-function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
+function* fetchMenuItems(action?: FetchMenuItemsAction) {
   try {
     if (action) {
       yield openLoader();
@@ -251,36 +247,23 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
     // eslint-disable-next-line no-undef
     const response: Response = yield apiCall(
       apiGetCall,
-      API_ENDPOINT_ENABLED_MODULES,
+      API_ENDPOINT_MOBILE_MENU_ITEMS,
       true,
     );
 
     if (response.ok) {
-      const responseData: {
-        data: $PropertyType<EnabledModules, 'modules'>;
-      } = yield call([response, response.json]);
-      const enabledModules: EnabledModules = {
-        modules: responseData.data,
-        meta: {
-          leave: {
-            isLeavePeriodDefined: true, // TODO
-          },
-          time: {
-            isTimesheetPeriodDefined: true, // TODO
-          },
-        },
-      };
+      const responseData: ApiResponse<
+        $PropertyType<MenuItems, 'menuItems'>,
+        $PropertyType<MenuItems, 'meta'>
+      > = yield call([response, response.json]);
 
       if (responseData.data) {
-        yield put(fetchEnabledModulesFinished(enabledModules));
-        if (!enabledModules.modules.mobile) {
-          // TODO::remove
-          // Logout in case loggedin user
-          yield* logout();
-          throw new InstanceCheckError(
-            'The Mobile App Is Not Enabled, Please Contact Your System Administrator.',
-          );
-        }
+        yield put(
+          fetchMenuItemsFinished({
+            menuItems: responseData.data,
+            meta: responseData.meta,
+          }),
+        );
       } else {
         throw new InstanceCheckError('Failed to Load Enabled Modules.');
       }
@@ -298,7 +281,7 @@ function* fetchEnabledModules(action?: FetchEnabledModulesAction) {
       ),
       TYPE_ERROR,
     );
-    yield put(fetchEnabledModulesFinished(undefined, true));
+    yield put(fetchMenuItemsFinished(undefined, true));
   } finally {
     if (action) {
       yield closeLoader();
@@ -371,7 +354,7 @@ function* logout() {
 
 function* fetchMyInfo() {
   try {
-    yield* fetchEnabledModules();
+    yield* fetchMenuItems();
 
     // eslint-disable-next-line no-undef
     const rawResponse: Response = yield apiCall(
@@ -389,11 +372,6 @@ function* fetchMyInfo() {
         if (response.data) {
           const data: MyInfo = {
             employee: response.data,
-            user: {
-              // TODO::remove
-              userRole: 'Admin',
-              isSupervisor: false,
-            },
           };
           yield put(fetchMyInfoFinished(data));
         } else {
@@ -468,7 +446,6 @@ export function* watchAuthActions() {
   yield takeEvery(LOGOUT, logout);
   yield takeEvery(FETCH_MY_INFO, fetchMyInfo);
   yield takeEvery(CHECK_INSTANCE, checkInstance);
-  yield takeEvery(FETCH_ENABLED_MODULES, fetchEnabledModules);
+  yield takeEvery(FETCH_ENABLED_MODULES, fetchMenuItems);
   yield takeEvery(FETCH_NEW_TOKEN_FINISHED, fetchApiDefinition);
-  // yield takeEvery(FETCH_MY_INFO, fetchApiDefinition); // TODO
 }

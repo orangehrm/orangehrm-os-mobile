@@ -63,3 +63,12 @@ export const NO_EMPLOYEE_INFO = 'NoEmployeeInfo';
 
 export const SUBHEADER_LEAVE = 'LEAVE';
 export const SUBHEADER_TIME = 'TIME';
+
+export const MENU_ITEM_APPLY_LEAVE = 'Apply Leave';
+export const MENU_ITEM_MY_LEAVE_USAGE = 'My Leave Usage';
+export const MENU_ITEM_LEAVE_LIST = 'Leave List';
+export const MENU_ITEM_ASSIGN_LEAVE = 'Assign Leave';
+
+export const MENU_ITEM_PUNCH_IN_OUT = 'Punch In/Out';
+export const MENU_ITEM_MY_ATTENDANCE = 'My Attendance';
+export const MENU_ITEM_EMPLOYEE_ATTENDANCE = 'Employee Attendance';

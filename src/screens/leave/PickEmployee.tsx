@@ -37,6 +37,7 @@ import Divider from 'components/DefaultDivider';
 import FlatButton from 'components/FlatButton';
 import Avatar from 'components/DefaultAvatar';
 import TextInput, {TextInputProps} from 'components/DefaultTextInput';
+import Spinner from 'components/DefaultSpinner';
 import {
   PickEmployeeRouteParams,
   PickEmployeeNavigationProp,
@@ -86,6 +87,11 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
     const {theme, route, employees} = this.props;
     const {textValue} = route.params;
     const paddingRight = theme.spacing * 6;
+
+    if (employees && !employees.has(textValue)) {
+      // This is okay to keep in `render` as `this.fetchSubordinates` is debounced
+      this.fetchSubordinates(textValue);
+    }
 
     return (
       <SafeAreaLayout>
@@ -139,6 +145,14 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
               </View>
             ) : (
               <FlatList
+                ListEmptyComponent={
+                  <View
+                    style={{
+                      paddingTop: theme.spacing * 4,
+                    }}>
+                    <Spinner />
+                  </View>
+                }
                 ItemSeparatorComponent={() => {
                   return <Divider />;
                 }}
