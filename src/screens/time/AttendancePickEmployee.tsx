@@ -43,13 +43,18 @@ import {
   pickSubordinate,
 } from 'store/time/attendance/actions';
 import {selectSubordinates} from 'store/time/attendance/selectors';
+import {debounce, DebouncedFunc} from 'lodash';
 
 class AttendancePickEmployee extends React.Component<
   AttendancePickEmployeeProps,
   AttendancePickEmployeeState
 > {
+  fetchSubordinates: DebouncedFunc<(text: string) => {}>;
   constructor(props: AttendancePickEmployeeProps) {
     super(props);
+    this.fetchSubordinates = debounce((text: string) => {
+      props.fetchSubordinates(text);
+    }, 500);
     this.state = {
       text: '',
     };
@@ -68,7 +73,7 @@ class AttendancePickEmployee extends React.Component<
   }
 
   onRefresh = () => {
-    this.props.fetchSubordinates();
+    this.fetchSubordinates('');
   };
 
   filterFunction = (text: string) => (item: EmployeeObject) => {
@@ -84,6 +89,8 @@ class AttendancePickEmployee extends React.Component<
 
   onChangeText = (text: string) => {
     this.setState({text});
+
+    this.fetchSubordinates(text);
   };
 
   render() {

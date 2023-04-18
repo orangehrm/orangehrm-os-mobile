@@ -172,15 +172,20 @@ export const fetchEmployeeAttendanceListFinished = (
 /**
  * Fetch subordinates for attendance list
  */
-export const fetchSubordinates = (): FetchSubordinatesAction => ({
+export const fetchSubordinates = (
+  nameOrId: string,
+): FetchSubordinatesAction => ({
   type: FETCH_SUBORDINATES,
+  nameOrId,
 });
 
 export const fetchSubordinatesFinished = (
+  sourceAction: FetchSubordinatesAction,
   payload?: $PropertyType<FetchSubordinatesFinishedAction, 'payload'>,
   error: boolean = false,
 ): FetchSubordinatesFinishedAction => ({
   type: FETCH_SUBORDINATES_FINISHED,
+  sourceAction,
   payload,
   error,
 });

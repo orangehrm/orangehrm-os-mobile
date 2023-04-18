@@ -70,10 +70,11 @@ export interface LeaveTypeGraphData {
 }
 
 export interface EmployeeObject {
-  empNumber: string;
+  empNumber: number;
   lastName: string;
   firstName: string;
   employeeId: string;
+  terminationId: number;
 }
 export interface LeaveType {
   id: number;
@@ -323,7 +324,7 @@ export interface AttendanceConfig {
 export interface EmployeeAttendanceListRequest {
   fromDate: string;
   toDate: string;
-  empNumber?: string;
+  empNumber?: number;
   pastEmployee?: boolean;
 }
 
@@ -340,11 +341,13 @@ export interface FetchEmployeeAttendanceListFinishedAction {
 
 export interface FetchSubordinatesAction {
   type: typeof FETCH_SUBORDINATES;
+  nameOrId: string;
 }
 
 export interface FetchSubordinatesFinishedAction {
   type: typeof FETCH_SUBORDINATES_FINISHED;
   payload?: EmployeeObject[];
+  sourceAction: FetchSubordinatesAction;
   error: boolean;
 }
 
@@ -380,5 +383,4 @@ export type AttendanceActionTypes =
   | FetchSubordinatesFinishedAction
   | PickSubordinateAction
   | FetchAttendanceConfigurationAction
-  | AttendanceConfig
   | FetchAttendanceConfigurationFinishedAction;

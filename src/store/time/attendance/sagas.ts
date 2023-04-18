@@ -59,7 +59,6 @@ import {
   fetchAttendanceConfigurationFinished,
 } from './actions';
 import {
-  API_ENDPOINT_LEAVE,
   API_ENDPOINT_ATTENDANCE_GRAPH,
   API_ENDPOINT_LEAVE_HOLIDAYS,
   API_ENDPOINT_LEAVE_WORK_WEEK,
@@ -81,7 +80,7 @@ import {
   selectAttendanceConfiguration,
   selectAttendanceConfigurationFetched,
 } from 'store/time/attendance/selectors';
-import {AttendanceObject} from './types';
+import {AttendanceObject, FetchSubordinatesAction} from './types';
 import {Holiday, WorkWeek} from 'store/leave/common-screens/types';
 import {getCurrentTimeZoneOffset, getGraphObject} from 'lib/helpers/attendance';
 
@@ -94,7 +93,8 @@ function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
         API_ENDPOINT_PUNCH_IN_OUT_REQUEST,
         {},
         {
-          date: action.payload.fromDate,
+          fromDate: action.payload.fromDate,
+          toDate: action.payload.fromDate,
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
@@ -135,14 +135,12 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
     const response: ApiResponse<LeaveObject[]> = yield apiCall(
       apiGetCall,
       prepare(
-        API_ENDPOINT_LEAVE,
+        API_ENDPOINT_GRAPH_LEAVE_RECORDS,
         {},
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
-          pendingApproval: true,
-          scheduled: true,
-          taken: true,
+          statuses: ['1', '2', '3'],
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
@@ -337,6 +335,9 @@ function* fetchEmployeeAttendanceList(
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
+          ...(action.payload.empNumber && {
+            empNumber: action.payload.empNumber,
+          }),
         },
       ),
     );
@@ -365,21 +366,25 @@ function* fetchEmployeeAttendanceList(
   }
 }
 
-function* fetchAccessibleEmployees() {
+function* fetchAccessibleEmployees(action: FetchSubordinatesAction) {
   try {
     yield openLoader();
     const queryParams = {
-      actionName: 'attendance_records',
-      properties: ['firstName', 'lastName', 'employeeId'],
+      nameOrId: action.nameOrId,
     };
+    if (action.nameOrId === '') {
+      yield put(fetchSubordinatesFinished(action, []));
+      return;
+    }
     const response: ApiResponse<EmployeeObject[]> = yield apiCall(
       apiGetCall,
       prepare(API_ENDPOINT_EMPLOYEES, {}, queryParams),
     );
+
     if (response.data) {
-      yield put(fetchSubordinatesFinished(response.data));
+      yield put(fetchSubordinatesFinished(action, response.data));
     } else {
-      yield put(fetchSubordinatesFinished(undefined, true));
+      yield put(fetchSubordinatesFinished(action, undefined, true));
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(
           response,
@@ -393,7 +398,7 @@ function* fetchAccessibleEmployees() {
       getMessageAlongWithGenericErrors(error, 'Failed to Fetch Subordinates'),
       TYPE_ERROR,
     );
-    yield put(fetchSubordinatesFinished(undefined, true));
+    yield put(fetchSubordinatesFinished(action, undefined, true));
   } finally {
     yield closeLoader();
   }
