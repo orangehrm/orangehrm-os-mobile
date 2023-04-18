@@ -72,7 +72,7 @@ import {
   EmployeeAttendanceSummaryScreenRouteParams,
 } from 'screens/time/navigators';
 import {getFirstAndLastNames} from 'lib/helpers/name';
-import {selectMyInfo} from '../../store/auth/selectors';
+import {selectMyInfo} from 'store/auth/selectors';
 
 class AttendanceSummary extends React.Component<
   AttendanceSummaryProps,
@@ -209,7 +209,7 @@ class AttendanceSummary extends React.Component<
     const {params: {employeeAttendance} = {}} = this.props.route;
     let empNumber;
     if (employeeAttendance !== undefined) {
-      empNumber = parseInt(employeeAttendance.employeeId, 10);
+      empNumber = employeeAttendance.empNumber;
     }
 
     const startDate = convertDateObjectToStringFormat(

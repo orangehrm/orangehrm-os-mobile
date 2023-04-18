@@ -304,7 +304,6 @@ export interface SingleEmployeeAttendance {
   empNumber: number;
   firstName: string;
   lastName: string;
-
   terminationId: number;
   sum: {
     hours: number;

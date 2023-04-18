@@ -94,7 +94,7 @@ function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
         {},
         {
           fromDate: action.payload.fromDate,
-          toDate: action.payload.fromDate,
+          toDate: action.payload.toDate,
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
@@ -140,7 +140,7 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
-          statuses: ['1', '2', '3'],
+          statuses: ['1', '2', '3'], // pending approval, scheduled, taken
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
@@ -190,7 +190,7 @@ function* fetchAttendanceGraphRecords(
             fromDate: action.payload.fromDate,
             toDate: action.payload.toDate,
             includeEmployees: 'onlyCurrent',
-            statuses: ['1', '2', '3'],
+            statuses: ['1', '2', '3'], // pending approval, scheduled, taken
             ...(action.payload.empNumber && {
               empNumber: action.payload.empNumber,
             }),
