@@ -24,14 +24,14 @@ import MainLayout from 'layouts/MainLayout';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from 'store';
 import {selectMenuItemsMetaData, selectMenuItems} from 'store/auth/selectors';
-import {fetchEnabledModules} from 'store/auth/actions';
+import {fetchMenuItems} from 'store/auth/actions';
 import FullInfoView from 'screens/common/component/FullInfoView';
 import {MENU_LEAVE, MENU_TIME} from 'store/auth/types';
 import {getNavigation} from 'lib/helpers/navigation';
 
 class FullScreenError extends React.Component<FullScreenErrorProps> {
   onRefresh = () => {
-    this.props.fetchEnabledModules();
+    this.props.fetchMenuItems();
   };
 
   componentDidUpdate(prevProps: FullScreenErrorProps) {
@@ -84,7 +84,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = {
-  fetchEnabledModules: fetchEnabledModules,
+  fetchMenuItems: fetchMenuItems,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

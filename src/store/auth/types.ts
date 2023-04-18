@@ -27,7 +27,6 @@ export interface AuthState {
   isFinishedMyInfo: boolean;
   checkingInstance: boolean;
   instanceExists?: boolean;
-  enabledModules?: MenuItems;
   menuItems: TransformedMenuItems;
   menuItemsMetaData?: MenuItemsMetaData;
   myInfoFailed?: boolean;
@@ -72,11 +71,11 @@ export interface CheckInstanceFinishedAction {
   error?: boolean;
 }
 
-export interface FetchEnabledModulesAction {
+export interface FetchMenuItemsAction {
   type: typeof FETCH_ENABLED_MODULES;
 }
 
-export interface FetchEnabledModulesFinishedAction {
+export interface FetchMenuItemsFinishedAction {
   type: typeof FETCH_ENABLED_MODULES_FINISHED;
   payload?: MenuItems;
   error: boolean;
@@ -98,8 +97,8 @@ export type AuthActionTypes =
   | FetchMyInfoFinishedAction
   | CheckInstanceAction
   | CheckInstanceFinishedAction
-  | FetchEnabledModulesAction
-  | FetchEnabledModulesFinishedAction
+  | FetchMenuItemsAction
+  | FetchMenuItemsFinishedAction
   | MyInfoFailedAction
   | FetchNewTokenFinishedAction;
 

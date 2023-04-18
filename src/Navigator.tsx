@@ -176,7 +176,7 @@ const Navigator = (props: NavigatorProps) => {
                   menuItems.has(MENU_LEAVE) &&
                   menuItemsMetaData.isLeavePeriodDefined ? (
                     <>
-                      {menuItems.get(MENU_LEAVE)?.get(MENU_ITEM_APPLY_LEAVE) ? (
+                      {menuItems.get(MENU_LEAVE)?.has(MENU_ITEM_APPLY_LEAVE) ? (
                         <Drawer.Screen
                           name={APPLY_LEAVE}
                           component={ApplyLeave}
@@ -190,7 +190,7 @@ const Navigator = (props: NavigatorProps) => {
 
                       {menuItems
                         .get(MENU_LEAVE)
-                        ?.get(MENU_ITEM_MY_LEAVE_USAGE) ? (
+                        ?.has(MENU_ITEM_MY_LEAVE_USAGE) ? (
                         <Drawer.Screen
                           name={MY_LEAVE_ENTITLEMENT_AND_USAGE}
                           component={MyLeaveUsage}
@@ -202,7 +202,7 @@ const Navigator = (props: NavigatorProps) => {
                         />
                       ) : null}
 
-                      {menuItems.get(MENU_LEAVE)?.get(MENU_ITEM_LEAVE_LIST) ? (
+                      {menuItems.get(MENU_LEAVE)?.has(MENU_ITEM_LEAVE_LIST) ? (
                         <Drawer.Screen
                           name={LEAVE_LIST}
                           component={LeaveList}
@@ -216,7 +216,7 @@ const Navigator = (props: NavigatorProps) => {
 
                       {menuItems
                         .get(MENU_LEAVE)
-                        ?.get(MENU_ITEM_ASSIGN_LEAVE) ? (
+                        ?.has(MENU_ITEM_ASSIGN_LEAVE) ? (
                         <Drawer.Screen
                           name={ASSIGN_LEAVE}
                           component={AssignLeave}
@@ -234,7 +234,7 @@ const Navigator = (props: NavigatorProps) => {
                   menuItems.has(MENU_TIME) &&
                   menuItemsMetaData.isTimesheetPeriodDefined ? (
                     <>
-                      {menuItems.get(MENU_TIME)?.get(MENU_ITEM_PUNCH_IN_OUT) ? (
+                      {menuItems.get(MENU_TIME)?.has(MENU_ITEM_PUNCH_IN_OUT) ? (
                         <Drawer.Screen
                           name={PUNCH}
                           component={Punch}
@@ -248,7 +248,7 @@ const Navigator = (props: NavigatorProps) => {
 
                       {menuItems
                         .get(MENU_TIME)
-                        ?.get(MENU_ITEM_MY_ATTENDANCE) ? (
+                        ?.has(MENU_ITEM_MY_ATTENDANCE) ? (
                         <Drawer.Screen
                           name={ATTENDANCE_SUMMARY}
                           component={AttendanceSummary}
@@ -262,7 +262,7 @@ const Navigator = (props: NavigatorProps) => {
 
                       {menuItems
                         .get(MENU_TIME)
-                        ?.get(MENU_ITEM_EMPLOYEE_ATTENDANCE) ? (
+                        ?.has(MENU_ITEM_EMPLOYEE_ATTENDANCE) ? (
                         <Drawer.Screen
                           name={ATTENDANCE_LIST}
                           component={AttendanceList}

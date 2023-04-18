@@ -89,6 +89,7 @@ class PickEmployee extends React.Component<PickEmployeeProps> {
     const paddingRight = theme.spacing * 6;
 
     if (employees && !employees.has(textValue)) {
+      // This is okay to keep in `render` as `this.fetchSubordinates` is debounced
       this.fetchSubordinates(textValue);
     }
 

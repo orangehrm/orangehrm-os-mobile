@@ -25,7 +25,7 @@ import {
   FETCH_MY_INFO,
   CHECK_INSTANCE,
   CheckInstanceAction,
-  FetchEnabledModulesAction,
+  FetchMenuItemsAction,
   FETCH_ENABLED_MODULES,
   FETCH_NEW_TOKEN_FINISHED,
   MyInfo,
@@ -68,7 +68,7 @@ import {
 import {
   fetchMyInfoFinished,
   checkInstanceFinished,
-  fetchEnabledModulesFinished,
+  fetchMenuItemsFinished,
   myInfoFailed,
   fetchNewAuthTokenFinished,
 } from 'store/auth/actions';
@@ -173,9 +173,6 @@ function* checkInstance(action?: CheckInstanceAction) {
 
       checkInstanceCompatibility(data.data);
 
-      // TODO
-      // yield* fetchEnabledModules();
-
       yield* fetchAuthToken();
       yield put(checkInstanceFinished(false));
     } else {
@@ -241,7 +238,7 @@ function getAbsoluteUrlsForChecking(instanceUrl: string) {
   ];
 }
 
-function* fetchMenuItems(action?: FetchEnabledModulesAction) {
+function* fetchMenuItems(action?: FetchMenuItemsAction) {
   try {
     if (action) {
       yield openLoader();
@@ -259,13 +256,14 @@ function* fetchMenuItems(action?: FetchEnabledModulesAction) {
         $PropertyType<MenuItems, 'menuItems'>,
         $PropertyType<MenuItems, 'meta'>
       > = yield call([response, response.json]);
-      const enabledModules: MenuItems = {
-        menuItems: responseData.data,
-        meta: responseData.meta,
-      };
 
       if (responseData.data) {
-        yield put(fetchEnabledModulesFinished(enabledModules));
+        yield put(
+          fetchMenuItemsFinished({
+            menuItems: responseData.data,
+            meta: responseData.meta,
+          }),
+        );
       } else {
         throw new InstanceCheckError('Failed to Load Enabled Modules.');
       }
@@ -283,7 +281,7 @@ function* fetchMenuItems(action?: FetchEnabledModulesAction) {
       ),
       TYPE_ERROR,
     );
-    yield put(fetchEnabledModulesFinished(undefined, true));
+    yield put(fetchMenuItemsFinished(undefined, true));
   } finally {
     if (action) {
       yield closeLoader();
