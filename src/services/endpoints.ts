@@ -58,17 +58,16 @@ export const API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST =
   '/api/v2/leave/leave-requests';
 export const API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST_DETAILS =
   '/api/v2/leave/leave-requests/{leaveRequestId}';
-export const API_ENDPOINT_LEAVE_LIST = '/api/v2/leave/employees/leave-requests';
+export const API_ENDPOINT_EMPLOYEE_LEAVE_REQUEST =
+  '/api/v2/leave/employees/leave-requests';
 export const API_ENDPOINT_LEAVES =
   '/api/v2/leave/leave-requests/{leaveRequestId}/leaves';
-export const API_ENDPOINT_LEAVE_REQUEST_DETAILS =
+export const API_ENDPOINT_EMPLOYEE_LEAVE_REQUEST_DETAILS =
   '/api/v2/leave/employees/leave-requests/{leaveRequestId}';
 export const API_ENDPOINT_LEAVE_COMMENT =
   '/api/v2/leave/leave-requests/{leaveRequestId}/leave-comments';
 export const API_ENDPOINT_EMPLOYEE_LEAVE_BALANCE =
-  '/api/v2/leave/employee/leave-balances'; // TODO::remove
-export const API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST =
-  '/api/v2/leave/employees/leave-requests'; // TODO::remove
+  '/api/v2/leave/employee/leave-balances';
 export const API_ENDPOINT_LEAVE_HOLIDAYS = '/api/v2/leave/holidays';
 export const API_ENDPOINT_LEAVE_WORK_SHIFT =
   '/api/v2/pim/employees/{empNumber}/work-shift';

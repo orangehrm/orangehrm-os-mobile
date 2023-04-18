@@ -60,7 +60,7 @@ import {
 } from 'lib/helpers/leave';
 import {TYPE_ERROR, TYPE_WARN} from 'store/globals/types';
 import {
-  API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST,
+  API_ENDPOINT_EMPLOYEE_LEAVE_REQUEST,
   API_ENDPOINT_EMPLOYEE_LEAVE_BALANCE,
   API_ENDPOINT_EMPLOYEES,
   API_ENDPOINT_LEAVE_WORK_SHIFT,
@@ -87,7 +87,7 @@ function* saveLeaveRequest(
     yield openLoader();
     const response: ApiResponse<LeaveRequestModel> = yield apiCall(
       apiPostCall,
-      API_ENDPOINT_SUBORDINATE_LEAVE_REQUEST,
+      API_ENDPOINT_EMPLOYEE_LEAVE_REQUEST,
       {
         ...action.payload,
         empNumber: action.empNumber,
