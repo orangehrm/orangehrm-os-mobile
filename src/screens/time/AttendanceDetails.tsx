@@ -62,6 +62,7 @@ import {
   convertDateObjectToStringFormat,
   getWeekDayFromIndex,
 } from 'lib/helpers/attendance';
+import {selectMyInfo} from '../../store/auth/selectors';
 class AttendanceDetails extends React.Component<
   AttendanceDetailsProps,
   AttendanceDetailsState
@@ -248,6 +249,7 @@ const mapStateToProps = (state: RootState) => ({
   currentRoute: selectCurrentRoute(state),
   holidays: selectHolidays(state),
   workweek: selectWorkWeek(state),
+  myInfo: selectMyInfo(state),
 });
 
 const mapDispatchToProps = {

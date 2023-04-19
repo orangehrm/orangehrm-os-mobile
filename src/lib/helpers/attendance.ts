@@ -24,12 +24,12 @@ import {
   AttendanceObject,
   DaySelectorSingleDay,
   GraphDataPoint,
-  GraphRecordsDetailsArray,
   GraphRecordsDetailsObject,
   GraphRecordsLeaveObject,
   GraphRecordsObject,
   LeaveObject,
   LeaveTypeGraphData,
+  TotalTimeObject,
   WorkSummaryGraphObject,
   WorkSummaryObject,
 } from 'store/time/attendance/types';
@@ -522,7 +522,7 @@ const getWorkWeekResultOfTheSelectedDate = (
     });
     return hours;
   } else {
-    return '-1';
+    return -1;
   }
 };
 
@@ -602,7 +602,10 @@ const getDatesStringKey = (name: string) => {
   return 'sunday';
 };
 
-const getLeaveObject = (day: string, leaveDetails: any) => {
+const getLeaveObject = (
+  day: string,
+  leaveDetails: GraphRecordsLeaveObject[],
+) => {
   const leaveArray: GraphRecordsDetailsObject[] = [];
   leaveDetails.map((item: GraphRecordsLeaveObject) => {
     if (day === moment(new Date(item.date)).format('ddd')) {
@@ -619,68 +622,54 @@ const getLeaveObject = (day: string, leaveDetails: any) => {
 };
 
 const getGraphObject = (
-  graphData: GraphRecordsDetailsArray[],
-  workWeekData: WorkSummaryGraphObject[],
-  leaveResponse: GraphRecordsLeaveObject[],
+  // graphData: GraphRecordsDetailsArray[],
+  workData: WorkSummaryGraphObject[],
+  leaves: GraphRecordsLeaveObject[],
+  totalWorkDuration: TotalTimeObject,
 ) => {
-  let totalWorkDuration = 0;
   let totalLeaveHours = 0;
 
-  if (graphData) {
-    const graphDataArray: GraphRecordsDetailsObject[] = [];
+  if (leaves) {
+    const leaveDurations = new Map<number, GraphRecordsDetailsObject>();
 
-    graphData?.map((item: GraphRecordsDetailsArray) => {
-      let id: number;
-      if (graphDataArray[0] !== undefined) {
-        graphDataArray.find((data, index) => {
-          if (data.typeId === item.leaveType.id) {
-            const obj: GraphRecordsDetailsObject = {
-              typeId: item.leaveType.id,
-              type: item.leaveType.name,
-              hours: item.noOfDays * 8 + graphDataArray[index].hours,
-            };
-            totalLeaveHours += item.noOfDays * 8;
-            id = graphDataArray[index].typeId;
-            graphDataArray[index] = obj;
-          } else {
-            if (item.leaveType.id !== id) {
-              const obj: GraphRecordsDetailsObject = {
-                typeId: item.leaveType.id,
-                type: item.leaveType.name,
-                hours: item.noOfDays * 8,
-              };
-
-              totalLeaveHours += item.noOfDays * 8;
-              graphDataArray.push(obj);
-            }
-          }
+    leaves.forEach((leave: GraphRecordsLeaveObject) => {
+      totalLeaveHours += leave.lengthHours;
+      if (leaveDurations.has(leave.leaveType.id)) {
+        const hours = leaveDurations.get(leave.leaveType.id)?.hours;
+        leaveDurations.set(leave.leaveType.id, {
+          typeId: leave.leaveType.id,
+          type: leave.leaveType.name,
+          hours: leave.lengthHours + (hours ? hours : 0),
         });
       } else {
-        const obj: GraphRecordsDetailsObject = {
-          typeId: item.leaveType.id,
-          type: item.leaveType.name,
-          hours: item.noOfDays * 8,
-        };
-
-        totalLeaveHours += item.noOfDays * 8;
-        graphDataArray.push(obj);
+        leaveDurations.set(leave.leaveType.id, {
+          typeId: leave.leaveType.id,
+          type: leave.leaveType.name,
+          hours: leave.lengthHours,
+        });
       }
     });
 
-    if (workWeekData) {
+    if (workData) {
       const workSummaryObject: any = {};
-      workWeekData.map((item: WorkSummaryGraphObject) => {
+      workData.map((item: WorkSummaryGraphObject) => {
         const workMinutes = item.totalTime.minutes / 60;
         const workHours = item.totalTime.hours + workMinutes;
-        totalWorkDuration += workHours;
         workSummaryObject[getDatesStringKey(item.workDay.day)] = {
           workHours: workHours,
-          leave: getLeaveObject(item.workDay.day, leaveResponse),
+          leave: getLeaveObject(item.workDay.day, leaves),
         };
       });
 
+      const graphDataArray: GraphRecordsDetailsObject[] = [];
+
+      leaveDurations.forEach((leave) => {
+        graphDataArray.push(leave);
+      });
+
       return {
-        totalWorkHours: totalWorkDuration,
+        totalWorkHours:
+          totalWorkDuration.hours + totalWorkDuration.minutes / 60,
         totalLeaveHours: totalLeaveHours,
         totalLeaveTypeHours: graphDataArray,
         workSummary: workSummaryObject,

@@ -44,9 +44,9 @@ import {
   SingleEmployeeAttendance,
   EmployeeObject,
   AttendanceConfig,
-  GraphRecordsDetailsArray,
   GraphRecordsLeaveObject,
   WorkSummaryGraphObject,
+  TotalWorkDuration,
 } from './types';
 import {
   fetchAttendanceRecordsFinished,
@@ -59,7 +59,6 @@ import {
   fetchAttendanceConfigurationFinished,
 } from './actions';
 import {
-  API_ENDPOINT_ATTENDANCE_GRAPH,
   API_ENDPOINT_LEAVE_HOLIDAYS,
   API_ENDPOINT_LEAVE_WORK_WEEK,
   API_ENDPOINT_ATTENDANCE_LIST,
@@ -69,6 +68,7 @@ import {
   API_ENDPOINT_PUNCH_IN_OUT_REQUEST,
   API_ENDPOINT_ATTENDANCE_WORK_SUMMARY,
   API_ENDPOINT_GRAPH_LEAVE_RECORDS,
+  API_ENDPOINT_EMPLOYEE_PUNCH_IN_OUT_REQUEST,
 } from 'services/endpoints';
 import {
   getMessageAlongWithGenericErrors,
@@ -90,14 +90,17 @@ function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
     const response: ApiResponse<AttendanceObject[]> = yield apiCall(
       apiGetCall,
       prepare(
-        API_ENDPOINT_PUNCH_IN_OUT_REQUEST,
-        {},
+        action.payload.empNumber
+          ? API_ENDPOINT_EMPLOYEE_PUNCH_IN_OUT_REQUEST
+          : API_ENDPOINT_PUNCH_IN_OUT_REQUEST,
         {
-          fromDate: action.payload.fromDate,
-          toDate: action.payload.toDate,
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
+        },
+        {
+          fromDate: action.payload.fromDate,
+          toDate: action.payload.toDate,
         },
       ),
     );
@@ -140,6 +143,7 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
+          statuses: ['1', '2', '3'], // pending approval, scheduled, taken
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
@@ -180,40 +184,24 @@ function* fetchAttendanceGraphRecords(
   try {
     yield openLoader();
 
-    const graphResponse: ApiResponse<GraphRecordsDetailsArray[]> =
-      yield apiCall(
-        apiGetCall,
-        prepare(
-          API_ENDPOINT_ATTENDANCE_GRAPH,
-          {},
-          {
-            fromDate: action.payload.fromDate,
-            toDate: action.payload.toDate,
-            includeEmployees: 'onlyCurrent',
-            statuses: ['1', '2', '3'], // pending approval, scheduled, taken
-            ...(action.payload.empNumber && {
-              empNumber: action.payload.empNumber,
-            }),
-          },
-        ),
-      );
-
-    const workWeekResponse: ApiResponse<WorkSummaryGraphObject[]> =
-      yield apiCall(
-        apiGetCall,
-        prepare(
-          API_ENDPOINT_ATTENDANCE_WORK_SUMMARY,
-          {},
-          {
-            timezoneOffset: getCurrentTimeZoneOffset(),
-            currentDate: action.payload.fromDate,
-            currentTime: '00:00',
-            ...(action.payload.empNumber && {
-              empNumber: action.payload.empNumber,
-            }),
-          },
-        ),
-      );
+    const workWeekResponse: ApiResponse<
+      WorkSummaryGraphObject[],
+      TotalWorkDuration
+    > = yield apiCall(
+      apiGetCall,
+      prepare(
+        API_ENDPOINT_ATTENDANCE_WORK_SUMMARY,
+        {},
+        {
+          timezoneOffset: getCurrentTimeZoneOffset(),
+          currentDate: action.payload.fromDate,
+          currentTime: '00:00',
+          ...(action.payload.empNumber && {
+            empNumber: action.payload.empNumber,
+          }),
+        },
+      ),
+    );
 
     const leaveResponse: ApiResponse<GraphRecordsLeaveObject[]> = yield apiCall(
       apiGetCall,
@@ -231,9 +219,9 @@ function* fetchAttendanceGraphRecords(
     );
 
     const result = getGraphObject(
-      graphResponse.data,
       workWeekResponse.data,
       leaveResponse.data,
+      workWeekResponse.meta?.currentWeek.totalTime,
     );
 
     if (result) {

@@ -18,11 +18,12 @@
  *
  */
 
-import {LeaveStatus} from 'store/leave/leave-usage/types';
 import {WorkWeek, Holiday} from 'store/leave/common-screens/types';
 import {Moment} from 'moment';
 
 export const DEFAULT_START_DAY = 1;
+export const ADMIN = 'Admin';
+export const ESS = 'ESS';
 
 export interface DaySelectorSingleDay {
   date: Moment;
@@ -32,11 +33,6 @@ export interface DaySelectorSingleDay {
 export interface GraphDataPoint {
   x: string;
   y: number;
-}
-export interface GraphData {
-  day: string;
-  typeId: string;
-  data: GraphDataPoint[];
 }
 
 export interface GraphLeaveType {
@@ -78,7 +74,8 @@ export interface EmployeeObject {
 }
 export interface LeaveType {
   id: number;
-  type: string;
+  name: string;
+  deleted: boolean;
 }
 
 export interface AttendanceRequest {
@@ -95,7 +92,12 @@ export interface LeaveObject {
   leaveType: LeaveType;
   startTime: string;
   endTime: string;
-  status: LeaveStatus;
+  status: LeaveStatusObject;
+}
+
+export interface LeaveStatusObject {
+  id: number;
+  name: string;
 }
 
 export interface AttendanceObject {
@@ -176,6 +178,17 @@ export interface GraphRecordsLeaveObject {
   leaveType: LeaveTypeGraph;
   lengthHours: number;
   date: string;
+}
+
+export interface TotalWorkDuration {
+  currentWeek: currentWeekObject;
+}
+
+export interface currentWeekObject {
+  totalTime: {
+    hours: number;
+    minutes: number;
+  };
 }
 
 export interface GraphRecordsDetailsArray {

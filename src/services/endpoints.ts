@@ -20,27 +20,6 @@
 
 import {EndpointError} from 'services/errors/endpoints';
 
-// attendance
-export const API_ENDPOINT_PUNCH_STATUS = '/api/v2/attendance/records/latest';
-export const API_ENDPOINT_FETCH_UTC_DATE_TIME =
-  '/api/v2/attendance/current-datetime';
-export const API_ENDPOINT_PUNCH_IN_OUT_REQUEST = '/api/v2/attendance/records';
-export const API_ENDPOINT_ATTENDANCE_CONFIG = '/api/v2/attendance/configs';
-export const API_ENDPOINT_ATTENDANCE = '/api/v1/attendance/records';
-export const API_ENDPOINT_ATTENDANCE_GRAPH =
-  '/api/v2/leave/employees/leave-requests';
-export const API_ENDPOINT_ATTENDANCE_WORK_SUMMARY =
-  '/api/v2/dashboard/employees/time-at-work';
-export const API_ENDPOINT_GRAPH_LEAVE_RECORDS =
-  '/api/v2/leave/employees/leaves';
-export const API_ENDPOINT_ATTENDANCE_LIST =
-  '/api/v2/attendance/employees/summary';
-export const API_ENDPOINT_ATTENDANCE_CONFIGURATION =
-  '/api/v2/time/time-sheet-period';
-
-// public endpoints
-export const API_ENDPOINT_API_DEFINITION = '/api/v1/api-definition';
-
 /**
  * V2 endpoints
  */
@@ -75,9 +54,28 @@ export const API_ENDPOINT_LEAVE_WORK_SHIFT =
   '/api/v2/pim/employees/{empNumber}/work-shift';
 export const API_ENDPOINT_LEAVE_WORK_WEEK = '/api/v2/leave/workweek';
 export const API_ENDPOINT_LEAVE_TYPES = '/api/v2/leave/leave-types';
-export const API_ENDPOINT_LEAVE = '/api/v2/leave/leaves';
 
 export const ENDPOINT_EMPLOYEE_PHOTO = '/pim/viewPhoto/empNumber/{empNumber}';
+
+// attendance
+export const API_ENDPOINT_PUNCH_STATUS = '/api/v2/attendance/records/latest';
+export const API_ENDPOINT_FETCH_UTC_DATE_TIME =
+  '/api/v2/attendance/current-datetime';
+export const API_ENDPOINT_PUNCH_IN_OUT_REQUEST = '/api/v2/attendance/records';
+export const API_ENDPOINT_EMPLOYEE_PUNCH_IN_OUT_REQUEST =
+  '/api/v2/attendance/employees/{empNumber}/records';
+export const API_ENDPOINT_ATTENDANCE_CONFIG = '/api/v2/attendance/configs';
+export const API_ENDPOINT_ATTENDANCE_GRAPH = '/api/v2/leave/leave-requests';
+export const API_ENDPOINT_EMPLOYEE_ATTENDANCE_GRAPH =
+  '/api/v2/leave/employees/leave-requests';
+export const API_ENDPOINT_ATTENDANCE_WORK_SUMMARY =
+  '/api/v2/dashboard/employees/time-at-work';
+export const API_ENDPOINT_GRAPH_LEAVE_RECORDS =
+  '/api/v2/leave/employees/leaves';
+export const API_ENDPOINT_ATTENDANCE_LIST =
+  '/api/v2/attendance/employees/summary';
+export const API_ENDPOINT_ATTENDANCE_CONFIGURATION =
+  '/api/v2/time/time-sheet-period';
 
 //help
 export const HELP_REDIRECT_URL =

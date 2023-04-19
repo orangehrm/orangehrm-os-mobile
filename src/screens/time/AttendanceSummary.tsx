@@ -72,7 +72,6 @@ import {
   EmployeeAttendanceSummaryScreenRouteParams,
 } from 'screens/time/navigators';
 import {getFirstAndLastNames} from 'lib/helpers/name';
-import {selectMyInfo} from 'store/auth/selectors';
 
 class AttendanceSummary extends React.Component<
   AttendanceSummaryProps,
@@ -228,7 +227,6 @@ class AttendanceSummary extends React.Component<
       attendanceRequest = {
         fromDate: startDate,
         toDate: endDate,
-        empNumber: this.props.myInfo?.employee.empNumber,
       };
     }
     this.props.fetchAttendanceGraphRecords(attendanceRequest);
@@ -407,7 +405,6 @@ const mapStateToProps = (state: RootState) => ({
   attendanceConfiguration: selectAttendanceConfiguration(state),
   weekStartDay: selectStartDay(state),
   weekEndDay: selectEndDay(state),
-  myInfo: selectMyInfo(state),
 });
 
 const mapDispatchToProps = {

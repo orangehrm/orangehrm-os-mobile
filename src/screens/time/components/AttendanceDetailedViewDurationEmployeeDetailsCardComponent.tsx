@@ -22,7 +22,6 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import Chip from 'components/DefaultChip';
 import {getLeaveColourById, getDurationFromHours} from 'lib/helpers/attendance';
-import {LEAVE_STATUS_MAP} from 'lib/helpers/leave';
 import {
   LeaveObject,
   Mode,
@@ -50,6 +49,7 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
 
   render() {
     const {theme, date, employeeName, mode} = this.props;
+
     return (
       <View
         style={{
@@ -105,7 +105,7 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
               {this.props.date}
             </FormattedDate>
           ) : null}
-          {this.props.workweekResult !== '-1' &&
+          {this.props.workweekResult !== -1 &&
           this.props.workweekResult !== WORK_WEEK_FULL ? (
             <>
               <View>
@@ -145,7 +145,7 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
                   },
                 ]}>
                 <Text style={{color: theme.typography.darkColor}}>
-                  {holiday.description}
+                  {holiday.name}
                   {' - '}
                   {holiday.length === WORK_WEEK_HALF ? 'Half Day' : null}
                   {holiday.length === WORK_WEEK_FULL ? 'Full Day' : null}
@@ -160,18 +160,16 @@ class AttendanceDetailedViewDurationEmployeeDetailsCardComponent extends React.C
                 style={[
                   styles.alignSelfFlexStart,
                   {
-                    backgroundColor: getLeaveColourById(
-                      leave.leaveType.id.toString(),
-                    ),
+                    backgroundColor: getLeaveColourById(leave.leaveType.id),
                     paddingHorizontal: theme.spacing * 3,
                     paddingVertical: theme.spacing,
                     marginBottom: theme.spacing,
                   },
                 ]}>
                 <Text style={{color: theme.palette.background}}>
-                  {leave.leaveType.type}
+                  {leave.leaveType.name}
                   {' - '}
-                  {LEAVE_STATUS_MAP[leave.status]}
+                  {leave.status.name}
                   {' - '}
                   {getDurationFromHours(parseFloat(leave.lengthHours))}
                   {' Hours'}
@@ -233,7 +231,7 @@ interface AttendanceDetailedViewDurationEmployeeDetailsCardComponentProps
   date: string;
   holidays: Holiday[];
   leaves: LeaveObject[];
-  workweekResult?: string;
+  workweekResult?: number;
   employeeName?: string;
   mode: Mode;
 }
