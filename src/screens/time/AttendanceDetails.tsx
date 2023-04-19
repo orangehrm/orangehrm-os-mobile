@@ -85,9 +85,7 @@ class AttendanceDetails extends React.Component<
         getWeekDayFromIndex(this.props.route.params.startDayIndex + 6),
         'YYYY-MM-DD',
       ),
-      empNumber: employeeAttendance
-        ? parseInt(employeeAttendance.employeeId, 10)
-        : undefined,
+      empNumber: employeeAttendance ? employeeAttendance.empNumber : undefined,
     };
     this.props.fetchHolidays(attendanceRequest);
     this.props.fetchWorkWeek();

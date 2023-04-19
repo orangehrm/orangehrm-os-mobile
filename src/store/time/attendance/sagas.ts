@@ -140,13 +140,13 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
-          statuses: ['1', '2', '3'], // pending approval, scheduled, taken
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
         },
       ),
     );
+
     if (response.data) {
       yield put(fetchLeaveRecordsFinished(response.data));
     } else {
