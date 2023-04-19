@@ -438,8 +438,29 @@ describe('lib/helpers/attendance', () => {
       sunday: 8,
     };
     const selectedDay = moment('2020-12-26');
-    const result = getWorkWeekResultOfTheSelectedDate(workweek, selectedDay);
+    let result = getWorkWeekResultOfTheSelectedDate(workweek, selectedDay); // Saturday
     expect(result).toBe(4);
+
+    result = getWorkWeekResultOfTheSelectedDate(workweek, moment('2023-04-19')); // Wednesday
+    expect(result).toBe(0);
+
+    result = getWorkWeekResultOfTheSelectedDate(workweek, moment('2023-04-23')); // Sunday
+    expect(result).toBe(8);
+
+    result = getWorkWeekResultOfTheSelectedDate(
+      undefined,
+      moment('2023-04-23'),
+    );
+    expect(result).toBe(-1);
+
+    result = getWorkWeekResultOfTheSelectedDate(undefined, undefined);
+    expect(result).toBe(-1);
+
+    result = getWorkWeekResultOfTheSelectedDate(workweek, undefined);
+    expect(result).toBe(-1);
+
+    result = getWorkWeekResultOfTheSelectedDate(workweek, moment('2024-02-29')); // Tuesday
+    expect(result).toBe(0);
   });
 
   test('getDurationFromHours', () => {

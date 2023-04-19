@@ -502,7 +502,7 @@ const getHolidayRecordsOfTheSelectedDate = (
 const getWorkWeekResultOfTheSelectedDate = (
   workweek?: WorkWeek,
   selectedDay?: moment.Moment,
-) => {
+): number => {
   if (workweek !== undefined && selectedDay !== undefined) {
     const days = [
       'sunday',
@@ -513,7 +513,7 @@ const getWorkWeekResultOfTheSelectedDate = (
       'friday',
       'saturday',
     ];
-    let hours;
+    let hours: number = -1;
     days.forEach((day) => {
       if (selectedDay.format('dddd').toLocaleLowerCase() === day) {
         const key = <MutableKeys<WorkWeek>>day;
