@@ -622,7 +622,6 @@ const getLeaveObject = (
 };
 
 const getGraphObject = (
-  // graphData: GraphRecordsDetailsArray[],
   workData: WorkSummaryGraphObject[],
   leaves: GraphRecordsLeaveObject[],
   totalWorkDuration: TotalTimeObject,
