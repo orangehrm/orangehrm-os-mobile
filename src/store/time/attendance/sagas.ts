@@ -219,8 +219,6 @@ function* fetchAttendanceGraphRecords(
       ),
     );
 
-    console.log(leaveResponse.data);
-
     const result = getGraphObject(
       workWeekResponse.data,
       leaveResponse.data,
