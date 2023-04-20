@@ -83,6 +83,7 @@ export interface AttendanceRequest {
 }
 
 export interface EmployeeJobDetails {
+  empNumber: number;
   jobTitle: {
     id: number;
     isDeleted: boolean;
@@ -135,6 +136,7 @@ export interface AttendanceState {
   attendanceConfiguration: AttendanceConfiguration;
   attendanceConfigurationFetched: boolean;
   employeeJobDetails?: EmployeeJobDetails;
+  employeeJobDetailsCache: Map<number, EmployeeJobDetails>;
 }
 
 export interface SingleLeave {

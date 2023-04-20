@@ -44,6 +44,7 @@ const initialState: AttendanceState = {
   attendanceConfiguration: {startDate: DEFAULT_START_DAY},
   attendanceConfigurationFetched: false,
   subordinates: new Map([['', []]]),
+  employeeJobDetailsCache: new Map(),
 };
 
 const myAttendanceReducer = (
@@ -95,11 +96,17 @@ const myAttendanceReducer = (
         ...state,
         employeeJobDetails: undefined,
       };
-    case FETCH_EMPLOYEE_JOB_DETAILS_FINISHED:
+    case FETCH_EMPLOYEE_JOB_DETAILS_FINISHED: {
+      const map = new Map(state.employeeJobDetailsCache.entries());
+      if (action.payload) {
+        map.set(action.payload?.empNumber, action.payload);
+      }
       return {
         ...state,
         employeeJobDetails: action.payload,
+        employeeJobDetailsCache: map,
       };
+    }
     case FETCH_HOLIDAYS_FINISHED:
       return {
         ...state,

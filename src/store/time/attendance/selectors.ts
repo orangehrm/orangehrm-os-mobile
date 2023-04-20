@@ -119,3 +119,9 @@ export const selectAttendanceConfigurationFetched = createSelector<
   [selectAttendaceState],
   (attendance) => attendance.attendanceConfigurationFetched,
 );
+
+export const selecEmployeeJobDetailsCache = createSelector<
+  RootState,
+  AttendanceState,
+  Map<number, EmployeeJobDetails>
+>([selectAttendaceState], (attendance) => attendance.employeeJobDetailsCache);

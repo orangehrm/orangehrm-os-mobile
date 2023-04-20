@@ -82,6 +82,7 @@ import {
 } from 'services/api';
 import {TYPE_ERROR} from 'store/globals/types';
 import {
+  selecEmployeeJobDetailsCache,
   selectAttendanceConfiguration,
   selectAttendanceConfigurationFetched,
 } from 'store/time/attendance/selectors';
@@ -185,6 +186,15 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
 
 function* fetchEmployeeJobDetails(action: FetchEmployeeJobDetailsAction) {
   try {
+    const employeeJobDetailsCache: Map<number, EmployeeJobDetails> =
+      yield select(selecEmployeeJobDetailsCache);
+
+    if (employeeJobDetailsCache.has(action.empNumber)) {
+      const employeeJobDetails = employeeJobDetailsCache.get(action.empNumber);
+      yield put(fetchEmployeeJobDetailsFinished(employeeJobDetails));
+      return;
+    }
+
     yield openLoader();
     const response: ApiResponse<EmployeeJobDetails> = yield apiCall(
       apiGetCall,
