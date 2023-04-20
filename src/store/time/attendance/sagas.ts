@@ -47,9 +47,9 @@ import {
   GraphRecordsLeaveObject,
   WorkSummaryGraphObject,
   TotalWorkDuration,
-  FetchJobRoleAction,
-  JobRole,
-  FETCH_JOB_ROLE,
+  FetchEmployeeJobDetailsAction,
+  EmployeeJobDetails,
+  FETCH_EMPLOYEE_JOB_DETAILS,
 } from './types';
 import {
   fetchAttendanceRecordsFinished,
@@ -60,7 +60,7 @@ import {
   fetchEmployeeAttendanceListFinished,
   fetchSubordinatesFinished,
   fetchAttendanceConfigurationFinished,
-  fetchJobRoleFinished,
+  fetchEmployeeJobDetailsFinished,
 } from './actions';
 import {
   API_ENDPOINT_LEAVE_HOLIDAYS,
@@ -82,6 +82,7 @@ import {
 } from 'services/api';
 import {TYPE_ERROR} from 'store/globals/types';
 import {
+  selecEmployeeJobDetailsCache,
   selectAttendanceConfiguration,
   selectAttendanceConfigurationFetched,
 } from 'store/time/attendance/selectors';
@@ -183,10 +184,19 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
   }
 }
 
-function* fetchJobRole(action: FetchJobRoleAction) {
+function* fetchEmployeeJobDetails(action: FetchEmployeeJobDetailsAction) {
   try {
+    const employeeJobDetailsCache: Map<number, EmployeeJobDetails> =
+      yield select(selecEmployeeJobDetailsCache);
+
+    if (employeeJobDetailsCache.has(action.empNumber)) {
+      const employeeJobDetails = employeeJobDetailsCache.get(action.empNumber);
+      yield put(fetchEmployeeJobDetailsFinished(employeeJobDetails));
+      return;
+    }
+
     yield openLoader();
-    const response: ApiResponse<JobRole> = yield apiCall(
+    const response: ApiResponse<EmployeeJobDetails> = yield apiCall(
       apiGetCall,
       prepare(API_ENDPOINT_JOB_ROLE_DETAILS, {
         empNumber: action.empNumber,
@@ -194,12 +204,12 @@ function* fetchJobRole(action: FetchJobRoleAction) {
     );
 
     if (response.data) {
-      yield put(fetchJobRoleFinished(response.data));
+      yield put(fetchEmployeeJobDetailsFinished(response.data));
     } else {
       if (response.getResponse().status === HTTP_NOT_FOUND) {
-        yield put(fetchJobRoleFinished(undefined));
+        yield put(fetchEmployeeJobDetailsFinished(undefined));
       } else {
-        yield put(fetchJobRoleFinished(undefined, true));
+        yield put(fetchEmployeeJobDetailsFinished(undefined, true));
         yield showSnackMessage(
           getMessageAlongWithResponseErrors(
             response,
@@ -211,7 +221,7 @@ function* fetchJobRole(action: FetchJobRoleAction) {
     }
   } catch (error) {
     yield showSnackMessage(
-      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Record'),
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Job Details'),
       TYPE_ERROR,
     );
     yield put(fetchLeaveRecordsFinished(undefined, true));
@@ -399,7 +409,6 @@ function* fetchEmployeeAttendanceList(
 
 function* fetchAccessibleEmployees(action: FetchSubordinatesAction) {
   try {
-    yield openLoader();
     const queryParams = {
       nameOrId: action.nameOrId,
     };
@@ -430,8 +439,6 @@ function* fetchAccessibleEmployees(action: FetchSubordinatesAction) {
       TYPE_ERROR,
     );
     yield put(fetchSubordinatesFinished(action, undefined, true));
-  } finally {
-    yield closeLoader();
   }
 }
 
@@ -496,5 +503,5 @@ export function* watchAttendanceActions() {
   yield takeEvery(FETCH_EMPLOYEE_ATTENDANCE_LIST, fetchEmployeeAttendanceList);
   yield takeEvery(FETCH_ATTENDANCE_CONFIGURATION, fetchAttendanceConfiguration);
   yield takeEvery(FETCH_SUBORDINATES, fetchAccessibleEmployees);
-  yield takeEvery(FETCH_JOB_ROLE, fetchJobRole);
+  yield takeEvery(FETCH_EMPLOYEE_JOB_DETAILS, fetchEmployeeJobDetails);
 }

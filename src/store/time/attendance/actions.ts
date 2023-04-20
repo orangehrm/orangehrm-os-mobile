@@ -58,11 +58,11 @@ import {
   AttendanceRequest,
   GraphRecordsObject,
   SingleEmployeeAttendance,
-  FetchJobRoleAction,
-  FETCH_JOB_ROLE,
-  JobRole,
-  FetchJobRoleFinishedAction,
-  FETCH_JOB_ROLE_DETAILS_FINISHED,
+  FetchEmployeeJobDetailsAction,
+  FETCH_EMPLOYEE_JOB_DETAILS,
+  EmployeeJobDetails,
+  FetchEmployeeJobDetailsFinishedAction,
+  FETCH_EMPLOYEE_JOB_DETAILS_FINISHED,
 } from './types';
 import {$PropertyType} from 'utility-types';
 import {Holiday, WorkWeek} from 'store/leave/common-screens/types';
@@ -99,11 +99,11 @@ export const fetchLeaveRecordsFinished = (
   error,
 });
 
-export const fetchJobRoleFinished = (
-  payload?: JobRole,
+export const fetchEmployeeJobDetailsFinished = (
+  payload?: EmployeeJobDetails,
   error: boolean = false,
-): FetchJobRoleFinishedAction => ({
-  type: FETCH_JOB_ROLE_DETAILS_FINISHED,
+): FetchEmployeeJobDetailsFinishedAction => ({
+  type: FETCH_EMPLOYEE_JOB_DETAILS_FINISHED,
   payload,
   error,
 });
@@ -115,8 +115,10 @@ export const fetchAttendanceGraphRecords = (
   payload,
 });
 
-export const fetchJobRole = (empNumber: number): FetchJobRoleAction => ({
-  type: FETCH_JOB_ROLE,
+export const fetchEmployeeJobDetails = (
+  empNumber: number,
+): FetchEmployeeJobDetailsAction => ({
+  type: FETCH_EMPLOYEE_JOB_DETAILS,
   empNumber,
 });
 

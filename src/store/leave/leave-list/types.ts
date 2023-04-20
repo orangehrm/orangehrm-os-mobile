@@ -213,10 +213,6 @@ export interface LeaveRequestCommentModel {
     firstName: string;
     middleName: string;
     employeeId: string;
-    // TODO:: remove
-    employeeTerminationRecord: {
-      terminationId: null | number;
-    };
     terminationId: null | number;
   };
   comment: string;

@@ -25,7 +25,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput as RNTextInput,
-  RefreshControl,
 } from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import SafeAreaLayout from 'layouts/SafeAreaLayout';
@@ -36,6 +35,7 @@ import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
 import Avatar from 'components/DefaultAvatar';
 import TextInput, {TextInputProps} from 'components/DefaultTextInput';
+import Spinner from 'components/DefaultSpinner';
 import {EmployeeObject} from 'store/time/attendance/types';
 import {getFirstAndLastNames} from 'lib/helpers/name';
 import {
@@ -63,25 +63,15 @@ class AttendancePickEmployee extends React.Component<
 
   componentDidMount() {
     if (this.props.subordinates === undefined) {
-      this.onRefresh();
+      this.fetchSubordinates(this.state.text);
     }
   }
 
   componentDidUpdate(prevProps: AttendancePickEmployeeProps) {
     if (prevProps !== this.props && this.props.subordinates === undefined) {
-      this.onRefresh();
+      this.fetchSubordinates(this.state.text);
     }
   }
-
-  onRefresh = () => {
-    this.fetchSubordinates('');
-  };
-
-  filterFunction = (text: string) => (item: EmployeeObject) => {
-    const fullName = getFirstAndLastNames(item);
-    const regex = new RegExp(text, 'i');
-    return item.employeeId.includes(text) || regex.test(fullName);
-  };
 
   pickEmployee = (employee: EmployeeObject) => () => {
     this.props.pickSubordinate(employee);
@@ -97,15 +87,6 @@ class AttendancePickEmployee extends React.Component<
   render() {
     const {theme, subordinates} = this.props;
     const {text} = this.state;
-
-    let filteredData = subordinates;
-    if (text !== '') {
-      const filterFn = this.filterFunction(text);
-      filteredData = subordinates?.filter(filterFn);
-    } else {
-      filteredData = subordinates;
-    }
-
     const paddingRight = theme.spacing * 6;
 
     return (
@@ -132,7 +113,7 @@ class AttendancePickEmployee extends React.Component<
             />
           </View>
           <View style={[styles.row, styles.flex]}>
-            {filteredData === undefined || filteredData.length === 0 ? (
+            {subordinates?.get(text)?.length === 0 ? (
               <View style={[styles.row, styles.flex, styles.center]}>
                 <Text
                   style={{
@@ -143,6 +124,14 @@ class AttendancePickEmployee extends React.Component<
               </View>
             ) : (
               <FlatList
+                ListEmptyComponent={
+                  <View
+                    style={{
+                      paddingTop: theme.spacing * 4,
+                    }}>
+                    <Spinner />
+                  </View>
+                }
                 ItemSeparatorComponent={() => {
                   return <Divider />;
                 }}
@@ -154,7 +143,7 @@ class AttendancePickEmployee extends React.Component<
                     }}
                   />
                 }
-                data={filteredData}
+                data={subordinates?.get(text)}
                 renderItem={({item}) => {
                   const fullName = getFirstAndLastNames(item);
                   return (
@@ -192,12 +181,6 @@ class AttendancePickEmployee extends React.Component<
                 }}
                 keyExtractor={(item) => item.empNumber.toString()}
                 keyboardShouldPersistTaps="handled"
-                refreshControl={
-                  <RefreshControl
-                    refreshing={false}
-                    onRefresh={this.onRefresh}
-                  />
-                }
               />
             )}
           </View>

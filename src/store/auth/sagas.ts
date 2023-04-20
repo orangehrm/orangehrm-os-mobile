@@ -265,20 +265,17 @@ function* fetchMenuItems(action?: FetchMenuItemsAction) {
           }),
         );
       } else {
-        throw new InstanceCheckError('Failed to Load Enabled Modules.');
+        throw new InstanceCheckError('Failed to Load Menu Items.');
       }
     } else {
-      throw new InstanceCheckError('Failed to Load Enabled Modules.');
+      throw new InstanceCheckError('Failed to Load Menu Items.');
     }
   } catch (error) {
     if (error instanceof InstanceCheckError && action === undefined) {
       throw error;
     }
     yield showSnackMessage(
-      getMessageAlongWithGenericErrors(
-        error,
-        'Failed to Load Enabled Modules.',
-      ),
+      getMessageAlongWithGenericErrors(error, 'Failed to Load Menu Items.'),
       TYPE_ERROR,
     );
     yield put(fetchMenuItemsFinished(undefined, true));

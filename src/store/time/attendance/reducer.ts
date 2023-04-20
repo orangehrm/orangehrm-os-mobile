@@ -35,13 +35,16 @@ import {
   PICK_SUBORDINATE,
   AttendanceState,
   AttendanceActionTypes,
-  FETCH_JOB_ROLE_DETAILS_FINISHED,
+  FETCH_EMPLOYEE_JOB_DETAILS,
+  FETCH_EMPLOYEE_JOB_DETAILS_FINISHED,
 } from './types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
 const initialState: AttendanceState = {
   attendanceConfiguration: {startDate: DEFAULT_START_DAY},
   attendanceConfigurationFetched: false,
+  subordinates: new Map([['', []]]),
+  employeeJobDetailsCache: new Map(),
 };
 
 const myAttendanceReducer = (
@@ -88,11 +91,22 @@ const myAttendanceReducer = (
         ...state,
         graphObject: action.payload,
       };
-    case FETCH_JOB_ROLE_DETAILS_FINISHED:
+    case FETCH_EMPLOYEE_JOB_DETAILS:
       return {
         ...state,
-        jobRole: action.payload,
+        employeeJobDetails: undefined,
       };
+    case FETCH_EMPLOYEE_JOB_DETAILS_FINISHED: {
+      const map = new Map(state.employeeJobDetailsCache.entries());
+      if (action.payload) {
+        map.set(action.payload?.empNumber, action.payload);
+      }
+      return {
+        ...state,
+        employeeJobDetails: action.payload,
+        employeeJobDetailsCache: map,
+      };
+    }
     case FETCH_HOLIDAYS_FINISHED:
       return {
         ...state,
@@ -116,14 +130,17 @@ const myAttendanceReducer = (
         ...state,
         employeeList: action.payload,
       };
-    case FETCH_SUBORDINATES_FINISHED:
+    case FETCH_SUBORDINATES_FINISHED: {
       if (action.error) {
         return state;
       }
+      const map = new Map(state.subordinates.entries());
+      map.set(action.sourceAction.nameOrId, action.payload ?? []);
       return {
         ...state,
-        subordinates: action.payload,
+        subordinates: map,
       };
+    }
     case FETCH_ATTENDANCE_CONFIGURATION_FINISHED:
       if (action.error) {
         return state;
