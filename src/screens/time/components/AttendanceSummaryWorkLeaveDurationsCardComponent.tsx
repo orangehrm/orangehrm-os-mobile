@@ -259,7 +259,7 @@ interface AttendanceSummaryWorkLeaveDurationsCardComponentProps {
   totalWorkDuration: string;
   leaveData: GraphLeaveType[];
   onPressDetails: (selectedDate?: Moment) => void;
-  empNumber?: string;
+  empNumber?: number;
   employeeName?: string;
   jobTitle?: NullableString;
   mode: Mode;

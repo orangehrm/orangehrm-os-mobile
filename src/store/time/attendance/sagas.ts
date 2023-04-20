@@ -41,10 +41,15 @@ import {
   FETCH_ATTENDANCE_CONFIGURATION,
   AttendanceConfiguration,
   LeaveObject,
-  GraphRecordsObject,
   SingleEmployeeAttendance,
-  WorkSummaryObject,
   EmployeeObject,
+  AttendanceConfig,
+  GraphRecordsLeaveObject,
+  WorkSummaryGraphObject,
+  TotalWorkDuration,
+  FetchJobRoleAction,
+  JobRole,
+  FETCH_JOB_ROLE,
 } from './types';
 import {
   fetchAttendanceRecordsFinished,
@@ -55,10 +60,9 @@ import {
   fetchEmployeeAttendanceListFinished,
   fetchSubordinatesFinished,
   fetchAttendanceConfigurationFinished,
+  fetchJobRoleFinished,
 } from './actions';
 import {
-  API_ENDPOINT_LEAVE,
-  API_ENDPOINT_ATTENDANCE_GRAPH,
   API_ENDPOINT_LEAVE_HOLIDAYS,
   API_ENDPOINT_LEAVE_WORK_WEEK,
   API_ENDPOINT_ATTENDANCE_LIST,
@@ -67,6 +71,9 @@ import {
   prepare,
   API_ENDPOINT_PUNCH_IN_OUT_REQUEST,
   API_ENDPOINT_ATTENDANCE_WORK_SUMMARY,
+  API_ENDPOINT_GRAPH_LEAVE_RECORDS,
+  API_ENDPOINT_EMPLOYEE_PUNCH_IN_OUT_REQUEST,
+  API_ENDPOINT_JOB_ROLE_DETAILS,
 } from 'services/endpoints';
 import {
   getMessageAlongWithGenericErrors,
@@ -78,7 +85,7 @@ import {
   selectAttendanceConfiguration,
   selectAttendanceConfigurationFetched,
 } from 'store/time/attendance/selectors';
-import {AttendanceObject} from './types';
+import {AttendanceObject, FetchSubordinatesAction} from './types';
 import {Holiday, WorkWeek} from 'store/leave/common-screens/types';
 import {getCurrentTimeZoneOffset, getGraphObject} from 'lib/helpers/attendance';
 
@@ -88,13 +95,17 @@ function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
     const response: ApiResponse<AttendanceObject[]> = yield apiCall(
       apiGetCall,
       prepare(
-        API_ENDPOINT_PUNCH_IN_OUT_REQUEST,
-        {},
+        action.payload.empNumber
+          ? API_ENDPOINT_EMPLOYEE_PUNCH_IN_OUT_REQUEST
+          : API_ENDPOINT_PUNCH_IN_OUT_REQUEST,
         {
-          date: action.payload.fromDate,
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
+        },
+        {
+          fromDate: action.payload.fromDate,
+          toDate: action.payload.toDate,
         },
       ),
     );
@@ -132,20 +143,19 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
     const response: ApiResponse<LeaveObject[]> = yield apiCall(
       apiGetCall,
       prepare(
-        API_ENDPOINT_LEAVE,
+        API_ENDPOINT_GRAPH_LEAVE_RECORDS,
         {},
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
-          pendingApproval: true,
-          scheduled: true,
-          taken: true,
+          statuses: ['1', '2', '3'], // pending approval, scheduled, taken
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
         },
       ),
     );
+
     if (response.data) {
       yield put(fetchLeaveRecordsFinished(response.data));
     } else {
@@ -173,30 +183,53 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
   }
 }
 
+function* fetchJobRole(action: FetchJobRoleAction) {
+  try {
+    yield openLoader();
+    const response: ApiResponse<JobRole> = yield apiCall(
+      apiGetCall,
+      prepare(API_ENDPOINT_JOB_ROLE_DETAILS, {
+        empNumber: action.empNumber,
+      }),
+    );
+
+    if (response.data) {
+      yield put(fetchJobRoleFinished(response.data));
+    } else {
+      if (response.getResponse().status === HTTP_NOT_FOUND) {
+        yield put(fetchJobRoleFinished(undefined));
+      } else {
+        yield put(fetchJobRoleFinished(undefined, true));
+        yield showSnackMessage(
+          getMessageAlongWithResponseErrors(
+            response,
+            'Failed to Fetch Job Details',
+          ),
+          TYPE_ERROR,
+        );
+      }
+    }
+  } catch (error) {
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Record'),
+      TYPE_ERROR,
+    );
+    yield put(fetchLeaveRecordsFinished(undefined, true));
+  } finally {
+    yield closeLoader();
+  }
+}
+
 function* fetchAttendanceGraphRecords(
   action: FetchAttendanceGraphRecordsAction,
 ) {
   try {
     yield openLoader();
 
-    const graphResponse: ApiResponse<GraphRecordsObject> = yield apiCall(
-      apiGetCall,
-      prepare(
-        API_ENDPOINT_ATTENDANCE_GRAPH,
-        {},
-        {
-          fromDate: action.payload.fromDate,
-          toDate: action.payload.toDate,
-          includeEmployees: 'onlyCurrent',
-          statuses: ['1', '2', '3'],
-          ...(action.payload.empNumber && {
-            empNumber: action.payload.empNumber,
-          }),
-        },
-      ),
-    );
-
-    const workWeekResponse: ApiResponse<WorkSummaryObject> = yield apiCall(
+    const workSummaryResponse: ApiResponse<
+      WorkSummaryGraphObject[],
+      TotalWorkDuration
+    > = yield apiCall(
       apiGetCall,
       prepare(
         API_ENDPOINT_ATTENDANCE_WORK_SUMMARY,
@@ -212,7 +245,27 @@ function* fetchAttendanceGraphRecords(
       ),
     );
 
-    const result = getGraphObject(graphResponse.data, workWeekResponse.data);
+    const leaveResponse: ApiResponse<GraphRecordsLeaveObject[]> = yield apiCall(
+      apiGetCall,
+      prepare(
+        API_ENDPOINT_GRAPH_LEAVE_RECORDS,
+        {},
+        {
+          fromDate: action.payload.fromDate,
+          toDate: action.payload.toDate,
+          statuses: ['1', '2', '3'], // pending approval, scheduled, taken
+          ...(action.payload.empNumber && {
+            empNumber: action.payload.empNumber,
+          }),
+        },
+      ),
+    );
+
+    const result = getGraphObject(
+      workSummaryResponse.data,
+      leaveResponse.data,
+      workSummaryResponse.meta?.currentWeek.totalTime,
+    );
 
     if (result) {
       yield put(fetchAttendanceGraphRecordsFinished(result));
@@ -313,6 +366,9 @@ function* fetchEmployeeAttendanceList(
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
+          ...(action.payload.empNumber && {
+            empNumber: action.payload.empNumber,
+          }),
         },
       ),
     );
@@ -341,21 +397,25 @@ function* fetchEmployeeAttendanceList(
   }
 }
 
-function* fetchAccessibleEmployees() {
+function* fetchAccessibleEmployees(action: FetchSubordinatesAction) {
   try {
     yield openLoader();
     const queryParams = {
-      actionName: 'attendance_records',
-      properties: ['firstName', 'lastName', 'employeeId'],
+      nameOrId: action.nameOrId,
     };
+    if (action.nameOrId === '') {
+      yield put(fetchSubordinatesFinished(action, []));
+      return;
+    }
     const response: ApiResponse<EmployeeObject[]> = yield apiCall(
       apiGetCall,
       prepare(API_ENDPOINT_EMPLOYEES, {}, queryParams),
     );
+
     if (response.data) {
-      yield put(fetchSubordinatesFinished(response.data));
+      yield put(fetchSubordinatesFinished(action, response.data));
     } else {
-      yield put(fetchSubordinatesFinished(undefined, true));
+      yield put(fetchSubordinatesFinished(action, undefined, true));
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(
           response,
@@ -369,7 +429,7 @@ function* fetchAccessibleEmployees() {
       getMessageAlongWithGenericErrors(error, 'Failed to Fetch Subordinates'),
       TYPE_ERROR,
     );
-    yield put(fetchSubordinatesFinished(undefined, true));
+    yield put(fetchSubordinatesFinished(action, undefined, true));
   } finally {
     yield closeLoader();
   }
@@ -392,13 +452,17 @@ function* fetchAttendanceConfiguration() {
     }
 
     yield openLoader();
-    const response: ApiResponse<AttendanceConfiguration> = yield apiCall(
+    const response: ApiResponse<AttendanceConfig> = yield apiCall(
       apiGetCall,
       prepare(API_ENDPOINT_ATTENDANCE_CONFIGURATION),
     );
 
     if (response.data) {
-      yield put(fetchAttendanceConfigurationFinished({startDate: 2}));
+      yield put(
+        fetchAttendanceConfigurationFinished({
+          startDate: parseInt(response.data.startDay, 10),
+        }),
+      );
     } else {
       yield showSnackMessage(
         getMessageAlongWithResponseErrors(
@@ -432,4 +496,5 @@ export function* watchAttendanceActions() {
   yield takeEvery(FETCH_EMPLOYEE_ATTENDANCE_LIST, fetchEmployeeAttendanceList);
   yield takeEvery(FETCH_ATTENDANCE_CONFIGURATION, fetchAttendanceConfiguration);
   yield takeEvery(FETCH_SUBORDINATES, fetchAccessibleEmployees);
+  yield takeEvery(FETCH_JOB_ROLE, fetchJobRole);
 }

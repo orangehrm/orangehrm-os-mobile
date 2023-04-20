@@ -24,7 +24,6 @@ import {AttendanceObject} from 'store/time/attendance/types';
 import Icon from 'components/DefaultIcon';
 import Chip from 'components/DefaultChip';
 import Divider from 'components/DefaultDivider';
-import {PUNCHED_OUT} from 'store/time/punch/types';
 import {
   calculateDurationBasedOnTimezone,
   getUTCMomentObjectFromString,
@@ -56,7 +55,7 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
           </>
         ) : null}
         {attendanceRecords.map((attendanceRecord, key) => {
-          return attendanceRecord.state === PUNCHED_OUT ? (
+          return attendanceRecord.punchOut.userDate ? (
             <View key={key} style={{marginLeft: theme.spacing * 1.5}}>
               <View style={[styles.flexOne, {marginTop: theme.spacing * 5}]}>
                 <View style={[styles.rowFlexDirection]}>
@@ -76,7 +75,9 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                       <Text>
                         {convertDateObjectToStringFormat(
                           getUTCMomentObjectFromString(
-                            attendanceRecord.punchInUserTime,
+                            attendanceRecord.punchIn.userDate +
+                              'T' +
+                              attendanceRecord.punchIn.userTime,
                           ),
                           'hh:mm A',
                         )}
@@ -92,7 +93,9 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                       <Text>
                         {convertDateObjectToStringFormat(
                           getUTCMomentObjectFromString(
-                            attendanceRecord.punchOutUserTime,
+                            attendanceRecord.punchOut.userDate +
+                              'T' +
+                              attendanceRecord.punchOut.userTime,
                           ),
                           'hh:mm A',
                         )}
@@ -141,8 +144,8 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                                 </Text>
                               </View>
                             </View>
-                            {attendanceRecord.punchInNote !== null &&
-                            attendanceRecord.punchInNote.length > 0 ? (
+                            {attendanceRecord.punchIn.note !== null &&
+                            attendanceRecord.punchIn.note.length > 0 ? (
                               <>
                                 <View
                                   style={[
@@ -161,7 +164,7 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                                       paddingLeft: theme.spacing * 2.5,
                                       marginRight: theme.spacing * 15,
                                     }}>
-                                    {attendanceRecord.punchInNote}
+                                    {attendanceRecord.punchIn.note}
                                   </Text>
                                 </View>
                               </>
@@ -173,8 +176,8 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                     <View
                       style={[
                         styles.rowFlexDirection,
-                        attendanceRecord.punchInNote !== null &&
-                        attendanceRecord.punchInNote.length > 0
+                        attendanceRecord.punchIn.note !== null &&
+                        attendanceRecord.punchIn.note.length > 0
                           ? undefined
                           : {paddingTop: theme.spacing * 10},
                       ]}>
@@ -236,17 +239,29 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                             <Text
                               style={{color: theme.typography.secondaryColor}}>
                               {calculateDurationBasedOnTimezone(
-                                attendanceRecord.punchInUserTime,
-                                attendanceRecord.punchOutUserTime,
-                                parseFloat(attendanceRecord.punchInTimeOffset),
-                                parseFloat(attendanceRecord.punchOutTimeOffset),
+                                attendanceRecord.punchIn.userDate +
+                                  'T' +
+                                  attendanceRecord.punchIn.userTime,
+                                attendanceRecord.punchOut.userDate +
+                                  'T' +
+                                  attendanceRecord.punchOut.userTime,
+                                parseFloat(
+                                  attendanceRecord.punchIn.userDate +
+                                    'T' +
+                                    attendanceRecord.punchIn.userTime,
+                                ),
+                                parseFloat(
+                                  attendanceRecord.punchOut.userDate +
+                                    'T' +
+                                    attendanceRecord.punchOut.userTime,
+                                ),
                               )}
                               {' Hours'}
                             </Text>
                           </Chip>
                         </View>
-                        {attendanceRecord.punchOutNote !== null &&
-                        attendanceRecord.punchOutNote.length > 0 ? (
+                        {attendanceRecord.punchOut.note !== null &&
+                        attendanceRecord.punchOut.note.length > 0 ? (
                           <>
                             <View
                               style={[
@@ -268,7 +283,7 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                                     marginRight: theme.spacing * 15,
                                   },
                                 ]}>
-                                {attendanceRecord.punchOutNote}
+                                {attendanceRecord.punchOut.note}
                               </Text>
                             </View>
                           </>
@@ -304,7 +319,9 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                         {' '}
                         {convertDateObjectToStringFormat(
                           getUTCMomentObjectFromString(
-                            attendanceRecord.punchInUserTime,
+                            attendanceRecord.punchIn.userDate +
+                              'T' +
+                              attendanceRecord.punchIn.userTime,
                           ),
                           'hh:mm A',
                         )}
@@ -355,8 +372,8 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                                 </Text>
                               </View>
                             </View>
-                            {attendanceRecord.punchInNote !== null &&
-                            attendanceRecord.punchInNote.length > 0 ? (
+                            {attendanceRecord.punchIn.note !== null &&
+                            attendanceRecord.punchIn.note.length > 0 ? (
                               <>
                                 <View
                                   style={[
@@ -374,7 +391,7 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                                       paddingLeft: theme.spacing * 2.5,
                                       marginRight: theme.spacing * 15,
                                     }}>
-                                    {attendanceRecord.punchInNote}
+                                    {attendanceRecord.punchIn.note}
                                   </Text>
                                 </View>
                               </>

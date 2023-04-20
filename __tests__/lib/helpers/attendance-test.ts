@@ -41,7 +41,6 @@ import {
 } from 'lib/helpers/attendance';
 import moment from 'moment';
 import {Holiday, WorkWeek} from 'store/leave/common-screens/types';
-import {LeaveStatus} from 'store/leave/leave-usage/types';
 
 describe('lib/helpers/attendance', () => {
   test('convertDateObjToISOFormat:: check YYYY-MM-DD HH:mm', () => {
@@ -157,50 +156,50 @@ describe('lib/helpers/attendance', () => {
       totalLeaveHours: 6.5,
       totalLeaveTypeHours: [
         {
-          typeId: '2',
+          typeId: 2,
           type: 'Medical',
-          hours: '6.50',
+          hours: 6.5,
         },
       ],
       workSummary: {
         sunday: {
-          workHours: '0',
+          workHours: 0,
           leave: [],
         },
         monday: {
-          workHours: '0',
+          workHours: 0,
           leave: [],
         },
         tuesday: {
-          workHours: '0',
+          workHours: 0,
           leave: [
             {
-              typeId: '2',
+              typeId: 2,
               type: 'Medical',
-              hours: '2.50',
+              hours: 2.5,
             },
           ],
         },
         wednesday: {
-          workHours: '29.28',
+          workHours: 29.28,
           leave: [
             {
-              typeId: '2',
+              typeId: 2,
               type: 'Medical',
-              hours: '4.00',
+              hours: 4.0,
             },
           ],
         },
         thursday: {
-          workHours: '3.78',
+          workHours: 3.78,
           leave: [],
         },
         friday: {
-          workHours: '1.88',
+          workHours: 1.88,
           leave: [],
         },
         saturday: {
-          workHours: '0.92',
+          workHours: 0.92,
           leave: [],
         },
       },
@@ -224,50 +223,50 @@ describe('lib/helpers/attendance', () => {
       totalLeaveHours: 6.5,
       totalLeaveTypeHours: [
         {
-          typeId: '2',
+          typeId: 2,
           type: 'Medical',
-          hours: '6.50',
+          hours: 6.5,
         },
       ],
       workSummary: {
         sunday: {
-          workHours: '0',
+          workHours: 0,
           leave: [],
         },
         monday: {
-          workHours: '0',
+          workHours: 0,
           leave: [],
         },
         tuesday: {
-          workHours: '0',
+          workHours: 0,
           leave: [
             {
-              typeId: '2',
+              typeId: 2,
               type: 'Medical',
-              hours: '2.50',
+              hours: 2.5,
             },
           ],
         },
         wednesday: {
-          workHours: '29.28',
+          workHours: 29.28,
           leave: [
             {
-              typeId: '2',
+              typeId: 2,
               type: 'Medical',
-              hours: '4.00',
+              hours: 4.0,
             },
           ],
         },
         thursday: {
-          workHours: '3.78',
+          workHours: 3.78,
           leave: [],
         },
         friday: {
-          workHours: '1.88',
+          workHours: 1.88,
           leave: [],
         },
         saturday: {
-          workHours: '0.92',
+          workHours: 0.92,
           leave: [],
         },
       },
@@ -289,7 +288,7 @@ describe('lib/helpers/attendance', () => {
           {x: 'Sa', y: 0},
           {x: 'Su', y: 0},
         ],
-        id: '2',
+        id: 2,
       },
     ]);
   });
@@ -298,52 +297,24 @@ describe('lib/helpers/attendance', () => {
     const selectedDay = moment('2020-12-17 07:40');
     const attendanceObjects = [
       {
-        id: '76',
-        punchInUtcTime: '2020-12-16 09:45:00',
-        punchInNote: '',
-        punchInTimeOffset: '5.5',
-        punchInUserTime: '2020-12-16 15:15:00',
-        punchOutUtcTime: '2020-12-17 15:02:00',
-        punchOutNote: '',
-        punchOutTimeOffset: '-2',
-        punchOutUserTime: '2020-12-17 13:02:00',
-        state: 'PUNCHED OUT',
-      },
-      {
-        id: '77',
-        punchInUtcTime: '2020-12-17 15:04:00',
-        punchInNote: '',
-        punchInTimeOffset: '-2',
-        punchInUserTime: '2020-12-17 13:04:00',
-        punchOutUtcTime: '2020-12-17 15:06:00',
-        punchOutNote: '',
-        punchOutTimeOffset: '-11',
-        punchOutUserTime: '2020-12-17 04:06:00',
-        state: 'PUNCHED OUT',
-      },
-      {
-        id: '78',
-        punchInUtcTime: '2020-12-17 19:30:00',
-        punchInNote: '',
-        punchInTimeOffset: '-11',
-        punchInUserTime: '2020-12-17 08:30:00',
-        punchOutUtcTime: '2020-12-17 23:15:00',
-        punchOutNote: '',
-        punchOutTimeOffset: '-2',
-        punchOutUserTime: '2020-12-17 21:15:00',
-        state: 'PUNCHED OUT',
-      },
-      {
-        id: '82',
-        punchInUtcTime: '2020-12-18 18:40:00',
-        punchInNote: '',
-        punchInTimeOffset: '-11',
-        punchInUserTime: '2020-12-18 07:40:00',
-        punchOutUtcTime: '2020-12-18 18:43:00',
-        punchOutNote: '',
-        punchOutTimeOffset: '-11',
-        punchOutUserTime: '2020-12-18 07:43:00',
-        state: 'PUNCHED OUT',
+        id: 76,
+        punchIn: {
+          note: '',
+          offset: '-11',
+          utcDate: '2020-12-17',
+          utcTime: '13:04:00',
+          userTime: '13:04:00',
+          userDate: '2020-12-17',
+        },
+        punchOut: {
+          note: '',
+          offset: '-11',
+          utcDate: '2020-12-17',
+          utcTime: '15:04:00',
+          userTime: '15:04:00',
+          userDate: '2020-12-17',
+        },
+        duration: '',
       },
     ];
     const result = getAttendanceRecordsOfTheSelectedDate(
@@ -352,28 +323,24 @@ describe('lib/helpers/attendance', () => {
     );
     expect(result).toStrictEqual([
       {
-        id: '77',
-        punchInNote: '',
-        punchInTimeOffset: '-2',
-        punchInUserTime: '2020-12-17 13:04:00',
-        punchInUtcTime: '2020-12-17 15:04:00',
-        punchOutNote: '',
-        punchOutTimeOffset: '-11',
-        punchOutUserTime: '2020-12-17 04:06:00',
-        punchOutUtcTime: '2020-12-17 15:06:00',
-        state: 'PUNCHED OUT',
-      },
-      {
-        id: '78',
-        punchInNote: '',
-        punchInTimeOffset: '-11',
-        punchInUserTime: '2020-12-17 08:30:00',
-        punchInUtcTime: '2020-12-17 19:30:00',
-        punchOutNote: '',
-        punchOutTimeOffset: '-2',
-        punchOutUserTime: '2020-12-17 21:15:00',
-        punchOutUtcTime: '2020-12-17 23:15:00',
-        state: 'PUNCHED OUT',
+        id: 76,
+        punchIn: {
+          note: '',
+          offset: '-11',
+          utcDate: '2020-12-17',
+          utcTime: '13:04:00',
+          userTime: '13:04:00',
+          userDate: '2020-12-17',
+        },
+        punchOut: {
+          note: '',
+          offset: '-11',
+          utcDate: '2020-12-17',
+          utcTime: '15:04:00',
+          userTime: '15:04:00',
+          userDate: '2020-12-17',
+        },
+        duration: '',
       },
     ]);
   });
@@ -388,11 +355,15 @@ describe('lib/helpers/attendance', () => {
         lengthDays: '0.5000',
         leaveType: {
           id: 2,
-          type: 'Medical',
+          name: 'Medical',
+          deleted: false,
         },
         startTime: '09:00:00',
         endTime: '13:00:00',
-        status: <LeaveStatus>'PENDING APPROVAL',
+        status: {
+          id: 1,
+          name: 'PENDING APPROVAL',
+        },
       },
       {
         id: '2',
@@ -401,11 +372,15 @@ describe('lib/helpers/attendance', () => {
         lengthDays: '0.3125',
         leaveType: {
           id: 1,
-          type: 'Test',
+          name: 'Test',
+          deleted: false,
         },
         startTime: '09:00:00',
         endTime: '11:30:00',
-        status: <LeaveStatus>'TAKEN',
+        status: {
+          id: 1,
+          name: 'TAKEN',
+        },
       },
     ];
     const result = getLeaveRecordsOfTheSelectedDate(leaveObjects, selectedDay);
@@ -417,11 +392,15 @@ describe('lib/helpers/attendance', () => {
         lengthDays: '0.5000',
         leaveType: {
           id: 2,
-          type: 'Medical',
+          name: 'Medical',
+          deleted: false,
         },
         startTime: '09:00:00',
         endTime: '13:00:00',
-        status: 'PENDING APPROVAL',
+        status: {
+          id: 1,
+          name: 'PENDING APPROVAL',
+        },
       },
     ]);
   });
@@ -470,8 +449,29 @@ describe('lib/helpers/attendance', () => {
       sunday: 8,
     };
     const selectedDay = moment('2020-12-26');
-    const result = getWorkWeekResultOfTheSelectedDate(workweek, selectedDay);
+    let result = getWorkWeekResultOfTheSelectedDate(workweek, selectedDay); // Saturday
     expect(result).toBe(4);
+
+    result = getWorkWeekResultOfTheSelectedDate(workweek, moment('2023-04-19')); // Wednesday
+    expect(result).toBe(0);
+
+    result = getWorkWeekResultOfTheSelectedDate(workweek, moment('2023-04-23')); // Sunday
+    expect(result).toBe(8);
+
+    result = getWorkWeekResultOfTheSelectedDate(
+      undefined,
+      moment('2023-04-23'),
+    );
+    expect(result).toBe(-1);
+
+    result = getWorkWeekResultOfTheSelectedDate(undefined, undefined);
+    expect(result).toBe(-1);
+
+    result = getWorkWeekResultOfTheSelectedDate(workweek, undefined);
+    expect(result).toBe(-1);
+
+    result = getWorkWeekResultOfTheSelectedDate(workweek, moment('2024-02-29')); // Tuesday
+    expect(result).toBe(0);
   });
 
   test('getDurationFromHours', () => {

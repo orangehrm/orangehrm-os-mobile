@@ -18,7 +18,6 @@
  *
  */
 
-import {LeaveStatus} from 'store/leave/leave-usage/types';
 import {WorkWeek, Holiday} from 'store/leave/common-screens/types';
 import {Moment} from 'moment';
 
@@ -33,14 +32,9 @@ export interface GraphDataPoint {
   x: string;
   y: number;
 }
-export interface GraphData {
-  day: string;
-  typeId: string;
-  data: GraphDataPoint[];
-}
 
 export interface GraphLeaveType {
-  typeId: string;
+  typeId: number;
   type: string;
   duration: string;
   colour: string;
@@ -64,26 +58,36 @@ export interface WorkWeekObject {
 }
 
 export interface LeaveTypeGraphData {
-  id: string;
+  id: number;
   colour: string;
   data: GraphDataPoint[];
 }
 
 export interface EmployeeObject {
-  empNumber: string;
+  empNumber: number;
   lastName: string;
   firstName: string;
   employeeId: string;
+  terminationId: number;
 }
 export interface LeaveType {
   id: number;
-  type: string;
+  name: string;
+  deleted: boolean;
 }
 
 export interface AttendanceRequest {
   fromDate: string;
   toDate: string;
   empNumber?: number;
+}
+
+export interface JobRole {
+  jobTitle: {
+    id: number;
+    isDeleted: boolean;
+    title: string;
+  };
 }
 
 export interface LeaveObject {
@@ -94,7 +98,12 @@ export interface LeaveObject {
   leaveType: LeaveType;
   startTime: string;
   endTime: string;
-  status: LeaveStatus;
+  status: LeaveStatusObject;
+}
+
+export interface LeaveStatusObject {
+  id: number;
+  name: string;
 }
 
 export interface AttendanceObject {
@@ -125,10 +134,12 @@ export interface AttendanceState {
   selectedSubordinate?: EmployeeObject;
   attendanceConfiguration: AttendanceConfiguration;
   attendanceConfigurationFetched: boolean;
+
+  jobRole?: JobRole;
 }
 
 export interface SingleLeave {
-  typeId: string;
+  typeId: number;
   type: string;
   hours: number;
 }
@@ -148,11 +159,56 @@ export interface WorkSummaryObject {
   saturday: WorkSummarySingleDay;
 }
 
+export interface WorkSummaryGraphObject {
+  workDay: WorkDayObject;
+  totalTime: TotalTimeObject;
+}
+
+export interface WorkDayObject {
+  date: string;
+  day: string;
+  id: string;
+}
+
+export interface TotalTimeObject {
+  hours: number;
+  minutes: number;
+}
+
 export interface GraphRecordsObject {
   totalWorkHours: number;
   totalLeaveHours: number;
   totalLeaveTypeHours: SingleLeave[];
   workSummary: WorkSummaryObject;
+}
+
+export interface GraphRecordsLeaveObject {
+  leaveType: LeaveTypeGraph;
+  lengthHours: number;
+  date: string;
+}
+
+export interface TotalWorkDuration {
+  currentWeek: currentWeeks;
+}
+
+export interface currentWeeks {
+  totalTime: {
+    hours: number;
+    minutes: number;
+  };
+}
+
+export interface GraphRecordsDetails {
+  typeId: number;
+  type: string;
+  hours: number;
+}
+
+export interface LeaveTypeGraph {
+  id: number;
+  name: string;
+  deleted: boolean;
 }
 
 export const SHORT_SUNDAY = 'Su';
@@ -177,11 +233,13 @@ export const FETCH_ATTENDANCE_RECORDS =
 export const FETCH_LEAVE_RECORDS = 'LEAVE_RECORDS_FETCH_LEAVE_RECORDS';
 export const FETCH_ATTENDANCE_GRAPH_RECORDS =
   'ATTENDANCE_GRAPH_FETCH_ATTENDANCE_GRAPH';
-
+export const FETCH_JOB_ROLE = 'FETCH_JOB_ROLE';
 export const FETCH_ATTENDANCE_RECORDS_FINISHED =
   'ATTENDANCE_RECORDS_FETCH_ATTENDANCE_RECORDS_FINISHED';
 export const FETCH_LEAVE_RECORDS_FINISHED =
   'LEAVE_RECORDS_FETCH_LEAVE_RECORDS_FINISHED';
+export const FETCH_JOB_ROLE_DETAILS_FINISHED =
+  'FETCH_JOB_ROLE_DETAILS_FINISHED';
 export const FETCH_ATTENDANCE_GRAPH_RECORDS_FINISHED =
   'ATTENDANCE_GRAPH_FETCH_ATTENDANCE_GRAPH_FINISHED';
 
@@ -227,9 +285,20 @@ export interface FetchLeaveRecordsFinishedAction {
   error: boolean;
 }
 
+export interface FetchJobRoleFinishedAction {
+  type: typeof FETCH_JOB_ROLE_DETAILS_FINISHED;
+  payload?: JobRole;
+  error: boolean;
+}
+
 export interface FetchAttendanceGraphRecordsAction {
   type: typeof FETCH_ATTENDANCE_GRAPH_RECORDS;
   payload: AttendanceRequest;
+}
+
+export interface FetchJobRoleAction {
+  type: typeof FETCH_JOB_ROLE;
+  empNumber: number;
 }
 
 export interface FetchAttendanceGraphRecordsFinishedAction {
@@ -264,6 +333,7 @@ export interface SingleEmployeeAttendance {
   empNumber: number;
   firstName: string;
   lastName: string;
+  terminationId: number;
   sum: {
     hours: number;
     label: string;
@@ -275,10 +345,14 @@ export interface AttendanceConfiguration {
   startDate: number;
 }
 
+export interface AttendanceConfig {
+  startDay: string;
+}
+
 export interface EmployeeAttendanceListRequest {
   fromDate: string;
   toDate: string;
-  empNumber?: string;
+  empNumber?: number;
   pastEmployee?: boolean;
 }
 
@@ -295,11 +369,13 @@ export interface FetchEmployeeAttendanceListFinishedAction {
 
 export interface FetchSubordinatesAction {
   type: typeof FETCH_SUBORDINATES;
+  nameOrId: string;
 }
 
 export interface FetchSubordinatesFinishedAction {
   type: typeof FETCH_SUBORDINATES_FINISHED;
   payload?: EmployeeObject[];
+  sourceAction: FetchSubordinatesAction;
   error: boolean;
 }
 
@@ -335,4 +411,6 @@ export type AttendanceActionTypes =
   | FetchSubordinatesFinishedAction
   | PickSubordinateAction
   | FetchAttendanceConfigurationAction
+  | FetchJobRoleAction
+  | FetchJobRoleFinishedAction
   | FetchAttendanceConfigurationFinishedAction;

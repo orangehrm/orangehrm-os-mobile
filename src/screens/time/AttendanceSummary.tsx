@@ -30,6 +30,7 @@ import {
   fetchLeaveRecords,
   fetchAttendanceGraphRecords,
   fetchAttendanceConfiguration,
+  fetchJobRole,
 } from 'store/time/attendance/actions';
 import {
   AttendanceRequest,
@@ -48,6 +49,7 @@ import {
   selectAttendanceConfiguration,
   selectStartDay,
   selectEndDay,
+  selectJobRole,
 } from 'store/time/attendance/selectors';
 import AttendanceDailyChartComponent from 'screens/time/components/AttendanceDailyChartComponent';
 import AttendanceSummaryWorkLeaveDurationsCardComponent from 'screens/time/components/AttendanceSummaryWorkLeaveDurationsCardComponent';
@@ -116,7 +118,7 @@ class AttendanceSummary extends React.Component<
     navigate<AttendanceDetailsScreenParam>(route, {
       startDayIndex: this.state.startDayIndex,
       employeeAttendance,
-      employeeName: this.props.route.params?.employeeAttendance
+      employeeName: this.props.route.params.employeeAttendance
         ? getFirstAndLastNames(this.props.route.params.employeeAttendance)
         : undefined,
       selectedDate: selectedDate,
@@ -208,7 +210,7 @@ class AttendanceSummary extends React.Component<
     const {params: {employeeAttendance} = {}} = this.props.route;
     let empNumber;
     if (employeeAttendance !== undefined) {
-      empNumber = parseInt(employeeAttendance.employeeId, 10);
+      empNumber = employeeAttendance.empNumber;
     }
 
     const startDate = convertDateObjectToStringFormat(
@@ -218,6 +220,7 @@ class AttendanceSummary extends React.Component<
     const endDate = convertDateObjectToStringFormat(weekEndDate, 'YYYY-MM-DD');
     let attendanceRequest: AttendanceRequest;
     if (empNumber !== undefined) {
+      this.props.fetchJobRole(empNumber);
       attendanceRequest = {
         fromDate: startDate,
         toDate: endDate,
@@ -290,12 +293,11 @@ class AttendanceSummary extends React.Component<
     const empNumber = this.props.route.params
       ? this.props.route.params.employeeAttendance?.empNumber
       : undefined;
-    const employeeName = this.props.route.params.employeeAttendance
+    const employeeName = this.props.route.params?.employeeAttendance
       ? getFirstAndLastNames(this.props.route.params.employeeAttendance)
       : undefined;
-    // TODO
-    const employeeJobTitle = this.props.route.params
-      ? this.props.route.params.employeeAttendance?.jobTitle
+    const employeeJobTitle = this.props.jobRole?.jobTitle.title
+      ? this.props.jobRole?.jobTitle.title
       : undefined;
 
     const dateOfMonth = calculateDateOfMonth(
@@ -392,7 +394,7 @@ interface AttendanceSummaryState {
   graphLeaveData: LeaveTypeGraphData[];
   graphWorkData: GraphDataPoint[];
   employeeName?: string;
-  empNumber?: string;
+  empNumber?: number;
   configFetched: boolean;
   resetted: boolean;
 }
@@ -405,6 +407,7 @@ const mapStateToProps = (state: RootState) => ({
   attendanceConfiguration: selectAttendanceConfiguration(state),
   weekStartDay: selectStartDay(state),
   weekEndDay: selectEndDay(state),
+  jobRole: selectJobRole(state),
 });
 
 const mapDispatchToProps = {
@@ -412,6 +415,7 @@ const mapDispatchToProps = {
   fetchLeaveRecords,
   fetchAttendanceGraphRecords,
   fetchAttendanceConfiguration,
+  fetchJobRole,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

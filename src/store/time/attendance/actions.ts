@@ -58,6 +58,11 @@ import {
   AttendanceRequest,
   GraphRecordsObject,
   SingleEmployeeAttendance,
+  FetchJobRoleAction,
+  FETCH_JOB_ROLE,
+  JobRole,
+  FetchJobRoleFinishedAction,
+  FETCH_JOB_ROLE_DETAILS_FINISHED,
 } from './types';
 import {$PropertyType} from 'utility-types';
 import {Holiday, WorkWeek} from 'store/leave/common-screens/types';
@@ -94,11 +99,25 @@ export const fetchLeaveRecordsFinished = (
   error,
 });
 
+export const fetchJobRoleFinished = (
+  payload?: JobRole,
+  error: boolean = false,
+): FetchJobRoleFinishedAction => ({
+  type: FETCH_JOB_ROLE_DETAILS_FINISHED,
+  payload,
+  error,
+});
+
 export const fetchAttendanceGraphRecords = (
   payload: $PropertyType<FetchAttendanceGraphRecordsAction, 'payload'>,
 ): FetchAttendanceGraphRecordsAction => ({
   type: FETCH_ATTENDANCE_GRAPH_RECORDS,
   payload,
+});
+
+export const fetchJobRole = (empNumber: number): FetchJobRoleAction => ({
+  type: FETCH_JOB_ROLE,
+  empNumber,
 });
 
 export const fetchAttendanceGraphRecordsFinished = (
@@ -172,15 +191,20 @@ export const fetchEmployeeAttendanceListFinished = (
 /**
  * Fetch subordinates for attendance list
  */
-export const fetchSubordinates = (): FetchSubordinatesAction => ({
+export const fetchSubordinates = (
+  nameOrId: string,
+): FetchSubordinatesAction => ({
   type: FETCH_SUBORDINATES,
+  nameOrId,
 });
 
 export const fetchSubordinatesFinished = (
+  sourceAction: FetchSubordinatesAction,
   payload?: $PropertyType<FetchSubordinatesFinishedAction, 'payload'>,
   error: boolean = false,
 ): FetchSubordinatesFinishedAction => ({
   type: FETCH_SUBORDINATES_FINISHED,
+  sourceAction,
   payload,
   error,
 });
