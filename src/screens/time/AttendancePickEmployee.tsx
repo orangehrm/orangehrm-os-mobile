@@ -90,7 +90,7 @@ class AttendancePickEmployee extends React.Component<
   onChangeText = (text: string) => {
     this.setState({text});
 
-    this.fetchSubordinates(text);
+    this.props.fetchSubordinates(text);
   };
 
   render() {
@@ -189,7 +189,7 @@ class AttendancePickEmployee extends React.Component<
                     </TouchableOpacity>
                   );
                 }}
-                keyExtractor={(item) => item.empNumber}
+                keyExtractor={(item) => item.empNumber.toString()}
                 keyboardShouldPersistTaps="handled"
                 refreshControl={
                   <RefreshControl

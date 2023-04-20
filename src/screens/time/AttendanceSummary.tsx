@@ -116,8 +116,8 @@ class AttendanceSummary extends React.Component<
     navigate<AttendanceDetailsScreenParam>(route, {
       startDayIndex: this.state.startDayIndex,
       employeeAttendance,
-      employeeName: this.props.route.params?.employeeAttendance
-        ? getFirstAndLastNames(this.props.route.params?.employeeAttendance)
+      employeeName: this.props.route.params.employeeAttendance
+        ? getFirstAndLastNames(this.props.route.params.employeeAttendance)
         : undefined,
       selectedDate: selectedDate,
       leaveTypesInputData: this.props.graphRecords?.totalLeaveTypeHours,
@@ -392,7 +392,7 @@ interface AttendanceSummaryState {
   graphLeaveData: LeaveTypeGraphData[];
   graphWorkData: GraphDataPoint[];
   employeeName?: string;
-  empNumber?: string;
+  empNumber?: number;
   configFetched: boolean;
   resetted: boolean;
 }

@@ -184,7 +184,7 @@ function* fetchAttendanceGraphRecords(
   try {
     yield openLoader();
 
-    const workWeekResponse: ApiResponse<
+    const workSummaryResponse: ApiResponse<
       WorkSummaryGraphObject[],
       TotalWorkDuration
     > = yield apiCall(
@@ -220,9 +220,9 @@ function* fetchAttendanceGraphRecords(
     );
 
     const result = getGraphObject(
-      workWeekResponse.data,
+      workSummaryResponse.data,
       leaveResponse.data,
-      workWeekResponse.meta?.currentWeek.totalTime,
+      workSummaryResponse.meta?.currentWeek.totalTime,
     );
 
     if (result) {

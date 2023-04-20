@@ -22,8 +22,6 @@ import {WorkWeek, Holiday} from 'store/leave/common-screens/types';
 import {Moment} from 'moment';
 
 export const DEFAULT_START_DAY = 1;
-export const ADMIN = 'Admin';
-export const ESS = 'ESS';
 
 export interface DaySelectorSingleDay {
   date: Moment;
@@ -181,22 +179,17 @@ export interface GraphRecordsLeaveObject {
 }
 
 export interface TotalWorkDuration {
-  currentWeek: currentWeekObject;
+  currentWeek: currentWeeks;
 }
 
-export interface currentWeekObject {
+export interface currentWeeks {
   totalTime: {
     hours: number;
     minutes: number;
   };
 }
 
-export interface GraphRecordsDetailsArray {
-  leaveType: LeaveTypeGraph;
-  noOfDays: number;
-}
-
-export interface GraphRecordsDetailsObject {
+export interface GraphRecordsDetails {
   typeId: number;
   type: string;
   hours: number;
