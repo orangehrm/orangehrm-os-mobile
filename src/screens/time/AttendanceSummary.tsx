@@ -30,7 +30,7 @@ import {
   fetchLeaveRecords,
   fetchAttendanceGraphRecords,
   fetchAttendanceConfiguration,
-  fetchJobRole,
+  fetchEmployeeJobDetails,
 } from 'store/time/attendance/actions';
 import {
   AttendanceRequest,
@@ -49,7 +49,7 @@ import {
   selectAttendanceConfiguration,
   selectStartDay,
   selectEndDay,
-  selectJobRole,
+  selectEmployeeJobDetails,
 } from 'store/time/attendance/selectors';
 import AttendanceDailyChartComponent from 'screens/time/components/AttendanceDailyChartComponent';
 import AttendanceSummaryWorkLeaveDurationsCardComponent from 'screens/time/components/AttendanceSummaryWorkLeaveDurationsCardComponent';
@@ -220,7 +220,7 @@ class AttendanceSummary extends React.Component<
     const endDate = convertDateObjectToStringFormat(weekEndDate, 'YYYY-MM-DD');
     let attendanceRequest: AttendanceRequest;
     if (empNumber !== undefined) {
-      this.props.fetchJobRole(empNumber);
+      this.props.fetchEmployeeJobDetails(empNumber);
       attendanceRequest = {
         fromDate: startDate,
         toDate: endDate,
@@ -296,8 +296,8 @@ class AttendanceSummary extends React.Component<
     const employeeName = this.props.route.params?.employeeAttendance
       ? getFirstAndLastNames(this.props.route.params.employeeAttendance)
       : undefined;
-    const employeeJobTitle = this.props.jobRole?.jobTitle.title
-      ? this.props.jobRole?.jobTitle.title
+    const employeeJobTitle = this.props.employeeJobDetails?.jobTitle.title
+      ? this.props.employeeJobDetails?.jobTitle.title
       : undefined;
 
     const dateOfMonth = calculateDateOfMonth(
@@ -407,7 +407,7 @@ const mapStateToProps = (state: RootState) => ({
   attendanceConfiguration: selectAttendanceConfiguration(state),
   weekStartDay: selectStartDay(state),
   weekEndDay: selectEndDay(state),
-  jobRole: selectJobRole(state),
+  employeeJobDetails: selectEmployeeJobDetails(state),
 });
 
 const mapDispatchToProps = {
@@ -415,7 +415,7 @@ const mapDispatchToProps = {
   fetchLeaveRecords,
   fetchAttendanceGraphRecords,
   fetchAttendanceConfiguration,
-  fetchJobRole,
+  fetchEmployeeJobDetails,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

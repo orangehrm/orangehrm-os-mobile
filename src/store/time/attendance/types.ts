@@ -82,7 +82,7 @@ export interface AttendanceRequest {
   empNumber?: number;
 }
 
-export interface JobRole {
+export interface EmployeeJobDetails {
   jobTitle: {
     id: number;
     isDeleted: boolean;
@@ -130,12 +130,11 @@ export interface AttendanceState {
   holidays?: Holiday[];
   workWeek?: WorkWeek;
   employeeList?: SingleEmployeeAttendance[];
-  subordinates?: EmployeeObject[];
+  subordinates: Map<string, EmployeeObject[]>;
   selectedSubordinate?: EmployeeObject;
   attendanceConfiguration: AttendanceConfiguration;
   attendanceConfigurationFetched: boolean;
-
-  jobRole?: JobRole;
+  employeeJobDetails?: EmployeeJobDetails;
 }
 
 export interface SingleLeave {
@@ -233,13 +232,14 @@ export const FETCH_ATTENDANCE_RECORDS =
 export const FETCH_LEAVE_RECORDS = 'LEAVE_RECORDS_FETCH_LEAVE_RECORDS';
 export const FETCH_ATTENDANCE_GRAPH_RECORDS =
   'ATTENDANCE_GRAPH_FETCH_ATTENDANCE_GRAPH';
-export const FETCH_JOB_ROLE = 'FETCH_JOB_ROLE';
+export const FETCH_EMPLOYEE_JOB_DETAILS =
+  'ATTENDANCE_FETCH_EMPLOYEE_JOB_DETAILS';
 export const FETCH_ATTENDANCE_RECORDS_FINISHED =
   'ATTENDANCE_RECORDS_FETCH_ATTENDANCE_RECORDS_FINISHED';
 export const FETCH_LEAVE_RECORDS_FINISHED =
   'LEAVE_RECORDS_FETCH_LEAVE_RECORDS_FINISHED';
-export const FETCH_JOB_ROLE_DETAILS_FINISHED =
-  'FETCH_JOB_ROLE_DETAILS_FINISHED';
+export const FETCH_EMPLOYEE_JOB_DETAILS_FINISHED =
+  'LEAVE_FETCH_EMPLOYEE_JOB_DETAILS_FINISHED';
 export const FETCH_ATTENDANCE_GRAPH_RECORDS_FINISHED =
   'ATTENDANCE_GRAPH_FETCH_ATTENDANCE_GRAPH_FINISHED';
 
@@ -285,9 +285,9 @@ export interface FetchLeaveRecordsFinishedAction {
   error: boolean;
 }
 
-export interface FetchJobRoleFinishedAction {
-  type: typeof FETCH_JOB_ROLE_DETAILS_FINISHED;
-  payload?: JobRole;
+export interface FetchEmployeeJobDetailsFinishedAction {
+  type: typeof FETCH_EMPLOYEE_JOB_DETAILS_FINISHED;
+  payload?: EmployeeJobDetails;
   error: boolean;
 }
 
@@ -296,8 +296,8 @@ export interface FetchAttendanceGraphRecordsAction {
   payload: AttendanceRequest;
 }
 
-export interface FetchJobRoleAction {
-  type: typeof FETCH_JOB_ROLE;
+export interface FetchEmployeeJobDetailsAction {
+  type: typeof FETCH_EMPLOYEE_JOB_DETAILS;
   empNumber: number;
 }
 
@@ -411,6 +411,6 @@ export type AttendanceActionTypes =
   | FetchSubordinatesFinishedAction
   | PickSubordinateAction
   | FetchAttendanceConfigurationAction
-  | FetchJobRoleAction
-  | FetchJobRoleFinishedAction
+  | FetchEmployeeJobDetailsAction
+  | FetchEmployeeJobDetailsFinishedAction
   | FetchAttendanceConfigurationFinishedAction;

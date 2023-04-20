@@ -29,7 +29,7 @@ import {
   SingleEmployeeAttendance,
   EmployeeObject,
   AttendanceConfiguration,
-  JobRole,
+  EmployeeJobDetails,
 } from './types';
 import {WorkWeek, Holiday} from 'store/leave/common-screens/types';
 import moment from 'moment';
@@ -54,11 +54,11 @@ export const selectAttendanceGraphRecords = createSelector<
   GraphRecordsObject | undefined
 >([selectAttendaceState], (attendance) => attendance.graphObject);
 
-export const selectJobRole = createSelector<
+export const selectEmployeeJobDetails = createSelector<
   RootState,
   AttendanceState,
-  JobRole | undefined
->([selectAttendaceState], (attendance) => attendance.jobRole);
+  EmployeeJobDetails | undefined
+>([selectAttendaceState], (attendance) => attendance.employeeJobDetails);
 
 export const selectHolidays = createSelector<
   RootState,
@@ -81,7 +81,7 @@ export const selectEmployeeAttendanceList = createSelector<
 export const selectSubordinates = createSelector<
   RootState,
   AttendanceState,
-  EmployeeObject[] | undefined
+  Map<string, EmployeeObject[]> | undefined
 >([selectAttendaceState], (attendance) => attendance.subordinates);
 
 export const selectPickedSubordinate = createSelector<
