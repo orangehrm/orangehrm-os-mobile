@@ -50,6 +50,7 @@ class AttendancePickEmployee extends React.Component<
   AttendancePickEmployeeState
 > {
   fetchSubordinates: DebouncedFunc<(text: string) => {}>;
+
   constructor(props: AttendancePickEmployeeProps) {
     super(props);
     this.fetchSubordinates = debounce((text: string) => {
