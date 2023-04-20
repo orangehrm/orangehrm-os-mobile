@@ -82,6 +82,14 @@ export interface AttendanceRequest {
   empNumber?: number;
 }
 
+export interface JobRole {
+  jobTitle: {
+    id: number;
+    isDeleted: boolean;
+    title: string;
+  };
+}
+
 export interface LeaveObject {
   id: string;
   date: string;
@@ -126,6 +134,8 @@ export interface AttendanceState {
   selectedSubordinate?: EmployeeObject;
   attendanceConfiguration: AttendanceConfiguration;
   attendanceConfigurationFetched: boolean;
+
+  jobRole?: JobRole;
 }
 
 export interface SingleLeave {
@@ -223,11 +233,13 @@ export const FETCH_ATTENDANCE_RECORDS =
 export const FETCH_LEAVE_RECORDS = 'LEAVE_RECORDS_FETCH_LEAVE_RECORDS';
 export const FETCH_ATTENDANCE_GRAPH_RECORDS =
   'ATTENDANCE_GRAPH_FETCH_ATTENDANCE_GRAPH';
-
+export const FETCH_JOB_ROLE = 'FETCH_JOB_ROLE';
 export const FETCH_ATTENDANCE_RECORDS_FINISHED =
   'ATTENDANCE_RECORDS_FETCH_ATTENDANCE_RECORDS_FINISHED';
 export const FETCH_LEAVE_RECORDS_FINISHED =
   'LEAVE_RECORDS_FETCH_LEAVE_RECORDS_FINISHED';
+export const FETCH_JOB_ROLE_DETAILS_FINISHED =
+  'FETCH_JOB_ROLE_DETAILS_FINISHED';
 export const FETCH_ATTENDANCE_GRAPH_RECORDS_FINISHED =
   'ATTENDANCE_GRAPH_FETCH_ATTENDANCE_GRAPH_FINISHED';
 
@@ -273,9 +285,20 @@ export interface FetchLeaveRecordsFinishedAction {
   error: boolean;
 }
 
+export interface FetchJobRoleFinishedAction {
+  type: typeof FETCH_JOB_ROLE_DETAILS_FINISHED;
+  payload?: JobRole;
+  error: boolean;
+}
+
 export interface FetchAttendanceGraphRecordsAction {
   type: typeof FETCH_ATTENDANCE_GRAPH_RECORDS;
   payload: AttendanceRequest;
+}
+
+export interface FetchJobRoleAction {
+  type: typeof FETCH_JOB_ROLE;
+  empNumber: number;
 }
 
 export interface FetchAttendanceGraphRecordsFinishedAction {
@@ -388,4 +411,6 @@ export type AttendanceActionTypes =
   | FetchSubordinatesFinishedAction
   | PickSubordinateAction
   | FetchAttendanceConfigurationAction
+  | FetchJobRoleAction
+  | FetchJobRoleFinishedAction
   | FetchAttendanceConfigurationFinishedAction;

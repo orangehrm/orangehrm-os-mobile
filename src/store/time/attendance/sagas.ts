@@ -47,6 +47,9 @@ import {
   GraphRecordsLeaveObject,
   WorkSummaryGraphObject,
   TotalWorkDuration,
+  FetchJobRoleAction,
+  JobRole,
+  FETCH_JOB_ROLE,
 } from './types';
 import {
   fetchAttendanceRecordsFinished,
@@ -57,6 +60,7 @@ import {
   fetchEmployeeAttendanceListFinished,
   fetchSubordinatesFinished,
   fetchAttendanceConfigurationFinished,
+  fetchJobRoleFinished,
 } from './actions';
 import {
   API_ENDPOINT_LEAVE_HOLIDAYS,
@@ -69,6 +73,7 @@ import {
   API_ENDPOINT_ATTENDANCE_WORK_SUMMARY,
   API_ENDPOINT_GRAPH_LEAVE_RECORDS,
   API_ENDPOINT_EMPLOYEE_PUNCH_IN_OUT_REQUEST,
+  API_ENDPOINT_JOB_ROLE_DETAILS,
 } from 'services/endpoints';
 import {
   getMessageAlongWithGenericErrors,
@@ -162,6 +167,43 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
           getMessageAlongWithResponseErrors(
             response,
             'Failed to Fetch Leave Details',
+          ),
+          TYPE_ERROR,
+        );
+      }
+    }
+  } catch (error) {
+    yield showSnackMessage(
+      getMessageAlongWithGenericErrors(error, 'Failed to Fetch Record'),
+      TYPE_ERROR,
+    );
+    yield put(fetchLeaveRecordsFinished(undefined, true));
+  } finally {
+    yield closeLoader();
+  }
+}
+
+function* fetchJobRole(action: FetchJobRoleAction) {
+  try {
+    yield openLoader();
+    const response: ApiResponse<JobRole> = yield apiCall(
+      apiGetCall,
+      prepare(API_ENDPOINT_JOB_ROLE_DETAILS, {
+        empNumber: action.empNumber,
+      }),
+    );
+
+    if (response.data) {
+      yield put(fetchJobRoleFinished(response.data));
+    } else {
+      if (response.getResponse().status === HTTP_NOT_FOUND) {
+        yield put(fetchJobRoleFinished(undefined));
+      } else {
+        yield put(fetchJobRoleFinished(undefined, true));
+        yield showSnackMessage(
+          getMessageAlongWithResponseErrors(
+            response,
+            'Failed to Fetch Job Details',
           ),
           TYPE_ERROR,
         );
@@ -454,4 +496,5 @@ export function* watchAttendanceActions() {
   yield takeEvery(FETCH_EMPLOYEE_ATTENDANCE_LIST, fetchEmployeeAttendanceList);
   yield takeEvery(FETCH_ATTENDANCE_CONFIGURATION, fetchAttendanceConfiguration);
   yield takeEvery(FETCH_SUBORDINATES, fetchAccessibleEmployees);
+  yield takeEvery(FETCH_JOB_ROLE, fetchJobRole);
 }

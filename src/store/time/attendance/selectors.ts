@@ -29,6 +29,7 @@ import {
   SingleEmployeeAttendance,
   EmployeeObject,
   AttendanceConfiguration,
+  JobRole,
 } from './types';
 import {WorkWeek, Holiday} from 'store/leave/common-screens/types';
 import moment from 'moment';
@@ -52,6 +53,12 @@ export const selectAttendanceGraphRecords = createSelector<
   AttendanceState,
   GraphRecordsObject | undefined
 >([selectAttendaceState], (attendance) => attendance.graphObject);
+
+export const selectJobRole = createSelector<
+  RootState,
+  AttendanceState,
+  JobRole | undefined
+>([selectAttendaceState], (attendance) => attendance.jobRole);
 
 export const selectHolidays = createSelector<
   RootState,

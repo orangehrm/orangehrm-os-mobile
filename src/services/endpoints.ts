@@ -65,9 +65,6 @@ export const API_ENDPOINT_PUNCH_IN_OUT_REQUEST = '/api/v2/attendance/records';
 export const API_ENDPOINT_EMPLOYEE_PUNCH_IN_OUT_REQUEST =
   '/api/v2/attendance/employees/{empNumber}/records';
 export const API_ENDPOINT_ATTENDANCE_CONFIG = '/api/v2/attendance/configs';
-export const API_ENDPOINT_ATTENDANCE_GRAPH = '/api/v2/leave/leave-requests';
-export const API_ENDPOINT_EMPLOYEE_ATTENDANCE_GRAPH =
-  '/api/v2/leave/employees/leave-requests';
 export const API_ENDPOINT_ATTENDANCE_WORK_SUMMARY =
   '/api/v2/dashboard/employees/time-at-work';
 export const API_ENDPOINT_GRAPH_LEAVE_RECORDS =
@@ -76,6 +73,8 @@ export const API_ENDPOINT_ATTENDANCE_LIST =
   '/api/v2/attendance/employees/summary';
 export const API_ENDPOINT_ATTENDANCE_CONFIGURATION =
   '/api/v2/time/time-sheet-period';
+export const API_ENDPOINT_JOB_ROLE_DETAILS =
+  '/api/v2/pim/employees/{empNumber}/job-details';
 
 //help
 export const HELP_REDIRECT_URL =

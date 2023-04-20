@@ -41,7 +41,6 @@ import {
 } from 'lib/helpers/attendance';
 import moment from 'moment';
 import {Holiday, WorkWeek} from 'store/leave/common-screens/types';
-import {LeaveStatus} from 'store/leave/leave-usage/types';
 
 describe('lib/helpers/attendance', () => {
   test('convertDateObjToISOFormat:: check YYYY-MM-DD HH:mm', () => {
@@ -157,50 +156,50 @@ describe('lib/helpers/attendance', () => {
       totalLeaveHours: 6.5,
       totalLeaveTypeHours: [
         {
-          typeId: '2',
+          typeId: 2,
           type: 'Medical',
-          hours: '6.50',
+          hours: 6.5,
         },
       ],
       workSummary: {
         sunday: {
-          workHours: '0',
+          workHours: 0,
           leave: [],
         },
         monday: {
-          workHours: '0',
+          workHours: 0,
           leave: [],
         },
         tuesday: {
-          workHours: '0',
+          workHours: 0,
           leave: [
             {
-              typeId: '2',
+              typeId: 2,
               type: 'Medical',
-              hours: '2.50',
+              hours: 2.5,
             },
           ],
         },
         wednesday: {
-          workHours: '29.28',
+          workHours: 29.28,
           leave: [
             {
-              typeId: '2',
+              typeId: 2,
               type: 'Medical',
-              hours: '4.00',
+              hours: 4.0,
             },
           ],
         },
         thursday: {
-          workHours: '3.78',
+          workHours: 3.78,
           leave: [],
         },
         friday: {
-          workHours: '1.88',
+          workHours: 1.88,
           leave: [],
         },
         saturday: {
-          workHours: '0.92',
+          workHours: 0.92,
           leave: [],
         },
       },
@@ -224,50 +223,50 @@ describe('lib/helpers/attendance', () => {
       totalLeaveHours: 6.5,
       totalLeaveTypeHours: [
         {
-          typeId: '2',
+          typeId: 2,
           type: 'Medical',
-          hours: '6.50',
+          hours: 6.5,
         },
       ],
       workSummary: {
         sunday: {
-          workHours: '0',
+          workHours: 0,
           leave: [],
         },
         monday: {
-          workHours: '0',
+          workHours: 0,
           leave: [],
         },
         tuesday: {
-          workHours: '0',
+          workHours: 0,
           leave: [
             {
-              typeId: '2',
+              typeId: 2,
               type: 'Medical',
-              hours: '2.50',
+              hours: 2.5,
             },
           ],
         },
         wednesday: {
-          workHours: '29.28',
+          workHours: 29.28,
           leave: [
             {
-              typeId: '2',
+              typeId: 2,
               type: 'Medical',
-              hours: '4.00',
+              hours: 4.0,
             },
           ],
         },
         thursday: {
-          workHours: '3.78',
+          workHours: 3.78,
           leave: [],
         },
         friday: {
-          workHours: '1.88',
+          workHours: 1.88,
           leave: [],
         },
         saturday: {
-          workHours: '0.92',
+          workHours: 0.92,
           leave: [],
         },
       },
@@ -289,7 +288,7 @@ describe('lib/helpers/attendance', () => {
           {x: 'Sa', y: 0},
           {x: 'Su', y: 0},
         ],
-        id: '2',
+        id: 2,
       },
     ]);
   });
@@ -356,11 +355,15 @@ describe('lib/helpers/attendance', () => {
         lengthDays: '0.5000',
         leaveType: {
           id: 2,
-          type: 'Medical',
+          name: 'Medical',
+          deleted: false,
         },
         startTime: '09:00:00',
         endTime: '13:00:00',
-        status: <LeaveStatus>'PENDING APPROVAL',
+        status: {
+          id: 1,
+          name: 'PENDING APPROVAL',
+        },
       },
       {
         id: '2',
@@ -369,11 +372,15 @@ describe('lib/helpers/attendance', () => {
         lengthDays: '0.3125',
         leaveType: {
           id: 1,
-          type: 'Test',
+          name: 'Test',
+          deleted: false,
         },
         startTime: '09:00:00',
         endTime: '11:30:00',
-        status: <LeaveStatus>'TAKEN',
+        status: {
+          id: 1,
+          name: 'TAKEN',
+        },
       },
     ];
     const result = getLeaveRecordsOfTheSelectedDate(leaveObjects, selectedDay);
@@ -385,11 +392,15 @@ describe('lib/helpers/attendance', () => {
         lengthDays: '0.5000',
         leaveType: {
           id: 2,
-          type: 'Medical',
+          name: 'Medical',
+          deleted: false,
         },
         startTime: '09:00:00',
         endTime: '13:00:00',
-        status: 'PENDING APPROVAL',
+        status: {
+          id: 1,
+          name: 'PENDING APPROVAL',
+        },
       },
     ]);
   });

@@ -35,6 +35,7 @@ import {
   PICK_SUBORDINATE,
   AttendanceState,
   AttendanceActionTypes,
+  FETCH_JOB_ROLE_DETAILS_FINISHED,
 } from './types';
 import {LOGOUT, WithLogoutAction} from 'store/auth/types';
 
@@ -86,6 +87,11 @@ const myAttendanceReducer = (
       return {
         ...state,
         graphObject: action.payload,
+      };
+    case FETCH_JOB_ROLE_DETAILS_FINISHED:
+      return {
+        ...state,
+        jobRole: action.payload,
       };
     case FETCH_HOLIDAYS_FINISHED:
       return {
