@@ -211,12 +211,15 @@ function* fetchAttendanceGraphRecords(
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
+          statuses: ['1', '2', '3'], // pending approval, scheduled, taken
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),
         },
       ),
     );
+
+    console.log(leaveResponse.data);
 
     const result = getGraphObject(
       workWeekResponse.data,
