@@ -149,7 +149,7 @@ class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
               <View style={styles.textView}>
                 <Text>
                   {
-                    'The mobile application is only supported with OrangeHRM Open Source Web Version 4.5 Onwards.'
+                    'The mobile application is compatible exclusively with OrangeHRM Open Source Web Version 5.4 and newer versions thereafter.'
                   }
                 </Text>
               </View>
