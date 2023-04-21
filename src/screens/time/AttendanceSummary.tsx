@@ -118,7 +118,7 @@ class AttendanceSummary extends React.Component<
     navigate<AttendanceDetailsScreenParam>(route, {
       startDayIndex: this.state.startDayIndex,
       employeeAttendance,
-      employeeName: this.props.route.params.employeeAttendance
+      employeeName: this.props.route.params?.employeeAttendance
         ? getFirstAndLastNames(this.props.route.params.employeeAttendance)
         : undefined,
       selectedDate: selectedDate,
@@ -290,7 +290,7 @@ class AttendanceSummary extends React.Component<
 
   render() {
     const {theme, graphRecords, weekStartDay} = this.props;
-    const empNumber = this.props.route.params
+    const empNumber = this.props.route.params?.employeeAttendance
       ? this.props.route.params.employeeAttendance?.empNumber
       : undefined;
     const employeeName = this.props.route.params?.employeeAttendance
