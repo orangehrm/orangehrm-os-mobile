@@ -18,7 +18,10 @@
  *
  */
 
-import {OAUTH_ENDPOINT_TOKEN} from 'services/endpoints';
+import {
+  V1_OAUTH_ENDPOINT_ISSUE_TOKEN,
+  OAUTH_ENDPOINT_TOKEN,
+} from 'services/endpoints';
 
 export const PUBLIC_MOBILE_CLIENT_ID = 'orangehrm_mobile_app';
 export const REQUIRED_SCOPE = 'user';
@@ -30,7 +33,7 @@ export const getNewAccessToken = (
   instanceUrl: string,
   refreshToken: string,
 ) => {
-  return authRequest(instanceUrl, {
+  return authRequest(instanceUrl + OAUTH_ENDPOINT_TOKEN, {
     grant_type: GRANT_TYPE_REFRESH_TOKEN,
     client_id: PUBLIC_MOBILE_CLIENT_ID,
     refresh_token: refreshToken,
@@ -38,16 +41,14 @@ export const getNewAccessToken = (
 };
 
 export const checkLegacyInstance = (instanceUrl: string) => {
-  return authRequest(instanceUrl, {
+  return authRequest(instanceUrl + V1_OAUTH_ENDPOINT_ISSUE_TOKEN, {
     grant_type: GRANT_TYPE_PASSWORD,
     client_id: PUBLIC_MOBILE_CLIENT_ID,
     client_secret: '',
   });
 };
 
-export const authRequest = (instanceUrl: string, body: object) => {
-  const authEndpoint = instanceUrl + OAUTH_ENDPOINT_TOKEN;
-
+export const authRequest = (authEndpoint: string, body: object) => {
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');
   headers.append('Accept', 'application/json');
