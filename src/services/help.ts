@@ -19,7 +19,7 @@
  */
 
 export const SUPPORT_URL =
-  'https://opensourcehelp.orangehrm.com/hc/en-us/articles/360020060020-How-to-Configure-URL-and-Login-to-the-app';
+  'https://starterhelp.orangehrm.com/hc/en-us/articles/8506432453020-How-to-Configure-URL-and-Login-to-the-app-For-OrangeHRM-5x-users-';
 
 export const SUPPORT_EMAIL = 'ossupport@orangehrm.com';
 export const SEND_MAIL_SUPPORT_EMAIL_URL = 'mailto:' + SUPPORT_EMAIL;

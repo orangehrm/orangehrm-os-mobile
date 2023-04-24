@@ -71,7 +71,7 @@ import {
   prepare,
   API_ENDPOINT_PUNCH_IN_OUT_REQUEST,
   API_ENDPOINT_ATTENDANCE_WORK_SUMMARY,
-  API_ENDPOINT_GRAPH_LEAVE_RECORDS,
+  API_ENDPOINT_EMPLOYEE_LEAVES,
   API_ENDPOINT_EMPLOYEE_PUNCH_IN_OUT_REQUEST,
   API_ENDPOINT_JOB_ROLE_DETAILS,
 } from 'services/endpoints';
@@ -144,7 +144,7 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
     const response: ApiResponse<LeaveObject[]> = yield apiCall(
       apiGetCall,
       prepare(
-        API_ENDPOINT_GRAPH_LEAVE_RECORDS,
+        API_ENDPOINT_EMPLOYEE_LEAVES,
         {},
         {
           fromDate: action.payload.fromDate,
@@ -258,7 +258,7 @@ function* fetchAttendanceGraphRecords(
     const leaveResponse: ApiResponse<GraphRecordsLeaveObject[]> = yield apiCall(
       apiGetCall,
       prepare(
-        API_ENDPOINT_GRAPH_LEAVE_RECORDS,
+        API_ENDPOINT_EMPLOYEE_LEAVES,
         {},
         {
           fromDate: action.payload.fromDate,
