@@ -12,7 +12,7 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'OSMobile' do
+target 'OrangeHRM' do
   config = use_native_modules!
 
   # Flags change depending on the env values.
@@ -34,7 +34,7 @@ target 'OSMobile' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'OSMobileTests' do
+  target 'OrangeHRMTests' do
     inherit! :complete
     # Pods for testing
   end

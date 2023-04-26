@@ -68,7 +68,7 @@ fs.readFile(gradlePropertiesPath, 'utf8', (error, gradleProperties) => {
 const projectpbxprojPath = path.join(
   __dirname,
   '..',
-  'ios/OSMobile.xcodeproj/project.pbxproj',
+  'ios/OrangeHRM.xcodeproj/project.pbxproj',
 );
 
 fs.readFile(projectpbxprojPath, 'utf8', (error, projectpbxproj) => {
