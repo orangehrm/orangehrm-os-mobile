@@ -20,11 +20,21 @@
 
 import {gte} from 'semver';
 import {InstanceCheckError} from 'services/errors/instance-check';
-import {API_ENDPOINT_API_VERSION} from 'services/endpoints';
+import {
+  API_ENDPOINT_API_VERSION,
+  API_ENDPOINT_EMPLOYEES,
+  V1_API_ENDPOINT_API_DEFINITION,
+  V1_OAUTH_ENDPOINT_ISSUE_TOKEN,
+} from 'services/endpoints';
+import {
+  authRequest,
+  GRANT_TYPE_PASSWORD,
+  PUBLIC_MOBILE_CLIENT_ID,
+} from './authentication';
 
-export const ORANGEHRM_API_2$2$0 = '2.2.0'; // TODO
+export const ORANGEHRM_API_2$4$0 = '2.4.0';
 
-export const REQUIRED_MINIMUM_ORANGEHRM_API_VER = ORANGEHRM_API_2$2$0;
+export const REQUIRED_MINIMUM_ORANGEHRM_API_VER = ORANGEHRM_API_2$4$0;
 
 export interface RestApiVersion {
   version: string;
@@ -32,6 +42,54 @@ export interface RestApiVersion {
 
 export const checkInstance = (instanceUrl: string) => {
   return getRestApiVersion(instanceUrl);
+};
+
+/**
+ * Fetch request to check whether the given instance is an OrangeHRM 5.x instance,
+ * But it's early 5.4 version
+ */
+export const checkNotSupported5xInstance = (instanceUrl: string) => {
+  const employeesEndpoint = instanceUrl + API_ENDPOINT_EMPLOYEES;
+
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  headers.append('Accept', 'application/json');
+
+  const requestOptions = {
+    method: 'GET',
+    headers: headers,
+  };
+  return fetch(employeesEndpoint, requestOptions);
+};
+
+/**
+ * Fetch request to check whether the given instance is an OrangeHRM instance,
+ * But it's early 4.5 version
+ */
+export const checkLegacyInstance = (instanceUrl: string) => {
+  return authRequest(instanceUrl + V1_OAUTH_ENDPOINT_ISSUE_TOKEN, {
+    grant_type: GRANT_TYPE_PASSWORD,
+    client_id: PUBLIC_MOBILE_CLIENT_ID,
+    client_secret: '',
+  });
+};
+
+/**
+ * Fetch request to check whether the given instance is an OrangeHRM instance,
+ * and it's in range of 4.5 - 4.10.x version (4.x Mobile supported version)
+ */
+export const check4xInstance = (instanceUrl: string) => {
+  const v1ApiDefinitionEndpoint = instanceUrl + V1_API_ENDPOINT_API_DEFINITION;
+
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+  headers.append('Accept', 'application/json');
+
+  const requestOptions = {
+    method: 'GET',
+    headers: headers,
+  };
+  return fetch(v1ApiDefinitionEndpoint, requestOptions);
 };
 
 export const getRestApiVersion = (instanceUrl: string) => {
