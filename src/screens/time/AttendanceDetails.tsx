@@ -31,6 +31,7 @@ import {
   fetchLeaveRecords,
   fetchAttendanceGraphRecords,
   fetchHolidays,
+  fetchWorkWeek,
 } from 'store/time/attendance/actions';
 import {
   DaySelectorSingleDay,
@@ -43,9 +44,8 @@ import {
   selectLeaveRecords,
   selectAttendanceGraphRecords,
   selectHolidays,
+  selectWorkWeek,
 } from 'store/time/attendance/selectors';
-import {fetchWorkWeek} from 'store/leave/common-screens/actions';
-import {selectWorkWeek} from 'store/leave/common-screens/selectors';
 import withGlobals, {WithGlobals} from 'lib/hoc/withGlobals';
 import {selectCurrentRoute} from 'store/globals/selectors';
 import moment from 'moment';
