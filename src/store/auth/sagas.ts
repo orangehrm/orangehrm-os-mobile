@@ -1,4 +1,3 @@
-import {HTTP_UNAUTHORIZED} from './../../services/api';
 /*
  * This file is part of OrangeHRM
  *
@@ -74,7 +73,7 @@ import {
   myInfoFailed,
   fetchNewAuthTokenFinished,
 } from 'store/auth/actions';
-import {getExpiredAt} from 'services/api';
+import {getExpiredAt, HTTP_UNAUTHORIZED} from 'services/api';
 import {AuthParams, ApiDetails} from 'store/storage/types';
 import {selectApiDetails} from 'store/storage/selectors';
 import {TYPE_ERROR} from 'store/globals/types';

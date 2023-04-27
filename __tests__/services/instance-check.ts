@@ -25,7 +25,7 @@ import {
 
 describe('services/instance-check', () => {
   test('checkInstanceCompatibility::check correct', () => {
-    const result = checkInstanceCompatibility({version: '2.2.0'});
+    const result = checkInstanceCompatibility({version: '2.4.0'});
     expect(result).toBeTruthy();
   });
 

@@ -1,4 +1,3 @@
-import {HTTP_FORBIDDEN} from './../../../services/api';
 /*
  * This file is part of OrangeHRM
  *
@@ -80,6 +79,7 @@ import {
   getMessageAlongWithGenericErrors,
   getMessageAlongWithResponseErrors,
   HTTP_NOT_FOUND,
+  HTTP_FORBIDDEN,
 } from 'services/api';
 import {TYPE_ERROR} from 'store/globals/types';
 import {
