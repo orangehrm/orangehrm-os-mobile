@@ -108,6 +108,7 @@ function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
           limit: 0,
+          sortOrder: 'ASC',
         },
       ),
     );
