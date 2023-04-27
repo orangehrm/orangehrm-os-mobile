@@ -1,3 +1,4 @@
+import {HTTP_FORBIDDEN} from './../../../services/api';
 /*
  * This file is part of OrangeHRM
  *
@@ -160,7 +161,7 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
         },
       ),
     );
-    if (response.getResponse().status === 403) {
+    if (response.getResponse().status === HTTP_FORBIDDEN) {
       response.data = [];
     }
 
@@ -279,7 +280,7 @@ function* fetchAttendanceGraphRecords(
         },
       ),
     );
-    if (leaveResponse.getResponse().status === 403) {
+    if (leaveResponse.getResponse().status === HTTP_FORBIDDEN) {
       leaveResponse.data = [];
     }
 
@@ -327,7 +328,7 @@ function* fetchHolidays(action: FetchHolidaysAction) {
         },
       ),
     );
-    if (response.getResponse().status === 403) {
+    if (response.getResponse().status === HTTP_FORBIDDEN) {
       response.data = [];
     }
 
@@ -359,7 +360,7 @@ function* fetchWorkWeek() {
       apiGetCall,
       API_ENDPOINT_LEAVE_WORK_WEEK,
     );
-    if (response.getResponse().status === 403) {
+    if (response.getResponse().status === HTTP_FORBIDDEN) {
       yield put(fetchWorkWeekFinished(response.data));
       return;
     }
