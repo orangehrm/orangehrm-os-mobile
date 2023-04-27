@@ -107,6 +107,7 @@ function* fetchAttendanceRecords(action: FetchAttendanceRecordsAction) {
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
+          limit: 0,
         },
       ),
     );
@@ -149,6 +150,7 @@ function* fetchLeaveRecords(action: FetchLeaveRecordsAction) {
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
+          limit: 0,
           statuses: ['1', '2', '3'], // pending approval, scheduled, taken
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
@@ -263,6 +265,7 @@ function* fetchAttendanceGraphRecords(
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
+          limit: 0,
           statuses: ['1', '2', '3'], // pending approval, scheduled, taken
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
@@ -311,6 +314,7 @@ function* fetchHolidays(action: FetchHolidaysAction) {
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
+          limit: 0,
         },
       ),
     );
@@ -376,6 +380,7 @@ function* fetchEmployeeAttendanceList(
         {
           fromDate: action.payload.fromDate,
           toDate: action.payload.toDate,
+          limit: 0,
           ...(action.payload.empNumber && {
             empNumber: action.payload.empNumber,
           }),

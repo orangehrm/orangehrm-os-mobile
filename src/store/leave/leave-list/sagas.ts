@@ -77,7 +77,7 @@ function* fetchLeaveList() {
     yield openLoader();
     const response: ApiResponse<LeaveRequestDetailedModel[]> = yield apiCall(
       apiGetCall,
-      API_ENDPOINT_EMPLOYEE_LEAVE_REQUEST,
+      prepare(API_ENDPOINT_EMPLOYEE_LEAVE_REQUEST, {}, {limit: 0}),
     );
 
     if (response.data) {
@@ -155,7 +155,11 @@ function* fetchEmployeeLeaves(action: FetchEmployeeLeavesAction) {
     yield openLoader();
     const response: ApiResponse<LeaveDetailedModel[]> = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVES, {leaveRequestId: action.leaveRequestId}),
+      prepare(
+        API_ENDPOINT_LEAVES,
+        {leaveRequestId: action.leaveRequestId},
+        {limit: 0},
+      ),
     );
 
     if (response.data) {
@@ -186,9 +190,15 @@ function* fetchLeaveComment(action: FetchLeaveCommentAction) {
     yield openLoader();
     const response: ApiResponse<LeaveRequestCommentModel[]> = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_COMMENT, {
-        leaveRequestId: action.leaveRequestId,
-      }),
+      prepare(
+        API_ENDPOINT_LEAVE_COMMENT,
+        {
+          leaveRequestId: action.leaveRequestId,
+        },
+        {
+          limit: 0,
+        },
+      ),
     );
 
     if (response.data) {

@@ -127,6 +127,7 @@ function* fetchSubordinateLeaveEntitlements(
           {},
           {
             empNumber: action.empNumber,
+            limit: 0,
           },
         ),
       );

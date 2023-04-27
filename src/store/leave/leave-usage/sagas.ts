@@ -86,6 +86,7 @@ function* fetchMyLeaveEntitlements() {
           model: 'summary',
           sortField: 'leaveType.name',
           leaveTypeDeleted: false,
+          limit: 0,
         },
       ),
     );
@@ -132,7 +133,7 @@ function* fetchMyLeaveRequests() {
     yield openLoader();
     const response: ApiResponse<LeaveRequestDetailedModel[]> = yield apiCall(
       apiGetCall,
-      API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST,
+      prepare(API_ENDPOINT_LEAVE_MY_LEAVE_REQUEST, {}, {limit: 0}),
     );
     if (response.data) {
       yield put(
@@ -238,9 +239,13 @@ function* fetchLeaveComment(action: FetchMyLeaveCommentAction) {
     yield openLoader();
     const response: ApiResponse<LeaveRequestCommentModel[]> = yield apiCall(
       apiGetCall,
-      prepare(API_ENDPOINT_LEAVE_COMMENT, {
-        leaveRequestId: action.leaveRequestId,
-      }),
+      prepare(
+        API_ENDPOINT_LEAVE_COMMENT,
+        {
+          leaveRequestId: action.leaveRequestId,
+        },
+        {limit: 0},
+      ),
     );
 
     if (response.data) {
