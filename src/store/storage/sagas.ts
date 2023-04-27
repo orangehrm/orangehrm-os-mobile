@@ -21,7 +21,6 @@
 import {call, all, takeEvery, select} from 'redux-saga/effects';
 import storage, {
   INSTANCE_URL,
-  USERNAME,
   ACCESS_TOKEN,
   REFRESH_TOKEN,
   EXPIRES_AT,
@@ -45,7 +44,6 @@ export function* loadAsyncStorage() {
   try {
     const keys = [
       INSTANCE_URL,
-      USERNAME,
       ACCESS_TOKEN,
       REFRESH_TOKEN,
       EXPIRES_AT,
