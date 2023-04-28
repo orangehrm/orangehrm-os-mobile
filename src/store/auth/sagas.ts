@@ -39,7 +39,6 @@ import {
 import {
   checkInstance as checkInstanceRequest,
   checkLegacyInstance,
-  check4xInstance,
   checkInstanceCompatibility,
   getRestApiVersion,
   RestApiVersion,
@@ -167,7 +166,7 @@ function* checkInstance(action?: CheckInstanceAction) {
           isJsonResponse(responses[i])
         ) {
           throw new InstanceCheckError(
-            'OrangeHRM Mobile app is not supported with this (OrangeHRM 5.0 to 5.3) instance. Please contact your system administrator.',
+            'OrangeHRM Mobile app is not supported with this instance. Please contact your system administrator.',
           );
         }
       }
@@ -189,25 +188,8 @@ function* checkInstance(action?: CheckInstanceAction) {
     if (splitedInstanceUrl !== null) {
       urlsFor4x.unshift(splitedInstanceUrl);
     }
-    // check instance is 4.x
-    if (!response.ok || !isJsonResponse(response)) {
-      const effects = urlsFor4x.map((url) => {
-        return call(check4xInstanceRequestWithCatch, url);
-      });
-      // eslint-disable-next-line no-undef
-      const responses: Response[] = yield all(effects);
 
-      for (let i = 0; i < responses.length; i++) {
-        // check `/api/v1/api-definition`
-        if (responses[i]?.ok && isJsonResponse(responses[i])) {
-          throw new InstanceCheckError(
-            'OrangeHRM Mobile app is not supported with this (OrangeHRM 4.x) instance. Please contact your system administrator.',
-          );
-        }
-      }
-    }
-
-    // check instance is legacy
+    // check instance is 4x
     if (!response.ok || !isJsonResponse(response)) {
       const effects = urlsFor4x.map((url) => {
         return call(checkLegacyInstanceWithCatch, url);
@@ -219,7 +201,7 @@ function* checkInstance(action?: CheckInstanceAction) {
         // `/oauth/issueToken` endpoint content-type is `text/html`. Don't check isJsonResponse(response)
         if (responses[i]?.ok) {
           throw new InstanceCheckError(
-            'OrangeHRM Mobile app is not supported with this instance. Please contact your system administrator.',
+            'OrangeHRM Mobile app is not supported with this instance (OrangeHRM Web 4.x). Please contact your system administrator.',
           );
         }
       }
@@ -286,12 +268,6 @@ function checkInstanceRequestWithCatch(instanceUrl: string) {
 
 function checkNotSupported5xInstanceRequestWithCatch(instanceUrl: string) {
   return checkNotSupported5xInstance(instanceUrl).catch(() => {
-    return null;
-  });
-}
-
-function check4xInstanceRequestWithCatch(instanceUrl: string) {
-  return check4xInstance(instanceUrl).catch(() => {
     return null;
   });
 }

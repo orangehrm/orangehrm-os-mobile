@@ -23,7 +23,6 @@ import {InstanceCheckError} from 'services/errors/instance-check';
 import {
   API_ENDPOINT_API_VERSION,
   API_ENDPOINT_EMPLOYEES,
-  V1_API_ENDPOINT_API_DEFINITION,
   V1_OAUTH_ENDPOINT_ISSUE_TOKEN,
 } from 'services/endpoints';
 import {
@@ -72,24 +71,6 @@ export const checkLegacyInstance = (instanceUrl: string) => {
     client_id: PUBLIC_MOBILE_CLIENT_ID,
     client_secret: '',
   });
-};
-
-/**
- * Fetch request to check whether the given instance is an OrangeHRM instance,
- * and it's in range of 4.5 - 4.10.x version (4.x Mobile supported version)
- */
-export const check4xInstance = (instanceUrl: string) => {
-  const v1ApiDefinitionEndpoint = instanceUrl + V1_API_ENDPOINT_API_DEFINITION;
-
-  const headers = new Headers();
-  headers.append('Content-Type', 'application/json');
-  headers.append('Accept', 'application/json');
-
-  const requestOptions = {
-    method: 'GET',
-    headers: headers,
-  };
-  return fetch(v1ApiDefinitionEndpoint, requestOptions);
 };
 
 export const getRestApiVersion = (instanceUrl: string) => {
