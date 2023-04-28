@@ -35,16 +35,16 @@ import {
 import {
   PUBLIC_MOBILE_CLIENT_ID,
   OAUTH_CALLBACK_URL,
-  checkLegacyInstance,
 } from 'services/authentication';
 import {
   checkInstance as checkInstanceRequest,
+  checkLegacyInstance,
   checkInstanceCompatibility,
   getRestApiVersion,
   RestApiVersion,
+  checkNotSupported5xInstance,
 } from 'services/instance-check';
 import {
-  USERNAME,
   ACCESS_TOKEN,
   REFRESH_TOKEN,
   SCOPE,
@@ -72,7 +72,7 @@ import {
   myInfoFailed,
   fetchNewAuthTokenFinished,
 } from 'store/auth/actions';
-import {getExpiredAt} from 'services/api';
+import {getExpiredAt, HTTP_UNAUTHORIZED} from 'services/api';
 import {AuthParams, ApiDetails} from 'store/storage/types';
 import {selectApiDetails} from 'store/storage/selectors';
 import {TYPE_ERROR} from 'store/globals/types';
@@ -112,12 +112,12 @@ function* checkInstance(action?: CheckInstanceAction) {
     const urls = getAbsoluteUrlsForChecking(instanceUrl);
 
     // if user enter web system login screen url
+    let splitedInstanceUrl: string | null = null;
     if (
       (!response.ok || !isJsonResponse(response)) &&
       instanceUrl.includes('/index.php')
     ) {
-      const splitedInstanceUrl =
-        instanceUrl.split('/index.php')[0] + '/index.php';
+      splitedInstanceUrl = instanceUrl.split('/index.php')[0] + '/index.php';
       // eslint-disable-next-line no-undef
       const res: Response = yield call(
         checkInstanceRequestWithCatch,
@@ -145,11 +145,53 @@ function* checkInstance(action?: CheckInstanceAction) {
       }
     }
 
-    // check instance is legacy
+    /**
+     * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     * + Start: Check whether instance is 5.3 or below
+     * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     */
     if (!response.ok || !isJsonResponse(response)) {
-      // evaluate original URL without concat paths
-      urls.unshift(instanceUrl);
+      if (splitedInstanceUrl !== null) {
+        urls.unshift(splitedInstanceUrl);
+      }
       const effects = urls.map((url) => {
+        return call(checkNotSupported5xInstanceRequestWithCatch, url);
+      });
+      // eslint-disable-next-line no-undef
+      const responses: Response[] = yield all(effects);
+
+      for (let i = 0; i < responses.length; i++) {
+        if (
+          responses[i]?.status === HTTP_UNAUTHORIZED &&
+          isJsonResponse(responses[i])
+        ) {
+          throw new InstanceCheckError(
+            'OrangeHRM Mobile app is not supported with this instance. Please contact your system administrator.',
+          );
+        }
+      }
+    }
+    /**
+     * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     * + End: Check whether instance is 5.3 or below
+     * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     */
+
+    /**
+     * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     * + Start: Check whether instance is 4.x
+     * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     */
+    const urlsFor4x = getAbsoluteUrlsFor4xChecking(instanceUrl);
+    // evaluate original URL without concat paths
+    urlsFor4x.unshift(instanceUrl);
+    if (splitedInstanceUrl !== null) {
+      urlsFor4x.unshift(splitedInstanceUrl);
+    }
+
+    // check instance is 4x
+    if (!response.ok || !isJsonResponse(response)) {
+      const effects = urlsFor4x.map((url) => {
         return call(checkLegacyInstanceWithCatch, url);
       });
       // eslint-disable-next-line no-undef
@@ -159,11 +201,16 @@ function* checkInstance(action?: CheckInstanceAction) {
         // `/oauth/issueToken` endpoint content-type is `text/html`. Don't check isJsonResponse(response)
         if (responses[i]?.ok) {
           throw new InstanceCheckError(
-            'OrangeHRM System Is Not Supported With Mobile App.',
+            'OrangeHRM Mobile app is not supported with this instance (OrangeHRM Web 4.x). Please contact your system administrator.',
           );
         }
       }
     }
+    /**
+     * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     * + End: Check whether instance is 4.x
+     * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     */
 
     if (response.ok && isJsonResponse(response)) {
       yield storageSetItem(INSTANCE_URL, instanceUrl);
@@ -219,6 +266,12 @@ function checkInstanceRequestWithCatch(instanceUrl: string) {
   });
 }
 
+function checkNotSupported5xInstanceRequestWithCatch(instanceUrl: string) {
+  return checkNotSupported5xInstance(instanceUrl).catch(() => {
+    return null;
+  });
+}
+
 function checkLegacyInstanceWithCatch(instanceUrl: string) {
   return checkLegacyInstance(instanceUrl).catch(() => {
     return null;
@@ -234,6 +287,14 @@ function getAbsoluteUrlsForChecking(instanceUrl: string) {
   return [
     instanceUrl + '/web/index.php',
     instanceUrl + '/web',
+    instanceUrl + '/index.php',
+  ];
+}
+
+function getAbsoluteUrlsFor4xChecking(instanceUrl: string) {
+  return [
+    instanceUrl + '/symfony/web',
+    instanceUrl + '/symfony/web/index.php',
     instanceUrl + '/index.php',
   ];
 }
@@ -335,7 +396,6 @@ function* logout() {
   try {
     yield openLoader();
     yield storageSetMulti({
-      [USERNAME]: null,
       [ACCESS_TOKEN]: null,
       [REFRESH_TOKEN]: null,
       [TOKEN_TYPE]: null,

@@ -28,7 +28,6 @@ import {
 } from 'store/storage/types';
 import {
   INSTANCE_URL,
-  USERNAME,
   ACCESS_TOKEN,
   REFRESH_TOKEN,
   EXPIRES_AT,
@@ -41,7 +40,6 @@ import {DEFAULT_DATE_FORMAT} from 'lib/helpers/date';
 
 const initialState: StorageState = {
   [INSTANCE_URL]: null,
-  [USERNAME]: null,
   [ACCESS_TOKEN]: null,
   [REFRESH_TOKEN]: null,
   [EXPIRES_AT]: null,

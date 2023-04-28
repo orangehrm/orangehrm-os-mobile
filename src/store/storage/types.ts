@@ -20,7 +20,6 @@
 
 import {
   INSTANCE_URL,
-  USERNAME,
   ACCESS_TOKEN,
   REFRESH_TOKEN,
   EXPIRES_AT,
@@ -32,7 +31,6 @@ import {
 
 export interface StorageState {
   [INSTANCE_URL]: NullableString;
-  [USERNAME]: NullableString;
   [ACCESS_TOKEN]: NullableString;
   [REFRESH_TOKEN]: NullableString;
   [EXPIRES_AT]: NullableString;

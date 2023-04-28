@@ -66,7 +66,6 @@ export const multiGet = async (
 export default {get, set, multiGet};
 
 export const INSTANCE_URL = 'instanceUrl';
-export const USERNAME = 'username';
 export const ACCESS_TOKEN = 'accessToken';
 export const REFRESH_TOKEN = 'refreshToken';
 export const EXPIRES_AT = 'expiresAt';
