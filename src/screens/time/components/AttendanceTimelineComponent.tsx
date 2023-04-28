@@ -245,16 +245,8 @@ class AttendanceTimelineComponent extends React.Component<AttendanceTimelineComp
                                 attendanceRecord.punchOut.userDate +
                                   'T' +
                                   attendanceRecord.punchOut.userTime,
-                                parseFloat(
-                                  attendanceRecord.punchIn.userDate +
-                                    'T' +
-                                    attendanceRecord.punchIn.userTime,
-                                ),
-                                parseFloat(
-                                  attendanceRecord.punchOut.userDate +
-                                    'T' +
-                                    attendanceRecord.punchOut.userTime,
-                                ),
+                                parseFloat(attendanceRecord.punchIn.offset),
+                                parseFloat(attendanceRecord.punchOut.offset),
                               )}
                               {' Hours'}
                             </Text>

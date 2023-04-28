@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "OSMobile.app"
-               BlueprintName = "OSMobile"
-               ReferencedContainer = "container:OSMobile.xcodeproj">
+               BuildableName = "OrangeHRM.app"
+               BlueprintName = "OrangeHRM"
+               ReferencedContainer = "container:OrangeHRM.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "OSMobileTests.xctest"
-               BlueprintName = "OSMobileTests"
-               ReferencedContainer = "container:OSMobile.xcodeproj">
+               BuildableName = "OrangeHRMTests.xctest"
+               BlueprintName = "OrangeHRMTests"
+               ReferencedContainer = "container:OrangeHRM.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "OSMobile.app"
-            BlueprintName = "OSMobile"
-            ReferencedContainer = "container:OSMobile.xcodeproj">
+            BuildableName = "OrangeHRM.app"
+            BlueprintName = "OrangeHRM"
+            ReferencedContainer = "container:OrangeHRM.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "OSMobile.app"
-            BlueprintName = "OSMobile"
-            ReferencedContainer = "container:OSMobile.xcodeproj">
+            BuildableName = "OrangeHRM.app"
+            BlueprintName = "OrangeHRM"
+            ReferencedContainer = "container:OrangeHRM.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

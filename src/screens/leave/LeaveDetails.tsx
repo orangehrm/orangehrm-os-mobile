@@ -248,6 +248,7 @@ class LeaveDetails extends React.Component<
                     {employeeLeaveRequest?.dates.fromDate}
                   </FormattedDate>
                   {employeeLeaveRequest?.dates.fromDate !==
+                    employeeLeaveRequest?.dates.toDate &&
                   employeeLeaveRequest?.dates.toDate ? (
                     <>
                       {' to '}

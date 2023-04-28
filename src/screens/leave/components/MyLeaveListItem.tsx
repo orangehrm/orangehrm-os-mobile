@@ -77,7 +77,8 @@ class MyLeaveListItem extends React.Component<MyLeaveListItemProps> {
                 <FormattedDate nested>
                   {leaveRequest.dates.fromDate}
                 </FormattedDate>
-                {leaveRequest.dates.fromDate !== leaveRequest.dates.toDate ? (
+                {leaveRequest.dates.fromDate !== leaveRequest.dates.toDate &&
+                leaveRequest.dates.toDate ? (
                   <>
                     {' to '}
                     <FormattedDate nested>

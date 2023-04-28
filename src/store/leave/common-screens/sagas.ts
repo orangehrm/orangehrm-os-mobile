@@ -55,7 +55,7 @@ function* fetchHolidays(action: FetchHolidaysAction) {
       prepare(
         API_ENDPOINT_LEAVE_HOLIDAYS,
         {},
-        {fromDate: action.fromDate, toDate: action.toDate},
+        {fromDate: action.fromDate, toDate: action.toDate, limit: 0},
       ),
     );
 

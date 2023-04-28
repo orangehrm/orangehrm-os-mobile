@@ -94,7 +94,9 @@ const AttendanceDailyChartComponent = (
             tickLabelComponent={
               <VictoryLabel
                 text={(datum) => {
-                  const tickValue = datum.index ? datum.ticks[datum.index] : [];
+                  const tickValue =
+                    datum.index !== undefined ? datum.ticks[datum.index] : 0;
+
                   if (Number.isInteger(tickValue)) {
                     return tickValue + ' Hrs';
                   } else {
@@ -117,6 +119,7 @@ const AttendanceDailyChartComponent = (
                               return previous > current ? previous : current;
                             })
                         : 0;
+
                     const maxWorkYPoint =
                       props.graphWorkData.length > 0
                         ? props.graphWorkData
@@ -127,6 +130,7 @@ const AttendanceDailyChartComponent = (
                               return previous > current ? previous : current;
                             })
                         : 0;
+
                     const maxYPoint =
                       maxWorkYPoint > maxLeaveYPoint
                         ? maxWorkYPoint
