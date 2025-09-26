@@ -130,7 +130,7 @@ class LeaveUsageCard extends React.Component<LeaveUsageCardProps> {
                   selectedLeaveType?.usageBreakdown.entitlement,
                   selectedLeaveType?.usageBreakdown.used,
                 )}
-                usedDays={selectedLeaveType?.usageBreakdown.used.toFixed(2)}
+                usedDays={selectedLeaveType?.usageBreakdown.used?.toFixed(2)}
                 mainColor={selectedLeaveType?.leaveType.color}
               />
             </CardContent>

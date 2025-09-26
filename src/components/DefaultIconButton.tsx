@@ -19,22 +19,25 @@
  */
 
 import React from 'react';
-import {Button, NativeBase} from 'native-base';
+import {TouchableOpacity, TouchableOpacityProps} from 'react-native';
 import Icon from 'components/DefaultIcon';
 
 const DefaultIconButton = (props: IconButtonProps) => {
-  const {iconProps, buttonProps} = props;
+  const {iconProps, buttonProps, large} = props;
 
   return (
-    <Button transparent {...buttonProps}>
+    <TouchableOpacity
+      style={{borderRadius: 25, padding: large ? 16 : 8}}
+      {...buttonProps}>
       <Icon {...iconProps} />
-    </Button>
+    </TouchableOpacity>
   );
 };
 
 export interface IconButtonProps {
-  iconProps: NativeBase.Icon;
-  buttonProps?: NativeBase.Button;
+  iconProps: any;
+  buttonProps?: TouchableOpacityProps;
+  large?: boolean;
 }
 
 export default DefaultIconButton;

@@ -6,6 +6,7 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
     [
       {
         "flex": 1,
+        "paddingBottom": 50,
       },
       {
         "backgroundColor": "#ffffff",
@@ -199,65 +200,72 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
               </View>
             </View>
           </View>
-          <View>
-            <View
-              style={
-                [
-                  {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                  {
-                    "paddingBottom": 8,
-                    "paddingTop": 8,
-                  },
-                ]
-              }
-            >
-              <Text
-                style={
-                  [
-                    {
-                      "color": "#818181",
-                    },
-                    undefined,
-                    {
-                      "color": "#818181",
-                      "fontSize": 8,
-                    },
-                  ]
-                }
-              >
-                OrangeHRM Open Source
-                 
-                1.0.1
-              </Text>
-              <Text
-                style={
-                  [
-                    {
-                      "color": "#818181",
-                    },
-                    undefined,
-                    {
-                      "color": "#818181",
-                      "fontSize": 8,
-                    },
-                  ]
-                }
-              >
-                © 2005 - 
-                2023
-                 
-                OrangeHRM, Inc. 
-                All Rights Reserved
-                .
-              </Text>
-            </View>
-          </View>
         </View>
       </View>
     </RCTScrollView>
+    <View
+      style={
+        {
+          "flex": 0,
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "justifyContent": "center",
+            },
+            {
+              "paddingBottom": 8,
+              "paddingTop": 8,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "color": "#818181",
+              },
+              undefined,
+              {
+                "color": "#818181",
+                "fontSize": 8,
+              },
+            ]
+          }
+        >
+          OrangeHRM Open Source
+           
+          1.0.1
+        </Text>
+        <Text
+          style={
+            [
+              {
+                "color": "#818181",
+              },
+              undefined,
+              {
+                "color": "#818181",
+                "fontSize": 8,
+              },
+            ]
+          }
+        >
+          © 2005 - 
+          2025
+           
+          OrangeHRM, Inc. 
+          All Rights Reserved
+          .
+        </Text>
+      </View>
+    </View>
   </View>
 </RCTSafeAreaView>
 `;
@@ -268,6 +276,7 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
     [
       {
         "flex": 1,
+        "paddingBottom": 50,
       },
       {
         "backgroundColor": "#ffffff",
@@ -470,65 +479,72 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
               />
             </View>
           </View>
-          <View>
-            <View
-              style={
-                [
-                  {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                  {
-                    "paddingBottom": 8,
-                    "paddingTop": 8,
-                  },
-                ]
-              }
-            >
-              <Text
-                style={
-                  [
-                    {
-                      "color": "#818181",
-                    },
-                    undefined,
-                    {
-                      "color": "#818181",
-                      "fontSize": 8,
-                    },
-                  ]
-                }
-              >
-                OrangeHRM Open Source
-                 
-                1.0.1
-              </Text>
-              <Text
-                style={
-                  [
-                    {
-                      "color": "#818181",
-                    },
-                    undefined,
-                    {
-                      "color": "#818181",
-                      "fontSize": 8,
-                    },
-                  ]
-                }
-              >
-                © 2005 - 
-                2023
-                 
-                OrangeHRM, Inc. 
-                All Rights Reserved
-                .
-              </Text>
-            </View>
-          </View>
         </View>
       </View>
     </RCTScrollView>
+    <View
+      style={
+        {
+          "flex": 0,
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "justifyContent": "center",
+            },
+            {
+              "paddingBottom": 8,
+              "paddingTop": 8,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "color": "#818181",
+              },
+              undefined,
+              {
+                "color": "#818181",
+                "fontSize": 8,
+              },
+            ]
+          }
+        >
+          OrangeHRM Open Source
+           
+          1.0.1
+        </Text>
+        <Text
+          style={
+            [
+              {
+                "color": "#818181",
+              },
+              undefined,
+              {
+                "color": "#818181",
+                "fontSize": 8,
+              },
+            ]
+          }
+        >
+          © 2005 - 
+          2025
+           
+          OrangeHRM, Inc. 
+          All Rights Reserved
+          .
+        </Text>
+      </View>
+    </View>
   </View>
 </RCTSafeAreaView>
 `;
@@ -539,6 +555,7 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
     [
       {
         "flex": 1,
+        "paddingBottom": 50,
       },
       {
         "backgroundColor": "#ffffff",
@@ -741,65 +758,72 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
               }
             />
           </View>
-          <View>
-            <View
-              style={
-                [
-                  {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                  {
-                    "paddingBottom": 8,
-                    "paddingTop": 8,
-                  },
-                ]
-              }
-            >
-              <Text
-                style={
-                  [
-                    {
-                      "color": "#818181",
-                    },
-                    undefined,
-                    {
-                      "color": "#818181",
-                      "fontSize": 8,
-                    },
-                  ]
-                }
-              >
-                OrangeHRM Open Source
-                 
-                1.0.1
-              </Text>
-              <Text
-                style={
-                  [
-                    {
-                      "color": "#818181",
-                    },
-                    undefined,
-                    {
-                      "color": "#818181",
-                      "fontSize": 8,
-                    },
-                  ]
-                }
-              >
-                © 2005 - 
-                2023
-                 
-                OrangeHRM, Inc. 
-                All Rights Reserved
-                .
-              </Text>
-            </View>
-          </View>
         </View>
       </View>
     </RCTScrollView>
+    <View
+      style={
+        {
+          "flex": 0,
+          "position": "relative",
+        }
+      }
+    >
+      <View
+        style={
+          [
+            {
+              "alignItems": "center",
+              "justifyContent": "center",
+            },
+            {
+              "paddingBottom": 8,
+              "paddingTop": 8,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            [
+              {
+                "color": "#818181",
+              },
+              undefined,
+              {
+                "color": "#818181",
+                "fontSize": 8,
+              },
+            ]
+          }
+        >
+          OrangeHRM Open Source
+           
+          1.0.1
+        </Text>
+        <Text
+          style={
+            [
+              {
+                "color": "#818181",
+              },
+              undefined,
+              {
+                "color": "#818181",
+                "fontSize": 8,
+              },
+            ]
+          }
+        >
+          © 2005 - 
+          2025
+           
+          OrangeHRM, Inc. 
+          All Rights Reserved
+          .
+        </Text>
+      </View>
+    </View>
   </View>
 </RCTSafeAreaView>
 `;

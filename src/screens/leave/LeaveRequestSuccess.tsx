@@ -92,10 +92,13 @@ class LeaveRequestSuccess extends React.Component<LeaveRequestSuccessProps> {
             }}
             buttonProps={{
               onPress: this.onPressHome,
-              style: {backgroundColor: theme.palette.primary},
-              rounded: true,
-              large: true,
+              style: {
+                backgroundColor: theme.palette.primary,
+                borderRadius: 35,
+                padding: 15,
+              },
             }}
+            large={true}
           />
         </View>
       </View>

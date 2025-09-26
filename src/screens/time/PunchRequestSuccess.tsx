@@ -93,9 +93,11 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                 }}
                 buttonProps={{
                   onPress: this.onClickHomeButton,
-                  style: {backgroundColor: theme.palette.primary},
-                  rounded: true,
-                  large: true,
+                  style: {
+                    backgroundColor: theme.palette.primary,
+                    borderRadius: 35,
+                    padding: 15,
+                  },
                 }}
               />
             </View>

@@ -20,31 +20,33 @@
 
 import React from 'react';
 import {StyleSheet, Platform} from 'react-native';
-import {Button, NativeBase} from 'native-base';
+import CustomButton from './CustomButton';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 const CardButton = (props: React.PropsWithChildren<CardButtonProps>) => {
   const {children, theme, style, ...restProps} = props;
 
   return (
-    <Button
+    <CustomButton
       style={[
         styles.button,
         {
           backgroundColor: theme.palette.background,
           borderRadius: theme.borderRadius * 2,
         },
-        style,
+        ...(Array.isArray(style) ? style : style ? [style] : []),
       ]}
       rounded
       androidRippleColor={theme.palette.default}
       {...restProps}>
       {children}
-    </Button>
+    </CustomButton>
   );
 };
 
-export interface CardButtonProps extends NativeBase.Button, WithTheme {}
+export interface CardButtonProps
+  extends React.ComponentProps<typeof CustomButton>,
+    WithTheme {}
 
 const styles = StyleSheet.create({
   button: {
@@ -58,6 +60,9 @@ const styles = StyleSheet.create({
         shadowOffset: {height: 0.5, width: 0},
         elevation: 2,
         alignItems: 'center',
+      },
+      android: {
+        elevation: 2,
       },
     }),
   },

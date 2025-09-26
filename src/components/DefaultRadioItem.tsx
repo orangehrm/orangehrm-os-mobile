@@ -26,8 +26,8 @@ import {
   TouchableWithoutFeedback,
   TouchableWithoutFeedbackProps,
 } from 'react-native';
-import {Radio, NativeBase} from 'native-base';
 import Text from 'components/DefaultText';
+import CustomRadio from 'components/CustomRadio';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 function DefaultRadioItem(props: DefaultRadioItemProps) {
@@ -43,10 +43,10 @@ function DefaultRadioItem(props: DefaultRadioItemProps) {
             style,
           ]}>
           <Text>{title}</Text>
-          <Radio
+          <CustomRadio
             color={theme.palette.default}
             selectedColor={theme.palette.secondary}
-            selected={false}
+            selected={radioProps?.selected || false}
             onPress={onPress}
             {...radioProps}
           />
@@ -62,7 +62,13 @@ interface DefaultRadioItemProps
     Pick<ViewProps, 'style'> {
   title: string;
   fullWidth?: boolean;
-  radioProps: NativeBase.Radio;
+  radioProps?: {
+    selected?: boolean;
+    color?: string;
+    selectedColor?: string;
+    size?: number;
+    disabled?: boolean;
+  };
 }
 
 const styles = StyleSheet.create({

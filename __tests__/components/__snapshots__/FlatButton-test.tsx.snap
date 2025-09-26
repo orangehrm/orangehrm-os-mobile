@@ -6,7 +6,7 @@ exports[`components/FlatButton test FlatButton component 1`] = `
     {
       "busy": undefined,
       "checked": undefined,
-      "disabled": undefined,
+      "disabled": false,
       "expanded": undefined,
       "selected": undefined,
     }
@@ -21,8 +21,7 @@ exports[`components/FlatButton test FlatButton component 1`] = `
   }
   accessible={true}
   collapsable={false}
-  focusable={false}
-  forwardedRef={[Function]}
+  focusable={true}
   onClick={[Function]}
   onResponderGrant={[Function]}
   onResponderMove={[Function]}
@@ -33,23 +32,18 @@ exports[`components/FlatButton test FlatButton component 1`] = `
   style={
     {
       "alignItems": "center",
-      "alignSelf": "flex-start",
       "backgroundColor": "#ffffff",
-      "borderBottomWidth": null,
-      "borderColor": "#007aff",
-      "borderLeftWidth": null,
+      "borderColor": "transparent",
       "borderRadius": 0,
-      "borderRightWidth": null,
-      "borderTopWidth": null,
-      "borderWidth": undefined,
+      "borderWidth": 0,
       "elevation": 0,
       "flex": 1,
       "flexDirection": "row",
       "height": 48,
-      "justifyContent": "space-between",
+      "justifyContent": "center",
       "opacity": 1,
-      "paddingBottom": 6,
-      "paddingTop": 6,
+      "paddingHorizontal": 16,
+      "paddingVertical": 12,
       "shadowColor": "black",
       "shadowOffset": {
         "height": 0.5,
@@ -81,6 +75,7 @@ exports[`components/FlatButton test FlatButton component 1`] = `
     >
       <Text
         allowFontScaling={false}
+        selectable={false}
         style={
           [
             {
@@ -89,21 +84,12 @@ exports[`components/FlatButton test FlatButton component 1`] = `
             },
             [
               {
-                "color": "#000",
-                "fontSize": 30,
-              },
-              {
-                "color": "#fff",
-                "fontSize": 24,
-                "marginLeft": 16,
-                "marginRight": 16,
-                "paddingTop": 2,
-              },
-              {
                 "color": "#818181",
                 "fontSize": 20,
               },
-              undefined,
+              {
+                "marginRight": 12,
+              },
             ],
             {
               "fontFamily": "Material Design Icons",
@@ -113,7 +99,6 @@ exports[`components/FlatButton test FlatButton component 1`] = `
             {},
           ]
         }
-        type="MaterialCommunityIcons"
       >
         󰃭
       </Text>
@@ -151,6 +136,7 @@ exports[`components/FlatButton test FlatButton component 1`] = `
     />
     <Text
       allowFontScaling={false}
+      selectable={false}
       style={
         [
           {
@@ -158,17 +144,6 @@ exports[`components/FlatButton test FlatButton component 1`] = `
             "fontSize": 12,
           },
           [
-            {
-              "color": "#000",
-              "fontSize": 30,
-            },
-            {
-              "color": "#fff",
-              "fontSize": 24,
-              "marginLeft": 16,
-              "marginRight": 16,
-              "paddingTop": 2,
-            },
             {
               "color": "#818181",
               "fontSize": 20,
@@ -183,7 +158,6 @@ exports[`components/FlatButton test FlatButton component 1`] = `
           {},
         ]
       }
-      type="MaterialCommunityIcons"
     >
       󰅂
     </Text>
@@ -197,7 +171,7 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
     {
       "busy": undefined,
       "checked": undefined,
-      "disabled": undefined,
+      "disabled": false,
       "expanded": undefined,
       "selected": undefined,
     }
@@ -212,8 +186,7 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
   }
   accessible={true}
   collapsable={false}
-  focusable={false}
-  forwardedRef={[Function]}
+  focusable={true}
   onClick={[Function]}
   onResponderGrant={[Function]}
   onResponderMove={[Function]}
@@ -224,23 +197,18 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
   style={
     {
       "alignItems": "center",
-      "alignSelf": "flex-start",
       "backgroundColor": "#ffffff",
-      "borderBottomWidth": null,
-      "borderColor": "#007aff",
-      "borderLeftWidth": null,
+      "borderColor": "transparent",
       "borderRadius": 0,
-      "borderRightWidth": null,
-      "borderTopWidth": null,
-      "borderWidth": undefined,
+      "borderWidth": 0,
       "elevation": 0,
       "flex": 1,
       "flexDirection": "row",
       "height": 48,
-      "justifyContent": "space-between",
+      "justifyContent": "center",
       "opacity": 1,
-      "paddingBottom": 6,
-      "paddingTop": 6,
+      "paddingHorizontal": 16,
+      "paddingVertical": 12,
       "shadowColor": "black",
       "shadowOffset": {
         "height": 0.5,
@@ -272,6 +240,7 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
     >
       <Text
         allowFontScaling={false}
+        selectable={false}
         style={
           [
             {
@@ -280,21 +249,12 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
             },
             [
               {
-                "color": "#000",
-                "fontSize": 30,
-              },
-              {
-                "color": "#fff",
-                "fontSize": 24,
-                "marginLeft": 16,
-                "marginRight": 16,
-                "paddingTop": 2,
-              },
-              {
                 "color": "#818181",
                 "fontSize": 20,
               },
-              undefined,
+              {
+                "marginRight": 12,
+              },
             ],
             {
               "fontFamily": "Material Design Icons",
@@ -304,7 +264,6 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
             {},
           ]
         }
-        type="MaterialCommunityIcons"
       >
         󰃭
       </Text>
@@ -342,6 +301,7 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
     />
     <Text
       allowFontScaling={false}
+      selectable={false}
       style={
         [
           {
@@ -349,17 +309,6 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
             "fontSize": 12,
           },
           [
-            {
-              "color": "#000",
-              "fontSize": 30,
-            },
-            {
-              "color": "#fff",
-              "fontSize": 24,
-              "marginLeft": 16,
-              "marginRight": 16,
-              "paddingTop": 2,
-            },
             {
               "color": "#818181",
               "fontSize": 20,
@@ -374,7 +323,6 @@ exports[`components/FlatButton test FlatButton component::!elevation 1`] = `
           {},
         ]
       }
-      type="MaterialCommunityIcons"
     >
       󰅂
     </Text>
@@ -388,7 +336,7 @@ exports[`components/FlatButton test FlatButton component::!rightIcon 1`] = `
     {
       "busy": undefined,
       "checked": undefined,
-      "disabled": undefined,
+      "disabled": false,
       "expanded": undefined,
       "selected": undefined,
     }
@@ -403,8 +351,7 @@ exports[`components/FlatButton test FlatButton component::!rightIcon 1`] = `
   }
   accessible={true}
   collapsable={false}
-  focusable={false}
-  forwardedRef={[Function]}
+  focusable={true}
   onClick={[Function]}
   onResponderGrant={[Function]}
   onResponderMove={[Function]}
@@ -415,23 +362,18 @@ exports[`components/FlatButton test FlatButton component::!rightIcon 1`] = `
   style={
     {
       "alignItems": "center",
-      "alignSelf": "flex-start",
       "backgroundColor": "#ffffff",
-      "borderBottomWidth": null,
-      "borderColor": "#007aff",
-      "borderLeftWidth": null,
+      "borderColor": "transparent",
       "borderRadius": 0,
-      "borderRightWidth": null,
-      "borderTopWidth": null,
-      "borderWidth": undefined,
+      "borderWidth": 0,
       "elevation": 0,
       "flex": 1,
       "flexDirection": "row",
       "height": 48,
-      "justifyContent": "space-between",
+      "justifyContent": "center",
       "opacity": 1,
-      "paddingBottom": 6,
-      "paddingTop": 6,
+      "paddingHorizontal": 16,
+      "paddingVertical": 12,
       "shadowColor": "black",
       "shadowOffset": {
         "height": 0.5,
@@ -463,6 +405,7 @@ exports[`components/FlatButton test FlatButton component::!rightIcon 1`] = `
     >
       <Text
         allowFontScaling={false}
+        selectable={false}
         style={
           [
             {
@@ -471,21 +414,12 @@ exports[`components/FlatButton test FlatButton component::!rightIcon 1`] = `
             },
             [
               {
-                "color": "#000",
-                "fontSize": 30,
-              },
-              {
-                "color": "#fff",
-                "fontSize": 24,
-                "marginLeft": 16,
-                "marginRight": 16,
-                "paddingTop": 2,
-              },
-              {
                 "color": "#818181",
                 "fontSize": 20,
               },
-              undefined,
+              {
+                "marginRight": 12,
+              },
             ],
             {
               "fontFamily": "Material Design Icons",
@@ -495,7 +429,6 @@ exports[`components/FlatButton test FlatButton component::!rightIcon 1`] = `
             {},
           ]
         }
-        type="MaterialCommunityIcons"
       >
         󰃭
       </Text>

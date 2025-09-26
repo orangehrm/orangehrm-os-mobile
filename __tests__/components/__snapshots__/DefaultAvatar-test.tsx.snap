@@ -1,54 +1,85 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/DefaultAvatar test avatar component 1`] = `
-<Image
-  source={
-    {
-      "testUri": "../../../src/images/default-photo.png",
-    }
-  }
+<View
   style={
     {
-      "borderRadius": 28,
-      "height": 56,
-      "width": 56,
+      "borderRadius": 15,
+      "height": 30,
+      "overflow": "hidden",
+      "width": 30,
     }
   }
-/>
+>
+  <Image
+    source={
+      {
+        "testUri": "../../../src/images/default-photo.png",
+      }
+    }
+    style={
+      {
+        "height": "100%",
+        "resizeMode": "cover",
+        "width": "100%",
+      }
+    }
+  />
+</View>
 `;
 
 exports[`components/DefaultAvatar test large avatar component 1`] = `
-<Image
-  large={true}
-  source={
-    {
-      "testUri": "../../../src/images/default-photo.png",
-    }
-  }
+<View
   style={
     {
-      "borderRadius": 40,
-      "height": 80,
-      "width": 80,
+      "borderRadius": 30,
+      "height": 60,
+      "overflow": "hidden",
+      "width": 60,
     }
   }
-/>
+>
+  <Image
+    source={
+      {
+        "testUri": "../../../src/images/default-photo.png",
+      }
+    }
+    style={
+      {
+        "height": "100%",
+        "resizeMode": "cover",
+        "width": "100%",
+      }
+    }
+  />
+</View>
 `;
 
 exports[`components/DefaultAvatar test small avatar component 1`] = `
-<Image
-  small={true}
-  source={
-    {
-      "testUri": "../../../src/images/default-photo.png",
-    }
-  }
+<View
   style={
     {
-      "borderRadius": 18,
-      "height": 36,
-      "width": 36,
+      "borderRadius": 10,
+      "height": 20,
+      "overflow": "hidden",
+      "width": 20,
     }
   }
-/>
+>
+  <Image
+    source={
+      {
+        "testUri": "../../../src/images/default-photo.png",
+      }
+    }
+    style={
+      {
+        "height": "100%",
+        "resizeMode": "cover",
+        "width": "100%",
+      }
+    }
+  />
+</View>
 `;

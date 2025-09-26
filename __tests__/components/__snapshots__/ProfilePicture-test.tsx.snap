@@ -45,31 +45,37 @@ exports[`components/ProfilePicture test ProfilePicture component 1`] = `
           }
         }
       >
-        <Image
-          defaultSource={
-            {
-              "testUri": "../../../src/images/default-photo.png",
-            }
-          }
-          large={true}
-          source={
-            {
-              "testUri": "../../../src/images/default-photo.png",
-            }
-          }
+        <View
           style={
-            [
-              {
-                "borderRadius": 40,
-                "height": 80,
-                "width": 80,
-              },
-              {
-                "margin": 16,
-              },
-            ]
+            {
+              "borderRadius": 30,
+              "height": 60,
+              "margin": 16,
+              "overflow": "hidden",
+              "width": 60,
+            }
           }
-        />
+        >
+          <Image
+            defaultSource={
+              {
+                "testUri": "../../../src/images/default-photo.png",
+              }
+            }
+            source={
+              {
+                "testUri": "../../../src/images/default-photo.png",
+              }
+            }
+            style={
+              {
+                "height": "100%",
+                "resizeMode": "cover",
+                "width": "100%",
+              }
+            }
+          />
+        </View>
       </View>
       <View
         style={
@@ -165,31 +171,37 @@ exports[`components/ProfilePicture test ProfilePicture component: terminated emp
           }
         }
       >
-        <Image
-          defaultSource={
-            {
-              "testUri": "../../../src/images/default-photo.png",
-            }
-          }
-          large={true}
-          source={
-            {
-              "testUri": "../../../src/images/default-photo.png",
-            }
-          }
+        <View
           style={
-            [
-              {
-                "borderRadius": 40,
-                "height": 80,
-                "width": 80,
-              },
-              {
-                "margin": 16,
-              },
-            ]
+            {
+              "borderRadius": 30,
+              "height": 60,
+              "margin": 16,
+              "overflow": "hidden",
+              "width": 60,
+            }
           }
-        />
+        >
+          <Image
+            defaultSource={
+              {
+                "testUri": "../../../src/images/default-photo.png",
+              }
+            }
+            source={
+              {
+                "testUri": "../../../src/images/default-photo.png",
+              }
+            }
+            style={
+              {
+                "height": "100%",
+                "resizeMode": "cover",
+                "width": "100%",
+              }
+            }
+          />
+        </View>
       </View>
       <View
         style={

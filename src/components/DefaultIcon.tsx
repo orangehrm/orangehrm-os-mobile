@@ -19,24 +19,60 @@
  */
 
 import React from 'react';
-import {Icon, NativeBase} from 'native-base';
+import {NativeBase} from 'native-base';
+import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import IconFontAwesome from 'react-native-vector-icons/FontAwesome';
+import IconFontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import IconIonicons from 'react-native-vector-icons/Ionicons';
+import IconMaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import IconEntypo from 'react-native-vector-icons/Entypo';
+import IconFeather from 'react-native-vector-icons/Feather';
+import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import IconSimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import IconOcticons from 'react-native-vector-icons/Octicons';
+import IconZocial from 'react-native-vector-icons/Zocial';
+import IconFoundation from 'react-native-vector-icons/Foundation';
+import IconEvilIcons from 'react-native-vector-icons/EvilIcons';
+import IconFontisto from 'react-native-vector-icons/Fontisto';
+
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+
+// Icon type mapping
+const iconMap = {
+  MaterialCommunityIcons: IconMaterialCommunityIcons,
+  FontAwesome: IconFontAwesome,
+  FontAwesome5: IconFontAwesome5,
+  Ionicons: IconIonicons,
+  MaterialIcons: IconMaterialIcons,
+  Entypo: IconEntypo,
+  Feather: IconFeather,
+  AntDesign: IconAntDesign,
+  SimpleLineIcons: IconSimpleLineIcons,
+  Octicons: IconOcticons,
+  Zocial: IconZocial,
+  Foundation: IconFoundation,
+  EvilIcons: IconEvilIcons,
+  Fontisto: IconFontisto,
+} as const;
 
 function DefaultIcon(props: IconProps) {
   const {theme, style, ...restProps} = props;
-  return (
-    <Icon
-      type="MaterialCommunityIcons"
-      {...restProps}
-      style={[
-        {
-          color: theme.typography.primaryColor,
-          fontSize: theme.typography.iconSize,
-        },
-        style,
-      ]}
-    />
-  );
+
+  // Get the icon component or default to MaterialCommunityIcons
+  const IconComponent =
+    iconMap[restProps.type as keyof typeof iconMap] ||
+    IconMaterialCommunityIcons;
+
+  // Common styles
+  const iconStyle = [
+    {
+      color: theme.typography.primaryColor,
+      fontSize: theme.typography.iconSize,
+    },
+    style,
+  ];
+
+  return <IconComponent name={restProps.name || 'home'} style={iconStyle} />;
 }
 
 export interface IconProps extends NativeBase.Icon, WithTheme {}

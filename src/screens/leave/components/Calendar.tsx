@@ -19,15 +19,8 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {
-  CalendarList,
-  CalendarListBaseProps,
-  CalendarMarkingProps,
-  PeriodMarkingProps,
-  DateCallbackHandler,
-} from 'react-native-calendars';
+import {CalendarList, CalendarListProps} from 'react-native-calendars';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {$PropertyType} from 'utility-types';
 import {getDatesWithinPeriod, getDateString} from 'lib/helpers/date';
 import {
   Holiday,
@@ -60,12 +53,10 @@ const Calendar = (props: CalendarProps) => {
     workWeek,
     ...restProps
   } = props;
-  const [markedDates, setMarkedDates] = useState<
-    $PropertyType<PeriodMarkingProps, 'markedDates'>
-  >({});
-  const [markedHolidays, setMarkedHolidays] = useState<
-    $PropertyType<PeriodMarkingProps, 'markedDates'>
-  >({});
+  const [markedDates, setMarkedDates] = useState<{[key: string]: any}>({});
+  const [markedHolidays, setMarkedHolidays] = useState<{[key: string]: any}>(
+    {},
+  );
   const currentDate = getDateString(new Date());
   const commonProps = {
     color: theme.palette.secondary,
@@ -174,7 +165,7 @@ const Calendar = (props: CalendarProps) => {
   }, [fromDate, toDate]);
   /* eslint-enable react-hooks/exhaustive-deps */
 
-  const onDayPress: DateCallbackHandler = (day) => {
+  const onDayPress = (day: any) => {
     const selectedDate = day.dateString;
 
     if (fromDate === selectedDate) {
@@ -220,7 +211,7 @@ const Calendar = (props: CalendarProps) => {
   };
 
   const getMarkedDatesForPeriod = (dates: Date[]) => {
-    const newMarkedDates: $PropertyType<PeriodMarkingProps, 'markedDates'> = {};
+    const newMarkedDates: {[key: string]: any} = {};
 
     newMarkedDates[getDateString(dates[0])] = {
       startingDay: true,
@@ -256,26 +247,17 @@ const Calendar = (props: CalendarProps) => {
         calendarBackground: theme.palette.backgroundSecondary,
         todayTextColor: theme.palette.secondary,
         selectedDayTextColor: theme.typography.lightColor,
-        // https://github.com/wix/react-native-calendars/issues/642
-        'stylesheet.day.period': {
-          base: {
-            overflow: 'hidden',
-            height: 34,
-            alignItems: 'center',
-            width: 38,
-          },
-        },
       }}
       {...restProps}
     />
   );
 };
 
-type CalendarListProps = CalendarListBaseProps & CalendarMarkingProps;
+type CalendarPropsType = CalendarListProps;
 
 export interface CalendarProps
   extends WithTheme,
-    Omit<CalendarListProps, 'theme'> {
+    Omit<CalendarPropsType, 'theme'> {
   fromDate?: string;
   toDate?: string;
   setFromDate?: (date?: string) => any;

@@ -6,6 +6,7 @@ exports[`layout/MainLayout test MainLayout layout 1`] = `
     [
       {
         "flex": 1,
+        "paddingBottom": 50,
       },
       {
         "backgroundColor": "#ffffff",
@@ -13,25 +14,35 @@ exports[`layout/MainLayout test MainLayout layout 1`] = `
     ]
   }
 >
-  <RCTScrollView
-    contentContainerStyle={
+  <View
+    onLayout={[Function]}
+    style={
       {
-        "flexGrow": 1,
+        "flex": 1,
       }
     }
-    contentInsetAdjustmentBehavior="automatic"
-    keyboardShouldPersistTaps="handled"
   >
-    <View>
-      <View
-        style={
-          {
-            "backgroundColor": "orange",
-          }
+    <RCTScrollView
+      contentContainerStyle={
+        {
+          "flexGrow": 1,
         }
-      />
-    </View>
-  </RCTScrollView>
+      }
+      contentInsetAdjustmentBehavior="automatic"
+      keyboardDismissMode="interactive"
+      keyboardShouldPersistTaps="handled"
+    >
+      <View>
+        <View
+          style={
+            {
+              "backgroundColor": "orange",
+            }
+          }
+        />
+      </View>
+    </RCTScrollView>
+  </View>
 </RCTSafeAreaView>
 `;
 
@@ -41,6 +52,7 @@ exports[`layout/MainLayout test MainLayout layout::footer 1`] = `
     [
       {
         "flex": 1,
+        "paddingBottom": 50,
       },
       {
         "backgroundColor": "#ffffff",
@@ -48,32 +60,42 @@ exports[`layout/MainLayout test MainLayout layout::footer 1`] = `
     ]
   }
 >
-  <RCTScrollView
-    contentContainerStyle={
-      {
-        "flexGrow": 1,
-      }
-    }
-    contentInsetAdjustmentBehavior="automatic"
-    keyboardShouldPersistTaps="handled"
-  >
-    <View>
-      <View
-        style={
-          {
-            "backgroundColor": "orange",
-          }
-        }
-      />
-    </View>
-  </RCTScrollView>
   <View
+    onLayout={[Function]}
     style={
       {
-        "backgroundColor": "orange",
+        "flex": 1,
       }
     }
-  />
+  >
+    <RCTScrollView
+      contentContainerStyle={
+        {
+          "flexGrow": 1,
+        }
+      }
+      contentInsetAdjustmentBehavior="automatic"
+      keyboardDismissMode="interactive"
+      keyboardShouldPersistTaps="handled"
+    >
+      <View>
+        <View
+          style={
+            {
+              "backgroundColor": "orange",
+            }
+          }
+        />
+      </View>
+    </RCTScrollView>
+    <View
+      style={
+        {
+          "backgroundColor": "orange",
+        }
+      }
+    />
+  </View>
 </RCTSafeAreaView>
 `;
 
@@ -83,6 +105,7 @@ exports[`layout/MainLayout test MainLayout layout::statusBarBackgroundColor 1`] 
     [
       {
         "flex": 1,
+        "paddingBottom": 50,
       },
       {
         "backgroundColor": "#ffffff",
@@ -90,24 +113,34 @@ exports[`layout/MainLayout test MainLayout layout::statusBarBackgroundColor 1`] 
     ]
   }
 >
-  <RCTScrollView
-    contentContainerStyle={
+  <View
+    onLayout={[Function]}
+    style={
       {
-        "flexGrow": 1,
+        "flex": 1,
       }
     }
-    contentInsetAdjustmentBehavior="automatic"
-    keyboardShouldPersistTaps="handled"
   >
-    <View>
-      <View
-        style={
-          {
-            "backgroundColor": "orange",
-          }
+    <RCTScrollView
+      contentContainerStyle={
+        {
+          "flexGrow": 1,
         }
-      />
-    </View>
-  </RCTScrollView>
+      }
+      contentInsetAdjustmentBehavior="automatic"
+      keyboardDismissMode="interactive"
+      keyboardShouldPersistTaps="handled"
+    >
+      <View>
+        <View
+          style={
+            {
+              "backgroundColor": "orange",
+            }
+          }
+        />
+      </View>
+    </RCTScrollView>
+  </View>
 </RCTSafeAreaView>
 `;

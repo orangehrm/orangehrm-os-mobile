@@ -19,46 +19,159 @@
  */
 
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import {Fab, NativeBase} from 'native-base';
+import {
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Platform,
+  ViewStyle,
+  TouchableOpacityProps,
+} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'components/DefaultIcon';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
-const DefaultFab = (props: DefaultFabProps) => {
-  const {iconName, primary, secondary, theme, style, ...restProps} = props;
-  let color: string | undefined = theme.palette.default;
-  if (primary) {
-    color = theme.palette.primary;
-  } else if (secondary) {
-    color = theme.palette.secondary;
-  }
+type FabPosition = 'bottomRight' | 'bottomLeft' | 'topRight' | 'topLeft';
 
-  return (
-    <Fab
-      containerStyle={{bottom: theme.spacing * 4, right: theme.spacing * 5}}
-      style={[{backgroundColor: color}, style]}
-      position="bottomRight"
-      {...restProps}>
-      <Icon name={iconName} />
-    </Fab>
-  );
-};
-
-interface DefaultFabProps extends NativeBase.Fab, WithTheme {
+interface DefaultFabProps extends TouchableOpacityProps, WithTheme {
   iconName: string;
   primary?: boolean;
   secondary?: boolean;
+  position?: FabPosition;
+  containerStyle?: ViewStyle;
+  size?: 'small' | 'large' | 'regular';
 }
+
+const DefaultFab = (props: DefaultFabProps) => {
+  const {
+    iconName,
+    primary,
+    secondary,
+    theme,
+    style,
+    containerStyle,
+    position = 'bottomRight',
+    size = 'regular',
+    ...restProps
+  } = props;
+  const insets = useSafeAreaInsets();
+
+  // Determine FAB color
+  let backgroundColor: string = theme.palette.default;
+  if (primary) {
+    backgroundColor = theme.palette.primary;
+  } else if (secondary) {
+    backgroundColor = theme.palette.secondary;
+  }
+
+  // Size calculations
+  const fabSize = size === 'small' ? 40 : size === 'large' ? 64 : 56;
+  const iconSize = size === 'small' ? 20 : size === 'large' ? 28 : 24;
+
+  // Position styles
+  const getPositionStyle = (): ViewStyle => {
+    const spacing = theme.spacing * 4;
+    const bottomSpacing = spacing + insets.bottom;
+    switch (position) {
+      case 'bottomRight':
+        return {
+          position: 'absolute',
+          bottom: bottomSpacing,
+          right: spacing,
+        };
+      case 'bottomLeft':
+        return {
+          position: 'absolute',
+          bottom: bottomSpacing,
+          left: spacing,
+        };
+      case 'topRight':
+        return {
+          position: 'absolute',
+          top: spacing,
+          right: spacing,
+        };
+      case 'topLeft':
+        return {
+          position: 'absolute',
+          top: spacing,
+          left: spacing,
+        };
+      default:
+        return {
+          position: 'absolute',
+          bottom: bottomSpacing,
+          right: spacing,
+        };
+    }
+  };
+
+  const fabStyles = [
+    styles.fab,
+    {
+      width: fabSize,
+      height: fabSize,
+      borderRadius: fabSize / 2,
+      backgroundColor,
+    },
+    getPositionStyle(),
+    style,
+  ].filter(Boolean);
+
+  const containerStyles: ViewStyle[] = [
+    styles.container,
+    ...(Array.isArray(containerStyle)
+      ? containerStyle.filter(Boolean)
+      : containerStyle
+      ? [containerStyle]
+      : []),
+  ];
+
+  return (
+    <View style={containerStyles}>
+      <TouchableOpacity style={fabStyles} activeOpacity={0.8} {...restProps}>
+        <Icon
+          name={iconName}
+          style={{
+            fontSize: iconSize,
+            color: theme.typography.secondaryColor,
+          }}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    position: 'relative',
+  },
+  fab: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 4.65,
+      },
+      android: {
+        elevation: 8,
+      },
+    }),
+  },
+  fabSpace: {
+    // Fab width = height = 56 (regular size)
+    padding: 28,
+  },
+});
 
 export default withTheme<DefaultFabProps>()(DefaultFab);
 
 export const FabSpace = () => {
   return <View style={styles.fabSpace} />;
 };
-
-const styles = StyleSheet.create({
-  fabSpace: {
-    // Fab width = height = 56
-    padding: 28,
-  },
-});

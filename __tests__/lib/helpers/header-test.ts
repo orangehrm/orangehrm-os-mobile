@@ -32,7 +32,6 @@ describe('lib/helpers/header', () => {
       headerTitleStyle: {
         fontSize: theme.typography.headerFontSize,
         color: theme.typography.secondaryColor,
-        marginLeft: -theme.spacing * 2,
       },
     });
   });

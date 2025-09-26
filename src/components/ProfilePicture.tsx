@@ -19,13 +19,13 @@
  */
 
 import React from 'react';
-import {View, ImageBackground, StyleSheet} from 'react-native';
-import {Thumbnail} from 'native-base';
-import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import Text from 'components/DefaultText';
 import useEmployeePhoto from 'lib/hook/useEmployeePhoto';
 import {Employee} from 'store/auth/types';
 import {getFullName} from 'lib/helpers/name';
+import {View, ImageBackground, StyleSheet} from 'react-native';
+import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import Text from 'components/DefaultText';
+import Thumbnail from 'components/Thumbnail';
 
 const ProfilePicture = (props: ProfilePictureProps) => {
   const {theme, employee} = props;

@@ -25,7 +25,9 @@ import {
   RefreshControl,
   SafeAreaView,
   Linking,
+  Platform,
 } from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {DrawerActions} from '@react-navigation/native';
 import {
@@ -54,6 +56,7 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   const {myInfo, myInfoFinished, fetchMyInfo, logout, ...drawerContentProps} =
     props;
   const theme = useTheme();
+  const insets = useSafeAreaInsets();
 
   const onRefresh = useCallback(() => {
     fetchMyInfo();
@@ -86,8 +89,18 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView
+      style={[
+        styles.safeArea,
+        Platform.OS === 'android' && {
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+        },
+      ]}>
       <ProfilePicture employee={myInfo?.employee} />
+
       <DrawerContentScrollView
         contentContainerStyle={styles.contentContainer}
         refreshControl={

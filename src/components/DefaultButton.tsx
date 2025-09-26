@@ -20,7 +20,7 @@
 
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {Button, Text, NativeBase} from 'native-base';
+import CustomButton from './CustomButton';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 const DefaultButton = (props: DefaultButtonProps) => {
@@ -51,40 +51,50 @@ const DefaultButton = (props: DefaultButtonProps) => {
   }
 
   return (
-    <Button
+    <CustomButton
+      title={title}
       style={[
         {
-          backgroundColor: color,
           borderRadius: theme.borderRadius,
+          borderWidth: borderedColor ? 1 : 0,
+          borderColor: borderedColor ? borderedColor : 'transparent',
+          backgroundColor: color,
         },
-        borderedColor ? {borderColor: borderedColor} : undefined,
-        style,
+        ...(Array.isArray(style) ? style : style ? [style] : []),
+      ]}
+      textStyle={[
+        {
+          color: borderedColor
+            ? borderedColor
+            : theme.typography.secondaryColor,
+        },
+        ...(textProps?.style
+          ? Array.isArray(textProps.style)
+            ? textProps.style
+            : [textProps.style]
+          : []),
+        ...(fullWidth ? [styles.fullWidth] : []),
       ]}
       rounded
-      androidRippleColor={borderedColor ? borderedColor : undefined}
       transparent={transparent}
-      {...restProps}>
-      <Text
-        {...textProps}
-        style={[
-          {color: theme.typography.secondaryColor},
-          textProps?.style,
-          fullWidth ? styles.fullWidth : undefined,
-          borderedColor ? {color: borderedColor} : undefined,
-        ]}>
-        {title}
-      </Text>
-    </Button>
+      primary={primary}
+      secondary={secondary}
+      block={fullWidth}
+      {...restProps}
+    />
   );
 };
 
-interface DefaultButtonProps extends NativeBase.Button, WithTheme {
+interface DefaultButtonProps
+  extends React.ComponentProps<typeof CustomButton>,
+    WithTheme {
   title: string;
   primary?: boolean;
   secondary?: boolean;
-  textProps?: NativeBase.Text;
+  textProps?: {style?: React.ComponentProps<typeof CustomButton>['textStyle']};
   transparent?: boolean;
   fullWidth?: boolean;
+  bordered?: boolean;
 }
 
 const styles = StyleSheet.create({
