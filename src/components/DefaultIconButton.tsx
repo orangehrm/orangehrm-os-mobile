@@ -19,7 +19,11 @@
  */
 
 import React from 'react';
-import {TouchableOpacity, TouchableOpacityProps} from 'react-native';
+import {
+  TouchableOpacity,
+  TouchableOpacityProps,
+  StyleSheet,
+} from 'react-native';
 import Icon from 'components/DefaultIcon';
 
 const DefaultIconButton = (props: IconButtonProps) => {
@@ -27,7 +31,7 @@ const DefaultIconButton = (props: IconButtonProps) => {
 
   return (
     <TouchableOpacity
-      style={{borderRadius: 25, padding: large ? 16 : 8}}
+      style={[styles.button, large && styles.largeButton]}
       {...buttonProps}>
       <Icon {...iconProps} />
     </TouchableOpacity>
@@ -39,5 +43,15 @@ export interface IconButtonProps {
   buttonProps?: TouchableOpacityProps;
   large?: boolean;
 }
+
+const styles = StyleSheet.create({
+  button: {
+    borderRadius: 25,
+    padding: 8,
+  },
+  largeButton: {
+    padding: 16,
+  },
+});
 
 export default DefaultIconButton;

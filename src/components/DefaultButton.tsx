@@ -50,31 +50,35 @@ const DefaultButton = (props: DefaultButtonProps) => {
     color = undefined;
   }
 
+  const buttonStyle = [
+    styles.button,
+    {
+      borderRadius: theme.borderRadius,
+      borderWidth: borderedColor ? 1 : 0,
+      borderColor: borderedColor ? borderedColor : 'transparent',
+      backgroundColor: color,
+    },
+    ...(Array.isArray(style) ? style : style ? [style] : []),
+  ];
+
+  const textStyle = [
+    styles.text,
+    {
+      color: borderedColor ? borderedColor : theme.typography.secondaryColor,
+    },
+    ...(textProps?.style
+      ? Array.isArray(textProps.style)
+        ? textProps.style
+        : [textProps.style]
+      : []),
+    ...(fullWidth ? [styles.fullWidth] : []),
+  ];
+
   return (
     <CustomButton
       title={title}
-      style={[
-        {
-          borderRadius: theme.borderRadius,
-          borderWidth: borderedColor ? 1 : 0,
-          borderColor: borderedColor ? borderedColor : 'transparent',
-          backgroundColor: color,
-        },
-        ...(Array.isArray(style) ? style : style ? [style] : []),
-      ]}
-      textStyle={[
-        {
-          color: borderedColor
-            ? borderedColor
-            : theme.typography.secondaryColor,
-        },
-        ...(textProps?.style
-          ? Array.isArray(textProps.style)
-            ? textProps.style
-            : [textProps.style]
-          : []),
-        ...(fullWidth ? [styles.fullWidth] : []),
-      ]}
+      style={buttonStyle}
+      textStyle={textStyle}
       rounded
       transparent={transparent}
       primary={primary}
@@ -98,6 +102,12 @@ interface DefaultButtonProps
 }
 
 const styles = StyleSheet.create({
+  button: {
+    // Base button styles can be added here if needed
+  },
+  text: {
+    // Base text styles can be added here if needed
+  },
   fullWidth: {
     width: '100%',
     textAlign: 'center',

@@ -57,35 +57,31 @@ function CustomRadio(props: CustomRadioProps) {
   const radioSize = size;
   const innerCircleSize = radioSize * 0.5;
 
+  const dynamicStyles = {
+    outerCircle: {
+      width: radioSize,
+      height: radioSize,
+      borderColor: radioColor,
+      borderWidth: 2,
+      borderRadius: radioSize / 2,
+    },
+    innerCircle: {
+      width: innerCircleSize,
+      height: innerCircleSize,
+      backgroundColor: radioColor,
+      borderRadius: innerCircleSize / 2,
+    },
+  };
+
   return (
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled}
       style={[styles.container, style]}
       activeOpacity={0.7}>
-      <View
-        style={[
-          styles.outerCircle,
-          {
-            width: radioSize,
-            height: radioSize,
-            borderColor: radioColor,
-            borderWidth: 2,
-            borderRadius: radioSize / 2,
-          },
-        ]}>
+      <View style={[styles.outerCircle, dynamicStyles.outerCircle]}>
         {selected && (
-          <View
-            style={[
-              styles.innerCircle,
-              {
-                width: innerCircleSize,
-                height: innerCircleSize,
-                backgroundColor: radioColor,
-                borderRadius: innerCircleSize / 2,
-              },
-            ]}
-          />
+          <View style={[styles.innerCircle, dynamicStyles.innerCircle]} />
         )}
       </View>
     </TouchableOpacity>
