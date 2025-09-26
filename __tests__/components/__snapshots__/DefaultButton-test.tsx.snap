@@ -62,6 +62,7 @@ exports[`test button component with title 1`] = `
           "fontSize": 14,
           "fontWeight": "600",
         },
+        {},
         {
           "color": "#ffffff",
         },
