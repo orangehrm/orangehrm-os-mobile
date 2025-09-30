@@ -29,8 +29,15 @@ jobs:
         run: yarn version --no-git-tag-version --new-version ${{ env.orangehrm_version }}-${{ env.git_short_hash }}
       - name: Update Android project version
         run: node scripts/sync-version.js --debug
+      - name: Clean and prepare build
+        run: |
+          cd android
+          ./gradlew clean
+          cd ..
       - name: Generate autolinking file
-        run: npx react-native config
+        run: |
+          mkdir -p android/build/generated/autolinking
+          npx react-native config > android/build/generated/autolinking/autolinking.json
       - name: Build with Gradle
         run: cd android && ./gradlew assembleRelease
       - name: Upload Artifacts(arm64-v8a-release.apk)
