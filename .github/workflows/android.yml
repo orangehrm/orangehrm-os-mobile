@@ -32,27 +32,27 @@ jobs:
       - name: Build with Gradle
         run: cd android && ./gradlew assembleRelease
       - name: Upload Artifacts(arm64-v8a-release.apk)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: orangehrm(${{ env.git_short_hash }})-arm64-v8a
           path: android/app/build/outputs/apk/release/app-arm64-v8a-release.apk
       - name: Upload Artifacts(armeabi-v7a-release.apk)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: orangehrm(${{ env.git_short_hash }})-armeabi-v7a
           path: android/app/build/outputs/apk/release/app-armeabi-v7a-release.apk
       - name: Upload Artifacts(x86_64-release.apk)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: orangehrm(${{ env.git_short_hash }})-x86_64
           path: android/app/build/outputs/apk/release/app-x86_64-release.apk
       - name: Upload Artifacts(x86-release.apk)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: orangehrm(${{ env.git_short_hash }})-x86
           path: android/app/build/outputs/apk/release/app-x86-release.apk
       - name: Upload Artifacts(universal-release.apk)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: orangehrm(${{ env.git_short_hash }})-universal
           path: android/app/build/outputs/apk/release/app-universal-release.apk
