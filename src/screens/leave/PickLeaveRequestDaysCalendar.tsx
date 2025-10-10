@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   },
   calendarView: {
     alignItems: 'center',
-  }
+  },
 });
 
 const mapStateToProps = (state: RootState) => ({
