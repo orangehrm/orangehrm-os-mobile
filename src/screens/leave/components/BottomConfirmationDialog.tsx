@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, SafeAreaView} from 'react-native';
 import Text from 'components/DefaultText';
 import Button from 'components/DefaultButton';
 import BottomDialog from 'components/BottomDialog';
@@ -31,6 +31,7 @@ const BottomConfirmationDialog = (props: BottomConfirmationDialogProps) => {
 
   return (
     <BottomDialog isVisible={action !== undefined} onCancel={onResetAction}>
+      <SafeAreaView>
       <View style={{padding: theme.spacing * 4}}>
         <Text
           style={{
@@ -70,6 +71,7 @@ const BottomConfirmationDialog = (props: BottomConfirmationDialogProps) => {
           </View>
         </View>
       </View>
+      </SafeAreaView>
     </BottomDialog>
   );
 };

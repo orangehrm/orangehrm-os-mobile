@@ -1,4 +1,4 @@
-rootProject.name = 'OSMobile'
+rootProject.name = 'OrangeHRM'
 // Autolinking is handled by the React Native Gradle Plugin in 0.75+
 
 // Include native modules for autolinking

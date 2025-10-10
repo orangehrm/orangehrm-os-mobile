@@ -107,7 +107,6 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
           </View>
           <View
             style={[
-              styles.buttonContainer,
               {
                 paddingHorizontal: theme.spacing * 12,
                 paddingVertical: theme.spacing * 2,
@@ -139,10 +138,7 @@ const styles = StyleSheet.create({
   },
   calendarView: {
     alignItems: 'center',
-  },
-  buttonContainer: {
-    // Button container will take only the space it needs
-  },
+  }
 });
 
 const mapStateToProps = (state: RootState) => ({
