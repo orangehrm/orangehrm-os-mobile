@@ -18,13 +18,14 @@
  *
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
   TouchableWithoutFeedback,
   TextInput as RNTextInput,
   Platform,
+  Keyboard,
 } from 'react-native';
 import useTheme from 'lib/hook/useTheme';
 import Text from 'components/DefaultText';
@@ -147,6 +148,28 @@ export const PickNoteFooter = React.forwardRef<
 >((props, ref) => {
   const {value: comment, onChangeText, ...buttonProps} = props;
   const theme = useTheme();
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      (e) => {
+        setKeyboardHeight(e.endCoordinates.height);
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardHeight(0);
+      },
+    );
+
+    return () => {
+      keyboardDidShowListener?.remove();
+      keyboardDidHideListener?.remove();
+    };
+  }, []);
+
   return (
     <View
       style={[
@@ -154,6 +177,19 @@ export const PickNoteFooter = React.forwardRef<
         {
           backgroundColor: theme.palette.backgroundSecondary,
           paddingHorizontal: theme.spacing * 4,
+          paddingBottom: theme.spacing * 4,
+          paddingTop: theme.spacing * 2,
+          ...(Platform.OS === 'android' && keyboardHeight > 0
+            ? {
+                position: 'absolute',
+                bottom: keyboardHeight + 10,
+                left: 0,
+                right: 0,
+                zIndex: 1000,
+              }
+            : {
+                position: 'relative',
+              }),
         },
       ]}>
       <View style={styles.textView}>

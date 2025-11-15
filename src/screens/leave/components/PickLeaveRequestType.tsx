@@ -44,7 +44,7 @@ class PickLeaveType extends React.Component<PickLeaveTypeProps> {
           <CardButton
             style={[
               styles.cardButton,
-              {height: theme.spacing * 12},
+              {height: theme.spacing * 16},
               styles.marginForShadow,
             ]}
             rounded={false}>
@@ -57,7 +57,10 @@ class PickLeaveType extends React.Component<PickLeaveTypeProps> {
                 },
               ]}>
               <View style={styles.buttonLeftView}>
-                <Icon name={'briefcase'} />
+                <Icon
+                  name={'briefcase'}
+                  style={{marginRight: theme.spacing * 3}}
+                />
                 <Text style={{paddingTop: theme.spacing * 0.5}}>
                   {'Leave Type'}
                 </Text>

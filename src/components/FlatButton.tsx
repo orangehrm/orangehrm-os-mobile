@@ -45,11 +45,13 @@ const FlatButton = (props: FlatButtonProps) => {
           elevation ? undefined : styles.cardButtonElevation,
           {height: theme.spacing * 12},
           style,
-        ]}
+        ].filter(Boolean)}
         {...restProps}>
         <View style={[styles.cardButtonContent]}>
           <View style={styles.buttonLeftView}>
-            {icon ? <Icon name={icon} /> : null}
+            {icon ? (
+              <Icon name={icon} style={{marginRight: theme.spacing * 3}} />
+            ) : null}
             <Text
               style={[
                 {paddingTop: theme.spacing * 0.5},

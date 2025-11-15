@@ -32,7 +32,6 @@ const getHeaderStyle = (theme: Theme) => {
     headerTitleStyle: {
       fontSize: theme.typography.headerFontSize,
       color: theme.typography.secondaryColor,
-      marginLeft: -theme.spacing * 2,
     },
   };
 };

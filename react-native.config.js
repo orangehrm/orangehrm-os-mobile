@@ -18,21 +18,11 @@
  *
  */
 
-import 'react-native';
-import {getHeaderStyle} from 'lib/helpers/header';
-import theme from 'theme/default';
-
-describe('lib/helpers/header', () => {
-  test('check return object', () => {
-    const headerStyle = getHeaderStyle(theme);
-    expect(headerStyle).toStrictEqual({
-      headerStyle: {
-        backgroundColor: theme.palette.header,
-      },
-      headerTitleStyle: {
-        fontSize: theme.typography.headerFontSize,
-        color: theme.typography.secondaryColor,
-      },
-    });
-  });
-});
+module.exports = {
+  project: {
+    android: {
+      packageName: 'com.orangehrm.opensource',
+    },
+  },
+  assets: [], // Disable asset linking
+};

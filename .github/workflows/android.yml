@@ -14,10 +14,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: set up JDK 11
+      - name: set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: 11
+          java-version: 17
           distribution: 'temurin'
       - name: Install npm dependencies
         run: yarn install
@@ -29,30 +29,39 @@ jobs:
         run: yarn version --no-git-tag-version --new-version ${{ env.orangehrm_version }}-${{ env.git_short_hash }}
       - name: Update Android project version
         run: node scripts/sync-version.js --debug
+      - name: Clean and prepare build
+        run: |
+          cd android
+          ./gradlew clean
+          cd ..
+      - name: Generate autolinking file
+        run: |
+          mkdir -p android/build/generated/autolinking
+          npx react-native config > android/build/generated/autolinking/autolinking.json
       - name: Build with Gradle
         run: cd android && ./gradlew assembleRelease
       - name: Upload Artifacts(arm64-v8a-release.apk)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: orangehrm(${{ env.git_short_hash }})-arm64-v8a
           path: android/app/build/outputs/apk/release/app-arm64-v8a-release.apk
       - name: Upload Artifacts(armeabi-v7a-release.apk)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: orangehrm(${{ env.git_short_hash }})-armeabi-v7a
           path: android/app/build/outputs/apk/release/app-armeabi-v7a-release.apk
       - name: Upload Artifacts(x86_64-release.apk)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: orangehrm(${{ env.git_short_hash }})-x86_64
           path: android/app/build/outputs/apk/release/app-x86_64-release.apk
       - name: Upload Artifacts(x86-release.apk)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: orangehrm(${{ env.git_short_hash }})-x86
           path: android/app/build/outputs/apk/release/app-x86-release.apk
       - name: Upload Artifacts(universal-release.apk)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: orangehrm(${{ env.git_short_hash }})-universal
           path: android/app/build/outputs/apk/release/app-universal-release.apk

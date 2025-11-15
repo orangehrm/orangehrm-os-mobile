@@ -50,7 +50,7 @@ exports[`components/DefaultRadioItem test DefaultRadioItem component 1`] = `
       {
         "busy": undefined,
         "checked": undefined,
-        "disabled": undefined,
+        "disabled": false,
         "expanded": undefined,
         "selected": undefined,
       }
@@ -66,7 +66,6 @@ exports[`components/DefaultRadioItem test DefaultRadioItem component 1`] = `
     accessible={true}
     collapsable={false}
     focusable={false}
-    forwardedRef={[Function]}
     onClick={[Function]}
     onResponderGrant={[Function]}
     onResponderMove={[Function]}
@@ -76,35 +75,45 @@ exports[`components/DefaultRadioItem test DefaultRadioItem component 1`] = `
     onStartShouldSetResponder={[Function]}
     style={
       {
+        "alignItems": "center",
+        "justifyContent": "center",
         "opacity": 1,
       }
     }
   >
-    <Text
-      allowFontScaling={false}
+    <View
       style={
         [
           {
-            "color": undefined,
-            "fontSize": 12,
+            "alignItems": "center",
+            "justifyContent": "center",
           },
           {
-            "color": "#f88400",
-            "fontSize": 25,
+            "borderColor": "#f88400",
+            "borderRadius": 10,
+            "borderWidth": 2,
             "height": 20,
-            "lineHeight": 25,
+            "width": 20,
           },
-          {
-            "fontFamily": "Ionicons",
-            "fontStyle": "normal",
-            "fontWeight": "normal",
-          },
-          {},
         ]
       }
     >
-      
-    </Text>
+      <View
+        style={
+          [
+            {
+              "position": "absolute",
+            },
+            {
+              "backgroundColor": "#f88400",
+              "borderRadius": 5,
+              "height": 10,
+              "width": 10,
+            },
+          ]
+        }
+      />
+    </View>
   </View>
 </View>
 `;

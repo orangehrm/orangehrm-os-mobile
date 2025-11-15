@@ -34,7 +34,7 @@ import MainLayout from 'layouts/MainLayout';
 import Text from 'components/DefaultText';
 import Icon from 'components/DefaultIcon';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {Button} from 'native-base'; // Cannot use DefaultButton since title always UPPERCASE
+import CustomButton from 'components/CustomButton';
 import {SUPPORT_URL, SEND_MAIL_SUPPORT_EMAIL_URL} from 'services/help';
 class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
   onPressClose = () => {
@@ -128,22 +128,20 @@ class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
                   marginBottom: theme.spacing * 5,
                 },
               ]}>
-              <Button
+              <CustomButton
                 onPress={this.onPressLearnMore}
+                title="Learn More"
+                secondary
                 style={{
-                  backgroundColor: theme.palette.secondary,
                   paddingHorizontal: theme.spacing * 4,
                   height: theme.spacing * 8,
                   borderRadius: theme.borderRadius * 4,
-                }}>
-                <Text
-                  style={{
-                    color: theme.palette.background,
-                    fontSize: theme.typography.fontSize,
-                  }}>
-                  {'Learn More'}
-                </Text>
-              </Button>
+                }}
+                textStyle={{
+                  color: theme.palette.background,
+                  fontSize: theme.typography.fontSize,
+                }}
+              />
             </View>
             <View style={[styles.row, {paddingBottom: theme.spacing * 5}]}>
               <View style={styles.textView}>

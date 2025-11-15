@@ -156,11 +156,11 @@ const Navigator = (props: NavigatorProps) => {
             style={styles.root}>
             <Drawer.Navigator
               initialRouteName={initialRoute}
-              defaultStatus="closed"
-              drawerType={isLargeScreen ? 'permanent' : 'front'}
-              drawerStyle={
-                isLargeScreen ? {width: DEFAULT_FIXED_DRAWER_WIDTH} : undefined
-              }
+              screenOptions={{
+                drawerStyle: isLargeScreen
+                  ? {width: DEFAULT_FIXED_DRAWER_WIDTH}
+                  : undefined,
+              }}
               drawerContent={(drawerContentProps: any) => (
                 <DrawerContent {...drawerContentProps} />
               )}>

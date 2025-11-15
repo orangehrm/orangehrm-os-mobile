@@ -39,6 +39,7 @@ import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 const FirstLayout = (props: FirstLayoutProps) => {
   const {header, content, actions, more, theme, belowCard} = props;
+
   return (
     <>
       <StatusBar
@@ -95,11 +96,11 @@ const FirstLayout = (props: FirstLayoutProps) => {
                 {belowCard === undefined ? null : <View>{belowCard}</View>}
               </View>
               {more === undefined ? null : <View>{more}</View>}
-              <View>
-                <Footer />
-              </View>
             </View>
           </ScrollView>
+          <View style={styles.footerContainer}>
+            <Footer />
+          </View>
         </KeyboardAvoidingView>
       </SafeAreaView>
     </>
@@ -117,6 +118,7 @@ interface FirstLayoutProps extends WithTheme {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    paddingBottom: 50,
   },
   scrollView: {
     flexGrow: 1,
@@ -143,6 +145,10 @@ const styles = StyleSheet.create({
   cardActions: {
     flex: 1,
     flexDirection: 'row-reverse',
+  },
+  footerContainer: {
+    flex: 0,
+    position: 'relative',
   },
 });
 

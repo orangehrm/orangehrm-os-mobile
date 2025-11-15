@@ -156,7 +156,10 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
             onPress={this.onPressRequestDays}>
             <View style={[styles.cardButtonContent]}>
               <View style={styles.buttonLeftView}>
-                <Icon name={'calendar'} />
+                <Icon
+                  name={'calendar'}
+                  style={{marginRight: theme.spacing * 3}}
+                />
                 <Text style={{paddingTop: theme.spacing * 0.5}}>
                   {'Request Day(s)'}
                 </Text>
@@ -221,7 +224,10 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
               onPress={this.onPressDuration}>
               <View style={[styles.cardButtonContent]}>
                 <View style={styles.buttonLeftView}>
-                  <Icon name={'clock'} />
+                  <Icon
+                    name={'clock'}
+                    style={[{marginRight: theme.spacing * 3}]}
+                  />
                   <Text style={{paddingTop: theme.spacing * 0.5}}>
                     {'Duration'}
                   </Text>
@@ -245,7 +251,10 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
                 onPress={this.onPressPartialDays}>
                 <View style={[styles.cardButtonContent]}>
                   <View style={styles.buttonLeftView}>
-                    <Icon name={'clock'} />
+                    <Icon
+                      name={'clock'}
+                      style={[{marginRight: theme.spacing * 3}]}
+                    />
                     <Text style={{paddingTop: theme.spacing * 0.5}}>
                       {'Partial Days'}
                     </Text>

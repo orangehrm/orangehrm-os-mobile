@@ -3,6 +3,7 @@
 exports[`components/DefaultIcon test DefaultIcon component 1`] = `
 <Text
   allowFontScaling={false}
+  selectable={false}
   style={
     [
       {
@@ -10,14 +11,6 @@ exports[`components/DefaultIcon test DefaultIcon component 1`] = `
         "fontSize": 12,
       },
       [
-        {
-          "color": "#000",
-          "fontSize": 30,
-        },
-        {
-          "color": "#000",
-          "fontSize": 30,
-        },
         {
           "color": "#818181",
           "fontSize": 20,
@@ -32,7 +25,6 @@ exports[`components/DefaultIcon test DefaultIcon component 1`] = `
       {},
     ]
   }
-  type="MaterialCommunityIcons"
 >
   󰐕
 </Text>

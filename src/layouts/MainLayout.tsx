@@ -27,6 +27,7 @@ import {
   StyleSheet,
   RefreshControlProps,
   ScrollViewProps,
+  KeyboardAvoidingView,
 } from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
@@ -54,23 +55,30 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
       />
       <SafeAreaView
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
-        {header === undefined ? null : header}
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          contentContainerStyle={styles.scrollView}
-          keyboardShouldPersistTaps="handled"
-          refreshControl={
-            onRefresh === undefined ? undefined : (
-              <RefreshControl
-                refreshing={refreshing === undefined ? false : refreshing}
-                onRefresh={onRefresh}
-              />
-            )
-          }
-          {...scrollViewProps}>
-          {children}
-        </ScrollView>
-        {footer === undefined ? null : footer}
+        <KeyboardAvoidingView
+          // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.keyboardAvoidingView}
+          // keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
+        >
+          {header === undefined ? null : header}
+          <ScrollView
+            contentInsetAdjustmentBehavior="automatic"
+            contentContainerStyle={styles.scrollView}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="interactive"
+            refreshControl={
+              onRefresh === undefined ? undefined : (
+                <RefreshControl
+                  refreshing={refreshing === undefined ? false : refreshing}
+                  onRefresh={onRefresh}
+                />
+              )
+            }
+            {...scrollViewProps}>
+            {children}
+          </ScrollView>
+          {footer === undefined ? null : footer}
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </>
   );
@@ -88,6 +96,10 @@ interface MainLayoutProps
 
 const styles = StyleSheet.create({
   safeArea: {
+    flex: 1,
+    paddingBottom: 50,
+  },
+  keyboardAvoidingView: {
     flex: 1,
   },
   scrollView: {

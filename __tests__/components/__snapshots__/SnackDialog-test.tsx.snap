@@ -26,7 +26,6 @@ exports[`components/SnackDialog test SnackDialog component 1`] = `
     collapsable={false}
     deviceHeight={null}
     deviceWidth={null}
-    forwardedRef={[Function]}
     hideModalContentWhileAnimating={true}
     onBackdropPress={[Function]}
     onModalHide={[Function]}

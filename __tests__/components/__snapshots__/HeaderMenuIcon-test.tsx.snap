@@ -22,7 +22,6 @@ exports[`components/HeaderMenuIcon test HeaderMenuIcon component 1`] = `
   accessible={true}
   collapsable={false}
   focusable={true}
-  forwardedRef={[Function]}
   onClick={[Function]}
   onResponderGrant={[Function]}
   onResponderMove={[Function]}
@@ -32,32 +31,15 @@ exports[`components/HeaderMenuIcon test HeaderMenuIcon component 1`] = `
   onStartShouldSetResponder={[Function]}
   style={
     {
-      "alignItems": "center",
-      "alignSelf": "flex-start",
-      "backgroundColor": "transparent",
-      "borderBottomWidth": null,
-      "borderColor": "#007aff",
-      "borderLeftWidth": null,
-      "borderRadius": 5,
-      "borderRightWidth": null,
-      "borderTopWidth": null,
-      "borderWidth": undefined,
-      "elevation": 0,
-      "flexDirection": "row",
-      "height": 45,
-      "justifyContent": "space-between",
+      "borderRadius": 25,
       "opacity": 1,
-      "paddingBottom": 6,
-      "paddingTop": 6,
-      "shadowColor": null,
-      "shadowOffset": null,
-      "shadowOpacity": null,
-      "shadowRadius": null,
+      "padding": 8,
     }
   }
 >
   <Text
     allowFontScaling={false}
+    selectable={false}
     style={
       [
         {
@@ -65,17 +47,6 @@ exports[`components/HeaderMenuIcon test HeaderMenuIcon component 1`] = `
           "fontSize": 12,
         },
         [
-          {
-            "color": "#000",
-            "fontSize": 30,
-          },
-          {
-            "color": "#007aff",
-            "fontSize": 24,
-            "marginLeft": 16,
-            "marginRight": 16,
-            "paddingTop": 2,
-          },
           {
             "color": "#818181",
             "fontSize": 20,
@@ -93,7 +64,6 @@ exports[`components/HeaderMenuIcon test HeaderMenuIcon component 1`] = `
         {},
       ]
     }
-    type="MaterialCommunityIcons"
   >
     󰍜
   </Text>

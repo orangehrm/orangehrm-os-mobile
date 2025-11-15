@@ -20,7 +20,7 @@
 
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {Button, Text, NativeBase} from 'native-base';
+import CustomButton from './CustomButton';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 const DefaultButton = (props: DefaultButtonProps) => {
@@ -50,44 +50,64 @@ const DefaultButton = (props: DefaultButtonProps) => {
     color = undefined;
   }
 
+  const buttonStyle = [
+    styles.button,
+    {
+      borderRadius: theme.borderRadius,
+      borderWidth: borderedColor ? 1 : 0,
+      borderColor: borderedColor ? borderedColor : 'transparent',
+      backgroundColor: color,
+    },
+    ...(Array.isArray(style) ? style : style ? [style] : []),
+  ];
+
+  const textStyle = [
+    styles.text,
+    {
+      color: borderedColor ? borderedColor : theme.typography.secondaryColor,
+    },
+    ...(textProps?.style
+      ? Array.isArray(textProps.style)
+        ? textProps.style
+        : [textProps.style]
+      : []),
+    ...(fullWidth ? [styles.fullWidth] : []),
+  ];
+
   return (
-    <Button
-      style={[
-        {
-          backgroundColor: color,
-          borderRadius: theme.borderRadius,
-        },
-        borderedColor ? {borderColor: borderedColor} : undefined,
-        style,
-      ]}
+    <CustomButton
+      title={title}
+      style={buttonStyle}
+      textStyle={textStyle}
       rounded
-      androidRippleColor={borderedColor ? borderedColor : undefined}
       transparent={transparent}
-      {...restProps}>
-      <Text
-        {...textProps}
-        style={[
-          {color: theme.typography.secondaryColor},
-          textProps?.style,
-          fullWidth ? styles.fullWidth : undefined,
-          borderedColor ? {color: borderedColor} : undefined,
-        ]}>
-        {title}
-      </Text>
-    </Button>
+      primary={primary}
+      secondary={secondary}
+      block={fullWidth}
+      {...restProps}
+    />
   );
 };
 
-interface DefaultButtonProps extends NativeBase.Button, WithTheme {
+interface DefaultButtonProps
+  extends React.ComponentProps<typeof CustomButton>,
+    WithTheme {
   title: string;
   primary?: boolean;
   secondary?: boolean;
-  textProps?: NativeBase.Text;
+  textProps?: {style?: React.ComponentProps<typeof CustomButton>['textStyle']};
   transparent?: boolean;
   fullWidth?: boolean;
+  bordered?: boolean;
 }
 
 const styles = StyleSheet.create({
+  button: {
+    // Base button styles can be added here if needed
+  },
+  text: {
+    // Base text styles can be added here if needed
+  },
   fullWidth: {
     width: '100%',
     textAlign: 'center',

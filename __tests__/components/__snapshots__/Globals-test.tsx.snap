@@ -1,57 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/Globals test Globals component 1`] = `
-[
-  <View
-    style={
-      {
-        "alignItems": "center",
-        "justifyContent": "center",
-      }
+<View
+  style={
+    {
+      "alignItems": "center",
+      "justifyContent": "center",
     }
-  >
-    <Modal
-      animationType="fade"
-      hardwareAccelerated={false}
-      statusBarTranslucent={true}
-      transparent={true}
-      visible={false}
-    />
-  </View>,
-  <Modal
-    animationType="none"
-    deviceHeight={null}
-    deviceWidth={null}
-    hardwareAccelerated={false}
-    hideModalContentWhileAnimating={true}
-    onBackdropPress={[Function]}
-    onModalHide={[Function]}
-    onModalWillHide={[Function]}
-    onModalWillShow={[Function]}
-    onRequestClose={[Function]}
-    onSwipeComplete={[Function]}
-    panResponderThreshold={4}
-    scrollHorizontal={false}
-    scrollOffset={0}
-    scrollOffsetMax={0}
-    scrollTo={null}
-    statusBarTranslucent={false}
-    supportedOrientations={
-      [
-        "portrait",
-        "landscape",
-      ]
-    }
-    swipeDirection={
-      [
-        "left",
-        "right",
-        "down",
-      ]
-    }
-    swipeThreshold={50}
-    transparent={true}
-    visible={false}
-  />,
-]
+  }
+/>
 `;

@@ -20,7 +20,7 @@
 
 import React from 'react';
 import {View, StyleSheet, ImageSourcePropType} from 'react-native';
-import {Thumbnail, NativeBase} from 'native-base';
+import Thumbnail from 'components/Thumbnail';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {getNameLetters} from 'lib/helpers/name';
 import Text from 'components/DefaultText';
@@ -71,7 +71,7 @@ const DefaultAvatar = (props: DefaultAvatarProps) => {
 
 interface DefaultAvatarProps
   extends WithTheme,
-    Omit<NativeBase.Thumbnail, 'source'> {
+    Omit<React.ComponentProps<typeof Thumbnail>, 'source'> {
   name?: string;
   imageSource?: ImageSourcePropType;
 }

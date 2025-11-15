@@ -6,7 +6,7 @@ exports[`test button component with title 1`] = `
     {
       "busy": undefined,
       "checked": undefined,
-      "disabled": undefined,
+      "disabled": false,
       "expanded": undefined,
       "selected": undefined,
     }
@@ -21,8 +21,7 @@ exports[`test button component with title 1`] = `
   }
   accessible={true}
   collapsable={false}
-  focusable={false}
-  forwardedRef={[Function]}
+  focusable={true}
   onClick={[Function]}
   onResponderGrant={[Function]}
   onResponderMove={[Function]}
@@ -33,26 +32,22 @@ exports[`test button component with title 1`] = `
   style={
     {
       "alignItems": "center",
-      "alignSelf": "flex-start",
       "backgroundColor": "#00ac51",
-      "borderBottomWidth": null,
-      "borderColor": "#007aff",
-      "borderLeftWidth": null,
+      "borderColor": "transparent",
       "borderRadius": 4,
-      "borderRightWidth": null,
-      "borderTopWidth": null,
-      "borderWidth": undefined,
-      "elevation": 2,
+      "borderWidth": 0,
       "flexDirection": "row",
-      "height": 45,
-      "justifyContent": "space-between",
+      "justifyContent": "center",
       "opacity": 1,
-      "paddingBottom": 6,
-      "paddingTop": 6,
-      "shadowColor": undefined,
-      "shadowOffset": undefined,
-      "shadowOpacity": undefined,
-      "shadowRadius": undefined,
+      "paddingHorizontal": 16,
+      "paddingVertical": 12,
+      "shadowColor": "black",
+      "shadowOffset": {
+        "height": 1,
+        "width": 0,
+      },
+      "shadowOpacity": 0.2,
+      "shadowRadius": 2,
     }
   }
 >
@@ -60,21 +55,17 @@ exports[`test button component with title 1`] = `
     style={
       [
         {
-          "backgroundColor": "transparent",
-          "color": "#fff",
-          "fontFamily": "System",
-          "fontSize": 16.5,
-          "marginLeft": 0,
-          "marginRight": 0,
-          "paddingLeft": 16,
-          "paddingRight": 16,
+          "textAlign": "center",
         },
+        {
+          "color": "#818181",
+          "fontSize": 14,
+          "fontWeight": "600",
+        },
+        {},
         {
           "color": "#ffffff",
         },
-        undefined,
-        undefined,
-        undefined,
       ]
     }
   >

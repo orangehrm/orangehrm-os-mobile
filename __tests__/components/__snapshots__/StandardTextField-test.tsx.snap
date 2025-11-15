@@ -3,115 +3,44 @@
 exports[`components/StandardTextField test StandardTextField component 1`] = `
 <View>
   <View
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": undefined,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={false}
-    forwardedRef={[Function]}
-    onClick={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
     style={
       {
-        "alignItems": "center",
-        "backgroundColor": "transparent",
-        "borderBottomWidth": 1,
-        "borderColor": "#D9D5DC",
-        "borderLeftWidth": 0,
-        "borderRadius": undefined,
-        "borderRightWidth": 0,
-        "borderTopWidth": 0,
-        "borderWidth": undefined,
-        "flexDirection": "row-reverse",
-        "marginLeft": 2,
-        "opacity": 1,
+        "position": "relative",
       }
     }
   >
     <View
-      collapsable={false}
       style={
-        {
-          "left": 0,
-          "opacity": 1,
-          "paddingBottom": undefined,
-          "paddingTop": undefined,
-          "position": "absolute",
-          "right": 0,
-          "top": 18,
-        }
+        [
+          {
+            "alignItems": "center",
+            "borderBottomColor": "#ccc",
+            "borderBottomWidth": 1,
+            "flexDirection": "row",
+            "paddingVertical": 8,
+          },
+          undefined,
+        ]
       }
     >
-      <Text
+      <TextInput
+        onBlur={[Function]}
+        onChangeText={[Function]}
+        onFocus={[Function]}
+        placeholder="Test"
         style={
           [
             {
-              "color": "#575757",
-              "fontSize": 17,
-              "paddingRight": 5,
-              "paddingTop": 5,
+              "flex": 1,
+              "fontSize": 16,
+              "paddingHorizontal": 12,
+              "paddingVertical": 8,
             },
             undefined,
           ]
         }
-      >
-        <Text
-          style={
-            [
-              {
-                "fontSize": 17,
-              },
-              undefined,
-            ]
-          }
-        >
-          Test
-        </Text>
-      </Text>
+      />
     </View>
-    <TextInput
-      editable={true}
-      onBlur={[Function]}
-      onChangeText={[Function]}
-      onFocus={[Function]}
-      placeholder={null}
-      placeholderTextColor="#575757"
-      style={
-        {
-          "color": "#000",
-          "flex": 1,
-          "fontSize": 17,
-          "height": 50,
-          "paddingBottom": 7,
-          "paddingLeft": 5,
-          "paddingRight": 5,
-          "paddingTop": 3,
-          "top": 8,
-        }
-      }
-      underlineColorAndroid="rgba(0,0,0,0)"
-      value=""
-    />
   </View>
 </View>
 `;
@@ -119,115 +48,44 @@ exports[`components/StandardTextField test StandardTextField component 1`] = `
 exports[`components/StandardTextField test StandardTextField component with helper text 1`] = `
 <View>
   <View
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": undefined,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={false}
-    forwardedRef={[Function]}
-    onClick={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
     style={
       {
-        "alignItems": "center",
-        "backgroundColor": "transparent",
-        "borderBottomWidth": 1,
-        "borderColor": "#D9D5DC",
-        "borderLeftWidth": 0,
-        "borderRadius": undefined,
-        "borderRightWidth": 0,
-        "borderTopWidth": 0,
-        "borderWidth": undefined,
-        "flexDirection": "row-reverse",
-        "marginLeft": 2,
-        "opacity": 1,
+        "position": "relative",
       }
     }
   >
     <View
-      collapsable={false}
       style={
-        {
-          "left": 0,
-          "opacity": 1,
-          "paddingBottom": undefined,
-          "paddingTop": undefined,
-          "position": "absolute",
-          "right": 0,
-          "top": 18,
-        }
+        [
+          {
+            "alignItems": "center",
+            "borderBottomColor": "#ccc",
+            "borderBottomWidth": 1,
+            "flexDirection": "row",
+            "paddingVertical": 8,
+          },
+          undefined,
+        ]
       }
     >
-      <Text
+      <TextInput
+        onBlur={[Function]}
+        onChangeText={[Function]}
+        onFocus={[Function]}
+        placeholder="Test"
         style={
           [
             {
-              "color": "#575757",
-              "fontSize": 17,
-              "paddingRight": 5,
-              "paddingTop": 5,
+              "flex": 1,
+              "fontSize": 16,
+              "paddingHorizontal": 12,
+              "paddingVertical": 8,
             },
             undefined,
           ]
         }
-      >
-        <Text
-          style={
-            [
-              {
-                "fontSize": 17,
-              },
-              undefined,
-            ]
-          }
-        >
-          Test
-        </Text>
-      </Text>
+      />
     </View>
-    <TextInput
-      editable={true}
-      onBlur={[Function]}
-      onChangeText={[Function]}
-      onFocus={[Function]}
-      placeholder={null}
-      placeholderTextColor="#575757"
-      style={
-        {
-          "color": "#000",
-          "flex": 1,
-          "fontSize": 17,
-          "height": 50,
-          "paddingBottom": 7,
-          "paddingLeft": 5,
-          "paddingRight": 5,
-          "paddingTop": 3,
-          "top": 8,
-        }
-      }
-      underlineColorAndroid="rgba(0,0,0,0)"
-      value=""
-    />
   </View>
   <Text
     style={
@@ -253,156 +111,70 @@ exports[`components/StandardTextField test StandardTextField component with help
 exports[`components/StandardTextField test StandardTextField component with icon 1`] = `
 <View>
   <View
-    accessibilityState={
-      {
-        "busy": undefined,
-        "checked": undefined,
-        "disabled": undefined,
-        "expanded": undefined,
-        "selected": undefined,
-      }
-    }
-    accessibilityValue={
-      {
-        "max": undefined,
-        "min": undefined,
-        "now": undefined,
-        "text": undefined,
-      }
-    }
-    accessible={true}
-    collapsable={false}
-    focusable={false}
-    forwardedRef={[Function]}
-    onClick={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
     style={
       {
-        "alignItems": "center",
-        "backgroundColor": "transparent",
-        "borderBottomWidth": 1,
-        "borderColor": "#D9D5DC",
-        "borderLeftWidth": 0,
-        "borderRadius": undefined,
-        "borderRightWidth": 0,
-        "borderTopWidth": 0,
-        "borderWidth": undefined,
-        "flexDirection": "row-reverse",
-        "marginLeft": 2,
-        "opacity": 1,
+        "position": "relative",
       }
     }
   >
     <View
-      collapsable={false}
       style={
-        {
-          "left": 0,
-          "opacity": 1,
-          "paddingBottom": undefined,
-          "paddingTop": undefined,
-          "position": "absolute",
-          "right": 0,
-          "top": 18,
-        }
+        [
+          {
+            "alignItems": "center",
+            "borderBottomColor": "#ccc",
+            "borderBottomWidth": 1,
+            "flexDirection": "row",
+            "paddingVertical": 8,
+          },
+          undefined,
+        ]
       }
     >
-      <Text
+      <TextInput
+        onBlur={[Function]}
+        onChangeText={[Function]}
+        onFocus={[Function]}
+        placeholder="Test"
         style={
           [
             {
-              "color": "#575757",
-              "fontSize": 17,
-              "paddingRight": 5,
-              "paddingTop": 5,
+              "flex": 1,
+              "fontSize": 16,
+              "paddingHorizontal": 12,
+              "paddingVertical": 8,
             },
             {
               "paddingLeft": 32,
             },
           ]
         }
-      >
-        <Text
-          style={
-            [
-              {
-                "fontSize": 17,
-              },
-              {
-                "paddingLeft": 32,
-              },
-            ]
-          }
-        >
-          Test
-        </Text>
-      </Text>
-    </View>
-    <TextInput
-      editable={true}
-      onBlur={[Function]}
-      onChangeText={[Function]}
-      onFocus={[Function]}
-      placeholder={null}
-      placeholderTextColor="#575757"
-      style={
-        {
-          "color": "#000",
-          "flex": 1,
-          "fontSize": 17,
-          "height": 50,
-          "paddingBottom": 7,
-          "paddingLeft": 5,
-          "paddingRight": 5,
-          "paddingTop": 3,
-          "top": 8,
-        }
-      }
-      underlineColorAndroid="rgba(0,0,0,0)"
-    />
-    <Text
-      active={true}
-      allowFontScaling={false}
-      style={
-        [
-          {
-            "color": undefined,
-            "fontSize": 12,
-          },
+      />
+      <Text
+        allowFontScaling={false}
+        selectable={false}
+        style={
           [
             {
-              "color": "#000",
-              "fontSize": 30,
-            },
-            {
-              "color": "#000",
-              "fontSize": 24,
-              "paddingRight": 8,
-              "paddingTop": 8,
-              "top": 6,
+              "color": undefined,
+              "fontSize": 12,
             },
             {
               "color": "#818181",
               "fontSize": 20,
             },
-          ],
-          {
-            "fontFamily": "Material Design Icons",
-            "fontStyle": "normal",
-            "fontWeight": "normal",
-          },
-          {},
-        ]
-      }
-      type="MaterialCommunityIcons"
-    >
-      󰐕
-    </Text>
+            {
+              "fontFamily": "Material Design Icons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            {},
+          ]
+        }
+      >
+        󰐕
+      </Text>
+    </View>
   </View>
 </View>
 `;

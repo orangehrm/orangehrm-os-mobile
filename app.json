@@ -1,4 +1,7 @@
 {
   "name": "OrangeHRM",
-  "displayName": "OrangeHRM Open Source"
+  "displayName": "OrangeHRM Open Source",
+  "android": {
+    "package": "com.orangehrm.opensource"
+  }
 }

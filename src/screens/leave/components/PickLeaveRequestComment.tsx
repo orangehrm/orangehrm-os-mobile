@@ -18,13 +18,14 @@
  *
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
   TouchableWithoutFeedback,
   TextInput as RNTextInput,
   Platform,
+  Keyboard,
 } from 'react-native';
 import useTheme from 'lib/hook/useTheme';
 import Text from 'components/DefaultText';
@@ -49,7 +50,10 @@ const PickLeaveRequestComment = (props: PickLeaveRequestCommentProps) => {
           onPress={onPress}>
           <View style={[styles.cardButtonContent]}>
             <View style={styles.buttonLeftView}>
-              <Icon name={'comment-text'} />
+              <Icon
+                name={'comment-text'}
+                style={{marginRight: theme.spacing * 3}}
+              />
               <Text style={{paddingTop: theme.spacing * 0.5}}>{'Comment'}</Text>
             </View>
           </View>
@@ -137,6 +141,28 @@ export const PickLeaveRequestCommentFooter = React.forwardRef<
 >((props, ref) => {
   const {value: comment, onChangeText, autoFocus, ...buttonProps} = props;
   const theme = useTheme();
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      (e) => {
+        setKeyboardHeight(e.endCoordinates.height);
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardHeight(0);
+      },
+    );
+
+    return () => {
+      keyboardDidShowListener?.remove();
+      keyboardDidHideListener?.remove();
+    };
+  }, []);
+
   return (
     <View
       style={[
@@ -144,6 +170,17 @@ export const PickLeaveRequestCommentFooter = React.forwardRef<
         {
           backgroundColor: theme.palette.backgroundSecondary,
           paddingHorizontal: theme.spacing * 4,
+          ...(Platform.OS === 'android' && keyboardHeight > 0
+            ? {
+                position: 'absolute',
+                bottom: keyboardHeight + 10,
+                left: 0,
+                right: 0,
+                zIndex: 1000,
+              }
+            : {
+                position: 'relative',
+              }),
         },
       ]}>
       <View style={styles.textView}>

@@ -48,7 +48,10 @@ class LeaveUsageActions extends React.Component<LeaveUsageActionsProps> {
           <CardButton onPress={this.onPressMyLeave}>
             <View style={styles.cardButtonContent}>
               <View style={styles.buttonLeftView}>
-                <Icon name={'history'} />
+                <Icon
+                  name={'history'}
+                  style={{marginRight: theme.spacing * 3}}
+                />
                 <Text style={{paddingTop: theme.spacing * 0.5}}>
                   {'My Leave'}
                 </Text>

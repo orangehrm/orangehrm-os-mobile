@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {View, StyleSheet, Keyboard} from 'react-native';
+import {View, StyleSheet, Keyboard, Dimensions, Platform} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import SafeAreaLayout from 'layouts/SafeAreaLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -81,34 +81,45 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
       workWeek,
     } = this.props;
 
+    const screenHeight = Dimensions.get('window').height;
+    const calendarHeight =
+      Platform.OS === 'ios' ? screenHeight - 120 : screenHeight - 200; // Reserve space for button and padding
+
     return (
       <SafeAreaLayout>
-        <View
-          style={[
-            styles.calendarView,
-            {backgroundColor: theme.palette.backgroundSecondary},
-          ]}>
-          <Calendar
-            fromDate={fromDate}
-            toDate={toDate}
-            setFromDate={setFromDate}
-            setToDate={setToDate}
-            holidays={holidays}
-            workWeek={workWeek}
-          />
-        </View>
-        <View
-          style={{
-            paddingHorizontal: theme.spacing * 12,
-            paddingVertical: theme.spacing * 2,
-            backgroundColor: theme.palette.background,
-          }}>
-          <Button
-            title={'Continue'}
-            primary
-            fullWidth
-            onPress={this.onPressContinue}
-          />
+        <View style={styles.container}>
+          <View
+            style={[
+              styles.calendarView,
+              {
+                height: calendarHeight,
+                backgroundColor: theme.palette.backgroundSecondary,
+              },
+            ]}>
+            <Calendar
+              fromDate={fromDate}
+              toDate={toDate}
+              setFromDate={setFromDate}
+              setToDate={setToDate}
+              holidays={holidays}
+              workWeek={workWeek}
+            />
+          </View>
+          <View
+            style={[
+              {
+                paddingHorizontal: theme.spacing * 12,
+                paddingVertical: theme.spacing * 2,
+                backgroundColor: theme.palette.background,
+              },
+            ]}>
+            <Button
+              title={'Continue'}
+              primary
+              fullWidth
+              onPress={this.onPressContinue}
+            />
+          </View>
         </View>
       </SafeAreaLayout>
     );
@@ -122,8 +133,10 @@ interface PickLeaveRequestDaysProps
 }
 
 const styles = StyleSheet.create({
-  calendarView: {
+  container: {
     flex: 1,
+  },
+  calendarView: {
     alignItems: 'center',
   },
 });
