@@ -12,6 +12,13 @@ OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WAR
 
 - [React Native development environment](https://reactnative.dev/docs/environment-setup)
 - Yarn
+- JDK 17
+
+### Check whether the environment is ready
+
+```
+npx react-native doctor
+```
 
 ### Install dependancies
 
@@ -22,8 +29,6 @@ yarn install
 ### Start dev server
 
 ```
-npx react-native start
-# or
 yarn start
 ```
 
@@ -32,8 +37,6 @@ yarn start
 Start emulator or connect device before run below command
 
 ```
-npx react-native run-android
-# or
 yarn run android
 ```
 
