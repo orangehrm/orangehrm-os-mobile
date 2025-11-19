@@ -51,7 +51,13 @@ yarn run ios
 ### Testing
 
 ```
+# run full test suite
 yarn test
+
+# run only specific test case
+yarn test -- --t "<describe> <test>"
+# e.g.
+yarn test -- --t "lib/helpers/attendance calculateDurationBasedOnTimezone"
 ```
 
 ### [Linting](https://github.com/typescript-eslint/typescript-eslint)
@@ -67,3 +73,20 @@ yarn prettier src --write
 # or
 yarn run format
 ```
+
+### Release versions
+
+Use one of the following commands to increase the version in `package.json`
+```
+yarn version --no-git-tag-version --minor
+# or
+yarn version --no-git-tag-version --patch
+```
+
+And run following node scripts to sync `package.json` version to Android project and iOS project.
+```
+node ./scripts/sync-version.js
+node ./scripts/increment-build-number.js
+```
+
+Run `git diff` and review changes before commit version changes.

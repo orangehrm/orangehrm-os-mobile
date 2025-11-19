@@ -120,12 +120,15 @@ const calculateDurationBasedOnTimezone = (
     let punchOutTime = punchOutDateObj.getTime();
     let punchInTime = punchInDateObj.getTime();
 
-    if (punchInTimeZoneOffset) {
+    if (punchInTimeZoneOffset !== undefined && punchInTimeZoneOffset !== null) {
       punchInTime = moment(punchInDatetime)
         .utcOffset(punchInTimeZoneOffset * 60, true)
         .unix();
     }
-    if (punchOutTimeZoneOffset) {
+    if (
+      punchOutTimeZoneOffset !== undefined &&
+      punchOutTimeZoneOffset !== null
+    ) {
       punchOutTime = moment(punchOutDatetime)
         .utcOffset(punchOutTimeZoneOffset * 60, true)
         .unix();
