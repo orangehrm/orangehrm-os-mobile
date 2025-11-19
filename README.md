@@ -51,7 +51,13 @@ yarn run ios
 ### Testing
 
 ```
+# run full test suite
 yarn test
+
+# run only specific test case
+yarn test -- --t "<describe> <test>"
+# e.g.
+yarn test -- --t "lib/helpers/attendance calculateDurationBasedOnTimezone"
 ```
 
 ### [Linting](https://github.com/typescript-eslint/typescript-eslint)
