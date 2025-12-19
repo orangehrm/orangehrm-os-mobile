@@ -25,8 +25,8 @@ import {
   ViewProps,
   Platform,
   KeyboardAvoidingView,
-  SafeAreaView,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Dialog, {DialogProps} from 'components/DefaultDialog';
 
@@ -57,7 +57,7 @@ const SnackDialog = (props: React.PropsWithChildren<SnackDialogProps>) => {
       style={[styles.dialog, dialogProps.style]}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <SafeAreaView>
+        <SafeAreaView edges={['left', 'right']}>
           <View
             {...viewProps}
             style={[

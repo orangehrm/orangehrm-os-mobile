@@ -19,7 +19,8 @@
  */
 
 import React from 'react';
-import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import {StatusBar, StyleSheet} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 const SafeAreaLayout = (
@@ -34,6 +35,7 @@ const SafeAreaLayout = (
         backgroundColor={theme.palette.statusBarSecondary}
       />
       <SafeAreaView
+        edges={['left', 'right']}
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
         {children}
       </SafeAreaView>

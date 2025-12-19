@@ -23,11 +23,10 @@ import {
   StyleSheet,
   View,
   RefreshControl,
-  SafeAreaView,
   Linking,
   Platform,
 } from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useSafeAreaInsets, SafeAreaView} from 'react-native-safe-area-context';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import {DrawerActions} from '@react-navigation/native';
 import {

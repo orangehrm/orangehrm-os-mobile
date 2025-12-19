@@ -20,7 +20,6 @@
 
 import React from 'react';
 import {
-  SafeAreaView,
   ScrollView,
   StatusBar,
   View,
@@ -29,6 +28,7 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Card from 'components/DefaultCard';
 import CardHeader from 'components/DefaultCardHeader';
 import CardContent from 'components/DefaultCardContent';
@@ -47,6 +47,7 @@ const FirstLayout = (props: FirstLayoutProps) => {
         backgroundColor={theme.palette.statusBar}
       />
       <SafeAreaView
+        edges={['left', 'right']}
         style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}

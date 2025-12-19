@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {View, StyleSheet, Keyboard, Dimensions, Platform} from 'react-native';
+import {View, StyleSheet, Keyboard} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import SafeAreaLayout from 'layouts/SafeAreaLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -40,6 +40,7 @@ import {
 } from 'store/leave/common-screens/actions';
 import Button from 'components/DefaultButton';
 import Calendar from 'screens/leave/components/Calendar';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
   componentDidMount() {
@@ -81,10 +82,6 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
       workWeek,
     } = this.props;
 
-    const screenHeight = Dimensions.get('window').height;
-    const calendarHeight =
-      Platform.OS === 'ios' ? screenHeight - 120 : screenHeight - 200; // Reserve space for button and padding
-
     return (
       <SafeAreaLayout>
         <View style={styles.container}>
@@ -92,7 +89,7 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
             style={[
               styles.calendarView,
               {
-                height: calendarHeight,
+                flex: 1,
                 backgroundColor: theme.palette.backgroundSecondary,
               },
             ]}>
@@ -105,21 +102,23 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
               workWeek={workWeek}
             />
           </View>
-          <View
-            style={[
-              {
-                paddingHorizontal: theme.spacing * 12,
-                paddingVertical: theme.spacing * 2,
-                backgroundColor: theme.palette.background,
-              },
-            ]}>
-            <Button
-              title={'Continue'}
-              primary
-              fullWidth
-              onPress={this.onPressContinue}
-            />
-          </View>
+          <SafeAreaView edges={['left', 'right', 'bottom']} style={styles.buttonContainer}>
+            <View
+              style={[
+                {
+                  paddingHorizontal: theme.spacing * 12,
+                  paddingVertical: theme.spacing * 2,
+                  backgroundColor: theme.palette.background,
+                },
+              ]}>
+              <Button
+                title={'Continue'}
+                primary
+                fullWidth
+                onPress={this.onPressContinue}
+              />
+            </View>
+          </SafeAreaView>
         </View>
       </SafeAreaLayout>
     );
@@ -138,6 +137,9 @@ const styles = StyleSheet.create({
   },
   calendarView: {
     alignItems: 'center',
+  },
+  buttonContainer: {
+    backgroundColor: 'transparent',
   },
 });
 

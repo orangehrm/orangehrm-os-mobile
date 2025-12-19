@@ -18,9 +18,8 @@
  *
  */
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
-  SafeAreaView,
   ScrollView,
   StatusBar,
   RefreshControl,
@@ -28,8 +27,11 @@ import {
   RefreshControlProps,
   ScrollViewProps,
   KeyboardAvoidingView,
+  Keyboard,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import { Platform } from 'react-native';
 
 const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
   const {
@@ -42,6 +44,27 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
     scrollViewProps,
     statusBarBackgroundColor,
   } = props;
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true);
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false);
+      },
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
 
   return (
     <>
@@ -54,7 +77,14 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
         }
       />
       <SafeAreaView
-        style={[styles.safeArea, {backgroundColor: theme.palette.background}]}>
+        edges={['left', 'right']}
+        style={[
+          styles.safeArea,
+          {
+            backgroundColor: theme.palette.background,
+            paddingBottom: Platform.OS === 'ios' ? (isKeyboardVisible ? 0 : 50) : 50,
+          },
+        ]}>
         <KeyboardAvoidingView
           // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.keyboardAvoidingView}
@@ -97,7 +127,6 @@ interface MainLayoutProps
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    paddingBottom: 50,
   },
   keyboardAvoidingView: {
     flex: 1,
