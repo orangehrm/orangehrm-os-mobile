@@ -131,6 +131,10 @@ interface MainLayoutProps
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    paddingBottom: 50,
+  },
+  keyboardAvoidingView: {
+    flex: 1,
   },
   keyboardAvoidingView: {
     flex: 1,

@@ -101,7 +101,33 @@ describe('lib/helpers/attendance', () => {
       5.5,
     );
     expect(result).toBe(NEGATIVE_DURATION);
+
+    result = calculateDurationBasedOnTimezone(
+      '2025-11-19T16:42',
+      '2025-11-19T15:08',
+      5.5,
+      -0,
+    );
+    expect(result).toBe('03:56');
+
+    result = calculateDurationBasedOnTimezone(
+      '2025-12-31T16:42',
+      '2026-01-01T15:08',
+      5.5,
+      0,
+    );
+    expect(result).toBe('27:56');
+
+    // Daylight saving not considered when calculating duration with timezone offset
+    result = calculateDurationBasedOnTimezone(
+      '2025-10-26T00:00',
+      '2025-10-26T03:00',
+      0,
+      0,
+    );
+    expect(result).toBe('03:00');
   });
+
   test('convertDateObjToISOFormat::check get YYYY-MM-DD hh:mm datetime string from Date object', () => {
     const date = new Date('2020-07-14T21:48');
     const result = convertDateObjToISOFormat(date);

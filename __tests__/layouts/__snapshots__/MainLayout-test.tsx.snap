@@ -9,22 +9,21 @@ exports[`layout/MainLayout test MainLayout layout 1`] = `
     }
   }
 >
-  <RCTScrollView
-    contentContainerStyle={
+  <View
+    onLayout={[Function]}
+    style={
       {
-        "flexGrow": 1,
+        "flex": 1,
       }
     }
     contentInsetAdjustmentBehavior="automatic"
     keyboardDismissMode="interactive"
     keyboardShouldPersistTaps="handled"
   >
-    <View>
-      <View
-        style={
-          {
-            "backgroundColor": "orange",
-          }
+    <RCTScrollView
+      contentContainerStyle={
+        {
+          "flexGrow": 1,
         }
       />
     </View>
@@ -62,9 +61,10 @@ exports[`layout/MainLayout test MainLayout layout::footer 1`] = `
     </View>
   </RCTScrollView>
   <View
+    onLayout={[Function]}
     style={
       {
-        "backgroundColor": "orange",
+        "flex": 1,
       }
     }
   />
@@ -80,22 +80,21 @@ exports[`layout/MainLayout test MainLayout layout::statusBarBackgroundColor 1`] 
     }
   }
 >
-  <RCTScrollView
-    contentContainerStyle={
+  <View
+    onLayout={[Function]}
+    style={
       {
-        "flexGrow": 1,
+        "flex": 1,
       }
     }
     contentInsetAdjustmentBehavior="automatic"
     keyboardDismissMode="interactive"
     keyboardShouldPersistTaps="handled"
   >
-    <View>
-      <View
-        style={
-          {
-            "backgroundColor": "orange",
-          }
+    <RCTScrollView
+      contentContainerStyle={
+        {
+          "flexGrow": 1,
         }
       />
     </View>

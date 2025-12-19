@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {View, StyleSheet, Keyboard} from 'react-native';
+import {View, StyleSheet, Keyboard, Dimensions, Platform} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import SafeAreaLayout from 'layouts/SafeAreaLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -82,6 +82,10 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
       workWeek,
     } = this.props;
 
+    const screenHeight = Dimensions.get('window').height;
+    const calendarHeight =
+      Platform.OS === 'ios' ? screenHeight - 120 : screenHeight - 200; // Reserve space for button and padding
+
     return (
       <SafeAreaLayout>
         <View style={styles.container}>
@@ -138,7 +142,6 @@ const styles = StyleSheet.create({
   },
   calendarView: {
     flex: 1,
-    alignItems: 'center',
   },
   buttonContainer: {
     backgroundColor: 'transparent',
