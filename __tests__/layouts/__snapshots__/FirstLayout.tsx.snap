@@ -7,7 +7,6 @@ exports[`layout/FirstLayout test FirstLayout layout 1`] = `
     [
       {
         "flex": 1,
-        "paddingBottom": 50,
       },
       {
         "paddingBottom": 0,
