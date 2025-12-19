@@ -18,7 +18,7 @@
  *
  */
 
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -28,10 +28,10 @@ import {
   ScrollViewProps,
   KeyboardAvoidingView,
   Keyboard,
+  Platform,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import {Platform} from 'react-native';
 
 const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
   const {
@@ -66,6 +66,18 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
     };
   }, []);
 
+  const safeAreaStyle = useMemo(
+    () => [
+      styles.safeArea,
+      {
+        backgroundColor: theme.palette.background,
+        paddingBottom:
+          Platform.OS === 'ios' ? (isKeyboardVisible ? 0 : 50) : 50,
+      },
+    ],
+    [theme.palette.background, isKeyboardVisible],
+  );
+
   return (
     <>
       <StatusBar
@@ -76,16 +88,7 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
             : theme.palette.statusBarSecondary
         }
       />
-      <SafeAreaView
-        edges={['left', 'right']}
-        style={[
-          styles.safeArea,
-          {
-            backgroundColor: theme.palette.background,
-            paddingBottom:
-              Platform.OS === 'ios' ? (isKeyboardVisible ? 0 : 50) : 50,
-          },
-        ]}>
+      <SafeAreaView edges={['left', 'right']} style={safeAreaStyle}>
         <KeyboardAvoidingView
           // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.keyboardAvoidingView}

@@ -89,7 +89,6 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
             style={[
               styles.calendarView,
               {
-                flex: 1,
                 backgroundColor: theme.palette.backgroundSecondary,
               },
             ]}>
@@ -138,6 +137,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   calendarView: {
+    flex: 1,
     alignItems: 'center',
   },
   buttonContainer: {
