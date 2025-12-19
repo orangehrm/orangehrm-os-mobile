@@ -1,475 +1,144 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`layout/FirstLayout test FirstLayout layout 1`] = `
-<RCTSafeAreaView
+<View
+  onLayout={[Function]}
   style={
     [
       {
         "flex": 1,
-        "paddingBottom": 50,
       },
       {
-        "backgroundColor": "#ffffff",
+        "paddingBottom": 0,
       },
     ]
   }
 >
-  <View
-    onLayout={[Function]}
-    style={
-      [
-        {
-          "flex": 1,
-        },
-        {
-          "paddingBottom": 0,
-        },
-      ]
+  <RCTScrollView
+    contentContainerStyle={
+      {
+        "flexGrow": 1,
+      }
     }
+    contentInsetAdjustmentBehavior="automatic"
+    keyboardShouldPersistTaps="handled"
   >
-    <RCTScrollView
-      contentContainerStyle={
-        {
-          "flexGrow": 1,
-        }
-      }
-      contentInsetAdjustmentBehavior="automatic"
-      keyboardShouldPersistTaps="handled"
-    >
-      <View>
-        <View
-          style={
-            [
-              {
-                "alignItems": "stretch",
-                "flex": 1,
-                "flexDirection": "column",
-                "justifyContent": "space-between",
-                "marginVertical": "2%",
-              },
-              {
-                "marginHorizontal": 8,
-              },
-            ]
-          }
-        >
-          <View
-            style={
-              {
-                "alignItems": "center",
-              }
-            }
-          >
-            <Image
-              source={
-                {
-                  "testUri": "../../../src/images/orangehrm-logo-full.png",
-                }
-              }
-              style={
-                {
-                  "aspectRatio": 2,
-                  "height": undefined,
-                  "resizeMode": "contain",
-                  "width": "70%",
-                }
-              }
-            />
-            <View
-              style={
-                [
-                  {
-                    "elevation": 2,
-                    "shadowColor": "black",
-                    "shadowOffset": {
-                      "height": 0.5,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 0.5,
-                    "shadowRadius": 1,
-                  },
-                  {
-                    "width": "100%",
-                  },
-                  {
-                    "backgroundColor": "#ffffff",
-                    "borderRadius": 4,
-                  },
-                  {
-                    "marginBottom": 16,
-                  },
-                ]
-              }
-            >
-              <View
-                style={
-                  [
-                    {
-                      "elevation": 1,
-                      "width": "100%",
-                    },
-                    {
-                      "backgroundColor": "#f88400",
-                      "padding": 16,
-                      "paddingVertical": 16,
-                    },
-                    {
-                      "borderTopLeftRadius": 4,
-                      "borderTopRightRadius": 4,
-                    },
-                  ]
-                }
-              >
-                <Text
-                  style={
-                    [
-                      {
-                        "color": "#818181",
-                      },
-                      undefined,
-                      {
-                        "color": "#ffffff",
-                        "fontSize": 20,
-                      },
-                    ]
-                  }
-                >
-                  Header
-                </Text>
-              </View>
-              <View
-                style={
-                  [
-                    {
-                      "width": "100%",
-                    },
-                    {
-                      "borderRadius": 4,
-                    },
-                    {
-                      "padding": 16,
-                    },
-                  ]
-                }
-              >
-                <View
-                  style={
-                    {
-                      "backgroundColor": "orange",
-                    }
-                  }
-                />
-              </View>
-              <View
-                style={
-                  [
-                    {
-                      "width": "100%",
-                    },
-                    {
-                      "borderBottomLeftRadius": 4,
-                      "borderBottomRightRadius": 4,
-                      "paddingBottom": 8,
-                    },
-                    undefined,
-                  ]
-                }
-              >
-                <View
-                  style={
-                    [
-                      {
-                        "flex": 1,
-                        "flexDirection": "row-reverse",
-                      },
-                      {
-                        "paddingBottom": 8,
-                        "paddingHorizontal": 16,
-                      },
-                    ]
-                  }
-                >
-                  <View
-                    style={
-                      {
-                        "backgroundColor": "orange",
-                      }
-                    }
-                  />
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-      </View>
-    </RCTScrollView>
-    <View
-      style={
-        {
-          "flex": 0,
-          "position": "relative",
-        }
-      }
-    >
+    <View>
       <View
         style={
           [
             {
-              "alignItems": "center",
-              "justifyContent": "center",
+              "alignItems": "stretch",
+              "flex": 1,
+              "flexDirection": "column",
+              "justifyContent": "space-between",
+              "marginVertical": "2%",
             },
             {
-              "paddingBottom": 8,
-              "paddingTop": 8,
+              "marginHorizontal": 8,
             },
           ]
         }
       >
-        <Text
-          style={
-            [
-              {
-                "color": "#818181",
-              },
-              undefined,
-              {
-                "color": "#818181",
-                "fontSize": 8,
-              },
-            ]
-          }
-        >
-          OrangeHRM Open Source
-           
-          1.0.1
-        </Text>
-        <Text
-          style={
-            [
-              {
-                "color": "#818181",
-              },
-              undefined,
-              {
-                "color": "#818181",
-                "fontSize": 8,
-              },
-            ]
-          }
-        >
-          © 2005 - 
-          2025
-           
-          OrangeHRM, Inc. 
-          All Rights Reserved
-          .
-        </Text>
-      </View>
-    </View>
-  </View>
-</RCTSafeAreaView>
-`;
-
-exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
-<RCTSafeAreaView
-  style={
-    [
-      {
-        "flex": 1,
-        "paddingBottom": 50,
-      },
-      {
-        "backgroundColor": "#ffffff",
-      },
-    ]
-  }
->
-  <View
-    onLayout={[Function]}
-    style={
-      [
-        {
-          "flex": 1,
-        },
-        {
-          "paddingBottom": 0,
-        },
-      ]
-    }
-  >
-    <RCTScrollView
-      contentContainerStyle={
-        {
-          "flexGrow": 1,
-        }
-      }
-      contentInsetAdjustmentBehavior="automatic"
-      keyboardShouldPersistTaps="handled"
-    >
-      <View>
         <View
           style={
-            [
-              {
-                "alignItems": "stretch",
-                "flex": 1,
-                "flexDirection": "column",
-                "justifyContent": "space-between",
-                "marginVertical": "2%",
-              },
-              {
-                "marginHorizontal": 8,
-              },
-            ]
+            {
+              "alignItems": "center",
+            }
           }
         >
-          <View
-            style={
+          <Image
+            source={
               {
-                "alignItems": "center",
+                "testUri": "../../../src/images/orangehrm-logo-full.png",
               }
             }
+            style={
+              {
+                "aspectRatio": 2,
+                "height": undefined,
+                "resizeMode": "contain",
+                "width": "70%",
+              }
+            }
+          />
+          <View
+            style={
+              [
+                {
+                  "elevation": 2,
+                  "shadowColor": "black",
+                  "shadowOffset": {
+                    "height": 0.5,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 0.5,
+                  "shadowRadius": 1,
+                },
+                {
+                  "width": "100%",
+                },
+                {
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 4,
+                },
+                {
+                  "marginBottom": 16,
+                },
+              ]
+            }
           >
-            <Image
-              source={
-                {
-                  "testUri": "../../../src/images/orangehrm-logo-full.png",
-                }
-              }
-              style={
-                {
-                  "aspectRatio": 2,
-                  "height": undefined,
-                  "resizeMode": "contain",
-                  "width": "70%",
-                }
-              }
-            />
             <View
               style={
                 [
                   {
-                    "elevation": 2,
-                    "shadowColor": "black",
-                    "shadowOffset": {
-                      "height": 0.5,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 0.5,
-                    "shadowRadius": 1,
-                  },
-                  {
+                    "elevation": 1,
                     "width": "100%",
                   },
                   {
-                    "backgroundColor": "#ffffff",
-                    "borderRadius": 4,
+                    "backgroundColor": "#f88400",
+                    "padding": 16,
+                    "paddingVertical": 16,
                   },
                   {
-                    "marginBottom": 16,
+                    "borderTopLeftRadius": 4,
+                    "borderTopRightRadius": 4,
                   },
                 ]
               }
             >
-              <View
+              <Text
                 style={
                   [
                     {
-                      "elevation": 1,
-                      "width": "100%",
-                    },
-                    {
-                      "backgroundColor": "#f88400",
-                      "padding": 16,
-                      "paddingVertical": 16,
-                    },
-                    {
-                      "borderTopLeftRadius": 4,
-                      "borderTopRightRadius": 4,
-                    },
-                  ]
-                }
-              >
-                <Text
-                  style={
-                    [
-                      {
-                        "color": "#818181",
-                      },
-                      undefined,
-                      {
-                        "color": "#ffffff",
-                        "fontSize": 20,
-                      },
-                    ]
-                  }
-                >
-                  Header
-                </Text>
-              </View>
-              <View
-                style={
-                  [
-                    {
-                      "width": "100%",
-                    },
-                    {
-                      "borderRadius": 4,
-                    },
-                    {
-                      "padding": 16,
-                    },
-                  ]
-                }
-              >
-                <View
-                  style={
-                    {
-                      "backgroundColor": "orange",
-                    }
-                  }
-                />
-              </View>
-              <View
-                style={
-                  [
-                    {
-                      "width": "100%",
-                    },
-                    {
-                      "borderBottomLeftRadius": 4,
-                      "borderBottomRightRadius": 4,
-                      "paddingBottom": 8,
+                      "color": "#818181",
                     },
                     undefined,
+                    {
+                      "color": "#ffffff",
+                      "fontSize": 20,
+                    },
                   ]
                 }
               >
-                <View
-                  style={
-                    [
-                      {
-                        "flex": 1,
-                        "flexDirection": "row-reverse",
-                      },
-                      {
-                        "paddingBottom": 8,
-                        "paddingHorizontal": 16,
-                      },
-                    ]
-                  }
-                >
-                  <View
-                    style={
-                      {
-                        "backgroundColor": "orange",
-                      }
-                    }
-                  />
-                </View>
-              </View>
+                Header
+              </Text>
             </View>
-            <View>
+            <View
+              style={
+                [
+                  {
+                    "width": "100%",
+                  },
+                  {
+                    "borderRadius": 4,
+                  },
+                  {
+                    "padding": 16,
+                  },
+                ]
+              }
+            >
               <View
                 style={
                   {
@@ -478,175 +147,18 @@ exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
                 }
               />
             </View>
-          </View>
-        </View>
-      </View>
-    </RCTScrollView>
-    <View
-      style={
-        {
-          "flex": 0,
-          "position": "relative",
-        }
-      }
-    >
-      <View
-        style={
-          [
-            {
-              "alignItems": "center",
-              "justifyContent": "center",
-            },
-            {
-              "paddingBottom": 8,
-              "paddingTop": 8,
-            },
-          ]
-        }
-      >
-        <Text
-          style={
-            [
-              {
-                "color": "#818181",
-              },
-              undefined,
-              {
-                "color": "#818181",
-                "fontSize": 8,
-              },
-            ]
-          }
-        >
-          OrangeHRM Open Source
-           
-          1.0.1
-        </Text>
-        <Text
-          style={
-            [
-              {
-                "color": "#818181",
-              },
-              undefined,
-              {
-                "color": "#818181",
-                "fontSize": 8,
-              },
-            ]
-          }
-        >
-          © 2005 - 
-          2025
-           
-          OrangeHRM, Inc. 
-          All Rights Reserved
-          .
-        </Text>
-      </View>
-    </View>
-  </View>
-</RCTSafeAreaView>
-`;
-
-exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
-<RCTSafeAreaView
-  style={
-    [
-      {
-        "flex": 1,
-        "paddingBottom": 50,
-      },
-      {
-        "backgroundColor": "#ffffff",
-      },
-    ]
-  }
->
-  <View
-    onLayout={[Function]}
-    style={
-      [
-        {
-          "flex": 1,
-        },
-        {
-          "paddingBottom": 0,
-        },
-      ]
-    }
-  >
-    <RCTScrollView
-      contentContainerStyle={
-        {
-          "flexGrow": 1,
-        }
-      }
-      contentInsetAdjustmentBehavior="automatic"
-      keyboardShouldPersistTaps="handled"
-    >
-      <View>
-        <View
-          style={
-            [
-              {
-                "alignItems": "stretch",
-                "flex": 1,
-                "flexDirection": "column",
-                "justifyContent": "space-between",
-                "marginVertical": "2%",
-              },
-              {
-                "marginHorizontal": 8,
-              },
-            ]
-          }
-        >
-          <View
-            style={
-              {
-                "alignItems": "center",
-              }
-            }
-          >
-            <Image
-              source={
-                {
-                  "testUri": "../../../src/images/orangehrm-logo-full.png",
-                }
-              }
-              style={
-                {
-                  "aspectRatio": 2,
-                  "height": undefined,
-                  "resizeMode": "contain",
-                  "width": "70%",
-                }
-              }
-            />
             <View
               style={
                 [
                   {
-                    "elevation": 2,
-                    "shadowColor": "black",
-                    "shadowOffset": {
-                      "height": 0.5,
-                      "width": 0,
-                    },
-                    "shadowOpacity": 0.5,
-                    "shadowRadius": 1,
-                  },
-                  {
                     "width": "100%",
                   },
                   {
-                    "backgroundColor": "#ffffff",
-                    "borderRadius": 4,
+                    "borderBottomLeftRadius": 4,
+                    "borderBottomRightRadius": 4,
+                    "paddingBottom": 8,
                   },
-                  {
-                    "marginBottom": 16,
-                  },
+                  undefined,
                 ]
               }
             >
@@ -654,49 +166,12 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
                 style={
                   [
                     {
-                      "elevation": 1,
-                      "width": "100%",
+                      "flex": 1,
+                      "flexDirection": "row-reverse",
                     },
                     {
-                      "backgroundColor": "#f88400",
-                      "padding": 16,
-                      "paddingVertical": 16,
-                    },
-                    {
-                      "borderTopLeftRadius": 4,
-                      "borderTopRightRadius": 4,
-                    },
-                  ]
-                }
-              >
-                <Text
-                  style={
-                    [
-                      {
-                        "color": "#818181",
-                      },
-                      undefined,
-                      {
-                        "color": "#ffffff",
-                        "fontSize": 20,
-                      },
-                    ]
-                  }
-                >
-                  Header
-                </Text>
-              </View>
-              <View
-                style={
-                  [
-                    {
-                      "width": "100%",
-                    },
-                    {
-                      "borderRadius": 4,
-                    },
-                    {
-                      "padding": 16,
+                      "paddingBottom": 8,
+                      "paddingHorizontal": 16,
                     },
                   ]
                 }
@@ -709,43 +184,261 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
                   }
                 />
               </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      {
+        "flex": 0,
+        "position": "relative",
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "alignItems": "center",
+            "justifyContent": "center",
+          },
+          {
+            "paddingBottom": 8,
+            "paddingTop": 8,
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "#818181",
+            },
+            undefined,
+            {
+              "color": "#818181",
+              "fontSize": 8,
+            },
+          ]
+        }
+      >
+        OrangeHRM Open Source
+         
+        1.0.1
+      </Text>
+      <Text
+        style={
+          [
+            {
+              "color": "#818181",
+            },
+            undefined,
+            {
+              "color": "#818181",
+              "fontSize": 8,
+            },
+          ]
+        }
+      >
+        © 2005 - 
+        2025
+         
+        OrangeHRM, Inc. 
+        All Rights Reserved
+        .
+      </Text>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`layout/FirstLayout test FirstLayout layout::belowCard 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      {
+        "paddingBottom": 0,
+      },
+    ]
+  }
+>
+  <RCTScrollView
+    contentContainerStyle={
+      {
+        "flexGrow": 1,
+      }
+    }
+    contentInsetAdjustmentBehavior="automatic"
+    keyboardShouldPersistTaps="handled"
+  >
+    <View>
+      <View
+        style={
+          [
+            {
+              "alignItems": "stretch",
+              "flex": 1,
+              "flexDirection": "column",
+              "justifyContent": "space-between",
+              "marginVertical": "2%",
+            },
+            {
+              "marginHorizontal": 8,
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+            }
+          }
+        >
+          <Image
+            source={
+              {
+                "testUri": "../../../src/images/orangehrm-logo-full.png",
+              }
+            }
+            style={
+              {
+                "aspectRatio": 2,
+                "height": undefined,
+                "resizeMode": "contain",
+                "width": "70%",
+              }
+            }
+          />
+          <View
+            style={
+              [
+                {
+                  "elevation": 2,
+                  "shadowColor": "black",
+                  "shadowOffset": {
+                    "height": 0.5,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 0.5,
+                  "shadowRadius": 1,
+                },
+                {
+                  "width": "100%",
+                },
+                {
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 4,
+                },
+                {
+                  "marginBottom": 16,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                [
+                  {
+                    "elevation": 1,
+                    "width": "100%",
+                  },
+                  {
+                    "backgroundColor": "#f88400",
+                    "padding": 16,
+                    "paddingVertical": 16,
+                  },
+                  {
+                    "borderTopLeftRadius": 4,
+                    "borderTopRightRadius": 4,
+                  },
+                ]
+              }
+            >
+              <Text
+                style={
+                  [
+                    {
+                      "color": "#818181",
+                    },
+                    undefined,
+                    {
+                      "color": "#ffffff",
+                      "fontSize": 20,
+                    },
+                  ]
+                }
+              >
+                Header
+              </Text>
+            </View>
+            <View
+              style={
+                [
+                  {
+                    "width": "100%",
+                  },
+                  {
+                    "borderRadius": 4,
+                  },
+                  {
+                    "padding": 16,
+                  },
+                ]
+              }
+            >
+              <View
+                style={
+                  {
+                    "backgroundColor": "orange",
+                  }
+                }
+              />
+            </View>
+            <View
+              style={
+                [
+                  {
+                    "width": "100%",
+                  },
+                  {
+                    "borderBottomLeftRadius": 4,
+                    "borderBottomRightRadius": 4,
+                    "paddingBottom": 8,
+                  },
+                  undefined,
+                ]
+              }
+            >
               <View
                 style={
                   [
                     {
-                      "width": "100%",
+                      "flex": 1,
+                      "flexDirection": "row-reverse",
                     },
                     {
-                      "borderBottomLeftRadius": 4,
-                      "borderBottomRightRadius": 4,
                       "paddingBottom": 8,
+                      "paddingHorizontal": 16,
                     },
-                    undefined,
                   ]
                 }
               >
                 <View
                   style={
-                    [
-                      {
-                        "flex": 1,
-                        "flexDirection": "row-reverse",
-                      },
-                      {
-                        "paddingBottom": 8,
-                        "paddingHorizontal": 16,
-                      },
-                    ]
-                  }
-                >
-                  <View
-                    style={
-                      {
-                        "backgroundColor": "orange",
-                      }
+                    {
+                      "backgroundColor": "orange",
                     }
-                  />
-                </View>
+                  }
+                />
               </View>
             </View>
           </View>
@@ -760,70 +453,335 @@ exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
           </View>
         </View>
       </View>
-    </RCTScrollView>
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      {
+        "flex": 0,
+        "position": "relative",
+      }
+    }
+  >
     <View
       style={
-        {
-          "flex": 0,
-          "position": "relative",
-        }
+        [
+          {
+            "alignItems": "center",
+            "justifyContent": "center",
+          },
+          {
+            "paddingBottom": 8,
+            "paddingTop": 8,
+          },
+        ]
       }
     >
-      <View
+      <Text
         style={
           [
             {
-              "alignItems": "center",
-              "justifyContent": "center",
+              "color": "#818181",
             },
+            undefined,
             {
-              "paddingBottom": 8,
-              "paddingTop": 8,
+              "color": "#818181",
+              "fontSize": 8,
             },
           ]
         }
       >
-        <Text
-          style={
-            [
-              {
-                "color": "#818181",
-              },
-              undefined,
-              {
-                "color": "#818181",
-                "fontSize": 8,
-              },
-            ]
-          }
-        >
-          OrangeHRM Open Source
-           
-          1.0.1
-        </Text>
-        <Text
-          style={
-            [
-              {
-                "color": "#818181",
-              },
-              undefined,
-              {
-                "color": "#818181",
-                "fontSize": 8,
-              },
-            ]
-          }
-        >
-          © 2005 - 
-          2025
-           
-          OrangeHRM, Inc. 
-          All Rights Reserved
-          .
-        </Text>
-      </View>
+        OrangeHRM Open Source
+         
+        1.0.1
+      </Text>
+      <Text
+        style={
+          [
+            {
+              "color": "#818181",
+            },
+            undefined,
+            {
+              "color": "#818181",
+              "fontSize": 8,
+            },
+          ]
+        }
+      >
+        © 2005 - 
+        2025
+         
+        OrangeHRM, Inc. 
+        All Rights Reserved
+        .
+      </Text>
     </View>
   </View>
-</RCTSafeAreaView>
+</View>
+`;
+
+exports[`layout/FirstLayout test FirstLayout layout::more 1`] = `
+<View
+  onLayout={[Function]}
+  style={
+    [
+      {
+        "flex": 1,
+      },
+      {
+        "paddingBottom": 0,
+      },
+    ]
+  }
+>
+  <RCTScrollView
+    contentContainerStyle={
+      {
+        "flexGrow": 1,
+      }
+    }
+    contentInsetAdjustmentBehavior="automatic"
+    keyboardShouldPersistTaps="handled"
+  >
+    <View>
+      <View
+        style={
+          [
+            {
+              "alignItems": "stretch",
+              "flex": 1,
+              "flexDirection": "column",
+              "justifyContent": "space-between",
+              "marginVertical": "2%",
+            },
+            {
+              "marginHorizontal": 8,
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+            }
+          }
+        >
+          <Image
+            source={
+              {
+                "testUri": "../../../src/images/orangehrm-logo-full.png",
+              }
+            }
+            style={
+              {
+                "aspectRatio": 2,
+                "height": undefined,
+                "resizeMode": "contain",
+                "width": "70%",
+              }
+            }
+          />
+          <View
+            style={
+              [
+                {
+                  "elevation": 2,
+                  "shadowColor": "black",
+                  "shadowOffset": {
+                    "height": 0.5,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 0.5,
+                  "shadowRadius": 1,
+                },
+                {
+                  "width": "100%",
+                },
+                {
+                  "backgroundColor": "#ffffff",
+                  "borderRadius": 4,
+                },
+                {
+                  "marginBottom": 16,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                [
+                  {
+                    "elevation": 1,
+                    "width": "100%",
+                  },
+                  {
+                    "backgroundColor": "#f88400",
+                    "padding": 16,
+                    "paddingVertical": 16,
+                  },
+                  {
+                    "borderTopLeftRadius": 4,
+                    "borderTopRightRadius": 4,
+                  },
+                ]
+              }
+            >
+              <Text
+                style={
+                  [
+                    {
+                      "color": "#818181",
+                    },
+                    undefined,
+                    {
+                      "color": "#ffffff",
+                      "fontSize": 20,
+                    },
+                  ]
+                }
+              >
+                Header
+              </Text>
+            </View>
+            <View
+              style={
+                [
+                  {
+                    "width": "100%",
+                  },
+                  {
+                    "borderRadius": 4,
+                  },
+                  {
+                    "padding": 16,
+                  },
+                ]
+              }
+            >
+              <View
+                style={
+                  {
+                    "backgroundColor": "orange",
+                  }
+                }
+              />
+            </View>
+            <View
+              style={
+                [
+                  {
+                    "width": "100%",
+                  },
+                  {
+                    "borderBottomLeftRadius": 4,
+                    "borderBottomRightRadius": 4,
+                    "paddingBottom": 8,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <View
+                style={
+                  [
+                    {
+                      "flex": 1,
+                      "flexDirection": "row-reverse",
+                    },
+                    {
+                      "paddingBottom": 8,
+                      "paddingHorizontal": 16,
+                    },
+                  ]
+                }
+              >
+                <View
+                  style={
+                    {
+                      "backgroundColor": "orange",
+                    }
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View>
+          <View
+            style={
+              {
+                "backgroundColor": "orange",
+              }
+            }
+          />
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      {
+        "flex": 0,
+        "position": "relative",
+      }
+    }
+  >
+    <View
+      style={
+        [
+          {
+            "alignItems": "center",
+            "justifyContent": "center",
+          },
+          {
+            "paddingBottom": 8,
+            "paddingTop": 8,
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          [
+            {
+              "color": "#818181",
+            },
+            undefined,
+            {
+              "color": "#818181",
+              "fontSize": 8,
+            },
+          ]
+        }
+      >
+        OrangeHRM Open Source
+         
+        1.0.1
+      </Text>
+      <Text
+        style={
+          [
+            {
+              "color": "#818181",
+            },
+            undefined,
+            {
+              "color": "#818181",
+              "fontSize": 8,
+            },
+          ]
+        }
+      >
+        © 2005 - 
+        2025
+         
+        OrangeHRM, Inc. 
+        All Rights Reserved
+        .
+      </Text>
+    </View>
+  </View>
+</View>
 `;

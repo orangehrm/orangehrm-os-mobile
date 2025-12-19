@@ -1,24 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`layout/SafeAreaLayout test SafeAreaLayout layout 1`] = `
-<RCTSafeAreaView
+<View
   style={
-    [
-      {
-        "flex": 1,
-      },
-      {
-        "backgroundColor": "#ffffff",
-      },
-    ]
-  }
->
-  <View
-    style={
-      {
-        "backgroundColor": "orange",
-      }
+    {
+      "backgroundColor": "orange",
     }
-  />
-</RCTSafeAreaView>
+  }
+/>
 `;

@@ -102,7 +102,9 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
               workWeek={workWeek}
             />
           </View>
-          <SafeAreaView edges={['left', 'right', 'bottom']} style={styles.buttonContainer}>
+          <SafeAreaView
+            edges={['left', 'right', 'bottom']}
+            style={styles.buttonContainer}>
             <View
               style={[
                 {

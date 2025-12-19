@@ -1,146 +1,104 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`layout/MainLayout test MainLayout layout 1`] = `
-<RCTSafeAreaView
+<View
+  onLayout={[Function]}
   style={
-    [
-      {
-        "flex": 1,
-        "paddingBottom": 50,
-      },
-      {
-        "backgroundColor": "#ffffff",
-      },
-    ]
+    {
+      "flex": 1,
+    }
   }
 >
-  <View
-    onLayout={[Function]}
-    style={
+  <RCTScrollView
+    contentContainerStyle={
       {
-        "flex": 1,
+        "flexGrow": 1,
       }
     }
+    contentInsetAdjustmentBehavior="automatic"
+    keyboardDismissMode="interactive"
+    keyboardShouldPersistTaps="handled"
   >
-    <RCTScrollView
-      contentContainerStyle={
-        {
-          "flexGrow": 1,
-        }
-      }
-      contentInsetAdjustmentBehavior="automatic"
-      keyboardDismissMode="interactive"
-      keyboardShouldPersistTaps="handled"
-    >
-      <View>
-        <View
-          style={
-            {
-              "backgroundColor": "orange",
-            }
+    <View>
+      <View
+        style={
+          {
+            "backgroundColor": "orange",
           }
-        />
-      </View>
-    </RCTScrollView>
-  </View>
-</RCTSafeAreaView>
+        }
+      />
+    </View>
+  </RCTScrollView>
+</View>
 `;
 
 exports[`layout/MainLayout test MainLayout layout::footer 1`] = `
-<RCTSafeAreaView
+<View
+  onLayout={[Function]}
   style={
-    [
-      {
-        "flex": 1,
-        "paddingBottom": 50,
-      },
-      {
-        "backgroundColor": "#ffffff",
-      },
-    ]
+    {
+      "flex": 1,
+    }
   }
 >
-  <View
-    onLayout={[Function]}
-    style={
+  <RCTScrollView
+    contentContainerStyle={
       {
-        "flex": 1,
+        "flexGrow": 1,
       }
     }
+    contentInsetAdjustmentBehavior="automatic"
+    keyboardDismissMode="interactive"
+    keyboardShouldPersistTaps="handled"
   >
-    <RCTScrollView
-      contentContainerStyle={
-        {
-          "flexGrow": 1,
-        }
-      }
-      contentInsetAdjustmentBehavior="automatic"
-      keyboardDismissMode="interactive"
-      keyboardShouldPersistTaps="handled"
-    >
-      <View>
-        <View
-          style={
-            {
-              "backgroundColor": "orange",
-            }
+    <View>
+      <View
+        style={
+          {
+            "backgroundColor": "orange",
           }
-        />
-      </View>
-    </RCTScrollView>
-    <View
-      style={
-        {
-          "backgroundColor": "orange",
         }
+      />
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      {
+        "backgroundColor": "orange",
       }
-    />
-  </View>
-</RCTSafeAreaView>
+    }
+  />
+</View>
 `;
 
 exports[`layout/MainLayout test MainLayout layout::statusBarBackgroundColor 1`] = `
-<RCTSafeAreaView
+<View
+  onLayout={[Function]}
   style={
-    [
-      {
-        "flex": 1,
-        "paddingBottom": 50,
-      },
-      {
-        "backgroundColor": "#ffffff",
-      },
-    ]
+    {
+      "flex": 1,
+    }
   }
 >
-  <View
-    onLayout={[Function]}
-    style={
+  <RCTScrollView
+    contentContainerStyle={
       {
-        "flex": 1,
+        "flexGrow": 1,
       }
     }
+    contentInsetAdjustmentBehavior="automatic"
+    keyboardDismissMode="interactive"
+    keyboardShouldPersistTaps="handled"
   >
-    <RCTScrollView
-      contentContainerStyle={
-        {
-          "flexGrow": 1,
-        }
-      }
-      contentInsetAdjustmentBehavior="automatic"
-      keyboardDismissMode="interactive"
-      keyboardShouldPersistTaps="handled"
-    >
-      <View>
-        <View
-          style={
-            {
-              "backgroundColor": "orange",
-            }
+    <View>
+      <View
+        style={
+          {
+            "backgroundColor": "orange",
           }
-        />
-      </View>
-    </RCTScrollView>
-  </View>
-</RCTSafeAreaView>
+        }
+      />
+    </View>
+  </RCTScrollView>
+</View>
 `;

@@ -31,7 +31,7 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 
 const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
   const {
@@ -82,7 +82,8 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
           styles.safeArea,
           {
             backgroundColor: theme.palette.background,
-            paddingBottom: Platform.OS === 'ios' ? (isKeyboardVisible ? 0 : 50) : 50,
+            paddingBottom:
+              Platform.OS === 'ios' ? (isKeyboardVisible ? 0 : 50) : 50,
           },
         ]}>
         <KeyboardAvoidingView

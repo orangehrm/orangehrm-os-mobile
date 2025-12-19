@@ -87,27 +87,25 @@ exports[`components/SnackDialog test SnackDialog component 1`] = `
         }
       }
     >
-      <RCTSafeAreaView>
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "#ffffff",
+              "borderRadius": 4,
+            },
+            undefined,
+          ]
+        }
+      >
         <View
           style={
-            [
-              {
-                "backgroundColor": "#ffffff",
-                "borderRadius": 4,
-              },
-              undefined,
-            ]
-          }
-        >
-          <View
-            style={
-              {
-                "backgroundColor": "orange",
-              }
+            {
+              "backgroundColor": "orange",
             }
-          />
-        </View>
-      </RCTSafeAreaView>
+          }
+        />
+      </View>
     </View>
   </View>
 </View>
