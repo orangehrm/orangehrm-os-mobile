@@ -43,6 +43,7 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
     header,
     scrollViewProps,
     statusBarBackgroundColor,
+    isHeader,
   } = props;
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
@@ -72,7 +73,7 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
       {
         backgroundColor: theme.palette.background,
         paddingBottom:
-          Platform.OS === 'ios' ? (isKeyboardVisible ? 0 : 50) : 50,
+          Platform.OS === 'ios' ? (isKeyboardVisible ? 0 : 50) : 40,
       },
     ],
     [theme.palette.background, isKeyboardVisible],
@@ -88,7 +89,13 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
             : theme.palette.statusBarSecondary
         }
       />
-      <SafeAreaView edges={['left', 'right']} style={safeAreaStyle}>
+      <SafeAreaView
+        edges={
+          isHeader === false
+            ? ['left', 'right', 'bottom', 'top']
+            : ['left', 'right']
+        }
+        style={safeAreaStyle}>
         <KeyboardAvoidingView
           // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.keyboardAvoidingView}
@@ -126,6 +133,7 @@ interface MainLayoutProps
   header?: React.ReactNode;
   scrollViewProps?: ScrollViewProps;
   statusBarBackgroundColor?: string;
+  isHeader?: boolean;
 }
 
 const styles = StyleSheet.create({

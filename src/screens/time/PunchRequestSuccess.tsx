@@ -102,7 +102,8 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
               />
             </View>
           </View>
-        }>
+        }
+        isHeader={false}>
         <View>
           <View style={styles.flexOne}>
             <View>

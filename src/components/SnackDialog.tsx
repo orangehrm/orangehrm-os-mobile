@@ -57,7 +57,7 @@ const SnackDialog = (props: React.PropsWithChildren<SnackDialogProps>) => {
       style={[styles.dialog, dialogProps.style]}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <SafeAreaView edges={['left', 'right']}>
+        <SafeAreaView edges={['left', 'right', 'bottom']}>
           <View
             {...viewProps}
             style={[
