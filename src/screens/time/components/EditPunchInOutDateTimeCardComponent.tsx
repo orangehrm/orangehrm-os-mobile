@@ -79,8 +79,7 @@ class EditPunchInOutDateTimeCard extends React.Component<
   onConfirmIos = () => {
     const {iosPickerDate} = this.state;
     const {punchCurrentDateTime} = this.props;
-    const resolved =
-      iosPickerDate ?? punchCurrentDateTime ?? new Date();
+    const resolved = iosPickerDate ?? punchCurrentDateTime ?? new Date();
     this.setState({show: false, iosPickerDate: undefined}, () => {
       this.props.updateDateTime(resolved);
     });
@@ -306,11 +305,13 @@ class EditPunchInOutDateTimeCard extends React.Component<
                           onPress={this.onConfirmIos}
                           style={{paddingVertical: theme.spacing * 2}}>
                           <Text
-                            style={{
-                              fontSize: theme.typography.subHeaderFontSize,
-                              color: theme.palette.primary,
-                              fontWeight: '600',
-                            }}>
+                            style={[
+                              styles.iosModalToolbarDoneText,
+                              {
+                                fontSize: theme.typography.subHeaderFontSize,
+                                color: theme.palette.primary,
+                              },
+                            ]}>
                             {'Done'}
                           </Text>
                         </TouchableOpacity>
@@ -374,6 +375,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
+  iosModalToolbarDoneText: {
+    fontWeight: '600',
+  },
   justifyContentCenter: {
     justifyContent: 'center',
   },
@@ -408,4 +412,4 @@ const TIME = 'time';
 export const DISPLAY_DEFAULT = 'default';
 export const DISPLAY_SPINNER = 'spinner';
 
-export default connector(EditPunchInOutDateTimeCardCardWithTheme); 
+export default connector(EditPunchInOutDateTimeCardCardWithTheme);

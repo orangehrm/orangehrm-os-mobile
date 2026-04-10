@@ -19,7 +19,7 @@
  */
 
 module.exports = {
-  presets: ['module:metro-react-native-babel-preset'],
+  presets: ['module:@react-native/babel-preset'],
   plugins: [
     [
       'module-resolver',
@@ -48,9 +48,7 @@ module.exports = {
         },
       },
     ],
-    ['@babel/plugin-transform-class-properties', {loose: true}],
-    ['@babel/plugin-transform-private-methods', {loose: true}],
-    ['@babel/plugin-transform-private-property-in-object', {loose: true}],
+    // Must be last — https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started
     'react-native-reanimated/plugin',
   ],
 };

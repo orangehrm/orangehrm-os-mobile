@@ -201,11 +201,7 @@ export const PickNoteFooter = React.forwardRef<
         },
       ]}>
       <View style={styles.textView}>
-        <PickNoteInput
-          ref={ref}
-          onChangeText={onChangeText}
-          value={comment}
-        />
+        <PickNoteInput ref={ref} onChangeText={onChangeText} value={comment} />
       </View>
       <View style={{paddingTop: theme.spacing * 0.5}}>
         <IconButton

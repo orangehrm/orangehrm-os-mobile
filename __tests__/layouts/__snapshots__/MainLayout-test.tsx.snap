@@ -16,17 +16,17 @@ exports[`layout/MainLayout test MainLayout layout 1`] = `
   <View
     onLayout={[Function]}
     style={
-      {
-        "flex": 1,
-      }
+      [
+        {
+          "flex": 1,
+        },
+        {
+          "paddingBottom": 0,
+        },
+      ]
     }
   >
     <RCTScrollView
-      style={
-        {
-          "flex": 1,
-        }
-      }
       contentContainerStyle={
         {
           "flexGrow": 1,
@@ -35,6 +35,11 @@ exports[`layout/MainLayout test MainLayout layout 1`] = `
       contentInsetAdjustmentBehavior="never"
       keyboardDismissMode="interactive"
       keyboardShouldPersistTaps="handled"
+      style={
+        {
+          "flex": 1,
+        }
+      }
     >
       <View>
         <View
@@ -66,17 +71,17 @@ exports[`layout/MainLayout test MainLayout layout::footer 1`] = `
   <View
     onLayout={[Function]}
     style={
-      {
-        "flex": 1,
-      }
+      [
+        {
+          "flex": 1,
+        },
+        {
+          "paddingBottom": 0,
+        },
+      ]
     }
   >
     <RCTScrollView
-      style={
-        {
-          "flex": 1,
-        }
-      }
       contentContainerStyle={
         {
           "flexGrow": 1,
@@ -85,6 +90,11 @@ exports[`layout/MainLayout test MainLayout layout::footer 1`] = `
       contentInsetAdjustmentBehavior="never"
       keyboardDismissMode="interactive"
       keyboardShouldPersistTaps="handled"
+      style={
+        {
+          "flex": 1,
+        }
+      }
     >
       <View>
         <View
@@ -123,17 +133,17 @@ exports[`layout/MainLayout test MainLayout layout::statusBarBackgroundColor 1`] 
   <View
     onLayout={[Function]}
     style={
-      {
-        "flex": 1,
-      }
+      [
+        {
+          "flex": 1,
+        },
+        {
+          "paddingBottom": 0,
+        },
+      ]
     }
   >
     <RCTScrollView
-      style={
-        {
-          "flex": 1,
-        }
-      }
       contentContainerStyle={
         {
           "flexGrow": 1,
@@ -142,6 +152,11 @@ exports[`layout/MainLayout test MainLayout layout::statusBarBackgroundColor 1`] 
       contentInsetAdjustmentBehavior="never"
       keyboardDismissMode="interactive"
       keyboardShouldPersistTaps="handled"
+      style={
+        {
+          "flex": 1,
+        }
+      }
     >
       <View>
         <View

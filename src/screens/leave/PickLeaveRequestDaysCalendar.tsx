@@ -146,9 +146,7 @@ class PickLeaveRequestDays extends React.Component<
               workWeek={workWeek}
             />
           </View>
-          <CalendarContinueFooter
-            theme={theme}
-            onLayout={this.onFooterLayout}>
+          <CalendarContinueFooter theme={theme} onLayout={this.onFooterLayout}>
             <Button
               title={'Continue'}
               primary
@@ -170,8 +168,7 @@ const CalendarContinueFooter = (props: {
 }) => {
   const {theme, onLayout, children} = props;
   const insets = useSafeAreaInsets();
-  const bottomPad =
-    Platform.OS === 'android' ? insets.bottom : 0;
+  const bottomPad = Platform.OS === 'android' ? insets.bottom : 0;
 
   return (
     <View

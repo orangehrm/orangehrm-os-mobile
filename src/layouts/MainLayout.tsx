@@ -96,7 +96,7 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
       <SafeAreaView
         style={[
           styles.safeArea,
-          Platform.OS === 'android' && styles.safeAreaAndroid,
+          ...(Platform.OS === 'android' ? [styles.safeAreaAndroid] : []),
           {backgroundColor: theme.palette.background},
         ]}>
         {Platform.OS === 'ios' ? (

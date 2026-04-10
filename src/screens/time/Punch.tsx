@@ -256,10 +256,7 @@ class Punch extends React.Component<PunchProps, PunchState> {
             style={
               Platform.OS === 'ios' &&
               (punchStatus !== undefined || this.state.typingNote)
-                ? {
-                    minHeight: theme.spacing * 15,
-                    justifyContent: 'flex-end',
-                  }
+                ? [styles.footerIosContainer, {minHeight: theme.spacing * 15}]
                 : undefined
             }>
             {this.state.typingNote ? (
@@ -504,6 +501,9 @@ class Punch extends React.Component<PunchProps, PunchState> {
   }
 }
 const styles = StyleSheet.create({
+  footerIosContainer: {
+    justifyContent: 'flex-end',
+  },
   mainView: {
     flex: 1,
   },
