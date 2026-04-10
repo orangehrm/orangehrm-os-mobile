@@ -88,7 +88,7 @@ fs.readFile(projectpbxprojPath, 'utf8', (error, projectpbxproj) => {
   fs.writeFile(projectpbxprojPath, projectpbxprojUpdated, 'utf8', (err) => {
     if (err) {
       /* eslint-disable no-console */
-      return console.eror(err);
+      return console.error(err);
       /* eslint-enable no-console */
     }
 
