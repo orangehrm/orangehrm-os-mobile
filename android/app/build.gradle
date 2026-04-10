@@ -32,7 +32,7 @@ react {
 
     /* Bundling */
     //   A list containing the node command and its flags. Default is just 'node'.
-nodeExecutableAndArgs = ["/Users/administraotr/.nvm/versions/node/v18.20.8/bin/node"]
+    // nodeExecutableAndArgs = ["node"]
     //
     //   The command to run when bundling. By default is 'bundle'
     // bundleCommand = "ram-bundle"

@@ -16,6 +16,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: yarn
+      # Gradle's bundle task spawns node; PATH alone can be inconsistent for the daemon — pin explicitly.
+      - name: Pin NODE_BINARY for Gradle
+        run: echo "NODE_BINARY=$(command -v node)" >> $GITHUB_ENV
       - name: set up JDK 17
         uses: actions/setup-java@v4
         with:
