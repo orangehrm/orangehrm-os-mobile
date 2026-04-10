@@ -19,12 +19,7 @@
  */
 
 import React, {useEffect, useState} from 'react';
-import {
-  useWindowDimensions,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-} from 'react-native';
+import {useWindowDimensions, StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -151,9 +146,7 @@ const Navigator = (props: NavigatorProps) => {
       const isLargeScreen = isLargeScreenByWidth(dimensions.width);
       if (myInfoSuccess || myInfoFailed) {
         view = (
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-            style={styles.root}>
+          <View style={styles.root}>
             <Drawer.Navigator
               initialRouteName={initialRoute}
               screenOptions={{
@@ -286,24 +279,26 @@ const Navigator = (props: NavigatorProps) => {
                 </>
               )}
             </Drawer.Navigator>
-          </KeyboardAvoidingView>
+          </View>
         );
       } else {
         view = <Overlay modalProps={{visible: true}} />;
       }
     } else {
       view = (
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-          initialRouteName={SELECT_INSTANCE}>
-          <Stack.Screen name={SELECT_INSTANCE} component={SelectInstance} />
-          <Stack.Screen
-            name={SELECT_INSTANCE_HELP}
-            component={SelectInstanceHelp}
-          />
-        </Stack.Navigator>
+        <View style={styles.root}>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}
+            initialRouteName={SELECT_INSTANCE}>
+            <Stack.Screen name={SELECT_INSTANCE} component={SelectInstance} />
+            <Stack.Screen
+              name={SELECT_INSTANCE_HELP}
+              component={SelectInstanceHelp}
+            />
+          </Stack.Navigator>
+        </View>
       );
     }
   } else {

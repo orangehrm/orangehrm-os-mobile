@@ -134,7 +134,6 @@ export const PickNoteInput = React.forwardRef<RNTextInput, TextInputProps>(
           placeholder={'Add a Note...'}
           multiline
           maxLength={250}
-          autoFocus
           {...props}
         />
       </>
@@ -151,6 +150,9 @@ export const PickNoteFooter = React.forwardRef<
   const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   useEffect(() => {
+    if (Platform.OS !== 'android') {
+      return;
+    }
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       (e) => {
@@ -201,7 +203,6 @@ export const PickNoteFooter = React.forwardRef<
       <View style={styles.textView}>
         <PickNoteInput
           ref={ref}
-          autoFocus={true}
           onChangeText={onChangeText}
           value={comment}
         />
