@@ -19,6 +19,7 @@
  */
 
 import React from 'react';
+import {Keyboard} from 'react-native';
 import {
   NavigationProp,
   ParamListBase,
@@ -33,6 +34,7 @@ const HeaderMenuIcon = (props: HeaderMenuIconProps) => {
     <IconButton
       buttonProps={{
         onPress: () => {
+          Keyboard.dismiss();
           props.navigation.dispatch(DrawerActions.toggleDrawer());
         },
       }}

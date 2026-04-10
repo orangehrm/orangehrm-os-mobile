@@ -6,11 +6,13 @@ import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
+import com.facebook.react.soloader.OpenSourceMergedSoMapping;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 import com.facebook.react.PackageList;
+import java.io.IOException;
 
 // Autolinked packages will be automatically included
 
@@ -44,7 +46,11 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
+    try {
+      SoLoader.init(this, OpenSourceMergedSoMapping.INSTANCE);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 

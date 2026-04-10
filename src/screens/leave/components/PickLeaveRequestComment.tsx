@@ -177,9 +177,15 @@ export const PickLeaveRequestCommentFooter = React.forwardRef<
                 left: 0,
                 right: 0,
                 zIndex: 1000,
+                borderTopWidth: 1,
+                borderTopColor: theme.palette.default,
+                borderBottomWidth: 1,
+                borderBottomColor: theme.palette.default,
               }
             : {
                 position: 'relative',
+                borderBottomWidth: 1,
+                borderBottomColor: theme.palette.default,
               }),
         },
       ]}>

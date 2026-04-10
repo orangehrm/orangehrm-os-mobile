@@ -157,6 +157,7 @@ const Navigator = (props: NavigatorProps) => {
             <Drawer.Navigator
               initialRouteName={initialRoute}
               screenOptions={{
+                drawerType: 'front',
                 drawerStyle: isLargeScreen
                   ? {width: DEFAULT_FIXED_DRAWER_WIDTH}
                   : undefined,

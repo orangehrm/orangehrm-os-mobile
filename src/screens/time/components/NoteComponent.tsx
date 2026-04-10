@@ -177,18 +177,24 @@ export const PickNoteFooter = React.forwardRef<
         {
           backgroundColor: theme.palette.backgroundSecondary,
           paddingHorizontal: theme.spacing * 4,
-          paddingBottom: theme.spacing * 4,
-          paddingTop: theme.spacing * 2,
           ...(Platform.OS === 'android' && keyboardHeight > 0
             ? {
                 position: 'absolute',
-                bottom: keyboardHeight + 10,
+                bottom: keyboardHeight,
                 left: 0,
                 right: 0,
                 zIndex: 1000,
+                borderTopWidth: 1,
+                borderTopColor: theme.palette.default,
+                borderBottomWidth: 1,
+                borderBottomColor: theme.palette.default,
               }
             : {
                 position: 'relative',
+                borderBottomWidth: 1,
+                borderBottomColor: theme.palette.default,
+                paddingBottom: theme.spacing,
+                paddingTop: theme.spacing,
               }),
         },
       ]}>
