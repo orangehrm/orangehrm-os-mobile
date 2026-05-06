@@ -148,6 +148,10 @@ export const PickNoteFooter = React.forwardRef<
   const {value: comment, onChangeText, ...buttonProps} = props;
   const theme = useTheme();
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const isAndroid15OrAbove =
+    Platform.OS === 'android' &&
+    typeof Platform.Version === 'number' &&
+    Platform.Version >= 35;
 
   useEffect(() => {
     if (Platform.OS !== 'android') {
@@ -182,7 +186,7 @@ export const PickNoteFooter = React.forwardRef<
           ...(Platform.OS === 'android' && keyboardHeight > 0
             ? {
                 position: 'absolute',
-                bottom: keyboardHeight,
+                bottom: isAndroid15OrAbove ? keyboardHeight : -45,
                 left: 0,
                 right: 0,
                 zIndex: 1000,
