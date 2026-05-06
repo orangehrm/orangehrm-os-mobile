@@ -120,11 +120,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,
   },
   marginForShadow: {
-    ...Platform.select({
-      ios: {
-        marginBottom: 2,
-      },
-    }),
+   marginBottom: 2,
   },
 });
 

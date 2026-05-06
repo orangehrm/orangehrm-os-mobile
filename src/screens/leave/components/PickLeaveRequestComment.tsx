@@ -107,11 +107,7 @@ const styles = StyleSheet.create({
     }),
   },
   marginForShadow: {
-    ...Platform.select({
-      ios: {
-        marginBottom: 2,
-      },
-    }),
+   marginBottom: 2,
   },
 });
 
