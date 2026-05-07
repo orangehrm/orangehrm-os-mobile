@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, ViewProps, Platform} from 'react-native';
+import {StyleSheet, View, ViewProps} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Text from 'components/DefaultText';
 import CardButton from 'components/CardButton';
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,
   },
   marginForShadow: {
-   marginBottom: 2,
+    marginBottom: 2,
   },
 });
 

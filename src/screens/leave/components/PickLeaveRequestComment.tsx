@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     }),
   },
   marginForShadow: {
-   marginBottom: 2,
+    marginBottom: 2,
   },
 });
 
