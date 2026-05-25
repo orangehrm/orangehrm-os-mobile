@@ -29,6 +29,7 @@ const getHeaderStyle = (theme: Theme) => {
     headerStyle: {
       backgroundColor: theme.palette.header,
     },
+    headerTitleAlign: 'left',
     headerTitleStyle: {
       fontSize: theme.typography.headerFontSize,
       color: theme.typography.secondaryColor,

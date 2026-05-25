@@ -51,7 +51,6 @@ class PunchNavigator extends React.Component<PunchNavigatorProps> {
         screenOptions={{
           ...header,
           ...headerBackIcon,
-          keyboardHandlingEnabled: false,
         }}>
         <Stack.Screen
           name={PUNCH}

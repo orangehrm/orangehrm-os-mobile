@@ -19,7 +19,7 @@
  */
 
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Platform} from 'react-native';
 import {
   NavigationProp,
   ParamListBase,
@@ -114,7 +114,13 @@ class PunchRequestSuccess extends React.Component<PunchRequestSuccessProps> {
                   },
                 ]}>
                 <View>
-                  <View style={{marginTop: theme.spacing * 5}}>
+                  <View
+                    style={{
+                      marginTop:
+                        Platform.OS === 'ios'
+                          ? theme.spacing * 5
+                          : theme.spacing * 10,
+                    }}>
                     <Icon
                       name={'check-circle-outline'}
                       style={{

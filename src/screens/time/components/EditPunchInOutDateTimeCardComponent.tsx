@@ -19,7 +19,13 @@
  */
 
 import React from 'react';
-import {Platform, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  Modal,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import {connect} from 'react-redux';
 import Card from 'components/DefaultCard';
@@ -28,13 +34,11 @@ import Text from 'components/DefaultText';
 import Divider from 'components/DefaultDivider';
 import {fetchPunchStatus} from 'store/time/punch/actions';
 import Icon from 'components/DefaultIcon';
-import {
-  AndroidEvent,
-  Event,
+import DateTimePicker, {
+  DateTimePickerEvent,
   IOSNativeProps,
   AndroidNativeProps,
 } from '@react-native-community/datetimepicker';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import FormattedDate from 'components/FormattedDate';
 import {formatTime} from 'lib/helpers/attendance';
 import {$PropertyType} from 'utility-types';
@@ -49,35 +53,61 @@ class EditPunchInOutDateTimeCard extends React.Component<
       show: false,
       mode: DATE,
       display: DISPLAY_DEFAULT,
+      iosPickerDate: undefined,
     };
   }
 
-  onChange = (event: Event | AndroidEvent, selectedDate?: Date) => {
-    this.setState(
-      {
-        show: false,
-      },
-      () => {
-        if (selectedDate) {
-          this.props.updateDateTime(selectedDate);
-        }
-      },
-    );
+  onChangeAndroid = (event: DateTimePickerEvent, selectedDate?: Date) => {
+    if (event.type === 'dismissed') {
+      this.setState({show: false});
+      return;
+    }
+    if (event.type === 'set' && selectedDate) {
+      this.setState({show: false}, () => {
+        this.props.updateDateTime(selectedDate);
+      });
+    }
+  };
+
+  /** iOS spinner fires on every tick; only update draft until user taps Done. */
+  onChangeIos = (_event: DateTimePickerEvent, selectedDate?: Date) => {
+    if (selectedDate) {
+      this.setState({iosPickerDate: selectedDate});
+    }
+  };
+
+  onConfirmIos = () => {
+    const {iosPickerDate} = this.state;
+    const {punchCurrentDateTime} = this.props;
+    const resolved = iosPickerDate ?? punchCurrentDateTime ?? new Date();
+    this.setState({show: false, iosPickerDate: undefined}, () => {
+      this.props.updateDateTime(resolved);
+    });
+  };
+
+  onCancelIos = () => {
+    this.setState({show: false, iosPickerDate: undefined});
   };
 
   showDatepicker = () => {
+    const {punchCurrentDateTime} = this.props;
+    const base = punchCurrentDateTime ?? new Date();
     this.setState({
       show: true,
       mode: DATE,
       display: Platform.OS === 'ios' ? DISPLAY_SPINNER : DISPLAY_DEFAULT,
+      iosPickerDate: new Date(base),
     });
   };
 
   showTimepicker = () => {
+    const {punchCurrentDateTime} = this.props;
+    const base = punchCurrentDateTime ?? new Date();
     this.setState({
       show: true,
       mode: TIME,
       display: Platform.OS === 'ios' ? DISPLAY_SPINNER : DISPLAY_DEFAULT,
+      iosPickerDate: new Date(base),
     });
   };
 
@@ -225,19 +255,82 @@ class EditPunchInOutDateTimeCard extends React.Component<
                   </View>
                 </View>
               </TouchableOpacity>
-              {this.state.show ? (
-                <>
-                  <View>
-                    <DateTimePicker
-                      testID="dateTimePicker"
-                      value={new Date(date)}
-                      mode={mode}
-                      is24Hour={false}
-                      display={display}
-                      onChange={this.onChange}
+              {Platform.OS === 'android' && this.state.show ? (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={new Date(date)}
+                  mode={mode}
+                  is24Hour={false}
+                  display={display}
+                  onChange={this.onChangeAndroid}
+                />
+              ) : null}
+              {Platform.OS === 'ios' ? (
+                <Modal
+                  visible={this.state.show}
+                  transparent
+                  animationType="slide"
+                  onRequestClose={this.onCancelIos}>
+                  <View style={styles.iosModalRoot}>
+                    <TouchableOpacity
+                      style={styles.iosModalBackdrop}
+                      activeOpacity={1}
+                      onPress={this.onCancelIos}
                     />
+                    <View
+                      style={[
+                        styles.iosModalSheet,
+                        {backgroundColor: theme.palette.background},
+                      ]}>
+                      <View
+                        style={[
+                          styles.iosModalToolbar,
+                          {
+                            borderBottomColor: theme.palette.defaultDark,
+                            paddingHorizontal: theme.spacing * 3,
+                          },
+                        ]}>
+                        <TouchableOpacity
+                          onPress={this.onCancelIos}
+                          style={{paddingVertical: theme.spacing * 2}}>
+                          <Text
+                            style={{
+                              fontSize: theme.typography.subHeaderFontSize,
+                              color: theme.palette.secondary,
+                            }}>
+                            {'Cancel'}
+                          </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={this.onConfirmIos}
+                          style={{paddingVertical: theme.spacing * 2}}>
+                          <Text
+                            style={[
+                              styles.iosModalToolbarDoneText,
+                              {
+                                fontSize: theme.typography.subHeaderFontSize,
+                                color: theme.palette.primary,
+                              },
+                            ]}>
+                            {'Done'}
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={
+                          this.state.iosPickerDate
+                            ? new Date(this.state.iosPickerDate)
+                            : new Date(date)
+                        }
+                        mode={mode}
+                        is24Hour={false}
+                        display={display}
+                        onChange={this.onChangeIos}
+                      />
+                    </View>
                   </View>
-                </>
+                </Modal>
               ) : null}
             </CardContent>
           </Card>
@@ -258,9 +351,33 @@ interface EditPunchInOutDateTimeCardState {
   display:
     | $PropertyType<IOSNativeProps, 'display'>
     | $PropertyType<AndroidNativeProps, 'display'>;
+  iosPickerDate?: Date;
 }
 
 const styles = StyleSheet.create({
+  iosModalRoot: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  iosModalBackdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  iosModalSheet: {
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    overflow: 'hidden',
+    paddingBottom: 8,
+  },
+  iosModalToolbar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  iosModalToolbarDoneText: {
+    fontWeight: '600',
+  },
   justifyContentCenter: {
     justifyContent: 'center',
   },

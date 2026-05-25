@@ -22,6 +22,7 @@ import React from 'react';
 import {
   StyleSheet,
   Keyboard,
+  Platform,
   TextInput as RNTextInput,
   EmitterSubscription,
 } from 'react-native';
@@ -89,9 +90,16 @@ class Punch extends React.Component<PunchProps, PunchState> {
     };
   }
 
-  componentDidUpdate(prevProps: PunchProps) {
+  componentDidUpdate(prevProps: PunchProps, prevState: PunchState) {
     if (this.props.currentRoute === PUNCH && prevProps.currentRoute !== PUNCH) {
       this.onRefresh();
+    }
+    if (this.state.typingNote && !prevState.typingNote) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          this.inputRef?.focus?.();
+        });
+      });
     }
     if (
       prevProps.currentRoute !== this.props.currentRoute ||
@@ -244,7 +252,13 @@ class Punch extends React.Component<PunchProps, PunchState> {
       <MainLayout
         onRefresh={this.onRefresh}
         footer={
-          <View>
+          <View
+            style={
+              Platform.OS === 'ios' &&
+              (punchStatus !== undefined || this.state.typingNote)
+                ? [styles.footerIosContainer, {minHeight: theme.spacing * 15}]
+                : undefined
+            }>
             {this.state.typingNote ? (
               <>
                 <Divider />
@@ -487,6 +501,9 @@ class Punch extends React.Component<PunchProps, PunchState> {
   }
 }
 const styles = StyleSheet.create({
+  footerIosContainer: {
+    justifyContent: 'flex-end',
+  },
   mainView: {
     flex: 1,
   },

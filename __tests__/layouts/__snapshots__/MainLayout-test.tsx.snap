@@ -6,7 +6,6 @@ exports[`layout/MainLayout test MainLayout layout 1`] = `
     [
       {
         "flex": 1,
-        "paddingBottom": 50,
       },
       {
         "backgroundColor": "#ffffff",
@@ -17,9 +16,14 @@ exports[`layout/MainLayout test MainLayout layout 1`] = `
   <View
     onLayout={[Function]}
     style={
-      {
-        "flex": 1,
-      }
+      [
+        {
+          "flex": 1,
+        },
+        {
+          "paddingBottom": 0,
+        },
+      ]
     }
   >
     <RCTScrollView
@@ -28,9 +32,14 @@ exports[`layout/MainLayout test MainLayout layout 1`] = `
           "flexGrow": 1,
         }
       }
-      contentInsetAdjustmentBehavior="automatic"
+      contentInsetAdjustmentBehavior="never"
       keyboardDismissMode="interactive"
       keyboardShouldPersistTaps="handled"
+      style={
+        {
+          "flex": 1,
+        }
+      }
     >
       <View>
         <View
@@ -52,7 +61,6 @@ exports[`layout/MainLayout test MainLayout layout::footer 1`] = `
     [
       {
         "flex": 1,
-        "paddingBottom": 50,
       },
       {
         "backgroundColor": "#ffffff",
@@ -63,9 +71,14 @@ exports[`layout/MainLayout test MainLayout layout::footer 1`] = `
   <View
     onLayout={[Function]}
     style={
-      {
-        "flex": 1,
-      }
+      [
+        {
+          "flex": 1,
+        },
+        {
+          "paddingBottom": 0,
+        },
+      ]
     }
   >
     <RCTScrollView
@@ -74,9 +87,14 @@ exports[`layout/MainLayout test MainLayout layout::footer 1`] = `
           "flexGrow": 1,
         }
       }
-      contentInsetAdjustmentBehavior="automatic"
+      contentInsetAdjustmentBehavior="never"
       keyboardDismissMode="interactive"
       keyboardShouldPersistTaps="handled"
+      style={
+        {
+          "flex": 1,
+        }
+      }
     >
       <View>
         <View
@@ -105,7 +123,6 @@ exports[`layout/MainLayout test MainLayout layout::statusBarBackgroundColor 1`] 
     [
       {
         "flex": 1,
-        "paddingBottom": 50,
       },
       {
         "backgroundColor": "#ffffff",
@@ -116,9 +133,14 @@ exports[`layout/MainLayout test MainLayout layout::statusBarBackgroundColor 1`] 
   <View
     onLayout={[Function]}
     style={
-      {
-        "flex": 1,
-      }
+      [
+        {
+          "flex": 1,
+        },
+        {
+          "paddingBottom": 0,
+        },
+      ]
     }
   >
     <RCTScrollView
@@ -127,9 +149,14 @@ exports[`layout/MainLayout test MainLayout layout::statusBarBackgroundColor 1`] 
           "flexGrow": 1,
         }
       }
-      contentInsetAdjustmentBehavior="automatic"
+      contentInsetAdjustmentBehavior="never"
       keyboardDismissMode="interactive"
       keyboardShouldPersistTaps="handled"
+      style={
+        {
+          "flex": 1,
+        }
+      }
     >
       <View>
         <View

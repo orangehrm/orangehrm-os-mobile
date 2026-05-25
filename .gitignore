@@ -40,6 +40,8 @@ local.properties
 .cxx/
 *.keystore
 !debug.keystore
+/android/app/release/
+/android/.kotlin/*
 
 # node.js
 #

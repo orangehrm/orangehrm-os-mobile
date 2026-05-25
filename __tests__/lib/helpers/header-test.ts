@@ -29,6 +29,7 @@ describe('lib/helpers/header', () => {
       headerStyle: {
         backgroundColor: theme.palette.header,
       },
+      headerTitleAlign: 'left',
       headerTitleStyle: {
         fontSize: theme.typography.headerFontSize,
         color: theme.typography.secondaryColor,

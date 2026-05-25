@@ -21,6 +21,10 @@ const config = {
   server: {
     port: 8081,
   },
+  // Required for React Native 0.77+ (Flow `component` syntax in core libraries).
+  transformer: {
+    hermesParser: true,
+  },
 };
 
 module.exports = mergeConfig(getDefaultConfig(__dirname), config);

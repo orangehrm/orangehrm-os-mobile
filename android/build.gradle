@@ -3,12 +3,13 @@ def REACT_NATIVE_VERSION = new File(['node', '--print',"JSON.parse(require('fs')
 
 buildscript {
     ext {
-        buildToolsVersion = "34.0.0"
+        // Build-tools 35+ for 16 KB zip alignment checks; NDK r28+ defaults to 16 KB ELF alignment (Play / Android 15+).
+        buildToolsVersion = "35.0.0"
         minSdkVersion = 24
         compileSdkVersion = 35
         targetSdkVersion = 35
-        ndkVersion = "26.1.10909125"
-        kotlinVersion = "1.9.10"
+        ndkVersion = "28.0.12674087"
+        kotlinVersion = "2.0.21"
         androidXCore = "1.9.0"
         googlePlayServicesVersion = "18.0.0"
     }
@@ -18,18 +19,11 @@ buildscript {
         maven { url "https://www.jitpack.io" }
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.6.0")
+        classpath("com.android.tools.build:gradle:8.7.3")
         classpath("com.facebook.react:react-native-gradle-plugin")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     }
 
-    subprojects {
-        afterEvaluate {
-            project -> if (project.hasProperty("kotlin_version")) {
-                ext.kotlin_version = "1.8.0" // or the version you're using
-            }
-        }
-    }
 }
 
 allprojects {
@@ -44,6 +38,16 @@ allprojects {
             force "org.jetbrains.kotlin:kotlin-stdlib:${rootProject.ext.kotlinVersion}"
             force "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootProject.ext.kotlinVersion}"
             force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${rootProject.ext.kotlinVersion}"
+        }
+    }
+}
+
+subprojects { subproject ->
+    subproject.afterEvaluate {
+        if (subproject.plugins.hasPlugin("com.android.library")) {
+            subproject.android {
+                ndkVersion rootProject.ext.ndkVersion
+            }
         }
     }
 }

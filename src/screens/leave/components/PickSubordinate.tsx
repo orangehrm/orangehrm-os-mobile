@@ -23,7 +23,6 @@ import {
   StyleSheet,
   View,
   ViewProps,
-  TextInput as RNTextInput,
   TouchableWithoutFeedback,
   Platform,
 } from 'react-native';
@@ -41,11 +40,8 @@ class PickSubordinate extends React.Component<
   PickSubordinateProps,
   PickSubordinateState
 > {
-  inputRef: RNTextInput | null;
-
   constructor(props: PickSubordinateProps) {
     super(props);
-    this.inputRef = null;
     this.state = {
       textValue: '',
     };
@@ -78,15 +74,7 @@ class PickSubordinate extends React.Component<
     }
   };
 
-  onPressEmployee = () => {
-    if (this.inputRef?.isFocused()) {
-      this.inputRef?.blur();
-    } else {
-      this.inputRef?.focus();
-    }
-  };
-
-  onFocus = () => {
+  openPickEmployee = () => {
     const {textValue} = this.state;
     navigate<PickEmployeeParams>(PICK_EMPLOYEE, {
       textValue,
@@ -97,9 +85,12 @@ class PickSubordinate extends React.Component<
     });
   };
 
+  onPressEmployee = () => {
+    this.openPickEmployee();
+  };
+
   pickSubordinate = (subordinate: Subordinate) => {
     this.props.setSelectedSubordinate(subordinate);
-    this.inputRef?.blur();
   };
 
   render() {
@@ -127,10 +118,8 @@ class PickSubordinate extends React.Component<
             <View style={styles.textInputView}>
               <View style={styles.fullName}>
                 <PickEmployeeTextInput
-                  ref={(input) => {
-                    this.inputRef = input;
-                  }}
-                  onFocus={this.onFocus}
+                  editable={false}
+                  showSoftInputOnFocus={false}
                   value={textValue}
                   onChangeText={(text: string) => {
                     this.setState({textValue: text});

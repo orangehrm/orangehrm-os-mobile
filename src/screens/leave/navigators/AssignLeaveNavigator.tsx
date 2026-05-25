@@ -18,8 +18,12 @@
  *
  */
 
-import React from 'react';
-import {NavigationProp, ParamListBase} from '@react-navigation/native';
+import React, {useCallback} from 'react';
+import {
+  NavigationProp,
+  ParamListBase,
+  useFocusEffect,
+} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import AssignLeave from 'screens/leave/AssignLeave';
@@ -46,73 +50,79 @@ import {
 
 const Stack = createStackNavigator<AssignLeaveNavigatorParamList>();
 
-class AssignLeaveNavigator extends React.Component<AssignLeaveNavigatorProps> {
-  render() {
-    const {theme, navigation} = this.props;
-    const header = getHeaderStyle(theme);
-    const headerMenuIcon = {
-      headerLeft: () => <HeaderMenuIcon navigation={navigation} />,
-    };
-    const headerBackIcon = {
-      headerLeft: () => <HeaderBackIcon navigation={navigation} />,
-    };
+const AssignLeaveNavigator = (props: AssignLeaveNavigatorProps) => {
+  const {theme, navigation} = props;
+  const header = getHeaderStyle(theme);
+  const headerMenuIcon = {
+    headerLeft: () => <HeaderMenuIcon navigation={navigation} />,
+  };
+  const headerBackIcon = {
+    headerLeft: () => <HeaderBackIcon navigation={navigation} />,
+  };
 
-    return (
-      <Stack.Navigator
-        initialRouteName={ASSIGN_LEAVE}
-        screenOptions={{
-          ...header,
-          ...headerBackIcon,
-          keyboardHandlingEnabled: false,
-        }}>
-        <Stack.Screen
-          name={ASSIGN_LEAVE}
-          component={AssignLeave}
-          options={{
-            title: 'Assign Leave',
-            ...headerMenuIcon,
-          }}
-        />
-        <Stack.Screen
-          name={ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR}
-          component={PickLeaveRequestDaysCalendar}
-          options={{
-            title: 'Request Day(s)',
-          }}
-        />
-        <Stack.Screen
-          name={ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DURATION}
-          component={PickLeaveRequestDuration}
-          options={{
-            title: 'Duration',
-          }}
-        />
-        <Stack.Screen
-          name={ASSIGN_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS}
-          component={PickLeaveRequestPartialDays}
-          options={{
-            title: 'Partial Days',
-          }}
-        />
-        <Stack.Screen
-          name={PICK_EMPLOYEE}
-          component={PickEmployee}
-          options={{
-            title: 'Select Employee',
-          }}
-          initialParams={{}}
-        />
-        <Stack.Screen
-          name={LEAVE_REQUEST_SUCCESS}
-          component={LeaveRequestSuccess}
-          options={{
-            headerShown: false,
-          }}
-        />
-      </Stack.Navigator>
-    );
-  }
-}
+  useFocusEffect(
+    useCallback(() => {
+      navigation.navigate(ASSIGN_LEAVE, {
+        screen: ASSIGN_LEAVE,
+      });
+    }, [navigation]),
+  );
+
+  return (
+    <Stack.Navigator
+      initialRouteName={ASSIGN_LEAVE}
+      screenOptions={{
+        ...header,
+        ...headerBackIcon,
+        keyboardHandlingEnabled: false,
+      }}>
+      <Stack.Screen
+        name={ASSIGN_LEAVE}
+        component={AssignLeave}
+        options={{
+          title: 'Assign Leave',
+          ...headerMenuIcon,
+        }}
+      />
+      <Stack.Screen
+        name={ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DAYS_CALENDAR}
+        component={PickLeaveRequestDaysCalendar}
+        options={{
+          title: 'Request Day(s)',
+        }}
+      />
+      <Stack.Screen
+        name={ASSIGN_LEAVE_PICK_LEAVE_REQUEST_DURATION}
+        component={PickLeaveRequestDuration}
+        options={{
+          title: 'Duration',
+        }}
+      />
+      <Stack.Screen
+        name={ASSIGN_LEAVE_PICK_LEAVE_REQUEST_PARTIAL_DAYS}
+        component={PickLeaveRequestPartialDays}
+        options={{
+          title: 'Partial Days',
+        }}
+      />
+      <Stack.Screen
+        name={PICK_EMPLOYEE}
+        component={PickEmployee}
+        options={{
+          title: 'Select Employee',
+        }}
+        initialParams={{}}
+      />
+      <Stack.Screen
+        name={LEAVE_REQUEST_SUCCESS}
+        component={LeaveRequestSuccess}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 interface AssignLeaveNavigatorProps extends WithTheme {
   navigation: NavigationProp<ParamListBase>;

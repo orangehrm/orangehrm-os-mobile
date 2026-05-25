@@ -105,6 +105,7 @@ export function* apiCall<Fn extends (...args: any[]) => any>(
           yield put(logout());
           throw new AuthenticationError('Authentication Expired');
         } else {
+          yield put(logout());
           throw new AuthenticationError('Authentication Failed');
         }
       }

@@ -107,11 +107,7 @@ const styles = StyleSheet.create({
     }),
   },
   marginForShadow: {
-    ...Platform.select({
-      ios: {
-        marginBottom: 2,
-      },
-    }),
+    marginBottom: 2,
   },
 });
 
@@ -142,6 +138,10 @@ export const PickLeaveRequestCommentFooter = React.forwardRef<
   const {value: comment, onChangeText, autoFocus, ...buttonProps} = props;
   const theme = useTheme();
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const isAndroid15OrAbove =
+    Platform.OS === 'android' &&
+    typeof Platform.Version === 'number' &&
+    Platform.Version >= 35;
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -173,13 +173,19 @@ export const PickLeaveRequestCommentFooter = React.forwardRef<
           ...(Platform.OS === 'android' && keyboardHeight > 0
             ? {
                 position: 'absolute',
-                bottom: keyboardHeight + 10,
+                bottom: isAndroid15OrAbove ? keyboardHeight : -45,
                 left: 0,
                 right: 0,
                 zIndex: 1000,
+                borderTopWidth: 1,
+                borderTopColor: theme.palette.default,
+                borderBottomWidth: 1,
+                borderBottomColor: theme.palette.default,
               }
             : {
                 position: 'relative',
+                borderBottomWidth: 1,
+                borderBottomColor: theme.palette.default,
               }),
         },
       ]}>

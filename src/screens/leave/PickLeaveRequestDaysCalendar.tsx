@@ -19,7 +19,14 @@
  */
 
 import React from 'react';
-import {View, StyleSheet, Keyboard, Dimensions, Platform} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Keyboard,
+  LayoutChangeEvent,
+  Platform,
+} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import SafeAreaLayout from 'layouts/SafeAreaLayout';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
@@ -41,7 +48,17 @@ import {
 import Button from 'components/DefaultButton';
 import Calendar from 'screens/leave/components/Calendar';
 
-class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
+interface PickLeaveRequestDaysState {
+  containerHeight?: number;
+  footerHeight?: number;
+}
+
+class PickLeaveRequestDays extends React.Component<
+  PickLeaveRequestDaysProps,
+  PickLeaveRequestDaysState
+> {
+  state: PickLeaveRequestDaysState = {};
+
   componentDidMount() {
     if (this.props.holidays === undefined) {
       // TODO:: use leave period start date & end date
@@ -63,6 +80,24 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
     Keyboard.dismiss();
   }
 
+  onContainerLayout = (e: LayoutChangeEvent) => {
+    const {height} = e.nativeEvent.layout;
+    if (height > 0) {
+      this.setState((prev) =>
+        prev.containerHeight === height ? null : {containerHeight: height},
+      );
+    }
+  };
+
+  onFooterLayout = (e: LayoutChangeEvent) => {
+    const {height} = e.nativeEvent.layout;
+    if (height > 0) {
+      this.setState((prev) =>
+        prev.footerHeight === height ? null : {footerHeight: height},
+      );
+    }
+  };
+
   onPressContinue = () => {
     if (this.props.fromDate) {
       this.props.navigation.goBack();
@@ -81,22 +116,28 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
       workWeek,
     } = this.props;
 
-    const screenHeight = Dimensions.get('window').height;
-    const calendarHeight =
-      Platform.OS === 'ios' ? screenHeight - 120 : screenHeight - 200; // Reserve space for button and padding
+    const {containerHeight, footerHeight} = this.state;
+    const calendarAreaHeight =
+      containerHeight != null &&
+      footerHeight != null &&
+      containerHeight > footerHeight
+        ? containerHeight - footerHeight
+        : undefined;
+    const calendarStyle =
+      calendarAreaHeight != null
+        ? [styles.calendarSized, {height: calendarAreaHeight}]
+        : styles.calendarFill;
 
     return (
       <SafeAreaLayout>
-        <View style={styles.container}>
+        <View style={styles.container} onLayout={this.onContainerLayout}>
           <View
             style={[
               styles.calendarView,
-              {
-                height: calendarHeight,
-                backgroundColor: theme.palette.backgroundSecondary,
-              },
+              {backgroundColor: theme.palette.backgroundSecondary},
             ]}>
             <Calendar
+              style={calendarStyle}
               fromDate={fromDate}
               toDate={toDate}
               setFromDate={setFromDate}
@@ -105,26 +146,43 @@ class PickLeaveRequestDays extends React.Component<PickLeaveRequestDaysProps> {
               workWeek={workWeek}
             />
           </View>
-          <View
-            style={[
-              {
-                paddingHorizontal: theme.spacing * 12,
-                paddingVertical: theme.spacing * 2,
-                backgroundColor: theme.palette.background,
-              },
-            ]}>
+          <CalendarContinueFooter theme={theme} onLayout={this.onFooterLayout}>
             <Button
               title={'Continue'}
               primary
               fullWidth
               onPress={this.onPressContinue}
             />
-          </View>
+          </CalendarContinueFooter>
         </View>
       </SafeAreaLayout>
     );
   }
 }
+
+/** RN SafeAreaView pads iOS; Android nav/gesture bar needs extra bottom inset. */
+const CalendarContinueFooter = (props: {
+  theme: PickLeaveRequestDaysProps['theme'];
+  onLayout: (e: LayoutChangeEvent) => void;
+  children: React.ReactNode;
+}) => {
+  const {theme, onLayout, children} = props;
+  const insets = useSafeAreaInsets();
+  const bottomPad = Platform.OS === 'android' ? insets.bottom : 0;
+
+  return (
+    <View
+      onLayout={onLayout}
+      style={{
+        paddingHorizontal: theme.spacing * 12,
+        paddingTop: theme.spacing * 2,
+        paddingBottom: theme.spacing * 2 + bottomPad,
+        backgroundColor: theme.palette.background,
+      }}>
+      {children}
+    </View>
+  );
+};
 
 interface PickLeaveRequestDaysProps
   extends WithTheme,
@@ -136,8 +194,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  // flex + minHeight: calendar gets explicit height from onLayout so CalendarList's FlatList
+  // has a bounded height (react-native-calendars only applies flex:1 to the list on web).
   calendarView: {
-    alignItems: 'center',
+    flex: 1,
+    minHeight: 0,
+    width: '100%',
+  },
+  calendarFill: {
+    flex: 1,
+    width: '100%',
+  },
+  calendarSized: {
+    width: '100%',
   },
 });
 
