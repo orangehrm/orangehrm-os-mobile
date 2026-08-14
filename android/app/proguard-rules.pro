@@ -79,7 +79,10 @@
     public static final android.os.Parcelable$Creator *;
 }
 
-# Keep R8 mapping files for deobfuscation
--printmapping mapping.txt
--printseeds seeds.txt
--printusage unused.txt
+# Flatten the package hierarchy into the root package. Requires R8 full mode.
+-repackageclasses ''
+
+# Note: mapping/seeds/usage files are written by AGP to
+# app/build/outputs/mapping/<variant>/. Do not add -printmapping/-printseeds/
+# -printusage here -- relative paths resolve to the module dir and dump ~20MB
+# of duplicates into android/app/.
