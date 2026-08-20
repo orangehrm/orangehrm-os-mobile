@@ -32,7 +32,10 @@ react {
 
     /* Bundling */
     //   A list containing the node command and its flags. Default is just 'node'.
-    nodeExecutableAndArgs = ["/Users/administraotr/.nvm/versions/node/v18.20.8/bin/node"]
+    //   Honour NODE_BINARY when the environment pins one (CI sets it; the Gradle daemon
+    //   does not always inherit a usable PATH), otherwise fall back to node on PATH.
+    //   Never hardcode an absolute path here - it breaks CI and every other machine.
+    nodeExecutableAndArgs = [System.getenv("NODE_BINARY") ?: "node"]
 
     //
     //   The command to run when bundling. By default is 'bundle'
