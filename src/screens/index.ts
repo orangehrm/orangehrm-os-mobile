@@ -61,8 +61,13 @@ export const ATTENDANCE_LIST = 'AttendanceList';
 export const FULL_SCREEN_INFO = 'FullScreenInfo';
 export const NO_EMPLOYEE_INFO = 'NoEmployeeInfo';
 
+// more
+export const ABOUT = 'About';
+export const LICENSES = 'Licenses';
+
 export const SUBHEADER_LEAVE = 'LEAVE';
 export const SUBHEADER_TIME = 'TIME';
+export const SUBHEADER_MORE = 'MORE';
 
 export const MENU_ITEM_APPLY_LEAVE = 'Apply Leave';
 export const MENU_ITEM_MY_LEAVE_USAGE = 'My Leave Usage';
@@ -72,3 +77,8 @@ export const MENU_ITEM_ASSIGN_LEAVE = 'Assign Leave';
 export const MENU_ITEM_PUNCH_IN_OUT = 'Punch In/Out';
 export const MENU_ITEM_MY_ATTENDANCE = 'My Attendance';
 export const MENU_ITEM_EMPLOYEE_ATTENDANCE = 'Employee Attendance';
+
+export const MENU_ITEM_HELP = 'Help';
+export const MENU_ITEM_ABOUT = 'About';
+
+export const TITLE_LICENSES = 'Licenses';

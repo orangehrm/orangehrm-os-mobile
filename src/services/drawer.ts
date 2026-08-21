@@ -18,7 +18,7 @@
  *
  */
 
-import {SUBHEADER_LEAVE, SUBHEADER_TIME} from 'screens';
+import {SUBHEADER_LEAVE, SUBHEADER_TIME, SUBHEADER_MORE} from 'screens';
 import {DrawerNavigationState} from 'layouts/DrawerContent';
 import {DrawerDescriptorMap} from '@react-navigation/drawer/lib/typescript/src/types';
 
@@ -28,6 +28,15 @@ type DrawerItem = {
   label: string;
   subheader?: string;
   subheaderIcon?: SubHeaderIcon;
+  /** set only on items which are not drawer routes, e.g. external links */
+  onPress?: () => void;
+};
+
+export type DrawerLinkItem = {
+  key: string;
+  label: string;
+  subheader: string;
+  onPress: () => void;
 };
 
 interface SubHeaderIcon {
@@ -38,9 +47,19 @@ interface SubHeaderIcon {
 export const getDrawerItems = (
   drawerNavigationState: DrawerNavigationState,
   drawerDescriptors: DrawerDescriptorMap,
+  drawerLinkItems: DrawerLinkItem[] = [],
 ) => {
-  const items: DrawerItem[] = [];
-  const subheaders: {[key: string]: undefined} = {};
+  const sections: {[key: string]: DrawerItem[]} = {};
+  const subheaders: string[] = [];
+
+  const section = (subheader: string) => {
+    if (!Object.hasOwn(sections, subheader)) {
+      sections[subheader] = [];
+      subheaders.push(subheader);
+    }
+    return sections[subheader];
+  };
+
   drawerNavigationState.routes.forEach((route) => {
     if (route.params?.subheader === undefined) {
       return;
@@ -51,20 +70,41 @@ export const getDrawerItems = (
       return;
     }
 
-    const item: DrawerItem = {
+    section(route.params.subheader).push({
       name: route.name,
       key: route.key,
       label: label,
-      subheader: undefined,
-      subheaderIcon: undefined,
-    };
-    if (!Object.hasOwn(subheaders, route.params.subheader)) {
-      item.subheader = route.params.subheader;
-      item.subheaderIcon = SUBHEADER_ICONS[route.params.subheader];
-      subheaders[route.params.subheader] = undefined;
-    }
+    });
+  });
 
-    items.push(item);
+  // Link items lead the section they belong to, keeping their own relative order, so Help stays
+  // above the routes listed under the same subheader.
+  const linkItemCounts: {[key: string]: number} = {};
+  drawerLinkItems.forEach((linkItem) => {
+    const position = linkItemCounts[linkItem.subheader] ?? 0;
+    section(linkItem.subheader).splice(position, 0, {
+      name: linkItem.key,
+      key: linkItem.key,
+      label: linkItem.label,
+      onPress: linkItem.onPress,
+    });
+    linkItemCounts[linkItem.subheader] = position + 1;
+  });
+
+  const items: DrawerItem[] = [];
+  subheaders.forEach((subheader) => {
+    sections[subheader].forEach((item, index) => {
+      // the subheader is rendered once, along with the first item of a section
+      items.push(
+        index === 0
+          ? {
+              ...item,
+              subheader: subheader,
+              subheaderIcon: SUBHEADER_ICONS[subheader],
+            }
+          : item,
+      );
+    });
   });
   return items;
 };
@@ -74,6 +114,7 @@ export const SUBHEADER_ICONS: {
 } = {
   [SUBHEADER_LEAVE]: {name: 'briefcase'},
   [SUBHEADER_TIME]: {name: 'clock'},
+  [SUBHEADER_MORE]: {name: 'information'},
 };
 
 export const DEFAULT_FIXED_DRAWER_WIDTH = '32%';

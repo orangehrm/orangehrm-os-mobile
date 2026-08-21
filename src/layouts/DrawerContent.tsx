@@ -49,7 +49,12 @@ import {
 } from 'store/auth/actions';
 import useTheme from 'lib/hook/useTheme';
 import {getDrawerItems} from 'services/drawer';
-import {SUBHEADER_LEAVE, SUBHEADER_TIME} from 'screens';
+import {
+  SUBHEADER_LEAVE,
+  SUBHEADER_TIME,
+  SUBHEADER_MORE,
+  MENU_ITEM_HELP,
+} from 'screens';
 import {HELP_REDIRECT_URL} from 'services/endpoints';
 
 const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
@@ -81,12 +86,22 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
   }
 
   const onPressHelp = () => {
+    drawerContentProps.navigation.closeDrawer();
     Linking.canOpenURL(HELP_REDIRECT_URL).then((supported) => {
       if (supported) {
         Linking.openURL(HELP_REDIRECT_URL);
       }
     });
   };
+
+  const drawerLinkItems = [
+    {
+      key: MENU_ITEM_HELP,
+      label: MENU_ITEM_HELP,
+      subheader: SUBHEADER_MORE,
+      onPress: onPressHelp,
+    },
+  ];
 
   return (
     <SafeAreaView
@@ -111,6 +126,7 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
             {getDrawerItems(
               drawerContentProps.state,
               drawerContentProps.descriptors,
+              drawerLinkItems,
             ).map((drawerItem) => (
               <Fragment key={drawerItem.key}>
                 {drawerItem.subheader ? (
@@ -129,6 +145,10 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
                     style={{marginVertical: theme.spacing * -1}}
                     label={drawerItem.label}
                     onPress={() => {
+                      if (drawerItem.onPress !== undefined) {
+                        drawerItem.onPress();
+                        return;
+                      }
                       drawerContentProps.navigation.closeDrawer();
                       drawerContentProps.navigation.dispatch(
                         DrawerActions.jumpTo(drawerItem.name),
@@ -150,16 +170,6 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
         <Divider />
         <DrawerItem
           style={styles.drawerItem}
-          label={'Help'}
-          onPress={onPressHelp}
-          icon={() => (
-            <Icon name={'help-circle'} style={styles.draweItemIcon} />
-          )}
-          {...commonProps}
-        />
-        <Divider />
-        <DrawerItem
-          style={styles.drawerItem}
           label={'Logout'}
           onPress={logoutOnPress}
           icon={() => <Icon name={'logout'} style={styles.draweItemIcon} />}
@@ -173,7 +183,10 @@ const DrawerContent = (props: DrawerContentProps & DrawerItemListProps) => {
 };
 
 export type DrawerNavigationState = BaseDrawerNavigationState<{
-  subheader: typeof SUBHEADER_LEAVE | typeof SUBHEADER_TIME;
+  subheader:
+    | typeof SUBHEADER_LEAVE
+    | typeof SUBHEADER_TIME
+    | typeof SUBHEADER_MORE;
   [key: string]: any;
 }>;
 
