@@ -58,6 +58,8 @@ import {
   NO_EMPLOYEE_INFO,
   SUBHEADER_LEAVE,
   SUBHEADER_TIME,
+  SUBHEADER_MORE,
+  ABOUT,
   PUNCH,
   ATTENDANCE_SUMMARY,
   ATTENDANCE_LIST,
@@ -68,6 +70,7 @@ import {
   MENU_ITEM_PUNCH_IN_OUT,
   MENU_ITEM_MY_ATTENDANCE,
   MENU_ITEM_EMPLOYEE_ATTENDANCE,
+  MENU_ITEM_ABOUT,
 } from 'screens';
 
 import ApplyLeave from 'screens/leave/navigators/ApplyLeaveNavigator';
@@ -78,6 +81,7 @@ import Punch from 'screens/time/navigators/PunchNavigator';
 import AttendanceSummary from 'screens/time/navigators/AttendanceSummaryNavigator';
 import AttendanceList from 'screens/time/navigators/AttendanceListNavigator';
 import FullScreenInfo from 'screens/common/navigators/FullScreenInfoNavigator';
+import AboutScreen from 'screens/common/navigators/AboutNavigator';
 import NoEmployeeInfo from 'screens/common/NoEmployeeInfo';
 import DrawerContent from 'layouts/DrawerContent';
 import Overlay from 'components/DefaultOverlay';
@@ -269,6 +273,16 @@ const Navigator = (props: NavigatorProps) => {
                       ) : null}
                     </>
                   ) : null}
+
+                  <Drawer.Screen
+                    name={ABOUT}
+                    component={AboutScreen}
+                    options={{
+                      drawerLabel: MENU_ITEM_ABOUT,
+                      headerShown: false,
+                    }}
+                    initialParams={{subheader: SUBHEADER_MORE}}
+                  />
 
                   {/* fallback info page */}
                   <Drawer.Screen

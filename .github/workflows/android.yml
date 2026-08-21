@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: yarn
       # Gradle's bundle task spawns node; PATH alone can be inconsistent for the daemon — pin explicitly.
       - name: Pin NODE_BINARY for Gradle

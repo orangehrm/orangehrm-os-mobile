@@ -1,6 +1,6 @@
 {
   "name": "orangehrm-opensource",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -8,6 +8,8 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --max-warnings=0",
     "format": "prettier src --write",
     "format-test": "prettier __tests__ --write",
+    "licenses:generate": "node scripts/generate-licenses.js",
+    "licenses:check": "node scripts/generate-licenses.js --check",
     "start": "react-native start",
     "test": "jest",
     "tsc": "tsc"
