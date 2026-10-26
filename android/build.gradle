@@ -3,10 +3,10 @@ def REACT_NATIVE_VERSION = new File(['node', '--print',"JSON.parse(require('fs')
 
 buildscript {
     ext {
-        buildToolsVersion = "36.0.0"
+        buildToolsVersion = "37.0.0"
         minSdkVersion = 24
-        compileSdkVersion = 36
-        targetSdkVersion = 36
+        compileSdkVersion = 37
+        targetSdkVersion = 37
         ndkVersion = "28.0.12674087"
         kotlinVersion = "2.0.21"
         androidXCore = "1.9.0"
@@ -18,7 +18,7 @@ buildscript {
         maven { url "https://www.jitpack.io" }
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.9.3")
+        classpath("com.android.tools.build:gradle:8.13.2")
         classpath("com.facebook.react:react-native-gradle-plugin")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     }

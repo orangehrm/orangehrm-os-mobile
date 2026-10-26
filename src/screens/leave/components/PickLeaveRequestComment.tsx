@@ -82,6 +82,11 @@ interface PickLeaveRequestCommentProps {
 }
 
 const styles = StyleSheet.create({
+  // Tall enough to show a full 250-character comment (~7 lines) without
+  // scrolling, while keeping the footer well clear of the header.
+  input: {
+    maxHeight: 160,
+  },
   buttonLeftView: {
     flexDirection: 'row',
   },
@@ -126,6 +131,7 @@ export const PickLeaveRequestCommentInput = React.forwardRef<
         maxLength={250}
         autoFocus
         {...props}
+        style={[styles.input, props.style]}
       />
     </>
   );

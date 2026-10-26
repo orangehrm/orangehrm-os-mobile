@@ -1,6 +1,12 @@
 // Mock for react-native-safe-area-context
 // This provides default safe area insets for testing
 
+import React from 'react';
+
+// Consumers that read the context directly (rather than via useSafeAreaInsets) get
+// null, i.e. "no provider" — the same value the real context has outside a provider.
+export const SafeAreaInsetsContext = React.createContext(null);
+
 export const useSafeAreaInsets = () => ({
   top: 0,
   bottom: 0,
@@ -25,6 +31,7 @@ export const useSafeAreaFrame = () => ({
 });
 
 export default {
+  SafeAreaInsetsContext,
   SafeAreaProvider,
   SafeAreaView,
   SafeAreaConsumer,

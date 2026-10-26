@@ -29,11 +29,11 @@ jobs:
         with:
           java-version: "17"
           distribution: "temurin"
-      # Must match android/build.gradle rootProject.ext.ndkVersion (react-native-reanimated / native modules).
+      # Must match android/build.gradle rootProject.ext: ndkVersion, compileSdkVersion (Android 17 ships as platforms;android-37.0), buildToolsVersion.
       - name: Set up Android SDK (NDK + licenses)
         uses: android-actions/setup-android@v4
         with:
-          packages: "tools platform-tools ndk;28.0.12674087"
+          packages: "tools platform-tools ndk;28.0.12674087 platforms;android-37.0 build-tools;37.0.0"
       - name: Install npm dependencies
         run: yarn install
       - name: Parse Git short hash

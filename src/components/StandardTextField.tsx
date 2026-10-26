@@ -44,12 +44,23 @@ function StandardTextField(
             style={[
               styles.floatingLabel,
               {color: theme.typography.primaryColor},
+              // With an icon, line the label up with the icon's left edge.
+              iconName === undefined ? undefined : styles.floatingLabelWithIcon,
             ]}>
             {label}
           </Text>
         )}
         <View
           style={[styles.inputGroup, itemProps?.error && styles.errorBorder]}>
+          {iconName === undefined ? null : (
+            <Icon
+              name={iconName}
+              style={{
+                color: theme.typography.primaryColor,
+                fontSize: theme.typography.iconSize,
+              }}
+            />
+          )}
           <TextInput
             {...restProps}
             placeholder={showLabel ? '' : label}
@@ -65,22 +76,8 @@ function StandardTextField(
               setValue(text);
               restProps.onChangeText?.(text);
             }}
-            style={[
-              styles.textInput,
-              iconName === undefined
-                ? undefined
-                : {paddingLeft: theme.spacing * 8},
-            ]}
+            style={styles.textInput}
           />
-          {iconName === undefined ? null : (
-            <Icon
-              name={iconName}
-              style={{
-                color: theme.typography.primaryColor,
-                fontSize: theme.typography.iconSize,
-              }}
-            />
-          )}
         </View>
       </View>
       {helperText === undefined ? null : (
@@ -129,11 +126,15 @@ const styles = StyleSheet.create({
   floatingLabel: {
     position: 'absolute',
     top: -8,
-    left: 12,
+    left: 8,
     backgroundColor: 'white',
     paddingHorizontal: 4,
     fontSize: 12,
     zIndex: 1,
+  },
+  floatingLabelWithIcon: {
+    left: 0,
+    paddingHorizontal: 0,
   },
   errorBorder: {
     borderBottomColor: 'red',

@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <!-- Android 17 (SDK 37) gates connections to private-network addresses behind this
+         runtime permission. Metro runs on the host at 10.0.2.2 (emulator) or a LAN IP,
+         so the dev build cannot load a bundle without it. Debug-only. -->
+    <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK"/>
 
     <application
         android:usesCleartextTraffic="true"

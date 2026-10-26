@@ -24,6 +24,7 @@ import Navigator from './Navigator';
 import GlobalsComponent from 'components/Globals';
 
 import {Provider} from 'react-redux';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import configureStore from 'store/configureStore';
 
 const store = configureStore();
@@ -32,8 +33,10 @@ export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <Navigator />
-        <GlobalsComponent />
+        <SafeAreaProvider>
+          <Navigator />
+          <GlobalsComponent />
+        </SafeAreaProvider>
       </Provider>
     );
   }

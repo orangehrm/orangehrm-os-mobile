@@ -93,6 +93,9 @@ interface PickNoteProps {
 }
 
 const styles = StyleSheet.create({
+  input: {
+    maxHeight: 160,
+  },
   buttonLeftView: {
     flexDirection: 'row',
   },
@@ -135,6 +138,7 @@ export const PickNoteInput = React.forwardRef<RNTextInput, TextInputProps>(
           multiline
           maxLength={250}
           {...props}
+          style={[styles.input, props.style]}
         />
       </>
     );

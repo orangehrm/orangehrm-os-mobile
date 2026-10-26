@@ -249,11 +249,18 @@ class MyLeaveDetails extends React.Component<
               </View>
             </View>
           </View>
-          <View style={[styles.row, styles.leaveBalanceView]}>
+          <View
+            style={[
+              styles.row,
+              styles.leaveBalanceView,
+              {paddingHorizontal: theme.spacing * 2},
+            ]}>
             <View>
               {leaveRequestDetail?.leaveBreakdown.map((item, index) => {
                 return (
-                  <Text key={index}>
+                  <Text
+                    key={index}
+                    style={{fontSize: theme.typography.smallFontSize}}>
                     {item.name + ' ' + '(' + item.lengthDays.toFixed(2) + ')'}
                   </Text>
                 );
@@ -335,7 +342,8 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
   leaveBalanceView: {
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
   },
 });
 

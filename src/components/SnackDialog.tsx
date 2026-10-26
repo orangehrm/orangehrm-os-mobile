@@ -27,6 +27,7 @@ import {
   KeyboardAvoidingView,
   SafeAreaView,
 } from 'react-native';
+import {SafeAreaInsetsContext} from 'react-native-safe-area-context';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 import Dialog, {DialogProps} from 'components/DefaultDialog';
 
@@ -39,6 +40,12 @@ const SnackDialog = (props: React.PropsWithChildren<SnackDialogProps>) => {
     viewProps,
     ...dialogProps
   } = props;
+
+  // Android 15+ (targetSdk 35 onwards) is edge to edge and RN's SafeAreaView is an
+  // iOS-only no-op, so keep the snack above the gesture/navigation bar ourselves.
+  const insets = React.useContext(SafeAreaInsetsContext);
+  const androidBottomInset =
+    Platform.OS === 'android' ? insets?.bottom ?? 0 : 0;
 
   return (
     <Dialog
@@ -56,7 +63,8 @@ const SnackDialog = (props: React.PropsWithChildren<SnackDialogProps>) => {
       {...dialogProps}
       style={[styles.dialog, dialogProps.style]}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        style={{paddingBottom: androidBottomInset}}>
         <SafeAreaView>
           <View
             {...viewProps}

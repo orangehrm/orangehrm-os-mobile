@@ -27,9 +27,9 @@ import {
   ViewStyle,
   TouchableOpacityProps,
 } from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'components/DefaultIcon';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
+import useTheme from 'lib/hook/useTheme';
 
 type FabPosition = 'bottomRight' | 'bottomLeft' | 'topRight' | 'topLeft';
 
@@ -54,7 +54,6 @@ const DefaultFab = (props: DefaultFabProps) => {
     size = 'regular',
     ...restProps
   } = props;
-  const insets = useSafeAreaInsets();
 
   // Determine FAB color
   let backgroundColor: string = theme.palette.default;
@@ -71,7 +70,9 @@ const DefaultFab = (props: DefaultFabProps) => {
   // Position styles
   const getPositionStyle = (): ViewStyle => {
     const spacing = theme.spacing * 4;
-    const bottomSpacing = spacing + insets.bottom;
+    // MainLayout's SafeAreaView (iOS) and fixed bottom padding (Android) already
+    // keep the footer clear of the home indicator / navigation bar.
+    const bottomSpacing = spacing;
     switch (position) {
       case 'bottomRight':
         return {
@@ -164,14 +165,13 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  fabSpace: {
-    // Fab width = height = 56 (regular size)
-    padding: 28,
-  },
 });
 
 export default withTheme<DefaultFabProps>()(DefaultFab);
 
+// Reserves room at the end of scroll content for a regular (56) bottom Fab,
+// which sits `spacing * 4` above the bottom of the scroll view.
 export const FabSpace = () => {
-  return <View style={styles.fabSpace} />;
+  const theme = useTheme();
+  return <View style={{height: 56 + theme.spacing * 4}} />;
 };

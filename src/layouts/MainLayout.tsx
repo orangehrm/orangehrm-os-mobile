@@ -31,7 +31,11 @@ import {
   Platform,
   KeyboardAvoidingView,
 } from 'react-native';
-import {HeaderHeightContext} from '@react-navigation/elements';
+import {
+  HeaderHeightContext,
+  HeaderShownContext,
+} from '@react-navigation/elements';
+import {SafeAreaInsetsContext} from 'react-native-safe-area-context';
 import withTheme, {WithTheme} from 'lib/hoc/withTheme';
 
 const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
@@ -52,6 +56,15 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
     keyboardVerticalOffsetProp !== undefined
       ? keyboardVerticalOffsetProp
       : headerHeightFromContext ?? 0;
+
+  // Android 15+ (targetSdk 35 onwards) always lays the window out edge to edge, so
+  // content starts behind the status bar and the display cutout. RN's SafeAreaView is
+  // an iOS-only no-op there. React Navigation's header already consumes the top inset,
+  // so only pad it in ourselves on screens rendered with `headerShown: false`.
+  const insets = React.useContext(SafeAreaInsetsContext);
+  const isHeaderShown = React.useContext(HeaderShownContext);
+  const androidTopInset =
+    Platform.OS === 'android' && !isHeaderShown ? insets?.top ?? 0 : 0;
 
   const scrollView = (
     <ScrollView
@@ -96,7 +109,9 @@ const MainLayout = (props: React.PropsWithChildren<MainLayoutProps>) => {
       <SafeAreaView
         style={[
           styles.safeArea,
-          ...(Platform.OS === 'android' ? [styles.safeAreaAndroid] : []),
+          ...(Platform.OS === 'android'
+            ? [styles.safeAreaAndroid, {paddingTop: androidTopInset}]
+            : []),
           {backgroundColor: theme.palette.background},
         ]}>
         {Platform.OS === 'ios' ? (

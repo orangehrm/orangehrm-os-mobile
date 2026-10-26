@@ -19,12 +19,7 @@
  */
 
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  Linking,
-} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Linking} from 'react-native';
 import {
   NavigationProp,
   ParamListBase,
@@ -65,18 +60,18 @@ class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
         <View style={{paddingTop: borderPadding}}>
           <View
             style={[styles.closeIconView, {paddingHorizontal: borderPadding}]}>
-            <TouchableWithoutFeedback onPress={this.onPressClose}>
-              <Icon
-                name={'close'}
-                style={[
-                  styles.closeIconStyle,
-                  {
-                    paddingVertical: theme.spacing * 4,
-                    paddingLeft: theme.spacing * 4,
-                  },
-                ]}
-              />
-            </TouchableWithoutFeedback>
+            {/* DefaultIcon doesn't forward touch props, so the touchable needs
+                its own view (TouchableWithoutFeedback has none). */}
+            <TouchableOpacity
+              onPress={this.onPressClose}
+              accessibilityRole="button"
+              accessibilityLabel={'Close'}
+              style={{
+                paddingVertical: theme.spacing * 4,
+                paddingLeft: theme.spacing * 4,
+              }}>
+              <Icon name={'close'} style={styles.closeIconStyle} />
+            </TouchableOpacity>
           </View>
 
           <View style={[styles.headerView, {paddingBottom: theme.spacing * 8}]}>
@@ -134,7 +129,8 @@ class SelectInstanceHelp extends React.Component<SelectInstancePropsHelp> {
                 secondary
                 style={{
                   paddingHorizontal: theme.spacing * 4,
-                  height: theme.spacing * 8,
+                  paddingVertical: theme.spacing * 2,
+                  minHeight: theme.spacing * 8,
                   borderRadius: theme.borderRadius * 4,
                 }}
                 textStyle={{

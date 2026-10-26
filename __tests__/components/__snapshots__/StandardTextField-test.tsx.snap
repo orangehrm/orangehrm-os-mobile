@@ -29,15 +29,12 @@ exports[`components/StandardTextField test StandardTextField component 1`] = `
         onFocus={[Function]}
         placeholder="Test"
         style={
-          [
-            {
-              "flex": 1,
-              "fontSize": 16,
-              "paddingHorizontal": 12,
-              "paddingVertical": 8,
-            },
-            undefined,
-          ]
+          {
+            "flex": 1,
+            "fontSize": 16,
+            "paddingHorizontal": 12,
+            "paddingVertical": 8,
+          }
         }
       />
     </View>
@@ -74,15 +71,12 @@ exports[`components/StandardTextField test StandardTextField component with help
         onFocus={[Function]}
         placeholder="Test"
         style={
-          [
-            {
-              "flex": 1,
-              "fontSize": 16,
-              "paddingHorizontal": 12,
-              "paddingVertical": 8,
-            },
-            undefined,
-          ]
+          {
+            "flex": 1,
+            "fontSize": 16,
+            "paddingHorizontal": 12,
+            "paddingVertical": 8,
+          }
         }
       />
     </View>
@@ -131,25 +125,6 @@ exports[`components/StandardTextField test StandardTextField component with icon
         ]
       }
     >
-      <TextInput
-        onBlur={[Function]}
-        onChangeText={[Function]}
-        onFocus={[Function]}
-        placeholder="Test"
-        style={
-          [
-            {
-              "flex": 1,
-              "fontSize": 16,
-              "paddingHorizontal": 12,
-              "paddingVertical": 8,
-            },
-            {
-              "paddingLeft": 32,
-            },
-          ]
-        }
-      />
       <Text
         allowFontScaling={false}
         selectable={false}
@@ -174,6 +149,20 @@ exports[`components/StandardTextField test StandardTextField component with icon
       >
         󰐕
       </Text>
+      <TextInput
+        onBlur={[Function]}
+        onChangeText={[Function]}
+        onFocus={[Function]}
+        placeholder="Test"
+        style={
+          {
+            "flex": 1,
+            "fontSize": 16,
+            "paddingHorizontal": 12,
+            "paddingVertical": 8,
+          }
+        }
+      />
     </View>
   </View>
 </View>

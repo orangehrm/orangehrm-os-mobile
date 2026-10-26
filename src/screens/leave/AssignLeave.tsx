@@ -25,6 +25,7 @@ import {
   Keyboard,
   TextInput as RNTextInput,
   EmitterSubscription,
+  Platform,
 } from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import MainLayout from 'layouts/MainLayout';
@@ -195,7 +196,17 @@ class AssignLeave extends React.Component<AssignLeaveProps, AssignLeaveState> {
     const {typingComment} = this.state;
     if (prevState.typingComment !== typingComment) {
       if (typingComment) {
-        this.inputRef?.focus();
+        if (Platform.OS === 'android') {
+          // The footer input mounts in this same update; Android ignores focus()
+          // until it's laid out, so wait a couple of frames (same as Punch).
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              this.inputRef?.focus();
+            });
+          });
+        } else {
+          this.inputRef?.focus();
+        }
       } else {
         this.inputRef?.blur();
       }

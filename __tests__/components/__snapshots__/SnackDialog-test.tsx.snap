@@ -82,9 +82,14 @@ exports[`components/SnackDialog test SnackDialog component 1`] = `
     <View
       onLayout={[Function]}
       style={
-        {
-          "paddingBottom": 0,
-        }
+        [
+          {
+            "paddingBottom": 0,
+          },
+          {
+            "paddingBottom": 0,
+          },
+        ]
       }
     >
       <RCTSafeAreaView>

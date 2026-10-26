@@ -20,6 +20,7 @@
 
 import React from 'react';
 import {
+  Keyboard,
   Platform,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -78,6 +79,7 @@ class SelectInstance extends React.Component<
   };
 
   handleOnPress = () => {
+    Keyboard.dismiss();
     const {instanceUrl, errorMessage} = this.state;
     if (instanceUrl === '') {
       this.setState({errorMessage: 'Required'});

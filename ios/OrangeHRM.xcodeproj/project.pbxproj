@@ -175,6 +175,7 @@
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
 			name = OrangeHRMTests;
+			productName = OrangeHRMTests;
 			productReference = 00E356EE1AD99517003FC87E /* OrangeHRMTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -282,9 +283,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-OrangeHRM/Pods-OrangeHRM-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-OrangeHRM/Pods-OrangeHRM-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -343,9 +348,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-OrangeHRM-OrangeHRMTests/Pods-OrangeHRM-OrangeHRMTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-OrangeHRM-OrangeHRMTests/Pods-OrangeHRM-OrangeHRMTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -360,9 +369,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-OrangeHRM/Pods-OrangeHRM-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-OrangeHRM/Pods-OrangeHRM-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -377,9 +390,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-OrangeHRM-OrangeHRMTests/Pods-OrangeHRM-OrangeHRMTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-OrangeHRM-OrangeHRMTests/Pods-OrangeHRM-OrangeHRMTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -448,7 +465,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = OrangeHRMTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -473,7 +490,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = OSMobileTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -496,7 +513,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 59;
+				CURRENT_PROJECT_VERSION = 62;
 				DEVELOPMENT_TEAM = A34772N44U;
 				ENABLE_BITCODE = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -567,7 +584,7 @@
 					"AppAuth-iOS/Source",
 				);
 				INFOPLIST_FILE = OrangeHRM/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -592,7 +609,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 59;
+				CURRENT_PROJECT_VERSION = 62;
 				DEVELOPMENT_TEAM = A34772N44U;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -662,7 +679,7 @@
 					"AppAuth-iOS/Source",
 				);
 				INFOPLIST_FILE = OrangeHRM/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -732,7 +749,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD = "";
 				LDPLUSPLUS = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -752,10 +769,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -808,7 +822,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD = "";
 				LDPLUSPLUS = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -827,10 +841,7 @@
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

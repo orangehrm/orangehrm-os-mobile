@@ -153,6 +153,9 @@ const Navigator = (props: NavigatorProps) => {
           <View style={styles.root}>
             <Drawer.Navigator
               initialRouteName={initialRoute}
+              // Back from another drawer screen returns to the initial route (My
+              // Leave Usage), not the first declared screen (Apply Leave).
+              backBehavior="initialRoute"
               screenOptions={{
                 drawerType: 'front',
                 drawerStyle: isLargeScreen

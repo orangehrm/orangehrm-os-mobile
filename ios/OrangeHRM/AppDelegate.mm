@@ -2,15 +2,16 @@
 #import "RNAppAuthAuthorizationFlowManager.h"
 
 #import <React/RCTBundleURLProvider.h>
+#import <React/RCTConstants.h>
 
 @implementation AppDelegate
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *, id> *)options {
- return [self.authorizationFlowManagerDelegate resumeExternalUserAgentFlowWithURL:url];
-}
+// OAuth redirect URLs are delivered to SceneDelegate's scene:openURLContexts:.
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   self.moduleName = @"OrangeHRM";
+  // The window is created by SceneDelegate (UIScene lifecycle).
+  self.automaticallyLoadReactNativeWindow = NO;
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
@@ -37,6 +38,48 @@
 - (BOOL)concurrentRootEnabled
 {
   return true;
+}
+
+@end
+
+@implementation SceneDelegate
+
+- (void)scene:(UIScene *)scene
+    willConnectToSession:(UISceneSession *)session
+                 options:(UISceneConnectionOptions *)connectionOptions
+{
+  if (![scene isKindOfClass:[UIWindowScene class]]) {
+    return;
+  }
+
+  AppDelegate *appDelegate = (AppDelegate *)UIApplication.sharedApplication.delegate;
+  UIView *rootView = [appDelegate.rootViewFactory viewWithModuleName:appDelegate.moduleName
+                                                   initialProperties:appDelegate.initialProps
+                                                       launchOptions:nil];
+
+  self.window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];
+  UIViewController *rootViewController = [appDelegate createRootViewController];
+  [appDelegate setRootView:rootView toRootViewController:rootViewController];
+  self.window.rootViewController = rootViewController;
+  // Libraries still look up the window via the app delegate.
+  appDelegate.window = self.window;
+  [self.window makeKeyAndVisible];
+}
+
+- (void)scene:(UIScene *)scene openURLContexts:(NSSet<UIOpenURLContext *> *)URLContexts
+{
+  AppDelegate *appDelegate = (AppDelegate *)UIApplication.sharedApplication.delegate;
+  for (UIOpenURLContext *context in URLContexts) {
+    [appDelegate.authorizationFlowManagerDelegate resumeExternalUserAgentFlowWithURL:context.URL];
+  }
+}
+
+- (void)windowScene:(UIWindowScene *)windowScene
+    didUpdateCoordinateSpace:(id<UICoordinateSpace>)previousCoordinateSpace
+        interfaceOrientation:(UIInterfaceOrientation)previousInterfaceOrientation
+             traitCollection:(UITraitCollection *)previousTraitCollection
+{
+  [[NSNotificationCenter defaultCenter] postNotificationName:RCTWindowFrameDidChangeNotification object:self];
 }
 
 @end
